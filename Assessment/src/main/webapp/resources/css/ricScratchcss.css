@@ -1,0 +1,22 @@
+@CHARSET "ISO-8859-1";
+
+/* Revature Main Orange:           	f26925 */
+/* Revature Accent (Darker) Orange: ef5c1e */
+/* Revature Main Grey:         		474c55 */
+/* Revature Accent (Darker) Grey:   434851 */
+
+.Orange-read-btn {
+    background-color: #f26925;
+    -moz-border-radius: 28px;
+    -webkit-border-radius: 28px;
+    border-radius: 28px;
+    border: 3px solid #f26925;
+    display: inline-block;
+    cursor: pointer;
+    color: #fff;
+    font-family: 'futura-pt';
+    font-size: 15px;
+    padding: 12px 30px;
+    text-decoration: none;
+    font-weight: 600;
+}
