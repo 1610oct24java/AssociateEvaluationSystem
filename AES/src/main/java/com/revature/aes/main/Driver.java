@@ -26,7 +26,8 @@ public class Driver {
 		try {
 			br = new BufferedReader(new FileReader(csvFile));
 			while ((lineInFile = br.readLine()) != null) {
-				//lineInFile = lineInFile.replaceAll("\",\"", commaReplacement);
+				// This will replace a quoted comma with the placeholder.
+				// Any spaces inside the quotes are removed.
 				lineInFile = lineInFile.replaceAll("\"\\s*,\\s*\"", commaReplacement);
 				linesCleaned.add(lineInFile);
 			}
@@ -46,16 +47,19 @@ public class Driver {
 		return linesCleaned;
 	}
 	
+	/*
+	 * Replace the placeholders with commas
+	 */
 	private static String placeCommas(String line){
 		return line.replaceAll(commaReplacement, ",");
 	}
 	
-	public static void main(String[] args) {
+	public static void parseCSV() {
 		String cvsSplitBy = ",";
 		String[] linesList;
 		String line;
 		Question question;
-		Option option;
+		List<Option> options = new ArrayList<Option>();
 
 		//have this return the list
 		List<String> linesCleaned = escapeCommas();
@@ -65,19 +69,28 @@ public class Driver {
 			line = linesCleaned.get(i);
 			linesList = line.split(cvsSplitBy);
 			//System.out.println("Question:");
-			//System.out.println(placeCommas(linesList[0].trim()));
-			question = new Question(i+1, 1, placeCommas(linesList[0].trim()));
+			question = new Question(1, 1, placeCommas(linesList[0].trim()), null);
 			//System.out.println("Choices:");
 			for (int j=1;j<linesList.length;j++){
-				System.out.println(placeCommas(linesList[j].trim()));
+				//System.out.println(placeCommas(linesList[j].trim()));
+				options.add(new Option(j, placeCommas(linesList[j].trim()), false, i));
 			}
 			// answer line
 			line = linesCleaned.get(i+1);
 			linesList = line.split(cvsSplitBy);
-			System.out.println("Answers:");
+			//System.out.println("Answers:");
 			for (int j=0;j<linesList.length;j++){
-				System.out.println(placeCommas(linesList[j].trim()));
+				//System.out.println(placeCommas(linesList[j].trim()));
+				
+				//search options and mark correct answers
+				for (Option option : options){
+					if(placeCommas(linesList[j].trim()).equals(option.getOptionText())){
+						option.setCorrect(true);
+					}
+				}
 			}
 		}
 	}
 }
+
+

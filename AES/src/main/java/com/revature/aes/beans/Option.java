@@ -45,5 +45,9 @@ public class Option {
 	public void setQuestionId(int questionId) {
 		this.questionId = questionId;
 	}
+
+	public Option() {
+		super();
+	}
 	
 }
