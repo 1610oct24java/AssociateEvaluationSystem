@@ -1,4 +1,4 @@
-package com.revature.main;
+package com.revature.aes.main;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -6,6 +6,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.revature.aes.beans.Option;
+import com.revature.aes.beans.Question;
 
 public class Driver {
 	private static final String commaReplacement = "!__comma__!";
@@ -51,6 +54,8 @@ public class Driver {
 		String cvsSplitBy = ",";
 		String[] linesList;
 		String line;
+		Question question;
+		Option option;
 
 		//have this return the list
 		List<String> linesCleaned = escapeCommas();
@@ -59,9 +64,10 @@ public class Driver {
 			// question line
 			line = linesCleaned.get(i);
 			linesList = line.split(cvsSplitBy);
-			System.out.println("Question:");
-			System.out.println(placeCommas(linesList[0].trim()));
-			System.out.println("Choices:");
+			//System.out.println("Question:");
+			//System.out.println(placeCommas(linesList[0].trim()));
+			question = new Question(i+1, 1, placeCommas(linesList[0].trim()));
+			//System.out.println("Choices:");
 			for (int j=1;j<linesList.length;j++){
 				System.out.println(placeCommas(linesList[j].trim()));
 			}
