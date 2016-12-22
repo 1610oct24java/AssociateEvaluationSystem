@@ -23,7 +23,8 @@ public class Driver {
 		try {
 			br = new BufferedReader(new FileReader(csvFile));
 			while ((lineInFile = br.readLine()) != null) {
-				lineInFile = lineInFile.replaceAll("\",\"", commaReplacement);
+				//lineInFile = lineInFile.replaceAll("\",\"", commaReplacement);
+				lineInFile = lineInFile.replaceAll("\"\\s*,\\s*\"", commaReplacement);
 				linesCleaned.add(lineInFile);
 			}
 		} catch (FileNotFoundException e) {
