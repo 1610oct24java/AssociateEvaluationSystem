@@ -2,26 +2,25 @@ package com.revature.aes.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.revature.aes.beans.User;
 
 @Controller
-@RequestMapping(value = "/login")
 public class LoginController {
 
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(value="/login",method = RequestMethod.GET)
 	public String getLoginPage(ModelMap modelMap) {
 		
 		
-		return null;
+		return "login";
 	}
-	@RequestMapping(method = RequestMethod.POST)
+	
+	@RequestMapping(value="/recruiter/login",method = RequestMethod.GET)
 	public String doLogin() {
 		
 		
-		return null;
+		return "login";
 	}
 }
