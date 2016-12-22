@@ -69,7 +69,7 @@ public class Driver {
 			line = linesCleaned.get(i);
 			linesList = line.split(cvsSplitBy);
 			//System.out.println("Question:");
-			question = new Question(1, 1, placeCommas(linesList[0].trim()), null);
+			question = new Question(1, null, placeCommas(linesList[0].trim()), null);
 			//System.out.println("Choices:");
 			for (int j=1;j<linesList.length;j++){
 				//System.out.println(placeCommas(linesList[j].trim()));
