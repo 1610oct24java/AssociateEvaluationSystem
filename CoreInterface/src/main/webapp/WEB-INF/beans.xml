@@ -27,7 +27,6 @@
 		</property>
 	</bean>
 	
-	
 	<bean id="encoder"
 		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
 		<constructor-arg value="12" />

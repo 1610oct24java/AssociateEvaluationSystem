@@ -2,30 +2,36 @@ package com.revature.aes.beans;
 
 import java.io.Serializable;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 
+
+@Entity
+@Table(name="AES_USERS")
 public class User implements Serializable{
 
 	private static final long serialVersionUID = 6104022944061620088L;
+	@Id
+	@Column(name="USER_ID")
 	private int userId;
-	@NotEmpty
+	@Column(name="EMAIL")
 	private String email;
+	@Column(name="FIRSTNAME")
 	private String firstName;
+	@Column(name="LASTNAME")
 	private String lastName;
-	@NotEmpty
-	private String password;
+	@Column(name="SALESFORCE")
 	private int salesforce;
+	@Column(name="RECRUITER_ID")
 	private int recruiterId;
+	@Column(name="ROLE_ID")
 	private int roleId;
+	@Column(name="DATE_PASS_ISSUED_DATE")
 	private String datePassIssued;
 	
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
 	public int getUserId() {
 		return userId;
 	}
@@ -74,24 +80,23 @@ public class User implements Serializable{
 	public void setDatePassIssued(String datePassIssued) {
 		this.datePassIssued = datePassIssued;
 	}
-	public User(int userId, String email, String firstName, String lastName, String password, int salesforce,
-			int recruiterId, int roleId, String datePassIssued) {
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", salesforce=" + salesforce + ", recruiterId=" + recruiterId + ", roleId=" + roleId
+				+ ", datePassIssued=" + datePassIssued + "]";
+	}
+	public User(int userId, String email, String firstName, String lastName, int salesforce, int recruiterId,
+			int roleId, String datePassIssued) {
 		super();
 		this.userId = userId;
 		this.email = email;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.password = password;
 		this.salesforce = salesforce;
 		this.recruiterId = recruiterId;
 		this.roleId = roleId;
 		this.datePassIssued = datePassIssued;
-	}
-	@Override
-	public String toString() {
-		return "User [userId=" + userId + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", password=" + password + ", salesforce=" + salesforce + ", recruiterId=" + recruiterId + ", roleId="
-				+ roleId + ", datePassIssued=" + datePassIssued + "]";
 	}
 	public User() {
 		super();
