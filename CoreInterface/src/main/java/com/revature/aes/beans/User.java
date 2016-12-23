@@ -24,14 +24,13 @@ public class User implements Serializable{
 	@Column(name="LASTNAME")
 	private String lastName;
 	@Column(name="SALESFORCE")
-	private int salesforce;
+	private Integer salesforce;
 	@Column(name="RECRUITER_ID")
-	private int recruiterId;
+	private Integer recruiterId;
 	@Column(name="ROLE_ID")
 	private int roleId;
-	@Column(name="DATE_PASS_ISSUED_DATE")
+	@Column(name="DATE_PASS_ISSUED")
 	private String datePassIssued;
-	
 	public int getUserId() {
 		return userId;
 	}
@@ -56,16 +55,16 @@ public class User implements Serializable{
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public int getSalesforce() {
+	public Integer getSalesforce() {
 		return salesforce;
 	}
-	public void setSalesforce(int salesforce) {
+	public void setSalesforce(Integer salesforce) {
 		this.salesforce = salesforce;
 	}
-	public int getRecruiterId() {
+	public Integer getRecruiterId() {
 		return recruiterId;
 	}
-	public void setRecruiterId(int recruiterId) {
+	public void setRecruiterId(Integer recruiterId) {
 		this.recruiterId = recruiterId;
 	}
 	public int getRoleId() {
@@ -80,13 +79,16 @@ public class User implements Serializable{
 	public void setDatePassIssued(String datePassIssued) {
 		this.datePassIssued = datePassIssued;
 	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName
 				+ ", salesforce=" + salesforce + ", recruiterId=" + recruiterId + ", roleId=" + roleId
 				+ ", datePassIssued=" + datePassIssued + "]";
 	}
-	public User(int userId, String email, String firstName, String lastName, int salesforce, int recruiterId,
+	public User(int userId, String email, String firstName, String lastName, Integer salesforce, Integer recruiterId,
 			int roleId, String datePassIssued) {
 		super();
 		this.userId = userId;
@@ -100,5 +102,6 @@ public class User implements Serializable{
 	}
 	public User() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
 }
