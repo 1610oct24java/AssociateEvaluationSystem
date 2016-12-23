@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class MailService {
 
 	@Autowired
-	private MailSender mailService;
+	private MailSender mailSender;
 	
 	public SimpleMailMessage setupMessage(String sender, String recipient, String sub, String body){
         SimpleMailMessage msg = new SimpleMailMessage();
@@ -24,14 +24,14 @@ public class MailService {
 	
     public Boolean sendEmail(SimpleMailMessage msg) {	
         try{
-        	mailService.send(msg);
+        	mailSender.send(msg);
         	return true;
         }
         catch(MailException e){
         	e.printStackTrace();
         	
         	try{
-        		mailService.send(msg);
+        		mailSender.send(msg);
         		return true;
         	}
         	catch(MailException ex){
