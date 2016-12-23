@@ -1,3 +1,8 @@
 Windows: "%JAVA_HOME%\bin\keytool" -genkey -alias tomcat -keyalg RSA
 
 Unix: $JAVA_HOME/bin/keytool -genkey -alias tomcat -keyalg RSA
+
+password is:
+	changeit
+
+"Your name" has to be localhost or your ip address or else it will still give you the warning
