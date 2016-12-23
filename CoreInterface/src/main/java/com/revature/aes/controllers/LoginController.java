@@ -15,20 +15,18 @@ public class LoginController {
 	private static User user = new User();
 	static {
 		user.setEmail("asd");
-		//user.setPassword("$2a$12$z13JLN67h0bJaqNCwQzS1OKzT30hKXdxmCyiXR5e.CKPEsRCfwMWu");
 	}
 	
 	@RequestMapping(value="/login",method = RequestMethod.GET)
 	public String getLoginPage(ModelMap modelMap) {
 		
-		System.out.println("LOGIN");
 		return "login";
 	}
 	
+	@ResponseBody
 	@RequestMapping(value="/login",method = RequestMethod.POST)
-	public @ResponseBody User login(@RequestBody User user) {
+	public User login(@RequestBody User user) {
 		
-		System.out.println(user);
 		return user;
 	}
 }
