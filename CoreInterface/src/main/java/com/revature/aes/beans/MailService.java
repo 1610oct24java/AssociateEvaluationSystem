@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 @Service("mailService")
 public class MailService {
 	
-	private static Logger logger = Logger.getAnonymousLogger();
-
 	@Autowired
 	private MailSender mailSender;
 	
@@ -27,6 +25,8 @@ public class MailService {
 	}
 	
     public Boolean sendEmail(SimpleMailMessage msg) {	
+    	Logger logger = Logger.getAnonymousLogger();
+
         try{
         	mailSender.send(msg);
         	return true;
@@ -40,7 +40,7 @@ public class MailService {
         		return true;
         	}
         	catch(MailException ex){
-        		logger.info("error" + e);
+        		logger.info("error" + ex);
         		return false;
         	}
         }
