@@ -30,18 +30,6 @@ public class User implements Serializable{
 	@Column(name="DATE_PASS_ISSUED")
 	private String datePassIssued;
 	
-	public User(int userId, String email, String firstName, String lastName, Integer salesforce, Integer recruiterId,
-			int roleId) {
-		super();
-		this.userId = userId;
-		this.email = email;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.salesforce = salesforce;
-		this.recruiterId = recruiterId;
-		this.roleId = roleId;
-		this.datePassIssued = datePassIssued;
-	}
 	public User() {
 		super();
 	}
