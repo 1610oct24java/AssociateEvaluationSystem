@@ -13,20 +13,19 @@ public class ValidationServiceImpl implements ValidationService {
 	private ApplicationContext appContext;
 
 	@Override
-	public boolean validate(String username) {
+	public boolean validate(int userId) {
 		// 
 		User user = appContext.getBean(User.class);
 		
-		if(user != null)
-			if(user.checkUsername(username))
+		if(user != null && user.getUserId() == userId)
 				return true;
 		
 		return false;
 	}
 	
-	public User register(String username) {
+	public User register(int userId) {
 		User u = appContext.getBean(User.class);
-		u.setUsername(username);
+		u.setUserId(userId);
 		
 		return u;
 	}
