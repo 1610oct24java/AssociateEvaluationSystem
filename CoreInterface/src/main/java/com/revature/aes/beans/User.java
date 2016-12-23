@@ -31,7 +31,7 @@ public class User implements Serializable{
 	private String datePassIssued;
 	
 	public User(int userId, String email, String firstName, String lastName, Integer salesforce, Integer recruiterId,
-			int roleId, String datePassIssued) {
+			int roleId) {
 		super();
 		this.userId = userId;
 		this.email = email;
