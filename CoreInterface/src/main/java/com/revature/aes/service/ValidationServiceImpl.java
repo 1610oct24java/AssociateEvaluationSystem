@@ -15,10 +15,12 @@ public class ValidationServiceImpl implements ValidationService {
 	@Override
 	public boolean validate(String username) {
 		// 
-		User user = (User) appContext.getBean(User.class);
+		User user = appContext.getBean(User.class);
 		
-		if(user != null && user.checkUsername(username))
-			return true;
+		if(user != null)
+			if(user.checkUsername(username))
+				return true;
+		
 		return false;
 	}
 	
