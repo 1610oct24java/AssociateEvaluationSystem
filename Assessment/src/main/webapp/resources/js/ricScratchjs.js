@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('AesApp',['ngMaterial'])
+var app = angular.module('AesApp',['ngMaterial','ngAnimate'])
   .config(function($mdThemingProvider) {
   })
   .controller('NavCtrl', function($scope) {
@@ -58,6 +58,23 @@ angular.module('AesApp',['ngMaterial'])
       self.mode = (self.mode == 'query' ? 'determinate' : 'query');
     }, 7200, 0, true);
 }]);
+
+app.controller('questionCtrl', function($scope) {
+    $scope.questionContent = false;
+    
+    
+    $scope.collapse = function() {
+        $scope.questionContent = !$scope.questionContent;
+    }
+    
+    $scope.saveQuestion = function() {
+        
+    }
+    
+    $scope.flagQuestion = function() {
+        
+    }
+});
 
 
 /**

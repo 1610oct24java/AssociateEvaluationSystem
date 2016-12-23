@@ -14,8 +14,11 @@
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
  
-<!-- Angular Material Libraries -->  
+<!-- Angular Libraries --> 
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.js"></script>
+ 
+<!-- Angular Material Libraries -->  
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
@@ -88,23 +91,34 @@
   </md-fab-toolbar>
 </div>
 
-<div ng-controller="ProgressCtrl as vm" layout="column" layout-margin="" style="padding:25px;" ng-cloak="" class="progressLineardemoBasicUsage">
-  <h2 class="md-title">Remaining Time</h2>
-  <md-progress-linear md-mode="determinate" value="{{vm.determinateValue}}"></md-progress-linear>
-</div>
+  <div ng-controller="ProgressCtrl as vm" layout="column" layout-margin="" style="padding:25px;" ng-cloak="" class="progressLineardemoBasicUsage">
+    <h2 class="md-title">Remaining Time</h2>
+    <md-progress-linear md-mode="determinate" value="{{vm.determinateValue}}"></md-progress-linear>
+  </div>
   
   
 <!-- Revature button -->
-<a class="Orange-read-btn" href="../revaturepro">GO TO REVATURE BOOTCAMP</a>
+  <a class="Orange-read-btn" href="../revaturepro">GO TO REVATURE BOOTCAMP</a>
 
+<
 
+<div style="height:100px;"></div>
 
-
+<!-- QUESTION CONTAINER -->
+   <div class="question-container" ng-controller="questionCtrl">
+     <div style="display:inline-block;">Question snippet...</div>
+       <input type="checkbox" class="glyphicon glyphicon-flag" ng-click="flagQuestion()">
+       <input type="checkbox" class="glyphicon glyphicon-floppy-disk" ng-click="saveQuestion()">
+       <input type="checkbox" class="glyphicon glyphicon-chevron-down" ng-click="collapse()">
+     
+     <div ng-hide="questionContent" id="qbox">some text</div>
+   </div>
+  
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
-integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" 
-crossorigin="anonymous"></script>
+	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" 
+	crossorigin="anonymous"></script>
 
 <!-- Ric's Custom JS -->
 <script type="text/javascript" src="../resources/js/ricScratchjs.js"></script>
