@@ -5,7 +5,7 @@ app.controller('myController', function($scope, $http) {
 	
 	$scope.login = function() {
 		
-		user={};
+		var user={};
 		user.email = $scope.email;
 		user.password = $scope.password;
 		
