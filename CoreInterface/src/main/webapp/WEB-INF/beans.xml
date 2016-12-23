@@ -32,5 +32,4 @@
 		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
 		<constructor-arg value="12" />
 	</bean>
-
 </beans>
