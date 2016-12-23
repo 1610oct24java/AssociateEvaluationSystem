@@ -15,7 +15,6 @@ public class LoginController {
 	private static User user = new User();
 	static {
 		user.setEmail("asd");
-		//user.setPassword("$2a$12$z13JLN67h0bJaqNCwQzS1OKzT30hKXdxmCyiXR5e.CKPEsRCfwMWu");
 	}
 	
 	@RequestMapping(value="/login",method = RequestMethod.GET)
