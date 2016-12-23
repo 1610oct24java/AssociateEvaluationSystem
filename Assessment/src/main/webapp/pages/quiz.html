@@ -39,49 +39,8 @@
 								</li>
 							</ul>
 						</div>
-						<hr>
-						<div uib-accordion-group class="panel-default" heading="Question {{$index + 1}}" ng-repeat="q in quiz.questions">
-							{{q.txtQ}} <br>
-							<hr>
-							<div ng-show="q.type === 0">Choose one:</div>
-							<div ng-show="q.type === 1">Choose as many as applicable:</div>
-							<ul class="list-group">
-								<li class="list-group-item" ng-repeat="option in q.options">
-									<div class="radio" ng-show="q.type === 0">
-										<label><input type="radio" name="q{{q.id}}">{{option.txtA}}</label>
-									</div>
-									<div class="checkbox" ng-show="q.type === 1">
-										<label><input type="checkbox" name="q{{q.id}}">{{option.txtA}}</label>
-									</div>
-								</li>
-							</ul>
-						</div>
-
 						</uib-accordion>
 						<hr>
-						<div class="panel-group">
-							<div class="panel panel-default" ng-repeat="question in quiz.questions">
-								<div class="panel-heading">
-									<h4 class="panel-title">Question {{$index + 1}}</h4>
-								</div>
-								<div class="panel-body">
-									{{question.txtQ}} <br>
-									<hr>
-									<div ng-show="question.type === 0">Choose one:</div>
-									<div ng-show="question.type === 1">Choose as many as applicable:</div>
-								</div>
-								<ul class="list-group">
-									<li class="list-group-item" ng-repeat="option in question.options">
-										<div class="radio" ng-show="question.type === 0">
-											  <label><input type="radio" name="q{{question.id}}">{{option.txtA}}</label>
-										</div>
-										<div class="checkbox" ng-show="question.type === 1">
-											  <label><input type="checkbox" name="q{{question.id}}">{{option.txtA}}</label>
-										</div>
-									</li>
-								</ul>
-							</div>
-						</div>
 					</div>
 				</div>
 				<hr>
