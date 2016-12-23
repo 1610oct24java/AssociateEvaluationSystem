@@ -75,7 +75,7 @@
 	
 	<!-- for mailing -->
 	<bean id="mailProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location" value="classpath:mailer.properties" />
+        <property name="location" value="classpath:mail.properties" />
     </bean>
 	
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
