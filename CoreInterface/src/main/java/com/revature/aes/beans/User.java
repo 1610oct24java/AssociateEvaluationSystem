@@ -7,8 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-
-
 @Entity
 @Table(name="AES_USERS")
 public class User implements Serializable{
@@ -31,6 +29,24 @@ public class User implements Serializable{
 	private int roleId;
 	@Column(name="DATE_PASS_ISSUED")
 	private String datePassIssued;
+	
+	public User(int userId, String email, String firstName, String lastName, Integer salesforce, Integer recruiterId,
+			int roleId, String datePassIssued) {
+		super();
+		this.userId = userId;
+		this.email = email;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.salesforce = salesforce;
+		this.recruiterId = recruiterId;
+		this.roleId = roleId;
+		this.datePassIssued = datePassIssued;
+	}
+	public User() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
 	public int getUserId() {
 		return userId;
 	}
@@ -87,21 +103,5 @@ public class User implements Serializable{
 		return "User [userId=" + userId + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName
 				+ ", salesforce=" + salesforce + ", recruiterId=" + recruiterId + ", roleId=" + roleId
 				+ ", datePassIssued=" + datePassIssued + "]";
-	}
-	public User(int userId, String email, String firstName, String lastName, Integer salesforce, Integer recruiterId,
-			int roleId, String datePassIssued) {
-		super();
-		this.userId = userId;
-		this.email = email;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.salesforce = salesforce;
-		this.recruiterId = recruiterId;
-		this.roleId = roleId;
-		this.datePassIssued = datePassIssued;
-	}
-	public User() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 }
