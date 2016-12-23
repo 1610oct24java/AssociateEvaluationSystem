@@ -199,6 +199,39 @@
   padding: 25px;
   font-size: 0.9em; }
 
+
+/* QUESTION CONTAINER */
+.glyphicon:before {
+     visibility: visible;
+}
+.glyphicon.glyphicon-chevron-down:checked:before {
+    content: "\e113";
+}
+.glyphicon.glyphicon-floppy-disk:checked:before {
+    color:blue;
+}
+.glyphicon.glyphicon-flag:checked:before {
+    color:red;
+}
+input[type=checkbox].glyphicon {
+     visibility: hidden;        
+}
+
+@keyframes collapseAnimation {
+    from {
+        height: 100px;
+    } to {
+        height: 0;
+    }
+}
+
+#qbox {
+  background-color: lightblue;
+  height: 100px;
+  width: 100%;
+  position: relative;
+}
+
 /*
 Copyright 2016 Google Inc. All Rights Reserved. 
 Use of this source code is governed by an MIT-style license that can be found in the LICENSE file at http://material.angularjs.org/HEAD/license.
