@@ -72,21 +72,47 @@ public class Question implements Serializable
 	// TODO Annotation
 	private List<Option> options;
 	/**
-	 * @category
+	 * @category The Category of the question that is a top-level overview of the questioon. 
 	 */
 	private Category category;
 	/**
-	 * @tag
+	 * @tag The Tag of the question that  low-level details of a quesiton.
 	 */
 	private Tag tag;
-	
+	/**
+	 * @categoryList a List of Categories that relates to the question.
+	 */
 	private List<Category> categoryList;
+	
+	/**
+	 * @tagList a List of tags that relates to the question.
+	 */
 	private List<Tag> tagList;
 	 
 
 	public Question()
 	{
 		super();
+	}
+	
+	public Question(String questionText)
+	{
+		super();
+		this.questionText = questionText;
+	}
+
+	public Question(Integer questionId, String questionText, Format format, List<Option> options, Category category,
+			Tag tag, List<Category> categoryList, List<Tag> tagList)
+	{
+		super();
+		this.questionId = questionId;
+		this.questionText = questionText;
+		this.format = format;
+		this.options = options;
+		this.category = category;
+		this.tag = tag;
+		this.categoryList = categoryList;
+		this.tagList = tagList;
 	}
 
 	public int getQuestionId()
@@ -129,7 +155,121 @@ public class Question implements Serializable
 		this.options = options;
 	}
 
+	public Category getCategory()
+	{
+		return category;
+	}
 
+	public void setCategory(Category category)
+	{
+		this.category = category;
+	}
+
+	public Tag getTag()
+	{
+		return tag;
+	}
+
+	public void setTag(Tag tag)
+	{
+		this.tag = tag;
+	}
+
+	public List<Category> getCategoryList()
+	{
+		return categoryList;
+	}
+
+	public void setCategoryList(List<Category> categoryList)
+	{
+		this.categoryList = categoryList;
+	}
+
+	public List<Tag> getTagList()
+	{
+		return tagList;
+	}
+
+	public void setTagList(List<Tag> tagList)
+	{
+		this.tagList = tagList;
+	}
+
+	public void setQuestionId(Integer questionId)
+	{
+		this.questionId = questionId;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((categoryList == null) ? 0 : categoryList.hashCode());
+		result = prime * result + ((format == null) ? 0 : format.hashCode());
+		result = prime * result + ((options == null) ? 0 : options.hashCode());
+		result = prime * result + ((questionId == null) ? 0 : questionId.hashCode());
+		result = prime * result + ((questionText == null) ? 0 : questionText.hashCode());
+		result = prime * result + ((tagList == null) ? 0 : tagList.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Question other = (Question) obj;
+		if (categoryList == null)
+		{
+			if (other.categoryList != null)
+				return false;
+		} else if (!categoryList.equals(other.categoryList))
+			return false;
+		if (format == null)
+		{
+			if (other.format != null)
+				return false;
+		} else if (!format.equals(other.format))
+			return false;
+		if (options == null)
+		{
+			if (other.options != null)
+				return false;
+		} else if (!options.equals(other.options))
+			return false;
+		if (questionId == null)
+		{
+			if (other.questionId != null)
+				return false;
+		} else if (!questionId.equals(other.questionId))
+			return false;
+		if (questionText == null)
+		{
+			if (other.questionText != null)
+				return false;
+		} else if (!questionText.equals(other.questionText))
+			return false;
+		if (tagList == null)
+		{
+			if (other.tagList != null)
+				return false;
+		} else if (!tagList.equals(other.tagList))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString()
+	{
+		return "Question [questionId=" + questionId + ", questionText=" + questionText + ", format=" + format
+				+ ", options=" + options + ", category=" + category + ", tag=" + tag + ", categoryList=" + categoryList
+				+ ", tagList=" + tagList + "]";
+	}
 
 
 }
