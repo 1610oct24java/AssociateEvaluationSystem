@@ -19,10 +19,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -34,13 +35,12 @@ public class Question implements Serializable
 	 * @serialVersionUID An auto-generated value used for networking.
 	 */
 	private static final long serialVersionUID = -1601002832615548763L;
-	// TODO update when I get sequence name.
 	/**
 	 * @questionId The unique Identifier for the Class
 	 */
 	@Id
-	@SequenceGenerator(name = "", sequenceName = "")
-	@GeneratedValue(generator = "", strategy = GenerationType.SEQUENCE)
+	@SequenceGenerator(name = "AES_QUESTION_SEQ", sequenceName = "AES_QUESTION_SEQ")
+	@GeneratedValue(generator = "AES_QUESTION_SEQ", strategy = GenerationType.SEQUENCE)
 	@Column(name = "QUESTION_ID")
 	private Integer questionId;
 
@@ -58,8 +58,7 @@ public class Question implements Serializable
 	 */
 	@NotNull
 	@OneToOne(fetch = FetchType.EAGER)
-	// TODO get Column Name
-	@JoinColumn(name = "")
+	@JoinColumn(name = "FORMAT_ID")
 	private Format format;
 
 	/**
@@ -69,24 +68,19 @@ public class Question implements Serializable
 	 *          Note: This is only necessary for specific formats such as
 	 *          true/false, multiple choice, multiple select
 	 */
-	// TODO Annotation
+	@OneToMany(fetch = FetchType.LAZY)	
 	private List<Option> options;
-	/**
-	 * @category The Category of the question that is a top-level overview of the questioon. 
-	 */
-	private Category category;
-	/**
-	 * @tag The Tag of the question that  low-level details of a quesiton.
-	 */
-	private Tag tag;
+	
 	/**
 	 * @categoryList a List of Categories that relates to the question.
 	 */
+	@ManyToMany(fetch = FetchType.LAZY)
 	private List<Category> categoryList;
 	
 	/**
 	 * @tagList a List of tags that relates to the question.
 	 */
+	@ManyToMany(fetch = FetchType.LAZY)
 	private List<Tag> tagList;
 	 
 
@@ -97,20 +91,17 @@ public class Question implements Serializable
 	
 	public Question(String questionText)
 	{
-		super();
+		this();
 		this.questionText = questionText;
 	}
 
-	public Question(Integer questionId, String questionText, Format format, List<Option> options, Category category,
-			Tag tag, List<Category> categoryList, List<Tag> tagList)
+	public Question(Integer questionId, String questionText, Format format, List<Option> options, List<Category> categoryList, List<Tag> tagList)
 	{
 		super();
 		this.questionId = questionId;
 		this.questionText = questionText;
 		this.format = format;
 		this.options = options;
-		this.category = category;
-		this.tag = tag;
 		this.categoryList = categoryList;
 		this.tagList = tagList;
 	}
@@ -154,27 +145,7 @@ public class Question implements Serializable
 	{
 		this.options = options;
 	}
-
-	public Category getCategory()
-	{
-		return category;
-	}
-
-	public void setCategory(Category category)
-	{
-		this.category = category;
-	}
-
-	public Tag getTag()
-	{
-		return tag;
-	}
-
-	public void setTag(Tag tag)
-	{
-		this.tag = tag;
-	}
-
+	
 	public List<Category> getCategoryList()
 	{
 		return categoryList;
@@ -267,7 +238,7 @@ public class Question implements Serializable
 	public String toString()
 	{
 		return "Question [questionId=" + questionId + ", questionText=" + questionText + ", format=" + format
-				+ ", options=" + options + ", category=" + category + ", tag=" + tag + ", categoryList=" + categoryList
+				+ ", options=" + options + ", categoryList=" + categoryList
 				+ ", tagList=" + tagList + "]";
 	}
 
