@@ -73,7 +73,7 @@
 	</bean>
 	
 	
-	
+	<!-- for mailing -->
 	<bean id="mailProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location" value="classpath:mailer.properties" />
     </bean>
