@@ -20,7 +20,6 @@ public class LoginController {
 	@RequestMapping(value="/login",method = RequestMethod.GET)
 	public String getLoginPage(ModelMap modelMap) {
 		
-		System.out.println("LOGIN");
 		return "login";
 	}
 	
@@ -28,7 +27,6 @@ public class LoginController {
 	@RequestMapping(value="/login",method = RequestMethod.POST)
 	public User login(@RequestBody User user) {
 		
-		System.out.println(user);
 		return user;
 	}
 }
