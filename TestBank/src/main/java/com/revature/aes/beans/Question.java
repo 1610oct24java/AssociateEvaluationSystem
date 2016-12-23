@@ -71,19 +71,22 @@ public class Question implements Serializable
 	 */
 	// TODO Annotation
 	private List<Option> options;
+	/**
+	 * @category
+	 */
+	private Category category;
+	/**
+	 * @tag
+	 */
+	private Tag tag;
+	
+	private List<Category> categoryList;
+	private List<Tag> tagList;
+	 
 
 	public Question()
 	{
 		super();
-	}
-
-	public Question(int questionId, Format format, String questionText, List<Option> options)
-	{
-		super();
-		this.questionId = questionId;
-		this.format = format;
-		this.questionText = questionText;
-		this.options = options;
 	}
 
 	public int getQuestionId()
@@ -126,60 +129,7 @@ public class Question implements Serializable
 		this.options = options;
 	}
 
-	@Override
-	public int hashCode()
-	{
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((format == null) ? 0 : format.hashCode());
-		result = prime * result + ((options == null) ? 0 : options.hashCode());
-		result = prime * result + ((questionId == null) ? 0 : questionId.hashCode());
-		result = prime * result + ((questionText == null) ? 0 : questionText.hashCode());
-		return result;
-	}
 
-	@Override
-	public boolean equals(Object obj)
-	{
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Question other = (Question) obj;
-		if (format == null)
-		{
-			if (other.format != null)
-				return false;
-		} else if (!format.equals(other.format))
-			return false;
-		if (options == null)
-		{
-			if (other.options != null)
-				return false;
-		} else if (!options.equals(other.options))
-			return false;
-		if (questionId == null)
-		{
-			if (other.questionId != null)
-				return false;
-		} else if (!questionId.equals(other.questionId))
-			return false;
-		if (questionText == null)
-		{
-			if (other.questionText != null)
-				return false;
-		} else if (!questionText.equals(other.questionText))
-			return false;
-		return true;
-	}
 
-	@Override
-	public String toString()
-	{
-		return "Question [questionId=" + questionId + ", questionText=" + questionText + ", format=" + format
-				+ ", options=" + options + "]";
-	}
 
 }

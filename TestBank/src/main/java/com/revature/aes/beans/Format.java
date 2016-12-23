@@ -32,6 +32,7 @@ public class Format implements Serializable {
 	/**
 	 * @formatId The unique Identifier for the Class
 	 */
+	//TODO get sequence name
 	@Id
 	@SequenceGenerator(name = "", sequenceName = "")
 	@GeneratedValue(generator = "", strategy = GenerationType.SEQUENCE)
