@@ -16,13 +16,13 @@ public class ValidationController {
 	@Autowired
 	private ValidationService validationService;
 	
-	@RequestMapping(value="validate/{username}", method=RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
-	public Boolean auth(@PathVariable String username){
-		return validationService.validate(username);
+	@RequestMapping(value="validate/{userId}", method=RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
+	public Boolean auth(@PathVariable int userId){
+		return validationService.validate(userId);
 	}
 	
-	@RequestMapping(value="user/{username}", method=RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
-	public User register(@PathVariable String username){
-		return validationService.register(username);
+	@RequestMapping(value="user/{userId}", method=RequestMethod.GET, produces={MediaType.APPLICATION_JSON_VALUE})
+	public User register(@PathVariable int userId){
+		return validationService.register(userId);
 	}
 }
