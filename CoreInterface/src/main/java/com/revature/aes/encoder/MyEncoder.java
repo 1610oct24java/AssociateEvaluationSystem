@@ -9,8 +9,5 @@ import com.revature.aes.service.UserService;
 public class MyEncoder {
 	public static void main(String[] args) {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
-		
-		ApplicationContext ac = new ClassPathXmlApplicationContext("file:src/main/webapp/WEB-INF/beans.xml");
-		UserService service =(UserService) ac.getBean("userServiceImpl");
 	}
 }
