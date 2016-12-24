@@ -1,5 +1,5 @@
 /****************************************************************
- * Project Name: Test Bank
+ * Project Name: Associate Evaluation System - Test Bank
  * 
  * Description: A simple rest application that persists test
  * 		information into a database.
@@ -24,8 +24,7 @@ import javax.persistence.Table;
 public class Format implements Serializable {
 
 	/**
-	 * 
-	 * @serialVersionUID An auto-generated value used for networking.
+	 * @serialVersionUID An auto-generated field that is used for serialization.
 	 */
 	private static final long serialVersionUID = 9090154484770826813L;
 	
@@ -41,6 +40,7 @@ public class Format implements Serializable {
 	/**
 	 * @formatName A String representation of the type of question format. 
 	 */
+	@Column(name="FORMAT_NAME")
 	private String formatName;
 
 	public Format()

@@ -1,5 +1,5 @@
 /****************************************************************
- * Project Name: Test Bank
+ * Project Name: Associate Evaluation System - Test Bank
  * 
  * Description: A simple rest application that persists test
  * 		information into a database.
@@ -68,7 +68,7 @@ public class Question implements Serializable
 	 *          Note: This is only necessary for specific formats such as
 	 *          true/false, multiple choice, multiple select
 	 */
-	@OneToMany(fetch = FetchType.LAZY)	
+	@OneToMany(fetch = FetchType.LAZY)
 	private List<Option> options;
 	
 	/**

@@ -1,5 +1,5 @@
 /****************************************************************
- * Project Name: Test Bank
+ * Project Name: Associate Evaluation System - Test Bank
  * 
  * Description: A simple rest application that persists test
  * 		information into a database.
@@ -16,8 +16,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 @Entity
 @Table(name  = "AES_OPTIONS")
@@ -25,59 +28,94 @@ public class Option implements Serializable {
 	
 
 	/**
-	 * An auto-generated value used for networking
+	 * @serialVersionUID An auto-generated field that is used for serialization.
 	 */
 	private static final long serialVersionUID = -2721235710924038934L;
 	/**
-	 * @optionID the unique Identifier for the Option class
+	 * @optionId the unique Identifier for the Option class
 	 */
 	@Id
 	@SequenceGenerator(name = "AES_OPTION_SEQ", sequenceName = "AES_OPTION_SEQ")
 	@GeneratedValue(generator = "AES_OPTION_SEQ", strategy = GenerationType.SEQUENCE)
 	@Column(name = "OPTION_ID")
-	private int optionID;
+	private Integer optionId;
 	/**
 	 * @optionText A String representation of a possible answer for a question.
 	 */
+	@Column(name = "OPTION_TEXT")
 	private String optionText;
 	/**
-	 * @correct A boolean value representing the correct answer for a question.
+	 * @correct A Integer value representing the correct answer for a question.
+	 * Minimun value is 0, Maximun value is 1.
+	 * 0 is equavalent to false while 1 is equavalent to true.
 	 */
-	private boolean correct;
+	@Min(value=0)
+	@Max(value=1)
+	@Column(name="CORRECT")
+	private Integer correct;
+	
+	/**
+	 * @question The question associated with this class.
+	 */
+	@JoinColumn(name="QUESTION_ID")
+	private Question question;
 	
 	public Option() {
 		super();
 	}
-	
-	public Option(int optionID, String optionText, boolean correct) {
+
+	public Option(Integer optionID, String optionText, Integer correct)
+	{
 		this();
-		this.optionID = optionID;
+		this.optionId = optionID;
 		this.optionText = optionText;
 		this.correct = correct;
 	}
 
-	public int getOptionID() {
-		return optionID;
+	public Option(Integer optionID, String optionText, Integer correct, Question question)
+	{
+		this(optionID, optionText, correct);
+		this.question = question;
 	}
 
-	public void setOptionID(int optionID) {
-		this.optionID = optionID;
+	public Integer getOptionID()
+	{
+		return optionId;
 	}
 
-	public String getOptionText() {
+	public void setOptionID(Integer optionID)
+	{
+		this.optionId = optionID;
+	}
+
+	public String getOptionText()
+	{
 		return optionText;
 	}
 
-	public void setOptionText(String optionText) {
+	public void setOptionText(String optionText)
+	{
 		this.optionText = optionText;
 	}
 
-	public boolean isCorrect() {
+	public Integer getCorrect()
+	{
 		return correct;
 	}
 
-	public void setCorrect(boolean correct) {
+	public void setCorrect(Integer correct)
+	{
 		this.correct = correct;
+	}
+
+	public Question getQuestion()
+	{
+		return question;
+	}
+
+	public void setQuestion(Question question)
+	{
+		this.question = question;
 	}
 
 	@Override
@@ -85,9 +123,10 @@ public class Option implements Serializable {
 	{
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (correct ? 1231 : 1237);
-		result = prime * result + optionID;
+		result = prime * result + ((correct == null) ? 0 : correct.hashCode());
+		result = prime * result + ((optionId == null) ? 0 : optionId.hashCode());
 		result = prime * result + ((optionText == null) ? 0 : optionText.hashCode());
+		result = prime * result + ((question == null) ? 0 : question.hashCode());
 		return result;
 	}
 
@@ -101,9 +140,17 @@ public class Option implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Option other = (Option) obj;
-		if (correct != other.correct)
+		if (correct == null)
+		{
+			if (other.correct != null)
+				return false;
+		} else if (!correct.equals(other.correct))
 			return false;
-		if (optionID != other.optionID)
+		if (optionId == null)
+		{
+			if (other.optionId != null)
+				return false;
+		} else if (!optionId.equals(other.optionId))
 			return false;
 		if (optionText == null)
 		{
@@ -111,14 +158,22 @@ public class Option implements Serializable {
 				return false;
 		} else if (!optionText.equals(other.optionText))
 			return false;
+		if (question == null)
+		{
+			if (other.question != null)
+				return false;
+		} else if (!question.equals(other.question))
+			return false;
 		return true;
 	}
-	
+
 	@Override
 	public String toString()
 	{
-		return "Option [optionID=" + optionID + ", optionText=" + optionText + ", correct=" + correct + "]";
+		return "Option [optionID=" + optionId + ", optionText=" + optionText + ", correct=" + correct + ", question="
+				+ question + "]";
 	}
-
+	
+	
 	
 }
