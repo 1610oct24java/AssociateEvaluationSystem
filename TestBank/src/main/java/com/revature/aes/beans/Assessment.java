@@ -45,7 +45,7 @@ public class Assessment implements Serializable
 	/**
 	 * @user A User object representing the User taking an Assessment
 	 */
-	@ManyToOne
+	@ManyToOne //This is many to one as to prepare for when they updated from preAssociate screening to batches.
 	@JoinColumn(name="USER_ID")
 	private User user;
 	/**
@@ -68,6 +68,7 @@ public class Assessment implements Serializable
 	 * @template A pre-created template to be used as the assessment.  
 	 */
 	private Template template;
+	
 	public Assessment()
 	{
 		super();
