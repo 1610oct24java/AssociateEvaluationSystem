@@ -92,3 +92,4 @@ public class User implements Serializable{
 				+ ", datePassIssued=" + datePassIssued + "]";
 	}
 }
+
