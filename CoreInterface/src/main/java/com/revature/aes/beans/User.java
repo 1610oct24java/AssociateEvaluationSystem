@@ -4,7 +4,10 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -25,8 +28,9 @@ public class User implements Serializable{
 	private Integer salesforce;
 	@Column(name="RECRUITER_ID")
 	private Integer recruiterId;
-	@Column(name="ROLE_ID")
-	private int roleId;
+	@ManyToOne(fetch=FetchType.EAGER,targetEntity = Role.class)
+	@JoinColumn(name="ROLE_ID")
+	private Role role;
 	@Column(name="DATE_PASS_ISSUED")
 	private String datePassIssued;
 	
@@ -70,12 +74,15 @@ public class User implements Serializable{
 	public void setRecruiterId(Integer recruiterId) {
 		this.recruiterId = recruiterId;
 	}
-	public int getRoleId() {
-		return roleId;
+
+	public Role getRole() {
+		return role;
 	}
-	public void setRoleId(int roleId) {
-		this.roleId = roleId;
+
+	public void setRole(Role role) {
+		this.role = role;
 	}
+
 	public String getDatePassIssued() {
 		return datePassIssued;
 	}
@@ -85,11 +92,12 @@ public class User implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", salesforce=" + salesforce + ", recruiterId=" + recruiterId + ", roleId=" + roleId
-				+ ", datePassIssued=" + datePassIssued + "]";
+				+ ", salesforce=" + salesforce + ", recruiterId=" + recruiterId + ", role=" + role + ", datePassIssued="
+				+ datePassIssued + "]";
 	}
 }
 

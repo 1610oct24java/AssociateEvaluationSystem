@@ -72,11 +72,11 @@
 	<!-- Find JPA Repositories -->
 	<jpa:repositories base-package="com.revature.aes.dao" />
 
+	<!-- Password encoder -->
 	<bean id="encoder"
 		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
 		<constructor-arg value="12" />
 	</bean>
-
 
 	<!-- for mailing -->
 	<bean id="mailProperties"
