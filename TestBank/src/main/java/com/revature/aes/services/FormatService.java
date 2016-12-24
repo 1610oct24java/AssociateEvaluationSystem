@@ -9,21 +9,19 @@
  * Authors: Matthew Beauregard, Conner Anderson, Travis Deshotels,
  * 		Edward Crader, Jon-Erik Williams 
  ****************************************************************/
-
-package com.revature.aes.daos;
+package com.revature.aes.services;
 
 import java.util.List;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
 import com.revature.aes.beans.Format;
-import com.revature.aes.beans.Question;
 
-@Repository
-public interface QuestionDAO extends JpaRepository<Question, Integer>
+public interface FormatService
 {
+	//c
+	//r
+		public Format findFormatById(Integer id);
+		public List<Format> findAllFormats();
+	//u
+	//d
 	
-	public List<Question> findAllQuestionsByFormat(Format format);
-
 }

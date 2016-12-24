@@ -10,20 +10,16 @@
  * 		Edward Crader, Jon-Erik Williams 
  ****************************************************************/
 
-package com.revature.aes.daos;
+package com.revature.aes.rest.controllers;
 
-import java.util.List;
+import org.springframework.web.bind.annotation.RestController;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
-import com.revature.aes.beans.Format;
-import com.revature.aes.beans.Question;
-
-@Repository
-public interface QuestionDAO extends JpaRepository<Question, Integer>
+/**
+ * The Rest Controller that handles HTTP Requests and Response for the Format
+ * object.
+ */
+@RestController
+public class FormatRestController
 {
 	
-	public List<Question> findAllQuestionsByFormat(Format format);
-
 }
