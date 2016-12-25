@@ -20,12 +20,18 @@ public class LoginController {
 		user.setEmail("asd");
 	}
 	
-	@RequestMapping(value="/login",method = RequestMethod.GET)
+	@RequestMapping(value="/",method = RequestMethod.GET)
 	public String getLoginPage(ModelMap modelMap) {
 		ApplicationContext ac = new ClassPathXmlApplicationContext("beans.xml");
 		UserService service =(UserService) ac.getBean("userServiceImpl");
 		System.out.println(service.findUserByEmail("asd@gmail.com"));
 		return "login";
+	}
+	
+	@RequestMapping(value="/admin/private",method = RequestMethod.GET)
+	public String getPrivatePage(ModelMap modelMap) {
+		
+		return "private";
 	}
 	
 	@ResponseBody
