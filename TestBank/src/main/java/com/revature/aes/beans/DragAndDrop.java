@@ -19,7 +19,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -45,7 +45,7 @@ public class DragAndDrop implements Serializable
 	/**
 	 * @question The question this class is associated with.
 	 */
-	@ManyToMany
+	@OneToOne
 	@JoinColumn(name="QUESTION_ID")
 	private Question question;
 	

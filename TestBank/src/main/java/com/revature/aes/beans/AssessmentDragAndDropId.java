@@ -11,11 +11,19 @@
  ****************************************************************/
 package com.revature.aes.beans;
 
+import java.io.Serializable;
+
 import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
 
 @Embeddable
-public class AssessmentDragAndDropId {
+public class AssessmentDragAndDropId implements Serializable {
+
+
+	/**
+	 * @serialVersionUID An auto-generated field that is used for serialization.
+	 */
+	private static final long serialVersionUID = 389943358618803605L;
 
 	/**
 	 * @dragDrop The DragAndDrop this Class is associated with.

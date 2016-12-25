@@ -20,7 +20,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 @Entity
@@ -57,14 +57,14 @@ public class UploadedFile implements Serializable
 	/**
 	 * @question The Question associated with the class.
 	 */
-	@OneToMany
+	@OneToOne
 	@JoinColumn(name="QUESTION_ID")
 	private Question question;
 	
 	/**
 	 * @assessment The Assessment associated with the class.
 	 */
-	@ManyToMany
+	@OneToOne
 	@JoinColumn(name="ASSESSMENT_ID")
 	private Assessment assessment;
 

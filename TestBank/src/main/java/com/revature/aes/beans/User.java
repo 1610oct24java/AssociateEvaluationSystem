@@ -14,6 +14,7 @@ package com.revature.aes.beans;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -26,6 +27,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -78,8 +80,14 @@ public class User implements Serializable
 	 * If null then the User role should be a Trainer or a Recruiter 
 	 */
 	@ManyToOne
-	@JoinColumn(name="USER_ID")
+	@JoinColumn(name="RECRUITER_ID")
 	private User recruiter;
+	
+	/**
+	 * @associates The associates related to the recruiter
+	 */
+	@OneToMany(mappedBy="recruiter")
+	private Set<User> associates = new HashSet<User>();
 	
 	/**
 	 * @role The role of the User.

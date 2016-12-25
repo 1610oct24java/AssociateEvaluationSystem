@@ -11,11 +11,19 @@
  ****************************************************************/
 package com.revature.aes.beans;
 
+import java.io.Serializable;
+
 import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
 
 @Embeddable
-public class TemplateQuestionId {
+public class TemplateQuestionId implements Serializable {
+	
+	/**
+	 * @serialVersionUID An auto-generated field that is used for serialization.
+	 */
+	private static final long serialVersionUID = 2633253686033581576L;
+
 	/**
 	 * @question The question associated with the class.
 	 */
