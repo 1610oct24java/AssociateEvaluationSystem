@@ -13,36 +13,33 @@ package com.revature.aes.beans;
 
 import java.io.Serializable;
 
+import javax.persistence.AssociationOverride;
+import javax.persistence.AssociationOverrides;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="ASSESSMENT_DRAG_DROP")
+//http://www.mkyong.com/hibernate/hibernate-many-to-many-example-join-table-extra-column-annotation/
+@AssociationOverrides({
+	@AssociationOverride(name="pk.dragAndDrop",
+			joinColumns = @JoinColumn(name="DRAG_DROP_ID")),
+	@AssociationOverride(name="pk.assessment",
+			joinColumns = @JoinColumn(name="ASSESSMENT_ID"))
+})
 public class AssessmentDragAndDrop implements Serializable
 {
 	/**
 	 * @serialVersionUID An auto-generated field that is used for serialization.
 	 */
 	private static final long serialVersionUID = 4357634270764791488L;
-
-	/**
-	 * @dragDropId The DragAndDrop this Class is associated with.
-	 *  
-	 */
-	@ManyToMany
-	@JoinColumn(name="DRAG_DROP_ID")
-	private DragAndDrop dragDropId;
 	
-	/**
-	 * @assessment The Assessment this Class is associated with.
-	 */
-	@ManyToMany
-	@JoinColumn(name="ASSESSMENT_ID")
-	private Assessment assessment;
-	
+	@EmbeddedId
+	private AssessmentDragAndDropId aDDId = new AssessmentDragAndDropId();
 	/**
 	 * @userOrder A Numerical value representing the Order the user of a drag and drop assessment.
 	 */
@@ -57,55 +54,54 @@ public class AssessmentDragAndDrop implements Serializable
 	public AssessmentDragAndDrop(DragAndDrop dragDropId, Assessment assessment, Integer userOrder)
 	{
 		this();
-		this.dragDropId = dragDropId;
-		this.assessment = assessment;
 		this.userOrder = userOrder;
 	}
 
-	public DragAndDrop getDragDropId()
-	{
-		return dragDropId;
+	public AssessmentDragAndDropId getaDDId() {
+		return aDDId;
 	}
 
-	public void setDragDropId(DragAndDrop dragDropId)
-	{
-		this.dragDropId = dragDropId;
+	public void setaDDId(AssessmentDragAndDropId aDDId) {
+		this.aDDId = aDDId;
 	}
 
-	public Assessment getAssessment()
-	{
-		return assessment;
-	}
-
-	public void setAssessment(Assessment assessment)
-	{
-		this.assessment = assessment;
-	}
-
-	public Integer getUserOrder()
-	{
+	public Integer getUserOrder() {
 		return userOrder;
 	}
 
-	public void setUserOrder(Integer userOrder)
-	{
+	public void setUserOrder(Integer userOrder) {
 		this.userOrder = userOrder;
+	}
+	
+	@Transient
+	public Assessment getADDIdAssessement(){
+		return getaDDId().getAssessment();
+	}
+	
+	public void setAssessment(Assessment assessment){
+		getaDDId().setAssessment(assessment);
+	}
+	
+	@Transient
+	public DragAndDrop getADDIdDragAndDrop(){
+		return getaDDId().getDragDrop();
+	}
+	
+	public void setADDIdDragAndDrop(DragAndDrop dragAndDrop){
+		getaDDId().setDragDrop(dragAndDrop);
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((assessment == null) ? 0 : assessment.hashCode());
-		result = prime * result + ((dragDropId == null) ? 0 : dragDropId.hashCode());
+		result = prime * result + ((aDDId == null) ? 0 : aDDId.hashCode());
 		result = prime * result + ((userOrder == null) ? 0 : userOrder.hashCode());
 		return result;
 	}
 
 	@Override
-	public boolean equals(Object obj)
-	{
+	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -113,27 +109,23 @@ public class AssessmentDragAndDrop implements Serializable
 		if (getClass() != obj.getClass())
 			return false;
 		AssessmentDragAndDrop other = (AssessmentDragAndDrop) obj;
-		if (assessment == null)
-		{
-			if (other.assessment != null)
+		if (aDDId == null) {
+			if (other.aDDId != null)
 				return false;
-		} else if (!assessment.equals(other.assessment))
+		} else if (!aDDId.equals(other.aDDId))
 			return false;
-		if (dragDropId == null)
-		{
-			if (other.dragDropId != null)
-				return false;
-		} else if (!dragDropId.equals(other.dragDropId))
-			return false;
-		if (userOrder == null)
-		{
+		if (userOrder == null) {
 			if (other.userOrder != null)
 				return false;
 		} else if (!userOrder.equals(other.userOrder))
 			return false;
 		return true;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "AssessmentDragAndDrop [aDDId=" + aDDId + ", userOrder=" + userOrder + "]";
+	}
 	
 	
 	

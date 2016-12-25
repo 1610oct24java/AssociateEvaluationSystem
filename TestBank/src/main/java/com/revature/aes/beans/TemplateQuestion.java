@@ -78,6 +78,32 @@ public class TemplateQuestion implements Serializable
 		return getTemplateQuestionId().getQuestion();
 	}
 
+
+	public void setQuestion(Question question)
+	{
+		getTemplateQuestionId().setQuestion(question);
+	}
+	@Transient
+	public Template getTemplate()
+	{
+		return getTemplateQuestionId().getTemplate();
+	}
+
+	public void setTemplate(Template template)
+	{
+		getTemplateQuestionId().setTemplate(template);
+	}
+
+	public Double getWeight()
+	{
+		return weight;
+	}
+
+	public void setWeight(Double weight)
+	{
+		this.weight = weight;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -109,29 +135,9 @@ public class TemplateQuestion implements Serializable
 		return true;
 	}
 
-	public void setQuestion(Question question)
-	{
-		getTemplateQuestionId().setQuestion(question);
-	}
-
-	public Template getTemplate()
-	{
-		return getTemplateQuestionId().getTemplate();
-	}
-
-	public void setTemplate(Template template)
-	{
-		getTemplateQuestionId().setTemplate(template);
-	}
-
-	public Double getWeight()
-	{
-		return weight;
-	}
-
-	public void setWeight(Double weight)
-	{
-		this.weight = weight;
+	@Override
+	public String toString() {
+		return "TemplateQuestion [tQID=" + tQID + ", weight=" + weight + "]";
 	}
 
 }
