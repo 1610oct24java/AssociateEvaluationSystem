@@ -14,13 +14,17 @@ package com.revature.aes.beans;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
@@ -35,7 +39,7 @@ public class User implements Serializable
 	 * @serialVersionUID An auto-generated field that is used for serialization.
 	 */
 	private static final long serialVersionUID = 2129360053028307874L;
-
+	
 	/**
 	 * @userId The unique Identifier for the Class
 	 */
@@ -89,6 +93,14 @@ public class User implements Serializable
 	 */
 	@Column(name="DATE_PASS_ISSUED")
 	private LocalDate passwordIssueDate;
+	/**
+	 * @userTrainers A set of Users that is used to determine the trainer(s) of the user(s)
+	 */
+	@ManyToMany(fetch=FetchType.EAGER)
+	@JoinTable(name="AES_USER_TRAINERS",
+				joinColumns=@JoinColumn(name="USER_ID"),
+				inverseJoinColumns=@JoinColumn(name="TRAINER_ID"))
+	private Set<User> usersTrainers;
 	
 	public User()
 	{
@@ -96,8 +108,7 @@ public class User implements Serializable
 	}
 
 	public User(Integer userId, String email, String firstname, String lastname, Integer salesForce, User recruiter,
-			Roles role, LocalDate passIssuedDate)
-	{
+			Roles role, LocalDate passwordIssueDate, Set<User> usersTrainers) {
 		super();
 		this.userId = userId;
 		this.email = email;
@@ -106,92 +117,84 @@ public class User implements Serializable
 		this.salesForce = salesForce;
 		this.recruiter = recruiter;
 		this.role = role;
-		this.passwordIssueDate = passIssuedDate;
+		this.passwordIssueDate = passwordIssueDate;
+		this.usersTrainers = usersTrainers;
 	}
 
-	public Integer getUserId()
-	{
+	public Integer getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Integer userId)
-	{
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 
-	public String getEmail()
-	{
+	public String getEmail() {
 		return email;
 	}
 
-	public void setEmail(String email)
-	{
+	public void setEmail(String email) {
 		this.email = email;
 	}
 
-	public String getFirstname()
-	{
+	public String getFirstname() {
 		return firstname;
 	}
 
-	public void setFirstname(String firstname)
-	{
+	public void setFirstname(String firstname) {
 		this.firstname = firstname;
 	}
 
-	public String getLastname()
-	{
+	public String getLastname() {
 		return lastname;
 	}
 
-	public void setLastname(String lastname)
-	{
+	public void setLastname(String lastname) {
 		this.lastname = lastname;
 	}
 
-	public Integer getSalesForce()
-	{
+	public Integer getSalesForce() {
 		return salesForce;
 	}
 
-	public void setSalesForce(Integer salesForce)
-	{
+	public void setSalesForce(Integer salesForce) {
 		this.salesForce = salesForce;
 	}
 
-	public User getRecruiter()
-	{
+	public User getRecruiter() {
 		return recruiter;
 	}
 
-	public void setRecruiter(User recruiter)
-	{
+	public void setRecruiter(User recruiter) {
 		this.recruiter = recruiter;
 	}
 
-	public Roles getRole()
-	{
+	public Roles getRole() {
 		return role;
 	}
 
-	public void setRole(Roles role)
-	{
+	public void setRole(Roles role) {
 		this.role = role;
 	}
 
-	public LocalDate getPasswordIssueDate()
-	{
+	public LocalDate getPasswordIssueDate() {
 		return passwordIssueDate;
 	}
 
-	public void setPasswordIssueDate(LocalDate passwordIssueDate)
-	{
+	public void setPasswordIssueDate(LocalDate passwordIssueDate) {
 		this.passwordIssueDate = passwordIssueDate;
 	}
 
+	public Set<User> getUsersTrainers() {
+		return usersTrainers;
+	}
+
+	public void setUsersTrainers(Set<User> usersTrainers) {
+		this.usersTrainers = usersTrainers;
+	}
+
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
@@ -202,12 +205,12 @@ public class User implements Serializable
 		result = prime * result + ((role == null) ? 0 : role.hashCode());
 		result = prime * result + ((salesForce == null) ? 0 : salesForce.hashCode());
 		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
+		result = prime * result + ((usersTrainers == null) ? 0 : usersTrainers.hashCode());
 		return result;
 	}
 
 	@Override
-	public boolean equals(Object obj)
-	{
+	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -215,65 +218,60 @@ public class User implements Serializable
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		if (email == null)
-		{
+		if (email == null) {
 			if (other.email != null)
 				return false;
 		} else if (!email.equals(other.email))
 			return false;
-		if (firstname == null)
-		{
+		if (firstname == null) {
 			if (other.firstname != null)
 				return false;
 		} else if (!firstname.equals(other.firstname))
 			return false;
-		if (lastname == null)
-		{
+		if (lastname == null) {
 			if (other.lastname != null)
 				return false;
 		} else if (!lastname.equals(other.lastname))
 			return false;
-		if (passwordIssueDate == null)
-		{
+		if (passwordIssueDate == null) {
 			if (other.passwordIssueDate != null)
 				return false;
 		} else if (!passwordIssueDate.equals(other.passwordIssueDate))
 			return false;
-		if (recruiter == null)
-		{
+		if (recruiter == null) {
 			if (other.recruiter != null)
 				return false;
 		} else if (!recruiter.equals(other.recruiter))
 			return false;
-		if (role == null)
-		{
+		if (role == null) {
 			if (other.role != null)
 				return false;
 		} else if (!role.equals(other.role))
 			return false;
-		if (salesForce == null)
-		{
+		if (salesForce == null) {
 			if (other.salesForce != null)
 				return false;
 		} else if (!salesForce.equals(other.salesForce))
 			return false;
-		if (userId == null)
-		{
+		if (userId == null) {
 			if (other.userId != null)
 				return false;
 		} else if (!userId.equals(other.userId))
+			return false;
+		if (usersTrainers == null) {
+			if (other.usersTrainers != null)
+				return false;
+		} else if (!usersTrainers.equals(other.usersTrainers))
 			return false;
 		return true;
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return "User [userId=" + userId + ", email=" + email + ", firstname=" + firstname + ", lastname=" + lastname
-				+ ", salesForce=" + salesForce + ", recruiter=" + recruiter + ", role=" + role + ", passIssuedDate="
-				+ passwordIssueDate + "]";
+				+ ", salesForce=" + salesForce + ", recruiter=" + recruiter + ", role=" + role + ", passwordIssueDate="
+				+ passwordIssueDate + ", usersTrainers=" + usersTrainers + "]";
 	}
-
 	
 	
 }

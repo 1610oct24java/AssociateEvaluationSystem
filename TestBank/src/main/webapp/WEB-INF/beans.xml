@@ -5,15 +5,27 @@
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
 	xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:repository="http://www.springframework.org/schema/data/repository"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.8.xsd
-		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+		http://www.springframework.org/schema/data/repository http://www.springframework.org/schema/data/repository/spring-repository-1.11.xsd">
 	
-	<context:component-scan base-package="com.revature.aes"/>
+	
 	<mvc:annotation-driven/>
-  	<mvc:resources location="/resources" mapping="/**"></mvc:resources>
+	<context:component-scan base-package="com.revature.aes"/>
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+	
+  <!--  this the old legacy way
+  reference http://www.baeldung.com/spring-mvc-static-resources and https://spring.io/blog/2014/07/24/spring-framework-4-1-handling-static-web-resources
+  <mvc:resources location="/resources/" mapping="/resources/**"></mvc:resources> 
+  -->	
 	<!-- Enable Transactions -->
 	<tx:annotation-driven/>
 	
@@ -28,12 +40,12 @@
 	<!--  Spring Data doesn't support Hibernate. But it does support JPA -->
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 	
-		<property name="dataSource" ref="myDatabase"></property>
-			<property name="packagesToScan" value="com.revature.beans"></property>
+		<property name="dataSource" ref="mydataSource"></property>
+			<property name="packagesToScan" value="com.revature.aes.beans"></property>
 			<property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter"></property>
 			<property name="jpaProperties">
 				<props>
-				<prop key="hibernate.dialect">org.hibernate.dialect.oracle10gDialect</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>
 				<prop key="hibernate.show_sql">true</prop>
 				<prop key="hibernate.format.sql">true</prop>
 				<prop key="hibernate.use_sql_comments">true</prop>

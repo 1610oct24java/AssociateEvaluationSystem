@@ -40,7 +40,7 @@ public class Template implements Serializable
 	@Id
 	@SequenceGenerator(name = "AES_TEMPLATES_SEQ", sequenceName = "AES_TEMPLATES_SEQ")
 	@GeneratedValue(generator = "AES_TEMPLATES_SEQ", strategy = GenerationType.SEQUENCE)
-	@Column(name = "TEMPLATES_ID")
+	@Column(name = "TEMPLATE_ID")
 	private Integer templateId;
 	
 	/**

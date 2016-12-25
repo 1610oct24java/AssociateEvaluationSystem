@@ -12,14 +12,28 @@
 
 package com.revature.aes.beans;
 
+
 import java.io.Serializable;
 
+import javax.persistence.AssociationOverride;
+import javax.persistence.AssociationOverrides;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+
 @Entity
 @Table(name="AES_TEMPLATE_QUESTION")
+//http://www.mkyong.com/hibernate/hibernate-many-to-many-example-join-table-extra-column-annotation/
+@AssociationOverrides({
+	@AssociationOverride(name="pk.question",
+			joinColumns = @JoinColumn(name="QUESTION_ID")),
+	@AssociationOverride(name="pk.templates",
+			joinColumns = @JoinColumn(name="TEMPLATE_ID"))
+})
 public class TemplateQuestion implements Serializable
 {
 
@@ -27,18 +41,12 @@ public class TemplateQuestion implements Serializable
 	 * @serialVersionUID An auto-generated field that is used for serialization.
 	 */
 	private static final long serialVersionUID = -8227667088089601251L;
-
-	/**
-	 * @question The question associated with the class.
-	 */
-	@JoinColumn(name="QUESTION_ID")
-	private Question question;
 	
 	/**
-	 * @template The template associated with the class.
+	 * @templateQuestionId The Unique identifier for this class (its a composite key)
 	 */
-	@JoinColumn(name="TEMPLATE_ID")
-	private Template template;
+	@EmbeddedId
+	private TemplateQuestionId tQID = new TemplateQuestionId();
 	
 	/**
 	 * @weight A Double value representing the overall weight of a question.
@@ -51,32 +59,69 @@ public class TemplateQuestion implements Serializable
 		super();
 	}
 
-	public TemplateQuestion(Question question, Template template, Double weight)
+	public TemplateQuestion(Double weight)
 	{
 		super();
-		this.question = question;
-		this.template = template;
 		this.weight = weight;
 	}
-
+	
+	public TemplateQuestionId getTemplateQuestionId(){
+		return tQID;
+	}
+	public void setTemplateQuestionId(TemplateQuestionId tQID){
+		this.tQID = tQID;
+	}
+	
+	@Transient
 	public Question getQuestion()
 	{
-		return question;
+		return getTemplateQuestionId().getQuestion();
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((tQID == null) ? 0 : tQID.hashCode());
+		result = prime * result + ((weight == null) ? 0 : weight.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TemplateQuestion other = (TemplateQuestion) obj;
+		if (tQID == null) {
+			if (other.tQID != null)
+				return false;
+		} else if (!tQID.equals(other.tQID))
+			return false;
+		if (weight == null) {
+			if (other.weight != null)
+				return false;
+		} else if (!weight.equals(other.weight))
+			return false;
+		return true;
 	}
 
 	public void setQuestion(Question question)
 	{
-		this.question = question;
+		getTemplateQuestionId().setQuestion(question);
 	}
 
 	public Template getTemplate()
 	{
-		return template;
+		return getTemplateQuestionId().getTemplate();
 	}
 
 	public void setTemplate(Template template)
 	{
-		this.template = template;
+		getTemplateQuestionId().setTemplate(template);
 	}
 
 	public Double getWeight()
@@ -89,52 +134,4 @@ public class TemplateQuestion implements Serializable
 		this.weight = weight;
 	}
 
-	@Override
-	public int hashCode()
-	{
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((question == null) ? 0 : question.hashCode());
-		result = prime * result + ((template == null) ? 0 : template.hashCode());
-		result = prime * result + ((weight == null) ? 0 : weight.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj)
-	{
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		TemplateQuestion other = (TemplateQuestion) obj;
-		if (question == null)
-		{
-			if (other.question != null)
-				return false;
-		} else if (!question.equals(other.question))
-			return false;
-		if (template == null)
-		{
-			if (other.template != null)
-				return false;
-		} else if (!template.equals(other.template))
-			return false;
-		if (weight == null)
-		{
-			if (other.weight != null)
-				return false;
-		} else if (!weight.equals(other.weight))
-			return false;
-		return true;
-	}
-
-	@Override
-	public String toString()
-	{
-		return "TemplateQuestion [question=" + question + ", template=" + template + ", weight=" + weight + "]";
-	}
-	
 }

@@ -68,6 +68,7 @@ public class Assessment implements Serializable
 	/**
 	 * @template A pre-created template to be used as the assessment.  
 	 */
+	@JoinColumn(name="TEMPLATE_ID")
 	private Template template;
 	
 	public Assessment()
