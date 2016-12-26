@@ -3,7 +3,7 @@
 var app; //the base application for angular.
 var port = ":8090"; //the port for ajax calls.
 var baseDirectory = "TestBank" //the base directory for AJAX calls.
-var domain = "http://192.168.0.15"; //the base domain for AJAX calls.
+var domain = "http://localhost"; //the base domain for AJAX calls.
 var url = domain + port + "/" + baseDirectory + "/"; //a concatenation of the domain, port, and base directory to establish a base url.  
 
 /* A JavaScript closure of a function using ES2015 concise syntax.
@@ -25,8 +25,9 @@ var url = domain + port + "/" + baseDirectory + "/"; //a concatenation of the do
 			$http.get(url+ "format")
 				.then(response => 
 				{
-					console.log(response.data);
+					console.log(response.data + " :: FL1");
 					this.formatList = response.data;
+					console.log(formatList + " :: FL2");
 				});
 		};
 		
@@ -46,8 +47,11 @@ var url = domain + port + "/" + baseDirectory + "/"; //a concatenation of the do
 		this.getQuestionList = () => 
 		{
 			$http.get(url+"question")
-				.success((response)=>{
+				.then(response=>{
+					console.log(response.data + " :: QL1");
 					this.questionList = response.data;
+					console.log(this.questionList + " :: QL2");
+					
 				});
 		};
 		

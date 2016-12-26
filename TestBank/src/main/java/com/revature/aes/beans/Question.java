@@ -31,6 +31,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "AES_QUESTION")
 public class Question implements Serializable
@@ -73,6 +75,7 @@ public class Question implements Serializable
 	 *          Note: This is only necessary for specific formats such as
 	 *          true/false, multiple choice, multiple select
 	 */
+	@JsonIgnore
 	@OneToMany
 	@JoinColumn(name="OPTION_ID")
 	private List<Option> options;
@@ -80,12 +83,14 @@ public class Question implements Serializable
 	/**
 	 * @tagList a List of tags that relates to the question.
 	 */
+	@JsonIgnore
 	@ManyToMany(mappedBy="questions")
 	private List<Tag> tags;
 	 
 	/**
 	 * @categories a List of Categories that relates to the question.
 	 */
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(
 		name="AES_QUESTION_CATEGORY"
@@ -97,16 +102,16 @@ public class Question implements Serializable
 			}
 		)
 	private List<Category> categories;
-	
+	@JsonIgnore
 	@OneToMany(mappedBy="question")
 	private List<DragAndDrop> dragAndDrops;
-	
+	@JsonIgnore
 	@OneToMany(mappedBy="question")
 	private List<UploadedFile> uploadedFiles;
-	
+	@JsonIgnore
 	@OneToMany(mappedBy="question")
 	private List<SnippetTemplate> snippetTemplates;
-
+	@JsonIgnore
 	@OneToMany(mappedBy="question")
 	private List<TemplateQuestion> templateQuestions = new ArrayList<>();;
 	
@@ -289,6 +294,12 @@ public class Question implements Serializable
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Question [questionId=" + questionId + ", questionText=" + questionText + "]";
+	}
+
 
 
 }

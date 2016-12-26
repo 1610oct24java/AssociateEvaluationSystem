@@ -55,7 +55,10 @@
 	<div ng-controller="QuestionController as qCtrl">
 		<div ng-controller="FormatController as fCtrl">
 			<select ng-model="fCtrl.format" ng-options="x.formatName for x in fCtrl.formatList"></select>
-			{{formatList[0].formatName}}
+			{{fCtrl.formatList[0].formatName}}
+			{{formatList}}
+			{{formatList[0]}}
+			
 		</div>
 	</div>	
 </main>

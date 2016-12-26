@@ -24,6 +24,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="AES_FORMATS")
 public class Format implements Serializable {
@@ -47,7 +49,7 @@ public class Format implements Serializable {
 	 */
 	@Column(name="FORMAT_NAME")
 	private String formatName;
-
+	@JsonIgnore
 	@OneToMany(mappedBy="format")
 	private List<Question> questions;
 	

@@ -29,6 +29,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name  = "AES_OPTIONS")
 public class Option implements Serializable {
@@ -67,7 +69,7 @@ public class Option implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="QUESTION_ID")
 	private Question question;
-	
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(
 		name="AES_ASSESSMENT_OPTIONS"
@@ -203,11 +205,11 @@ public class Option implements Serializable {
 	}
 
 	@Override
-	public String toString()
-	{
-		return "Option [optionID=" + optionId + ", optionText=" + optionText + ", correct=" + correct + ", question="
-				+ question + "]";
+	public String toString() {
+		return "Option [optionId=" + optionId + ", optionText=" + optionText + ", correct=" + correct + "]";
 	}
+
+
 	
 	
 	
