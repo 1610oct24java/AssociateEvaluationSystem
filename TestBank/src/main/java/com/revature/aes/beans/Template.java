@@ -14,6 +14,7 @@ package com.revature.aes.beans;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -62,7 +63,7 @@ public class Template implements Serializable
 	private List<Assessment> assessments;
 	
 	@OneToMany(mappedBy="template")
-	private List<TemplateQuestion> TemplateQuestions;
+	private List<TemplateQuestion> templateQuestions = new ArrayList<>();
 	
 	public Template()
 	{
@@ -126,27 +127,27 @@ public class Template implements Serializable
 	}
 
 	public List<TemplateQuestion> getTemplateQuestions() {
-		return TemplateQuestions;
+		return templateQuestions;
 	}
 
 	public void setTemplateQuestions(List<TemplateQuestion> templateQuestions) {
-		TemplateQuestions = templateQuestions;
+		this.templateQuestions = templateQuestions;
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((timeStamp == null) ? 0 : timeStamp.hashCode());
+		result = prime * result + ((assessments == null) ? 0 : assessments.hashCode());
 		result = prime * result + ((creator == null) ? 0 : creator.hashCode());
 		result = prime * result + ((templateId == null) ? 0 : templateId.hashCode());
+		result = prime * result + ((templateQuestions == null) ? 0 : templateQuestions.hashCode());
+		result = prime * result + ((timeStamp == null) ? 0 : timeStamp.hashCode());
 		return result;
 	}
 
 	@Override
-	public boolean equals(Object obj)
-	{
+	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -154,25 +155,34 @@ public class Template implements Serializable
 		if (getClass() != obj.getClass())
 			return false;
 		Template other = (Template) obj;
-		if (timeStamp == null)
-		{
-			if (other.timeStamp != null)
+		if (assessments == null) {
+			if (other.assessments != null)
 				return false;
-		} else if (!timeStamp.equals(other.timeStamp))
+		} else if (!assessments.equals(other.assessments))
 			return false;
-		if (creator == null)
-		{
+		if (creator == null) {
 			if (other.creator != null)
 				return false;
 		} else if (!creator.equals(other.creator))
 			return false;
-		if (templateId == null)
-		{
+		if (templateId == null) {
 			if (other.templateId != null)
 				return false;
 		} else if (!templateId.equals(other.templateId))
 			return false;
+		if (templateQuestions == null) {
+			if (other.templateQuestions != null)
+				return false;
+		} else if (!templateQuestions.equals(other.templateQuestions))
+			return false;
+		if (timeStamp == null) {
+			if (other.timeStamp != null)
+				return false;
+		} else if (!timeStamp.equals(other.timeStamp))
+			return false;
 		return true;
 	}
+
+
 	
 }

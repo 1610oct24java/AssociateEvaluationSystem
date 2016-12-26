@@ -13,9 +13,8 @@ package com.revature.aes.beans;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
 
 @Embeddable
 public class AssessmentDragAndDropId implements Serializable {
@@ -25,81 +24,76 @@ public class AssessmentDragAndDropId implements Serializable {
 	 * @serialVersionUID An auto-generated field that is used for serialization.
 	 */
 	private static final long serialVersionUID = 389943358618803605L;
-
-	/**
-	 * @dragDrop The DragAndDrop this Class is associated with.
-	 */
-	@Transient
-	@ManyToOne
-	private DragAndDrop dragDrop;
 	
-	/**
-	 * @assessment The Assessment this Class is associated with.
-	 */
-	@Transient
-	@ManyToOne
-	private Assessment assessment;
-
+	@Column(name ="fk_assessment_id")
+	private Integer assessementId;
+	
+	@Column(name="fk_dragDrop_id")
+	private Integer dragDropId;
+	
 	public AssessmentDragAndDropId() {
 		super();
 	}
 
-	public AssessmentDragAndDropId(DragAndDrop dragDrop, Assessment assessment) {
-		super();
-		this.dragDrop = dragDrop;
-		this.assessment = assessment;
-	}
 
-	public DragAndDrop getDragDrop() {
-		return dragDrop;
-	}
+public AssessmentDragAndDropId(Integer assessementId, Integer dragDropId) {
+	super();
+	this.assessementId = assessementId;
+	this.dragDropId = dragDropId;
+}
 
-	public void setDragDrop(DragAndDrop dragDrop) {
-		this.dragDrop = dragDrop;
-	}
 
-	public Assessment getAssessment() {
-		return assessment;
-	}
+public Integer getAssessementId() {
+	return assessementId;
+}
 
-	public void setAssessment(Assessment assessment) {
-		this.assessment = assessment;
-	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((assessment == null) ? 0 : assessment.hashCode());
-		result = prime * result + ((dragDrop == null) ? 0 : dragDrop.hashCode());
-		return result;
-	}
+public void setAssessementId(Integer assessementId) {
+	this.assessementId = assessementId;
+}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		AssessmentDragAndDropId other = (AssessmentDragAndDropId) obj;
-		if (assessment == null) {
-			if (other.assessment != null)
-				return false;
-		} else if (!assessment.equals(other.assessment))
-			return false;
-		if (dragDrop == null) {
-			if (other.dragDrop != null)
-				return false;
-		} else if (!dragDrop.equals(other.dragDrop))
-			return false;
+
+public Integer getDragDropId() {
+	return dragDropId;
+}
+
+
+public void setDragDropId(Integer dragDropId) {
+	this.dragDropId = dragDropId;
+}
+
+
+@Override
+public int hashCode() {
+	final int prime = 31;
+	int result = 1;
+	result = prime * result + ((assessementId == null) ? 0 : assessementId.hashCode());
+	result = prime * result + ((dragDropId == null) ? 0 : dragDropId.hashCode());
+	return result;
+}
+
+
+@Override
+public boolean equals(Object obj) {
+	if (this == obj)
 		return true;
-	}
+	if (obj == null)
+		return false;
+	if (getClass() != obj.getClass())
+		return false;
+	AssessmentDragAndDropId other = (AssessmentDragAndDropId) obj;
+	if (assessementId == null) {
+		if (other.assessementId != null)
+			return false;
+	} else if (!assessementId.equals(other.assessementId))
+		return false;
+	if (dragDropId == null) {
+		if (other.dragDropId != null)
+			return false;
+	} else if (!dragDropId.equals(other.dragDropId))
+		return false;
+	return true;
+}
 
-	@Override
-	public String toString() {
-		return "AssessmentDragAndDropId [dragDrop=" + dragDrop + ", assessment=" + assessment + "]";
-	}
 	
 }

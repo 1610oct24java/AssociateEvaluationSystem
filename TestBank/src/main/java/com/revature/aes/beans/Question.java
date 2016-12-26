@@ -13,6 +13,7 @@
 package com.revature.aes.beans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -61,7 +62,7 @@ public class Question implements Serializable
 	 *         multiple choice, multiple select...)
 	 */
 	@NotNull
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne
 	@JoinColumn(name = "QUESTION_FORMAT_ID")
 	private Format format;
 
@@ -72,7 +73,7 @@ public class Question implements Serializable
 	 *          Note: This is only necessary for specific formats such as
 	 *          true/false, multiple choice, multiple select
 	 */
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany
 	@JoinColumn(name="OPTION_ID")
 	private List<Option> options;
 	
@@ -107,7 +108,7 @@ public class Question implements Serializable
 	private List<SnippetTemplate> snippetTemplates;
 
 	@OneToMany(mappedBy="question")
-	private List<TemplateQuestion> templateQuestions;
+	private List<TemplateQuestion> templateQuestions = new ArrayList<>();;
 	
 	public Question()
 	{

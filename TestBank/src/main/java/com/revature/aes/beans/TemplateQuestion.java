@@ -29,12 +29,6 @@ import javax.persistence.Transient;
 @Entity
 @Table(name="AES_TEMPLATE_QUESTION")
 //http://www.mkyong.com/hibernate/hibernate-many-to-many-example-join-table-extra-column-annotation/
-@AssociationOverrides({
-	@AssociationOverride(name="pk.question",
-			joinColumns = @JoinColumn(name="QUESTION_ID")),
-	@AssociationOverride(name="pk.template",
-			joinColumns = @JoinColumn(name="TEMPLATE_ID"))
-})
 public class TemplateQuestion implements Serializable
 {
 
@@ -47,33 +41,40 @@ public class TemplateQuestion implements Serializable
 	 * @templateQuestionId The Unique identifier for this class (its a composite key)
 	 */
 	@EmbeddedId
-	private TemplateQuestionId tQID = new TemplateQuestionId();
+	private TemplateQuestionId tQID;
 	
 	/**
 	 * @weight A Double value representing the overall weight of a question.
 	 */
 	@Column (name = "WEIGHT")
 	private Double weight;
-
+	
 	@ManyToOne
-	@JoinColumn(name="QUESTION_ID", insertable = false, updatable = false)
+	@JoinColumn(name="fk_question_id",insertable =false, updatable = false)
 	private Question question;
-
+	
+	/**
+	 * @template The template associated with the class.
+	 */
+	
 	@ManyToOne
-	@JoinColumn(name="TEMPLATE_ID", insertable = false, updatable = false)
+	@JoinColumn(name="fk_template_id", insertable=false, updatable = false)
 	private Template template;
 	
-	public TemplateQuestion()
-	{
+	
+	
+	public TemplateQuestion() {
 		super();
-	}
-
-	public TemplateQuestion(Double weight)
-	{
-		super();
-		this.weight = weight;
 	}
 	
+	public TemplateQuestion(Double weight, Question question, Template template) {
+		this();
+		this.weight = weight;
+		this.question = question;
+		this.template = template;
+		this.tQID = new TemplateQuestionId(question.getQuestionId(), template.getTemplateId());
+	}
+
 	public TemplateQuestionId getTemplateQuestionId(){
 		return tQID;
 	}
@@ -81,27 +82,6 @@ public class TemplateQuestion implements Serializable
 		this.tQID = tQID;
 	}
 	
-	public Question getQuestion()
-	{
-		return getTemplateQuestionId().getQuestion();
-	}
-
-
-	public void setQuestion(Question question)
-	{
-		getTemplateQuestionId().setQuestion(question);
-	}
-	
-	public Template getTemplate()
-	{
-		return getTemplateQuestionId().getTemplate();
-	}
-
-	public void setTemplate(Template template)
-	{
-		getTemplateQuestionId().setTemplate(template);
-	}
-
 	public Double getWeight()
 	{
 		return weight;
@@ -141,11 +121,6 @@ public class TemplateQuestion implements Serializable
 		} else if (!weight.equals(other.weight))
 			return false;
 		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "TemplateQuestion [tQID=" + tQID + ", weight=" + weight + "]";
 	}
 
 }

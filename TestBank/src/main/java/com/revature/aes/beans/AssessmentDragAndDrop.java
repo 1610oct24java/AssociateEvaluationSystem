@@ -26,12 +26,6 @@ import javax.persistence.Transient;
 @Entity
 @Table(name="ASSESSMENT_DRAG_DROP")
 //http://www.mkyong.com/hibernate/hibernate-many-to-many-example-join-table-extra-column-annotation/
-@AssociationOverrides({
-	@AssociationOverride(name="pk.assessment",
-			joinColumns = @JoinColumn(name="ASSESSMENT_ID")),
-	@AssociationOverride(name="pk.dragDrop",
-			joinColumns = @JoinColumn(name="DRAG_DROP_ID"))
-})
 public class AssessmentDragAndDrop implements Serializable
 {
 	/**
@@ -39,26 +33,32 @@ public class AssessmentDragAndDrop implements Serializable
 	 */
 	private static final long serialVersionUID = 4357634270764791488L;
 
+
 	@EmbeddedId
-	private AssessmentDragAndDropId assessmentDragAndDropId;
+	private AssessmentDragAndDropId assessmentDragAndDropId = new AssessmentDragAndDropId();
 	/**
 	 * @userOrder A Numerical value representing the Order the user of a drag and drop assessment.
 	 */
 	@Column(name="USER_ORDER")
 	private Integer userOrder;
-
+	/**
+	 * @dragDrop The DragAndDrop this Class is associated with.
+	 */
 	@ManyToOne
-	@JoinColumn(name="ASSESSMENT_ID", insertable = false, updatable = false)
-	private Assessment assessment;
-
-	@ManyToOne
-	@JoinColumn(name="DRAG_DROP_ID", insertable = false, updatable = false)
+	@JoinColumn(name="fk_dragDrop_id", insertable = false, updatable = false)
 	private DragAndDrop dragDrop;
 	
+	/**
+	 * @assessment The Assessment this Class is associated with.
+	 */
+
+	@ManyToOne
+	@JoinColumn(name="fk_assessment_id", insertable = false, updatable = false)
+	private Assessment assessment;
+
 	public AssessmentDragAndDrop()
 	{
 		super();
-		this.assessmentDragAndDropId = new AssessmentDragAndDropId();
 	}
 
 	public AssessmentDragAndDrop(DragAndDrop dragDropId, Assessment assessment, Integer userOrder)
@@ -66,12 +66,37 @@ public class AssessmentDragAndDrop implements Serializable
 		this();
 		this.userOrder = userOrder;
 	}
+	
+	public DragAndDrop getDragDrop() {
+		return dragDrop;
+	}
+
+	public void setDragDrop(DragAndDrop dragDrop) {
+		this.dragDrop = dragDrop;
+	}
+
+	public Assessment getAssessment() {
+		return assessment;
+	}
+
+	public void setAssessmentDragAndDropId(AssessmentDragAndDropId assessmentDragAndDropId) {
+		this.assessmentDragAndDropId = assessmentDragAndDropId;
+	}
+
+	public AssessmentDragAndDrop(AssessmentDragAndDropId assessmentDragAndDropId, Integer userOrder,
+			DragAndDrop dragDrop, Assessment assessment) {
+		super();
+		this.assessmentDragAndDropId = assessmentDragAndDropId;
+		this.userOrder = userOrder;
+		this.dragDrop = dragDrop;
+		this.assessment = assessment;
+	}
 
 	public AssessmentDragAndDropId getAssessmentDragAndDropId() {
 		return assessmentDragAndDropId;
 	}
 
-	public void setaDDId(AssessmentDragAndDropId assessmentDragAndDropId) {
+	public void setAssessmentDradAndDropId(AssessmentDragAndDropId assessmentDragAndDropId) {
 		this.assessmentDragAndDropId = assessmentDragAndDropId;
 	}
 
@@ -83,29 +108,13 @@ public class AssessmentDragAndDrop implements Serializable
 		this.userOrder = userOrder;
 	}
 	
-	@Transient
-	public Assessment getAssessement(){
-		return 	assessmentDragAndDropId.getAssessment();
-		}
-	
-	public void setAssessment(Assessment assessment){
-		assessmentDragAndDropId.setAssessment(assessment);
-	}
-	
-	@Transient
-	public DragAndDrop getADDIdDragAndDrop(){
-		return assessmentDragAndDropId.getDragDrop();
-	}
-	
-	public void setADDIdDragAndDrop(DragAndDrop dragAndDrop){
-		assessmentDragAndDropId.setDragDrop(dragAndDrop);
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((assessment == null) ? 0 : assessment.hashCode());
 		result = prime * result + ((assessmentDragAndDropId == null) ? 0 : assessmentDragAndDropId.hashCode());
+		result = prime * result + ((dragDrop == null) ? 0 : dragDrop.hashCode());
 		result = prime * result + ((userOrder == null) ? 0 : userOrder.hashCode());
 		return result;
 	}
@@ -119,10 +128,20 @@ public class AssessmentDragAndDrop implements Serializable
 		if (getClass() != obj.getClass())
 			return false;
 		AssessmentDragAndDrop other = (AssessmentDragAndDrop) obj;
+		if (assessment == null) {
+			if (other.assessment != null)
+				return false;
+		} else if (!assessment.equals(other.assessment))
+			return false;
 		if (assessmentDragAndDropId == null) {
 			if (other.assessmentDragAndDropId != null)
 				return false;
 		} else if (!assessmentDragAndDropId.equals(other.assessmentDragAndDropId))
+			return false;
+		if (dragDrop == null) {
+			if (other.dragDrop != null)
+				return false;
+		} else if (!dragDrop.equals(other.dragDrop))
 			return false;
 		if (userOrder == null) {
 			if (other.userOrder != null)

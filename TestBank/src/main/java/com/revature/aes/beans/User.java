@@ -97,7 +97,7 @@ public class User implements Serializable
 	/**
 	 * @userTrainers A set of Users that is used to determine the trainer(s) of the user(s)
 	 */
-	@ManyToMany(fetch=FetchType.EAGER)
+	@ManyToMany
 	@JoinTable(name="AES_USER_TRAINERS",
 				joinColumns=@JoinColumn(name="TRAINER_ID"),
 				inverseJoinColumns=@JoinColumn(name="USER_ID"))

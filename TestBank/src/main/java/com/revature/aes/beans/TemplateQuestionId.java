@@ -13,6 +13,7 @@ package com.revature.aes.beans;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
@@ -28,49 +29,32 @@ public class TemplateQuestionId implements Serializable {
 	/**
 	 * @question The question associated with the class.
 	 */
-	@Transient
-	@ManyToOne
-	private Question question;
+	@Column(name="fk_question_id")
+	private Integer questionid;
+	
 	
 	/**
 	 * @template The template associated with the class.
 	 */
-	@Transient
-	@ManyToOne
-	private Template template;
+	@Column(name="fk_template_id")
+	private Integer templateid;
 
 	public TemplateQuestionId() {
 		super();
 	}
-
-	public TemplateQuestionId(Question question, Template template) {
+	
+	public TemplateQuestionId(Integer questionid, Integer templateid) {
 		super();
-		this.question = question;
-		this.template = template;
-	}
-
-	public Question getQuestion() {
-		return question;
-	}
-
-	public void setQuestion(Question question) {
-		this.question = question;
-	}
-
-	public Template getTemplate() {
-		return template;
-	}
-
-	public void setTemplate(Template template) {
-		this.template = template;
+		this.questionid = questionid;
+		this.templateid = templateid;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((question == null) ? 0 : question.hashCode());
-		result = prime * result + ((template == null) ? 0 : template.hashCode());
+		result = prime * result + ((questionid == null) ? 0 : questionid.hashCode());
+		result = prime * result + ((templateid == null) ? 0 : templateid.hashCode());
 		return result;
 	}
 
@@ -83,22 +67,20 @@ public class TemplateQuestionId implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		TemplateQuestionId other = (TemplateQuestionId) obj;
-		if (question == null) {
-			if (other.question != null)
+		if (questionid == null) {
+			if (other.questionid != null)
 				return false;
-		} else if (!question.equals(other.question))
+		} else if (!questionid.equals(other.questionid))
 			return false;
-		if (template == null) {
-			if (other.template != null)
+		if (templateid == null) {
+			if (other.templateid != null)
 				return false;
-		} else if (!template.equals(other.template))
+		} else if (!templateid.equals(other.templateid))
 			return false;
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "TemplateQuestionId [question=" + question + ", template=" + template + "]";
-	}
+	
+
 	
 }
