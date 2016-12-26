@@ -16,13 +16,14 @@ var url = domain + port + "/" + baseDirectory + "/"; //a concatenation of the do
 	app = angular.module('app', []); 
 	
 	app = angular.controller('FormatController', ($http) =>
-	{
+	{	
+		
 		this.formatList = [];
 		this.format = {};
 		this.getFormatList = () =>
 		{
 			$http.get(url+ "format")
-				.then(response => 
+				.success(response => 
 				{
 					this.formatList = response.data;
 				});
@@ -47,9 +48,33 @@ var url = domain + port + "/" + baseDirectory + "/"; //a concatenation of the do
 				.success((response)=>{
 					this.questionList = response.data;
 				});
-		}
+		};
 		
-		getQuestionList();
+		this.addQuestion = () => 
+		{
+			$http.post(url+"question", question)
+				.success((response) => {
+					this.question = response.data;
+					if(question == null){
+						alert("Error Saving Question Please Try Again")
+					} else {
+						this.getQuestionList();
+						this.question = {};
+					}
+				});
+		};
+		
+		this.deleteQuestion = () => 
+		{
+			$http.delete(url + "question/" + question.id)
+				.success((response) => {
+					this.getQuestionList();
+				})
+				.error(()=>{
+					alert("unable to properly delete the question");
+				});
+		};
+		this.getQuestionList();
 	});
 })  //the end of the closure
 (); //invoking the function within the closure.
