@@ -13,12 +13,14 @@
 package com.revature.aes.beans;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -45,6 +47,8 @@ public class Category implements Serializable
 	@Column(name="CATEGORY_NAME")
 	private String name;
 
+	@ManyToMany(mappedBy="categories")
+	private List<Question> questions;
 	public Category()
 	{
 		super();
@@ -77,6 +81,14 @@ public class Category implements Serializable
 		this.name = name;
 	}
 	
+	public List<Question> getQuestions() {
+		return questions;
+	}
+
+	public void setQuestions(List<Question> questions) {
+		this.questions = questions;
+	}
+
 	@Override
 	public int hashCode()
 	{
@@ -112,12 +124,6 @@ public class Category implements Serializable
 		return true;
 	}
 
-	@Override
-	public String toString()
-	{
-		return "Category [categoryId=" + categoryId + ", name=" + name + "]";
-	}
-	
 	
 	
 	

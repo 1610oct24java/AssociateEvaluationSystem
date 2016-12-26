@@ -19,6 +19,7 @@ import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -26,10 +27,10 @@ import javax.persistence.Transient;
 @Table(name="ASSESSMENT_DRAG_DROP")
 //http://www.mkyong.com/hibernate/hibernate-many-to-many-example-join-table-extra-column-annotation/
 @AssociationOverrides({
-	@AssociationOverride(name="pk.dragAndDrop",
-			joinColumns = @JoinColumn(name="DRAG_DROP_ID")),
 	@AssociationOverride(name="pk.assessment",
-			joinColumns = @JoinColumn(name="ASSESSMENT_ID"))
+			joinColumns = @JoinColumn(name="ASSESSMENT_ID")),
+	@AssociationOverride(name="pk.dragDrop",
+			joinColumns = @JoinColumn(name="DRAG_DROP_ID"))
 })
 public class AssessmentDragAndDrop implements Serializable
 {
@@ -37,18 +38,27 @@ public class AssessmentDragAndDrop implements Serializable
 	 * @serialVersionUID An auto-generated field that is used for serialization.
 	 */
 	private static final long serialVersionUID = 4357634270764791488L;
-	
+
 	@EmbeddedId
-	private AssessmentDragAndDropId aDDId = new AssessmentDragAndDropId();
+	private AssessmentDragAndDropId assessmentDragAndDropId;
 	/**
 	 * @userOrder A Numerical value representing the Order the user of a drag and drop assessment.
 	 */
 	@Column(name="USER_ORDER")
 	private Integer userOrder;
 
+	@ManyToOne
+	@JoinColumn(name="ASSESSMENT_ID", insertable = false, updatable = false)
+	private Assessment assessment;
+
+	@ManyToOne
+	@JoinColumn(name="DRAG_DROP_ID", insertable = false, updatable = false)
+	private DragAndDrop dragDrop;
+	
 	public AssessmentDragAndDrop()
 	{
 		super();
+		this.assessmentDragAndDropId = new AssessmentDragAndDropId();
 	}
 
 	public AssessmentDragAndDrop(DragAndDrop dragDropId, Assessment assessment, Integer userOrder)
@@ -57,12 +67,12 @@ public class AssessmentDragAndDrop implements Serializable
 		this.userOrder = userOrder;
 	}
 
-	public AssessmentDragAndDropId getaDDId() {
-		return aDDId;
+	public AssessmentDragAndDropId getAssessmentDragAndDropId() {
+		return assessmentDragAndDropId;
 	}
 
-	public void setaDDId(AssessmentDragAndDropId aDDId) {
-		this.aDDId = aDDId;
+	public void setaDDId(AssessmentDragAndDropId assessmentDragAndDropId) {
+		this.assessmentDragAndDropId = assessmentDragAndDropId;
 	}
 
 	public Integer getUserOrder() {
@@ -74,28 +84,28 @@ public class AssessmentDragAndDrop implements Serializable
 	}
 	
 	@Transient
-	public Assessment getADDIdAssessement(){
-		return getaDDId().getAssessment();
-	}
+	public Assessment getAssessement(){
+		return 	assessmentDragAndDropId.getAssessment();
+		}
 	
 	public void setAssessment(Assessment assessment){
-		getaDDId().setAssessment(assessment);
+		assessmentDragAndDropId.setAssessment(assessment);
 	}
 	
 	@Transient
 	public DragAndDrop getADDIdDragAndDrop(){
-		return getaDDId().getDragDrop();
+		return assessmentDragAndDropId.getDragDrop();
 	}
 	
 	public void setADDIdDragAndDrop(DragAndDrop dragAndDrop){
-		getaDDId().setDragDrop(dragAndDrop);
+		assessmentDragAndDropId.setDragDrop(dragAndDrop);
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((aDDId == null) ? 0 : aDDId.hashCode());
+		result = prime * result + ((assessmentDragAndDropId == null) ? 0 : assessmentDragAndDropId.hashCode());
 		result = prime * result + ((userOrder == null) ? 0 : userOrder.hashCode());
 		return result;
 	}
@@ -109,10 +119,10 @@ public class AssessmentDragAndDrop implements Serializable
 		if (getClass() != obj.getClass())
 			return false;
 		AssessmentDragAndDrop other = (AssessmentDragAndDrop) obj;
-		if (aDDId == null) {
-			if (other.aDDId != null)
+		if (assessmentDragAndDropId == null) {
+			if (other.assessmentDragAndDropId != null)
 				return false;
-		} else if (!aDDId.equals(other.aDDId))
+		} else if (!assessmentDragAndDropId.equals(other.assessmentDragAndDropId))
 			return false;
 		if (userOrder == null) {
 			if (other.userOrder != null)
@@ -121,12 +131,5 @@ public class AssessmentDragAndDrop implements Serializable
 			return false;
 		return true;
 	}
-
-	@Override
-	public String toString() {
-		return "AssessmentDragAndDrop [aDDId=" + aDDId + ", userOrder=" + userOrder + "]";
-	}
-	
-	
 	
 }

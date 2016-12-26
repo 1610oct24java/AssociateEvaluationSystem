@@ -19,7 +19,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -52,19 +52,19 @@ public class UploadedFile implements Serializable
 	 * @grade A Double value representing the grade an associate gets for the uploaded file.
 	 */
 	@Column(name="GRADE")
-	private Double grade;
+	private Integer grade;
 	
 	/**
 	 * @question The Question associated with the class.
 	 */
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name="QUESTION_ID")
 	private Question question;
 	
 	/**
 	 * @assessment The Assessment associated with the class.
 	 */
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name="ASSESSMENT_ID")
 	private Assessment assessment;
 
@@ -74,7 +74,7 @@ public class UploadedFile implements Serializable
 		super();
 	}
 	
-	public UploadedFile(Integer fileId, String fileURL, Double grade, Question question, Assessment assessment)
+	public UploadedFile(Integer fileId, String fileURL, Integer grade, Question question, Assessment assessment)
 	{
 		super();
 		this.fileId = fileId;
@@ -104,12 +104,12 @@ public class UploadedFile implements Serializable
 		this.fileURL = fileURL;
 	}
 
-	public Double getGrade()
+	public Integer getGrade()
 	{
 		return grade;
 	}
 
-	public void setGrade(Double grade)
+	public void setGrade(Integer grade)
 	{
 		this.grade = grade;
 	}

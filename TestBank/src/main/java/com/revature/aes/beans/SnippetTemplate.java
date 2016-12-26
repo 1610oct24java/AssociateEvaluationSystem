@@ -13,6 +13,7 @@
 package com.revature.aes.beans;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,7 +21,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 @Entity
@@ -45,10 +48,18 @@ public class SnippetTemplate implements Serializable
 	/**
 	 * @question The question this class is associated with.
 	 */
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name="QUESTION_ID")
 	private Question question;
 	
+	public List<Assessment> getAssessments() {
+		return assessments;
+	}
+
+	public void setAssessments(List<Assessment> assessments) {
+		this.assessments = assessments;
+	}
+
 	/**
 	 * @fileType The type of file to be saved to an S3 Bucket. 
 	 */
@@ -69,6 +80,18 @@ public class SnippetTemplate implements Serializable
 	@Column(name="SOLUTION_URL")
 	private String solutionURL;
 	
+	@ManyToMany
+	@JoinTable(
+		name="AES_SNIPPET_RESPONSE"
+		, joinColumns={
+			@JoinColumn(name="SNIPPET_TEMPLATE_ID")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="ASSESSMENT_ID")
+			}
+		)
+	private List<Assessment> assessments;
+
 	public SnippetTemplate()
 	{
 		super();
@@ -191,13 +214,6 @@ public class SnippetTemplate implements Serializable
 		return true;
 	}
 
-	@Override
-	public String toString()
-	{
-		return "SnippetTemplate [snippetTemplateId=" + snippetTemplateId + ", question=" + question + ", fileType="
-				+ fileType + ", snippetTemplateURL=" + snippetTemplateURL + ", solutionURL=" + solutionURL + "]";
-	}
-	
 	
 	
 	

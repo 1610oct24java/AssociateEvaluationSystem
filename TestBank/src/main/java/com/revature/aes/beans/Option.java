@@ -13,6 +13,7 @@
 package com.revature.aes.beans;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,6 +21,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
@@ -60,9 +64,21 @@ public class Option implements Serializable {
 	/**
 	 * @question The question associated with this class.
 	 */
+	@ManyToOne
 	@JoinColumn(name="QUESTION_ID")
 	private Question question;
 	
+	@ManyToMany
+	@JoinTable(
+		name="AES_ASSESSMENT_OPTIONS"
+		, joinColumns={
+			@JoinColumn(name="OPTION_ID")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="ASSESSMENT_ID")
+			}
+		)
+	private List<Assessment> assessments;
 	public Option() {
 		super();
 	}
@@ -119,6 +135,22 @@ public class Option implements Serializable {
 	public void setQuestion(Question question)
 	{
 		this.question = question;
+	}
+
+	public Integer getOptionId() {
+		return optionId;
+	}
+
+	public void setOptionId(Integer optionId) {
+		this.optionId = optionId;
+	}
+
+	public List<Assessment> getAssessments() {
+		return assessments;
+	}
+
+	public void setAssessments(List<Assessment> assessments) {
+		this.assessments = assessments;
 	}
 
 	@Override

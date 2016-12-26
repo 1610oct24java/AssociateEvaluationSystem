@@ -21,6 +21,7 @@ import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -31,7 +32,7 @@ import javax.persistence.Transient;
 @AssociationOverrides({
 	@AssociationOverride(name="pk.question",
 			joinColumns = @JoinColumn(name="QUESTION_ID")),
-	@AssociationOverride(name="pk.templates",
+	@AssociationOverride(name="pk.template",
 			joinColumns = @JoinColumn(name="TEMPLATE_ID"))
 })
 public class TemplateQuestion implements Serializable
@@ -54,6 +55,14 @@ public class TemplateQuestion implements Serializable
 	@Column (name = "WEIGHT")
 	private Double weight;
 
+	@ManyToOne
+	@JoinColumn(name="QUESTION_ID", insertable = false, updatable = false)
+	private Question question;
+
+	@ManyToOne
+	@JoinColumn(name="TEMPLATE_ID", insertable = false, updatable = false)
+	private Template template;
+	
 	public TemplateQuestion()
 	{
 		super();
@@ -72,7 +81,6 @@ public class TemplateQuestion implements Serializable
 		this.tQID = tQID;
 	}
 	
-	@Transient
 	public Question getQuestion()
 	{
 		return getTemplateQuestionId().getQuestion();
@@ -83,7 +91,7 @@ public class TemplateQuestion implements Serializable
 	{
 		getTemplateQuestionId().setQuestion(question);
 	}
-	@Transient
+	
 	public Template getTemplate()
 	{
 		return getTemplateQuestionId().getTemplate();

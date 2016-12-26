@@ -12,6 +12,7 @@
 package com.revature.aes.beans;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,6 +20,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -27,7 +29,6 @@ import javax.persistence.Table;
 @Table(name="AES_DRAG_DROP")
 public class DragAndDrop implements Serializable
 {
-
 	/**
 	 * @serialVersionUID An auto-generated field that is used for serialization.
 	 */
@@ -60,6 +61,9 @@ public class DragAndDrop implements Serializable
 	 */
 	@Column(name="CORRECT_ORDER")
 	private Integer correctOrder;
+	
+	@OneToMany(mappedBy="dragDrop")
+	private List<AssessmentDragAndDrop> assessmentDragAndDrops;
 	
 	public DragAndDrop()
 	{
@@ -115,6 +119,14 @@ public class DragAndDrop implements Serializable
 		this.correctOrder = correctOrder;
 	}
 
+	public List<AssessmentDragAndDrop> getAssessmentDragAndDrops() {
+		return assessmentDragAndDrops;
+	}
+
+	public void setAssessmentDragAndDrops(List<AssessmentDragAndDrop> assessmentDragAndDrops) {
+		this.assessmentDragAndDrops = assessmentDragAndDrops;
+	}
+
 	@Override
 	public int hashCode()
 	{
@@ -162,13 +174,6 @@ public class DragAndDrop implements Serializable
 		} else if (!question.equals(other.question))
 			return false;
 		return true;
-	}
-
-	@Override
-	public String toString()
-	{
-		return "DragAndDrop [dragDropId=" + dragDropId + ", question=" + question + ", dragDropText=" + dragDropText
-				+ ", correctOrder=" + correctOrder + "]";
 	}
 	
 	

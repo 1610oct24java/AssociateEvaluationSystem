@@ -22,6 +22,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -61,7 +62,7 @@ public class Question implements Serializable
 	 */
 	@NotNull
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "FORMAT_ID")
+	@JoinColumn(name = "QUESTION_FORMAT_ID")
 	private Format format;
 
 	/**
@@ -71,22 +72,43 @@ public class Question implements Serializable
 	 *          Note: This is only necessary for specific formats such as
 	 *          true/false, multiple choice, multiple select
 	 */
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.EAGER)
+	@JoinColumn(name="OPTION_ID")
 	private List<Option> options;
-	
-	/**
-	 * @categoryList a List of Categories that relates to the question.
-	 */
-	@ManyToMany(fetch = FetchType.LAZY)
-	private List<Category> categoryList;
 	
 	/**
 	 * @tagList a List of tags that relates to the question.
 	 */
-	@ManyToMany(fetch = FetchType.LAZY)
-	private List<Tag> tagList;
+	@ManyToMany(mappedBy="questions")
+	private List<Tag> tags;
 	 
+	/**
+	 * @categories a List of Categories that relates to the question.
+	 */
+	@ManyToMany
+	@JoinTable(
+		name="AES_QUESTION_CATEGORY"
+		, joinColumns={
+			@JoinColumn(name="QUESTION_ID")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="CATEGORY_ID")
+			}
+		)
+	private List<Category> categories;
+	
+	@OneToMany(mappedBy="question")
+	private List<DragAndDrop> dragAndDrops;
+	
+	@OneToMany(mappedBy="question")
+	private List<UploadedFile> uploadedFiles;
+	
+	@OneToMany(mappedBy="question")
+	private List<SnippetTemplate> snippetTemplates;
 
+	@OneToMany(mappedBy="question")
+	private List<TemplateQuestion> templateQuestions;
+	
 	public Question()
 	{
 		super();
@@ -105,8 +127,8 @@ public class Question implements Serializable
 		this.questionText = questionText;
 		this.format = format;
 		this.options = options;
-		this.categoryList = categoryList;
-		this.tagList = tagList;
+		this.categories = categoryList;
+		this.tags = tagList;
 	}
 
 	public int getQuestionId()
@@ -149,29 +171,59 @@ public class Question implements Serializable
 		this.options = options;
 	}
 	
-	public List<Category> getCategoryList()
-	{
-		return categoryList;
-	}
-
-	public void setCategoryList(List<Category> categoryList)
-	{
-		this.categoryList = categoryList;
-	}
-
-	public List<Tag> getTagList()
-	{
-		return tagList;
-	}
-
-	public void setTagList(List<Tag> tagList)
-	{
-		this.tagList = tagList;
-	}
-
 	public void setQuestionId(Integer questionId)
 	{
 		this.questionId = questionId;
+	}
+
+	public List<Category> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
+	}
+
+	public List<DragAndDrop> getDragAndDrops() {
+		return dragAndDrops;
+	}
+
+	public void setDragAndDrops(List<DragAndDrop> dragAndDrops) {
+		this.dragAndDrops = dragAndDrops;
+	}
+	
+	
+
+	public List<Tag> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
+	}
+
+	public List<UploadedFile> getUploadedFiles() {
+		return uploadedFiles;
+	}
+
+	public void setUploadedFiles(List<UploadedFile> uploadedFiles) {
+		this.uploadedFiles = uploadedFiles;
+	}
+
+	public List<SnippetTemplate> getSnippetTemplates() {
+		return snippetTemplates;
+	}
+
+	public void setSnippetTemplates(List<SnippetTemplate> snippetTemplates) {
+		this.snippetTemplates = snippetTemplates;
+	}
+
+	public List<TemplateQuestion> getTemplateQuestions() {
+		return templateQuestions;
+	}
+
+	public void setTemplateQuestions(List<TemplateQuestion> templateQuestions) {
+		this.templateQuestions = templateQuestions;
 	}
 
 	@Override
@@ -179,12 +231,12 @@ public class Question implements Serializable
 	{
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((categoryList == null) ? 0 : categoryList.hashCode());
+		result = prime * result + ((categories == null) ? 0 : categories.hashCode());
 		result = prime * result + ((format == null) ? 0 : format.hashCode());
 		result = prime * result + ((options == null) ? 0 : options.hashCode());
 		result = prime * result + ((questionId == null) ? 0 : questionId.hashCode());
 		result = prime * result + ((questionText == null) ? 0 : questionText.hashCode());
-		result = prime * result + ((tagList == null) ? 0 : tagList.hashCode());
+		result = prime * result + ((tags == null) ? 0 : tags.hashCode());
 		return result;
 	}
 
@@ -198,11 +250,11 @@ public class Question implements Serializable
 		if (getClass() != obj.getClass())
 			return false;
 		Question other = (Question) obj;
-		if (categoryList == null)
+		if (categories == null)
 		{
-			if (other.categoryList != null)
+			if (other.categories != null)
 				return false;
-		} else if (!categoryList.equals(other.categoryList))
+		} else if (!categories.equals(other.categories))
 			return false;
 		if (format == null)
 		{
@@ -228,21 +280,13 @@ public class Question implements Serializable
 				return false;
 		} else if (!questionText.equals(other.questionText))
 			return false;
-		if (tagList == null)
+		if (tags == null)
 		{
-			if (other.tagList != null)
+			if (other.tags != null)
 				return false;
-		} else if (!tagList.equals(other.tagList))
+		} else if (!tags.equals(other.tags))
 			return false;
 		return true;
-	}
-
-	@Override
-	public String toString()
-	{
-		return "Question [questionId=" + questionId + ", questionText=" + questionText + ", format=" + format
-				+ ", options=" + options + ", categoryList=" + categoryList
-				+ ", tagList=" + tagList + "]";
 	}
 
 

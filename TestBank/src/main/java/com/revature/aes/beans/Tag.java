@@ -13,12 +13,16 @@
 package com.revature.aes.beans;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -46,6 +50,18 @@ public class Tag implements Serializable
 	@Column(name="TAG_NAME")
 	private String tagName;
 
+	@ManyToMany
+	@JoinTable(
+		name="AES_QUESTION_TAG"
+		, joinColumns={
+			@JoinColumn(name="TAG_ID")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="QUESTION_ID")
+			}
+		)
+	private List<Question> questions;
+	
 	public Tag()
 	{
 		super();
@@ -76,6 +92,15 @@ public class Tag implements Serializable
 	public void setTagName(String tagName)
 	{
 		this.tagName = tagName;
+	}
+
+	
+	public List<Question> getQuestions() {
+		return questions;
+	}
+
+	public void setQuestions(List<Question> questions) {
+		this.questions = questions;
 	}
 
 	@Override
@@ -112,14 +137,5 @@ public class Tag implements Serializable
 			return false;
 		return true;
 	}
-
-	@Override
-	public String toString()
-	{
-		return "Tag [tagId=" + tagId + ", tagName=" + tagName + "]";
-	}
-	
-	
-	
 	
 }

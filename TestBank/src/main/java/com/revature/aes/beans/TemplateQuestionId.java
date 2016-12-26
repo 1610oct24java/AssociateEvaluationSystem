@@ -15,6 +15,7 @@ import java.io.Serializable;
 
 import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 @Embeddable
 public class TemplateQuestionId implements Serializable {
@@ -27,12 +28,14 @@ public class TemplateQuestionId implements Serializable {
 	/**
 	 * @question The question associated with the class.
 	 */
+	@Transient
 	@ManyToOne
 	private Question question;
 	
 	/**
 	 * @template The template associated with the class.
 	 */
+	@Transient
 	@ManyToOne
 	private Template template;
 

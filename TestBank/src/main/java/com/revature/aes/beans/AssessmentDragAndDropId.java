@@ -15,6 +15,7 @@ import java.io.Serializable;
 
 import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 @Embeddable
 public class AssessmentDragAndDropId implements Serializable {
@@ -28,12 +29,14 @@ public class AssessmentDragAndDropId implements Serializable {
 	/**
 	 * @dragDrop The DragAndDrop this Class is associated with.
 	 */
+	@Transient
 	@ManyToOne
 	private DragAndDrop dragDrop;
 	
 	/**
 	 * @assessment The Assessment this Class is associated with.
 	 */
+	@Transient
 	@ManyToOne
 	private Assessment assessment;
 

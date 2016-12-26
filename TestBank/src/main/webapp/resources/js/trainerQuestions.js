@@ -15,7 +15,7 @@ var url = domain + port + "/" + baseDirectory + "/"; //a concatenation of the do
 	//creating the module for the base application whose name is 'app'
 	app = angular.module('app', []); 
 	
-	app = angular.controller('FormatController', ($http) =>
+    app.controller('FormatController', ($http) =>
 	{	
 		
 		this.formatList = [];
@@ -23,8 +23,9 @@ var url = domain + port + "/" + baseDirectory + "/"; //a concatenation of the do
 		this.getFormatList = () =>
 		{
 			$http.get(url+ "format")
-				.success(response => 
+				.then(response => 
 				{
+					console.log(response.data);
 					this.formatList = response.data;
 				});
 		};
@@ -38,7 +39,7 @@ var url = domain + port + "/" + baseDirectory + "/"; //a concatenation of the do
 
 	});
 	
-	app = angular.controller('QuestionController', ($http)=>
+	app.controller('QuestionController', ($http)=>
 	{
 		this.questionList = [];
 		this.question = {};

@@ -14,6 +14,7 @@ package com.revature.aes.beans;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,6 +23,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 @Entity
@@ -53,9 +55,15 @@ public class Template implements Serializable
 	 * @creator The creator of the template.
 	 */
 	@ManyToOne
-	@JoinColumn(name="USER_ID")
+	@JoinColumn(name="CREATOR_ID")
 	private User creator;
 
+	@OneToMany(mappedBy="template")
+	private List<Assessment> assessments;
+	
+	@OneToMany(mappedBy="template")
+	private List<TemplateQuestion> TemplateQuestions;
+	
 	public Template()
 	{
 		super();
@@ -99,6 +107,32 @@ public class Template implements Serializable
 		this.creator = creator;
 	}
 
+	
+	
+	public Timestamp getTimeStamp() {
+		return timeStamp;
+	}
+
+	public void setTimeStamp(Timestamp timeStamp) {
+		this.timeStamp = timeStamp;
+	}
+
+	public List<Assessment> getAssessments() {
+		return assessments;
+	}
+
+	public void setAssessments(List<Assessment> assessments) {
+		this.assessments = assessments;
+	}
+
+	public List<TemplateQuestion> getTemplateQuestions() {
+		return TemplateQuestions;
+	}
+
+	public void setTemplateQuestions(List<TemplateQuestion> templateQuestions) {
+		TemplateQuestions = templateQuestions;
+	}
+
 	@Override
 	public int hashCode()
 	{
@@ -140,15 +174,5 @@ public class Template implements Serializable
 			return false;
 		return true;
 	}
-
-	@Override
-	public String toString()
-	{
-		return "Template [templateId=" + templateId + ", createTimeStamp=" + timeStamp + ", creator=" + creator
-				+ "]";
-	}
-	
-	
-	
 	
 }

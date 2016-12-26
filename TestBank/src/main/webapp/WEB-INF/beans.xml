@@ -49,6 +49,7 @@
 				<prop key="hibernate.show_sql">true</prop>
 				<prop key="hibernate.format.sql">true</prop>
 				<prop key="hibernate.use_sql_comments">true</prop>
+				<prop key="hibernate.enable_lazy_load_no_trans">true</prop>
 				</props>
 			</property>
 	</bean>

@@ -15,6 +15,7 @@ package com.revature.aes.beans;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -28,7 +29,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -79,20 +79,13 @@ public class User implements Serializable
 	 * @recruiter The assigned recruiter of the User if applicable.
 	 * If null then the User role should be a Trainer or a Recruiter 
 	 */
-	@ManyToOne
-	@JoinColumn(name="RECRUITER_ID")
-	private User recruiter;
-	
-	/**
-	 * @associates The associates related to the recruiter
-	 */
-	@OneToMany(mappedBy="recruiter")
-	private Set<User> associates = new HashSet<User>();
+	@Column(name="RECRUITER_ID")
+	private Integer recruiter;
 	
 	/**
 	 * @role The role of the User.
 	 */
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name="ROLE_ID")
 	private Roles role;
 	
@@ -106,17 +99,29 @@ public class User implements Serializable
 	 */
 	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name="AES_USER_TRAINERS",
-				joinColumns=@JoinColumn(name="USER_ID"),
-				inverseJoinColumns=@JoinColumn(name="TRAINER_ID"))
-	private Set<User> usersTrainers;
+				joinColumns=@JoinColumn(name="TRAINER_ID"),
+				inverseJoinColumns=@JoinColumn(name="USER_ID"))
+	private List<User> usersTrainers;
+	
+	@OneToMany(mappedBy="user")
+	private List<Assessment> assessments;
+	
+	@OneToMany(mappedBy="creator")
+	private List<Template> templates;
+	
+	/**
+	 * @associates The associates related to the trainer
+	 */
+	@ManyToMany(mappedBy="usersTrainers")
+	private List<User> associates;
 	
 	public User()
 	{
 		super();
 	}
 
-	public User(Integer userId, String email, String firstname, String lastname, Integer salesForce, User recruiter,
-			Roles role, LocalDate passwordIssueDate, Set<User> usersTrainers) {
+	public User(Integer userId, String email, String firstname, String lastname, Integer salesForce, Integer recruiter,
+			Roles role, LocalDate passwordIssueDate, List<User> usersTrainers) {
 		super();
 		this.userId = userId;
 		this.email = email;
@@ -169,13 +174,6 @@ public class User implements Serializable
 		this.salesForce = salesForce;
 	}
 
-	public User getRecruiter() {
-		return recruiter;
-	}
-
-	public void setRecruiter(User recruiter) {
-		this.recruiter = recruiter;
-	}
 
 	public Roles getRole() {
 		return role;
@@ -193,12 +191,44 @@ public class User implements Serializable
 		this.passwordIssueDate = passwordIssueDate;
 	}
 
-	public Set<User> getUsersTrainers() {
+	public List<User> getUsersTrainers() {
 		return usersTrainers;
 	}
 
-	public void setUsersTrainers(Set<User> usersTrainers) {
+	public void setUsersTrainers(List<User> usersTrainers) {
 		this.usersTrainers = usersTrainers;
+	}
+
+	public Integer getRecruiter() {
+		return recruiter;
+	}
+
+	public void setRecruiter(Integer recruiter) {
+		this.recruiter = recruiter;
+	}
+
+	public List<Assessment> getAssessments() {
+		return assessments;
+	}
+
+	public void setAssessments(List<Assessment> assessments) {
+		this.assessments = assessments;
+	}
+
+	public List<Template> getTemplates() {
+		return templates;
+	}
+
+	public void setTemplates(List<Template> templates) {
+		this.templates = templates;
+	}
+
+	public List<User> getAssociates() {
+		return associates;
+	}
+
+	public void setAssociates(List<User> associates) {
+		this.associates = associates;
 	}
 
 	@Override
@@ -273,13 +303,5 @@ public class User implements Serializable
 			return false;
 		return true;
 	}
-
-	@Override
-	public String toString() {
-		return "User [userId=" + userId + ", email=" + email + ", firstname=" + firstname + ", lastname=" + lastname
-				+ ", salesForce=" + salesForce + ", recruiter=" + recruiter + ", role=" + role + ", passwordIssueDate="
-				+ passwordIssueDate + ", usersTrainers=" + usersTrainers + "]";
-	}
-	
 	
 }

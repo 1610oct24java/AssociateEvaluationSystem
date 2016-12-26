@@ -28,8 +28,7 @@
           <div id="navbar" class="navbar-collapse collapse rev-menu">
             <div class="menu-header-menu-container">
               <ul id="menu-header-menu" class="nav navbar-nav">
-              	<li id="menu-item-aes-trainer-home" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-aes-trainer-home">
-<!-- need URL for anchor -->     	
+              	<li id="menu-item-aes-trainer-home" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-aes-trainer-home">   	
               	<a href="trainerHome.html">TRAINER HOME</a>
               	</li>
               	<li id="menu-item-aes-trainer-questions" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-aes-trainer-questions">
@@ -53,16 +52,16 @@
   </div>
 
 <main ng-app="app" class="container">
-	<div ng-controller="QuestionController As qCtrl">
-		<div ng-controller="FormatController As fCtrl">
-			<select ng-model="fCtrl.format" ng-options="x for x in fCtrl.formatList"></select>
-		
+	<div ng-controller="QuestionController as qCtrl">
+		<div ng-controller="FormatController as fCtrl">
+			<select ng-model="fCtrl.format" ng-options="x.formatName for x in fCtrl.formatList"></select>
+			{{formatList[0].formatName}}
 		</div>
 	</div>	
 </main>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.3.3/ui-bootstrap-tpls.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.3.3/ui-bootstrap.min.js"></script>
-<script type="text/javascript" src="resources/js/trainer-questions.js"></script>
+<script type="text/javascript" src="../js/trainerQuestions.js"></script>
 </body>
 </html>
