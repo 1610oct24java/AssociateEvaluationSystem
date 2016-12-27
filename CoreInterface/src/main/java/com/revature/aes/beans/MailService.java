@@ -26,7 +26,7 @@ public class MailService {
 	
     public Boolean sendEmail(SimpleMailMessage msg) {	
     	Logger logger = Logger.getAnonymousLogger();
-
+//for richard
         try{
         	mailSender.send(msg);
         	return true;
