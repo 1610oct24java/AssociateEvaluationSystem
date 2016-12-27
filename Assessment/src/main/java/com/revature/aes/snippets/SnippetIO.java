@@ -1,4 +1,4 @@
-package com.revature.aes.s3;
+package com.revature.aes.snippets;
 
 import java.io.File;
 
