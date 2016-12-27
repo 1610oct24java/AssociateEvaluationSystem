@@ -7,7 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.context.annotation.Scope;
+
 @Entity
+@Scope("session")
 @Table(name="AES_USERS")
 public class User implements Serializable{
 
