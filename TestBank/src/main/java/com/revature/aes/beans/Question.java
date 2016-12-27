@@ -36,8 +36,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "AES_QUESTION")
-public class Question implements Serializable
-{
+public class Question implements Serializable {
 
 	/**
 	 * @serialVersionUID An auto-generated value used for networking.
@@ -232,6 +231,7 @@ public class Question implements Serializable
 
 	public void setTemplateQuestions(List<TemplateQuestion> templateQuestions) {
 		this.templateQuestions = templateQuestions;
+
 	}
 
 	@Override
@@ -258,6 +258,7 @@ public class Question implements Serializable
 		if (getClass() != obj.getClass())
 			return false;
 		Question other = (Question) obj;
+
 		if (categories == null)
 		{
 			if (other.categories != null)
@@ -288,6 +289,7 @@ public class Question implements Serializable
 				return false;
 		} else if (!questionText.equals(other.questionText))
 			return false;
+
 		if (tags == null)
 		{
 			if (other.tags != null)
@@ -301,6 +303,7 @@ public class Question implements Serializable
 	public String toString() {
 		return "Question [questionId=" + questionId + ", questionText=" + questionText + "]";
 	}
+
 
 
 

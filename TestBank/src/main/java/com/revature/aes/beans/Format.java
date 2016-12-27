@@ -32,7 +32,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Format implements Serializable {
 
 	/**
+<<<<<<< HEAD
 	 * @serialVersionUID An auto-generated field that is used for serialization.
+=======
+	 * 
+	 * @serialVersionUID An auto-generated value used for networking.
+>>>>>>> 2530c645c0a9339cb561daa058f622acd2764562
 	 */
 	private static final long serialVersionUID = 9090154484770826813L;
 	
@@ -48,12 +53,13 @@ public class Format implements Serializable {
 	/**
 	 * @formatName A String representation of the type of question format. 
 	 */
+
 	@Column(name="FORMAT_NAME")
 	private String formatName;
 	@JsonIgnore
 	@OneToMany(mappedBy="format",cascade = CascadeType.ALL)
 	private List<Question> questions;
-	
+
 	public Format()
 	{
 		super();
@@ -133,6 +139,7 @@ public class Format implements Serializable {
 	public String toString() {
 		return "Format [formatId=" + formatId + ", formatName=" + formatName + "]";
 	}
+
 	
 	
 
