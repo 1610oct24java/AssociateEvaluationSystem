@@ -16,6 +16,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -64,7 +65,7 @@ public class Question implements Serializable
 	 *         multiple choice, multiple select...)
 	 */
 	@NotNull
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "QUESTION_FORMAT_ID")
 	private Format format;
 
@@ -76,7 +77,7 @@ public class Question implements Serializable
 	 *          true/false, multiple choice, multiple select
 	 */
 	@JsonIgnore
-	@OneToMany
+	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="OPTION_ID")
 	private List<Option> options;
 	
@@ -84,14 +85,14 @@ public class Question implements Serializable
 	 * @tagList a List of tags that relates to the question.
 	 */
 	@JsonIgnore
-	@ManyToMany(mappedBy="questions")
+	@ManyToMany(mappedBy="questions",cascade=CascadeType.REMOVE)
 	private List<Tag> tags;
 	 
 	/**
 	 * @categories a List of Categories that relates to the question.
 	 */
 	@JsonIgnore
-	@ManyToMany
+	@ManyToMany(cascade=CascadeType.REMOVE)
 	@JoinTable(
 		name="AES_QUESTION_CATEGORY"
 		, joinColumns={
@@ -103,16 +104,16 @@ public class Question implements Serializable
 		)
 	private List<Category> categories;
 	@JsonIgnore
-	@OneToMany(mappedBy="question")
+	@OneToMany(mappedBy="question", cascade=CascadeType.REMOVE)
 	private List<DragAndDrop> dragAndDrops;
 	@JsonIgnore
-	@OneToMany(mappedBy="question")
+	@OneToMany(mappedBy="question", cascade=CascadeType.REMOVE)
 	private List<UploadedFile> uploadedFiles;
 	@JsonIgnore
-	@OneToMany(mappedBy="question")
+	@OneToMany(mappedBy="question", cascade=CascadeType.REMOVE)
 	private List<SnippetTemplate> snippetTemplates;
 	@JsonIgnore
-	@OneToMany(mappedBy="question")
+	@OneToMany(mappedBy="question", cascade=CascadeType.REMOVE)
 	private List<TemplateQuestion> templateQuestions = new ArrayList<>();;
 	
 	public Question()
@@ -126,12 +127,15 @@ public class Question implements Serializable
 		this.questionText = questionText;
 	}
 
+	public Question(Integer questionId, String questionText, Format format) {
+		this(questionText);
+		this.questionId = questionId;
+		this.format = format;
+	}
+
 	public Question(Integer questionId, String questionText, Format format, List<Option> options, List<Category> categoryList, List<Tag> tagList)
 	{
-		super();
-		this.questionId = questionId;
-		this.questionText = questionText;
-		this.format = format;
+		this(questionId,questionText,format);
 		this.options = options;
 		this.categories = categoryList;
 		this.tags = tagList;

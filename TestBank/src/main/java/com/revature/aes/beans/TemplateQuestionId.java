@@ -29,14 +29,14 @@ public class TemplateQuestionId implements Serializable {
 	/**
 	 * @question The question associated with the class.
 	 */
-	@Column(name="fk_question_id")
+	@Column(name="QUESTION_ID")
 	private Integer questionid;
 	
 	
 	/**
 	 * @template The template associated with the class.
 	 */
-	@Column(name="fk_template_id")
+	@Column(name="TEMPLATE_ID")
 	private Integer templateid;
 
 	public TemplateQuestionId() {

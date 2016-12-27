@@ -51,6 +51,7 @@ public class QuestionRestController
 			produces = { MediaType.APPLICATION_JSON_VALUE })
 	public Question addQuestion(@RequestBody Question question)
 	{
+		System.out.println(question.toString() + question.getFormat().toString());
 		return questionService.addQuestion(question);
 	}
 
@@ -113,8 +114,7 @@ public class QuestionRestController
 	 * 
 	 * @param id the unique identifier of a question, cannot be null or less than 0
 	 */
-	@RequestMapping(value ="question/{questionId}", method = RequestMethod.DELETE, produces = 
-	{ MediaType.APPLICATION_JSON_VALUE })
+	@RequestMapping(value ="question/{id}", method = RequestMethod.DELETE)
 	public void deleteQuestionById(@PathVariable Integer id)
 	{
 		questionService.deleteQuestionById(id);

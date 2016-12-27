@@ -15,6 +15,7 @@ package com.revature.aes.beans;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -67,10 +68,10 @@ public class Option implements Serializable {
 	 * @question The question associated with this class.
 	 */
 	@ManyToOne
-	@JoinColumn(name="QUESTION_ID")
+	@JoinColumn(name="QUESTION_ID", updatable= false)
 	private Question question;
 	@JsonIgnore
-	@ManyToMany
+	@ManyToMany(cascade=CascadeType.REMOVE)
 	@JoinTable(
 		name="AES_ASSESSMENT_OPTIONS"
 		, joinColumns={

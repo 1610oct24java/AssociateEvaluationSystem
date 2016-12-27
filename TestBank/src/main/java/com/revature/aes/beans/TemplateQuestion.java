@@ -50,7 +50,7 @@ public class TemplateQuestion implements Serializable
 	private Double weight;
 	
 	@ManyToOne
-	@JoinColumn(name="fk_question_id",insertable =false, updatable = false)
+	@JoinColumn(name="QUESTION_ID",insertable =false, updatable = false)
 	private Question question;
 	
 	/**
@@ -58,7 +58,7 @@ public class TemplateQuestion implements Serializable
 	 */
 	
 	@ManyToOne
-	@JoinColumn(name="fk_template_id", insertable=false, updatable = false)
+	@JoinColumn(name="TEMPLATE_ID", insertable=false, updatable = false)
 	private Template template;
 	
 	

@@ -15,6 +15,7 @@ package com.revature.aes.beans;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -50,7 +51,7 @@ public class Format implements Serializable {
 	@Column(name="FORMAT_NAME")
 	private String formatName;
 	@JsonIgnore
-	@OneToMany(mappedBy="format")
+	@OneToMany(mappedBy="format",cascade = CascadeType.ALL)
 	private List<Question> questions;
 	
 	public Format()
@@ -127,6 +128,12 @@ public class Format implements Serializable {
 			return false;
 		return true;
 	}
-		
+
+	@Override
+	public String toString() {
+		return "Format [formatId=" + formatId + ", formatName=" + formatName + "]";
+	}
+	
+	
 
 }

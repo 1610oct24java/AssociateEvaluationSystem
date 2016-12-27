@@ -45,7 +45,7 @@ public class AssessmentDragAndDrop implements Serializable
 	 * @dragDrop The DragAndDrop this Class is associated with.
 	 */
 	@ManyToOne
-	@JoinColumn(name="fk_dragDrop_id", insertable = false, updatable = false)
+	@JoinColumn(name="DRAG_DROP_ID", insertable = false, updatable = false)
 	private DragAndDrop dragDrop;
 	
 	/**
@@ -53,7 +53,7 @@ public class AssessmentDragAndDrop implements Serializable
 	 */
 
 	@ManyToOne
-	@JoinColumn(name="fk_assessment_id", insertable = false, updatable = false)
+	@JoinColumn(name="ASSESSMENT_ID", insertable = false, updatable = false)
 	private Assessment assessment;
 
 	public AssessmentDragAndDrop()
