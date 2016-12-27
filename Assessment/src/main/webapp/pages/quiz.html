@@ -19,7 +19,6 @@
 			<div class="row">
 				<div class="col-sm-10 col-sm-offset-1">
 					<div ng-controller="quizController">
-
 						<uib-accordion close-others="oneAtATime">
 						<div ng-repeat="q in quiz.questions">
 							<div uib-accordion-group class="panel panel-default" heading="Question {{$index + 1}}">
@@ -27,17 +26,18 @@
 								<hr>
 								<div ng-show="q.type === 0">Choose one:</div>
 								<div ng-show="q.type === 1">Choose as many as applicable:</div>
+								<ul class="list-group">
+									<li class="list-group-item" ng-repeat="option in q.options">
+										<div class="radio" ng-show="q.type === 0">
+											<label><input type="radio" name="q{{q.id}}">{{option.txtA}}</label>
+										</div>
+										<div class="checkbox" ng-show="q.type === 1">
+											<label><input type="checkbox" name="q{{q.id}}">{{option.txtA}}</label>
+										</div>
+									</li>
+								</ul>
 							</div>
-							<ul class="list-group">
-								<li class="list-group-item" ng-repeat="option in q.options">
-									<div class="radio" ng-show="q.type === 0">
-										<label><input type="radio" name="q{{q.id}}">{{option.txtA}}</label>
-									</div>
-									<div class="checkbox" ng-show="q.type === 1">
-										<label><input type="checkbox" name="q{{q.id}}">{{option.txtA}}</label>
-									</div>
-								</li>
-							</ul>
+							<br>
 						</div>
 						</uib-accordion>
 						<hr>
@@ -47,6 +47,17 @@
 				<h1>Templates (Temporary)</h1>
 
 				<hr>
+
+				<div class="row">
+					<div class="col-sm-10 col-sm-offset-1">
+						<ul data-as-sortable="board.dragControlListeners" data-ng-model="questions">
+							<li data-ng-repeat="item in questions" data-as-sortable-item>
+								<div data-as-sortable-item-handle>{{$index}}</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+
 				<div class="row">
 					<div class="col-sm-10 col-sm-offset-1">
 						<div class="panel-group">
@@ -107,6 +118,7 @@
 		<script src="../resources/js/quizJS.js"></script>
 		<script src="../resources/js/testData.js"></script>
 		<script src="../resources/js/ui-bootstrap-tpls-2.3.1.js"></script>
+		<script src="../resources/js/lib/ng-sortable.js"></script>
 		<script src="../resources/js/app.js"></script>
 </body>
 </html>
