@@ -65,7 +65,7 @@ public class Question implements Serializable
 	 *         multiple choice, multiple select...)
 	 */
 	@NotNull
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "QUESTION_FORMAT_ID")
 	private Format format;
 
@@ -77,7 +77,7 @@ public class Question implements Serializable
 	 *          true/false, multiple choice, multiple select
 	 */
 	@JsonIgnore
-	@OneToMany(cascade=CascadeType.ALL)
+	@OneToMany(cascade=CascadeType.ALL, orphanRemoval=true)
 	@JoinColumn(name="OPTION_ID")
 	private List<Option> options;
 	
