@@ -1,4 +1,4 @@
-var app = angular.module("quizApp", [ 'ui.bootstrap', 'ngAnimate' ]);
+var app = angular.module("quizApp", [ 'ui.bootstrap', 'as.sortable', 'ngAnimate' ]);
 
 app.controller('AccordionDemoCtrl', function ($scope) {
   $scope.oneAtATime = true;
