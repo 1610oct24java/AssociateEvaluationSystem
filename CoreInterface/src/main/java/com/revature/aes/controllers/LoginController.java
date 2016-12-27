@@ -30,7 +30,8 @@ public class LoginController {
 		//get the current authenticated user
 		org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	    String name = user.getUsername(); //get logged in username
-	    User currentUser = service.findUserByEmail(name);
+	    User currentUser = (User) ac.getBean("User.java");
+	    currentUser = service.findUserByEmail(name);
 	    
 	    //direct user based on user
 	    String location = "";
