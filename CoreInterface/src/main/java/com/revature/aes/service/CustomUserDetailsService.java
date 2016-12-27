@@ -30,26 +30,25 @@ public class CustomUserDetailsService implements UserDetailsService {
 		System.out.println(user);
 		Security security = sService.findSecurityByUserId(user.getUserId());
 		System.out.println(security);
-		return new User(arg0, security.getPassword(), getAuthorities(1));
+		return new User(arg0, security.getPassword(), getAuthorities(user.getRole().getRoleTitle()));
 	}
 
 	
-    public Collection<? extends GrantedAuthority> getAuthorities(Integer role) {
+    public Collection<? extends GrantedAuthority> getAuthorities(String role) {
         List<GrantedAuthority> authList = getGrantedAuthorities(getRoles(role));
         return authList;
     }
 
-    public List<String> getRoles(Integer role) {
+    public List<String> getRoles(String role) {
         List<String> roles = new ArrayList<String>();
 
-        if (role.intValue() == 1) {
-            roles.add("ROLE_USER");
-            roles.add("ROLE_ADMIN");
-
-        } else if (role.intValue() == 2) {
-            roles.add("ROLE_USER");
+        if (role.equalsIgnoreCase("Recruiter")) {
+            roles.add("ROLE_RECRUITER");
+        } else if (role.equalsIgnoreCase("Candidate")) {
+            roles.add("ROLE_CANDIDATE");
+        } else if (role.equalsIgnoreCase("Trainer")) {
+            roles.add("ROLE_TRAINER");
         }
-
         return roles;
     }
 
