@@ -18,6 +18,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -103,16 +104,16 @@ public class User implements Serializable
 				inverseJoinColumns=@JoinColumn(name="USER_ID"))
 	private List<User> usersTrainers;
 	
-	@OneToMany(mappedBy="user")
+	@OneToMany(mappedBy="user", cascade=CascadeType.REMOVE)
 	private List<Assessment> assessments;
 	
-	@OneToMany(mappedBy="creator")
+	@OneToMany(mappedBy="creator", cascade=CascadeType.REMOVE)
 	private List<Template> templates;
 	
 	/**
 	 * @associates The associates related to the trainer
 	 */
-	@ManyToMany(mappedBy="usersTrainers")
+	@ManyToMany(mappedBy="usersTrainers", cascade=CascadeType.REMOVE)
 	private List<User> associates;
 	
 	public User()

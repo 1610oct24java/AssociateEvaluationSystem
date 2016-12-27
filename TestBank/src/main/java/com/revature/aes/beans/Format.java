@@ -1,48 +1,64 @@
 /****************************************************************
- * Project Name: Test Bank
+ * Project Name: Associate Evaluation System - Test Bank
  * 
  * Description: A simple rest application that persists test
- * 		information into a database.
+ * 		information into a database. Use to evaluate associates
+ * 		performance both during and before employment with Revature 
+ * 		LLC.
  * 
  * Authors: Matthew Beauregard, Conner Anderson, Travis Deshotels,
  * 		Edward Crader, Jon-Erik Williams 
  ****************************************************************/
+
 package com.revature.aes.beans;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="AES_FORMATS")
 public class Format implements Serializable {
 
 	/**
+<<<<<<< HEAD
+	 * @serialVersionUID An auto-generated field that is used for serialization.
+=======
 	 * 
 	 * @serialVersionUID An auto-generated value used for networking.
+>>>>>>> 2530c645c0a9339cb561daa058f622acd2764562
 	 */
 	private static final long serialVersionUID = 9090154484770826813L;
 	
 	/**
 	 * @formatId The unique Identifier for the Class
 	 */
-	//TODO get sequence name
 	@Id
-	@SequenceGenerator(name = "", sequenceName = "")
-	@GeneratedValue(generator = "", strategy = GenerationType.SEQUENCE)
-	@Column(name="FORMAT_NAME")
+	@SequenceGenerator(name = "AES_FORMATS_SEQ", sequenceName = "AES_FORMATS_SEQ")
+	@GeneratedValue(generator = "AES_FORMATS_SEQ", strategy = GenerationType.SEQUENCE)
+	@Column(name="FORMAT_ID")
 	private Integer formatId;
 	
 	/**
 	 * @formatName A String representation of the type of question format. 
 	 */
+
+	@Column(name="FORMAT_NAME")
 	private String formatName;
+	@JsonIgnore
+	@OneToMany(mappedBy="format",cascade = CascadeType.ALL)
+	private List<Question> questions;
 
 	public Format()
 	{
@@ -74,6 +90,14 @@ public class Format implements Serializable {
 	public void setFormatName(String formatName)
 	{
 		this.formatName = formatName;
+	}
+
+	public List<Question> getQuestions() {
+		return questions;
+	}
+
+	public void setQuestions(List<Question> questions) {
+		this.questions = questions;
 	}
 
 	@Override
@@ -112,13 +136,10 @@ public class Format implements Serializable {
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return "Format [formatId=" + formatId + ", formatName=" + formatName + "]";
 	}
 
-	
-	
 	
 	
 
