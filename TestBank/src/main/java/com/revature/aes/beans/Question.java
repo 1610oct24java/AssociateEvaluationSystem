@@ -114,7 +114,7 @@ public class Question implements Serializable
 	private List<SnippetTemplate> snippetTemplates;
 	@JsonIgnore
 	@OneToMany(mappedBy="question", cascade=CascadeType.REMOVE)
-	private List<TemplateQuestion> templateQuestions = new ArrayList<>();;
+	private List<TemplateQuestion> templateQuestions;
 	
 	public Question()
 	{
@@ -201,8 +201,6 @@ public class Question implements Serializable
 	public void setDragAndDrops(List<DragAndDrop> dragAndDrops) {
 		this.dragAndDrops = dragAndDrops;
 	}
-	
-	
 
 	public List<Tag> getTags() {
 		return tags;

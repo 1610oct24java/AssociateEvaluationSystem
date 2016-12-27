@@ -53,11 +53,12 @@
 
 <main  class="container">
 	<div ng-controller="FormatController as fc">
-		<select ng-model="format" ng-options="x for x in formatList"></select>
-		<div ng-repeat="x in formatList">{{x.formatName}}</div>
+		<label for=""></label>
+		<select ng-model="format" ng-options="x.formatName for x in fc.fList" name="format" id="format"></select>
+		<div ng-repeat="x in formatList">{{fc.formatName}}</div>
 		<ul class="list-group">
-		<li ng-repeat="message in fc.formatList" class="list-group-item">
-		<span>{{message.formatName}} {{message.formatId}} </span>
+		<li ng-repeat="format in formatList" class="list-group-item">
+		<span>{{format.formatName}} {{format.formatId}} </span>
 		</li>
 	</ul>
 	</div>
@@ -67,6 +68,7 @@
 		<input type="sumbit" ng-click="qc.addQuestion()" class="btn btn-info" value="Add Question"></input>
 		<hr>
 		<p>{{qc.question.questionText}}</p>
+		<p ng-repeat="aQuestion in qc.question.questionList">{{aQuestion.questionText}};
 		<hr>
 		
 				<label for="deleteQuestion">Enter Question ID to delete</label>

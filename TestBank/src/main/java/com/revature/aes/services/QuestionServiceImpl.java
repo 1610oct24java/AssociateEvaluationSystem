@@ -62,7 +62,6 @@ public class QuestionServiceImpl implements QuestionService
 	@Transactional(propagation=Propagation.SUPPORTS)
 	public List<Question> getAllQuestions()
 	{
-		System.out.println(qdao.findAll());
 		return qdao.findAll();
 	}
 	

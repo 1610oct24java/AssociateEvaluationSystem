@@ -22,6 +22,7 @@ var question = {};
 	
     app.controller('FormatController', function($http)
 	{	
+    	this.fList;
 		this.getFormatList = () =>
 		{
 			$http.get(url+ "format")
@@ -29,7 +30,11 @@ var question = {};
 				{
 					console.log(response.data + " :: FL1");
 					formatList = response.data;
+					this.fList = formatList;
 					console.log(formatList + " :: FL2");
+					for(var i = 0; i<this.fList.length; i++){
+						console.log(this.fList[i]);
+					}
 				});
 		};
 		
@@ -60,9 +65,8 @@ var question = {};
 			$http.get(url+"question")
 				.then(response=>{
 					console.log(response.data + " :: QL1");
-					this.questionList = response.data;
-					console.log(this.questionList + " :: QL2");
-					
+					questionList = response.data;
+					console.log(questionList + " :: QL2");
 				});
 		};
 		
@@ -73,7 +77,7 @@ var question = {};
 				.success((response) => {
 					this.question = response.data;
 					if(question == null){
-						alert("Error Saving Question Please Try Again")
+						alert("Error Saving Question Please Try Again");
 					} else {
 						this.getQuestionList();
 						this.question ={
@@ -84,7 +88,7 @@ var question = {};
 									formatName: 'True/False'
 								}
 							};
-					}
+					};
 				});
 		};
 		

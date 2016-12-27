@@ -66,13 +66,13 @@ public class Assessment implements Serializable
 	@Column(name="TIME_LIMIT")
 	private Integer timeLimit;
 	/**
-	 * @createdTimestamp The time the assessement is created 
+	 * @createdTimestamp The time the assessment is created 
 	 */
 	@Temporal(TemporalType.DATE)
 	@Column(name="CREATED_TIMESTAMP")
 	private Date createdTimestamp;
 	/**
-	 * @finishedTimestamp The time the assessment is no longer able to be taken.
+	 * @finishedTimestamp The time the assessment is completed.
 	 */
 	@Temporal(TemporalType.DATE)
 	@Column(name="FINISHED_TIMESTAMP")
@@ -90,7 +90,7 @@ public class Assessment implements Serializable
 	@OneToMany(mappedBy="assessment")
 	private List<AssessmentDragAndDrop> assessmentDragAndDrops;
 
-	@ManyToMany(mappedBy="assessments")
+	@OneToMany(mappedBy="assessments")
 	private List<Option> options;
 
 	@OneToMany(mappedBy="assessment")
