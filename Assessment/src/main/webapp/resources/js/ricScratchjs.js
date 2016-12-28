@@ -59,3 +59,55 @@ app.controller('QuizNavController', function($scope, $rootscope) {
 	
 	
 });
+
+app.controller('AjaxController', function($scope, $http) {
+
+    $scope.user;
+    $scope.pass;
+
+    $scope.getAssessment = function() {
+        var assessmentData = {username: this.user, password: this.pass};
+        
+        getAssessmentData(assessmentData);
+    }
+    
+    $scope.submitAssessment = function(){
+        var assessmentResults = {username:this.registerUser,password:this.registerPass};
+        
+        postAssessmentData(assessmentResults);
+    }
+    
+    // postData takes in JSON, sends with HTTP POST to Spring LoginController
+    function getAssessmentData(data){
+        $http({
+            method: 'GET',
+            url: '/Assessment/getAssessment',
+            headers: {'Content-Type': 'application/json'},
+            data: data
+        })
+        .success(function (data){
+            // SETUP QUESTIONS AND STATE ARRAYS
+            // START TIMER
+            console.log("GET ASSESSMENT SUCCESS");
+        })
+        .error(function (response){
+            console.log("Error Status: " + response);
+        });
+    }
+    
+    // postData takes in JSON, sends with HTTP POST to Spring LoginController
+    function postAssessmentData(data){
+        $http({
+            method: 'POST',
+            url: '/Assessment/submitAssessment',
+            headers: {'Content-Type': 'application/json'},
+            data: data
+        })
+        .success(function (data){
+            console.log("Posted results: ");
+        })
+        .error(function (response){
+            console.log("Error while submitting assessment");
+        });
+    }
+});
