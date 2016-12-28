@@ -118,12 +118,15 @@
 	text-decoration: none;
 }
 
-.q-box {
-	margin-left: 10%;
-	margin-right: 10%
-}
 
+/* QUESTION CONTENT STYLING */
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+.question-box {
+	margin-left: 10%;
+	margin-right: 10%;
+	font-family: 'futura-book';
+}
 
 .glyph-grey {
 	color: grey;
@@ -135,4 +138,8 @@
 	color:blue;
 }
 
+i {
+	padding-right: 10px;
+}
 
+/* QUIZ NAVIGATION STYLING */

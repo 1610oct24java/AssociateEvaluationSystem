@@ -47,16 +47,18 @@
 
 <div ng-controller="AccordionController">
   <uib-accordion close-others="false">
-    <div uib-accordion-group class="panel-default q-box" ng-repeat="question in questions">
+    <div uib-accordion-group class="panel-default question-box" is-disabled="true" is-open="states[$index].open" ng-repeat="question in questions">
       <uib-accordion-heading>
         {{question.title}} 
         
         <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': states[$index].open, 'glyphicon-chevron-right': !states[$index].open }" 
         		ng-click="collapseQuestion($index)"></i>
+        
         <i class="pull-right glyphicon glyphicon-floppy-disk" ng-class="{'glyph-grey': states[$index].saved, 'glyph-blue': !states[$index].saved}"
         		ng-click="saveQuestion($index)"></i>
         <i class="pull-right glyphicon glyphicon-flag" ng-class="{'glyph-grey': states[$index].flagged, 'glyph-red': !states[$index].flagged}"
         		ng-click="flagQuestion($index)"></i>
+        
       </uib-accordion-heading>
       
       {{question.content}}

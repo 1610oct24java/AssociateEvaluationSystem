@@ -37,21 +37,25 @@ app.controller('AccordionController', function($scope) {
 	  }
 	  
 	  $scope.collapseQuestion = function(index) {
-		  console.log("Entered collapse");
-		  console.log("glyph id=" + index);
+		  console.log("Entered collapse: glyph id=" + index);
 		  $scope.states[index].open = !$scope.states[index].open;
 	  };
 	  
 	  $scope.saveQuestion = function(index) {
-		  console.log("Entered save");
-		  console.log("glyph id=" + index);
+		  console.log("Entered save: glyph id=" + index);
 		  $scope.states[index].saved = !$scope.states[index].saved;
 	  };
 	  
 	  $scope.flagQuestion = function(index) {
-		  console.log("Entered flag");
-		  console.log("glyph id=" + index);
+		  
+		  console.log("Entered flag: glyph id=" + index);
 		  $scope.states[index].flagged = !$scope.states[index].flagged;
 	  };
 	  
 	});
+
+app.controller('QuizNavController', function($scope, $rootscope) {
+	
+	
+	
+});
