@@ -49,7 +49,7 @@ public class AikenParser {
 	 * @param file to be parsed
 	 */
 	public AikenParser(File file){
-		questionMap = new HashMap<Question, ArrayList<Option>>();
+		questionMap = new HashMap<>();
 		try {
 			parseFile(file.getPath());
 		} catch (InvalidFileTypeException e) {
@@ -120,7 +120,7 @@ public class AikenParser {
 	 */
 	private Question getQuestion(BufferedReader br) throws IOException{
 		// First line will be a question
-    	Question question = new Question(-1, -1, line);
+    	Question question = new Question(line);
     	String questionString = "Question: " + line;
     	System.out.println(questionString);
     	
