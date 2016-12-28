@@ -6,7 +6,7 @@ var baseDirectory = "TestBank" //the base directory for AJAX calls.
 var domain = "http://localhost"; //the base domain for AJAX calls.
 var url = domain + port + "/" + baseDirectory + "/"; //a concatenation of the domain, port, and base directory to establish a base url.  
 var formatList = [];
-var format = {};
+var questionformat = {};
 var questionList = [];
 var question = {};
 
@@ -23,18 +23,14 @@ var question = {};
     app.controller('FormatController', function($http)
 	{	
     	this.fList;
+    	this.format;
 		this.getFormatList = () =>
 		{
 			$http.get(url+ "format")
 				.then(response => 
 				{
-					console.log(response.data + " :: FL1");
 					formatList = response.data;
 					this.fList = formatList;
-					console.log(formatList + " :: FL2");
-					for(var i = 0; i<this.fList.length; i++){
-						console.log(this.fList[i]);
-					}
 				});
 		};
 		
@@ -44,6 +40,11 @@ var question = {};
 		};
 		
 		
+		
+		this.setFormat = () => {
+			questionformat = this.format;
+			console.log(questionformat)
+		};
 		angular.element(document).ready(()=> {
 			this.getFormatList();
 	    });
@@ -51,29 +52,37 @@ var question = {};
 	
 	app.controller('QuestionController', function($http)
 	{
-		this.question ={
+		this.format = {
+				format: 0,
+				formatName: ''
+		};
+		
+		this.question = {
 			questionId: 0,
 			questionText : '',
 			format: {
-				formatId: 1,
-				formatName: 'True/False'
+				formatId: 0,
+				formatName: ''
 			}
 		};
 		this.deleteme = 0;
 		this.getQuestionList = () => 
-		{
+		{	
 			$http.get(url+"question")
 				.then(response=>{
-					console.log(response.data + " :: QL1");
 					questionList = response.data;
-					console.log(questionList + " :: QL2");
 				});
 		};
 		
 		this.addQuestion = () => 
 		{
+			
+			this.question.format = questionformat;
+			console.log(this.question + ":::::");
 			console.log("adding question: " + this.question)
-			$http.post(url+"question", this.question)
+			if(questionformat.formatId === 0 ){
+				alert("please choose a format type")
+			} else {$http.post(url+"question", this.question)
 				.success((response) => {
 					this.question = response.data;
 					if(question == null){
@@ -84,12 +93,15 @@ var question = {};
 								questionId: 0,
 								questionText : '',
 								format: {
-									formatId: 1,
-									formatName: 'True/False'
+									formatId:0,
+									formatName: ''
 								}
 							};
 					};
 				});
+				
+			}
+			
 		};
 		
 		this.deleteQuestion = () => 
@@ -103,6 +115,7 @@ var question = {};
 					alert("unable to properly delete the question");
 				});
 		};
+	
 		
 		angular.element(document).ready(() => {
 			this.getQuestionList();
