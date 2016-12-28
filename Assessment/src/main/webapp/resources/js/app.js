@@ -42,7 +42,7 @@ app.controller("quizController", function($scope, $http, $location) {
 
 	$scope.test = function () {
 		console.log("Testing");
-		var out = $scope.editor.getValue();
+		var out = $scope.editors[3].getValue();
 		console.log(out);
 	};
 	
@@ -61,10 +61,10 @@ app.controller("quizController", function($scope, $http, $location) {
 			// If this question is a coding question
 			console.log("Code question found");
 			//Create an editor for it
-			/*var newEditor = ace.edit("editor" + questionIndex);
+			var newEditor = ace.edit("editor" + questionIndex);
 			newEditor.setTheme("ace/theme/monokai");
 			newEditor.getSession().setMode("ace/mode/java");
-			//$scope.editors.push(newEditor);
-*/		}
-	}
+			$scope.editors.push(newEditor);
+		};
+	};
 });
