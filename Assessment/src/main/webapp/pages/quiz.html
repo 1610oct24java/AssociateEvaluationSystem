@@ -44,8 +44,9 @@
 											</div>
 										</li>
 									</ul>
+									{{checkNeedEditor($index)}}
 									<div ng-show="q.type === 3">
-										<div id="editor2" class="editor">public static void main (String[] args) { }</div>
+										<div id="editor2" class="editor">{{q.options[0].txtA}}</div>
 									</div>
 								</div>
 							</div>
