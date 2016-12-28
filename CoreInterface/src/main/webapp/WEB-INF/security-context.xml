@@ -16,6 +16,7 @@
 		login-processing-url="/login"
 		authentication-failure-url="/login?error"
 		default-target-url="/admin/private"/>
+		<csrf disabled="true"/>
 	</http>
 
 	<beans:import resource="beans.xml" />
