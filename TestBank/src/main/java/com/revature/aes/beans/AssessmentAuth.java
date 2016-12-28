@@ -1,66 +1,72 @@
 package com.revature.aes.beans;
 
 import java.io.Serializable;
-import javax.persistence.*;
 
+import javax.persistence.Column;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
-/**
- * The persistent class for the AES_ASSESSMENT_AUTH database table.
- * 
- */
-@Entity
-@Table(name="AES_ASSESSMENT_AUTH")
 public class AssessmentAuth implements Serializable {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -2732479042247683247L;
 
-	@Id
-	@Column(name="ASSESSMENT_AUTH_ID")
-	private long assessmentAuthId;
+	@Column(name = "assessment_auth_id")
+	private int assessmentAuthId;
 
-	@Column(name="URL_ASSESSMENT")
-	private String urlAssessment;
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "user_id")
+	private int userId;
 
-	@Column(name="URL_AUTH")
+	@Column(name = "url_auth")
 	private String urlAuth;
 
-	//bi-directional many-to-one association to AesUser
-	@ManyToOne
-	@JoinColumn(name="USER_ID")
-	private User user;
+	@Column(name = "url_assessment")
+	private String urlAssessment;
 
-	public AssessmentAuth() {
+	public int getAssessmentAuthId() {
+		return assessmentAuthId;
 	}
 
-	public long getAssessmentAuthId() {
-		return this.assessmentAuthId;
-	}
-
-	public void setAssessmentAuthId(long assessmentAuthId) {
+	public void setAssessmentAuthId(int assessmentAuthId) {
 		this.assessmentAuthId = assessmentAuthId;
 	}
 
-	public String getUrlAssessment() {
-		return this.urlAssessment;
+	public int getUserId() {
+		return userId;
 	}
 
-	public void setUrlAssessment(String urlAssessment) {
-		this.urlAssessment = urlAssessment;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 	public String getUrlAuth() {
-		return this.urlAuth;
+		return urlAuth;
 	}
 
 	public void setUrlAuth(String urlAuth) {
 		this.urlAuth = urlAuth;
 	}
 
-	public User getUser() {
-		return this.user;
+	public String getUrlAssessment() {
+		return urlAssessment;
 	}
 
-	public void setAesUser(User user) {
-		this.user = user;
+	public void setUrlAssessment(String urlAssessment) {
+		this.urlAssessment = urlAssessment;
+	}
+
+	@Override
+	public String toString() {
+		return "AssessmentAuth [assessmentAuthId=" + assessmentAuthId + ", userId=" + userId + ", urlAuth=" + urlAuth
+				+ ", urlAssessment=" + urlAssessment + "]";
+	}
+
+	public AssessmentAuth(int assessmentAuthId, int userId, String urlAuth, String urlAssessment) {
+		super();
+		this.assessmentAuthId = assessmentAuthId;
+		this.userId = userId;
+		this.urlAuth = urlAuth;
+		this.urlAssessment = urlAssessment;
 	}
 
 }
