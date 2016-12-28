@@ -61,6 +61,16 @@ var tstQuiz = {
 					txtA : "private static void main(String[] args){\n\n}"
 				}
 			]
+		},
+		{
+			txtQ : "Test",
+			id : 4,
+			type : 3,
+			options : [
+				{
+					txtA : "private static void main(String[] pirateNoises){\n\n}"
+				}
+			]
 		}
 	]
 };
