@@ -15,11 +15,11 @@ public class Logging {
 	private String dashes = "\n==========================================================================================================================================================================";
 	
 	@Around("execution(* com.revature.aes..*(..))")
-	public Object log(ProceedingJoinPoint pjp) throws Throwable{
+	public Object log(ProceedingJoinPoint pjp){
 		MethodSignature signature = (MethodSignature) pjp.getSignature();
 		String methodClass = signature.getDeclaringTypeName().toString();
 		String method = signature.getName().toString();
-		Object result;
+		Object result = null;
 		
 		log.trace(dashes);
 		
@@ -30,7 +30,16 @@ public class Logging {
 		}
 		
 		log.trace("Executing...");
-		result = pjp.proceed();
+		
+		try{
+			result = pjp.proceed();
+		} catch(Throwable e){
+			log.error("\t" + e.getClass() + " " + e.getMessage());
+			
+			for(StackTraceElement st : e.getStackTrace()){
+				log.error("\t\t" + st.getMethodName());
+			}
+		}
 		
 		log.trace(methodClass + " ==> " + method + " - Exit\nReturning: " + result);
 
