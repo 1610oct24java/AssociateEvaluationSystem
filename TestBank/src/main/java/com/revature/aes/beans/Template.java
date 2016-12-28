@@ -1,24 +1,12 @@
-/****************************************************************
- * Project Name: Associate Evaluation System - Test Bank
- * 
- * Description: A simple rest application that persists test
- * 		information into a database. Use to evaluate associates
- * 		performance both during and before employment with Revature 
- * 		LLC.
- * 
- * Authors: Matthew Beauregard, Conner Anderson, Travis Deshotels,
- * 		Edward Crader, Jon-Erik Williams 
- ****************************************************************/
-
 package com.revature.aes.beans;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,162 +15,72 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
 @Entity
-@Table(name="AES_TEMPLATES")
-public class Template implements Serializable
-{
-
-	/**
-	 * @serialVersionUID An auto-generated field that is used for serialization.
-	 */
-	private static final long serialVersionUID = 1956111351245852280L;
-
-	/**
-	 * @templateId The unique Identifier for the Class
-	 */
+@Table(name = "aes_templates")
+public class Template implements Serializable {
+	private static final long serialVersionUID = -8060916464018913931L;
 	@Id
-	@SequenceGenerator(name = "AES_TEMPLATES_SEQ", sequenceName = "AES_TEMPLATES_SEQ")
-	@GeneratedValue(generator = "AES_TEMPLATES_SEQ", strategy = GenerationType.SEQUENCE)
-	@Column(name = "TEMPLATE_ID")
-	private Integer templateId;
-	
-	/**
-	 * @timeStamp A timestamp used to determine the time the Template was created.
-	 */
-	@Column(name="CREATE_TIMESTAMP")
-	private Timestamp timeStamp;
-	
-	/**
-	 * @creator The creator of the template.
-	 */
-	@ManyToOne
-	@JoinColumn(name="CREATOR_ID")
+	@Column(name = "template_id")
+	@SequenceGenerator(sequenceName = "aes_templates_seq", name = "aes_templates_seq")
+	@GeneratedValue(generator = "aes_templates_seq", strategy = GenerationType.SEQUENCE)
+	private int templateId;
+
+	@Column(name = "create_timestamp")
+	private LocalDateTime createTimeStamp;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="CREATOR_ID", referencedColumnName="USER_ID")
 	private User creator;
 
-	@OneToMany(mappedBy="template")
-	private List<Assessment> assessments;
-	
-	@OneToMany(mappedBy="template")
-	private List<TemplateQuestion> templateQuestions = new ArrayList<>();
-	
-	public Template()
-	{
+	@OneToMany(fetch = FetchType.EAGER)
+	@JoinColumn(name="TEMPLATE_ID")
+	private List<TemplateQuestion> templateQuestion;
+
+	public Template() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
 
-	public Template(Integer templateId, Timestamp createTimeStamp, User creator)
-	{
-		this();
-		this.templateId = templateId;
-		this.timeStamp = createTimeStamp;
-		this.creator = creator;
+	@Override
+	public String toString() {
+		return "Template [templateId=" + templateId + ", createTimeStamp=" + createTimeStamp + ", creator=" + creator
+				+ ", templateQuestion=" + templateQuestion + "]";
 	}
 
-	public Integer getTemplateId()
-	{
+	public int getTemplateId() {
 		return templateId;
 	}
 
-	public void setTemplateId(Integer templateId)
-	{
+	public void setTemplateId(int templateId) {
 		this.templateId = templateId;
 	}
 
-	public Timestamp getCreateTimeStamp()
-	{
-		return timeStamp;
+	public LocalDateTime getCreateTimeStamp() {
+		return createTimeStamp;
 	}
 
-	public void setCreateTimeStamp(Timestamp createTimeStamp)
-	{
-		this.timeStamp = createTimeStamp;
+	public void setCreateTimeStamp(LocalDateTime createTimeStamp) {
+		this.createTimeStamp = createTimeStamp;
 	}
 
-	public User getCreator()
-	{
+	public User getCreator() {
 		return creator;
 	}
 
-	public void setCreator(User creator)
-	{
+	public void setCreator(User creator) {
 		this.creator = creator;
 	}
 
-	
-	
-	public Timestamp getTimeStamp() {
-		return timeStamp;
+	public List<TemplateQuestion> getTemplateQuestion() {
+		return templateQuestion;
 	}
 
-	public void setTimeStamp(Timestamp timeStamp) {
-		this.timeStamp = timeStamp;
+	public void setTemplateQuestion(List<TemplateQuestion> templateQuestion) {
+		this.templateQuestion = templateQuestion;
 	}
 
-	public List<Assessment> getAssessments() {
-		return assessments;
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
-
-	public void setAssessments(List<Assessment> assessments) {
-		this.assessments = assessments;
-	}
-
-	public List<TemplateQuestion> getTemplateQuestions() {
-		return templateQuestions;
-	}
-
-	public void setTemplateQuestions(List<TemplateQuestion> templateQuestions) {
-		this.templateQuestions = templateQuestions;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((assessments == null) ? 0 : assessments.hashCode());
-		result = prime * result + ((creator == null) ? 0 : creator.hashCode());
-		result = prime * result + ((templateId == null) ? 0 : templateId.hashCode());
-		result = prime * result + ((templateQuestions == null) ? 0 : templateQuestions.hashCode());
-		result = prime * result + ((timeStamp == null) ? 0 : timeStamp.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Template other = (Template) obj;
-		if (assessments == null) {
-			if (other.assessments != null)
-				return false;
-		} else if (!assessments.equals(other.assessments))
-			return false;
-		if (creator == null) {
-			if (other.creator != null)
-				return false;
-		} else if (!creator.equals(other.creator))
-			return false;
-		if (templateId == null) {
-			if (other.templateId != null)
-				return false;
-		} else if (!templateId.equals(other.templateId))
-			return false;
-		if (templateQuestions == null) {
-			if (other.templateQuestions != null)
-				return false;
-		} else if (!templateQuestions.equals(other.templateQuestions))
-			return false;
-		if (timeStamp == null) {
-			if (other.timeStamp != null)
-				return false;
-		} else if (!timeStamp.equals(other.timeStamp))
-			return false;
-		return true;
-	}
-
-
-	
 }

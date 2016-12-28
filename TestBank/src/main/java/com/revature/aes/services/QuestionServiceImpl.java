@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.revature.aes.beans.Format;
+import com.revature.aes.beans.Option;
 import com.revature.aes.beans.Question;
 import com.revature.aes.daos.QuestionDAO;
 
@@ -101,6 +102,13 @@ public class QuestionServiceImpl implements QuestionService
 	public void deleteQuestionById(Integer id)
 	{
 		qdao.delete(qdao.findOne(id));
+		
+	}
+
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED)
+	public void addCSVQuestion(Question question, Format format, List<Option> options) {
+	
 		
 	}
 	

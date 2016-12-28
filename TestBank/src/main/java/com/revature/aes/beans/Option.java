@@ -1,41 +1,20 @@
-/****************************************************************
- * Project Name: Associate Evaluation System - Test Bank
- * 
- * Description: A simple rest application that persists test
- * 		information into a database. Use to evaluate associates
- * 		performance both during and before employment with Revature 
- * 		LLC.
- * 
- * Authors: Matthew Beauregard, Conner Anderson, Travis Deshotels,
- * 		Edward Crader, Jon-Erik Williams 
- ****************************************************************/
-
 package com.revature.aes.beans;
 
 import java.io.Serializable;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
-@Table(name  = "AES_OPTIONS")
+@Table(name = "AES_OPTIONS")
 public class Option implements Serializable {
-	
 
 	/**
 	 * @serialVersionUID An auto-generated field that is used for serialization.
@@ -56,89 +35,20 @@ public class Option implements Serializable {
 	private String optionText;
 	/**
 	 * @correct A Integer value representing the correct answer for a question.
-	 * Minimun value is 0, Maximun value is 1.
-	 * 0 is equavalent to false while 1 is equavalent to true.
+	 *          Minimun value is 0, Maximun value is 1. 0 is equavalent to false
+	 *          while 1 is equavalent to true.
 	 */
-	@Min(value=0)
-	@Max(value=1)
-	@Column(name="CORRECT")
+	@Min(value = 0)
+	@Max(value = 1)
+	@Column(name = "CORRECT")
 	private Integer correct;
-	
+
 	/**
 	 * @question The question associated with this class.
 	 */
-	@ManyToOne
-	@JoinColumn(name="QUESTION_ID", updatable= false)
-	private Question question;
-	@JsonIgnore
-	@ManyToMany(cascade=CascadeType.REMOVE)
-	@JoinTable(
-		name="AES_ASSESSMENT_OPTIONS"
-		, joinColumns={
-			@JoinColumn(name="OPTION_ID")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="ASSESSMENT_ID")
-			}
-		)
-	private List<Assessment> assessments;
-	public Option() {
-		super();
-	}
 
-	public Option(Integer optionID, String optionText, Integer correct)
-	{
-		this();
-		this.optionId = optionID;
-		this.optionText = optionText;
-		this.correct = correct;
-	}
-
-	public Option(Integer optionID, String optionText, Integer correct, Question question)
-	{
-		this(optionID, optionText, correct);
-		this.question = question;
-	}
-
-	public Integer getOptionID()
-	{
-		return optionId;
-	}
-
-	public void setOptionID(Integer optionID)
-	{
-		this.optionId = optionID;
-	}
-
-	public String getOptionText()
-	{
-		return optionText;
-	}
-
-	public void setOptionText(String optionText)
-	{
-		this.optionText = optionText;
-	}
-
-	public Integer getCorrect()
-	{
-		return correct;
-	}
-
-	public void setCorrect(Integer correct)
-	{
-		this.correct = correct;
-	}
-
-	public Question getQuestion()
-	{
-		return question;
-	}
-
-	public void setQuestion(Question question)
-	{
-		this.question = question;
-	}
+	@Column(name = "QUESTION_ID")
+	private int questionId;
 
 	public Integer getOptionId() {
 		return optionId;
@@ -148,29 +58,47 @@ public class Option implements Serializable {
 		this.optionId = optionId;
 	}
 
-	public List<Assessment> getAssessments() {
-		return assessments;
+	public String getOptionText() {
+		return optionText;
 	}
 
-	public void setAssessments(List<Assessment> assessments) {
-		this.assessments = assessments;
+	public void setOptionText(String optionText) {
+		this.optionText = optionText;
+	}
+
+	public Integer getCorrect() {
+		return correct;
+	}
+
+	public void setCorrect(Integer correct) {
+		this.correct = correct;
+	}
+
+	public int getQuestionId() {
+		return questionId;
+	}
+
+	public void setQuestionId(int questionId) {
+		this.questionId = questionId;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((correct == null) ? 0 : correct.hashCode());
 		result = prime * result + ((optionId == null) ? 0 : optionId.hashCode());
 		result = prime * result + ((optionText == null) ? 0 : optionText.hashCode());
-		result = prime * result + ((question == null) ? 0 : question.hashCode());
+		result = prime * result + questionId;
 		return result;
 	}
 
 	@Override
-	public boolean equals(Object obj)
-	{
+	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -178,40 +106,35 @@ public class Option implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Option other = (Option) obj;
-		if (correct == null)
-		{
+		if (correct == null) {
 			if (other.correct != null)
 				return false;
 		} else if (!correct.equals(other.correct))
 			return false;
-		if (optionId == null)
-		{
+		if (optionId == null) {
 			if (other.optionId != null)
 				return false;
 		} else if (!optionId.equals(other.optionId))
 			return false;
-		if (optionText == null)
-		{
+		if (optionText == null) {
 			if (other.optionText != null)
 				return false;
 		} else if (!optionText.equals(other.optionText))
 			return false;
-		if (question == null)
-		{
-			if (other.question != null)
-				return false;
-		} else if (!question.equals(other.question))
+		if (questionId != other.questionId)
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Option [optionId=" + optionId + ", optionText=" + optionText + ", correct=" + correct + "]";
+		return "Option [optionId=" + optionId + ", optionText=" + optionText + ", correct=" + correct + ", questionId="
+				+ questionId + "]";
 	}
 
+	public Option() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
-	
-	
-	
 }

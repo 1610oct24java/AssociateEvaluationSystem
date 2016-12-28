@@ -77,15 +77,29 @@
 			<input type="sumbit" ng-click="qc.addQuestion()" class="btn btn-info"value="Add Question"></input>
 			<hr>
 			<ul>
-				<li ng-repeat="x in qc.qList">{{x.questionText}}</li>
+				<li ng-repeat="question in qc.qList">{{question.format.formatName}} ::  {{question.questionText}}</li>
 			</ul>
 			<hr>
-
+		
+			<select ng-model="qc.question" ng-options="question.questionText for question in qc.qList" name="questionUpdate"id="questionUpdate" ng-change="qc.showUpdateQuestion()">
+				<option value=""/>
+			</select>
+			<div ng-show=qc.show>	
+				<div ng-controller="FormatController as fc">
+					<label for="format">Question Format</label> 
+					<select ng-model="fc.format" ng-options="x.formatName for x in fc.fList" name="format"id="format" ng-change="fc.setFormat()"></select>
+					<ul class="list-group">
+						<li ng-repeat="format in formatList" class="list-group-item"></li>
+					</ul>
+				</div>
+				<label for="questionText">Question</label> 
+					<input type="text" ng-model="qc.updatedQuestion" placeholder="enter question"></input> 
+					<input type="sumbit" ng-click="qc.updateQuestion()" class="btn btn-info"value="Update Question"></input>
+			</div>
 			<label for="deleteQuestion">Enter Question ID to delete</label> 
 			<input type="number" ng-model="qc.deleteme"></input> 
 			<input type="submit" ng-click="qc.deleteQuestion()" class="btn btn-danger" value="Delete Question"></input>
 		</div>
-	
 	</main>
 	<script type="text/javascript"
 		src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
