@@ -1,47 +1,43 @@
 var app = angular.module("quizApp", [ 'ui.bootstrap', 'as.sortable', 'ngAnimate' ]);
 
-app.controller('AccordionDemoCtrl', function ($scope) {
-  $scope.oneAtATime = true;
-
-  $scope.groups = [
-    {
-      title: 'Dynamic Group Header - 1',
-      content: 'Dynamic Group Body - 1'
-    },
-    {
-      title: 'Dynamic Group Header - 2',
-      content: 'Dynamic Group Body - 2'
-    }
-  ];
-
-  $scope.items = ['Item 1', 'Item 2', 'Item 3'];
-
-  $scope.addItem = function() {
-    var newItemNo = $scope.items.length + 1;
-    $scope.items.push('Item ' + newItemNo);
-  };
-
-  $scope.status = {
-    isCustomHeaderOpen: false,
-    isFirstOpen: true,
-    isFirstDisabled: false
-  };
-});
-
 app.controller("quizController", function($scope, $http, $location) {
 	$scope.quiz = tstQuiz;
-	$scope.oneAtATime = true;
+	$scope.oneAtATime = false;
+	
+	$scope.editors = new Array();
+	
+	/*$scope.editor = ace.edit("editor1");
+	$scope.editor.setTheme("ace/theme/monokai");
+	$scope.editor.getSession().setMode("ace/mode/java");*/
 
-	$scope.items = [ 'Item 1', 'Item 2', 'Item 3' ];
+/*	var editor2 = ace.edit("editor2");
+	editor2.getSession().setMode("ace/mode/java");*/
 
-	$scope.addItem = function() {
-		var newItemNo = $scope.items.length + 1;
-		$scope.items.push('Item ' + newItemNo);
+	$scope.test = function () {
+		console.log("Testing");
+		var out = $scope.editor.getValue();
+		console.log(out);
 	};
-
+	
 	$scope.status = {
 		isCustomHeaderOpen : false,
 		isFirstOpen : true,
 		isFirstDisabled : false
 	};
+	
+	$scope.checkNeedEditor = function (questionIndex) {
+		console.log("checkNeedEditor(" + questionIndex + ")");
+		var currQ = $scope.quiz.questions[questionIndex]
+		console.log(currQ.type);
+		
+		if (currQ.type === 3) {
+			// If this question is a coding question
+			console.log("Code question found");
+			//Create an editor for it
+			var newEditor = ace.edit("editor" + questionIndex);
+			newEditor.setTheme("ace/theme/monokai");
+			newEditor.getSession().setMode("ace/mode/java");
+			$scope.editors.push(newEditor);
+		}
+	}
 });

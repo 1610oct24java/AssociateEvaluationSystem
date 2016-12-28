@@ -18,3 +18,5 @@ hs_err_pid*
 /Servers/
 /target/
 /RemoteSystemsTempFiles/
+.recommenders
+*.recommenders

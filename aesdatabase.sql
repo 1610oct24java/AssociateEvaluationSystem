@@ -11,7 +11,7 @@ ALTER TABLE aes_question_category
   DROP CONSTRAINT fk_qc_question_id ;
 
 ALTER TABLE aes_question_category
-  DROP CONSTRAINT fk_qc_tag_id;
+  DROP CONSTRAINT fk_qc_category_id;
   
 ALTER TABLE aes_assessment_drag_drop 
   DROP CONSTRAINT fk_ad_assessment_id;
@@ -122,71 +122,67 @@ DROP SEQUENCE aes_drag_drop_seq;
 DROP SEQUENCE aes_templates_seq;
 DROP SEQUENCE aes_template_question_seq;
 DROP SEQUENCE aes_assessment_auth_seq;
-DROP SEQUENCE aes_snippet_response_seq;
 
 /*******************************************************************************
    Create Tables
 ********************************************************************************/
 CREATE TABLE aes_snippet_response
 (
-  snippet_response_id NUMBER,
-  snippet_template_id NUMBER,
-  assessment_id NUMBER,
-  CONSTRAINT pk_aes_snippet_response 
-    PRIMARY KEY (snippet_response_id)
+  snippet_template_id NUMBER NOT NULL,
+  assessment_id NUMBER NOT NULL
 );
 
 CREATE TABLE aes_snippet_template
 (
   snippet_template_id NUMBER,
-  snippet_template_url VARCHAR2(255),
-  file_type VARCHAR2(255),
-  solution_url VARCHAR2(255),
-  question_id NUMBER,
+  question_id NUMBER NOT NULL,
+  file_type VARCHAR2(255) NOT NULL,
+  snippet_template_url VARCHAR2(255) NOT NULL,
+  solution_url VARCHAR2(255) NOT NULL,
   CONSTRAINT pk_aes_snippet_template 
     PRIMARY KEY (snippet_template_id)
 );
 
 CREATE TABLE aes_formats(
   format_id   NUMBER,
-  format_name VARCHAR2(255),
+  format_name VARCHAR2(255) NOT NULL UNIQUE,
   CONSTRAINT pk_aes_format 
     PRIMARY KEY(format_id)
 );
 
 CREATE TABLE aes_tags(
   tag_id   NUMBER,
-  tag_name VARCHAR2(255),
+  tag_name VARCHAR2(255) NOT NULL UNIQUE,
   CONSTRAINT pk_aes_tag 
     PRIMARY KEY(tag_id)
 );
 
 CREATE TABLE aes_category(
   category_id   NUMBER,
-  category_name VARCHAR2(255),
+  category_name VARCHAR2(255) NOT NULL UNIQUE,
   CONSTRAINT pk_aes_category 
     PRIMARY KEY(category_id)
 );
 
 CREATE TABLE aes_question_tag(
-  question_id NUMBER,
-  tag_id      NUMBER
+  question_id NUMBER NOT NULL,
+  tag_id      NUMBER NOT NULL
 );
 
 CREATE TABLE aes_question_category(
-	question_id NUMBER,
-	tag_id      NUMBER
+	question_id NUMBER NOT NULL,
+	category_id      NUMBER NOT NULL
 );
 
 CREATE TABLE aes_assessment_drag_drop(
-  assessment_id NUMBER,
-  drag_drop_id  NUMBER,
+  assessment_id NUMBER NOT NULL,
+  drag_drop_id  NUMBER NOT NULL,
   user_order    NUMBER
 );
 
 CREATE TABLE aes_assessment_options(
-  assessment_id NUMBER,
-  option_id     NUMBER
+  assessment_id NUMBER NOT NULL,
+  option_id     NUMBER NOT NULL
 );
 
 CREATE TABLE aes_users(
@@ -203,8 +199,8 @@ CREATE TABLE aes_users(
 );
 
 CREATE TABLE aes_user_trainers(
-  user_id    NUMBER,
-  trainer_id NUMBER
+  user_id    NUMBER NOT NULL,
+  trainer_id NUMBER NOT NULL
 );
 
 CREATE TABLE aes_roles(
@@ -216,10 +212,10 @@ CREATE TABLE aes_roles(
 
 CREATE TABLE aes_file_upload(
   file_id       NUMBER,
-  file_url      VARCHAR2(255),
+  file_url      VARCHAR2(255) NOT NULL,
   grade         NUMBER,
-  question_id   NUMBER,
-  assessment_id NUMBER,
+  question_id   NUMBER NOT NULL,
+  assessment_id NUMBER NOT NULL,
   CONSTRAINT pk_aes_file_upload 
     PRIMARY KEY(file_id)
 );
@@ -228,7 +224,7 @@ CREATE TABLE aes_assessment(
   assessment_id      NUMBER,
   user_id            NUMBER NOT NULL,
   grade              NUMBER,
-  time_limit         NUMBER,
+  time_limit         NUMBER NOT NULL,
   created_timestamp  DATE NOT NULL,
   finished_timestamp DATE,
   template_id        NUMBER,
@@ -239,7 +235,7 @@ CREATE TABLE aes_assessment(
 CREATE TABLE aes_security(
   user_id   NUMBER,
   pass_word VARCHAR2(255) NOT NULL,
-  valid     NUMBER,
+  valid     NUMBER NOT NULL,
   CONSTRAINT check_valid 
     CHECK (VALID IN(0,1)),
   CONSTRAINT pk_aes_security 
@@ -247,41 +243,41 @@ CREATE TABLE aes_security(
 );
 
 CREATE TABLE aes_template_question(
-  template_id NUMBER,
-  question_id NUMBER,
-  weight      NUMBER
+  template_id NUMBER NOT NULL,
+  question_id NUMBER NOT NULL,
+  weight      NUMBER DEFAULT 1
 );
 
 CREATE TABLE aes_templates(
   template_id      NUMBER,
-  create_timestamp TIMESTAMP,
-  creator_id       NUMBER,
+  create_timestamp TIMESTAMP NOT NULL,
+  creator_id       NUMBER NOT NULL,
   CONSTRAINT pk_aes_templates
     PRIMARY KEY (template_id)
 );
 
 CREATE TABLE aes_drag_drop(
   drag_drop_id   NUMBER NOT NULL,
-  question_id    NUMBER,
-  drag_drop_text VARCHAR2(255),
-  correct_order  NUMBER,
+  question_id    NUMBER NOT NULL,
+  drag_drop_text VARCHAR2(255) NOT NULL,
+  correct_order  NUMBER NOT NULL,
   CONSTRAINT pk_aes_drag_drop 
     PRIMARY KEY (drag_drop_id)
 );
 
 CREATE TABLE aes_question (
   question_id        NUMBER,
-  question_format_id NUMBER,
-  question_text      VARCHAR2(255),  
+  question_format_id NUMBER NOT NULL,
+  question_text      VARCHAR2(255) NOT NULL,  
   CONSTRAINT pk_aes_question 
     PRIMARY KEY (question_id)
 );
 
 CREATE TABLE aes_options (
   option_id   NUMBER,
-  option_text VARCHAR2(255),
-  correct     NUMBER,
-  question_id NUMBER,
+  option_text VARCHAR2(255) NOT NULL,
+  correct     NUMBER NOT NULL,
+  question_id NUMBER NOT NULL,
   CONSTRAINT check_correct 
     CHECK (correct IN(0,1)),  
   CONSTRAINT pk_aes_option 
@@ -290,9 +286,9 @@ CREATE TABLE aes_options (
   
 CREATE TABLE aes_assessment_auth (
   assessment_auth_id NUMBER,
+  user_id NUMBER NOT NULL,
   url_auth VARCHAR2(255),
-  url_assessment VARCHAR2(255),
-  user_id NUMBER, 
+  url_assessment VARCHAR2(255), 
   CONSTRAINT pk_assessment_auth
     PRIMARY KEY (assessment_auth_id)
 );  
@@ -300,108 +296,101 @@ CREATE TABLE aes_assessment_auth (
 /*******************************************************************************
    Create Sequences
 ********************************************************************************/
-CREATE SEQUENCE aes_snippet_response_seq
-MINVALUE 1
-START WITH 1 
-INCREMENT BY 1 
-CACHE 25;
-/
-
 CREATE SEQUENCE aes_snippet_template_seq
   MINVALUE 1
   START WITH 1 
   INCREMENT BY 1 
-  CACHE 25;
+  NOCACHE;
 /
 CREATE SEQUENCE aes_formats_seq
   MINVALUE 1
   START WITH 1 
   INCREMENT BY 1 
-  CACHE 25;
+  NOCACHE;
 /
 CREATE SEQUENCE aes_tags_seq
   MINVALUE 1
   START WITH 1
   INCREMENT BY 1 
-  CACHE 25;
+  NOCACHE;
 / 
 CREATE SEQUENCE aes_categories_seq
   MINVALUE 1
   START WITH 1
   INCREMENT BY 1 
-  CACHE 25;
+  NOCACHE;
 / 
  CREATE SEQUENCE users_seq
   MINVALUE 1
   START WITH 1
   INCREMENT BY 1 
-  CACHE 25;
+  NOCACHE;
 /
 CREATE SEQUENCE user_trainers_seq
   MINVALUE 1
   START WITH 1
   INCREMENT BY 1 
-  CACHE 25;
+  NOCACHE;
 /
 CREATE SEQUENCE roles_seq
   MINVALUE 1
   START WITH 1
   INCREMENT BY 1 
-  CACHE 25;
+  NOCACHE;
 /
 CREATE SEQUENCE file_upload_seq
   MINVALUE 1
   START WITH 1
   INCREMENT BY 1 
-  CACHE 25;
+  NOCACHE;
 /
 CREATE SEQUENCE assessment_seq
   MINVALUE 1
   START WITH 1
   INCREMENT BY 1 
-  CACHE 25;
+  NOCACHE;
 /
 CREATE SEQUENCE security_seq
   MINVALUE 1
   START WITH 1
   INCREMENT BY 1 
-  CACHE 25;
+  NOCACHE;
 /
-CREATE SEQUENCE AES_TEMPLATE_QUESTION_SEQ
+CREATE SEQUENCE aes_template_question_seq
   MINVALUE 1
   START WITH 1
   INCREMENT BY 1 
-  CACHE 25;
+  NOCACHE;
 /
 CREATE SEQUENCE aes_templates_seq
   MINVALUE 1
   START WITH 1
   INCREMENT BY 1 
-  CACHE 25;
+  NOCACHE;
 /
 CREATE SEQUENCE aes_drag_drop_seq
   MINVALUE 1
   START WITH 1
   INCREMENT BY 1 
-  CACHE 25;
+  NOCACHE;
 / 
 CREATE SEQUENCE aes_question_seq
   MINVALUE 1
   START WITH 1
   INCREMENT BY 1 
-  CACHE 25;
+  NOCACHE;
 /
 CREATE SEQUENCE aes_option_seq
   MINVALUE 1
   START WITH 1
   INCREMENT BY 1 
-  CACHE 25;
+  NOCACHE;
 /
 CREATE SEQUENCE aes_assessment_auth_seq
   MINVALUE 1
   START WITH 1
   INCREMENT BY 1 
-  CACHE 25;
+  NOCACHE;
 /  
 
 /*******************************************************************************
@@ -441,9 +430,9 @@ ALTER TABLE aes_question_category
   ON DELETE CASCADE;
 
 ALTER TABLE aes_question_category
-  ADD CONSTRAINT fk_qc_tag_id
-  FOREIGN KEY(tag_id)
-  REFERENCES aes_tags(tag_id)
+  ADD CONSTRAINT fk_qc_category_id
+  FOREIGN KEY(category_id)
+  REFERENCES aes_category(category_id)
   ON DELETE CASCADE;
   
 ALTER TABLE aes_assessment_drag_drop 
@@ -559,5 +548,3 @@ ALTER TABLE aes_assessment_auth
   FOREIGN KEY (user_id)
   REFERENCES aes_users(user_id)
   ON DELETE CASCADE;
-
-
