@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Quiz</title>
 
 <!-- CSS - Bootstrap -->
 	<link rel="stylesheet"
@@ -10,30 +10,11 @@
 		integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
 		crossorigin="anonymous">
 
-<!-- Angular Material CSS -->
-  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
- 
-<!-- Angular Libraries --> 
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.js"></script>
- 
-<!-- Angular Material Libraries -->  
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
-
-<!-- Angular Core Material Library -->
-  <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
-  
-<!-- CSS - Custom Ric Styling -->
+<!-- CSS - Custom Ric Styling --> 
 	<link rel="stylesheet" type="text/css" href="../resources/css/ricScratchcss.css" />
-
 
 </head>
 <body ng-app="AesApp">
-
-
 
   <!-- Revature navbar header -->
   <nav class="navbar">
@@ -51,6 +32,7 @@
     			content<br>
     			content<br>
     			content<br>
+    			content
   			</div>
 		</div>
         <a class="navbar-brand" href="http://revature.com">Revature Assessment Evaluation System</a>
@@ -58,63 +40,46 @@
     </div>
   </nav>
 
-	
-	<div style="height:100px;"></div>
 
-<div ng-controller="NavCtrl" ng-cloak="" class="fabToolbardemoBasicUsage" ng-app="MyApp">
-  <md-content class="md-padding">
-    <p>
-      The fabToolbar with a trigger and regular toolbar to create navbar.
-    </p>
-  </md-content>
+  <div style="height:100px;"></div>
+  
+  
 
-  <md-fab-toolbar md-open="navBar.isOpen" count="navBar.count" md-direction="left">
-    <md-fab-trigger class="align-with-text">
-      <md-button aria-label="menu" class="md-fab nav-btn">
-		<md-icon><i class="material-icons">menu</i></md-icon>
-      </md-button>
-    </md-fab-trigger>
-
-    <md-toolbar class="nav-toolbar">
-      <md-fab-actions class="md-toolbar-tools">
-        <md-button aria-label="menu" class="md-icon-button">
-          <md-icon><i class="material-icons">menu</i></md-icon>
-        </md-button>
-        <md-button aria-label="save" class="md-icon-button">
-          <md-icon><i class="material-icons">save</i></md-icon>
-        </md-button>
-        <md-button aria-label="upload" class="md-icon-button">
-          <md-icon><i class="material-icons">file_upload</i></md-icon>
-        </md-button>
-      </md-fab-actions>
-    </md-toolbar>
-  </md-fab-toolbar>
+<div ng-controller="AccordionController">
+  <uib-accordion close-others="false">
+    <div uib-accordion-group class="panel-default question-box" is-disabled="true" is-open="states[$index].open" ng-repeat="question in questions">
+      <uib-accordion-heading>
+        <div style="display:inline-block;" ng-click="collapseQuestion($index)">
+        	{{question.title}} 
+        </div>
+        
+        <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': states[$index].open, 'glyphicon-chevron-right': !states[$index].open }" 
+        		ng-click="collapseQuestion($index)"></i>
+        
+        <i class="pull-right glyphicon glyphicon-floppy-disk" ng-class="{'glyph-grey': states[$index].saved, 'glyph-blue': !states[$index].saved}"
+        		ng-click="saveQuestion($index)"></i>
+        <i class="pull-right glyphicon glyphicon-flag" ng-class="{'glyph-grey': states[$index].flagged, 'glyph-red': !states[$index].flagged}"
+        		ng-click="flagQuestion($index)"></i>
+        
+      </uib-accordion-heading>
+      
+      {{question.content}}
+    </div uib-accordion-group>
+  </uib-accordion>
 </div>
 
-  <div ng-controller="ProgressCtrl as vm" layout="column" layout-margin="" style="padding:25px;" ng-cloak="" class="progressLineardemoBasicUsage">
-    <h2 class="md-title">Remaining Time</h2>
-    <md-progress-linear md-mode="determinate" value="{{vm.determinateValue}}"></md-progress-linear>
-  </div>
+  
   
   
 <!-- Revature button -->
   <a class="Orange-read-btn" href="../revaturepro">GO TO REVATURE BOOTCAMP</a>
-
-<
-
-<div style="height:100px;"></div>
-
-<!-- QUESTION CONTAINER -->
-   <div class="question-container" ng-controller="questionCtrl">
-     <div style="display:inline-block;">Question snippet...</div>
-       <input type="checkbox" class="glyphicon glyphicon-flag" ng-click="flagQuestion()">
-       <input type="checkbox" class="glyphicon glyphicon-floppy-disk" ng-click="saveQuestion()">
-       <input type="checkbox" class="glyphicon glyphicon-chevron-down" ng-click="collapse()">
-     
-     <div ng-hide="questionContent" id="qbox">some text</div>
-   </div>
   
-
+<!-- JavaScript Stuff goes here ------------------------------------------------ -->
+<!-- Angular Libraries --> 
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.js"></script>
+  <script type="text/javascript" src="../resources/js/ui-bootstrap-tpls-2.3.1.js"></script>
+ 
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
 	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" 
@@ -124,8 +89,3 @@
 <script type="text/javascript" src="../resources/js/ricScratchjs.js"></script>
 </body>
 </html>
-
-<!--
-Copyright 2016 Google Inc. All Rights Reserved. 
-Use of this source code is governed by an MIT-style license that can be found in the LICENSE file at http://material.angularjs.org/HEAD/license.
--->
