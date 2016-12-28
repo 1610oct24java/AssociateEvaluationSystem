@@ -1,12 +1,15 @@
 /****************************************************************
- * Project Name: Test Bank
+ * Project Name: Associate Evaluation System - Test Bank
  * 
  * Description: A simple rest application that persists test
- * 		information into a database.
+ * 		information into a database. Use to evaluate associates
+ * 		performance both during and before employment with Revature 
+ * 		LLC.
  * 
  * Authors: Matthew Beauregard, Conner Anderson, Travis Deshotels,
  * 		Edward Crader, Jon-Erik Williams 
  ****************************************************************/
+
 package com.revature.aes.rest.controllers;
 
 import java.util.List;
@@ -44,8 +47,8 @@ public class QuestionRestController
 	 * @return a List of Questions
 	 * 
 	 */
-	@RequestMapping(value = "question", method = RequestMethod.POST, produces =
-	{ MediaType.APPLICATION_JSON_VALUE })
+	@RequestMapping(value = "question", method = RequestMethod.POST, 
+			produces = { MediaType.APPLICATION_JSON_VALUE })
 	public Question addQuestion(@RequestBody Question question)
 	{
 		return questionService.addQuestion(question);
@@ -110,8 +113,7 @@ public class QuestionRestController
 	 * 
 	 * @param id the unique identifier of a question, cannot be null or less than 0
 	 */
-	@RequestMapping(value ="question/{questionId}", method = RequestMethod.DELETE, produces = 
-	{ MediaType.APPLICATION_JSON_VALUE })
+	@RequestMapping(value ="question/{id}", method = RequestMethod.DELETE)
 	public void deleteQuestionById(@PathVariable Integer id)
 	{
 		questionService.deleteQuestionById(id);

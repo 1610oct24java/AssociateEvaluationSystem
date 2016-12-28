@@ -1,17 +1,22 @@
 /****************************************************************
- * Project Name: Test Bank
+ * Project Name: Associate Evaluation System - Test Bank
  * 
  * Description: A simple rest application that persists test
- * 		information into a database.
+ * 		information into a database. Use to evaluate associates
+ * 		performance both during and before employment with Revature 
+ * 		LLC.
  * 
  * Authors: Matthew Beauregard, Conner Anderson, Travis Deshotels,
  * 		Edward Crader, Jon-Erik Williams 
  ****************************************************************/
+
 package com.revature.aes.beans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,11 +24,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "AES_QUESTION")
@@ -34,13 +43,12 @@ public class Question implements Serializable
 	 * @serialVersionUID An auto-generated value used for networking.
 	 */
 	private static final long serialVersionUID = -1601002832615548763L;
-	// TODO update when I get sequence name.
 	/**
 	 * @questionId The unique Identifier for the Class
 	 */
 	@Id
-	@SequenceGenerator(name = "", sequenceName = "")
-	@GeneratedValue(generator = "", strategy = GenerationType.SEQUENCE)
+	@SequenceGenerator(name = "AES_QUESTION_SEQ", sequenceName = "AES_QUESTION_SEQ")
+	@GeneratedValue(generator = "AES_QUESTION_SEQ", strategy = GenerationType.SEQUENCE)
 	@Column(name = "QUESTION_ID")
 	private Integer questionId;
 
@@ -57,9 +65,8 @@ public class Question implements Serializable
 	 *         multiple choice, multiple select...)
 	 */
 	@NotNull
-	@OneToOne(fetch = FetchType.EAGER)
-	// TODO get Column Name
-	@JoinColumn(name = "")
+	@OneToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "QUESTION_FORMAT_ID")
 	private Format format;
 
 	/**
@@ -69,27 +76,46 @@ public class Question implements Serializable
 	 *          Note: This is only necessary for specific formats such as
 	 *          true/false, multiple choice, multiple select
 	 */
-	// TODO Annotation
+	@JsonIgnore
+	@OneToMany(cascade=CascadeType.ALL, orphanRemoval=true)
+	@JoinColumn(name="OPTION_ID")
 	private List<Option> options;
-	/**
-	 * @category The Category of the question that is a top-level overview of the questioon. 
-	 */
-	private Category category;
-	/**
-	 * @tag The Tag of the question that  low-level details of a quesiton.
-	 */
-	private Tag tag;
-	/**
-	 * @categoryList a List of Categories that relates to the question.
-	 */
-	private List<Category> categoryList;
 	
 	/**
 	 * @tagList a List of tags that relates to the question.
 	 */
-	private List<Tag> tagList;
+	@JsonIgnore
+	@ManyToMany(mappedBy="questions",cascade=CascadeType.REMOVE)
+	private List<Tag> tags;
 	 
-
+	/**
+	 * @categories a List of Categories that relates to the question.
+	 */
+	@JsonIgnore
+	@ManyToMany(cascade=CascadeType.REMOVE)
+	@JoinTable(
+		name="AES_QUESTION_CATEGORY"
+		, joinColumns={
+			@JoinColumn(name="QUESTION_ID")
+			}
+		, inverseJoinColumns={
+			@JoinColumn(name="CATEGORY_ID")
+			}
+		)
+	private List<Category> categories;
+	@JsonIgnore
+	@OneToMany(mappedBy="question", cascade=CascadeType.REMOVE)
+	private List<DragAndDrop> dragAndDrops;
+	@JsonIgnore
+	@OneToMany(mappedBy="question", cascade=CascadeType.REMOVE)
+	private List<UploadedFile> uploadedFiles;
+	@JsonIgnore
+	@OneToMany(mappedBy="question", cascade=CascadeType.REMOVE)
+	private List<SnippetTemplate> snippetTemplates;
+	@JsonIgnore
+	@OneToMany(mappedBy="question", cascade=CascadeType.REMOVE)
+	private List<TemplateQuestion> templateQuestions;
+	
 	public Question()
 	{
 		super();
@@ -97,22 +123,22 @@ public class Question implements Serializable
 	
 	public Question(String questionText)
 	{
-		super();
+		this();
 		this.questionText = questionText;
 	}
 
-	public Question(Integer questionId, String questionText, Format format, List<Option> options, Category category,
-			Tag tag, List<Category> categoryList, List<Tag> tagList)
-	{
-		super();
+	public Question(Integer questionId, String questionText, Format format) {
+		this(questionText);
 		this.questionId = questionId;
-		this.questionText = questionText;
 		this.format = format;
+	}
+
+	public Question(Integer questionId, String questionText, Format format, List<Option> options, List<Category> categoryList, List<Tag> tagList)
+	{
+		this(questionId,questionText,format);
 		this.options = options;
-		this.category = category;
-		this.tag = tag;
-		this.categoryList = categoryList;
-		this.tagList = tagList;
+		this.categories = categoryList;
+		this.tags = tagList;
 	}
 
 	public int getQuestionId()
@@ -154,50 +180,58 @@ public class Question implements Serializable
 	{
 		this.options = options;
 	}
-
-	public Category getCategory()
-	{
-		return category;
-	}
-
-	public void setCategory(Category category)
-	{
-		this.category = category;
-	}
-
-	public Tag getTag()
-	{
-		return tag;
-	}
-
-	public void setTag(Tag tag)
-	{
-		this.tag = tag;
-	}
-
-	public List<Category> getCategoryList()
-	{
-		return categoryList;
-	}
-
-	public void setCategoryList(List<Category> categoryList)
-	{
-		this.categoryList = categoryList;
-	}
-
-	public List<Tag> getTagList()
-	{
-		return tagList;
-	}
-
-	public void setTagList(List<Tag> tagList)
-	{
-		this.tagList = tagList;
-	}
-
+	
 	public void setQuestionId(Integer questionId)
 	{
 		this.questionId = questionId;
+	}
+
+	public List<Category> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
+	}
+
+	public List<DragAndDrop> getDragAndDrops() {
+		return dragAndDrops;
+	}
+
+	public void setDragAndDrops(List<DragAndDrop> dragAndDrops) {
+		this.dragAndDrops = dragAndDrops;
+	}
+
+	public List<Tag> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
+	}
+
+	public List<UploadedFile> getUploadedFiles() {
+		return uploadedFiles;
+	}
+
+	public void setUploadedFiles(List<UploadedFile> uploadedFiles) {
+		this.uploadedFiles = uploadedFiles;
+	}
+
+	public List<SnippetTemplate> getSnippetTemplates() {
+		return snippetTemplates;
+	}
+
+	public void setSnippetTemplates(List<SnippetTemplate> snippetTemplates) {
+		this.snippetTemplates = snippetTemplates;
+	}
+
+	public List<TemplateQuestion> getTemplateQuestions() {
+		return templateQuestions;
+	}
+
+	public void setTemplateQuestions(List<TemplateQuestion> templateQuestions) {
+		this.templateQuestions = templateQuestions;
 	}
 
 	@Override
@@ -205,12 +239,12 @@ public class Question implements Serializable
 	{
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((categoryList == null) ? 0 : categoryList.hashCode());
+		result = prime * result + ((categories == null) ? 0 : categories.hashCode());
 		result = prime * result + ((format == null) ? 0 : format.hashCode());
 		result = prime * result + ((options == null) ? 0 : options.hashCode());
 		result = prime * result + ((questionId == null) ? 0 : questionId.hashCode());
 		result = prime * result + ((questionText == null) ? 0 : questionText.hashCode());
-		result = prime * result + ((tagList == null) ? 0 : tagList.hashCode());
+		result = prime * result + ((tags == null) ? 0 : tags.hashCode());
 		return result;
 	}
 
@@ -224,11 +258,11 @@ public class Question implements Serializable
 		if (getClass() != obj.getClass())
 			return false;
 		Question other = (Question) obj;
-		if (categoryList == null)
+		if (categories == null)
 		{
-			if (other.categoryList != null)
+			if (other.categories != null)
 				return false;
-		} else if (!categoryList.equals(other.categoryList))
+		} else if (!categories.equals(other.categories))
 			return false;
 		if (format == null)
 		{
@@ -254,22 +288,20 @@ public class Question implements Serializable
 				return false;
 		} else if (!questionText.equals(other.questionText))
 			return false;
-		if (tagList == null)
+		if (tags == null)
 		{
-			if (other.tagList != null)
+			if (other.tags != null)
 				return false;
-		} else if (!tagList.equals(other.tagList))
+		} else if (!tags.equals(other.tags))
 			return false;
 		return true;
 	}
 
 	@Override
-	public String toString()
-	{
-		return "Question [questionId=" + questionId + ", questionText=" + questionText + ", format=" + format
-				+ ", options=" + options + ", category=" + category + ", tag=" + tag + ", categoryList=" + categoryList
-				+ ", tagList=" + tagList + "]";
+	public String toString() {
+		return "Question [questionId=" + questionId + ", questionText=" + questionText + "]";
 	}
+
 
 
 }
