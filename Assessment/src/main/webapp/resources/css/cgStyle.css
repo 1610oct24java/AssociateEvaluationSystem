@@ -139,10 +139,10 @@
 }
 
 .glyph-grey {
-	color: grey;
+	color: silver;
 }
 .glyph-red {
-	color: red;
+	color: firebrick;
 }
 .glyph-blue {
 	color:blue;
@@ -150,6 +150,10 @@
 
 i {
 	padding-right: 10px;
+}
+
+#revature li {
+    list-style-type: none;
 }
 
 /* QUIZ NAVIGATION STYLING */

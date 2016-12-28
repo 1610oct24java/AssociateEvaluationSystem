@@ -12,17 +12,10 @@ app.controller("quizController", function($scope, $http, $location) {
 		  var temp = {
 				  flagged : false,
 				  saved : false,
-				  open : false
+				  open : true
 		  };
 		  $scope.states.push(temp);
 	  }
-	
-	/*$scope.editor = ace.edit("editor1");
-	$scope.editor.setTheme("ace/theme/monokai");
-	$scope.editor.getSession().setMode("ace/mode/java");*/
-
-/*	var editor2 = ace.edit("editor2");
-	editor2.getSession().setMode("ace/mode/java");*/
 	
 	 $scope.collapseQuestion = function(index) {
 		  console.log("Entered collapse: glyph id=" + index);
@@ -52,6 +45,20 @@ app.controller("quizController", function($scope, $http, $location) {
 		isFirstDisabled : false
 	};
 	
+	$scope.dragControlListeners = {
+		    accept: function (sourceItemHandleScope, destSortableScope) {return boolean},//override to determine drag is allowed or not. default is true.
+		    itemMoved: function (event) {},
+		    orderChanged: function(event) {}
+		    /*containment: '#board'//optional param.
+		    clone: true //optional param for clone feature.
+		    allowDuplicates: false //optional param allows duplicates to be dropped.*/
+	};
+
+		$scope.dragControlListeners1 = {
+		        /*containment: '#board'//optional param.
+		        allowDuplicates: true //optional param allows duplicates to be dropped.
+*/		};
+	
 	$scope.checkNeedEditor = function (questionIndex) {
 		console.log("checkNeedEditor(" + questionIndex + ")");
 		var currQ = $scope.quiz.questions[questionIndex]
@@ -63,7 +70,7 @@ app.controller("quizController", function($scope, $http, $location) {
 			//Create an editor for it
 			var newEditor = ace.edit("editor" + questionIndex);
 			newEditor.setTheme("ace/theme/monokai");
-			newEditor.getSession().setMode("ace/mode/java");
+			newEditor.getSession().setMode("ace/mode/" + "java");
 			$scope.editors.push(newEditor);
 		};
 	};

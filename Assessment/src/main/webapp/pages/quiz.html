@@ -10,49 +10,53 @@
 
 </head>
 <body>
-	<nav class="navbar">
-		<div class="container-fluid">
-			<div class="nav-dropdown">
-				<button type="button" id="nav-dropdown-btn" data-toggle="dropdown" class="btn btn-lg menu-btn">
-					<span class="glyphicon glyphicon-menu-hamburger whiten"></span>
-				</button>
-				<div class="nav-dropdown-content text-center">
-					Quiz Navigation<br> content<br> content<br> content<br> content<br> content<br>
-					content<br> content
-				</div>
-			</div>
-			<a class="navbar-brand" href="http://revature.com">Revature Assessment Evaluation System</a>
-		</div>
-		</div>
-	</nav>
 	<div class="wrap">
+		<nav class="navbar">
+			<div class="container-fluid">
+				<div class="nav-dropdown">
+					<button type="button" id="nav-dropdown-btn" data-toggle="dropdown" class="btn btn-lg menu-btn">
+						<span class="glyphicon glyphicon-menu-hamburger whiten"></span>
+					</button>
+					<div class="nav-dropdown-content text-center">
+						Quiz Navigation<br> content<br> content<br> content<br> content<br> content<br>
+						content<br> content
+					</div>
+				</div>
+				<a class="navbar-brand" href="http://revature.com">Revature Assessment Evaluation System</a>
+			</div>
+		</nav>
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-sm-10 col-sm-offset-1">
 					<div ng-controller="quizController">
-						<button ng-click="test()" class="btn btn-default" type="submit">Button</button>
+						<h2 class="h2">Welcome to the test</h2>
+						<hr>
 						<uib-accordion close-others="oneAtATime">
 						<div ng-repeat="q in quiz.questions">
-							<div uib-accordion-group class="panel panel-default question-box" is-disabled="true" is-open="states[$index].open">
+							<div uib-accordion-group class="panel panel-default question-box" is-disabled="true"
+								is-open="states[$index].open">
 								<uib-accordion-heading>
 								<div style="display: inline-block;" ng-click="collapseQuestion($index)">Question {{$index + 1}}</div>
-
 								<i class="pull-right glyphicon"
-									ng-class="{'glyphicon-chevron-down': states[$index].open, 'glyphicon-chevron-right': !states[$index].open }"
-									ng-click="collapseQuestion($index)"></i> <i class="pull-right glyphicon glyphicon-floppy-disk"
-									ng-class="{'glyph-grey': states[$index].saved, 'glyph-blue': !states[$index].saved}"
-									ng-click="saveQuestion($index)"></i> <i class="pull-right glyphicon glyphicon-flag"
-									ng-class="{'glyph-grey': states[$index].flagged, 'glyph-red': !states[$index].flagged}"
-									ng-click="flagQuestion($index)"></i> </uib-accordion-heading>
-								<!-- <div class="panel panel-default" heading="Question {{$index + 1}}"> -->
-								<!-- <div class="panel-heading">
-									<h4 class="panel-title">Question {{$index + 1}}</h4>
-								</div> -->
+									ng-class="{'glyphicon-chevron-down glyph-grey': states[$index].open, 'glyphicon-chevron-right glyph-grey': !states[$index].open }"
+									ng-click="collapseQuestion($index)" title="Collapsed">
+								</i>
+								<i class="pull-right glyphicon glyphicon-floppy-disk"
+									ng-class="{'glyph-blue': states[$index].saved, 'glyph-grey': !states[$index].saved}"
+									ng-click="saveQuestion($index)" title="Saved">
+								</i>
+								<i class="pull-right glyphicon glyphicon-flag"
+									ng-class="{'glyph-red': states[$index].flagged, 'glyph-grey': !states[$index].flagged}"
+									ng-click="flagQuestion($index)" title="Title"></i>
+									
+								</uib-accordion-heading>
+
 								<div class="panel-body">
 									{{q.txtQ}} <br>
 									<hr>
 									<div ng-show="q.type === 0">Choose one:</div>
 									<div ng-show="q.type === 1">Choose as many as applicable:</div>
+									<div ng-show="q.type === 2">Drag and drop:</div>
 									<div ng-show="q.type === 3">Write your code below:</div>
 									<ul ng-show="q.type < 2" class="list-group">
 										<li class="list-group-item" ng-repeat="option in q.options">
@@ -61,6 +65,14 @@
 											</div>
 											<div class="checkbox" ng-show="q.type === 1">
 												<label><input type="checkbox" name="q{{q.id}}">{{option.txtA}}</label>
+											</div>
+										</li>
+									</ul>
+									<ul id="revature" ng-show="q.type === 2" class="list-group" data-as-sortable="board.dragControlListeners"
+										data-ng-model="q.options">
+										<li data-ng-repeat="option in q.options" class="list-group-item" data-as-sortable-item>
+											<div data-as-sortable-item-handle>
+												<span class="glyphicon glyphicon-option-vertical"></span>{{option.txtA}}
 											</div>
 										</li>
 									</ul>
@@ -73,91 +85,6 @@
 							<br>
 						</div>
 						</uib-accordion>
-					</div>
-				</div>
-			</div>
-			<hr>
-			<h1 class="text-center">Templates (Temporary)</h1>
-			<hr>
-
-
-
-			<div class="row">
-				<div class="col-sm-8 col-sm-offset-2">
-					<div class="panel-group">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<h4 class="panel-title">Snip snip</h4>
-							</div>
-							<div class="panel-body">
-								<div id="editor1" class="editor">public static void main (String[] args) { }</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-8 col-sm-offset-2">
-					<div class="panel-group">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<h4 class="panel-title">Snip snip</h4>
-							</div>
-							<div class="panel-body"></div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<br>
-			<div class="row">
-				<div class="col-sm-10 col-sm-offset-1">
-					<div class="panel-group">
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<h4 class="panel-title">Question 3</h4>
-							</div>
-							<div class="panel-body">
-								What is the proper viewing order of these films?<br> <br>Drag and drop:
-							</div>
-							<ul class="list-group">
-								<li class="list-group-item" draggable="true" ondragstart="dragStarted(event)" ondragover="draggingOver(event)"
-									ondrop="dropped(event)">
-									<h5>
-										<span class="glyphicon glyphicon-option-vertical"></span> A New Hope
-									</h5>
-								</li>
-								<li class="list-group-item" draggable="true" ondragstart="dragStarted(event)" ondragover="draggingOver(event)"
-									ondrop="dropped(event)">
-									<h5>
-										<span class="glyphicon glyphicon-option-vertical"></span> Attack of the Clones
-									</h5>
-								</li>
-								<li class="list-group-item" draggable="true" ondragstart="dragStarted(event)" ondragover="draggingOver(event)"
-									ondrop="dropped(event)">
-									<h5>
-										<span class="glyphicon glyphicon-option-vertical"></span> The Empire Strikes Back
-									</h5>
-								</li>
-								<li class="list-group-item" draggable="true" ondragstart="dragStarted(event)" ondragover="draggingOver(event)"
-									ondrop="dropped(event)">
-									<h5>
-										<span class="glyphicon glyphicon-option-vertical"></span> The Phantom Menace
-									</h5>
-								</li>
-								<li class="list-group-item" draggable="true" ondragstart="dragStarted(event)" ondragover="draggingOver(event)"
-									ondrop="dropped(event)">
-									<h5>
-										<span class="glyphicon glyphicon-option-vertical"></span> Revenge of the Sith
-									</h5>
-								</li>
-								<li class="list-group-item" draggable="true" ondragstart="dragStarted(event)" ondragover="draggingOver(event)"
-									ondrop="dropped(event)">
-									<h5>
-										<span class="glyphicon glyphicon-option-vertical"></span> Return of the Jedi
-									</h5>
-								</li>
-							</ul>
-						</div>
 					</div>
 				</div>
 			</div>
