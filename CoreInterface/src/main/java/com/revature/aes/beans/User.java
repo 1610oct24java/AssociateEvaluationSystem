@@ -4,32 +4,45 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.springframework.context.annotation.Scope;
-
 @Entity
-@Scope("session")
 @Table(name="AES_USERS")
 public class User implements Serializable{
 
 	private static final long serialVersionUID = 6104022944061620088L;
 	@Id
+	@SequenceGenerator(name = "AES_USERS_SEQ", sequenceName = "AES_USERS_SEQ")
+	@GeneratedValue(generator = "AES_USERS_SEQ", strategy = GenerationType.SEQUENCE)
 	@Column(name="USER_ID")
 	private int userId;
+	
 	@Column(name="EMAIL")
 	private String email;
+	
 	@Column(name="FIRSTNAME")
 	private String firstName;
+	
 	@Column(name="LASTNAME")
 	private String lastName;
+	
 	@Column(name="SALESFORCE")
 	private Integer salesforce;
+	
 	@Column(name="RECRUITER_ID")
 	private Integer recruiterId;
-	@Column(name="ROLE_ID")
-	private int roleId;
+	
+	@ManyToOne(fetch=FetchType.EAGER,targetEntity = Role.class)
+	@JoinColumn(name="ROLE_ID")
+	private Role role;
+	
 	@Column(name="DATE_PASS_ISSUED")
 	private String datePassIssued;
 	
@@ -73,12 +86,15 @@ public class User implements Serializable{
 	public void setRecruiterId(Integer recruiterId) {
 		this.recruiterId = recruiterId;
 	}
-	public int getRoleId() {
-		return roleId;
+
+	public Role getRole() {
+		return role;
 	}
-	public void setRoleId(int roleId) {
-		this.roleId = roleId;
+
+	public void setRole(Role role) {
+		this.role = role;
 	}
+
 	public String getDatePassIssued() {
 		return datePassIssued;
 	}
@@ -88,11 +104,11 @@ public class User implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", salesforce=" + salesforce + ", recruiterId=" + recruiterId + ", roleId=" + roleId
-				+ ", datePassIssued=" + datePassIssued + "]";
+				+ ", salesforce=" + salesforce + ", recruiterId=" + recruiterId + ", role=" + role + ", datePassIssued="
+				+ datePassIssued + "]";
 	}
 }
-
