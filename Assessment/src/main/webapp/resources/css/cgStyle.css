@@ -1,1 +1,155 @@
+.nav, .pagination, .carousel, .panel-title a {
+	cursor: pointer;
+}
+
+.editor { 
+    height: 100px;
+    width: 90%
+}
+
+@CHARSET "ISO-8859-1";
+
+/* Revature Main Orange:           	f26925 */
+/* Revature Accent (Darker) Orange: ef5c1e */
+/* Revature Main Grey:         		474c55 */
+/* Revature Accent (Darker) Grey:   434851 */
+
+/* REVATURE FONT FAMILY */
+@font-face {
+    font-family: 'futura-heavy';
+    src: url('../fonts/ParaType-FuturaPTHeavy.ttf');
+}
+@font-face {
+    font-family: 'futura-heavy-italics';
+    src: url('../fonts/ParaType-FuturaPTHeavyOblique.ttf');
+}
+@font-face {
+    font-family: 'futura-book';
+    src: url('../fonts/ParaType-FuturaPTBook.ttf');
+}
+@font-face {
+    font-family: 'futura-book-italics';
+    src: url('../fonts/ParaType-FuturaPTBookOblique.ttf');
+}
+@font-face {
+    font-family: 'futura-light';
+    src: url('../fonts/ParaType-FuturaPTLight.ttf');
+}
+@font-face {
+    font-family: 'futura-light-italics';
+    src: url('../fonts/ParaType-FuturaPTLightOblique.ttf');
+}
+@font-face {
+    font-family: 'futura-medium';
+    src: url('../fonts/ParaType-FuturaPTMedium.ttf');
+}
+@font-face {
+    font-family: 'futura-medium-italics';
+    src: url('../fonts/ParaType-FuturaPTMediumOblique.ttf');
+}
+@font-face {
+    font-family: 'futura-bold';
+    src: url('../fonts/ParaType-FuturaPTBold.ttf');
+}
+
+/* NAVBAR STYLING */
+.navbar {
+	font-family: 'futura-heavy';
+	background-color: #474C55;
+}
+
+.navbar-brand:link {
+	color: #ffffff;
+	text-decoration: none;
+}
+
+.navbar-brand:visited {
+	color: #ffffff;
+	text-decoration: none;
+}
+
+.navbar-brand:hover {
+	color: #F26925;
+	text-decoration: none;
+}
+
+.nav-dropdown {
+	position: relative;
+	display: inline-block;
+	float: left;
+}
+
+.nav-dropdown-content {
+	display: none;
+	position: absolute;
+	background-color: #474C55;
+	color: #ffffff;
+	min-width: 300px;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	padding: 12px 16px;
+}
+
+.nav-dropdown:hover .nav-dropdown-content {
+	display: block;
+}
+
+.menu-btn {
+	background-color: #474C55;
+}
+
+.whiten {
+	color: #ffffff;
+	font-size: 22px;
+}
+
+/* BUTTON STYLING */
+.Orange-read-btn {
+	font-family: 'futura-heavy';
+    background-color: #f26925;
+    -moz-border-radius: 28px;
+    -webkit-border-radius: 28px;
+    border-radius: 28px;
+    border: 3px solid #f26925;
+    display: inline-block;
+    cursor: pointer;
+    color: #fff;
+    font-size: 15px;
+    padding: 12px 30px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* BUTTON STYLING ON HOVER */
+.Orange-read-btn:hover {
+	font-family: 'futura-heavy';
+	background-color: #fff;
+	color: #f26925;
+	text-decoration: none;
+}
+
+
+/* QUESTION CONTENT STYLING */
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+.accordion-toggle:focus{outline: none;}
+
+.question-box {
+	/* margin-left: 10%;
+	margin-right: 10%; */
+	font-family: 'futura-book';
+}
+
+.glyph-grey {
+	color: grey;
+}
+.glyph-red {
+	color: red;
+}
+.glyph-blue {
+	color:blue;
+}
+
+i {
+	padding-right: 10px;
+}
+
+/* QUIZ NAVIGATION STYLING */
