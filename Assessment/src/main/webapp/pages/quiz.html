@@ -40,77 +40,76 @@
 							<br>
 						</div>
 						</uib-accordion>
-						<hr>
 					</div>
 				</div>
-				<hr>
-				<h1>Templates (Temporary)</h1>
+			</div>
+			<hr>
+			<h1 class = "text-center">Templates (Temporary)</h1>
+			<hr>
 
-				<hr>
-
-				<div class="row">
-					<div class="col-sm-10 col-sm-offset-1">
-						<ul data-as-sortable="board.dragControlListeners" data-ng-model="questions">
-							<li data-ng-repeat="item in questions" data-as-sortable-item>
-								<div data-as-sortable-item-handle>{{$index}}</div>
-							</li>
-						</ul>
-					</div>
+			<div class="row">
+				<div class="col-sm-10 col-sm-offset-1">
+					<ul data-as-sortable="board.dragControlListeners" data-ng-model="questions">
+						<li data-ng-repeat="item in questions" data-as-sortable-item>
+							<div data-as-sortable-item-handle>{{$index}}</div>
+						</li>
+					</ul>
 				</div>
+			</div>
 
-				<div class="row">
-					<div class="col-sm-10 col-sm-offset-1">
-						<div class="panel-group">
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h4 class="panel-title">Question 3</h4>
-								</div>
-								<div class="panel-body">
-									What is the proper viewing order of these films?<br> <br>Drag and drop:
-								</div>
-								<ul class="list-group">
-									<li class="list-group-item" draggable="true" ondragstart="dragStarted(event)" ondragover="draggingOver(event)"
-										ondrop="dropped(event)">
-										<h5>
-											<span class="glyphicon glyphicon-option-vertical"></span> A New Hope
-										</h5>
-									</li>
-									<li class="list-group-item" draggable="true" ondragstart="dragStarted(event)" ondragover="draggingOver(event)"
-										ondrop="dropped(event)">
-										<h5>
-											<span class="glyphicon glyphicon-option-vertical"></span> Attack of the Clones
-										</h5>
-									</li>
-									<li class="list-group-item" draggable="true" ondragstart="dragStarted(event)" ondragover="draggingOver(event)"
-										ondrop="dropped(event)">
-										<h5>
-											<span class="glyphicon glyphicon-option-vertical"></span> The Empire Strikes Back
-										</h5>
-									</li>
-									<li class="list-group-item" draggable="true" ondragstart="dragStarted(event)" ondragover="draggingOver(event)"
-										ondrop="dropped(event)">
-										<h5>
-											<span class="glyphicon glyphicon-option-vertical"></span> The Phantom Menace
-										</h5>
-									</li>
-									<li class="list-group-item" draggable="true" ondragstart="dragStarted(event)" ondragover="draggingOver(event)"
-										ondrop="dropped(event)">
-										<h5>
-											<span class="glyphicon glyphicon-option-vertical"></span> Revenge of the Sith
-										</h5>
-									</li>
-									<li class="list-group-item" draggable="true" ondragstart="dragStarted(event)" ondragover="draggingOver(event)"
-										ondrop="dropped(event)">
-										<h5>
-											<span class="glyphicon glyphicon-option-vertical"></span> Return of the Jedi
-										</h5>
-									</li>
-								</ul>
+			<div class="row">
+				<div class="col-sm-10 col-sm-offset-1">
+					<div class="panel-group">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 class="panel-title">Question 3</h4>
 							</div>
+							<div class="panel-body">
+								What is the proper viewing order of these films?<br> <br>Drag and drop:
+							</div>
+							<ul class="list-group">
+								<li class="list-group-item" draggable="true" ondragstart="dragStarted(event)" ondragover="draggingOver(event)"
+									ondrop="dropped(event)">
+									<h5>
+										<span class="glyphicon glyphicon-option-vertical"></span> A New Hope
+									</h5>
+								</li>
+								<li class="list-group-item" draggable="true" ondragstart="dragStarted(event)" ondragover="draggingOver(event)"
+									ondrop="dropped(event)">
+									<h5>
+										<span class="glyphicon glyphicon-option-vertical"></span> Attack of the Clones
+									</h5>
+								</li>
+								<li class="list-group-item" draggable="true" ondragstart="dragStarted(event)" ondragover="draggingOver(event)"
+									ondrop="dropped(event)">
+									<h5>
+										<span class="glyphicon glyphicon-option-vertical"></span> The Empire Strikes Back
+									</h5>
+								</li>
+								<li class="list-group-item" draggable="true" ondragstart="dragStarted(event)" ondragover="draggingOver(event)"
+									ondrop="dropped(event)">
+									<h5>
+										<span class="glyphicon glyphicon-option-vertical"></span> The Phantom Menace
+									</h5>
+								</li>
+								<li class="list-group-item" draggable="true" ondragstart="dragStarted(event)" ondragover="draggingOver(event)"
+									ondrop="dropped(event)">
+									<h5>
+										<span class="glyphicon glyphicon-option-vertical"></span> Revenge of the Sith
+									</h5>
+								</li>
+								<li class="list-group-item" draggable="true" ondragstart="dragStarted(event)" ondragover="draggingOver(event)"
+									ondrop="dropped(event)">
+									<h5>
+										<span class="glyphicon glyphicon-option-vertical"></span> Return of the Jedi
+									</h5>
+								</li>
+							</ul>
 						</div>
 					</div>
 				</div>
 			</div>
+
 		</div>
 
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
