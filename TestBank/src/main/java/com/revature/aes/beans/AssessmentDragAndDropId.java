@@ -25,10 +25,10 @@ public class AssessmentDragAndDropId implements Serializable {
 	 */
 	private static final long serialVersionUID = 389943358618803605L;
 	
-	@Column(name ="fk_assessment_id")
+	@Column(name ="ASSESSMENT_ID")
 	private Integer assessementId;
 	
-	@Column(name="fk_dragDrop_id")
+	@Column(name="DRAG_DROP_ID")
 	private Integer dragDropId;
 	
 	public AssessmentDragAndDropId() {
