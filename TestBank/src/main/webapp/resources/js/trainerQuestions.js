@@ -71,7 +71,6 @@ var variable;
 		};
 
 		this.addQuestion = () => {
-
 			this.question.format = questionformat;
 			if (questionformat.formatId === 0) {
 				alert("please choose a format type");
@@ -117,13 +116,37 @@ var variable;
 			} else {
 				this.updatedQuestion = this.question;
 				console.log('updating question ' + this.updatedQuestion);
-				
 				this.show = true;
 			}	
 		};
 
 		this.updateQuestion = () => {
 	
+			this.question.format = questionformat;
+			if (questionformat.formatId === 0) {
+				alert("please choose a format type");
+			} else {
+				$http.post(url + "question", this.question)
+					.success((response) => {
+						this.question = response.data;
+						if (question == null) {
+							alert("Error Saving Question Please Try Again");
+						} else {
+							this.getQuestionList();
+							this.question = {
+								questionId : 0,
+								questionText : '',
+								format : {
+									formatId : 0,
+									formatName : ''
+								}
+							};
+						}
+						;
+					});
+
+			}
+
 		};
 		angular.element(document).ready(() => {
 			this.getQuestionList();
