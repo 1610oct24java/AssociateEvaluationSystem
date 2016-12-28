@@ -1,0 +1,238 @@
+@CHARSET "ISO-8859-1";
+
+/* Revature Main Orange:           	f26925 */
+/* Revature Accent (Darker) Orange: ef5c1e */
+/* Revature Main Grey:         		474c55 */
+/* Revature Accent (Darker) Grey:   434851 */
+
+/* REVATURE FONT FAMILY */
+@font-face {
+    font-family: 'futura-heavy';
+    src: url('../fonts/ParaType-FuturaPTHeavy.ttf');
+}
+@font-face {
+    font-family: 'futura-heavy-italics';
+    src: url('../fonts/ParaType-FuturaPTHeavyOblique.ttf');
+}
+@font-face {
+    font-family: 'futura-book';
+    src: url('../fonts/ParaType-FuturaPTBook.ttf');
+}
+@font-face {
+    font-family: 'futura-book-italics';
+    src: url('../fonts/ParaType-FuturaPTBookOblique.ttf');
+}
+@font-face {
+    font-family: 'futura-light';
+    src: url('../fonts/ParaType-FuturaPTLight.ttf');
+}
+@font-face {
+    font-family: 'futura-light-italics';
+    src: url('../fonts/ParaType-FuturaPTLightOblique.ttf');
+}
+@font-face {
+    font-family: 'futura-medium';
+    src: url('../fonts/ParaType-FuturaPTMedium.ttf');
+}
+@font-face {
+    font-family: 'futura-medium-italics';
+    src: url('../fonts/ParaType-FuturaPTMediumOblique.ttf');
+}
+@font-face {
+    font-family: 'futura-bold';
+    src: url('../fonts/ParaType-FuturaPTBold.ttf');
+}
+
+/* NAVBAR STYLING */
+.navbar {
+	font-family: 'futura-heavy';
+	background-color: #474C55;
+}
+
+.navbar-brand:link {
+	color: #ffffff;
+	text-decoration: none;
+}
+
+.navbar-brand:visited {
+	color: #ffffff;
+	text-decoration: none;
+}
+
+.navbar-brand:hover {
+	color: #F26925;
+	text-decoration: none;
+}
+
+.nav-dropdown {
+	position: relative;
+	display: inline-block;
+	float: left;
+}
+
+.nav-dropdown-content {
+	display: none;
+	position: absolute;
+	background-color: #474C55;
+	color: #ffffff;
+	min-width: 300px;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	padding: 12px 16px;
+}
+
+.nav-dropdown:hover .nav-dropdown-content {
+	display: block;
+}
+
+.menu-btn {
+	background-color: #474C55;
+}
+
+.whiten {
+	color: #ffffff;
+	font-size: 22px;
+}
+
+/* BUTTON STYLING */
+.Orange-read-btn {
+	font-family: 'futura-heavy';
+    background-color: #f26925;
+    -moz-border-radius: 28px;
+    -webkit-border-radius: 28px;
+    border-radius: 28px;
+    border: 3px solid #f26925;
+    display: inline-block;
+    cursor: pointer;
+    color: #fff;
+    font-size: 15px;
+    padding: 12px 30px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* BUTTON STYLING ON HOVER */
+.Orange-read-btn:hover {
+	font-family: 'futura-heavy';
+	background-color: #fff;
+	color: #f26925;
+	text-decoration: none;
+}
+
+/* ANGULAR NAVBAR */
+.fabToolbardemoBasicUsage md-fab-toolbar.md-right md-fab-trigger.align-with-text {
+  left: 7px;
+}
+
+.md-button.nav-btn {
+	background-color: #474C55;
+}
+
+.md-button.md-fab.navBtn {
+	background-color: #474C55;
+}
+
+.md-fab {
+	background-color: #474C55;
+}
+
+.md-toolbar.nav-toolbar {
+	background-color: #474C55 !important;
+}
+
+/* ANGULAR PROGRESS BAR */
+.progressLineardemoBasicUsage body {
+  padding: 20px; }
+
+.progressLineardemoBasicUsage h4 {
+  margin: 10px 0; }
+
+.progressLineardemoBasicUsage md-progress-linear {
+  padding-top: 10px;
+  margin-bottom: 20px; }
+
+.progressLineardemoBasicUsage #loaders > md-switch {
+  margin: 0;
+  margin-left: 10px;
+  margin-top: -10px; }
+
+.progressLineardemoBasicUsage #loaders > h5 {
+  margin-top: 0; }
+
+.progressLineardemoBasicUsage #loaders > p {
+  margin-right: 20px;
+  margin-bottom: 24px; }
+
+.progressLineardemoBasicUsage p.small {
+  font-size: 0.8em;
+  margin-top: -18px; }
+
+.progressLineardemoBasicUsage hr {
+  width: 100%;
+  margin-top: 20px;
+  border-color: rgba(221, 221, 177, 0.1); }
+
+.progressLineardemoBasicUsage p.small > code {
+  font-size: 0.8em; }
+
+.progressLineardemoBasicUsage .visible {
+  opacity: 0;
+  border: 2px solid white !important; }
+
+.progressLineardemoBasicUsage .container {
+  display: block;
+  position: relative;
+  width: 100%;
+  border: 2px solid #aad1f9;
+  transition: opacity  0.1s linear;
+  border-top: 0px; }
+
+.progressLineardemoBasicUsage .bottom-block {
+  display: block;
+  position: relative;
+  background-color: rgba(255, 235, 169, 0.25);
+  height: 85px;
+  width: 100%; }
+
+.progressLineardemoBasicUsage .bottom-block > span {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 25px;
+  font-size: 0.9em; }
+
+
+/* QUESTION CONTAINER */
+.glyphicon:before {
+     visibility: visible;
+}
+.glyphicon.glyphicon-chevron-down:checked:before {
+    content: "\e113";
+}
+.glyphicon.glyphicon-floppy-disk:checked:before {
+    color:blue;
+}
+.glyphicon.glyphicon-flag:checked:before {
+    color:red;
+}
+input[type=checkbox].glyphicon {
+     visibility: hidden;        
+}
+
+@keyframes collapseAnimation {
+    from {
+        height: 100px;
+    } to {
+        height: 0;
+    }
+}
+
+#qbox {
+  background-color: lightblue;
+  height: 100px;
+  width: 100%;
+  position: relative;
+}
+
+/*
+Copyright 2016 Google Inc. All Rights Reserved. 
+Use of this source code is governed by an MIT-style license that can be found in the LICENSE file at http://material.angularjs.org/HEAD/license.
+*/

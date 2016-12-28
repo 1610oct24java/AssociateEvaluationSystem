@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html ng-app="quizApp">
+<head>
+<meta charset="ISO-8859-1">
+<title>Assessment</title>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="../resources/css/cgStyle.css">
+</head>
+<body>
+	<div class="wrap">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="jumbotron text-center">
+					<h1>I'm a quiz!</h1>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-10 col-sm-offset-1">
+					<div ng-controller="quizController">
+						<uib-accordion close-others="oneAtATime">
+						<div ng-repeat="q in quiz.questions">
+							<div uib-accordion-group class="panel panel-default" heading="Question {{$index + 1}}">
+								{{q.txtQ}} <br>
+								<hr>
+								<div ng-show="q.type === 0">Choose one:</div>
+								<div ng-show="q.type === 1">Choose as many as applicable:</div>
+								<ul class="list-group">
+									<li class="list-group-item" ng-repeat="option in q.options">
+										<div class="radio" ng-show="q.type === 0">
+											<label><input type="radio" name="q{{q.id}}">{{option.txtA}}</label>
+										</div>
+										<div class="checkbox" ng-show="q.type === 1">
+											<label><input type="checkbox" name="q{{q.id}}">{{option.txtA}}</label>
+										</div>
+									</li>
+								</ul>
+							</div>
+							<br>
+						</div>
+						</uib-accordion>
+						<hr>
+					</div>
+				</div>
+				<hr>
+				<h1>Templates (Temporary)</h1>
+
+				<hr>
+
+				<div class="row">
+					<div class="col-sm-10 col-sm-offset-1">
+						<ul data-as-sortable="board.dragControlListeners" data-ng-model="questions">
+							<li data-ng-repeat="item in questions" data-as-sortable-item>
+								<div data-as-sortable-item-handle>{{$index}}</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-10 col-sm-offset-1">
+						<div class="panel-group">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title">Question 3</h4>
+								</div>
+								<div class="panel-body">
+									What is the proper viewing order of these films?<br> <br>Drag and drop:
+								</div>
+								<ul class="list-group">
+									<li class="list-group-item" draggable="true" ondragstart="dragStarted(event)" ondragover="draggingOver(event)"
+										ondrop="dropped(event)">
+										<h5>
+											<span class="glyphicon glyphicon-option-vertical"></span> A New Hope
+										</h5>
+									</li>
+									<li class="list-group-item" draggable="true" ondragstart="dragStarted(event)" ondragover="draggingOver(event)"
+										ondrop="dropped(event)">
+										<h5>
+											<span class="glyphicon glyphicon-option-vertical"></span> Attack of the Clones
+										</h5>
+									</li>
+									<li class="list-group-item" draggable="true" ondragstart="dragStarted(event)" ondragover="draggingOver(event)"
+										ondrop="dropped(event)">
+										<h5>
+											<span class="glyphicon glyphicon-option-vertical"></span> The Empire Strikes Back
+										</h5>
+									</li>
+									<li class="list-group-item" draggable="true" ondragstart="dragStarted(event)" ondragover="draggingOver(event)"
+										ondrop="dropped(event)">
+										<h5>
+											<span class="glyphicon glyphicon-option-vertical"></span> The Phantom Menace
+										</h5>
+									</li>
+									<li class="list-group-item" draggable="true" ondragstart="dragStarted(event)" ondragover="draggingOver(event)"
+										ondrop="dropped(event)">
+										<h5>
+											<span class="glyphicon glyphicon-option-vertical"></span> Revenge of the Sith
+										</h5>
+									</li>
+									<li class="list-group-item" draggable="true" ondragstart="dragStarted(event)" ondragover="draggingOver(event)"
+										ondrop="dropped(event)">
+										<h5>
+											<span class="glyphicon glyphicon-option-vertical"></span> Return of the Jedi
+										</h5>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-animate.js"></script>
+		<script src="../resources/js/quizJS.js"></script>
+		<script src="../resources/js/testData.js"></script>
+		<script src="../resources/js/ui-bootstrap-tpls-2.3.1.js"></script>
+		<script src="../resources/js/lib/ng-sortable.js"></script>
+		<script src="../resources/js/app.js"></script>
+</body>
+</html>
