@@ -31,6 +31,9 @@
 					<div ng-controller="quizController">
 						<h2 class="h2">Welcome to the test</h2>
 						<hr>
+						<ul uib-pagination total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm"
+							boundary-links="true" num-pages="numPages"></ul>
+						<br>
 						<uib-accordion close-others="oneAtATime">
 						<div ng-repeat="q in quiz.questions">
 							<div uib-accordion-group class="panel panel-default question-box" is-disabled="true"
@@ -39,17 +42,12 @@
 								<div style="display: inline-block;" ng-click="collapseQuestion($index)">Question {{$index + 1}}</div>
 								<i class="pull-right glyphicon"
 									ng-class="{'glyphicon-chevron-down glyph-grey': states[$index].open, 'glyphicon-chevron-right glyph-grey': !states[$index].open }"
-									ng-click="collapseQuestion($index)" title="Collapsed">
-								</i>
-								<i class="pull-right glyphicon glyphicon-floppy-disk"
+									ng-click="collapseQuestion($index)" title="Collapsed"> </i> <i
+									class="pull-right glyphicon glyphicon-floppy-disk"
 									ng-class="{'glyph-blue': states[$index].saved, 'glyph-grey': !states[$index].saved}"
-									ng-click="saveQuestion($index)" title="Saved">
-								</i>
-								<i class="pull-right glyphicon glyphicon-flag"
+									ng-click="saveQuestion($index)" title="Saved"> </i> <i class="pull-right glyphicon glyphicon-flag"
 									ng-class="{'glyph-red': states[$index].flagged, 'glyph-grey': !states[$index].flagged}"
-									ng-click="flagQuestion($index)" title="Title"></i>
-									
-								</uib-accordion-heading>
+									ng-click="flagQuestion($index)" title="Title"></i> </uib-accordion-heading>
 
 								<div class="panel-body">
 									{{q.txtQ}} <br>
@@ -68,17 +66,20 @@
 											</div>
 										</li>
 									</ul>
-									<ul id="revature" ng-show="q.type === 2" class="list-group" data-as-sortable="board.dragControlListeners"
-										data-ng-model="q.options">
-										<li data-ng-repeat="option in q.options" class="list-group-item" data-as-sortable-item>
-											<div data-as-sortable-item-handle>
-												<span class="glyphicon glyphicon-option-vertical"></span>{{option.txtA}}
-											</div>
-										</li>
-									</ul>
 									{{checkNeedEditor($index)}}
 									<div ng-show="q.type === 3">
 										<div id="editor{{$index}}" class="editor">{{q.options[0].txtA}}</div>
+									</div>
+									<div></div>
+									<div ng-controller="dragController">
+										<ul id="revature" ng-show="q.type === 2" class="list-group" data-as-sortable="board.dragControlListeners"
+											data-ng-model="q.options">
+											<li data-ng-repeat="option in q.options" class="list-group-item" data-as-sortable-item>
+												<div data-as-sortable-item-handle>
+													<span class="glyphicon glyphicon-option-vertical"></span>{{option.txtA}}
+												</div>
+											</li>
+										</ul>
 									</div>
 								</div>
 							</div>
@@ -87,6 +88,10 @@
 						</uib-accordion>
 					</div>
 				</div>
+			</div>
+			<div class="row" ng-controller="PaginationDemoCtrl">
+				<ul uib-pagination total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm"
+					boundary-links="true" num-pages="numPages"></ul>
 			</div>
 		</div>
 	</div>

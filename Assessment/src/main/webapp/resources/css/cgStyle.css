@@ -56,6 +56,7 @@
 .navbar {
 	font-family: 'futura-heavy';
 	background-color: #474C55;
+	z-index: 1;
 }
 
 .navbar-brand:link {
