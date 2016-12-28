@@ -121,6 +121,7 @@
 
 /* QUESTION CONTENT STYLING */
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+.accordion-toggle:focus{outline: none;}
 
 .question-box {
 	margin-left: 10%;
