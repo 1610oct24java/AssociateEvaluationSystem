@@ -11,9 +11,8 @@ public class Driver {
 	
 	public static void main(String args[]){
 		
-		ApplicationContext ac = new ClassPathXmlApplicationContext("/WEB-INF/beans.xml");
+		ApplicationContext ac = new ClassPathXmlApplicationContext("beans.xml");
 		QuestionService service = (QuestionService) ac.getBean("questionServiceImpl");
-		Format format = new Format();
 		
 		System.out.println(service.getAllQuestions());
 		

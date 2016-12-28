@@ -16,7 +16,7 @@
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/beans.xml</param-value>
+			<param-value>/src/main/resources/beans.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
@@ -31,7 +31,7 @@
 <!-- needed for ContextLoaderListener -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/beans.xml</param-value>
+		<param-value>/src/main/resources/beans.xml</param-value>
 	</context-param>
 
 	<!-- Bootstraps the root web application context before servlet initialization -->

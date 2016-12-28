@@ -11,6 +11,9 @@ package com.revature.aes.services;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -22,8 +25,8 @@ import com.revature.aes.daos.QuestionDAO;
 
 @Service
 @Transactional
-public class QuestionServiceImpl implements QuestionService
-{
+public class QuestionServiceImpl implements QuestionService{
+	
 	@Autowired
 	private QuestionDAO qdao;
 

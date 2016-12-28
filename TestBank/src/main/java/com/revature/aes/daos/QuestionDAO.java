@@ -14,6 +14,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.revature.aes.beans.Category;
 import com.revature.aes.beans.Format;
 import com.revature.aes.beans.Question;
 
@@ -22,8 +23,8 @@ public interface QuestionDAO extends JpaRepository<Question, Integer>
 {
 	
 	public List<Question> findAllQuestionsByFormat(Format format);
-	public List<Question> findByCategory(String category);
-	public List<Question> findByFormatAndCategory(Format format, String category);
+	public List<Question> findByCategories(List<Category> category);
+	public List<Question> findByFormatAndCategories(Format format, String category);
 	public List<Question> findAllQuestions();
 
 }

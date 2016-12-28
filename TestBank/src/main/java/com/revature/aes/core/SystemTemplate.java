@@ -16,7 +16,7 @@ public class SystemTemplate {
 	 */
 	public List<Question> randomSelectFromCategory(int amount, Format format, String category, List<Question> AssessList){
 		
-		List<Question> filteredQuestions = qDao.findByFormatAndCategory(format, category);
+		List<Question> filteredQuestions = qDao.findByFormatAndCategories(format, category);
 		int n =filteredQuestions.size();
 		/*
 		 * loop through all the questions a pick out 'amount' number of them.
