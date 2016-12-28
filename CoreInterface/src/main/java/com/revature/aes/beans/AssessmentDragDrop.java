@@ -17,14 +17,22 @@ public class AssessmentDragDrop implements Serializable {
 	@Column(name = "user_order ")
 	private int userOrder;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "assessment_id")
+	@Column(name = "ASSESSMENT_ID")
 	private Assessment assessmentId;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "drag_drop_id")
-	private DragDrop dragDropId;
+	private DragDrop dragDrop;
 
+	public AssessmentDragDrop() {
+		super();
+	}
+	
+	@Override
+	public String toString() {
+		return "AssessmentDragDrop [userOrder=" + userOrder + ", assessmentId=" + assessmentId + ", dragDrop="
+				+ dragDrop + "]";
+	}
 	public int getUserOrder() {
 		return userOrder;
 	}
@@ -41,25 +49,17 @@ public class AssessmentDragDrop implements Serializable {
 		this.assessmentId = assessmentId;
 	}
 
-	public DragDrop getDragDropId() {
-		return dragDropId;
+	public DragDrop getDragDrop() {
+		return dragDrop;
 	}
 
-	public void setDragDropId(DragDrop dragDropId) {
-		this.dragDropId = dragDropId;
+	public void setDragDrop(DragDrop dragDrop) {
+		this.dragDrop = dragDrop;
 	}
 
-	@Override
-	public String toString() {
-		return "AssessmentDragDrop [userOrder=" + userOrder + ", assessmentId=" + assessmentId + ", dragDropId="
-				+ dragDropId + "]";
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
-	public AssessmentDragDrop(int userOrder, Assessment assessmentId, DragDrop dragDropId) {
-		super();
-		this.userOrder = userOrder;
-		this.assessmentId = assessmentId;
-		this.dragDropId = dragDropId;
-	}
-
+	
 }

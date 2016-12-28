@@ -31,8 +31,7 @@ public class DragDrop implements Serializable {
 	@Column(name = "correct_order")
 	private int correctOrder;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "question_id")
+	@Column(name = "question_id")
 	private int questionId;
 
 	public DragDrop() {

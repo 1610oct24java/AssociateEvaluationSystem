@@ -2,6 +2,7 @@ package com.revature.aes.beans;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
@@ -27,14 +29,24 @@ public class Template implements Serializable {
 	@Column(name = "create_timestamp")
 	private LocalDateTime createTimeStamp;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "template")
-	private TemplateQuestion templateQuestion;
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "templates")
-	private Assessment asssessment;
-
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="CREATOR_ID", referencedColumnName="USER_ID")
 	private User creator;
+
+	@OneToMany(fetch = FetchType.EAGER)
+	@JoinColumn(name="TEMPLATE_ID")
+	private List<TemplateQuestion> templateQuestion;
+
+	public Template() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public String toString() {
+		return "Template [templateId=" + templateId + ", createTimeStamp=" + createTimeStamp + ", creator=" + creator
+				+ ", templateQuestion=" + templateQuestion + "]";
+	}
 
 	public int getTemplateId() {
 		return templateId;
@@ -52,47 +64,23 @@ public class Template implements Serializable {
 		this.createTimeStamp = createTimeStamp;
 	}
 
-	public TemplateQuestion getTemplateQuestion() {
-		return templateQuestion;
-	}
-
-	public void setTemplateQuestion(TemplateQuestion templateQuestion) {
-		this.templateQuestion = templateQuestion;
-	}
-
-	public Assessment getAsssessment() {
-		return asssessment;
-	}
-
-	public void setAsssessment(Assessment asssessment) {
-		this.asssessment = asssessment;
-	}
-
-	public Template() {
-		super();
-	}
-
-	public User getUser() {
+	public User getCreator() {
 		return creator;
 	}
 
-	public void setUser(User user) {
-		this.creator = user;
+	public void setCreator(User creator) {
+		this.creator = creator;
 	}
 
-	public Template(int templateId, LocalDateTime createTimeStamp, TemplateQuestion templateQuestion,
-			Assessment asssessment, User user) {
-		this();
-		this.templateId = templateId;
-		this.createTimeStamp = createTimeStamp;
+	public List<TemplateQuestion> getTemplateQuestion() {
+		return templateQuestion;
+	}
+
+	public void setTemplateQuestion(List<TemplateQuestion> templateQuestion) {
 		this.templateQuestion = templateQuestion;
-		this.asssessment = asssessment;
-		this.creator = user;
 	}
 
-	@Override
-	public String toString() {
-		return "Template [templateId=" + templateId + ", createTimeStamp=" + createTimeStamp + ", templateQuestion="
-				+ templateQuestion + ", asssessment=" + asssessment + ", user=" + creator + "]";
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 }
