@@ -14,9 +14,8 @@ public class MailService {
 	@Autowired
 	private MailSender mailSender;
 	
-	public SimpleMailMessage setupMessage(String sender, String recipient, String sub, String body){
+	public SimpleMailMessage setupMessage(String recipient, String sub, String body){
         SimpleMailMessage msg = new SimpleMailMessage();
-        msg.setFrom(sender);
         msg.setTo(recipient);
         msg.setSubject(sub);
         msg.setText(body);
@@ -26,7 +25,7 @@ public class MailService {
 	
     public Boolean sendEmail(SimpleMailMessage msg) {	
     	Logger logger = Logger.getAnonymousLogger();
-//for richard
+
         try{
         	mailSender.send(msg);
         	return true;
