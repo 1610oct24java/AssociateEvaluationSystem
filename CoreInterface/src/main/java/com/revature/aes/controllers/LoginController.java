@@ -1,5 +1,6 @@
 package com.revature.aes.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,36 +17,35 @@ import com.revature.aes.service.UserService;
 @Controller
 public class LoginController {
 
+	@Autowired
+	UserService service;
+	
 	@RequestMapping(value="/",method = RequestMethod.GET)
 	public String login() {
 		
 		return "login";
 	}
-	
 	@RequestMapping(value="/home",method = RequestMethod.GET)
 	public String getLoginPage(ModelMap modelMap) {
-		//get User service bean
-		ApplicationContext ac = new ClassPathXmlApplicationContext("beans.xml");
-		UserService service =(UserService) ac.getBean("userServiceImpl");
-		//get the current authenticated user
+
 		org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	    String name = user.getUsername(); //get logged in username
-	    User currentUser = (User) ac.getBean("User.java");
-	    currentUser = service.findUserByEmail(name);
+	    User currentUser = service.findUserByEmail(name);
 	    
 	    //direct user based on user
 	    String location = "";
 	    switch(currentUser.getRole().getRoleTitle().toLowerCase()) {
 	    case "recruiter":
-	    	
+	    	location = "recruiterhome";
 	    	break;
 	    	
 	    case "candidate":
 	    	
+	    	//this will pull the link from the database to the candidate's assessment
 	    	break;
 	    	
 	    case "trainer":
-	    	
+	    	location = "trainerhome";
 	    	break;
 	    }
 		return location;
@@ -56,11 +56,7 @@ public class LoginController {
 		
 		return "private";
 	}
-	
-	
-	
-	
-	
+
 	//Spring Security see this :
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView login(

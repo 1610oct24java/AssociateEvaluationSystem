@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -19,21 +18,20 @@ import com.revature.aes.beans.Security;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
+	@Autowired
+	UserService uService;
+	
+	@Autowired
+	SecurityService sService;
+	
 	
 	@Override
 	public UserDetails loadUserByUsername(String arg0) throws UsernameNotFoundException {
-		System.out.println("INPUT USER: "+arg0);
-		ApplicationContext ac = new ClassPathXmlApplicationContext("beans.xml");
-		UserService uService =(UserService) ac.getBean("userServiceImpl");
-		SecurityService sService = (SecurityService) ac.getBean("securityServiceImpl");
 		com.revature.aes.beans.User user = uService.findUserByEmail(arg0);
-		System.out.println(user);
 		Security security = sService.findSecurityByUserId(user.getUserId());
-		System.out.println(security);
 		return new User(arg0, security.getPassword(), getAuthorities(user.getRole().getRoleTitle()));
 	}
 
-	
     public Collection<? extends GrantedAuthority> getAuthorities(String role) {
         List<GrantedAuthority> authList = getGrantedAuthorities(getRoles(role));
         return authList;
