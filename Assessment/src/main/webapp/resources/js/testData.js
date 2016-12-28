@@ -51,6 +51,16 @@ var tstQuiz = {
 					txtA : "Greedo"
 				}
 			]
+		},
+		{
+			txtQ: "Write a program that prints 'May the Force be with you.' in Java",
+			id : 3,
+			type : 3,
+			options : [
+				{
+					txtA : "private static void main(String[] args){\n\n}"
+				}
+			]
 		}
 	]
 };

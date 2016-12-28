@@ -1,1 +1,8 @@
-.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+.nav, .pagination, .carousel, .panel-title a {
+	cursor: pointer;
+}
+
+.editor { 
+    height: 100px;
+    width: 90%
+}
