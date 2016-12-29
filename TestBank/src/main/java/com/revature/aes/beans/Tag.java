@@ -1,15 +1,3 @@
-
-/****************************************************************
- * Project Name: Associate Evaluation System - Test Bank
- * 
- * Description: A simple rest application that persists test
- * 		information into a database. Use to evaluate associates
- * 		performance both during and before employment with Revature 
- * 		LLC.
- * 
- * Authors: Matthew Beauregard, Conner Anderson, Travis Deshotels,
- * 		Edward Crader, Jon-Erik Williams 
- ****************************************************************/
 package com.revature.aes.beans;
 
 import java.io.Serializable;
@@ -25,6 +13,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import org.aspectj.weaver.patterns.TypePatternQuestions.Question;
+
 
 @Entity
 @Table(name="AES_TAGS")
@@ -50,62 +41,28 @@ public class Tag implements Serializable
 	@Column(name="TAG_NAME")
 	private String tagName;
 
-	@ManyToMany
-	@JoinTable(
-		name="AES_QUESTION_TAG"
-		, joinColumns={
-			@JoinColumn(name="TAG_ID")
-			}
-		, inverseJoinColumns={
-			@JoinColumn(name="QUESTION_ID")
-			}
-		)
-	private List<Question> questions;
-	
-	public Tag()
-	{
-		super();
-	}
-
-	public Tag(Integer tagId, String tagName)
-	{
-		super();
-		this.tagId = tagId;
-		this.tagName = tagName;
-	}
-
-	public Integer getTagId()
-	{
+	public Integer getTagId() {
 		return tagId;
 	}
 
-	public void setTagId(Integer tagId)
-	{
+	public void setTagId(Integer tagId) {
 		this.tagId = tagId;
 	}
 
-	public String getTagName()
-	{
+	public String getTagName() {
 		return tagName;
 	}
 
-	public void setTagName(String tagName)
-	{
+	public void setTagName(String tagName) {
 		this.tagName = tagName;
 	}
 
-	
-	public List<Question> getQuestions() {
-		return questions;
-	}
-
-	public void setQuestions(List<Question> questions) {
-		this.questions = questions;
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((tagId == null) ? 0 : tagId.hashCode());
@@ -114,8 +71,7 @@ public class Tag implements Serializable
 	}
 
 	@Override
-	public boolean equals(Object obj)
-	{
+	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -123,19 +79,32 @@ public class Tag implements Serializable
 		if (getClass() != obj.getClass())
 			return false;
 		Tag other = (Tag) obj;
-		if (tagId == null)
-		{
+		if (tagId == null) {
 			if (other.tagId != null)
 				return false;
 		} else if (!tagId.equals(other.tagId))
 			return false;
-		if (tagName == null)
-		{
+		if (tagName == null) {
 			if (other.tagName != null)
 				return false;
 		} else if (!tagName.equals(other.tagName))
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Tag [tagId=" + tagId + ", tagName=" + tagName + "]";
+	}
+
+	public Tag() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
 	
 }
+
+
+	

@@ -1,66 +1,44 @@
 package com.revature.aes.beans;
 
-import java.io.Serializable;
-import javax.persistence.*;
-import java.math.BigDecimal;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-
-/**
- * The persistent class for the AES_SECURITY database table.
- * 
- */
 @Entity
 @Table(name="AES_SECURITY")
-public class Security implements Serializable {
-	private static final long serialVersionUID = 1L;
-
+public class Security {
 	@Id
 	@Column(name="USER_ID")
-	private long userId;
-
+	private int userId;
 	@Column(name="PASS_WORD")
-	private String passWord;
-
-	private BigDecimal valid;
-
-	//bi-directional one-to-one association to AesUser
-	@OneToOne
-	@JoinColumn(name="USER_ID")
-	private User user;
-
+	private String password;
+	@Column(name="VALID")
+	private int valid;
+	
 	public Security() {
+		super();
 	}
-
-	public long getUserId() {
-		return this.userId;
+	@Override
+	public String toString() {
+		return "Security [userId=" + userId + ", password=" + password + ", valid=" + valid + "]";
 	}
-
-	public void setUserId(long userId) {
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
 		this.userId = userId;
 	}
-
-	public String getPassWord() {
-		return this.passWord;
+	public String getPassword() {
+		return password;
 	}
-
-	public void setPassWord(String passWord) {
-		this.passWord = passWord;
+	public void setPassword(String password) {
+		this.password = password;
 	}
-
-	public BigDecimal getValid() {
-		return this.valid;
+	public int getValid() {
+		return valid;
 	}
-
-	public void setValid(BigDecimal valid) {
+	public void setValid(int valid) {
 		this.valid = valid;
 	}
-
-	public User getUser() {
-		return this.user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
 }

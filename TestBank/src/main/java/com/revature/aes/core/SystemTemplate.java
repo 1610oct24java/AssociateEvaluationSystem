@@ -8,15 +8,21 @@ import com.revature.aes.daos.QuestionDAO;
 
 public class SystemTemplate {
 	
-	List<Question> AssessList = null;
-	QuestionDAO qDao = null;
-	
-	/*
+	private QuestionDAO qDao;
+
+	/**
 	 * List of questions that will make up the test. Take in an amount of questions, a format, and a category, and add them to the list.
+	 * 
+	 * @param amount: The number of questions that is being requested.
+	 * @param format: The format of the questions being requested.
+	 * @param category: The category of the question that is being requested.
+	 * @param AssessList: The either empty, or partially filled list of questions for an assessment. 
+	 * @return The same list that is taken in, but with more questions added to it.
 	 */
-	public List<Question> randomSelectFromCategory(int amount, Format format, String category, List<Question> AssessList){
+	public List<Question> getRandomSelectionFromCategory(int amount, Format format, List category, List<Question> AssessList){
 		
-		List<Question> filteredQuestions = qDao.findByFormatAndCategories(format, category);
+		//set instead of list
+		List<Question> filteredQuestions = qDao.findByFormatAndCategory(format, category);
 		int n =filteredQuestions.size();
 		/*
 		 * loop through all the questions a pick out 'amount' number of them.
@@ -24,7 +30,7 @@ public class SystemTemplate {
 		int randomizedId = 0;
 		for(int i = 0;i<amount;i++)
 			randomizedId = (int)(n*Math.random());
-			AssessList.add(qDao.findOne(randomizedId));
+			AssessList.add(filteredQuestions.get(randomizedId));
 		
 		return AssessList;
 	}
