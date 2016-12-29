@@ -12,12 +12,12 @@ public class Mail {
 		@Autowired
 		MailService ms;
 		
-		final static String candidateCompletedBody = "Please click the link below and complete the quiz within one week.\n"
+		static final String candidateCompletedBody = "Please click the link below and complete the quiz within one week.\n"
 				+ "If you can not click the link please copy and paste it into your URL bar\n\n";
 		
-		final static String recruiterCompletedBody = " has finished their quiz and recieved a score: ";
+		static final String recruiterCompletedBody = " has finished their quiz and recieved a score: ";
 		
-		final static String candidateNotCompleteBody = "The time to complete your quiz has passed."
+		static final String candidateNotCompleteBody = "The time to complete your quiz has passed."
 				+ " Your temporary password is no longer valid";
 		
 		
