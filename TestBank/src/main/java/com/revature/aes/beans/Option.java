@@ -142,6 +142,16 @@ public class Option implements Serializable {
 		
 		return true;
 	}
+	//
+	
+	@SuppressWarnings("unused")
+	private boolean equals(Object control, Object test) {
+	    if(null == control) {
+	        return null == test;
+	    }
+	    return control.equals(test);
+	}
+	//
 
 	@Override
 	public String toString() {
