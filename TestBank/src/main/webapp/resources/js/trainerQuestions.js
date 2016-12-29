@@ -1,4 +1,4 @@
-'use strict';
+	'use strict';
 
 var app; //the base application for angular.
 var port = ":8090"; //the port for ajax calls.
@@ -23,12 +23,20 @@ var variable;
 	app.controller('FormatController', function($http) {
 		this.fList;
 		this.format;
-		this.getFormatList = () => {
-			$http.get(url + "format")
-				.then(response => {
+		/*
+		 * var getFormatList = function() {
+		 * $http.get(url + "format")
+				.then( function(response {
 					formatList = response.data;
 					this.fList = formatList;
-				});
+				});}
+		 */
+		this.getFormatList = () => {
+			$http.get(url + "format")
+			.then(response => {
+				formatList = response.data;
+				this.fList = formatList;
+			});
 		};
 
 		this.getFormat = () => {
@@ -90,12 +98,9 @@ var variable;
 									formatName : ''
 								}
 							};
-						}
-						;
+						};
 					});
-
-			}
-
+			};
 		};
 
 		this.deleteQuestion = () => {
@@ -111,12 +116,11 @@ var variable;
 		
 		this.showUpdateQuestion = (aQuestion) => {
 			if(this.question == null){
-				
 				this.show=false;
 			} else {
 				this.updatedQuestion = aQuestion;
 				question = aQuestion;
-				console.log('updating question ' + this.updatedQuestion);
+				console.log(this.updatedQuestion);
 				this.show = true;
 			}	
 		};
@@ -140,10 +144,10 @@ var variable;
 								format : {
 									formatId : 0,
 									formatName : ''
-								}
+								}							
 							};
-						}
-						;
+							this.show = false;
+						};
 					});
 
 			}
