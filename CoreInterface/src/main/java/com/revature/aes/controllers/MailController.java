@@ -5,9 +5,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.revature.aes.beans.User;
 import com.revature.aes.mail.Mail;
+import com.revature.aes.mail.MailObject;
 
 @RestController
 public class MailController {
@@ -18,18 +17,18 @@ public class MailController {
 	/*Used for when a candidate needs sent a quiz. Takes the candidates Email, the Link to
 	 * the login page, and the temporary password.
 	 */
-
-	@RequestMapping(value="canidateCompletedEmail", method=RequestMethod.POST)
-	//public void candidateCompleted(@RequestBody String candidateEmail, @RequestBody String link, @RequestBody String tempPass){
-	public void candidateNeedsQuiz(@RequestBody User user){
-		mail.sendQuizEmail(user.getEmail(), link, tempPass);
+	
+	@RequestMapping(value="candidiateNeedsQuiz", method=RequestMethod.POST)
+	public void candidateNeedsQuiz(@RequestBody MailObject obj){
+		mail.sendQuizEmail(obj.getCandidateEmail(), obj.getLink(), obj.getTempPass());
 	}
 	
-	/*Used for when a candidate did not completed their quiz. Takes the candidates Email*/
+	/*Used for when a candidate did not completed their quiz. Takes the candidates Email, RecruiterEmail, and Candidate Name*/
 	
 	@RequestMapping(value="canidateNOTCompletedEmail", method=RequestMethod.POST)
-	public void canidateNOTCompleted(@RequestBody String candidateEmail){
-		mail.candidateNotCompletedEmail(candidateEmail);
+	public void canidateNOTCompleted(@RequestBody MailObject obj){
+		mail.candidateNotCompletedEmail(obj.getCandidateEmail());
+		mail.recruiterNotCompletedEmail(obj.getRecruiterEmail(), obj.getCandidateName());
 	}
 	
 	/*Used for when a candidate has completed their quiz and a recruiter needs to be sent an email with the grade.
@@ -37,16 +36,7 @@ public class MailController {
 	 */
 	
 	@RequestMapping(value="recruiterReturnGradeEmail", method=RequestMethod.POST)
-	public void recruiterReturnGradeEmail(@RequestBody String recruiterEmail, @RequestBody String candidateName, @RequestBody String grade){
-		mail.recruiterReturnGradeEmail(recruiterEmail, candidateName, grade);
-	}
-	
-	/*Used for when a candidate did not complete their quiz and alerts the recruiter.
-	 * Takes the recruiters Email, and candidates name
-	 */
-	
-	@RequestMapping(value="recruiterNOTCompleted", method=RequestMethod.POST)
-	public void recruiterNOTCompleted(@RequestBody String recruiterEmail, @RequestBody String canidateName){
-		mail.recruiterNotCompletedEmail(recruiterEmail, canidateName);
+	public void recruiterReturnGradeEmail(@RequestBody MailObject obj){
+		mail.recruiterReturnGradeEmail(obj.getRecruiterEmail(), obj.getCandidateName(), obj.getGrade());
 	}
 }
