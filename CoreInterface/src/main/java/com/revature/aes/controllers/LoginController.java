@@ -22,8 +22,7 @@ public class LoginController {
 	
 	@RequestMapping(value="/",method = RequestMethod.GET)
 	public String login() {
-		
-		return "login";
+		return "index";
 	}
 	@RequestMapping(value="/home",method = RequestMethod.GET)
 	public String getLoginPage(ModelMap modelMap) {
@@ -47,7 +46,11 @@ public class LoginController {
 	    case "trainer":
 	    	location = "trainerhome";
 	    	break;
+	    	
+    	default:
+    		break;
 	    }
+	    
 		return location;
 	}
 	
