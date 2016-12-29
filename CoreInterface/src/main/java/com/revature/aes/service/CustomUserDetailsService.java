@@ -40,11 +40,11 @@ public class CustomUserDetailsService implements UserDetailsService {
     public List<String> getRoles(String role) {
         List<String> roles = new ArrayList<String>();
 
-        if (role.equalsIgnoreCase("Recruiter")) {
+        if ("Recruiter".equalsIgnoreCase(role)) {
             roles.add("ROLE_RECRUITER");
-        } else if (role.equalsIgnoreCase("Candidate")) {
+        } else if ("Candidate".equalsIgnoreCase(role)) {
             roles.add("ROLE_CANDIDATE");
-        } else if (role.equalsIgnoreCase("Trainer")) {
+        } else if ("Trainer".equalsIgnoreCase(role)) {
             roles.add("ROLE_TRAINER");
         }
         return roles;
