@@ -2,7 +2,7 @@
 
 var app = angular.module('AesApp',['ui.bootstrap', 'ngAnimate']);
 
-app.controller('AccordionController', function($scope) {
+app.controller('AccordionController', function($scope, $rootScope) {
 
 	  $scope.questions = [
 	    {
@@ -24,53 +24,50 @@ app.controller('AccordionController', function($scope) {
 
 //	  var ql = $scope.questions.length;
 	  
-	  $scope.states = new Array();
+	  $rootScope.states = new Array();
 	  
 	  for (var i=0; i < $scope.questions.length; i++)
 	  {
 		  var temp = {
+				  id : i,
 				  flagged : false,
 				  saved : false,
 				  open : false
 		  };
-		  $scope.states.push(temp);
+		  $rootScope.states.push(temp);
 	  }
 	  
 	  $scope.collapseQuestion = function(index) {
 		  console.log("Entered collapse: glyph id=" + index);
-		  $scope.states[index].open = !$scope.states[index].open;
+		  $rootScope.states[index].open = !$rootScope.states[index].open;
 	  };
 	  
 	  $scope.saveQuestion = function(index) {
 		  console.log("Entered save: glyph id=" + index);
-		  $scope.states[index].saved = !$scope.states[index].saved;
+		  $rootScope.states[index].saved = !$rootScope.states[index].saved;
 	  };
 	  
 	  $scope.flagQuestion = function(index) {
 		  
 		  console.log("Entered flag: glyph id=" + index);
-		  $scope.states[index].flagged = !$scope.states[index].flagged;
+		  $rootScope.states[index].flagged = !$rootScope.states[index].flagged;
 	  };
 	  
 	});
 
-app.controller('QuizNavController', function($scope, $rootscope) {
+app.controller('QuizNavController', function($scope, $rootScope) {
 	
-	
+	$scope.index = 0;
+    $scope.array = [];
+   for(var i=0; i < $rootScope.states.length/5; i++)
+     $scope.array.push(i);
 	
 });
 
 app.controller('AjaxController', function($scope, $http) {
 
-    $scope.user;
-    $scope.pass;
-
-    $scope.getAssessment = function() {
-        var assessmentData = {username: this.user, password: this.pass};
-        
-        getAssessmentData(assessmentData);
-    }
-    
+   getAssessmentData();
+ 
     $scope.submitAssessment = function(){
         var assessmentResults = {username:this.registerUser,password:this.registerPass};
         
@@ -79,6 +76,9 @@ app.controller('AjaxController', function($scope, $http) {
     
     // postData takes in JSON, sends with HTTP POST to Spring LoginController
     function getAssessmentData(data){
+    	
+    	// setup variables
+    	
         $http({
             method: 'GET',
             url: '/Assessment/getAssessment',
@@ -95,7 +95,6 @@ app.controller('AjaxController', function($scope, $http) {
         });
     }
     
-    // postData takes in JSON, sends with HTTP POST to Spring LoginController
     function postAssessmentData(data){
         $http({
             method: 'POST',
@@ -104,10 +103,22 @@ app.controller('AjaxController', function($scope, $http) {
             data: data
         })
         .success(function (data){
-            console.log("Posted results: ");
+            console.log("Posted results");
         })
         .error(function (response){
             console.log("Error while submitting assessment");
         });
     }
 });
+
+/* Set the width of the side navigation to 250px and the right margin of the page content to 250px */
+function openNav() {
+    document.getElementById("sidenav").style.width = "250px";
+    document.getElementById("page-container").style.marginRight = "250px";
+}
+
+/* Set the width of the side navigation to 0 and the right margin of the page content to 0 */
+function closeNav() {
+    document.getElementById("sidenav").style.width = "0";
+    document.getElementById("page-container").style.marginRight = "0";
+}
