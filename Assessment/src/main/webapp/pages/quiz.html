@@ -6,7 +6,7 @@
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
 	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" href="../resources/css/cgStyle.css">
+<link rel="stylesheet" type="text/css" href="../resources/css/revatureStyle.css">
 
 </head>
 <body>
@@ -15,7 +15,7 @@
 			<div class="container-fluid">
 				<div class="nav-dropdown">
 					<button type="button" id="nav-dropdown-btn" data-toggle="dropdown" class="btn btn-lg menu-btn">
-						<span class="glyphicon glyphicon-menu-hamburger whiten"></span>
+						<span class="glyphicon glyphicon-menu-hamburger glyph-dark-grey"></span>
 					</button>
 					<div class="nav-dropdown-content text-center">
 						Quiz Navigation<br> content<br> content<br> content<br> content<br> content<br>
@@ -28,28 +28,23 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-sm-10 col-sm-offset-1">
-					<div ng-controller="quizController">
+					<div ng-controller="quizController" my-main-directive>
 						<h2 class="h2">Welcome to the test</h2>
 						<hr>
 						<uib-accordion close-others="oneAtATime">
-						<div ng-repeat="q in quiz.questions">
+						<div ng-repeat="q in filteredQuestions" my-repeat-directive>
 							<div uib-accordion-group class="panel panel-default question-box" is-disabled="true"
-								is-open="states[$index].open">
+								is-open="states[$index+numPerPage*(currentPage-1)].open">
 								<uib-accordion-heading>
-								<div style="display: inline-block;" ng-click="collapseQuestion($index)">Question {{$index + 1}}</div>
+								<div class = "panel-heading-revature" style="display: inline-block;" ng-click="collapseQuestion($index+numPerPage*(currentPage-1))">Question {{q.id + 1}}</div>
 								<i class="pull-right glyphicon"
-									ng-class="{'glyphicon-chevron-down glyph-grey': states[$index].open, 'glyphicon-chevron-right glyph-grey': !states[$index].open }"
-									ng-click="collapseQuestion($index)" title="Collapsed">
-								</i>
-								<i class="pull-right glyphicon glyphicon-floppy-disk"
-									ng-class="{'glyph-blue': states[$index].saved, 'glyph-grey': !states[$index].saved}"
-									ng-click="saveQuestion($index)" title="Saved">
-								</i>
-								<i class="pull-right glyphicon glyphicon-flag"
-									ng-class="{'glyph-red': states[$index].flagged, 'glyph-grey': !states[$index].flagged}"
-									ng-click="flagQuestion($index)" title="Title"></i>
-									
-								</uib-accordion-heading>
+									ng-class="{'glyphicon-chevron-down glyph-silver': states[$index+numPerPage*(currentPage-1)].open, 'glyphicon-chevron-right glyph-silver': !states[$index+numPerPage*(currentPage-1)].open }"
+									ng-click="collapseQuestion($index+numPerPage*(currentPage-1))" title="Collapsed"> </i> <i
+									class="pull-right glyphicon glyphicon-floppy-disk"
+									ng-class="{'glyph-blue': states[$index+numPerPage*(currentPage-1)].saved, 'glyph-silver': !states[$index+numPerPage*(currentPage-1)].saved}"
+									ng-click="saveQuestion($index+numPerPage*(currentPage-1))" title="Saved"> </i> <i class="pull-right glyphicon glyphicon-flag"
+									ng-class="{'glyph-red': states[$index+numPerPage*(currentPage-1)].flagged, 'glyph-silver': !states[$index+numPerPage*(currentPage-1)].flagged}"
+									ng-click="flagQuestion($index+numPerPage*(currentPage-1))" title="Title"></i> </uib-accordion-heading>
 
 								<div class="panel-body">
 									{{q.txtQ}} <br>
@@ -60,31 +55,39 @@
 									<div ng-show="q.type === 3">Write your code below:</div>
 									<ul ng-show="q.type < 2" class="list-group">
 										<li class="list-group-item" ng-repeat="option in q.options">
-											<div class="radio" ng-show="q.type === 0">
-												<label><input type="radio" name="q{{q.id}}">{{option.txtA}}</label>
+											<div ng-click="selectOption($index, $parent.$index+numPerPage*(currentPage-1))" class="radio" ng-show="q.type === 0">
+												<label><input type="radio" name="q{{q.id}}" ng-checked="checkChecked($index, $parent.$index+numPerPage*(currentPage-1))">{{option.txtA}}</label>
 											</div>
-											<div class="checkbox" ng-show="q.type === 1">
-												<label><input type="checkbox" name="q{{q.id}}">{{option.txtA}}</label>
-											</div>
-										</li>
-									</ul>
-									<ul id="revature" ng-show="q.type === 2" class="list-group" data-as-sortable="board.dragControlListeners"
-										data-ng-model="q.options">
-										<li data-ng-repeat="option in q.options" class="list-group-item" data-as-sortable-item>
-											<div data-as-sortable-item-handle>
-												<span class="glyphicon glyphicon-option-vertical"></span>{{option.txtA}}
+											<div ng-click="selectOption($index, $parent.$index+numPerPage*(currentPage-1))" class="checkbox" ng-show="q.type === 1">
+												<label><input type="checkbox" name="q{{q.id}}" ng-checked="checkChecked($index, $parent.$index+numPerPage*(currentPage-1))">{{option.txtA}}</label>
 											</div>
 										</li>
 									</ul>
-									{{checkNeedEditor($index)}}
-									<div ng-show="q.type === 3">
-										<div id="editor{{$index}}" class="editor">{{q.options[0].txtA}}</div>
+									<div ng-show="q.type === 2" ng-controller="dragController">
+										<ul id="revature" class="list-group" data-as-sortable="board.dragControlListeners" data-ng-model="q.options">
+											<li data-ng-repeat="option in q.options" class="list-group-item" data-as-sortable-item>
+												<div data-as-sortable-item-handle>
+													<span class="glyphicon glyphicon-option-vertical"></span>{{option.txtA}}
+												</div>
+											</li>
+										</ul>
 									</div>
+									{{checkNeedEditor($index+numPerPage*(currentPage-1))}}
+									<div ng-show="q.type === 3">
+										<div id="editor{{$index+numPerPage*(currentPage-1)}}" class="editor">{{q.options[0].txtA}}</div>
+									</div>
+									<div></div>
 								</div>
 							</div>
 							<br>
 						</div>
 						</uib-accordion>
+						<div class="text-center">
+							<ul uib-pagination ng-model="currentPage" items-per-page="numPerPage" total-items="quiz.questions.length"
+								max-size="maxSize" boundary-links="true">
+							</ul>
+							<br>
+						</div>
 					</div>
 				</div>
 			</div>
