@@ -6,8 +6,13 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -32,15 +37,24 @@ public class TemplateQuestion implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="TEMPLATE_ID")
 	private Template template;
-	
+
 	public TemplateQuestion() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public String toString() {
-		return "TemplateQuestion [weight=" + weight + ", templateQuestion=" + templateQuestion + ", template="
-				+ template + "]";
+		return "TemplateQuestion [templateQuestionId=" + templateQuestionId + ", weight=" + weight
+				+ ", templateQuestion=" + templateQuestion + ", template=" + template + "]";
+	}
+
+	public int getTemplateQuestionId() {
+		return templateQuestionId;
+	}
+
+	public void setTemplateQuestionId(int templateQuestionId) {
+		this.templateQuestionId = templateQuestionId;
 	}
 
 	public int getWeight() {
@@ -59,13 +73,11 @@ public class TemplateQuestion implements Serializable {
 		this.templateQuestion = templateQuestion;
 	}
 
-	public int getTemplate() {
+	public Template getTemplate() {
 		return template;
 	}
 
-	public void setTemplate(int template) {
+	public void setTemplate(Template template) {
 		this.template = template;
 	}
-	
-	
 }

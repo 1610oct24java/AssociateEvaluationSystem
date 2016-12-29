@@ -2,7 +2,7 @@ package com.revature.aes.beans;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,10 +22,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "aes_assessment")
 public class Assessment implements Serializable {
-	
-	public Assessment() {
-		super();
-	}
 
 	private static final long serialVersionUID = -6152668317029130986L;
 	@Id
@@ -58,128 +54,23 @@ public class Assessment implements Serializable {
 	@JoinTable(name = "aes_assessment_options", 
 		joinColumns = @JoinColumn(name = "assessment_id"), 
 		inverseJoinColumns = @JoinColumn(name = "option_id"))
-	private List<Option> options;
+	private Set<Option> options;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "assessment_drag_drop_id")
-	private List<AssessmentDragDrop> assessmentDragDrop;
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "assessmentDragDropId")
+	private Set<AssessmentDragDrop> assessmentDragDrop;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy ="assessment_id")
-	private List<FileUpload> fileUpload;
-	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy ="fileId")
+	private Set<FileUpload> fileUpload;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "aes_snippet_response", 
 		joinColumns = @JoinColumn(name = "snippet_template_id"), 
 		inverseJoinColumns = @JoinColumn(name = "assessment_id"))
-	private List<SnippetTemplate> snippedTemplate;
+	private Set<SnippetTemplate> snippedTemplate;
 
-	public int getAssessmentId() {
-		return assessmentId;
-	}
-
-
-	public void setAssessmentId(int assessmentId) {
-		this.assessmentId = assessmentId;
-	}
-
-
-	public User getUser() {
-		return user;
-	}
-
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-
-	public int getGrade() {
-		return grade;
-	}
-
-
-	public void setGrade(int grade) {
-		this.grade = grade;
-	}
-
-
-	public int getTimeLimit() {
-		return timeLimit;
-	}
-
-
-	public void setTimeLimit(int timeLimit) {
-		this.timeLimit = timeLimit;
-	}
-
-
-	public LocalDateTime getCreatedTimeStamp() {
-		return createdTimeStamp;
-	}
-
-
-	public void setCreatedTimeStamp(LocalDateTime createdTimeStamp) {
-		this.createdTimeStamp = createdTimeStamp;
-	}
-
-
-	public LocalDateTime getFinishedTimeStamp() {
-		return finishedTimeStamp;
-	}
-
-
-	public void setFinishedTimeStamp(LocalDateTime finishedTimeStamp) {
-		this.finishedTimeStamp = finishedTimeStamp;
-	}
-
-
-	public Template getTemplate() {
-		return template;
-	}
-
-
-	public void setTemplate(Template template) {
-		this.template = template;
-	}
-
-
-	public List<Option> getOptions() {
-		return options;
-	}
-
-
-	public void setOptions(List<Option> options) {
-		this.options = options;
-	}
-
-
-	public List<AssessmentDragDrop> getAssessmentDragDrop() {
-		return assessmentDragDrop;
-	}
-
-
-	public void setAssessmentDragDrop(List<AssessmentDragDrop> assessmentDragDrop) {
-		this.assessmentDragDrop = assessmentDragDrop;
-	}
-
-
-	public List<FileUpload> getFileUpload() {
-		return fileUpload;
-	}
-
-
-	public void setFileUpload(List<FileUpload> fileUpload) {
-		this.fileUpload = fileUpload;
-	}
-
-
-	public List<SnippetTemplate> getSnippedTemplate() {
-		return snippedTemplate;
-	}
-
-
-	public void setSnippedTemplate(List<SnippetTemplate> snippedTemplate) {
-		this.snippedTemplate = snippedTemplate;
+	public Assessment() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -188,5 +79,93 @@ public class Assessment implements Serializable {
 				+ timeLimit + ", createdTimeStamp=" + createdTimeStamp + ", finishedTimeStamp=" + finishedTimeStamp
 				+ ", template=" + template + ", options=" + options + ", assessmentDragDrop=" + assessmentDragDrop
 				+ ", fileUpload=" + fileUpload + ", snippedTemplate=" + snippedTemplate + "]";
+	}
+
+	public int getAssessmentId() {
+		return assessmentId;
+	}
+
+	public void setAssessmentId(int assessmentId) {
+		this.assessmentId = assessmentId;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public int getGrade() {
+		return grade;
+	}
+
+	public void setGrade(int grade) {
+		this.grade = grade;
+	}
+
+	public int getTimeLimit() {
+		return timeLimit;
+	}
+
+	public void setTimeLimit(int timeLimit) {
+		this.timeLimit = timeLimit;
+	}
+
+	public LocalDateTime getCreatedTimeStamp() {
+		return createdTimeStamp;
+	}
+
+	public void setCreatedTimeStamp(LocalDateTime createdTimeStamp) {
+		this.createdTimeStamp = createdTimeStamp;
+	}
+
+	public LocalDateTime getFinishedTimeStamp() {
+		return finishedTimeStamp;
+	}
+
+	public void setFinishedTimeStamp(LocalDateTime finishedTimeStamp) {
+		this.finishedTimeStamp = finishedTimeStamp;
+	}
+
+	public Template getTemplate() {
+		return template;
+	}
+
+	public void setTemplate(Template template) {
+		this.template = template;
+	}
+
+	public Set<Option> getOptions() {
+		return options;
+	}
+
+	public void setOptions(Set<Option> options) {
+		this.options = options;
+	}
+
+	public Set<AssessmentDragDrop> getAssessmentDragDrop() {
+		return assessmentDragDrop;
+	}
+
+	public void setAssessmentDragDrop(Set<AssessmentDragDrop> assessmentDragDrop) {
+		this.assessmentDragDrop = assessmentDragDrop;
+	}
+
+	public Set<FileUpload> getFileUpload() {
+		return fileUpload;
+	}
+
+	public void setFileUpload(Set<FileUpload> fileUpload) {
+		this.fileUpload = fileUpload;
+	}
+
+	public Set<SnippetTemplate> getSnippedTemplate() {
+		return snippedTemplate;
+	}
+
+	public void setSnippedTemplate(Set<SnippetTemplate> snippedTemplate) {
+		this.snippedTemplate = snippedTemplate;
 	}
 }

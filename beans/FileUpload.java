@@ -4,9 +4,12 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -30,6 +33,10 @@ public class FileUpload implements Serializable {
 	@JoinColumn(name="ASSESSMENT_ID")
 	private int assessmentId;
 
+	public FileUpload() {
+		super();
+	}
+	
 	public int getFileId() {
 		return fileId;
 	}
@@ -64,11 +71,6 @@ public class FileUpload implements Serializable {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
-	}
-
-	public FileUpload() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
