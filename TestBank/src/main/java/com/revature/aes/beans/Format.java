@@ -33,6 +33,12 @@ public class Format implements Serializable {
 	 */
 	@Column(name = "FORMAT_NAME")
 	private String formatName;
+	
+	public Format() {
+		super();
+		
+	}
+
 
 	public Integer getFormatId() {
 		return formatId;
@@ -90,9 +96,5 @@ public class Format implements Serializable {
 		return "Format [formatId=" + formatId + ", formatName=" + formatName + "]";
 	}
 
-	public Format() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
+	
 }

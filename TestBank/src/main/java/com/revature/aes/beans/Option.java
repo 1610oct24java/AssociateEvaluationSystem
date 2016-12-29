@@ -49,6 +49,11 @@ public class Option implements Serializable {
 
 	@Column(name = "QUESTION_ID")
 	private int questionId;
+	
+	public Option() {
+		super();
+		
+	}
 
 	public Integer getOptionId() {
 		return optionId;
@@ -132,9 +137,6 @@ public class Option implements Serializable {
 				+ questionId + "]";
 	}
 
-	public Option() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	
 
 }

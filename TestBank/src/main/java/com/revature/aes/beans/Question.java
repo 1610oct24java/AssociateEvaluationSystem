@@ -3,7 +3,7 @@ package com.revature.aes.beans;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.CascadeType;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -60,6 +60,10 @@ public class Question implements Serializable {
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="QUESTION_ID")
 	private SnippetTemplate snippetTemplate;
+	
+	public Question() {
+		super();
+	}
 
 	public int getQuestionId() {
 		return questionId;
@@ -136,7 +140,5 @@ public class Question implements Serializable {
 				+ dragDrops + ", snippetTemplate=" + snippetTemplate + "]";
 	}
 
-	public Question() {
-		super();
-	}
+	
 }

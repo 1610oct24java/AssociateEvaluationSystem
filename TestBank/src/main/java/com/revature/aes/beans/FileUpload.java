@@ -28,6 +28,11 @@ public class FileUpload implements Serializable {
 
 	@Column(name = "assessment_id")
 	private int assessmentId;
+	
+	public FileUpload() {
+		super();
+		
+	}
 
 	public int getFileId() {
 		return fileId;
@@ -65,10 +70,7 @@ public class FileUpload implements Serializable {
 		return serialVersionUID;
 	}
 
-	public FileUpload() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	
 
 	@Override
 	public String toString() {
