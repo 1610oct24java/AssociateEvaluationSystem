@@ -113,8 +113,8 @@ public class Option implements Serializable {
 		
 		Option other = (Option) obj;
 		
-		if ((correct == null) && (other.correct != null))  {
-			
+		if (correct == null)  {
+			if (other.correct != null)
 				return false;
 		} else if (!correct.equals(other.correct))
 			return false;
