@@ -35,6 +35,7 @@ public class Logging {
 			result = pjp.proceed();
 		} catch(Throwable e){
 			log.error("\t" + e.getClass() + " " + e.getMessage());
+			log.info(e);
 			
 			for(StackTraceElement st : e.getStackTrace()){
 				log.error("\t\t" + st.getMethodName());
