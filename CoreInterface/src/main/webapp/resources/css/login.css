@@ -55,11 +55,11 @@ input{
 }
 
 .slidertext {
-    position: absolute;
-    left: 35%;
-    text-align: left;
-    top: 35%;
-    color: white;
+    position: absolute !important;
+    left: 35% !important;
+    text-align: left !important;
+    top: 35% !important;
+    color: white !important;
 }
 
 .well-special{

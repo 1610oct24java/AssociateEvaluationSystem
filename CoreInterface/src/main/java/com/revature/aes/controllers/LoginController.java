@@ -46,7 +46,11 @@ public class LoginController {
 	    case "trainer":
 	    	location = "trainerhome";
 	    	break;
+	    	
+    	default:
+    		break;
 	    }
+	    
 		return location;
 	}
 	
