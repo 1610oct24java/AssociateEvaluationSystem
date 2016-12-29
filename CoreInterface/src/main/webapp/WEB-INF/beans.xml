@@ -21,8 +21,7 @@
 	<context:component-scan base-package="com.revature.aes" />
 
 	<!-- Set up our front controller -->
-	<bean
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix">
 			<value>/WEB-INF/pages/</value>
 		</property>
@@ -32,11 +31,11 @@
 	</bean>
 
 	<!-- setup datasource -->
-	<!-- <bean id="myDB" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
+	<bean id="myDB" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
 		<property name="driverClassName" value="oracle.jdbc.OracleDriver" /> <property 
 		name="url" value="jdbc:oracle:thin:@ocle.cu56su7cx6xk.us-west-2.rds.amazonaws.com:1521:ORCL" 
 		/> <property name="username" value="admin" /> <property name="password" value="punchKin$17" 
-		/> </bean> -->
+		/> </bean>
 
 	<!-- JNDI data source -->
 	<bean id="mydataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
@@ -80,14 +79,14 @@
 	<!-- for mailing -->
 	<bean id="mailProperties"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location" value="classpath:mail.properties" />
+		<property name="location" value="classpath:mail.properties"/>
 	</bean>
 
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="smtp.gmail.com" />
 		<property name="port" value="587" />
-		<property name="username" value="${smtp.username}" />
-		<property name="password" value="${smtp.password}" />
+		<property name="username" value="rev.thompson.noreply" />
+		<property name="password" value="d!ckButts" />
 		<property name="javaMailProperties">
 			<props>
 				<prop key="mail.smtp.auth">true</prop>
