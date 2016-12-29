@@ -45,14 +45,11 @@ public class Option implements Serializable {
 	@Max(value = 1)
 	@Column(name = "CORRECT")
 	private Integer correct;
-
-	/**
-	 * @question The question associated with this class.
-	 */
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="QUESTION_ID")
-	private int questionId;
-
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name = "QUESTION_ID")
+	private Question question;
+	
 	public Integer getOptionId() {
 		return optionId;
 	}
@@ -77,12 +74,14 @@ public class Option implements Serializable {
 		this.correct = correct;
 	}
 
-	public int getQuestionId() {
-		return questionId;
+	
+
+	public Question getQuestion() {
+		return question;
 	}
 
-	public void setQuestionId(int questionId) {
-		this.questionId = questionId;
+	public void setQuestion(Question question) {
+		this.question = question;
 	}
 
 	public static long getSerialversionuid() {
@@ -96,7 +95,7 @@ public class Option implements Serializable {
 		result = prime * result + ((correct == null) ? 0 : correct.hashCode());
 		result = prime * result + ((optionId == null) ? 0 : optionId.hashCode());
 		result = prime * result + ((optionText == null) ? 0 : optionText.hashCode());
-		result = prime * result + questionId;
+		result = prime * result + ((question == null) ? 0 : question.hashCode());
 		return result;
 	}
 
@@ -124,7 +123,7 @@ public class Option implements Serializable {
 				return false;
 		} else if (!optionText.equals(other.optionText))
 			return false;
-		if (questionId != other.questionId)
+		if (!question.equals(other.question))
 			return false;
 		return true;
 	}
@@ -132,7 +131,7 @@ public class Option implements Serializable {
 	@Override
 	public String toString() {
 		return "Option [optionId=" + optionId + ", optionText=" + optionText + ", correct=" + correct + ", questionId="
-				+ questionId + "]";
+				+ "]";
 	}
 
 	public Option() {
