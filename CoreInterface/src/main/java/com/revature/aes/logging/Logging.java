@@ -15,7 +15,7 @@ public class Logging {
 	private String dashes = "\n==========================================================================================================================================================================";
 	
 	@Around("execution(* com.revature.aes..*(..))")
-	public Object log(ProceedingJoinPoint pjp){
+	public Object log(ProceedingJoinPoint pjp) throws Throwable{
 		MethodSignature signature = (MethodSignature) pjp.getSignature();
 		String methodClass = signature.getDeclaringTypeName().toString();
 		String method = signature.getName().toString();
@@ -33,7 +33,7 @@ public class Logging {
 		
 		try{
 			result = pjp.proceed();
-		} catch(Throwable e){
+		} catch(Exception e){
 			log.error("\t" + e.getClass() + " " + e.getMessage());
 			log.info(e);
 			
