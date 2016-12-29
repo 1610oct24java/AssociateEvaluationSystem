@@ -107,8 +107,14 @@ public class Option implements Serializable {
 		if (this == obj)
 			return true;
 		
-		if ((obj == null) || (getClass() != obj.getClass()) )
-			return false;
+		if (obj == null) {
+	        return false;
+	    }
+
+	    if (getClass() != obj.getClass()) {
+	        return false;
+	    }
+
 		
 		
 		Option other = (Option) obj;
