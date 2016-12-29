@@ -32,7 +32,7 @@
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 	
 		<property name="dataSource" ref="myDatabase"></property>
-			<property name="packagesToScan" value="com.revature.beans"></property>
+			<property name="packagesToScan" value="com.revature.aes.beans"></property>
 			<property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter"></property>
 			<property name="jpaProperties">
 				<props>
