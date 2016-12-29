@@ -6,8 +6,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -108,7 +110,7 @@ public class CSVParser {
 		String questionText;
 		Format format = null;
 		boolean trueFalseQuestion = false;
-		List<Option> options = new ArrayList<Option>();
+		Set<Option> options = new HashSet<Option>();
 		Map<String, Question> questions = new HashMap<String, Question>();
 
 		formats = new HashMap<String, Format>();
@@ -163,14 +165,10 @@ public class CSVParser {
 				}
 			}
 			question.setFormat(format);
-			question.setOptions(options);
+			question.setMultiChoice(options);
 			// save question here
-			System.out.println("\n+++++++++++++++++++++++++++++++++++\n" + question.toString()
-					+ "\n++++++++++++++++++++++++++++++\n");
 			questionService.addQuestion(question);
 			questions.put(question.getQuestionText(), question);
-			// reset options
-			options = new ArrayList<Option>();
 		}
 		return questions;
 	}

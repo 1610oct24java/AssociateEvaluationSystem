@@ -34,6 +34,16 @@ public class Format implements Serializable {
 	@Column(name = "FORMAT_NAME")
 	private String formatName;
 
+	public Format() {
+		super();
+	}
+	
+	public Format(Integer formatId, String formatName) {
+		this();
+		this.formatId = formatId;
+		this.formatName = formatName;
+	}
+
 	public Integer getFormatId() {
 		return formatId;
 	}
@@ -88,11 +98,6 @@ public class Format implements Serializable {
 	@Override
 	public String toString() {
 		return "Format [formatId=" + formatId + ", formatName=" + formatName + "]";
-	}
-
-	public Format() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 
 }

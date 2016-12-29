@@ -81,7 +81,7 @@
 			</ul>
 			<hr>
 		
-			<select ng-model="qc.question" ng-options="question.questionText for question in qc.qList" name="questionUpdate"id="questionUpdate" ng-change="qc.showUpdateQuestion()">
+			<select ng-model="qc.question" ng-options="question.questionText for question in qc.qList" name="questionUpdate"id="questionUpdate" ng-change="qc.showUpdateQuestion(qc.question)">
 				<option value=""/>
 			</select>
 			<div ng-show=qc.show>	
@@ -93,7 +93,7 @@
 					</ul>
 				</div>
 				<label for="questionText">Question</label> 
-					<input type="text" ng-model="qc.updatedQuestion" placeholder="enter question"></input> 
+					<input type="text" ng-model="qc.updatedQuestion.questionText" placeholder="enter question"></input> 
 					<input type="sumbit" ng-click="qc.updateQuestion()" class="btn btn-info"value="Update Question"></input>
 			</div>
 			<label for="deleteQuestion">Enter Question ID to delete</label> 

@@ -120,7 +120,7 @@ public class AikenParser {
 	 */
 	private Question getQuestion(BufferedReader br) throws IOException{
 		// First line will be a question
-    	Question question = new Question(-1, -1, line);
+    	Question question = new Question();
     	String questionString = "Question: " + line;
     	System.out.println(questionString);
     	
@@ -143,7 +143,7 @@ public class AikenParser {
 		
     	// Parse lines until "ANSWER:" to retrieve Options
     	while(!line.startsWith("ANSWER:")){
-    		Option option = new Option(-1, line, false, -1);
+    		Option option = new Option();
     		optionsList.add(option);
     		
     		String optionString = "Option: " + option.getOptionText();
@@ -165,7 +165,7 @@ public class AikenParser {
 		
 		for(Option option : optionsList){
 			if(option.getOptionText().startsWith(correctLetter.toString())){
-				option.setCorrect(true);
+				option.setCorrect(1);
 				System.out.println("Correct Option is: " + option.getOptionText());
 			}
 		}

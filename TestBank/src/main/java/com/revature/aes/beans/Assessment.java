@@ -2,7 +2,7 @@ package com.revature.aes.beans;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,12 +22,12 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "aes_assessment")
 public class Assessment implements Serializable {
-
+	
 	private static final long serialVersionUID = -6152668317029130986L;
 	@Id
 	@Column(name = "assessment_id")
-	@SequenceGenerator(sequenceName = "assessment_seq", name = "assessment_seq")
-	@GeneratedValue(generator = "assessment_seq", strategy = GenerationType.SEQUENCE)
+	@SequenceGenerator(sequenceName = "aes_assessment_seq", name = "aes_assessment_seq")
+	@GeneratedValue(generator = "aes_assessment_seq", strategy = GenerationType.SEQUENCE)
 	private int assessmentId;
 
 	@OneToOne(fetch = FetchType.EAGER)
@@ -54,28 +54,24 @@ public class Assessment implements Serializable {
 	@JoinTable(name = "aes_assessment_options", 
 		joinColumns = @JoinColumn(name = "assessment_id"), 
 		inverseJoinColumns = @JoinColumn(name = "option_id"))
-	private List<Option> options;
+	private Set<Option> options;
 
-	@OneToMany(fetch = FetchType.EAGER)
-	@JoinTable(name="AES_ASSESSMENT_DRAG_DROP")
-	private List<AssessmentDragDrop> assessmentDragDrop;
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "assessmentDragDropId")
+	private Set<AssessmentDragDrop> assessmentDragDrop;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "file_id")
-	@JoinTable(name="ASSESSMENT_ID")
-	private List<FileUpload> fileUpload;
+	@OneToMany(fetch = FetchType.EAGER, mappedBy ="fileId")
+	private Set<FileUpload> fileUpload;
 	
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "aes_snippet_response", 
 		joinColumns = @JoinColumn(name = "snippet_template_id"), 
 		inverseJoinColumns = @JoinColumn(name = "assessment_id"))
-	private List<SnippetTemplate> snippedTemplate;
-
+	private Set<SnippetTemplate> snippedTemplate;
 
 	public Assessment() {
 		super();
 	}
-
 
 	public int getAssessmentId() {
 		return assessmentId;
@@ -147,50 +143,44 @@ public class Assessment implements Serializable {
 	}
 
 
-	public List<Option> getOptions() {
+	public Set<Option> getOptions() {
 		return options;
 	}
 
 
-	public void setOptions(List<Option> options) {
+	public void setOptions(Set<Option> options) {
 		this.options = options;
 	}
 
 
-	public List<AssessmentDragDrop> getAssessmentDragDrop() {
+	public Set<AssessmentDragDrop> getAssessmentDragDrop() {
 		return assessmentDragDrop;
 	}
 
 
-	public void setAssessmentDragDrop(List<AssessmentDragDrop> assessmentDragDrop) {
+	public void setAssessmentDragDrop(Set<AssessmentDragDrop> assessmentDragDrop) {
 		this.assessmentDragDrop = assessmentDragDrop;
 	}
 
 
-	public List<FileUpload> getFileUpload() {
+	public Set<FileUpload> getFileUpload() {
 		return fileUpload;
 	}
 
 
-	public void setFileUpload(List<FileUpload> fileUpload) {
+	public void setFileUpload(Set<FileUpload> fileUpload) {
 		this.fileUpload = fileUpload;
 	}
 
 
-	public List<SnippetTemplate> getSnippedTemplate() {
+	public Set<SnippetTemplate> getSnippedTemplate() {
 		return snippedTemplate;
 	}
 
 
-	public void setSnippedTemplate(List<SnippetTemplate> snippedTemplate) {
+	public void setSnippedTemplate(Set<SnippetTemplate> snippedTemplate) {
 		this.snippedTemplate = snippedTemplate;
 	}
-
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
 
 	@Override
 	public String toString() {

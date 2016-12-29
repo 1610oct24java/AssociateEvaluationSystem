@@ -4,9 +4,12 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
@@ -35,8 +38,8 @@ public class Option implements Serializable {
 	private String optionText;
 	/**
 	 * @correct A Integer value representing the correct answer for a question.
-	 *          Minimun value is 0, Maximun value is 1. 0 is equavalent to false
-	 *          while 1 is equavalent to true.
+	 *          Minimum value is 0, Maximum value is 1. 0 is equivalent to false
+	 *          while 1 is equivalent to true.
 	 */
 	@Min(value = 0)
 	@Max(value = 1)
@@ -46,10 +49,26 @@ public class Option implements Serializable {
 	/**
 	 * @question The question associated with this class.
 	 */
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="QUESTION_ID")
+	private Question questionId;
+	
+	public Option() {
+		super();
+	}
 
-	@Column(name = "QUESTION_ID")
-	private int questionId;
+	
+	public Option(Integer optionId, String optionText, Integer correct) {
+		this();
+		this.optionId = optionId;
+		this.optionText = optionText;
+		this.correct = correct;
+	}
 
+	public Option(Integer optionId, String optionText, Integer correct, Question questionId) {
+		this(optionId, optionText, correct);
+		this.questionId = questionId;
+	}
 	public Integer getOptionId() {
 		return optionId;
 	}
@@ -74,15 +93,16 @@ public class Option implements Serializable {
 		this.correct = correct;
 	}
 
-	public int getQuestionId() {
+	public Question getQuestionId() {
 		return questionId;
 	}
 
-	public void setQuestionId(int questionId) {
+	public void setQuestionId(Question questionId) {
 		this.questionId = questionId;
 	}
 
 	public static long getSerialversionuid() {
+		
 		return serialVersionUID;
 	}
 
@@ -93,7 +113,7 @@ public class Option implements Serializable {
 		result = prime * result + ((correct == null) ? 0 : correct.hashCode());
 		result = prime * result + ((optionId == null) ? 0 : optionId.hashCode());
 		result = prime * result + ((optionText == null) ? 0 : optionText.hashCode());
-		result = prime * result + questionId;
+		result = prime * result + ((questionId == null) ? 0 : questionId.hashCode());
 		return result;
 	}
 
@@ -121,7 +141,10 @@ public class Option implements Serializable {
 				return false;
 		} else if (!optionText.equals(other.optionText))
 			return false;
-		if (questionId != other.questionId)
+		if (questionId == null) {
+			if (other.questionId != null)
+				return false;
+		} else if (!questionId.equals(other.questionId))
 			return false;
 		return true;
 	}
@@ -130,11 +153,6 @@ public class Option implements Serializable {
 	public String toString() {
 		return "Option [optionId=" + optionId + ", optionText=" + optionText + ", correct=" + correct + ", questionId="
 				+ questionId + "]";
-	}
-
-	public Option() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 
 }

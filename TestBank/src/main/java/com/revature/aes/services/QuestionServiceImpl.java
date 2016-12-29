@@ -88,29 +88,21 @@ public class QuestionServiceImpl implements QuestionService
 	 */
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
-	public Question updateQuestionById(Question question)
+	public Question updateQuestion(Question question)
 	{
 		return qdao.save(question);
 	}
 	
 	/**
-	 * Deletes a question based off an the unique idenifier for the question.
+	 * Deletes a question based off an the unique identifier for the question.
 	 * @param the unique identifier of a question.
 	 */
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
 	public void deleteQuestionById(Integer id)
 	{
-		qdao.delete(qdao.findOne(id));
-		
+		qdao.delete(qdao.findOne(id)); 	
 	}
 
-	@Override
-	@Transactional(propagation=Propagation.REQUIRED)
-	public void addCSVQuestion(Question question, Format format, List<Option> options) {
-	
-		
-	}
-	
-	
+
 }

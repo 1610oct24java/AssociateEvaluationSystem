@@ -36,6 +36,10 @@ public class SnippetTemplate implements Serializable
 	@Column(name="QUESTION_ID")
 	private int questionId;
 
+	public SnippetTemplate() {
+		super();
+	}
+	
 	public Integer getSnippetTemplateId() {
 		return snippetTemplateId;
 	}
@@ -80,10 +84,7 @@ public class SnippetTemplate implements Serializable
 		return serialVersionUID;
 	}
 
-	public SnippetTemplate() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+
 
 	@Override
 	public String toString() {

@@ -109,12 +109,13 @@ var variable;
 				});
 		};
 		
-		this.showUpdateQuestion = () => {
+		this.showUpdateQuestion = (aQuestion) => {
 			if(this.question == null){
 				
 				this.show=false;
 			} else {
-				this.updatedQuestion = this.question;
+				this.updatedQuestion = aQuestion;
+				question = aQuestion;
 				console.log('updating question ' + this.updatedQuestion);
 				this.show = true;
 			}	
@@ -126,7 +127,7 @@ var variable;
 			if (questionformat.formatId === 0) {
 				alert("please choose a format type");
 			} else {
-				$http.post(url + "question", this.question)
+				$http.put(url + "question", this.question)
 					.success((response) => {
 						this.question = response.data;
 						if (question == null) {
@@ -150,11 +151,11 @@ var variable;
 		};
 		angular.element(document).ready(() => {
 			this.getQuestionList();
-			$http.get('http://localhost:8090/TestBank/test')
+		/*	$http.get('http://localhost:8090/TestBank/test')
 			.success((response) => {
 				variable = response.data;
 				console.log(variable);
-			});
+			});*/
 		});
 	});
 }) //the end of the closure

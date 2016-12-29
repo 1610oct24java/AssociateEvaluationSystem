@@ -2,7 +2,6 @@ package com.revature.aes.beans;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -31,8 +30,9 @@ public class DragDrop implements Serializable {
 	@Column(name = "correct_order")
 	private int correctOrder;
 
-	@Column(name = "question_id")
-	private int questionId;
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="QUESTION_ID")
+	private Question questionId;
 
 	public DragDrop() {
 		super();
@@ -62,11 +62,11 @@ public class DragDrop implements Serializable {
 		this.correctOrder = correctOrder;
 	}
 
-	public int getQuestionId() {
+	public Question getQuestionId() {
 		return questionId;
 	}
 
-	public void setQuestionId(int questionId) {
+	public void setQuestionId(Question questionId) {
 		this.questionId = questionId;
 	}
 

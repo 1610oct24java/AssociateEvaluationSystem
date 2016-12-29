@@ -15,7 +15,6 @@ package com.revature.aes.services;
 import java.util.List;
 
 import com.revature.aes.beans.Format;
-import com.revature.aes.beans.Option;
 import com.revature.aes.beans.Question;
 
 public interface QuestionService {
@@ -27,7 +26,7 @@ public interface QuestionService {
 
 	public List<Question> getAllQuestionsByFormat(Format format);
 
-	public Question updateQuestionById(Question question);
+	public Question updateQuestion(Question question);
 
 	public void deleteQuestionById(Integer id);
 
