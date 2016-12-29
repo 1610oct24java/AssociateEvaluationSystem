@@ -43,81 +43,76 @@
     src: url('../fonts/ParaType-FuturaPTBold.ttf');
 }
 
+html {
+	height: 100%;
+	box-sizing: border-box;
+}
+body {
+  position: relative;
+  margin: 0;
+  padding-bottom: 8rem;
+  min-height: 100%;
+  background-color: #474C55;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
 /* NAVBAR STYLING */
 .navbar {
 	font-family: 'futura-heavy';
-	background-color: #474C55;
+	background-color: #ffffff;
+	display: inline-block;
+	margin-left: 10px;
+	margin-right: 10px;
+    padding: 15px 20px;
+    top: 0;
+    width: 100%;
+    overflow: hidden;
+    position: fixed;
+    z-index: 99;
 }
-
-.navbar-brand:link {
-	color: #ffffff;
+.navbar-title {
+}
+.navbar-title:link {
+	color: #474C55;
 	text-decoration: none;
 }
-
-.navbar-brand:visited {
-	color: #ffffff;
+.navbar-title:visited {
+	color: #474C55;
 	text-decoration: none;
 }
-
-.navbar-brand:hover {
+.navbar-title:hover {
 	color: #F26925;
 	text-decoration: none;
 }
-
-.nav-dropdown {
-	position: relative;
-	display: inline-block;
-	float: left;
+.navbar-menu-btn {
+	background-color: #ffffff;
+	float: right;
+	border: 3px solid #474C55;
+}
+.navbar-menu-btn:focus{outline: none;}
+.navbar-overlay-spacing {
+	margin-top: 100px;
 }
 
-.nav-dropdown-content {
-	display: none;
-	position: absolute;
-	background-color: #474C55;
-	color: #ffffff;
-	min-width: 300px;
-	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-	padding: 12px 16px;
+.rev-grey {
+	color: #474C55;
 }
 
-.nav-dropdown:hover .nav-dropdown-content {
-	display: block;
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
 }
-
-.menu-btn {
-	background-color: #474C55;
+.footer {
+  position: absolute;
+  height: 75px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 2rem;
+  background-color: #efefef;
+  text-align: center;
 }
-
-.whiten {
-	color: #ffffff;
-	font-size: 22px;
-}
-
-/* BUTTON STYLING */
-.Orange-read-btn {
-	font-family: 'futura-heavy';
-    background-color: #f26925;
-    -moz-border-radius: 28px;
-    -webkit-border-radius: 28px;
-    border-radius: 28px;
-    border: 3px solid #f26925;
-    display: inline-block;
-    cursor: pointer;
-    color: #fff;
-    font-size: 15px;
-    padding: 12px 30px;
-    text-decoration: none;
-    font-weight: 600;
-}
-
-/* BUTTON STYLING ON HOVER */
-.Orange-read-btn:hover {
-	font-family: 'futura-heavy';
-	background-color: #fff;
-	color: #f26925;
-	text-decoration: none;
-}
-
 
 /* QUESTION CONTENT STYLING */
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
@@ -144,3 +139,82 @@ i {
 }
 
 /* QUIZ NAVIGATION STYLING */
+.nav-table {
+	margin: 20px;
+	padding: 50px;
+	background-color: #e6e7ea;
+}
+
+ /* The side navigation menu */
+.sidenav {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 100; /* Stay on top */
+    top: 0;
+    right: 0;
+    background-color: #474C55;
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+/* The navigation menu links */
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover, .offcanvas a:focus{
+    color: #f1f1f1;
+}
+
+/* Position and style the close button (top right corner) */
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#page-container {
+    transition: margin-left .5s;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}
+
+/* BUTTON STYLING */
+.Orange-read-btn {
+	font-family: 'futura-heavy';
+    background-color: #f26925;
+    -moz-border-radius: 28px;
+    -webkit-border-radius: 28px;
+    border-radius: 28px;
+    border: 3px solid #f26925;
+    display: inline-block;
+    cursor: pointer;
+    color: #fff;
+    font-size: 15px;
+    padding: 12px 30px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* BUTTON STYLING ON HOVER */
+.Orange-read-btn:hover {
+	font-family: 'futura-heavy';
+	background-color: #fff;
+	color: #f26925;
+	text-decoration: none;
+}

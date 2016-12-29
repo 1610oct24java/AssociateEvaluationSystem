@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="AesApp">
 <head>
 <meta charset="ISO-8859-1">
 <title>Quiz</title>
@@ -14,48 +14,34 @@
 	<link rel="stylesheet" type="text/css" href="../resources/css/ricScratchcss.css" />
 
 </head>
-<body ng-app="AesApp">
-
-  <!-- Revature navbar header -->
-  <nav class="navbar">
-    <div class="container-fluid">
-        <div class="nav-dropdown">
-  			<button type="button" id="nav-dropdown-btn" data-toggle="dropdown" 
-  					class="btn btn-lg menu-btn">
-  				<span class="glyphicon glyphicon-menu-hamburger whiten"></span>
-  			</button>
-  			<div class="nav-dropdown-content text-center">
-    			Quiz Navigation<br>
-    			content<br>
-    			content<br>
-    			content<br>
-    			content<br>
-    			content<br>
-    			content<br>
-    			content
-  			</div>
-		</div>
-        <a class="navbar-brand" href="http://revature.com">Revature Assessment Evaluation System</a>
-      </div>
+<body>
+	
+  <div id="page-container">
+	
+	<!-- Revature navbar header -->
+	<div class="navbar row">
+			<img src="../resources/images/revature_logo.png" alt="Revature" style="width:150px;">
+        	<a class="navbar-title" href="http://revature.com">Revature Assessment Evaluation System</a>
+    	
+    	<button type="button" id="navbarMenuBtn" data-toggle="dropdown" 
+				class="btn btn-lg navbar-menu-btn" onclick="openNav()">
+				<span class="glyphicon glyphicon-menu-hamburger whiten"></span>
+  		</button>
     </div>
-  </nav>
+	<div class="navbar-overlay-spacing"></div>
 
-
-  <div style="height:100px;"></div>
-  
-  
+	
 
 <div ng-controller="AccordionController">
   <uib-accordion close-others="false">
     <div uib-accordion-group class="panel-default question-box" is-disabled="true" is-open="states[$index].open" ng-repeat="question in questions">
       <uib-accordion-heading>
         <div style="display:inline-block;" ng-click="collapseQuestion($index)">
-        	{{question.title}} 
+        	Question {{$index + 1}}
         </div>
         
         <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': states[$index].open, 'glyphicon-chevron-right': !states[$index].open }" 
         		ng-click="collapseQuestion($index)"></i>
-        
         <i class="pull-right glyphicon glyphicon-floppy-disk" ng-class="{'glyph-grey': states[$index].saved, 'glyph-blue': !states[$index].saved}"
         		ng-click="saveQuestion($index)"></i>
         <i class="pull-right glyphicon glyphicon-flag" ng-class="{'glyph-grey': states[$index].flagged, 'glyph-red': !states[$index].flagged}"
@@ -68,12 +54,49 @@
   </uib-accordion>
 </div>
 
-  
+   <div style="height:100px;">text</div>
+   <div style="height:100px;">text</div>
+   <div style="height:100px;">text</div>
+   <div style="height:100px;">text</div>
+   <div style="height:100px;">text</div>
+   <div style="height:100px;">text</div>
+   <div style="height:100px;">text</div>
+   <div style="height:100px;">text</div>
+   <div style="height:100px;">text</div>
+   <div style="height:100px;">text</div>
   
   
 <!-- Revature button -->
-  <a class="Orange-read-btn" href="../revaturepro">GO TO REVATURE BOOTCAMP</a>
+	<a class="Orange-read-btn" href="../revaturepro">GO TO REVATURE BOOTCAMP</a>
   
+  </div>
+
+  <div id="sidenav" class="sidenav">
+  		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  		
+  		<a href="#">About</a>
+  		<a href="#">Services</a>
+  		<a href="#">Clients</a>
+  		<a href="#">Contact</a>
+  		
+  		<div ng-controller="QuizNavController">
+  			<h3>Quiz Navigation</h3>
+  			<table class="nav-table">
+  				<tr ng-repeat="i in array"  ng-init="index = i*5">
+             		<td ng-repeat="state in states.slice(index,index+5)">
+             				<i class="text-center glyphicon glyphicon-floppy-disk" 
+             				   ng-class="{'glyph-grey': state.saved, 'glyph-blue': !state.saved}">
+             				</i><br>{{state.id + 1}}</td>
+         		</tr>
+  			</table>
+  		</div>
+	</div>
+	
+ <div class="footer">
+ 	&copy; Copyright 2015, Revature LLC., All Rights Reserved. Sharing or distribution of the contents of this portal without explicit permission from Revature management is a violation of employment terms with Revature.
+ </div>
+	
+	
 <!-- JavaScript Stuff goes here ------------------------------------------------ -->
 <!-- Angular Libraries --> 
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
