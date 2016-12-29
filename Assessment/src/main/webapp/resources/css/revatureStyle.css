@@ -52,20 +52,29 @@
     src: url('../fonts/ParaType-FuturaPTBold.ttf');
 }
 
+/* MAIN STYLING */
+body {
+	background-color: #474c55;
+}
+
+.h2 {
+	color: white;
+}
+
 /* NAVBAR STYLING */
 .navbar {
 	font-family: 'futura-heavy';
-	background-color: #474C55;
+	background-color: white;
 	z-index: 1;
 }
 
 .navbar-brand:link {
-	color: #ffffff;
+	color: #434851;
 	text-decoration: none;
 }
 
 .navbar-brand:visited {
-	color: #ffffff;
+	color: #434851;
 	text-decoration: none;
 }
 
@@ -83,8 +92,8 @@
 .nav-dropdown-content {
 	display: none;
 	position: absolute;
-	background-color: #474C55;
-	color: #ffffff;
+	background-color: white;
+	color: #474C55;
 	min-width: 300px;
 	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 	padding: 12px 16px;
@@ -95,7 +104,7 @@
 }
 
 .menu-btn {
-	background-color: #474C55;
+	background-color: white;
 }
 
 .whiten {
@@ -128,6 +137,14 @@
 	text-decoration: none;
 }
 
+.pagination .active a{
+	background-color: #f26925;
+	border-color: #f26925;
+}
+
+.panel-heading-revature {
+	color: #474c55;
+}
 
 /* QUESTION CONTENT STYLING */
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
@@ -139,14 +156,17 @@
 	font-family: 'futura-book';
 }
 
-.glyph-grey {
+.glyph-silver {
 	color: silver;
 }
 .glyph-red {
-	color: firebrick;
+	color: #986161;
 }
 .glyph-blue {
-	color:blue;
+	color: #63698f;
+}
+.glyph-dark-grey {
+	color: #434851
 }
 
 i {
@@ -158,3 +178,6 @@ i {
 }
 
 /* QUIZ NAVIGATION STYLING */
+.pagination-select {
+	background-color: #f26925;
+}
