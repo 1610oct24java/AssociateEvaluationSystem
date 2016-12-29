@@ -1,8 +1,8 @@
 package com.revature.aes.controllers;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -22,15 +22,16 @@ public class LoginController {
 	
 	@RequestMapping(value="/",method = RequestMethod.GET)
 	public String login() {
-		
-		return "login";
+		return "index";
 	}
 	@RequestMapping(value="/home",method = RequestMethod.GET)
-	public String getLoginPage(ModelMap modelMap) {
-
+	public String getLoginPage(ModelMap modelMap, HttpSession session) {
+		
 		org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	    String name = user.getUsername(); //get logged in username
 	    User currentUser = service.findUserByEmail(name);
+	    
+	    System.out.println(session.getAttribute("SPRING_SECURITY_CONTEXT"));
 	    
 	    //direct user based on user
 	    String location = "";
@@ -47,7 +48,11 @@ public class LoginController {
 	    case "trainer":
 	    	location = "trainerhome";
 	    	break;
+	    	
+    	default:
+    		break;
 	    }
+	    
 		return location;
 	}
 	
