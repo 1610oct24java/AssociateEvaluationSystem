@@ -13,39 +13,47 @@ app.controller("dragController", function($scope) {
 		}
 	};
 
-	$scope.dragControlListeners1 = {
-	};
+	$scope.dragControlListeners1 = {};
 });
 
 app.controller("quizController", function($scope, $http, $location) {
 	$scope.quiz = tstQuiz;
+	$scope.answers = new Array();
+	$scope.states = new Array();
 	$scope.numEditors = 0;
 	$scope.oneAtATime = false;
-	$scope.states = new Array();
 	$scope.editors = new Array();
 
-	var calcNumEditors = function() {
-		for (var i = 0; i < $scope.quiz.questions.length; i++) {
-			if ($scope.quiz.questions[i].type === 3) {
-				$scope.numEditors++;
-			}
-			;
-		}
-		;
+	var incrementEditorIfNeeded = function(i) {
+		if ($scope.quiz.questions[i].type === 3) {
+			$scope.numEditors++;
+		};
 	};
-
-	calcNumEditors();
-
-	// Initialize states
-	for (var i = 0; i < $scope.quiz.questions.length; i++) {
+	var makeState = function() {
 		var temp = {
-			flagged : false,
-			saved : false,
-			open : false
+			flagged: false,
+			saved: false,
+			open: false
 		};
 		$scope.states.push(temp);
+	};
+	var makeAnswers = function(ndx) {
+		if($scope.quiz.questions[ndx].type === 0) {
+			$scope.answers.push(-1);
+		} else if ($scope.quiz.questions[ndx].type === 1 ) {
+			$scope.answers.push([-1]);
+		} else {
+			$scope.answers.push(-1);
+		};
 	}
-	;
+	var initSetup = function() {
+		for (var i = 0; i < $scope.quiz.questions.length; i++) {
+			incrementEditorIfNeeded(i);
+			makeState();
+			makeAnswers(i);
+		};
+	};
+	initSetup();
 
 	$scope.collapseQuestion = function(index) {
 		console.log("Entered collapse: glyph id=" + index);
@@ -61,9 +69,41 @@ app.controller("quizController", function($scope, $http, $location) {
 		console.log("Entered flag: glyph id=" + index);
 		$scope.states[index].flagged = !$scope.states[index].flagged;
 	};
+	
+	$scope.selectOption = function (ndxOption, ndxQuestion) {
+		if($scope.quiz.questions[ndxQuestion].type === 0) {
+			console.log("1) Select Option: " + ndxOption + " in Question: " + ndxQuestion);
+			$scope.answers[ndxQuestion] = ndxOption;
+		} else if ($scope.quiz.questions[ndxQuestion].type === 1 ) {
+			console.log("2) Select Option: " + ndxOption + " in Question: " + ndxQuestion);
+			var foundAt = $scope.answers[ndxQuestion].indexOf(ndxOption)
+			if (foundAt === -1){
+				$scope.answers[ndxQuestion].push(ndxOption);
+			} else {
+				$scope.answers[ndxQuestion].splice(foundAt, 1);
+			}
+		};
+	}
+	
+	$scope.checkChecked = function (ndxOption, ndxQuestion) {
+		var output = false;
+		
+		if($scope.quiz.questions[ndxQuestion].type === 0) {
+			if ($scope.answers[ndxQuestion] === ndxOption) {
+				output = true;
+			}
+		} else if ($scope.quiz.questions[ndxQuestion].type === 1 ) {
+			if ($scope.answers[ndxQuestion].indexOf(ndxOption) != -1){
+				output = true;
+			}
+		};
+		
+		return output;
+	}
 
 	// EDITORS
-	$scope.checkNeedEditor = function(questionIndex) {
+	$scope.checkNeedEditor2 = function(questionIndex) {
+		// console.log("Checking if q " + questionIndex + " needs an editor.");
 		if ($scope.editors.length < $scope.numEditors) {
 			var currQ = $scope.quiz.questions[questionIndex];
 
@@ -75,10 +115,25 @@ app.controller("quizController", function($scope, $http, $location) {
 				newEditor.getSession().setMode("ace/mode/" + "java");
 				$scope.editors.push(newEditor);
 			}
-			;
 		}
-		;
 	};
+	
+	$scope.checkNeedEditor = function(questionIndex) {
+		var currQ = $scope.quiz.questions[questionIndex];
+		if(currQ.type === 3) {
+			// If this question is a coding question
+			var temp = ace.edit("editor" + questionIndex);
+			temp.setTheme("ace/theme/monokai");
+			temp.getSession().setMode("ace/mode/" + "java");
+			
+			var foundAt = $scope.editors.indexOf(temp);
+			if (foundAt != -1) {
+				$scope.editors[foundAt] = temp;
+			} else {
+				$scope.editors.push(temp);
+			}
+		}
+	}
 
 	/*
 	 * var initEditors = function () { for (var i = 0; i <
@@ -91,9 +146,9 @@ app.controller("quizController", function($scope, $http, $location) {
 	// PAGINATION
 	$scope.filteredQuestions = [];
 	$scope.currentPage = 1;
-	$scope.numPerPage = 3;
+	$scope.numPerPage = 5;
 	$scope.maxSize = 5;
-	
+
 	$scope.$watch('currentPage + numPerPage', function() {
 		var begin = (($scope.currentPage - 1) * $scope.numPerPage), end = begin
 				+ $scope.numPerPage;
