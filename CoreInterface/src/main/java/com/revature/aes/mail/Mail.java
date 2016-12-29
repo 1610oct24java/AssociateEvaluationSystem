@@ -21,7 +21,6 @@ public class Mail {
 				+ " Your temporary password is no longer valid";
 		
 		
-		
 		public void sendQuizEmail(String candidateEmail, String link, String tempPass){
 			ms.sendEmail(ms.setupMessage(candidateEmail, "Revature Quiz", CANIDATE_COMPLETED_BODY + "Link: " + link 
 					+ "\nTemporary Pass: " + tempPass));
