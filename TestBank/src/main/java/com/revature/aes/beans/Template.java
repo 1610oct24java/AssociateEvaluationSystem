@@ -27,7 +27,7 @@ public class Template implements Serializable {
 	private int templateId;
 
 	@Column(name = "create_timestamp")
-	private transient LocalDateTime createTimeStamp;
+	private transient LocalDateTime createTimeStamp; //may need to change from transient later
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="CREATOR_ID", referencedColumnName="USER_ID")

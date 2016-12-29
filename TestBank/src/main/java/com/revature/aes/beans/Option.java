@@ -35,8 +35,8 @@ public class Option implements Serializable {
 	private String optionText;
 	/**
 	 * @correct A Integer value representing the correct answer for a question.
-	 *          Minimun value is 0, Maximun value is 1. 0 is equavalent to false
-	 *          while 1 is equavalent to true.
+	 *          Minimum value is 0, Maximum value is 1. 0 is equivalent to false
+	 *          while 1 is equivalent to true.
 	 */
 	@Min(value = 0)
 	@Max(value = 1)
@@ -106,16 +106,19 @@ public class Option implements Serializable {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		
+		if ((obj == null) || (getClass() != obj.getClass()) )
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		
+		
 		Option other = (Option) obj;
+		
 		if (correct == null) {
 			if (other.correct != null)
 				return false;
 		} else if (!correct.equals(other.correct))
 			return false;
+		
 		if (optionId == null) {
 			if (other.optionId != null)
 				return false;

@@ -41,10 +41,10 @@ public class Assessment implements Serializable {
 	private int timeLimit;
 
 	@Column(name = "created_timestamp")
-	private transient LocalDateTime createdTimeStamp;
+	private transient LocalDateTime createdTimeStamp;//may need to change from transient later
 
 	@Column(name = "finished_timestamp")
-	private transient LocalDateTime finishedTimeStamp;
+	private transient LocalDateTime finishedTimeStamp;//may need to change from transient later
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "template_id")
