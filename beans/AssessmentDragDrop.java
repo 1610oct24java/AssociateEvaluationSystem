@@ -22,6 +22,7 @@ public class AssessmentDragDrop implements Serializable {
 	
 	private static final long serialVersionUID = -6980285894791938854L;
 	
+	@Id
 	@Column(name = "assessment_drag_drop_id")
 	@SequenceGenerator(sequenceName = "aes_assessment_drag_drop_seq", name = "aes_assessment_drag_drop_seq")
 	@GeneratedValue(generator = "aes_assessment_drag_drop_seq", strategy = GenerationType.SEQUENCE)
