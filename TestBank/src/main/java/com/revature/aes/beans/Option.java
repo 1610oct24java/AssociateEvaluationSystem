@@ -107,23 +107,17 @@ public class Option implements Serializable {
 		if (this == obj)
 			return true;
 		
-		if (obj == null) {
-	        return false;
-	    }
-
-	    if (getClass() != obj.getClass()) {
-	        return false;
-	    }
-
+		if ((obj == null) || (getClass() != obj.getClass()) )
+			return false;
 		
 		
 		Option other = (Option) obj;
 		
-		if (((correct == null) && (other.correct != null)) || (!correct.equals(other.correct))) {
-			return false;
-				
-		} 
+		if ((correct == null) && (other.correct != null))  {
 			
+				return false;
+		} else if (!correct.equals(other.correct))
+			return false;
 		
 		if (optionId == null) {
 			if (other.optionId != null)
@@ -142,16 +136,6 @@ public class Option implements Serializable {
 		
 		return true;
 	}
-	//
-	
-	@SuppressWarnings("unused")
-	private boolean equals(Object control, Object test) {
-	    if(null == control) {
-	        return null == test;
-	    }
-	    return control.equals(test);
-	}
-	//
 
 	@Override
 	public String toString() {
