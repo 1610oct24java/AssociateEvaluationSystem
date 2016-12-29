@@ -15,15 +15,23 @@ import javax.persistence.Table;
 public class TemplateQuestion implements Serializable {
 
 	private static final long serialVersionUID = -8227667088089601251L;
+	
+	@Id
+	@Column(name = "template_question_id")
+	@SequenceGenerator(sequenceName = "aes_template_question_seq", name = "aes_template_question_seq")
+	@GeneratedValue(generator = "aes_template_question_seq", strategy = GenerationType.SEQUENCE)
+	private int templateQuestionId;
+	
 	@Column(name = "weight")
 	private int weight;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "question_id")
 	private Question templateQuestion;
 
-	@Column(name = "template_id")
-	private int template;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="TEMPLATE_ID")
+	private Template template;
 	
 	public TemplateQuestion() {
 		super();

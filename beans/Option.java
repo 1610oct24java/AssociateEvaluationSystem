@@ -46,8 +46,8 @@ public class Option implements Serializable {
 	/**
 	 * @question The question associated with this class.
 	 */
-
-	@Column(name = "QUESTION_ID")
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="QUESTION_ID")
 	private int questionId;
 
 	public Integer getOptionId() {

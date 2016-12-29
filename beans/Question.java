@@ -33,7 +33,8 @@ public class Question implements Serializable {
 	@Column(name = "QUESTION_TEXT")
 	private String questionText;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "FORMAT_ID")
 	private Format format;
 

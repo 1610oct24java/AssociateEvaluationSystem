@@ -26,7 +26,8 @@ public class FileUpload implements Serializable {
 	@Column(name = "grade")
 	private int grade;
 
-	@Column(name = "assessment_id")
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="ASSESSMENT_ID")
 	private int assessmentId;
 
 	public int getFileId() {

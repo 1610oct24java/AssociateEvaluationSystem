@@ -13,20 +13,28 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "aes_assessment_drag_drop")
 public class AssessmentDragDrop implements Serializable {
+	
+	public AssessmentDragDrop() {
+		super();
+	}
+	
 	private static final long serialVersionUID = -6980285894791938854L;
+	
+	@Column(name = "assessment_drag_drop_id")
+	@SequenceGenerator(sequenceName = "aes_assessment_drag_drop_seq", name = "aes_assessment_drag_drop_seq")
+	@GeneratedValue(generator = "aes_assessment_drag_drop_seq", strategy = GenerationType.SEQUENCE)
+	private int assessmentDragDropId;
+	
 	@Column(name = "user_order ")
 	private int userOrder;
 
-	@Column(name = "ASSESSMENT_ID")
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="ASSESSMENT_ID")
 	private Assessment assessmentId;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "drag_drop_id")
 	private DragDrop dragDrop;
-
-	public AssessmentDragDrop() {
-		super();
-	}
 	
 	@Override
 	public String toString() {
@@ -56,10 +64,5 @@ public class AssessmentDragDrop implements Serializable {
 	public void setDragDrop(DragDrop dragDrop) {
 		this.dragDrop = dragDrop;
 	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
 	
 }

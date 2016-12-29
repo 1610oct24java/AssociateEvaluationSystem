@@ -29,17 +29,15 @@ public class Template implements Serializable {
 	@Column(name = "create_timestamp")
 	private LocalDateTime createTimeStamp;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="CREATOR_ID", referencedColumnName="USER_ID")
 	private User creator;
 
-	@OneToMany(fetch = FetchType.EAGER)
-	@JoinColumn(name="TEMPLATE_ID")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy ="template")
 	private List<TemplateQuestion> templateQuestion;
 
 	public Template() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

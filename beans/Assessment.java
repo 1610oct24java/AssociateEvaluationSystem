@@ -22,12 +22,16 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "aes_assessment")
 public class Assessment implements Serializable {
+	
+	public Assessment() {
+		super();
+	}
 
 	private static final long serialVersionUID = -6152668317029130986L;
 	@Id
 	@Column(name = "assessment_id")
-	@SequenceGenerator(sequenceName = "assessment_seq", name = "assessment_seq")
-	@GeneratedValue(generator = "assessment_seq", strategy = GenerationType.SEQUENCE)
+	@SequenceGenerator(sequenceName = "aes_assessment_seq", name = "aes_assessment_seq")
+	@GeneratedValue(generator = "aes_assessment_seq", strategy = GenerationType.SEQUENCE)
 	private int assessmentId;
 
 	@OneToOne(fetch = FetchType.EAGER)
@@ -56,12 +60,10 @@ public class Assessment implements Serializable {
 		inverseJoinColumns = @JoinColumn(name = "option_id"))
 	private List<Option> options;
 
-	@OneToMany(fetch = FetchType.EAGER)
-	@JoinTable(name="AES_ASSESSMENT_DRAG_DROP")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "assessment_drag_drop_id")
 	private List<AssessmentDragDrop> assessmentDragDrop;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "file_id")
-	@JoinTable(name="ASSESSMENT_ID")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy ="assessment_id")
 	private List<FileUpload> fileUpload;
 	
 	
@@ -70,12 +72,6 @@ public class Assessment implements Serializable {
 		joinColumns = @JoinColumn(name = "snippet_template_id"), 
 		inverseJoinColumns = @JoinColumn(name = "assessment_id"))
 	private List<SnippetTemplate> snippedTemplate;
-
-
-	public Assessment() {
-		super();
-	}
-
 
 	public int getAssessmentId() {
 		return assessmentId;
@@ -185,12 +181,6 @@ public class Assessment implements Serializable {
 	public void setSnippedTemplate(List<SnippetTemplate> snippedTemplate) {
 		this.snippedTemplate = snippedTemplate;
 	}
-
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
 
 	@Override
 	public String toString() {
