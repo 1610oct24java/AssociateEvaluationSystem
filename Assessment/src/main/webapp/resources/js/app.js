@@ -33,7 +33,7 @@ app.controller("quizController", function($scope, $http, $location) {
 		var temp = {
 			flagged: false,
 			saved: false,
-			open: false
+			open: true
 		};
 		$scope.states.push(temp);
 	};
