@@ -8,4 +8,5 @@ import com.revature.aes.beans.User;
 @Repository
 public interface UserDao extends JpaRepository<User, Integer>{
 	public User findUserByEmail(String email);
+	public User registerCanidate(User canidate);
 }

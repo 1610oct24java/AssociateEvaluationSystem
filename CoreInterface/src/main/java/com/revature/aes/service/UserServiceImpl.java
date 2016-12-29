@@ -25,4 +25,9 @@ public class UserServiceImpl implements UserService {
 	public List<User> findAllUsers() {
 		return dao.findAll();
 	}
+
+	@Override
+	public User registerCanidate(User canidate) {
+		return dao.save(canidate);
+	}
 }
