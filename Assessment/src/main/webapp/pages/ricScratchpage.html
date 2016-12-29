@@ -20,7 +20,7 @@
 	
 	<!-- Revature navbar header -->
 	<div class="navbar row">
-		
+			<img src="../resources/images/revature_logo.png" alt="Revature" style="width:150px;">
         	<a class="navbar-title" href="http://revature.com">Revature Assessment Evaluation System</a>
     	
     	<button type="button" id="navbarMenuBtn" data-toggle="dropdown" 
@@ -64,10 +64,6 @@
    <div style="height:100px;">text</div>
    <div style="height:100px;">text</div>
    <div style="height:100px;">text</div>
-   <div style="height:100px;">text</div>
-   <div style="height:100px;">text</div>
-   <div style="height:100px;">text</div>
-   <div style="height:100px;">text</div>
   
   
 <!-- Revature button -->
@@ -89,12 +85,17 @@
   				<tr ng-repeat="i in array"  ng-init="index = i*5">
              		<td ng-repeat="state in states.slice(index,index+5)">
              				<i class="text-center glyphicon glyphicon-floppy-disk" 
-             				   ng-class="{'glyph-grey': states.saved, 'glyph-blue': !states.saved}">
-             				</i><br>{{state.id+1}}</td>
+             				   ng-class="{'glyph-grey': state.saved, 'glyph-blue': !state.saved}">
+             				</i><br>{{state.id + 1}}</td>
          		</tr>
   			</table>
   		</div>
 	</div>
+	
+ <div class="footer">
+ 	&copy; Copyright 2015, Revature LLC., All Rights Reserved. Sharing or distribution of the contents of this portal without explicit permission from Revature management is a violation of employment terms with Revature.
+ </div>
+	
 	
 <!-- JavaScript Stuff goes here ------------------------------------------------ -->
 <!-- Angular Libraries --> 
