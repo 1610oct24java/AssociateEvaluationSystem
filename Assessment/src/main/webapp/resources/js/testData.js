@@ -61,6 +61,41 @@ var tstQuiz = {
 					txtA : "private static void main(String[] args){\n\n}"
 				}
 			]
+		},
+		{
+			txtQ : "What is the proper viewing order of these films?",
+			id: 4,
+			type : 2,
+			options : [
+				{
+					txtA : "Empire Strikes Back"
+				},
+				{
+					txtA : "The Phantom Menace"
+				},
+				{
+					txtA : "Return of The Jedi"
+				},
+				{
+					txtA : "Revenge of the Sith"
+				},
+				{
+					txtA : "Attack of the Clones"
+				},
+				{
+					txtA : "A New Hope"
+				},
+			]
+		},
+		{
+			txtQ : "Test",
+			id : 5,
+			type : 3,
+			options : [
+				{
+					txtA : "private static void main(String[] pirateNoises){\n\n}"
+				}
+			]
 		}
 	]
 };
