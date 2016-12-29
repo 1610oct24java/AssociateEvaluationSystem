@@ -31,8 +31,6 @@ public class LoginController {
 	    String name = user.getUsername(); //get logged in username
 	    User currentUser = service.findUserByEmail(name);
 	    
-	    System.out.println(session.getAttribute("SPRING_SECURITY_CONTEXT"));
-	    
 	    //direct user based on user
 	    String location = "";
 	    switch(currentUser.getRole().getRoleTitle().toLowerCase()) {
