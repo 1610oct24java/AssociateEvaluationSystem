@@ -12,28 +12,28 @@ public class Mail {
 		@Autowired
 		MailService ms;
 		
-		static final String candidateCompletedBody = "Please click the link below and complete the quiz within one week.\n"
+		static final String CANIDATE_COMPLETED_BODY = "Please click the link below and complete the quiz within one week.\n"
 				+ "If you can not click the link please copy and paste it into your URL bar\n\n";
 		
-		static final String recruiterCompletedBody = " has finished their quiz and recieved a score: ";
+		static final String RECRUITER_COMPLETED_BODY = " has finished their quiz and recieved a score: ";
 		
-		static final String candidateNotCompleteBody = "The time to complete your quiz has passed."
+		static final String CANDIDATE_NOT_COMPLETE_BODY = "The time to complete your quiz has passed."
 				+ " Your temporary password is no longer valid";
 		
 		
 		
 		public void sendQuizEmail(String candidateEmail, String link, String tempPass){
-			ms.sendEmail(ms.setupMessage(candidateEmail, "Revature Quiz", candidateCompletedBody + "Link: " + link 
+			ms.sendEmail(ms.setupMessage(candidateEmail, "Revature Quiz", CANIDATE_COMPLETED_BODY + "Link: " + link 
 					+ "\nTemporary Pass: " + tempPass));
 		}
 		
 		public void recruiterReturnGradeEmail(String recruiterEmail, String candidateName, String grade){
 			ms.sendEmail(ms.setupMessage(recruiterEmail, candidateName + " has completed quiz",candidateName
-					+recruiterCompletedBody+grade));
+					+RECRUITER_COMPLETED_BODY+grade));
 		}
 		
 		public void candidateNotCompletedEmail(String candidateEmail){
-			ms.sendEmail(ms.setupMessage(candidateEmail, "Quiz Timer Expired", candidateNotCompleteBody));
+			ms.sendEmail(ms.setupMessage(candidateEmail, "Quiz Timer Expired", CANDIDATE_NOT_COMPLETE_BODY));
 		}
 		
 		public void recruiterNotCompletedEmail(String recruiterEmail, String candidateName){
