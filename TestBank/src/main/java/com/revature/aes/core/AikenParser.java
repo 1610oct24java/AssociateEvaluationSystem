@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.springframework.stereotype.Service;
+
 import com.revature.aes.beans.Option;
 import com.revature.aes.beans.Question;
 import com.revature.aes.exception.AikenSyntaxException;
@@ -25,7 +27,15 @@ import com.revature.aes.exception.InvalidFileTypeException;
  * 
  * @author Connor Anderson
  */
+@Service
 public class AikenParser {
+	
+	public AikenParser() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
 	private HashMap<Question, ArrayList<Option>> questionMap;
 	private String line;
 	
@@ -120,7 +130,8 @@ public class AikenParser {
 	 */
 	private Question getQuestion(BufferedReader br) throws IOException{
 		// First line will be a question
-    	Question question = new Question(line);
+    	Question question = new Question();
+    	question.setQuestionText(line);
     	String questionString = "Question: " + line;
     	System.out.println(questionString);
     	
@@ -143,7 +154,8 @@ public class AikenParser {
 		
     	// Parse lines until "ANSWER:" to retrieve Options
     	while(!line.startsWith("ANSWER:")){
-    		Option option = new Option(-1, line, false, -1);
+    		Option option = new Option();
+    		option.setOptionText(line);
     		optionsList.add(option);
     		
     		String optionString = "Option: " + option.getOptionText();
@@ -165,7 +177,7 @@ public class AikenParser {
 		
 		for(Option option : optionsList){
 			if(option.getOptionText().startsWith(correctLetter.toString())){
-				option.setCorrect(true);
+				option.setCorrect(1);
 				System.out.println("Correct Option is: " + option.getOptionText());
 			}
 		}

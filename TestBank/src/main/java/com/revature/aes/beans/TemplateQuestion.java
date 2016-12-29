@@ -1,126 +1,83 @@
-/****************************************************************
- * Project Name: Associate Evaluation System - Test Bank
- * 
- * Description: A simple rest application that persists test
- * 		information into a database. Use to evaluate associates
- * 		performance both during and before employment with Revature 
- * 		LLC.
- * 
- * Authors: Matthew Beauregard, Conner Anderson, Travis Deshotels,
- * 		Edward Crader, Jon-Erik Williams 
- ****************************************************************/
-
 package com.revature.aes.beans;
-
 
 import java.io.Serializable;
 
-import javax.persistence.AssociationOverride;
-import javax.persistence.AssociationOverrides;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-
 
 @Entity
-@Table(name="AES_TEMPLATE_QUESTION")
-//http://www.mkyong.com/hibernate/hibernate-many-to-many-example-join-table-extra-column-annotation/
-public class TemplateQuestion implements Serializable
-{
+@Table(name = "aes_template_question")
+public class TemplateQuestion implements Serializable {
 
-	/**
-	 * @serialVersionUID An auto-generated field that is used for serialization.
-	 */
 	private static final long serialVersionUID = -8227667088089601251L;
 	
-	/**
-	 * @templateQuestionId The Unique identifier for this class (its a composite key)
-	 */
-	@EmbeddedId
-	private TemplateQuestionId tQID;
+	@Id
+	@Column(name = "template_question_id")
+	@SequenceGenerator(sequenceName = "aes_template_question_seq", name = "aes_template_question_seq")
+	@GeneratedValue(generator = "aes_template_question_seq", strategy = GenerationType.SEQUENCE)
+	private int templateQuestionId;
 	
-	/**
-	 * @weight A Double value representing the overall weight of a question.
-	 */
-	@Column (name = "WEIGHT")
-	private Double weight;
+	@Column(name = "weight")
+	private int weight;
 	
-	@ManyToOne
-	@JoinColumn(name="QUESTION_ID",insertable =false, updatable = false)
-	private Question question;
-	
-	/**
-	 * @template The template associated with the class.
-	 */
-	
-	@ManyToOne
-	@JoinColumn(name="TEMPLATE_ID", insertable=false, updatable = false)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "question_id")
+	private Question templateQuestion;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="TEMPLATE_ID")
 	private Template template;
-	
-	
-	
+
 	public TemplateQuestion() {
 		super();
-	}
-	
-	public TemplateQuestion(Double weight, Question question, Template template) {
-		this();
-		this.weight = weight;
-		this.question = question;
-		this.template = template;
-		this.tQID = new TemplateQuestionId(question.getQuestionId(), template.getTemplateId());
+		// TODO Auto-generated constructor stub
 	}
 
-	public TemplateQuestionId getTemplateQuestionId(){
-		return tQID;
+	@Override
+	public String toString() {
+		return "TemplateQuestion [templateQuestionId=" + templateQuestionId + ", weight=" + weight
+				+ ", templateQuestion=" + templateQuestion + ", template=" + template + "]";
 	}
-	public void setTemplateQuestionId(TemplateQuestionId tQID){
-		this.tQID = tQID;
+
+	public int getTemplateQuestionId() {
+		return templateQuestionId;
 	}
-	
-	public Double getWeight()
-	{
+
+	public void setTemplateQuestionId(int templateQuestionId) {
+		this.templateQuestionId = templateQuestionId;
+	}
+
+	public int getWeight() {
 		return weight;
 	}
 
-	public void setWeight(Double weight)
-	{
+	public void setWeight(int weight) {
 		this.weight = weight;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((tQID == null) ? 0 : tQID.hashCode());
-		result = prime * result + ((weight == null) ? 0 : weight.hashCode());
-		return result;
+	public Question getTemplateQuestion() {
+		return templateQuestion;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		TemplateQuestion other = (TemplateQuestion) obj;
-		if (tQID == null) {
-			if (other.tQID != null)
-				return false;
-		} else if (!tQID.equals(other.tQID))
-			return false;
-		if (weight == null) {
-			if (other.weight != null)
-				return false;
-		} else if (!weight.equals(other.weight))
-			return false;
-		return true;
+	public void setTemplateQuestion(Question templateQuestion) {
+		this.templateQuestion = templateQuestion;
 	}
 
+	public Template getTemplate() {
+		return template;
+	}
+
+	public void setTemplate(Template template) {
+		this.template = template;
+	}
 }
