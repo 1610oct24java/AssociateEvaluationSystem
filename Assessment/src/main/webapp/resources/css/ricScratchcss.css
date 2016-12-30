@@ -183,7 +183,7 @@ i {
 
 /* The navigation menu links */
 .sidenav a {
-    padding: 8px 8px 8px 32px;
+    padding: 0px 8px 0px 32px;
     text-decoration: none;
     font-size: 25px;
     color: #434851;
@@ -211,17 +211,19 @@ i {
 }
 
 /* QUIZ NAVIGATION STYLING */
-.sidenav table {
-	background-color: #ffffff;
+#sideNavTable {
 	border: 2px solid #434851;
 	width: 90%;
 	margin: 15px;
+}
+.sidenav table {
+	background-color: #ffffff;
 	border-collapse: collapse;
 }
 .sidenav table td {
 	vertical-align: center;
 	text-align: center;
-	padding: 10px;
+	padding: 7px;
 }
 
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */

@@ -81,6 +81,7 @@
   		
   		<div ng-controller="QuizNavController">
   			<h3>Quiz Navigation</h3>
+  			<div id="sideNavTable">
   			<table class="nav-table">
   				<tr ng-repeat="i in array"  ng-init="index = i*5">
              		<td ng-repeat="state in states.slice(index,index+5)">
@@ -90,6 +91,7 @@
              				</i><br>{{state.id + 1}}</td>
          		</tr>
   			</table>
+  			</div>
   		</div>
 	</div>
 	
