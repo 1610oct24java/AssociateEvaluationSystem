@@ -1,8 +1,10 @@
 /****************************************************************
- * Project Name: Test Bank
+ * Project Name: Associate Evaluation System - Test Bank
  * 
  * Description: A simple rest application that persists test
- * 		information into a database.
+ * 		information into a database. Use to evaluate associates
+ * 		performance both during and before employment with Revature 
+ * 		LLC.
  * 
  * Authors: Matthew Beauregard, Conner Anderson, Travis Deshotels,
  * 		Edward Crader, Jon-Erik Williams 
@@ -12,6 +14,7 @@ package com.revature.aes.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,11 +23,12 @@ import com.revature.aes.beans.Format;
 import com.revature.aes.beans.Question;
 import com.revature.aes.daos.QuestionDAO;
 
-@Service
+@Service("QuestionServiceImpl")
 @Transactional
 public class QuestionServiceImpl implements QuestionService
 {
 	@Autowired
+	@Qualifier("questionDao")
 	private QuestionDAO qdao;
 
 	/**
@@ -90,7 +94,7 @@ public class QuestionServiceImpl implements QuestionService
 	}
 	
 	/**
-	 * Deletes a question based off an the unique idenifier for the question.
+	 * Deletes a question based off an the unique identifier for the question.
 	 * @param the unique identifier of a question.
 	 */
 	@Override

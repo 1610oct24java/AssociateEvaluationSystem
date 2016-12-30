@@ -2,14 +2,14 @@ package com.revature.aes.beans;
 
 import java.io.Serializable;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -30,11 +30,19 @@ public class DragDrop implements Serializable {
 	@Column(name = "correct_order")
 	private int correctOrder;
 
-	@Column(name = "question_id")
-	private int questionId;
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="QUESTION_ID")
+	private Question questionId;
 
 	public DragDrop() {
 		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public String toString() {
+		return "DragDrop [dragDropId=" + dragDropId + ", dragDropText=" + dragDropText + ", correctOrder="
+				+ correctOrder + ", questionId=" + questionId + "]";
 	}
 
 	public int getDragDropId() {
@@ -61,21 +69,11 @@ public class DragDrop implements Serializable {
 		this.correctOrder = correctOrder;
 	}
 
-	public int getQuestionId() {
+	public Question getQuestionId() {
 		return questionId;
 	}
 
-	public void setQuestionId(int questionId) {
+	public void setQuestionId(Question questionId) {
 		this.questionId = questionId;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	@Override
-	public String toString() {
-		return "DragDrop [dragDropId=" + dragDropId + ", dragDropText=" + dragDropText + ", correctOrder="
-				+ correctOrder + ", questionId=" + questionId + "]";
 	}
 }

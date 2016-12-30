@@ -31,11 +31,6 @@ public class Category implements Serializable{
 	 */
 	@Column(name="CATEGORY_NAME")
 	private String name;
-	
-	public Category() {
-		super();
-		
-	}
 
 	public Integer getCategoryId() {
 		return categoryId;
@@ -93,7 +88,10 @@ public class Category implements Serializable{
 		return "Category [categoryId=" + categoryId + ", name=" + name + "]";
 	}
 
-	
+	public Category() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 		
 }
