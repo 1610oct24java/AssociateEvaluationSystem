@@ -1,11 +1,12 @@
 package com.revature.aes.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.aes.beans.User;
@@ -15,18 +16,20 @@ import com.revature.aes.service.UserService;
 public class RecruiterController {
 	
 	@Autowired
-	UserService service;
+	private UserService userService;
 	
-    @RequestMapping(value="canidates",method = RequestMethod.POST)
-    public void registerCanidate(@RequestBody String canidate) {
-		System.out.println("*************");
-		System.out.println(canidate);
-		System.out.println("*************");
-//		User u = service.registerCanidate(canidate);
-//		System.out.println("=============");
-//		System.out.println(canidate);
-//		System.out.println("=============");
-		//return u;
+	@RequestMapping(value="/candidate", method=RequestMethod.POST)
+	public User createCandidate(@RequestBody User candidate){
+		org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		return userService.createCandidate(candidate, user.getUsername());
 	}
 	
+	@RequestMapping(value="/candidates", method=RequestMethod.GET)
+	public List<User> getCandidates(){
+		org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		return userService.findUsersByRecruiter(user.getUsername());
+	}
+
 }

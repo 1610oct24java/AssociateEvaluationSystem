@@ -27,23 +27,17 @@ public class CustomUserDetailsService implements UserDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername(String arg0) throws UsernameNotFoundException {
-		System.out.println("arg0: " + arg0);
 		com.revature.aes.beans.User user = uService.findUserByEmail(arg0);
 		Security security = sService.findSecurityByUserId(user.getUserId());
-		System.out.println("security: " + security);
-		System.out.println("security.getPassword(): " + security.getPassword());
-		User u = new User(arg0, security.getPassword(), getAuthorities(user.getRole().getRoleTitle()));
-		System.out.println("useruser: " + u);
 		return new User(arg0, security.getPassword(), getAuthorities(user.getRole().getRoleTitle()));
 	}
 
     public Collection<? extends GrantedAuthority> getAuthorities(String role) {
-        List<GrantedAuthority> authList = getGrantedAuthorities(getRoles(role));
-        return authList;
+        return getGrantedAuthorities(getRoles(role));
     }
 
     public List<String> getRoles(String role) {
-        List<String> roles = new ArrayList<String>();
+        List<String> roles = new ArrayList<>();
 
         if ("Recruiter".equalsIgnoreCase(role)) {
             roles.add("ROLE_RECRUITER");
@@ -56,7 +50,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     public static List<GrantedAuthority> getGrantedAuthorities(List<String> roles) {
-        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        List<GrantedAuthority> authorities = new ArrayList<>();
         for (String role : roles) {
             authorities.add(new SimpleGrantedAuthority(role));
         }

@@ -31,8 +31,6 @@ public class LoginController {
 	    String name = user.getUsername(); //get logged in username
 	    User currentUser = service.findUserByEmail(name);
 	    
-	    //System.out.println(session.getAttribute("SPRING_SECURITY_CONTEXT"));
-	    
 	    //direct user based on user
 	    String location = "";
 	    switch(currentUser.getRole().getRoleTitle().toLowerCase()) {
@@ -62,7 +60,6 @@ public class LoginController {
 		return "private";
 	}
 
-	//Spring Security see this : fuck you security
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView login(
 		@RequestParam(value = "error", required = false) String error,

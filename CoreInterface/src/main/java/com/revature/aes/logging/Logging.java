@@ -33,12 +33,15 @@ public class Logging {
 		
 		try{
 			result = pjp.proceed();
-		} catch(Throwable e){
+		} catch(Exception e){
 			log.error("\t" + e.getClass() + " " + e.getMessage());
+			log.info(e);
 			
 			for(StackTraceElement st : e.getStackTrace()){
-				log.error("\t\t" + st.getMethodName());
+			     log.error("\t\t" + st.getMethodName());
 			}
+		} catch(Throwable e){
+			log.error(e);
 		}
 		
 		log.trace(methodClass + " ==> " + method + " - Exit\nReturning: " + result);

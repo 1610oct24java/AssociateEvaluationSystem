@@ -6,6 +6,8 @@ import com.revature.aes.beans.User;
 
 public interface UserService {
 	public User findUserByEmail(String email);
+	public User createCandidate(User candidate, String recruiterEmail);
 	public List<User> findAllUsers();
-	public User registerCanidate(User canidate);
+	public List<User> findUsersByRecruiter(String email);
 }
+
