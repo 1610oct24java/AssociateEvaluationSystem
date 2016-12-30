@@ -83,4 +83,13 @@ public class UserServiceImpl implements UserService {
 	public User findUserById(int id) {
 		return dao.getOne(id);
 	}
+
+	@Override
+	public User findUserByIndex(int index, String email) {
+		// 
+		List<User> users = findUsersByRecruiter(email);
+		if(index >= users.size())
+			return null;
+		return users.get(index);
+	}
 }

@@ -21,15 +21,15 @@ public class Logging {
 		String method = signature.getName().toString();
 		Object result = null;
 		
-		log.trace(dashes);
+		log.info(dashes);
 		
-		log.trace(methodClass + " ==> " + method);
+		log.info(methodClass + " ==> " + method);
 		Object[] args = pjp.getArgs();
 		for(int i = 0; i < args.length; i++){
-			log.trace("Argumetnt #"+i+": "+args[i]);
+			log.info("Argumetnt #"+i+": "+args[i]);
 		}
 		
-		log.trace("Executing...");
+		log.info("Executing...");
 		
 		try{
 			result = pjp.proceed();
@@ -44,9 +44,9 @@ public class Logging {
 			log.error(e);
 		}
 		
-		log.trace(methodClass + " ==> " + method + " - Exit\nReturning: " + result);
+		log.info(methodClass + " ==> " + method + " - Exit\nReturning: " + result);
 
-		log.trace(dashes);
+		log.info(dashes);
 		return result;
 	}
 	
