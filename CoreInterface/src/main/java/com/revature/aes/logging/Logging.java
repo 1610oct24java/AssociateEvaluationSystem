@@ -40,9 +40,6 @@ public class Logging {
 			for(StackTraceElement st : e.getStackTrace()){
 				log.error("\t\t" + st.getMethodName());
 			}
-		} catch (Throwable e) {
-			// TODO Auto-generated catch block
-			log.info(e);
 		}
 		
 		log.trace(methodClass + " ==> " + method + " - Exit\nReturning: " + result);
