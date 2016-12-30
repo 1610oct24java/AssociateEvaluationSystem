@@ -59,7 +59,7 @@ public class Assessment implements Serializable {
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "assessmentId")
 	private Set<AssessmentDragDrop> assessmentDragDrop;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy ="fileId")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy ="assessmentId")
 	private Set<FileUpload> fileUpload;
 	
 	
