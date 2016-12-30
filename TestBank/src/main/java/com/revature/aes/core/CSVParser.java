@@ -33,10 +33,12 @@ public class CSVParser {
 		//TODO verify that the input file contains an even number!!!
 		List<String> linesCleaned = new ArrayList<String>();
 		BufferedReader br = null;
+		FileReader fr = null;
 		String lineInFile = "";
-
+		
 		try {
-			br = new BufferedReader(new FileReader(filename));
+			fr = new FileReader(filename);
+			br = new BufferedReader(fr);
 			while ((lineInFile = br.readLine()) != null) {
 				// This will replace a quoted comma with the placeholder.
 				// Any spaces inside the quotes are removed.
@@ -50,6 +52,7 @@ public class CSVParser {
 		} finally {
 			if (br != null) {
 				try {
+					fr.close();
 					br.close();
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -99,8 +102,8 @@ public class CSVParser {
 		String line;
 		Question question;
 		String questionText;
-		Format format = null;
-		Option option = null;
+		Format format;
+		Option option;
 		boolean trueFalseQuestion = false;
 		List<Option> options = new ArrayList<Option>();
 		Map<String, Question> questions = new HashMap<String, Question>();
@@ -155,7 +158,7 @@ public class CSVParser {
 			linesList = line.split(cvsSplitBy);
 			if (trueFalseQuestion){
 				format = formats.get("True/False");
-				if(linesList[0].equalsIgnoreCase("true") || linesList[0].equalsIgnoreCase("T")){
+				if("true".equalsIgnoreCase(linesList[0]) || "T".equalsIgnoreCase(linesList[0])){
 					option = new Option();
 					option.setOptionText("True");
 					option.setCorrect(1);
