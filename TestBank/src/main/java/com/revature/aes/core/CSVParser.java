@@ -28,9 +28,9 @@ public class CSVParser {
 	 * Replace all instances of quoted commas with a placeholder.
 	 * This will enable splitting the file by commas.
 	 * @return List containing the cleaned input lines.
+	 * @throws IOException 
 	 */
-	private List<String> escapeCommas(String filename){
-		//TODO verify that the input file contains an even number!!!
+	private List<String> escapeCommas(String filename) throws IOException{
 		List<String> linesCleaned = new ArrayList<String>();
 		BufferedReader br = null;
 		FileReader fr = null;
@@ -47,16 +47,12 @@ public class CSVParser {
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
 		} finally {
+			if (fr != null){
+				fr.close();
+			}
 			if (br != null) {
-				try {
-					fr.close();
-					br.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				br.close();
 			}
 		}
 		//TODO if (lineInFile.length()%2==1) throw InvalidFileFormatException
@@ -133,7 +129,12 @@ public class CSVParser {
 		formats.put("Code Snippet", format);
 		
 		// handle the quoted commas
-		List<String> linesCleaned = escapeCommas(filename);
+		List<String> linesCleaned = null;
+		try {
+			linesCleaned = escapeCommas(filename);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		for (int i=0;i<linesCleaned.size();i+=2){
 			// *question line
