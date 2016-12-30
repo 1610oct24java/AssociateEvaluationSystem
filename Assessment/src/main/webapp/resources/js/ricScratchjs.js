@@ -4,25 +4,7 @@ var app = angular.module('AesApp',['ui.bootstrap', 'ngAnimate']);
 
 app.controller('AccordionController', function($scope, $rootScope) {
 
-	  $scope.questions = [
-	    {
-	      id : 0,
-	      title: 'Question 1',
-	      content: 'What is your name?'
-	    },
-	    {
-	      id : 1,
-	      title : 'Question 2',
-	      content : 'What is your favorite color?'
-	    },
-	    {
-		  id : 2,
-	      title : 'Question 3',
-		  content : 'What is the airspeed velocity of an unladen swallow?'
-		}
-	  ];
-
-//	  var ql = $scope.questions.length;
+	  $scope.questions = ricTest;
 	  
 	  $rootScope.states = new Array();
 	  
@@ -59,8 +41,8 @@ app.controller('QuizNavController', function($scope, $rootScope) {
 	
 	$scope.index = 0;
     $scope.array = [];
-   for(var i=0; i < $rootScope.states.length/5; i++)
-     $scope.array.push(i);
+    for (var i=0; i < $rootScope.states.length/5; i++)
+    $scope.array.push(i);
 	
 });
 
@@ -112,13 +94,13 @@ app.controller('AjaxController', function($scope, $http) {
 });
 
 /* Set the width of the side navigation to 250px and the right margin of the page content to 250px */
-function openNav() {
+function openSideNav() {
     document.getElementById("sidenav").style.width = "250px";
     document.getElementById("page-container").style.marginRight = "250px";
 }
 
 /* Set the width of the side navigation to 0 and the right margin of the page content to 0 */
-function closeNav() {
+function closeSideNav() {
     document.getElementById("sidenav").style.width = "0";
     document.getElementById("page-container").style.marginRight = "0";
 }
