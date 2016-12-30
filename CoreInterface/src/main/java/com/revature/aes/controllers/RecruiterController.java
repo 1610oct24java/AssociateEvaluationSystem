@@ -20,8 +20,6 @@ public class RecruiterController {
 	public User createCandidate(@RequestBody User candidate){
 		org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
-		candidate = userService.createCandidate(candidate, user.getUsername());
-		
-	    return candidate;
+		return userService.createCandidate(candidate, user.getUsername());
 	}
 }

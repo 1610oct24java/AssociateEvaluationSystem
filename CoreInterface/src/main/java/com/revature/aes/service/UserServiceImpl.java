@@ -39,13 +39,14 @@ public class UserServiceImpl implements UserService {
 		String pattern = "dd-MMM-yy";
 		SimpleDateFormat fmt = new SimpleDateFormat(pattern);
 		
-		User recruiter = dao.findUserByEmail(recruiterEmail);
-		candidate.setRecruiterId(recruiter.getUserId());
+		int recruiterId = dao.findUserByEmail(recruiterEmail).getUserId();
+		System.out.println(recruiterId);
+		
+		candidate.setRecruiterId(recruiterId);
 		candidate.setRole(role.findRoleByRoleTitle("Candidate"));
 		candidate.setDatePassIssued(fmt.format(new Date()));
 		
-		candidate = dao.save(candidate);
-		
+		dao.save(candidate);
 		
 		security.createSecurity(candidate);
 		
