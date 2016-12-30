@@ -61,7 +61,7 @@ public class Mail {
 			
 			case "candidateCompleted":
 				
-				int grade = ad.findAssesmentById(m.getAssesmentId()).getGrade(); //*******change ID to what I get in mail object
+				int grade = ad.findAssesmentByUser(candidate).getGrade(); //*******change ID to what I get in mail object
 				
 				//send email to recruiter with grade
 				ms.sendEmail(ms.setupMessage(recruiterEmail, candidateName + " has completed quiz", candidateName

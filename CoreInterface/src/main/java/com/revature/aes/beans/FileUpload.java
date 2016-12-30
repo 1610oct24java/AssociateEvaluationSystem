@@ -31,7 +31,7 @@ public class FileUpload implements Serializable {
 
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="ASSESSMENT_ID")
-	private int assessmentId;
+	private Assessment assessmentId;
 
 	public FileUpload() {
 		super();
@@ -61,11 +61,11 @@ public class FileUpload implements Serializable {
 		this.grade = grade;
 	}
 
-	public int getAssessmentId() {
+	public Assessment getAssessmentId() {
 		return assessmentId;
 	}
 
-	public void setAssessmentId(int assessmentId) {
+	public void setAssessmentId(Assessment assessmentId) {
 		this.assessmentId = assessmentId;
 	}
 

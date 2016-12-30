@@ -18,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "aes_assessment")
@@ -61,7 +62,8 @@ public class Assessment implements Serializable {
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "assessmentDragDropId")
 	private Set<AssessmentDragDrop> assessmentDragDrop;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy ="fileId")
+	@Transient
+	@OneToMany(fetch = FetchType.EAGER, mappedBy ="assessmentId")
 	private Set<FileUpload> fileUpload;
 
 	@ManyToMany(fetch = FetchType.EAGER)

@@ -5,13 +5,13 @@ public class MailObject {
 	private String link;
 	private String tempPass;
 	private String type;
-	private String assesmentId;
+	private int assesmentId;
 	
 	MailObject(){
 		super();
 	}
 	
-	public MailObject(String link, String tempPass, String type, String assesmentId) {
+	public MailObject(String link, String tempPass, String type, int assesmentId) {
 		super();
 		this.link = link;
 		this.tempPass = tempPass;
@@ -19,11 +19,11 @@ public class MailObject {
 		this.assesmentId = assesmentId;
 	}
 	
-	public void setAssesmentId(String assesmentId){
+	public void setAssesmentId(int assesmentId){
 		this.assesmentId=assesmentId;
 	}
 	
-	public String getAssesmentId(){
+	public int getAssesmentId(){
 		return assesmentId;
 	}
 
