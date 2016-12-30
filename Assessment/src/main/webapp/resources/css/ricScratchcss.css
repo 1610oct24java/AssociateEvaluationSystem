@@ -133,7 +133,7 @@ body {
   background: -moz-linear-gradient(right, #474C55 , #ffffff, #474C55); /* For Firefox 3.6 to 15 */
   background: linear-gradient(to right, #474C55 , #ffffff, #474C55); /* Standard syntax */
 }
-}
+
 
 /* QUESTION CONTENT STYLING */
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
