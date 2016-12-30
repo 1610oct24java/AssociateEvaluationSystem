@@ -2,6 +2,7 @@ package com.revature.aes.service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,5 +51,13 @@ public class UserServiceImpl implements UserService {
 		security.createSecurity(candidate);
 		
 		return candidate;
+	}
+
+	@Override
+	public List<User> findUsersByRecruiter(String email) {
+		// TODO Auto-generated method stub
+		int recruiterId = dao.findUserByEmail(email).getUserId();
+		
+		return dao.findUsersByRecruiterId(recruiterId);
 	}
 }

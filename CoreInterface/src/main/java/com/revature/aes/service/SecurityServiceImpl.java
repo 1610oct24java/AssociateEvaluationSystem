@@ -40,5 +40,4 @@ public class SecurityServiceImpl implements SecurityService {
 		
 		return dao.save(security);
 	}
-
 }

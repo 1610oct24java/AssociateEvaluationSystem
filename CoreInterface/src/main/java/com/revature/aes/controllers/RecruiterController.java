@@ -1,5 +1,7 @@
 package com.revature.aes.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,5 +23,12 @@ public class RecruiterController {
 		org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
 		return userService.createCandidate(candidate, user.getUsername());
+	}
+	
+	@RequestMapping(value="/candidates", method=RequestMethod.GET)
+	public List<User> getCandidates(){
+		org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		return userService.findUsersByRecruiter(user.getUsername());
 	}
 }
