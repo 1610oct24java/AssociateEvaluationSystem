@@ -4,7 +4,7 @@
 
 .editor { 
     height: 100px;
-    width: 90%
+    width: 100%
 }
 
 @CHARSET "ISO-8859-1";
@@ -61,55 +61,73 @@ body {
 	color: white;
 }
 
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#page-container {
+    transition: margin-left .5s;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}
+
 /* NAVBAR STYLING */
 .navbar {
 	font-family: 'futura-heavy';
-	background-color: white;
-	z-index: 1;
+	background-color: #ffffff;
+	display: inline-block;
+	margin-left: 10px;
+	margin-right: 10px;
+    padding: 15px 20px;
+    top: 0;
+    width: 100%;
+    overflow: hidden;
+    position: fixed;
+    z-index: 99;
 }
-
-.navbar-brand:link {
-	color: #434851;
+.navbar-title {
+}
+.navbar-title:link {
+	color: #474C55;
 	text-decoration: none;
 }
-
-.navbar-brand:visited {
-	color: #434851;
+.navbar-title:visited {
+	color: #474C55;
 	text-decoration: none;
 }
-
-.navbar-brand:hover {
+.navbar-title:hover {
 	color: #F26925;
 	text-decoration: none;
 }
-
-.nav-dropdown {
-	position: relative;
-	display: inline-block;
-	float: left;
+.navbar-menu-btn {
+	background-color: #ffffff;
+	float: right;
+	border: 3px solid #474C55;
+}
+.navbar-menu-btn:focus{outline: none;}
+.navbar-overlay-spacing {
+	margin-top: 100px;
 }
 
-.nav-dropdown-content {
-	display: none;
-	position: absolute;
-	background-color: white;
+.rev-grey {
 	color: #474C55;
-	min-width: 300px;
-	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-	padding: 12px 16px;
 }
 
-.nav-dropdown:hover .nav-dropdown-content {
-	display: block;
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
 }
-
-.menu-btn {
-	background-color: white;
-}
-
-.whiten {
-	color: #ffffff;
-	font-size: 22px;
+.footer {
+  position: absolute;
+  height: 75px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 2rem;
+  background-color: #efefef;
+  text-align: center;
 }
 
 /* BUTTON STYLING */
@@ -140,6 +158,11 @@ body {
 .pagination .active a{
 	background-color: #f26925;
 	border-color: #f26925;
+}
+
+.pagination .active a:hover {
+	background-color: #ef5c1e;
+	border-color: #ef5c1e;
 }
 
 .panel-heading-revature {
@@ -180,4 +203,59 @@ i {
 /* QUIZ NAVIGATION STYLING */
 .pagination-select {
 	background-color: #f26925;
+}
+
+.nav-table {
+	margin: 20px;
+	padding: 50px;
+	background-color: #e6e7ea;
+}
+
+ /* The side navigation menu */
+.sidenav {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 100; /* Stay on top */
+    top: 0;
+    right: 0;
+    background-color: #474C55;
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+/* The navigation menu links */
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover, .offcanvas a:focus{
+    color: #f1f1f1;
+}
+
+/* Position and style the close button (top right corner) */
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#page-container {
+    transition: margin-left .5s;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
 }

@@ -16,6 +16,15 @@ app.controller("dragController", function($scope) {
 	$scope.dragControlListeners1 = {};
 });
 
+app.controller('QuizNavController', function($scope, $rootScope) {
+	
+	$scope.index = 0;
+    $scope.array = [];
+   for(var i=0; i < $rootScope.states.length/5; i++)
+     $scope.array.push(i);
+	
+});
+
 app.controller("quizController", function($scope, $http, $location) {
 	$scope.quiz = tstQuiz;
 	$scope.answers = new Array();
@@ -156,3 +165,14 @@ app.controller("quizController", function($scope, $http, $location) {
 		$scope.filteredQuestions = $scope.quiz.questions.slice(begin, end);
 	});
 });
+
+function openNav() {
+    document.getElementById("sidenav").style.width = "250px";
+    document.getElementById("page-container").style.marginRight = "250px";
+}
+
+/* Set the width of the side navigation to 0 and the right margin of the page content to 0 */
+function closeNav() {
+    document.getElementById("sidenav").style.width = "0";
+    document.getElementById("page-container").style.marginRight = "0";
+}
