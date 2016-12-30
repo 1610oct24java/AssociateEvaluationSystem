@@ -40,7 +40,6 @@ public class UserServiceImpl implements UserService {
 		SimpleDateFormat fmt = new SimpleDateFormat(pattern);
 		
 		int recruiterId = dao.findUserByEmail(recruiterEmail).getUserId();
-		System.out.println(recruiterId);
 		
 		candidate.setRecruiterId(recruiterId);
 		candidate.setRole(role.findRoleByRoleTitle("Candidate"));
