@@ -5,7 +5,7 @@ public class MailObject {
 	private String link;
 	private String tempPass;
 	private String type;
-	private int assesmentId;
+	private int assessmentId;
 	
 	MailObject(){
 		super();
@@ -16,15 +16,15 @@ public class MailObject {
 		this.link = link;
 		this.tempPass = tempPass;
 		this.type = type;
-		this.assesmentId = assesmentId;
+		this.assessmentId = assesmentId;
 	}
 	
 	public void setAssesmentId(int assesmentId){
-		this.assesmentId=assesmentId;
+		this.assessmentId=assesmentId;
 	}
 	
 	public int getAssesmentId(){
-		return assesmentId;
+		return assessmentId;
 	}
 
 	public String getLink() {

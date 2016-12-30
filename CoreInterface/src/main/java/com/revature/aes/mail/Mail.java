@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 import com.revature.aes.beans.MailService;
 import com.revature.aes.beans.User;
 import com.revature.aes.dao.AssessmentDao;
-import com.revature.aes.beans.Assessment;
 import com.revature.aes.dao.UserDao;
 import com.revature.aes.service.UserService;
 
@@ -14,16 +13,16 @@ import com.revature.aes.service.UserService;
 public class Mail {
 		
 		@Autowired
-		private static MailService ms;
+		private MailService ms;
 		
 		@Autowired
-		private static UserService us;
+		private UserService us;
 		
 		@Autowired
-		private static UserDao ud;
+		private UserDao ud;
 		
 		@Autowired
-		private static AssessmentDao ad;
+		private AssessmentDao ad;
 		
 		static final String CANIDATE_COMPLETED_BODY = "Please click the link below and complete the quiz within one week.\n"
 				+ "If you can not click the link please copy and paste it into your URL bar\n\n";
@@ -33,7 +32,7 @@ public class Mail {
 		static final String CANDIDATE_NOT_COMPLETE_BODY = "The time to complete your quiz has passed."
 				+ " Your temporary password is no longer valid";
 		
-		public static void sendEmail(MailObject m, String email){
+		public void sendEmail(MailObject m, String email){
 			
 			User candidate = us.findUserByEmail(email);
 			User recruiter = ud.findRecruiterByEmail(email);
