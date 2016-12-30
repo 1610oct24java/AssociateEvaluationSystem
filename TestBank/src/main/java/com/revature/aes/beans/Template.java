@@ -11,7 +11,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
@@ -21,6 +20,7 @@ import javax.persistence.Table;
 @Table(name = "aes_templates")
 public class Template implements Serializable {
 	private static final long serialVersionUID = -8060916464018913931L;
+	
 	@Id
 	@Column(name = "template_id")
 	@SequenceGenerator(sequenceName = "aes_templates_seq", name = "aes_templates_seq")
@@ -28,7 +28,7 @@ public class Template implements Serializable {
 	private int templateId;
 
 	@Column(name = "create_timestamp")
-	private LocalDateTime createTimeStamp;
+	private transient LocalDateTime createTimeStamp; //may need to change from transient later
 
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="CREATOR_ID", referencedColumnName="USER_ID")

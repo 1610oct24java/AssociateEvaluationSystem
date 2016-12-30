@@ -16,7 +16,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "aes_file_upload")
 public class FileUpload implements Serializable {
+	
 	private static final long serialVersionUID = 3082492540225468947L;
+	
 	@Id
 	@Column(name = "file_id")
 	@SequenceGenerator(sequenceName = "file_upload_seq", name = "file_upload_seq")

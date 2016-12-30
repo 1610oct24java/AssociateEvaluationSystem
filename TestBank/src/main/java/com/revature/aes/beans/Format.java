@@ -36,6 +36,7 @@ public class Format implements Serializable {
 
 	public Format() {
 		super();
+		
 	}
 	
 	public Format(Integer formatId, String formatName) {

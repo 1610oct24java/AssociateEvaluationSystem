@@ -24,9 +24,17 @@ public class AssessmentAuth implements Serializable {
 
 	@Column(name = "url_assessment")
 	private String urlAssessment;
-
+	
 	public AssessmentAuth(){
 		super();
+	}
+	
+	public AssessmentAuth(int assessmentAuthId, int userId, String urlAuth, String urlAssessment) {
+		super();
+		this.assessmentAuthId = assessmentAuthId;
+		this.userId = userId;
+		this.urlAuth = urlAuth;
+		this.urlAssessment = urlAssessment;
 	}
 	
 	public int getAssessmentAuthId() {

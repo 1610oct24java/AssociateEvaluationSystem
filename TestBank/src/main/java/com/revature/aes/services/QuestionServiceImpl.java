@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.revature.aes.beans.Format;
-import com.revature.aes.beans.Option;
 import com.revature.aes.beans.Question;
 import com.revature.aes.daos.QuestionDAO;
 

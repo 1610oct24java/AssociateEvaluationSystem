@@ -45,12 +45,14 @@ public class Option implements Serializable {
 	@Max(value = 1)
 	@Column(name = "CORRECT")
 	private Integer correct;
-	
+
+	/**
+	 * @question The question associated with this class.
+	 */
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "QUESTION_ID")
 	private Question question;
 	
-
 	public Option() {
 		super();
 	}
@@ -85,10 +87,6 @@ public class Option implements Serializable {
 
 	public void setQuestion(Question question) {
 		this.question = question;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 
 	@Override
@@ -138,3 +136,4 @@ public class Option implements Serializable {
 	}
 
 }
+

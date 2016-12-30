@@ -34,7 +34,7 @@ public class SnippetTemplate implements Serializable
 	private String solutionUrl;
 	
 	@Column(name="QUESTION_ID")
-	private int questionId;
+	private Question questionId;
 
 	public SnippetTemplate() {
 		super();
@@ -72,19 +72,13 @@ public class SnippetTemplate implements Serializable
 		this.solutionUrl = solutionUrl;
 	}
 
-	public int getQuestionId() {
+	public Question getQuestionId() {
 		return questionId;
 	}
 
-	public void setQuestionId(int questionId) {
+	public void setQuestionId(Question questionId) {
 		this.questionId = questionId;
 	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-
 
 	@Override
 	public String toString() {

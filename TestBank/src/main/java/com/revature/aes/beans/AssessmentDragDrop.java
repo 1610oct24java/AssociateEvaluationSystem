@@ -26,7 +26,7 @@ public class AssessmentDragDrop implements Serializable {
 	@GeneratedValue(generator = "aes_assessment_drag_drop_seq", strategy = GenerationType.SEQUENCE)
 	private int assessmentDragDropId;
 	
-	@Column(name = "user_order ")
+	@Column(name = "user_order")
 	private int userOrder;
 
 	@ManyToOne(fetch=FetchType.EAGER)

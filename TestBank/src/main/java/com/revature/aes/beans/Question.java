@@ -27,7 +27,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Question implements Serializable {
 
 	private static final long serialVersionUID = 4510024807505207528L;
-	
+
 	@Id
 	@Column(name = "QUESTION_ID")
 	@SequenceGenerator(sequenceName = "AES_QUESTION_SEQ", name = "AES_QUESTION_SEQ")
@@ -48,7 +48,6 @@ public class Question implements Serializable {
 		inverseJoinColumns = @JoinColumn(name = "TAG_ID"))
 	private Set<Tag> tags;
 
-	@JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "AES_QUESTION_CATEGORY", 
 		joinColumns = @JoinColumn(name = "QUESTION_ID"), 
@@ -158,7 +157,7 @@ public class Question implements Serializable {
 	public void setFormat(Format format) {
 		this.format = format;
 	}
-
+	
 	public Set<Tag> getTags() {
 		return tags;
 	}
