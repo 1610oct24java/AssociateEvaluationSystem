@@ -94,6 +94,7 @@ body {
 	overflow: hidden;
 	position: fixed;
 	z-index: 99;
+	box-shadow: 5px 5px 5px #434851;
 }
 
 .navbar-title {
@@ -304,10 +305,31 @@ i {
 	text-align: center;
 }
 
+/*Status indicators */
+.status-container {
+    position: relative;
+}
+
+.icon-size {
+    font-size:20px;
+}
+
+.shoppingBadge-custom{
+    position:absolute;
+    left:25%; /** you can make changes here to change position **/
+    top:25%;
+    font-size:12px;
+    z-index: 3;
+}
+
+.shoppingBadge-flagged{
+	background-color: #986161;	
+}
+
 /* QUIZ NAVIGATION STYLING */
 #sideNavTable {
 	border: 2px solid #434851;
-	width: 90%;
+	width: 87%;
 	margin: 15px;
 }
 .sidenav table {
@@ -317,7 +339,7 @@ i {
 .sidenav table td {
 	vertical-align: center;
 	text-align: center;
-	padding: 7px;
+	padding: 6px;
 }
 
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */

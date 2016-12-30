@@ -10,7 +10,7 @@
 
 </head>
 <body>
-	<div id="page-container" class = "wrap">
+	<div id="page-container" class="wrap">
 		<!-- ------ -->
 		<!-- NAVBAR -->
 		<!-- ------ -->
@@ -112,10 +112,12 @@
 			<div id="sideNavTable">
 				<table class="nav-table">
 					<tr ng-repeat="i in array" ng-init="index = i*5">
-						<td ng-repeat="state in states.slice(index,index+5)"><i class="text-center glyphicon glyphicon-floppy-disk"
-							ng-class="{'glyph-grey': state.saved, 'glyph-blue': !state.saved,
-             				   			  'glyph-noBorder': !state.flagged, 'glyph-bordered': state.flagged}">
-						</i><br>{{state.id + 1}}</td>
+						<td ng-repeat="state in states.slice(index,index+5)">
+							<div class="status-container">
+							    <i class="text-center glyphicon glyphicon-floppy-disk icon-size" ng-class="{'glyph-blue': state.saved, 'glyph-silver': !state.saved}"></i>
+							    <span class="badge shoppingBadge-custom" ng-class="{'shoppingBadge-flagged': !state.flagged, 'shoppingBadge-flagged': state.flagged}">{{state.id + 1}}</span>
+							</div>
+						</td>
 					</tr>
 				</table>
 			</div>
@@ -129,7 +131,7 @@
 		of the contents of this portal without explicit permission from Revature management is a violation of employment terms
 		with Revature.
 	</div>
-	
+
 	<!-- JAVASCRIPT -->
 	<!-- 	LIBRARIES -->
 	<script src="../resources/js/lib/src/ace.js"></script>
@@ -137,8 +139,6 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-animate.js"></script>
 	<script src="../resources/js/ui-bootstrap-tpls-2.3.1.js"></script>
 	<script src="../resources/js/lib/ng-sortable.js"></script>
-	
-	<!-- <script src="../resources/js/quizJS.js"></script> -->
 	<!-- 	CUSTOM -->
 	<script src="../resources/js/testData.js"></script>
 	<script src="../resources/js/app.js"></script>
