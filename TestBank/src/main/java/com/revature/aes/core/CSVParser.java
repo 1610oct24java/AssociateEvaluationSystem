@@ -9,24 +9,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.revature.aes.beans.Format;
 import com.revature.aes.beans.Option;
 import com.revature.aes.beans.Question;
 import com.revature.aes.services.QuestionService;
 
+@Component
 public class CSVParser {
-	private static final String commaReplacement = "!__comma__!";
-	private static Map<String, Format> formats;
+	private final String commaReplacement = "!__comma__!";
+	private Map<String, Format> formats;
+	@Autowired
+	private QuestionService service;
 	
 	/**
 	 * Replace all instances of quoted commas with a placeholder.
 	 * This will enable splitting the file by commas.
 	 * @return List containing the cleaned input lines.
 	 */
-	private static List<String> escapeCommas(String filename){
+	private List<String> escapeCommas(String filename){
 		//TODO verify that the input file contains an even number!!!
 		List<String> linesCleaned = new ArrayList<String>();
 		BufferedReader br = null;
@@ -62,7 +65,7 @@ public class CSVParser {
 	 * @param line may contain placeholders.
 	 * @return Line with commas replacing the placeholders.
 	 */
-	private static String placeCommas(String line){
+	private String placeCommas(String line){
 		return line.replaceAll(commaReplacement, ",");
 	}
 	
@@ -72,7 +75,7 @@ public class CSVParser {
 	 * @param numberOfChoices given by the user.
 	 * @return the format type id needed for storing the question.
 	 */
-	private static Format getFormatType(int numberOfChoices){		
+	private Format getFormatType(int numberOfChoices){		
 		// TODO get formats from db
 		
 		switch(numberOfChoices){
@@ -90,7 +93,7 @@ public class CSVParser {
 	 * @param filename contains the questions to be added to the system.
 	 * @return all questions that are created from the input file.
 	 */
-	public static Map<String, Question> parseCSV(String filename) {
+	public Map<String, Question> parseCSV(String filename) {
 		String cvsSplitBy = ",";
 		String[] linesList;
 		String line;
@@ -125,9 +128,6 @@ public class CSVParser {
 		format.setFormatId(7);
 		format.setFormatName("Code Snippet");
 		formats.put("Code Snippet", format);
-		
-		ApplicationContext ac = new ClassPathXmlApplicationContext("beans.xml");
-		QuestionService service =(QuestionService) ac.getBean("QuestionServiceImpl");
 		
 		// handle the quoted commas
 		List<String> linesCleaned = escapeCommas(filename);

@@ -1,8 +1,10 @@
 /****************************************************************
- * Project Name: Test Bank
+ * Project Name: Associate Evaluation System - Test Bank
  * 
  * Description: A simple rest application that persists test
- * 		information into a database.
+ * 		information into a database. Use to evaluate associates
+ * 		performance both during and before employment with Revature 
+ * 		LLC.
  * 
  * Authors: Matthew Beauregard, Conner Anderson, Travis Deshotels,
  * 		Edward Crader, Jon-Erik Williams 
@@ -17,7 +19,7 @@ import org.springframework.stereotype.Repository;
 import com.revature.aes.beans.Format;
 import com.revature.aes.beans.Question;
 
-@Repository
+@Repository("questionDao")
 public interface QuestionDAO extends JpaRepository<Question, Integer>
 {
 	
