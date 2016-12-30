@@ -12,7 +12,6 @@ public class ValidationController {
 	
 	@RequestMapping(value="/user")
 	public Principal user(Principal user){
-		System.out.println(user);
 		return user;
 	}
 }
