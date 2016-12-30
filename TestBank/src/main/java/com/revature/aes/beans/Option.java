@@ -45,7 +45,7 @@ public class Option implements Serializable {
 	@Max(value = 1)
 	@Column(name = "CORRECT")
 	private Integer correct;
-
+	
 	/**
 	 * @question The question associated with this class.
 	 */
@@ -134,6 +134,7 @@ public class Option implements Serializable {
 		return "Option [optionId=" + optionId + ", optionText=" + optionText + ", correct=" + correct
 				+ "]";
 	}
+
 
 }
 

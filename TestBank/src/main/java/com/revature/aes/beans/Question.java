@@ -157,7 +157,7 @@ public class Question implements Serializable {
 	public void setFormat(Format format) {
 		this.format = format;
 	}
-	
+
 	public Set<Tag> getTags() {
 		return tags;
 	}

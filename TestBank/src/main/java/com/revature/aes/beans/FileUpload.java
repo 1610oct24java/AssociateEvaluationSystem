@@ -35,6 +35,7 @@ public class FileUpload implements Serializable {
 	@JoinColumn(name="ASSESSMENT_ID")
 	private Assessment assessmentId;
 
+
 	public FileUpload() {
 		super();
 	}
@@ -75,10 +76,8 @@ public class FileUpload implements Serializable {
 		return serialVersionUID;
 	}
 
-
 	@Override
 	public String toString() {
-		return "FileUpload [fileId=" + fileId + ", fileUrl=" + fileUrl + ", grade=" + grade + ", assessmentId="
-				+ assessmentId + "]";
+		return "FileUpload [fileId=" + fileId + ", fileUrl=" + fileUrl + ", grade=" + grade + "]";
 	}
 }

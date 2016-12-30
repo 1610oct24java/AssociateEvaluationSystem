@@ -15,6 +15,7 @@ package com.revature.aes.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,11 +24,12 @@ import com.revature.aes.beans.Format;
 import com.revature.aes.beans.Question;
 import com.revature.aes.daos.QuestionDAO;
 
-@Service
+@Service("QuestionServiceImpl")
 @Transactional
 public class QuestionServiceImpl implements QuestionService
 {
 	@Autowired
+	@Qualifier("questionDao")
 	private QuestionDAO qdao;
 
 	/**

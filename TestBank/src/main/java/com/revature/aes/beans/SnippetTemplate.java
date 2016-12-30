@@ -39,7 +39,7 @@ public class SnippetTemplate implements Serializable
 	public SnippetTemplate() {
 		super();
 	}
-	
+
 	public Integer getSnippetTemplateId() {
 		return snippetTemplateId;
 	}

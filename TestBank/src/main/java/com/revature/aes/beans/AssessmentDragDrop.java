@@ -16,7 +16,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "aes_assessment_drag_drop")
 public class AssessmentDragDrop implements Serializable {
-	
 
 	private static final long serialVersionUID = -6980285894791938854L;
 	

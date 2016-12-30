@@ -38,6 +38,12 @@ public class DragDrop implements Serializable {
 		super();
 	}
 
+	@Override
+	public String toString() {
+		return "DragDrop [dragDropId=" + dragDropId + ", dragDropText=" + dragDropText + ", correctOrder="
+				+ correctOrder + ", questionId=" + questionId + "]";
+	}
+
 	public int getDragDropId() {
 		return dragDropId;
 	}
@@ -68,15 +74,5 @@ public class DragDrop implements Serializable {
 
 	public void setQuestionId(Question questionId) {
 		this.questionId = questionId;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	@Override
-	public String toString() {
-		return "DragDrop [dragDropId=" + dragDropId + ", dragDropText=" + dragDropText + ", correctOrder="
-				+ correctOrder + ", questionId=" + questionId + "]";
 	}
 }

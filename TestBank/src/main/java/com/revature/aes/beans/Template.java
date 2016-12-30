@@ -2,7 +2,7 @@ package com.revature.aes.beans;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,14 +28,14 @@ public class Template implements Serializable {
 	private int templateId;
 
 	@Column(name = "create_timestamp")
-	private transient LocalDateTime createTimeStamp; //may need to change from transient later
+	private LocalDateTime createTimeStamp;
 
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="CREATOR_ID", referencedColumnName="USER_ID")
 	private User creator;
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy ="template")
-	private List<TemplateQuestion> templateQuestion;
+	private Set<TemplateQuestion> templateQuestion;
 
 	public Template() {
 		super();
@@ -71,15 +71,11 @@ public class Template implements Serializable {
 		this.creator = creator;
 	}
 
-	public List<TemplateQuestion> getTemplateQuestion() {
+	public Set<TemplateQuestion> getTemplateQuestion() {
 		return templateQuestion;
 	}
 
-	public void setTemplateQuestion(List<TemplateQuestion> templateQuestion) {
+	public void setTemplateQuestion(Set<TemplateQuestion> templateQuestion) {
 		this.templateQuestion = templateQuestion;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 }

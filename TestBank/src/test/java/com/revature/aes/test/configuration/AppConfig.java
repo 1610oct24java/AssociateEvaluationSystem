@@ -21,10 +21,10 @@ import com.revature.aes.beans.Template;
 import com.revature.aes.beans.TemplateQuestion;
 import com.revature.aes.beans.User;
 import com.revature.aes.controllers.TrainerController;
-import com.revature.aes.daos.FormatDAO;;
-import com.revature.aes.daos.QuestionDAO;;
+import com.revature.aes.core.CSVParser;
 import com.revature.aes.rest.controllers.FormatRestController;
 import com.revature.aes.rest.controllers.QuestionRestController;
+import com.revature.aes.rest.controllers.TestController;
 import com.revature.aes.services.FormatService;
 import com.revature.aes.services.FormatServiceImpl;
 import com.revature.aes.services.QuestionService;
@@ -50,5 +50,117 @@ public class AppConfig {
 	}
 	
 	@Bean
-	public 
+	public AssessmentDragDrop getAssessmentDragDrop(){
+		return new AssessmentDragDrop();
+	}
+	
+	@Bean
+	public Category getCategory(){
+		return new Category();
+	}
+	
+	@Bean
+	public DragDrop getDragDrop(){
+		return new DragDrop();
+	}
+	
+	@Bean
+	public FileUpload getFileUpload(){
+		return new FileUpload();
+	}
+	
+	@Bean
+	public Format getFormat(){
+		return new Format();
+	}
+	
+	@Bean
+	public Option getOption(){
+		return new Option();
+	}
+	
+	@Bean
+	public Question getQuestion(){
+		return new Question();
+	}
+	
+	@Bean
+	public Role getRole(){
+		return new Role();
+	}
+	
+	@Bean
+	public Security getSecurity(){
+		return new Security();
+	}
+	
+	@Bean
+	public SnippetTemplate getSnippetTemplate(){
+		return new SnippetTemplate();
+	}
+	
+	@Bean
+	public Tag getTag(){
+		return new Tag();
+	}
+	
+	@Bean
+	public Template getTemplate(){
+		return new Template();
+	}
+	
+	@Bean
+	public TemplateQuestion getTemplateQuestion(){
+		return new TemplateQuestion();
+	}
+	
+	@Bean 
+	public User getUser(){
+		return new User();
+	}
+	
+	@Bean
+	public TrainerController getTrainerController(){
+		return new TrainerController();
+	}
+	
+	@Bean
+	public CSVParser getCSVParser(){
+		return new CSVParser();
+	}
+	
+	@Bean
+	public FormatRestController getFormatRestController(){
+		return new FormatRestController();
+	}
+	
+	@Bean
+	public QuestionRestController getQuestionRestController(){
+		return new QuestionRestController();
+	}
+	
+	@Bean
+	public TestController getTestController(){
+		return new TestController();
+	}
+	
+	@Bean
+	public FormatService getFormatService(){
+		return getFormatServiceImpl();
+	}
+	
+	@Bean
+	public QuestionService getQuestionService(){
+		return getQuestionServiceImpl();
+	}
+	
+	@Bean
+	public FormatServiceImpl getFormatServiceImpl(){
+		return new FormatServiceImpl();
+	}
+	
+	@Bean QuestionServiceImpl getQuestionServiceImpl(){
+		return new QuestionServiceImpl();
+	}
+	
 }

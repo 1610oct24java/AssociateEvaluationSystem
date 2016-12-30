@@ -9,7 +9,6 @@ import javax.persistence.OneToOne;
 
 public class AssessmentAuth implements Serializable {
 	
-
 	private static final long serialVersionUID = -2732479042247683247L;
 
 	@Column(name = "assessment_auth_id")
