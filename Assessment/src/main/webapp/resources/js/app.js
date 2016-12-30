@@ -25,10 +25,57 @@ app.controller('QuizNavController', function($scope, $rootScope) {
 	
 });
 
-app.controller("quizController", function($scope, $http, $location) {
+app.controller('AjaxController', function($scope, $http) {
+
+	   getAssessmentData();
+	 
+	    $scope.submitAssessment = function(){
+	        var assessmentResults = {username:this.registerUser,password:this.registerPass};
+	        
+	        postAssessmentData(assessmentResults);
+	    }
+	    
+	    // postData takes in JSON, sends with HTTP POST to Spring LoginController
+	    function getAssessmentData(data){
+	    	
+	    	// setup variables
+	    	
+	        $http({
+	            method: 'GET',
+	            url: '/Assessment/getAssessment',
+	            headers: {'Content-Type': 'application/json'},
+	            data: data
+	        })
+	        .success(function (data){
+	            // SETUP QUESTIONS AND STATE ARRAYS
+	            // START TIMER
+	            console.log("GET ASSESSMENT SUCCESS");
+	        })
+	        .error(function (response){
+	            console.log("Error Status: " + response);
+	        });
+	    }
+	    
+	    function postAssessmentData(data){
+	        $http({
+	            method: 'POST',
+	            url: '/Assessment/submitAssessment',
+	            headers: {'Content-Type': 'application/json'},
+	            data: data
+	        })
+	        .success(function (data){
+	            console.log("Posted results");
+	        })
+	        .error(function (response){
+	            console.log("Error while submitting assessment");
+	        });
+	    }
+	});
+
+app.controller("quizController", function($scope, $rootScope, $http, $location) {
 	$scope.quiz = tstQuiz;
 	$scope.answers = new Array();
-	$scope.states = new Array();
+	$rootScope.states = new Array();
 	$scope.numEditors = 0;
 	$scope.oneAtATime = false;
 	$scope.editors = new Array();
@@ -38,8 +85,9 @@ app.controller("quizController", function($scope, $http, $location) {
 			$scope.numEditors++;
 		};
 	};
-	var makeState = function() {
+	var makeState = function(input) {
 		var temp = {
+			id: input,
 			flagged: false,
 			saved: false,
 			open: true
@@ -58,7 +106,7 @@ app.controller("quizController", function($scope, $http, $location) {
 	var initSetup = function() {
 		for (var i = 0; i < $scope.quiz.questions.length; i++) {
 			incrementEditorIfNeeded(i);
-			makeState();
+			makeState(i);
 			makeAnswers(i);
 		};
 	};
@@ -166,13 +214,14 @@ app.controller("quizController", function($scope, $http, $location) {
 	});
 });
 
-function openNav() {
+/* Set the width of the side navigation to 250px and the right margin of the page content to 250px */
+function openSideNav() {
     document.getElementById("sidenav").style.width = "250px";
     document.getElementById("page-container").style.marginRight = "250px";
 }
 
 /* Set the width of the side navigation to 0 and the right margin of the page content to 0 */
-function closeNav() {
+function closeSideNav() {
     document.getElementById("sidenav").style.width = "0";
     document.getElementById("page-container").style.marginRight = "0";
 }

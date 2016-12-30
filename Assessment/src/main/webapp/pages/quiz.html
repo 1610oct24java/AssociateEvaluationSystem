@@ -10,16 +10,22 @@
 
 </head>
 <body>
-	<div class="wrap page-container">
-		<div class="navbar row">
+	<div id="page-container" class = "wrap">
+		<!-- ------ -->
+		<!-- NAVBAR -->
+		<!-- ------ -->
+		<div class="navbar">
 			<img src="../resources/images/revature_logo.png" alt="Revature" style="width: 150px;"> <a class="navbar-title"
 				href="http://revature.com">Revature Assessment Evaluation System</a>
 
 			<button type="button" id="navbarMenuBtn" data-toggle="dropdown" class="btn btn-lg navbar-menu-btn"
-				onclick="openNav()">
-				<span class="glyphicon glyphicon-menu-hamburger whiten"></span>
+				onclick="openSideNav()">
+				<span class="glyphicon glyphicon-menu-hamburger rev-grey"></span>
 			</button>
 		</div>
+		<!-- ---- -->
+		<!-- QUIZ -->
+		<!-- ---- -->
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-sm-10 col-sm-offset-1">
@@ -93,29 +99,48 @@
 				</div>
 			</div>
 		</div>
-		<div id="sidenav" class="sidenav">
-			<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a> <a href="#">About</a> <a href="#">Services</a>
-			<a href="#">Clients</a> <a href="#">Contact</a>
+	</div>
+	<!-- -------- -->
+	<!-- SIDE BAR -->
+	<!-- -------- -->
+	<div id="sidenav" class="sidenav">
+		<a href="javascript:void(0)" class="closebtn" onclick="closeSideNav()">&times;</a> <a href="#">About</a> <a href="#">Services</a>
+		<a href="#">Clients</a> <a href="#">Contact</a>
 
-			<div ng-controller="QuizNavController">
-				<h3>Quiz Navigation</h3>
+		<div ng-controller="QuizNavController">
+			<h3>Quiz Navigation</h3>
+			<div id="sideNavTable">
 				<table class="nav-table">
 					<tr ng-repeat="i in array" ng-init="index = i*5">
 						<td ng-repeat="state in states.slice(index,index+5)"><i class="text-center glyphicon glyphicon-floppy-disk"
-							ng-class="{'glyph-grey': state.saved, 'glyph-blue': !state.saved}"> </i><br>{{state.id + 1}}</td>
+							ng-class="{'glyph-grey': state.saved, 'glyph-blue': !state.saved,
+             				   			  'glyph-noBorder': !state.flagged, 'glyph-bordered': state.flagged}">
+						</i><br>{{state.id + 1}}</td>
 					</tr>
 				</table>
 			</div>
 		</div>
 	</div>
-
+	<!------------>
+	<!-- FOOTER -->
+	<!------------>
+	<div class="footer">
+		<span class="horizon-line"></span> &copy; Copyright 2015, Revature LLC., All Rights Reserved. Sharing or distribution
+		of the contents of this portal without explicit permission from Revature management is a violation of employment terms
+		with Revature.
+	</div>
+	
+	<!-- JAVASCRIPT -->
+	<!-- 	LIBRARIES -->
 	<script src="../resources/js/lib/src/ace.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-animate.js"></script>
-	<script src="../resources/js/quizJS.js"></script>
-	<script src="../resources/js/testData.js"></script>
 	<script src="../resources/js/ui-bootstrap-tpls-2.3.1.js"></script>
 	<script src="../resources/js/lib/ng-sortable.js"></script>
+	
+	<!-- <script src="../resources/js/quizJS.js"></script> -->
+	<!-- 	CUSTOM -->
+	<script src="../resources/js/testData.js"></script>
 	<script src="../resources/js/app.js"></script>
 </body>
 </html>
