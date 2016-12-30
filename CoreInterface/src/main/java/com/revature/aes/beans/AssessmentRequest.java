@@ -3,7 +3,7 @@ package com.revature.aes.beans;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AssesmentRequest {
+public class AssessmentRequest {
 	private String category;
 	private int mcQuestions;
 	private int msQuestions;
@@ -17,7 +17,7 @@ public class AssesmentRequest {
 	public void setCsQuestions(int csQuestions) {
 		this.csQuestions = csQuestions;
 	}
-	public AssesmentRequest() {
+	public AssessmentRequest() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
