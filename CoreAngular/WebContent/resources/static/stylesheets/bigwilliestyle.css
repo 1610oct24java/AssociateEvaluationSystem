@@ -1,0 +1,51 @@
+body {
+    font-family: Futura, Arial;
+}
+
+#form-register-recruit {
+    max-width: 360px;
+    padding: 30px;
+    margin: auto;
+    background: #B9B9BA;
+    color: #474C55;
+    border: none;
+    border-radius: 10px;
+}
+
+#form-register-recruit, div {
+/*    margin-top: 5px;
+    margin-bottom: 5px;*/
+    margin: 10px;
+}
+
+#btn-register-recruit {
+    background: #F26925;
+    border: none;
+    border-radius: 10px;
+}
+
+input {
+    border: none;
+    border-radius: 10px;
+    border-color: #F26925;
+}
+
+#navbar {
+    float: right;
+    margin-top: 50px;
+}
+
+/*------------------------------------------------------------------------------
+COLOR GUIDE
+
+Primary Colors
+    Orange    : #F26925
+    White     : #FFFFF
+    Dark Gray : #474C55
+Secondary Colors
+    Blue      : #72A4C2
+    Yellow    : #FCB414
+    Light Gray: #B9B9BA
+
+
+------------------------------------------------------------------------------*/
