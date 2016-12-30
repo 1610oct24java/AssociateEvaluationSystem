@@ -6,8 +6,13 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -15,24 +20,41 @@ import javax.persistence.Table;
 public class TemplateQuestion implements Serializable {
 
 	private static final long serialVersionUID = -8227667088089601251L;
+	
+	@Id
+	@Column(name = "template_question_id")
+	@SequenceGenerator(sequenceName = "aes_template_question_seq", name = "aes_template_question_seq")
+	@GeneratedValue(generator = "aes_template_question_seq", strategy = GenerationType.SEQUENCE)
+	private int templateQuestionId;
+	
 	@Column(name = "weight")
 	private int weight;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "question_id")
-	private Question patternInquiry;
+	private Question templateQuestion;
 
-	@Column(name = "template_id")
-	private int template;
-	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="TEMPLATE_ID")
+	private Template template;
+
 	public TemplateQuestion() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public String toString() {
-		return "TemplateQuestion [weight=" + weight + ", templateQuestion=" + patternInquiry + ", template="
-				+ template + "]";
+		return "TemplateQuestion [templateQuestionId=" + templateQuestionId + ", weight=" + weight
+				+ ", templateQuestion=" + templateQuestion + ", template=" + template + "]";
+	}
+
+	public int getTemplateQuestionId() {
+		return templateQuestionId;
+	}
+
+	public void setTemplateQuestionId(int templateQuestionId) {
+		this.templateQuestionId = templateQuestionId;
 	}
 
 	public int getWeight() {
@@ -44,20 +66,18 @@ public class TemplateQuestion implements Serializable {
 	}
 
 	public Question getTemplateQuestion() {
-		return patternInquiry;
+		return templateQuestion;
 	}
 
-	public void setTemplateQuestion(Question patternInquiry) {
-		this.patternInquiry = patternInquiry;
+	public void setTemplateQuestion(Question templateQuestion) {
+		this.templateQuestion = templateQuestion;
 	}
 
-	public int getTemplate() {
+	public Template getTemplate() {
 		return template;
 	}
 
-	public void setTemplate(int template) {
+	public void setTemplate(Template template) {
 		this.template = template;
 	}
-	
-	
 }

@@ -2,19 +2,13 @@ package com.revature.aes.beans;
 
 import java.io.Serializable;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-
-
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
-
 
 
 @Entity
@@ -40,11 +34,6 @@ public class Tag implements Serializable
 	 */
 	@Column(name="TAG_NAME")
 	private String tagName;
-	
-	public Tag() {
-		super();
-		
-	}
 
 	public Integer getTagId() {
 		return tagId;
@@ -102,7 +91,10 @@ public class Tag implements Serializable
 		return "Tag [tagId=" + tagId + ", tagName=" + tagName + "]";
 	}
 
-	
+	public Tag() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 
 	

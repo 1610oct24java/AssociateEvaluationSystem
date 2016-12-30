@@ -2,8 +2,9 @@ package com.revature.aes.beans;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
-
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -34,35 +35,104 @@ public class Question implements Serializable {
 	private String questionText;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "FORMAT_ID")
+	@JoinColumn(name = "QUESTION_FORMAT_ID")
 	private Format format;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "AES_QUESTION_TAG", 
 		joinColumns = @JoinColumn(name = "QUESTION_ID"), 
 		inverseJoinColumns = @JoinColumn(name = "TAG_ID"))
-	private List<Tag> tags;
+	private Set<Tag> tags;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "AES_QUESTION_CATEGORY", 
 		joinColumns = @JoinColumn(name = "QUESTION_ID"), 
 		inverseJoinColumns = @JoinColumn(name = "CATEGORY_ID"))
-	private List<Category> category;
+	private Set<Category> category;
+	
+	@OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL,mappedBy="question")
+	private List<Option> multiChoice;
 	
 	@OneToMany(fetch = FetchType.EAGER)
 	@JoinColumn(name="QUESTION_ID")
-	private List<Option> multiChoice;
-
-	@OneToMany(fetch = FetchType.EAGER)
-	@JoinColumn(name="QUESTION_ID")
-	private List<DragDrop> dragDrops;
-
+	private Set<DragDrop> dragDrops;	
+	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="QUESTION_ID")
 	private SnippetTemplate snippetTemplate;
-	
+
 	public Question() {
 		super();
+	}
+
+	@Override
+	public String toString() {
+		return "Question [questionId=" + questionId + ", questionText=" + questionText + ", format=" + format
+				+ ", multiChoice=" + multiChoice + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((category == null) ? 0 : category.hashCode());
+		result = prime * result + ((dragDrops == null) ? 0 : dragDrops.hashCode());
+		result = prime * result + ((format == null) ? 0 : format.hashCode());
+		result = prime * result + ((multiChoice == null) ? 0 : multiChoice.hashCode());
+		result = prime * result + questionId;
+		result = prime * result + ((questionText == null) ? 0 : questionText.hashCode());
+		result = prime * result + ((snippetTemplate == null) ? 0 : snippetTemplate.hashCode());
+		result = prime * result + ((tags == null) ? 0 : tags.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Question other = (Question) obj;
+		if (category == null) {
+			if (other.category != null)
+				return false;
+		} else if (!category.equals(other.category))
+			return false;
+		if (dragDrops == null) {
+			if (other.dragDrops != null)
+				return false;
+		} else if (!dragDrops.equals(other.dragDrops))
+			return false;
+		if (format == null) {
+			if (other.format != null)
+				return false;
+		} else if (!format.equals(other.format))
+			return false;
+		if (multiChoice == null) {
+			if (other.multiChoice != null)
+				return false;
+		} else if (!multiChoice.equals(other.multiChoice))
+			return false;
+		if (questionId != other.questionId)
+			return false;
+		if (questionText == null) {
+			if (other.questionText != null)
+				return false;
+		} else if (!questionText.equals(other.questionText))
+			return false;
+		if (snippetTemplate == null) {
+			if (other.snippetTemplate != null)
+				return false;
+		} else if (!snippetTemplate.equals(other.snippetTemplate))
+			return false;
+		if (tags == null) {
+			if (other.tags != null)
+				return false;
+		} else if (!tags.equals(other.tags))
+			return false;
+		return true;
 	}
 
 	public int getQuestionId() {
@@ -89,19 +159,19 @@ public class Question implements Serializable {
 		this.format = format;
 	}
 
-	public List<Tag> getTags() {
+	public Set<Tag> getTags() {
 		return tags;
 	}
 
-	public void setTags(List<Tag> tags) {
+	public void setTags(Set<Tag> tags) {
 		this.tags = tags;
 	}
 
-	public List<Category> getCategory() {
+	public Set<Category> getCategory() {
 		return category;
 	}
 
-	public void setCategory(List<Category> category) {
+	public void setCategory(Set<Category> category) {
 		this.category = category;
 	}
 
@@ -113,11 +183,11 @@ public class Question implements Serializable {
 		this.multiChoice = multiChoice;
 	}
 
-	public List<DragDrop> getDragDrops() {
+	public Set<DragDrop> getDragDrops() {
 		return dragDrops;
 	}
 
-	public void setDragDrops(List<DragDrop> dragDrops) {
+	public void setDragDrops(Set<DragDrop> dragDrops) {
 		this.dragDrops = dragDrops;
 	}
 
@@ -128,17 +198,6 @@ public class Question implements Serializable {
 	public void setSnippetTemplate(SnippetTemplate snippetTemplate) {
 		this.snippetTemplate = snippetTemplate;
 	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	@Override
-	public String toString() {
-		return "Question [questionId=" + questionId + ", questionText=" + questionText + ", format=" + format
-				+ ", tags=" + tags + ", category=" + category + ", multiChoice=" + multiChoice + ", dragDrops="
-				+ dragDrops + ", snippetTemplate=" + snippetTemplate + "]";
-	}
-
+	
 	
 }
