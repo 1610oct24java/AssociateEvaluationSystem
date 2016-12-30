@@ -1,25 +1,35 @@
 package com.revature.aes.beans;
 
-import org.springframework.stereotype.Component;
+import java.io.Serializable;
 
-@Component
-public class AssessmentRequest {
+public class AssessmentRequest implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4368879898192684993L;
+	
 	private String category;
 	private int mcQuestions;
 	private int msQuestions;
 	private int ddQuestions;
 	private int csQuestions;
+	private int timelimit;
 	private String link;
-	
+
+	public AssessmentRequest() {
+		super();
+	}
+	public int getTimelimit() {
+		return timelimit;
+	}
+	public void setTimelimit(int timelimit) {
+		this.timelimit = timelimit;
+	}	
 	public int getCsQuestions() {
 		return csQuestions;
 	}
 	public void setCsQuestions(int csQuestions) {
 		this.csQuestions = csQuestions;
-	}
-	public AssessmentRequest() {
-		super();
-		// TODO Auto-generated constructor stub
 	}
 	public String getCategory() {
 		return category;
@@ -50,5 +60,11 @@ public class AssessmentRequest {
 	}
 	public void setLink(String link) {
 		this.link = link;
+	}
+	@Override
+	public String toString() {
+		return "AssessmentRequest [category=" + category + ", mcQuestions=" + mcQuestions + ", msQuestions="
+				+ msQuestions + ", ddQuestions=" + ddQuestions + ", csQuestions=" + csQuestions + ", timelimit="
+				+ timelimit + ", link=" + link + "]";
 	}
 }

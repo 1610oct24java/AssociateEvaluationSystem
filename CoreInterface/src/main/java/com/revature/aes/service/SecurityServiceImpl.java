@@ -12,6 +12,9 @@ import com.revature.aes.beans.Security;
 import com.revature.aes.beans.User;
 import com.revature.aes.dao.SecurityDao;
 import com.revature.aes.encoder.MyEncoder;
+import com.revature.aes.loader.AssessmentRequestLoader;
+import com.revature.aes.locator.AssessmentServiceLocator;
+import com.revature.aes.locator.MailServiceLocator;
 
 /**
  * Provides an implementation of the SecurityService interface.
@@ -23,7 +26,6 @@ import com.revature.aes.encoder.MyEncoder;
  * to a database.
  * 
  * @author Michelle Slay
- *
  */
 @Service
 @Transactional
@@ -31,6 +33,10 @@ public class SecurityServiceImpl implements SecurityService {
 
 	@Autowired
 	private SecurityDao dao;
+	@Autowired
+	private MailServiceLocator mailService;
+	@Autowired
+	private AssessmentServiceLocator assessmentService;
 	private SecureRandom rando = new SecureRandom();
 	
 	@Override
@@ -52,8 +58,8 @@ public class SecurityServiceImpl implements SecurityService {
  	 * You could make a separate class for generating passwords but I
  	 * didn't feel it was necessary.
  	 * 
- 	 * MyEncoder encrypts the password before storing it to the database
- 	 * using Spring Magic.
+ 	 * MyEncoder encrypts the password somehow before storing it to the 
+ 	 * database.
 	 */
 	@Override
 	@Transactional(propagation=Propagation.MANDATORY)
@@ -62,22 +68,13 @@ public class SecurityServiceImpl implements SecurityService {
 		Security security = new Security();
 		security.setUserId(user.getUserId());
 		security.setValid(1);
+		
 		String pass = new BigInteger(130,rando).toString(32);
 		security.setPassword(MyEncoder.encodePassword(pass));
 		
-		System.out.println(user.getRole());
-		System.out.println(pass);
-
-		/**
-		 * "category": java/.net/sdet/etc
-		 * "mcQuestions": number of multiple choice questions
-		 * "msQuestions": # of multiple select questions
-		 * "ddQuestions": # of drag and drop questions
-		 * "csQuestions": # of code snippet questions
-		 * "link": send it null, the response will have the link 
-		 */
+		String link = assessmentService.getLink(new AssessmentRequestLoader().loadRequest()).getLink();
 		
-		//Call Wes's email service to email the user their password
+		mailService.send(user.getEmail(), pass, link);
 		
 		return dao.save(security);
 	}
