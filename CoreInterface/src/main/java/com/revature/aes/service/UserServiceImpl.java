@@ -2,7 +2,6 @@ package com.revature.aes.service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.revature.aes.beans.User;
 import com.revature.aes.dao.UserDao;
+
+/**
+ * Provides an implementation of the UserService
+ * interacts with the UserDao as well as the SecurityService 
+ * to create/read/update/remove users to/from the database.
+ * 
+ * @author Michelle Slay
+ * @author Willie Jensen
+ */
 
 @Service
 @Transactional
@@ -33,7 +41,18 @@ public class UserServiceImpl implements UserService {
 	public List<User> findAllUsers() {
 		return dao.findAll();
 	}
-
+	
+	/**
+	 * createCandidate creates a candidate and adds them to the database.
+	 * 
+	 * The following method needed a little bit of added complexity by making it 
+	 * a transaction. We didn't want it to be possible to add a user but have 
+	 * the password adding fail.
+	 * 
+	 *  The pattern is necessary to work with the DATE format in Oracle SQL. 
+	 *  It's possible that a different format is required for a different kind 
+	 *  of database but that's your problem.
+	 */
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
 	public User createCandidate(User candidate, String recruiterEmail) {
@@ -55,9 +74,13 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> findUsersByRecruiter(String email) {
-		// TODO Auto-generated method stub
 		int recruiterId = dao.findUserByEmail(email).getUserId();
 		
 		return dao.findUsersByRecruiterId(recruiterId);
+	}
+
+	@Override
+	public User findUserById(int id) {
+		return dao.getOne(id);
 	}
 }

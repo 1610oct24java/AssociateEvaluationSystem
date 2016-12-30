@@ -13,6 +13,18 @@ import com.revature.aes.beans.User;
 import com.revature.aes.dao.SecurityDao;
 import com.revature.aes.encoder.MyEncoder;
 
+/**
+ * Provides an implementation of the SecurityService interface.
+ * This class interacts explicitly with the dao methods created
+ * for our projects. If a different implementation is needed
+ * be sure to securely generate random passwords for the candidates.
+ * 
+ * The Dao implementation used can be anything that provides access
+ * to a database.
+ * 
+ * @author Michelle Slay
+ *
+ */
 @Service
 @Transactional
 public class SecurityServiceImpl implements SecurityService {
@@ -25,7 +37,24 @@ public class SecurityServiceImpl implements SecurityService {
 	public Security findSecurityByUserId(int id) {	
 		return dao.findSecurityByUserId(id);
 	}
-
+	
+	/**
+	 * This method randomly generates a password for a given candidate.
+	 * This could be generalized for any kind of user with a simple addition
+	 * of a "password" parameter but I don't know why you would need to 
+	 * edit use this method instead of just overloading another?
+	 * 
+	 * To each their own I guess.
+	 * 
+	 * Secure password generation is provided by java.security.SecureRandom
+ 	 * It becomes a random string using BigInteger's toString method.
+ 	 * 
+ 	 * You could make a separate class for generating passwords but I
+ 	 * didn't feel it was necessary.
+ 	 * 
+ 	 * MyEncoder encrypts the password before storing it to the database
+ 	 * using Spring Magic.
+	 */
 	@Override
 	@Transactional(propagation=Propagation.MANDATORY)
 	public Security createSecurity(User user) {
@@ -35,6 +64,18 @@ public class SecurityServiceImpl implements SecurityService {
 		security.setValid(1);
 		String pass = new BigInteger(130,rando).toString(32);
 		security.setPassword(MyEncoder.encodePassword(pass));
+		
+		System.out.println(user.getRole());
+		System.out.println(pass);
+
+		/**
+		 * "category": java/.net/sdet/etc
+		 * "mcQuestions": number of multiple choice questions
+		 * "msQuestions": # of multiple select questions
+		 * "ddQuestions": # of drag and drop questions
+		 * "csQuestions": # of code snippet questions
+		 * "link": send it null, the response will have the link 
+		 */
 		
 		//Call Wes's email service to email the user their password
 		

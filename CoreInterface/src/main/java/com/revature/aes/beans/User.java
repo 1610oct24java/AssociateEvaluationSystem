@@ -50,6 +50,12 @@ public class User implements Serializable{
 		super();
 	}
 	
+	public String getFormat() {
+		return format;
+	}	
+	public void setFormat(String format) {
+		this.format = format;
+	}
 	public int getUserId() {
 		return userId;
 	}
@@ -100,9 +106,6 @@ public class User implements Serializable{
 	}
 	public void setDatePassIssued(String datePassIssued) {
 		this.datePassIssued = datePassIssued;
-	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 
 	@Override
