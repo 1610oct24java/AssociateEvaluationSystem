@@ -149,9 +149,7 @@ var variable;
 							this.show = false;
 						};
 					});
-
 			}
-
 		};
 		angular.element(document).ready(() => {
 			this.getQuestionList();

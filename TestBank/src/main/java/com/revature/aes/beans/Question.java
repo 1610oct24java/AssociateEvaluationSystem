@@ -27,6 +27,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Question implements Serializable {
 
 	private static final long serialVersionUID = 4510024807505207528L;
+	
 	@Id
 	@Column(name = "QUESTION_ID")
 	@SequenceGenerator(sequenceName = "AES_QUESTION_SEQ", name = "AES_QUESTION_SEQ")
@@ -36,7 +37,7 @@ public class Question implements Serializable {
 	@Column(name = "QUESTION_TEXT")
 	private String questionText;
 
-	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinColumn(name = "QUESTION_FORMAT_ID")
 	private Format format;
 
@@ -59,8 +60,7 @@ public class Question implements Serializable {
 	private List<Option> multiChoice;
 	
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.EAGER)
-	@JoinColumn(name="QUESTION_ID")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="questionId")
 	private Set<DragDrop> dragDrops;	
 	
 	@OneToOne(fetch = FetchType.EAGER)
