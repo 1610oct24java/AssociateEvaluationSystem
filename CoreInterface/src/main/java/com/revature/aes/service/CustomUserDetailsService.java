@@ -33,12 +33,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 	}
 
     public Collection<? extends GrantedAuthority> getAuthorities(String role) {
-        List<GrantedAuthority> authList = getGrantedAuthorities(getRoles(role));
-        return authList;
+        return getGrantedAuthorities(getRoles(role));
     }
 
     public List<String> getRoles(String role) {
-        List<String> roles = new ArrayList<String>();
+        List<String> roles = new ArrayList<>();
 
         if ("Recruiter".equalsIgnoreCase(role)) {
             roles.add("ROLE_RECRUITER");
@@ -51,7 +50,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     public static List<GrantedAuthority> getGrantedAuthorities(List<String> roles) {
-        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        List<GrantedAuthority> authorities = new ArrayList<>();
         for (String role : roles) {
             authorities.add(new SimpleGrantedAuthority(role));
         }
