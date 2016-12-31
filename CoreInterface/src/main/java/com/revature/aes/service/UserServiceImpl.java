@@ -17,8 +17,6 @@ import com.revature.aes.dao.UserDao;
  * interacts with the UserDao as well as the SecurityService 
  * to create/read/update/remove users to/from the database.
  * 
- * Pretty straightforward.
- * 
  * @author Michelle Slay
  * @author Willie Jensen
  */
@@ -33,6 +31,8 @@ public class UserServiceImpl implements UserService {
 	private SecurityService security;
 	@Autowired
 	private RoleService role;
+	@Autowired
+	private RestClient client;
 
 	@Override
 	public User findUserByEmail(String email) {
@@ -45,13 +45,15 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	/**
-	 * The following method needed a little bit of added complexity by making it 
-	 * a transaction. We didn't want it to be possible to add a user
-	 * but have the password adding fail.
+	 * createCandidate creates a candidate and adds them to the database.
 	 * 
-	 *  The pattern is necessary to work with the DATE format in 
-	 *  Oracle SQL. It's possible that a different format would be 
-	 *  usable with a different kind of database.
+	 * The following method needed a little bit of added complexity by making it 
+	 * a transaction. We didn't want it to be possible to add a user but have 
+	 * the password adding fail.
+	 * 
+	 *  The pattern is necessary to work with the DATE format in Oracle SQL. 
+	 *  It's possible that a different format is required for a different kind 
+	 *  of database but that's your problem.
 	 */
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
@@ -67,7 +69,9 @@ public class UserServiceImpl implements UserService {
 		
 		dao.save(candidate);
 		
-		security.createSecurity(candidate);
+		String pass = security.createSecurity(candidate);
+		
+		client.finalizeCandidate(candidate, pass);
 		
 		return candidate;
 	}
@@ -77,5 +81,19 @@ public class UserServiceImpl implements UserService {
 		int recruiterId = dao.findUserByEmail(email).getUserId();
 		
 		return dao.findUsersByRecruiterId(recruiterId);
+	}
+
+	@Override
+	public User findUserById(int id) {
+		return dao.getOne(id);
+	}
+
+	@Override
+	public User findUserByIndex(int index, String email) {
+		// 
+		List<User> users = findUsersByRecruiter(email);
+		if(index >= users.size())
+			return null;
+		return users.get(index);
 	}
 }
