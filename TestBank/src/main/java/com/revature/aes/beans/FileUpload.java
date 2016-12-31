@@ -29,9 +29,6 @@ public class FileUpload implements Serializable {
 	@Column(name = "grade")
 	private int grade;
 
-//	@ManyToOne(fetch=FetchType.EAGER)
-//	@JoinColumn(name="ASSESSMENT_ID")
-//	private int assessmentId;
 
 	public FileUpload() {
 		super();
@@ -61,13 +58,6 @@ public class FileUpload implements Serializable {
 		this.grade = grade;
 	}
 
-//	public int getAssessmentId() {
-//		return assessmentId;
-//	}
-//
-//	public void setAssessmentId(int assessmentId) {
-//		this.assessmentId = assessmentId;
-//	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
@@ -76,7 +66,7 @@ public class FileUpload implements Serializable {
 	@Override
 	public String toString() {
 		return "FileUpload [fileId=" + fileId + ", fileUrl=" + fileUrl + ", grade=" + grade + ", assessmentId="
-				//+ assessmentId 
+				
 				+ "]";
 	}
 }
