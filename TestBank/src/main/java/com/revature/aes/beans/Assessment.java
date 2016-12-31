@@ -2,6 +2,7 @@ package com.revature.aes.beans;
 
 import java.io.Serializable;
 import java.util.Set;
+
 import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -111,19 +112,19 @@ public class Assessment implements Serializable {
 		this.timeLimit = timeLimit;
 	}
 
-	public LocalDateTime getCreatedTimeStamp() {
+	public Timestamp getCreatedTimeStamp() {
 		return createdTimeStamp;
 	}
 
-	public void setCreatedTimeStamp(LocalDateTime createdTimeStamp) {
+	public void setCreatedTimeStamp(Timestamp createdTimeStamp) {
 		this.createdTimeStamp = createdTimeStamp;
 	}
 
-	public LocalDateTime getFinishedTimeStamp() {
+	public Timestamp getFinishedTimeStamp() {
 		return finishedTimeStamp;
 	}
 
-	public void setFinishedTimeStamp(LocalDateTime finishedTimeStamp) {
+	public void setFinishedTimeStamp(Timestamp finishedTimeStamp) {
 		this.finishedTimeStamp = finishedTimeStamp;
 	}
 
