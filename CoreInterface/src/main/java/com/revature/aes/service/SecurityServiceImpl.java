@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.revature.aes.beans.AssessmentAuth;
 import com.revature.aes.beans.Security;
 import com.revature.aes.beans.User;
 import com.revature.aes.dao.SecurityDao;
@@ -33,6 +34,8 @@ public class SecurityServiceImpl implements SecurityService {
 
 	@Autowired
 	private SecurityDao dao;
+	@Autowired
+	private AssessmentAuthService authService;
 	@Autowired
 	private MailServiceLocator mailService;
 	@Autowired
@@ -65,14 +68,23 @@ public class SecurityServiceImpl implements SecurityService {
 	@Transactional(propagation=Propagation.MANDATORY)
 	public Security createSecurity(User user) {
 		// 
+		int userId = user.getUserId();
+		
 		Security security = new Security();
-		security.setUserId(user.getUserId());
+		security.setUserId(userId);
 		security.setValid(1);
 		
 		String pass = new BigInteger(130,rando).toString(32);
 		security.setPassword(MyEncoder.encodePassword(pass));
 		
 		String link = assessmentService.getLink(new AssessmentRequestLoader().loadRequest()).getLink();
+		
+		AssessmentAuth auth = new AssessmentAuth();
+		auth.setUrlAssessment(link);
+		auth.setUrlAuth("https://localhost:8443/core/");
+		auth.setUserId(userId);
+		
+		authService.save(auth);
 		
 		mailService.send(user.getEmail(), pass, link);
 		

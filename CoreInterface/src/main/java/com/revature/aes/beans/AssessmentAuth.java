@@ -60,6 +60,10 @@ public class AssessmentAuth implements Serializable {
 		return "AssessmentAuth [assessmentAuthId=" + assessmentAuthId + ", userId=" + userId + ", urlAuth=" + urlAuth
 				+ ", urlAssessment=" + urlAssessment + "]";
 	}
+	
+	public AssessmentAuth(){
+		super();
+	}
 
 	public AssessmentAuth(int assessmentAuthId, int userId, String urlAuth, String urlAssessment) {
 		super();
