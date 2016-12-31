@@ -38,7 +38,6 @@ public class Template implements Serializable {
 
 	public Template() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
