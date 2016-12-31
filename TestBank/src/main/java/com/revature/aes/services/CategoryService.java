@@ -10,4 +10,5 @@ public interface CategoryService {
 	public List<Category> getAllCategory();
 	public void deleteCategoryById(Integer id);
 	public void deleteCategory(Category category);
+	public void linkToQuestion(Integer questionId, Integer categoryId);
 }

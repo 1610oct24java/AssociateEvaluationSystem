@@ -42,4 +42,9 @@ public class CategoryServiceImpl implements CategoryService{
 	public void deleteCategory(Category category) {
 		cdao.delete(category);
 	}
+
+	@Override
+	public void linkToQuestion(Integer questionId, Integer categoryId) {
+		cdao.insertLinkToQuestion(questionId, categoryId);
+	}
 }

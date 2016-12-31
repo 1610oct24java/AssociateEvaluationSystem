@@ -22,9 +22,7 @@ import com.revature.aes.beans.Format;
 import com.revature.aes.beans.Question;
 
 @Repository("questionDao")
-public interface QuestionDAO extends JpaRepository<Question, Integer>
-{
-	
+public interface QuestionDAO extends JpaRepository<Question, Integer>{
 	public List<Question> findAllQuestionsByFormat(Format format);
 	public Set<Question> findAllQuestionsByCategory(Category category);
 }
