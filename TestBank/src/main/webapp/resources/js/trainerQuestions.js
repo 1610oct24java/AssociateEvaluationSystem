@@ -183,5 +183,7 @@ var categoryList = [];
 	app.controller('TagController', function($http){
 			
 	}); //TagController end
+	
+	
 })// the end of the closure
 (); // invoking the function within the closure.

@@ -33,10 +33,9 @@ public class Format implements Serializable {
 	 */
 	@Column(name = "FORMAT_NAME")
 	private String formatName;
-
+	
 	public Format() {
 		super();
-		
 	}
 	
 	public Format(Integer formatId, String formatName) {

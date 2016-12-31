@@ -1,9 +1,8 @@
 package com.revature.aes.beans;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Set;
-
+import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -41,10 +40,10 @@ public class Assessment implements Serializable {
 	private int timeLimit;
 
 	@Column(name = "created_timestamp")
-	private LocalDateTime createdTimeStamp;
+	private Timestamp createdTimeStamp;
 
 	@Column(name = "finished_timestamp")
-	private LocalDateTime finishedTimeStamp;
+	private Timestamp finishedTimeStamp;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "template_id")

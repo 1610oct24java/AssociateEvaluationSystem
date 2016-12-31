@@ -31,7 +31,7 @@ public class Category implements Serializable {
 	 */
 	@Column(name="CATEGORY_NAME")
 	private String name;
-
+	
 	public Category() {
 		super();
 	}
@@ -91,5 +91,5 @@ public class Category implements Serializable {
 	public String toString() {
 		return "Category [categoryId=" + categoryId + ", name=" + name + "]";
 	}
-		
+	
 }

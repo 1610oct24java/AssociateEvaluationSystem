@@ -34,7 +34,7 @@ public class Tag implements Serializable
 	 */
 	@Column(name="TAG_NAME")
 	private String tagName;
-
+	
 	public Tag() {
 		super();
 	}
