@@ -54,11 +54,11 @@ public class Template implements Serializable {
 		this.templateId = templateId;
 	}
 
-	public LocalDateTime getCreateTimeStamp() {
+	public Timestamp getCreateTimeStamp() {
 		return createTimeStamp;
 	}
 
-	public void setCreateTimeStamp(LocalDateTime createTimeStamp) {
+	public void setCreateTimeStamp(Timestamp createTimeStamp) {
 		this.createTimeStamp = createTimeStamp;
 	}
 
