@@ -1,11 +1,8 @@
 package com.revature.aes.beans;
 
 import java.io.Serializable;
-//import java.time.LocalDateTime;
 import java.util.Set;
-
 import java.sql.Timestamp;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;

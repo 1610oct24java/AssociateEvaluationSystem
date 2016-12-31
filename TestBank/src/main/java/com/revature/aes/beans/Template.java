@@ -1,9 +1,8 @@
 package com.revature.aes.beans;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -27,7 +26,7 @@ public class Template implements Serializable {
 	private int templateId;
 
 	@Column(name = "create_timestamp")
-	private LocalDateTime createTimeStamp;
+	private Timestamp createTimeStamp;
 
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="CREATOR_ID", referencedColumnName="USER_ID")
