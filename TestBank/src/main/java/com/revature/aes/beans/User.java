@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="AES_USERS")
@@ -45,6 +46,9 @@ public class User implements Serializable{
 	
 	@Column(name="DATE_PASS_ISSUED")
 	private String datePassIssued;
+	
+	@Transient
+    private String format;
 	
 	public User() {
 		super();

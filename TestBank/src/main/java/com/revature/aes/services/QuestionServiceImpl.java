@@ -11,14 +11,12 @@ package com.revature.aes.services;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.revature.aes.beans.Category;
 import com.revature.aes.beans.Format;
 import com.revature.aes.beans.Question;
 import com.revature.aes.daos.QuestionDAO;
@@ -77,7 +75,7 @@ public class QuestionServiceImpl implements QuestionService{
 	@Transactional(propagation=Propagation.SUPPORTS)
 	public List<Question> getAllQuestionsByFormat(Format format)
 	{
-		return qdao.findAllQuestionsByFormat(format);
+		return qdao.findByFormat(format);
 	}
 
 	/**
@@ -93,7 +91,7 @@ public class QuestionServiceImpl implements QuestionService{
 	}
 	
 	/**
-	 * Deletes a question based off an the unique idenifier for the question.
+	 * Deletes a question based off an the unique identifier for the question.
 	 * @param the unique identifier of a question.
 	 */
 	@Override
@@ -102,6 +100,18 @@ public class QuestionServiceImpl implements QuestionService{
 	{
 		qdao.delete(qdao.findOne(id));
 		
+	}
+
+	@Override
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public List<Question> getAllQuestionsByFormatAndCategory(Format format, List<Category> category) {
+		return qdao.findByFormatAndCategory(format, category);
+	}
+
+	@Override
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public Question getAllQuestionsByCategory(Category category) {
+		return qdao.findByCategory(category);
 	}
 	
 	

@@ -1,12 +1,3 @@
-/****************************************************************
- * Project Name: Test Bank
- * 
- * Description: A simple rest application that persists test
- * 		information into a database.
- * 
- * Authors: Matthew Beauregard, Conner Anderson, Travis Deshotels,
- * 		Edward Crader, Jon-Erik Williams 
- ****************************************************************/
 package com.revature.aes.rest.controllers;
 
 import java.util.List;
@@ -19,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.aes.beans.Category;
 import com.revature.aes.beans.Format;
 import com.revature.aes.beans.Question;
 import com.revature.aes.services.QuestionService;
@@ -46,8 +38,7 @@ public class QuestionRestController
 	 */
 	@RequestMapping(value = "question", method = RequestMethod.POST, produces =
 	{ MediaType.APPLICATION_JSON_VALUE })
-	public Question addQuestion(@RequestBody Question question)
-	{
+	public Question addQuestion(@RequestBody Question question){
 		return questionService.addQuestion(question);
 	}
 
@@ -90,7 +81,6 @@ public class QuestionRestController
 		return questionService.getAllQuestionsByFormat(format);
 	}
 	
-	
 	/**
 	 * Modifies the a question in the database by its unique identifier
 	 * 
@@ -103,7 +93,6 @@ public class QuestionRestController
 	{
 		return questionService.updateQuestionById(question);
 	}
-	
 	
 	/**
 	 * Deletes a question from the database
