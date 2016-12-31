@@ -197,10 +197,13 @@ public class Question implements Serializable {
 	public void setSnippetTemplate(SnippetTemplate snippetTemplate) {
 		this.snippetTemplate = snippetTemplate;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Question [questionId=" + questionId + ", questionText=" + questionText 
-				+ "]";
+		return "Question [questionId=" + questionId + ", questionText=" + questionText + ", format=" + format
+				+ ", tags=" + tags + ", category=" + category + ", multiChoice=" + multiChoice + ", dragDrops="
+				+ dragDrops + ", snippetTemplate=" + snippetTemplate + "]";
 	}
+	
+
 }

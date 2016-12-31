@@ -9,8 +9,8 @@ var formatList = [];
 var questionformat = {};
 var questionList = [];
 var question = {};
-var variable;
-
+var category = {};
+var categoryList = [];
 /* A JavaScript closure of a function using ES2015 concise syntax.
  * Using concise syntax of (()=> {})(); is equivalent of window.onload = function() {};
  * This function uses Angular to control the overall functionality of the HTML page.  
@@ -83,6 +83,7 @@ var variable;
 			if (questionformat.formatId === 0) {
 				alert("please choose a format type");
 			} else {
+				if(this.question.questionText != ''){
 				$http.post(url + "question", this.question)
 					.success((response) => {
 						this.question = response.data;
@@ -100,7 +101,10 @@ var variable;
 							};
 						};
 					});
-			};
+				} else {
+					alert("Please Enter A Question Text");
+				}
+			};			
 		};
 
 		this.deleteQuestion = () => {
@@ -153,11 +157,13 @@ var variable;
 		};
 		angular.element(document).ready(() => {
 			this.getQuestionList();
-		/*	$http.get('http://localhost:8090/TestBank/test')
-			.success((response) => {
-				variable = response.data;
-				console.log(variable);
-			});*/
+		});
+		
+		app.controller('CategoryController', function($http){
+			
+		});
+		app.controller('TagController', function($http){
+			
 		});
 	});
 }) //the end of the closure
