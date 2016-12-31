@@ -1,9 +1,8 @@
 package com.revature.aes.beans;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.List;
-
+import java.sql.Timestamp;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,8 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -27,19 +26,17 @@ public class Template implements Serializable {
 	private int templateId;
 
 	@Column(name = "create_timestamp")
-	private transient LocalDateTime createTimeStamp; //may need to change from transient later
+	private Timestamp createTimeStamp;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="CREATOR_ID", referencedColumnName="USER_ID")
 	private User creator;
 
-	@OneToMany(fetch = FetchType.EAGER)
-	@JoinColumn(name="TEMPLATE_ID")
-	private List<TemplateQuestion> templateQuestion;
+	@OneToMany(fetch = FetchType.EAGER, mappedBy ="template")
+	private Set<TemplateQuestion> templateQuestion;
 
 	public Template() {
 		super();
-		
 	}
 
 	@Override
@@ -56,11 +53,11 @@ public class Template implements Serializable {
 		this.templateId = templateId;
 	}
 
-	public LocalDateTime getCreateTimeStamp() {
+	public Timestamp getCreateTimeStamp() {
 		return createTimeStamp;
 	}
 
-	public void setCreateTimeStamp(LocalDateTime createTimeStamp) {
+	public void setCreateTimeStamp(Timestamp createTimeStamp) {
 		this.createTimeStamp = createTimeStamp;
 	}
 
@@ -72,15 +69,11 @@ public class Template implements Serializable {
 		this.creator = creator;
 	}
 
-	public List<TemplateQuestion> getTemplateQuestion() {
+	public Set<TemplateQuestion> getTemplateQuestion() {
 		return templateQuestion;
 	}
 
-	public void setTemplateQuestion(List<TemplateQuestion> templateQuestion) {
+	public void setTemplateQuestion(Set<TemplateQuestion> templateQuestion) {
 		this.templateQuestion = templateQuestion;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 }

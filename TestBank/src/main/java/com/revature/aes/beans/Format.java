@@ -36,9 +36,7 @@ public class Format implements Serializable {
 	
 	public Format() {
 		super();
-		
 	}
-
 
 	public Integer getFormatId() {
 		return formatId;
@@ -97,4 +95,5 @@ public class Format implements Serializable {
 	}
 
 	
+
 }

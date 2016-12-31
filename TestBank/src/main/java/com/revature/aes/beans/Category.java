@@ -34,8 +34,8 @@ public class Category implements Serializable{
 	
 	public Category() {
 		super();
-		
 	}
+
 
 	public Integer getCategoryId() {
 		return categoryId;
@@ -94,6 +94,5 @@ public class Category implements Serializable{
 	}
 
 	
-
 		
 }

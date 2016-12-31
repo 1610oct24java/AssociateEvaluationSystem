@@ -8,6 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 public class AssessmentAuth implements Serializable {
+	
 	private static final long serialVersionUID = -2732479042247683247L;
 
 	@Column(name = "assessment_auth_id")
@@ -23,14 +24,9 @@ public class AssessmentAuth implements Serializable {
 	@Column(name = "url_assessment")
 	private String urlAssessment;
 	
-	public AssessmentAuth(int assessmentAuthId, int userId, String urlAuth, String urlAssessment) {
+	public AssessmentAuth(){
 		super();
-		this.assessmentAuthId = assessmentAuthId;
-		this.userId = userId;
-		this.urlAuth = urlAuth;
-		this.urlAssessment = urlAssessment;
 	}
-
 
 	public int getAssessmentAuthId() {
 		return assessmentAuthId;
@@ -70,5 +66,4 @@ public class AssessmentAuth implements Serializable {
 				+ ", urlAssessment=" + urlAssessment + "]";
 	}
 
-	
 }

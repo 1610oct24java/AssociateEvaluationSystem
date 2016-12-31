@@ -38,7 +38,6 @@ public class SnippetTemplate implements Serializable
 	
 	public SnippetTemplate() {
 		super();
-		
 	}
 
 	public Integer getSnippetTemplateId() {
@@ -84,8 +83,6 @@ public class SnippetTemplate implements Serializable
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
-	
 
 	@Override
 	public String toString() {

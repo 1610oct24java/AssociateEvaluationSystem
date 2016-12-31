@@ -4,9 +4,11 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -26,14 +28,11 @@ public class FileUpload implements Serializable {
 	@Column(name = "grade")
 	private int grade;
 
-	@Column(name = "assessment_id")
-	private int assessmentId;
-	
+
 	public FileUpload() {
 		super();
-		
 	}
-
+	
 	public int getFileId() {
 		return fileId;
 	}
@@ -58,23 +57,15 @@ public class FileUpload implements Serializable {
 		this.grade = grade;
 	}
 
-	public int getAssessmentId() {
-		return assessmentId;
-	}
-
-	public void setAssessmentId(int assessmentId) {
-		this.assessmentId = assessmentId;
-	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
-	
-
 	@Override
 	public String toString() {
 		return "FileUpload [fileId=" + fileId + ", fileUrl=" + fileUrl + ", grade=" + grade + ", assessmentId="
-				+ assessmentId + "]";
+				
+				+ "]";
 	}
 }

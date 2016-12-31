@@ -4,9 +4,12 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
@@ -35,26 +38,22 @@ public class Option implements Serializable {
 	private String optionText;
 	/**
 	 * @correct A Integer value representing the correct answer for a question.
-	 *          Minimum value is 0, Maximum value is 1. 0 is equivalent to false
-	 *          while 1 is equivalent to true.
+	 *          Minimun value is 0, Maximun value is 1. 0 is equavalent to false
+	 *          while 1 is equavalent to true.
 	 */
 	@Min(value = 0)
 	@Max(value = 1)
 	@Column(name = "CORRECT")
 	private Integer correct;
-
-	/**
-	 * @question The question associated with this class.
-	 */
-
-	@Column(name = "QUESTION_ID")
-	private int questionId;
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name = "QUESTION_ID")
+	private Question question;
 	
 	public Option() {
 		super();
-		
 	}
-
+	
 	public Integer getOptionId() {
 		return optionId;
 	}
@@ -79,12 +78,12 @@ public class Option implements Serializable {
 		this.correct = correct;
 	}
 
-	public int getQuestionId() {
-		return questionId;
+	public Question getQuestion() {
+		return question;
 	}
 
-	public void setQuestionId(int questionId) {
-		this.questionId = questionId;
+	public void setQuestion(Question question) {
+		this.question = question;
 	}
 
 	public static long getSerialversionuid() {
@@ -98,7 +97,7 @@ public class Option implements Serializable {
 		result = prime * result + ((correct == null) ? 0 : correct.hashCode());
 		result = prime * result + ((optionId == null) ? 0 : optionId.hashCode());
 		result = prime * result + ((optionText == null) ? 0 : optionText.hashCode());
-		result = prime * result + questionId;
+		result = prime * result + ((question == null) ? 0 : question.hashCode());
 		return result;
 	}
 
@@ -107,9 +106,8 @@ public class Option implements Serializable {
 		if (this == obj)
 			return true;
 		
-		if ((obj == null) || (getClass() != obj.getClass()) )
+		if ( (obj == null) || (getClass() != obj.getClass()) )
 			return false;
-		
 		
 		Option other = (Option) obj;
 		
@@ -118,29 +116,25 @@ public class Option implements Serializable {
 				return false;
 		} else if (!correct.equals(other.correct))
 			return false;
-		
 		if (optionId == null) {
 			if (other.optionId != null)
 				return false;
 		} else if (!optionId.equals(other.optionId))
 			return false;
-		
 		if (optionText == null) {
 			if (other.optionText != null)
 				return false;
 		} else if (!optionText.equals(other.optionText))
 			return false;
-		
-		if (questionId != other.questionId)
+		if (!question.equals(other.question))
 			return false;
-		
 		return true;
 	}
 
 	@Override
 	public String toString() {
 		return "Option [optionId=" + optionId + ", optionText=" + optionText + ", correct=" + correct + ", questionId="
-				+ questionId + "]";
+				+ "]";
 	}
 
 	

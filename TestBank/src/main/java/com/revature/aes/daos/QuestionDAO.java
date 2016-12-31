@@ -9,7 +9,7 @@ import com.revature.aes.beans.Category;
 import com.revature.aes.beans.Format;
 import com.revature.aes.beans.Question;
 
-@Repository
+@Repository("questionDao")
 public interface QuestionDAO extends JpaRepository<Question, Integer>
 {
 	
