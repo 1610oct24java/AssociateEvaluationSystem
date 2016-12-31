@@ -8,14 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.revature.aes.beans.AssessmentAuth;
 import com.revature.aes.beans.Security;
 import com.revature.aes.beans.User;
 import com.revature.aes.dao.SecurityDao;
 import com.revature.aes.encoder.MyEncoder;
-import com.revature.aes.loader.AssessmentRequestLoader;
-import com.revature.aes.locator.AssessmentServiceLocator;
-import com.revature.aes.locator.MailServiceLocator;
 
 /**
  * Provides an implementation of the SecurityService interface.
@@ -34,12 +30,6 @@ public class SecurityServiceImpl implements SecurityService {
 
 	@Autowired
 	private SecurityDao dao;
-	@Autowired
-	private AssessmentAuthService authService;
-	@Autowired
-	private MailServiceLocator mailService;
-	@Autowired
-	private AssessmentServiceLocator assessmentService;
 	private SecureRandom rando = new SecureRandom();
 	
 	@Override
@@ -66,8 +56,9 @@ public class SecurityServiceImpl implements SecurityService {
 	 */
 	@Override
 	@Transactional(propagation=Propagation.MANDATORY)
-	public Security createSecurity(User user) {
+	public String createSecurity(User user) {
 		// 
+		
 		int userId = user.getUserId();
 		
 		Security security = new Security();
@@ -77,17 +68,8 @@ public class SecurityServiceImpl implements SecurityService {
 		String pass = new BigInteger(130,rando).toString(32);
 		security.setPassword(MyEncoder.encodePassword(pass));
 		
-		String link = assessmentService.getLink(new AssessmentRequestLoader().loadRequest()).getLink();
+		dao.save(security);
 		
-		AssessmentAuth auth = new AssessmentAuth();
-		auth.setUrlAssessment(link);
-		auth.setUrlAuth("https://localhost:8443/core/");
-		auth.setUserId(userId);
-		
-		authService.save(auth);
-		
-		mailService.send(user.getEmail(), pass, link);
-		
-		return dao.save(security);
+		return pass;
 	}
 }

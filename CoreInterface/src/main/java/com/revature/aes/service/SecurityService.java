@@ -6,5 +6,5 @@ import com.revature.aes.beans.User;
 public interface SecurityService {
 	public Security findSecurityByUserId(int id);
 	
-	public Security createSecurity(User user);
+	public String createSecurity(User user);
 }

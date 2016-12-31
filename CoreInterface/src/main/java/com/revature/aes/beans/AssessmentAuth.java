@@ -3,18 +3,28 @@ package com.revature.aes.beans;
 import java.io.Serializable;
 
 import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
+import org.springframework.stereotype.Component;
+
+@Component
+@Entity
+@Table(name = "aes_assessment_auth")
 public class AssessmentAuth implements Serializable {
 	private static final long serialVersionUID = -2732479042247683247L;
-
+	
+	@Id
 	@Column(name = "assessment_auth_id")
+	@SequenceGenerator(sequenceName = "aes_assessment_auth_seq", name = "aes_assessment_auth_seq")
+	@GeneratedValue(generator = "aes_assessment_auth_seq", strategy = GenerationType.SEQUENCE)
 	private int assessmentAuthId;
 
-	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "user_id")
+	@Column(name = "user_id")
 	private int userId;
 
 	@Column(name = "url_auth")

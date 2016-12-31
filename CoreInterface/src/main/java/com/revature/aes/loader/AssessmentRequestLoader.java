@@ -14,7 +14,7 @@ import com.revature.aes.beans.AssessmentRequest;
 public class AssessmentRequestLoader {
 	private Logger log = Logger.getRootLogger();
 
-	public AssessmentRequest loadRequest(){
+	public AssessmentRequest loadRequest(String category){
 		AssessmentRequest ar = new AssessmentRequest();
 		Properties prop = new Properties();
 		
@@ -30,7 +30,7 @@ public class AssessmentRequestLoader {
 			return null;
 		}
 		
-		ar.setCategory(prop.getProperty("category"));
+		ar.setCategory(category);
 		ar.setMcQuestions(Integer.parseInt(prop.getProperty("mcQuestions")));
 		ar.setMsQuestions(Integer.parseInt(prop.getProperty("msQuestions")));
 		ar.setDdQuestions(Integer.parseInt(prop.getProperty("ddQuestions")));

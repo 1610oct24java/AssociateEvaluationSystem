@@ -31,6 +31,8 @@ public class UserServiceImpl implements UserService {
 	private SecurityService security;
 	@Autowired
 	private RoleService role;
+	@Autowired
+	private RestClient client;
 
 	@Override
 	public User findUserByEmail(String email) {
@@ -67,7 +69,9 @@ public class UserServiceImpl implements UserService {
 		
 		dao.save(candidate);
 		
-		security.createSecurity(candidate);
+		String pass = security.createSecurity(candidate);
+		
+		client.finalizeCandidate(candidate, pass);
 		
 		return candidate;
 	}
