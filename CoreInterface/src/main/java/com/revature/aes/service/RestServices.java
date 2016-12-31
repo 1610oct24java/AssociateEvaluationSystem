@@ -2,6 +2,7 @@ package com.revature.aes.service;
 
 import com.revature.aes.beans.User;
 
-public interface RestClient {
+@FunctionalInterface
+public interface RestServices {
 	public void finalizeCandidate(User candidate, String email);
 }

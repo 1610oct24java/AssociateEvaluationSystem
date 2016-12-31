@@ -1,6 +1,5 @@
 package com.revature.aes.loader;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -20,10 +19,6 @@ public class AssessmentRequestLoader {
 		
 		try(InputStream input = this.getClass().getClassLoader().getResourceAsStream("assessmentRequest.properties")){
 			prop.load(input);
-		} catch (FileNotFoundException e) {
-			// Close the inputStream
-			log.error(e);
-			return null;
 		} catch (IOException e) {
 			// Close the inputStream
 			log.error(e);

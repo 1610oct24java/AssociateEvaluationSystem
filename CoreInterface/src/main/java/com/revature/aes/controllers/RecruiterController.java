@@ -35,12 +35,11 @@ public class RecruiterController {
 	
 	@RequestMapping(value="/recruiter/{email}/candidates/{index}", method=RequestMethod.PUT)
 	public User updateCandidate(@PathVariable String email, @PathVariable int index, @RequestBody User candidate){
-		//TODO return userService.updateCandidate(candidate);
-		return candidate;
+		return userService.updateCandidate(candidate, email, index);
 	}
 	
 	@RequestMapping(value="/recruiter/{email}/candidates/{index}", method=RequestMethod.DELETE)
 	public void deleteCandidate(@PathVariable String email, @PathVariable int index){
-		//TODO userService.removeCandidate(email, index);
+		userService.removeCandidate(email, index);
 	}
 }

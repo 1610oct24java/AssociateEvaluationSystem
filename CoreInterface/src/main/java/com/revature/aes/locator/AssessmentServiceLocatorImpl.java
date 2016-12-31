@@ -6,7 +6,7 @@ public class AssessmentServiceLocatorImpl implements AssessmentServiceLocator {
 
 	@Override
 	public AssessmentRequest getLink(AssessmentRequest request) {
-		// TODO Auto-generated method stub
+		// TODO Actually do everythign necessary for this to work
 		return null;
 	}
 

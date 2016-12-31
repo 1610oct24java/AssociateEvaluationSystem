@@ -11,7 +11,7 @@ import com.revature.aes.locator.AssessmentServiceLocator;
 import com.revature.aes.locator.MailServiceLocator;
 
 @Service
-public class RestClientImpl implements RestClient {
+public class RestServicesImpl implements RestServices {
 	@Autowired
 	private AssessmentServiceLocator assessmentService;
 	@Autowired
