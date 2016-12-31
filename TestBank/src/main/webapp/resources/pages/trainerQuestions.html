@@ -74,7 +74,20 @@
 		<div ng-controller="QuestionController as qc">
 			<label for="questionText">Question</label> 
 			<input type="text" ng-model="qc.question.questionText" name="questionText" id="questionText" placeholder="enter question"></input> 
-			<input type="sumbit" ng-click="qc.addQuestion()" class="btn btn-info"value="Add Question"></input>
+			
+			<label for="enterOption">Enter Option</label>
+			<input type="text" id="qc.option" name="enterOption" id="enterOption" placeholder="Enter Option" ng-model="qc.option.optionText"></input> 
+			<select ng-model="qc.option.correct">
+				<option value=1>"Yes"</option>
+				<option value=2>"No"</option>
+			</select>
+			<input type="submit" ng-click="qc.addOption()" class="btn btn-info" value="Add Option"></input>
+			<div id="optionList"></div>
+			
+			<label for="addQuestion">Review Question: {{qc.question.questionText}} <span ng-repeat="option in qc.question.multiChoice">{{option.optionText}} Correct: {{option.correct == 1 && "Yes" || "No" }}</span></label>
+			<input type="submit" ng-click="qc.addQuestion()" name="addQuestion" id="addQuestion" class="btn btn-info" value="Add Question"></input>
+			
+			
 			<hr>
 			<ul>
 				<li ng-repeat="question in qc.qList">{{question.format.formatName}} ::  {{question.questionText}}</li>
@@ -101,6 +114,7 @@
 			<input type="submit" ng-click="qc.deleteQuestion()" class="btn btn-danger" value="Delete Question"></input>
 		</div>
 	</main>
+	
 	<script type="text/javascript"
 		src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
 	<script type="text/javascript"
