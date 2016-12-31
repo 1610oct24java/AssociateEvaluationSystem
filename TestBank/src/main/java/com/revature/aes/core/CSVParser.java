@@ -163,22 +163,26 @@ public class CSVParser {
 					option = new Option();
 					option.setOptionText("True");
 					option.setCorrect(1);
+					option.setQuestion(question);
 					options.add(option);
 					
 					option = new Option();
 					option.setOptionText("False");
 					option.setCorrect(0);
+					option.setQuestion(question);
 					options.add(option);
 				}
 				else{
 					option = new Option();
 					option.setOptionText("True");
 					option.setCorrect(0);
+					option.setQuestion(question);
 					options.add(option);
 					
 					option = new Option();
 					option.setOptionText("False");
 					option.setCorrect(1);
+					option.setQuestion(question);
 					options.add(option);
 				}
 			}
