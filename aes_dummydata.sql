@@ -1,65 +1,101 @@
-INSERT INTO AES_FORMATS VALUES(1, 'True/False');
-INSERT INTO AES_FORMATS VALUES(2, 'Multiple Choice');
-INSERT INTO AES_FORMATS VALUES(3, 'Multiple Select');
-INSERT INTO AES_FORMATS VALUES(4, 'Drag and Drop');
-INSERT INTO AES_FORMATS VALUES(5, 'Essay');
-INSERT INTO AES_FORMATS VALUES(6, 'Short Answer');
-INSERT INTO AES_FORMATS VALUES(7, 'Code Snippet');
+CREATE TRIGGER AES_FORMAT_SEQ_TRG 
+BEFORE INSERT ON AES_FORMATS
+FOR EACH ROW
+BEGIN
+SELECT AES_FORMATS_SEQ.NEXTVAL INTO :NEW.FORMAT_ID FROM DUAL;
+END;
+/
 
-INSERT INTO AES_CATEGORY VALUES(1, 'Java');
-INSERT INTO AES_CATEGORY VALUES(2, 'SDET');
-INSERT INTO AES_CATEGORY VALUES(3, '.Net');
+CREATE TRIGGER AES_CATEGORIES_SEQ_TRG 
+BEFORE INSERT ON AES_CATEGORY
+FOR EACH ROW
+BEGIN
+SELECT AES_CATEGORIES_SEQ.NEXTVAL INTO :NEW.CATEGORY_ID FROM DUAL;
+END;
+/
 
-INSERT INTO AES_QUESTION VALUES(1, 1, 'Java the greatest programming language.');
-INSERT INTO AES_QUESTION VALUES(2, 1, 'HTML is an Object Oriented Programming language.');
-INSERT INTO AES_QUESTION VALUES(3, 1, 'Rod Johnson is the  of Spring.');
-INSERT INTO AES_QUESTION VALUES(4, 2, 'The most powerful advice is?');
-INSERT INTO AES_QUESTION VALUES(5, 2, 'Dependency Injection is?');
-INSERT INTO AES_QUESTION VALUES(6, 2, 'Spring does not use this type of dependency?');
-INSERT INTO AES_QUESTION VALUES(7, 3, 'The following modifiers are known as non-access modifiers as Java 1.2');
-INSERT INTO AES_QUESTION VALUES(8, 3, 'The following modifiers are access modifiers as of Java 1.5 aka Java 5');
-INSERT INTO AES_QUESTION VALUES(9, 3, 'Choose the options which are Java keywords as of Java 1.5 aka Java 5');
+CREATE TRIGGER AES_QUESTION_SEQ_TRG 
+BEFORE INSERT ON AES_QUESTION
+FOR EACH ROW
+BEGIN
+SELECT AES_QUESTION_SEQ.NEXTVAL INTO :NEW.QUESTION_ID FROM DUAL;
+END;
+/
 
-INSERT INTO AES_OPTIONS VALUES(1, 'True', 1, 1);
-INSERT INTO AES_OPTIONS VALUES(2, 'False', 0, 1);
-INSERT INTO AES_OPTIONS VALUES(3, 'True', 0, 2);
-INSERT INTO AES_OPTIONS VALUES(4, 'False', 1, 2);
-INSERT INTO AES_OPTIONS VALUES(5, 'True', 1, 3);
-INSERT INTO AES_OPTIONS VALUES(6, 'False', 0, 3);
-INSERT INTO AES_OPTIONS VALUES(7, 'Before', 0, 4);
-INSERT INTO AES_OPTIONS VALUES(8, 'Around', 1, 4);
-INSERT INTO AES_OPTIONS VALUES(9, 'After', 0, 4);
-INSERT INTO AES_OPTIONS VALUES(10, 'After Returning', 0, 4);
-INSERT INTO AES_OPTIONS VALUES(11, 'After Throwing', 0, 4);
-INSERT INTO AES_OPTIONS VALUES(12, 'No Advice is more powerful than other advices as they all equally powerful', 0, 4);
-INSERT INTO AES_OPTIONS VALUES(13, 'It is why old people wear Depends', 0, 5);
-INSERT INTO AES_OPTIONS VALUES(14, 'A software design pattern that defines how code gets its dependencies', 1, 5);
-INSERT INTO AES_OPTIONS VALUES(15, 'It is where you create an object using the new keyword ie Object obj = new Object();', 0, 5);
-INSERT INTO AES_OPTIONS VALUES(16, 'Its where you assign values to wrapper classes ie Integer int = Integer.valueOf(1);', 0, 5);
-INSERT INTO AES_OPTIONS VALUES(17, 'Constructor Injection', 0, 6);
-INSERT INTO AES_OPTIONS VALUES(18, 'Setter Injection', 0, 6);
-INSERT INTO AES_OPTIONS VALUES(19, 'Interface Injection', 1, 6);
-INSERT INTO AES_OPTIONS VALUES(20, 'public', 0, 7);
-INSERT INTO AES_OPTIONS VALUES(21, 'private', 0, 7);
-INSERT INTO AES_OPTIONS VALUES(22, 'protected', 0, 7);
-INSERT INTO AES_OPTIONS VALUES(23, 'default (package)', 0, 7);
-INSERT INTO AES_OPTIONS VALUES(24, 'static', 1, 7);
-INSERT INTO AES_OPTIONS VALUES(25, 'volatile', 1, 7);
-INSERT INTO AES_OPTIONS VALUES(26, 'for', 0, 7);
-INSERT INTO AES_OPTIONS VALUES(27, 'final', 1, 7);
-INSERT INTO AES_OPTIONS VALUES(28, 'public', 1, 8);
-INSERT INTO AES_OPTIONS VALUES(29, 'private', 1, 8);
-INSERT INTO AES_OPTIONS VALUES(30, 'protected', 1, 8);
-INSERT INTO AES_OPTIONS VALUES(31, 'default (package)', 1, 8);
-INSERT INTO AES_OPTIONS VALUES(32, 'static', 0, 8);
-INSERT INTO AES_OPTIONS VALUES(33, 'volatile', 0, 8);
-INSERT INTO AES_OPTIONS VALUES(34, 'for', 0, 8);
-INSERT INTO AES_OPTIONS VALUES(35, 'final', 0, 8);
+CREATE TRIGGER AES_OPTION_SEQ_TRG
+BEFORE INSERT ON AES_OPTIONS
+FOR EACH ROW
+BEGIN
+SELECT AES_OPTION_SEQ.NEXTVAL INTO :NEW.OPTION_ID FROM DUAL;
+END;
+/
 
-INSERT INTO AES_OPTIONS VALUES(36, 'bool', 0, 9);
-INSERT INTO AES_OPTIONS VALUES(37, 'goto', 1, 9);
-INSERT INTO AES_OPTIONS VALUES(38, 'static', 1, 9);
-INSERT INTO AES_OPTIONS VALUES(39, 'transient', 1, 9);
-INSERT INTO AES_OPTIONS VALUES(40, 'include', 0, 9);
-INSERT INTO AES_OPTIONS VALUES(41, 'extend', 0, 9);
+INSERT INTO AES_FORMATS VALUES(0, 'True/False');
+INSERT INTO AES_FORMATS VALUES(0, 'Multiple Choice');
+INSERT INTO AES_FORMATS VALUES(0, 'Multiple Select');
+INSERT INTO AES_FORMATS VALUES(0, 'Drag and Drop');
+INSERT INTO AES_FORMATS VALUES(0, 'Essay');
+INSERT INTO AES_FORMATS VALUES(0, 'Short Answer');
+INSERT INTO AES_FORMATS VALUES(0, 'Code Snippet');
+
+INSERT INTO AES_CATEGORY VALUES(0, 'Java');
+INSERT INTO AES_CATEGORY VALUES(0, 'SDET');
+INSERT INTO AES_CATEGORY VALUES(0, '.Net');
+
+INSERT INTO AES_QUESTION VALUES(0, 1, 'Java the greatest programming language.');
+INSERT INTO AES_QUESTION VALUES(0, 1, 'HTML is an Object Oriented Programming language.');
+INSERT INTO AES_QUESTION VALUES(0, 1, 'Rod Johnson is the  of Spring.');
+INSERT INTO AES_QUESTION VALUES(0, 2, 'The most powerful advice is?');
+INSERT INTO AES_QUESTION VALUES(0, 2, 'Dependency Injection is?');
+INSERT INTO AES_QUESTION VALUES(0, 2, 'Spring does not use this type of dependency?');
+INSERT INTO AES_QUESTION VALUES(0, 3, 'The following modifiers are known as non-access modifiers as Java 1.2');
+INSERT INTO AES_QUESTION VALUES(0, 3, 'The following modifiers are access modifiers as of Java 1.5 aka Java 5');
+INSERT INTO AES_QUESTION VALUES(0, 3, 'Choose the options which are Java keywords as of Java 1.5 aka Java 5');
+
+INSERT INTO AES_OPTIONS VALUES(0, 'True', 1, 1);
+INSERT INTO AES_OPTIONS VALUES(0, 'False', 0, 1);
+INSERT INTO AES_OPTIONS VALUES(0, 'True', 0, 2);
+INSERT INTO AES_OPTIONS VALUES(0, 'False', 1, 2);
+INSERT INTO AES_OPTIONS VALUES(0, 'True', 1, 3);
+INSERT INTO AES_OPTIONS VALUES(0, 'False', 0, 3);
+INSERT INTO AES_OPTIONS VALUES(0, 'Before', 0, 4);
+INSERT INTO AES_OPTIONS VALUES(0, 'Around', 1, 4);
+INSERT INTO AES_OPTIONS VALUES(0, 'After', 0, 4);
+INSERT INTO AES_OPTIONS VALUES(0, 'After Returning', 0, 4);
+INSERT INTO AES_OPTIONS VALUES(0, 'After Throwing', 0, 4);
+INSERT INTO AES_OPTIONS VALUES(0, 'No Advice is more powerful than other advices as they all equally powerful', 0, 4);
+INSERT INTO AES_OPTIONS VALUES(0, 'It is why old people wear Depends', 0, 5);
+INSERT INTO AES_OPTIONS VALUES(0, 'A software design pattern that defines how code gets its dependencies', 1, 5);
+INSERT INTO AES_OPTIONS VALUES(0, 'It is where you create an object using the new keyword ie Object obj = new Object();', 0, 5);
+INSERT INTO AES_OPTIONS VALUES(0, 'Its where you assign values to wrapper classes ie Integer int = Integer.valueOf(1);', 0, 5);
+INSERT INTO AES_OPTIONS VALUES(0, 'Constructor Injection', 0, 6);
+INSERT INTO AES_OPTIONS VALUES(0, 'Setter Injection', 0, 6);
+INSERT INTO AES_OPTIONS VALUES(0, 'Interface Injection', 1, 6);
+INSERT INTO AES_OPTIONS VALUES(0, 'public', 0, 7);
+INSERT INTO AES_OPTIONS VALUES(0, 'private', 0, 7);
+INSERT INTO AES_OPTIONS VALUES(0, 'protected', 0, 7);
+INSERT INTO AES_OPTIONS VALUES(0, 'default (package)', 0, 7);
+INSERT INTO AES_OPTIONS VALUES(0, 'static', 1, 7);
+INSERT INTO AES_OPTIONS VALUES(0, 'volatile', 1, 7);
+INSERT INTO AES_OPTIONS VALUES(0, 'for', 0, 7);
+INSERT INTO AES_OPTIONS VALUES(0, 'final', 1, 7);
+INSERT INTO AES_OPTIONS VALUES(0, 'public', 1, 8);
+INSERT INTO AES_OPTIONS VALUES(0, 'private', 1, 8);
+INSERT INTO AES_OPTIONS VALUES(0, 'protected', 1, 8);
+INSERT INTO AES_OPTIONS VALUES(0, 'default (package)', 1, 8);
+INSERT INTO AES_OPTIONS VALUES(0, 'static', 0, 8);
+INSERT INTO AES_OPTIONS VALUES(0, 'volatile', 0, 8);
+INSERT INTO AES_OPTIONS VALUES(0, 'for', 0, 8);
+INSERT INTO AES_OPTIONS VALUES(0, 'final', 0, 8);
+INSERT INTO AES_OPTIONS VALUES(0, 'bool', 0, 9);
+INSERT INTO AES_OPTIONS VALUES(0, 'goto', 1, 9);
+INSERT INTO AES_OPTIONS VALUES(0, 'static', 1, 9);
+INSERT INTO AES_OPTIONS VALUES(0, 'transient', 1, 9);
+INSERT INTO AES_OPTIONS VALUES(0, 'include', 0, 9);
+INSERT INTO AES_OPTIONS VALUES(0, 'extend', 0, 9);
+
+DROP TRIGGER AES_FORMAT_SEQ_TRG;
+DROP TRIGGER AES_CATEGORIES_SEQ_TRG;
+DROP TRIGGER AES_QUESTION_SEQ_TRG;
+DROP TRIGGER AES_OPTION_SEQ_TRG;
 commit;
