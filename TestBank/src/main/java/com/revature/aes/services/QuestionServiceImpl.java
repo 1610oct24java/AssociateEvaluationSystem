@@ -41,6 +41,11 @@ public class QuestionServiceImpl implements QuestionService
 	@Transactional(propagation=Propagation.REQUIRED)
 	public Question addQuestion(Question question)
 	{
+		//ensures question text isn't null or an empty string.
+		if(question.getQuestionText() !=null || question.getQuestionText().trim() == "")
+		{
+			return null;
+		}
 		return qdao.save(question);
 	}
 

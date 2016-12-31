@@ -54,9 +54,13 @@ public class Question implements Serializable {
 		inverseJoinColumns = @JoinColumn(name = "CATEGORY_ID"))
 	private Set<Category> category;
 	
+	/**
+	 * Represents a list of the Options (answers) for a question.
+	 * IE True or False for a True/False Format question.
+	 */
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL,mappedBy="question")
-	private List<Option> multiChoice;
+	private List<Option> multiChoice; 
 	
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER, mappedBy="questionId")
@@ -68,6 +72,19 @@ public class Question implements Serializable {
 
 	public Question() {
 		super();
+	}
+	
+	public Question(int questionId, String questionText, Format format, Set<Tag> tags, Set<Category> category,
+			List<Option> multiChoice, Set<DragDrop> dragDrops, SnippetTemplate snippetTemplate) {
+		this();
+		this.questionId = questionId;
+		this.questionText = questionText;
+		this.format = format;
+		this.tags = tags;
+		this.category = category;
+		this.multiChoice = multiChoice;
+		this.dragDrops = dragDrops;
+		this.snippetTemplate = snippetTemplate;
 	}
 
 	@Override
