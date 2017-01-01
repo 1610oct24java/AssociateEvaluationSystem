@@ -1,9 +1,11 @@
 package com.revature.aes.service;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -24,6 +26,7 @@ import com.revature.aes.dao.UserDao;
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
+	Logger log = Logger.getRootLogger();
 	
 	@Autowired
 	private UserDao dao;
@@ -32,7 +35,7 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private RoleService role;
 	@Autowired
-	private RestClient client;
+	private RestServices client;
 
 	@Override
 	public User findUserByEmail(String email) {
@@ -95,5 +98,43 @@ public class UserServiceImpl implements UserService {
 		if(index >= users.size())
 			return null;
 		return users.get(index);
+	}
+
+	@Override
+	public User updateCandidate(User updates, String email, int index) {
+		// 
+		User candidate = findUserByIndex(index, email);
+		if(candidate == null)
+			return null;
+		
+		Date passIssued;
+
+		String inFormat = "yyyy-MM-dd HH:mm:ss.S";
+		String outFormat = "dd-MMM-yy";
+		SimpleDateFormat inFmt = new SimpleDateFormat(inFormat);
+		SimpleDateFormat outFmt = new SimpleDateFormat(outFormat);
+		
+		try {
+			passIssued = inFmt.parse(candidate.getDatePassIssued());
+			candidate.setDatePassIssued(outFmt.format(passIssued));
+		} catch (ParseException e) {
+			log.error(e);
+			return null;
+		}
+
+		candidate.setFirstName(updates.getFirstName());
+		candidate.setLastName(updates.getLastName());
+		candidate.setFormat(updates.getFormat());
+		candidate.setEmail(updates.getEmail());
+		
+		return candidate;
+	}
+
+	@Override
+	public void removeCandidate(String email, int index) {
+		// 
+		User candidate = findUsersByRecruiter(email).get(index);
+		
+		dao.delete(candidate);
 	}
 }
