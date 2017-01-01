@@ -123,15 +123,9 @@ public class UserServiceImpl implements UserService {
 		}
 
 		candidate.setFirstName(updates.getFirstName());
-		System.out.println(candidate.getFirstName());
 		candidate.setLastName(updates.getLastName());
-		System.out.println(candidate.getFirstName());
 		candidate.setFormat(updates.getFormat());
-		System.out.println(candidate.getFormat());
 		candidate.setEmail(updates.getEmail());
-		System.out.println(candidate.getEmail());
-		
-		System.out.println(candidate);
 		
 		return candidate;
 	}
