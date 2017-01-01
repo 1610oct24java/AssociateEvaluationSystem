@@ -50,6 +50,10 @@ public class Option implements Serializable {
 	@JoinColumn(name = "QUESTION_ID")
 	private Question question;
 	
+	public Option() {
+		super();
+	}
+	
 	public Integer getOptionId() {
 		return optionId;
 	}
@@ -73,8 +77,6 @@ public class Option implements Serializable {
 	public void setCorrect(Integer correct) {
 		this.correct = correct;
 	}
-
-	
 
 	public Question getQuestion() {
 		return question;
@@ -103,11 +105,12 @@ public class Option implements Serializable {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		
+		if ( (obj == null) || (getClass() != obj.getClass()) )
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		
 		Option other = (Option) obj;
+		
 		if (correct == null) {
 			if (other.correct != null)
 				return false;
@@ -134,8 +137,6 @@ public class Option implements Serializable {
 				+ "]";
 	}
 
-	public Option() {
-		super();
-	}
+	
 
 }
