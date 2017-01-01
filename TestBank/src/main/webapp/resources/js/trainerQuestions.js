@@ -8,25 +8,18 @@ var url = domain + port + "/" + baseDirectory + "/"; // a concatenation of
 														// the domain, port, and
 														// base directory to
 														// establish a base url.
-var formatList = [];
-var questionformat = {};
-var questionList = [];
-var question = {};
-var category = {};
-var categoryList = [];
 /*
  * A JavaScript closure of a function using ES2015 concise syntax. Using concise
  * syntax of (()=> {})(); is equivalent of window.onload = function() {}; This
  * function uses Angular to control the overall functionality of the HTML page.
  */
 (() => {
-
+	
 	// creating the module for the base application whose name is 'app'
 	app = angular.module('app', [ 'ui.bootstrap', 'ui.bootstrap.tpls' ]);
 
 	app.controller('FormatController', function($http) {
 		this.fList;
-		this.format;
 		/*
 		 * var getFormatList = function() { $http.get(url + "format") .then(
 		 * function(response { formatList = response.data; this.fList =
@@ -35,18 +28,9 @@ var categoryList = [];
 		this.getFormatList = () => {
 			$http.get(url + "format")
 			.then(response => {
-				formatList = response.data;
-				this.fList = formatList;
+				this.fList = response.data;
 			});//$http end;
 		};//getFormatList() end
-
-		this.getFormat = () => {
-			$http.get(url + "format/" + format)
-		}; //getFormat() end
-
-		this.setFormat = () => {
-			questionformat = this.format;
-		}; //setFormat() end
 		
 		angular.element(document).ready(() => {
 			this.getFormatList();
@@ -54,14 +38,27 @@ var categoryList = [];
 	}); //FormatController end
 
 	app.controller('QuestionController', function($http) {
+		this.formatSet = false;
+		this.questionTextChanged = false;
+		this.optionTextChanged = false;
+		this.correctValue = false;
+		this.addButton = false;
+		this.format;
 		this.updatedQuestion;
 		this.show = false;
+		this.qList;
+		this.deleteme = 0;
 		this.selected = {};
 		this.format = {
 			format : 0,
 			formatName : ''
 		};
-
+		
+		this.option = {
+				optionId: 0,
+				optionText: '',
+				correct: -1
+		};
 		this.question = {
 			questionId : 0,
 			questionText : '',
@@ -69,32 +66,75 @@ var categoryList = [];
 				formatId : 0,
 				formatName : ''
 			},
-			tags : [],
-			category: [],
-			multiChoice:[],
-			dragDrops:[],
-			snippetTemplate:[]
+			tags : null,
+			category: null,
+			multiChoice:null,
+			dragDrops:null,
+			snippetTemplate:null
 		};
-		this.qList;
-		this.deleteme = 0;
+		
+		//Retrieves the List of Questions from the Database
 		this.getQuestionList = () => {
 			$http.get(url + "question")
-				.then(response => {
-					questionList = response.data;
-					this.qList = questionList;
+				.then(response => {	
+					this.qList = response.data;
 				}); //$http end
 		}; //getQuestionList() end
-
+		
+		//Adds a option to a Question being created
+		this.addOption = () =>{
+			if(this.question.multiChoice == null){
+				this.question.multiChoice = [];
+			}//end if
+			if(this.option.optionText == ''){
+				alert("Please enter a Option");
+			} else if(this.option.correct == -1){
+				alert("Please Choose Yes or No for a Correct Answer");
+			} else {
+				this.question.multiChoice.push(this.option);
+				this.option = {
+						optionId: 0,
+						optionText: '',
+						correct: -1
+				};
+			};//end if
+		};
+		//This functions ensures a user populates all the necessary fields for a question. 
+		this.addAddQuestionButton = (x) => {
+			switch(x) {
+			
+			case 1:
+				this.formatSet = true;
+				break;
+			case 2:
+				this.questionTextChanged = true;
+				break;
+			case 3:
+				this.optionTextChanged = true;
+				break;
+			case 4:
+				this.correctValue = true;
+				break;
+			default:
+			} //switch end
+			
+			if(this.formatSet == true && this.questionTextChanged == true && this.optionTextChanged == true && this.correctValue == true){
+				this.addButton = true;
+			}
+		}; //addAddQuestionButton end
+		
 		this.addQuestion = () => {
-			this.question.format = questionformat;
-			if (questionformat.formatId === 0) {
+			this.question.format = this.format;
+			if (this.question.format.formatId === 0) {
 				alert("please choose a format type");
 			} else {
 				if(this.question.questionText != ''){
+					console.log("Saving ");
+					console.log(this.question);
 				$http.post(url + "question", this.question)
 					.success((response) => {
 						this.question = response.data;
-						if (question == null) {
+						if (this.question == null) {
 							alert("Error Saving Question Please Try Again");
 						} else {
 							this.getQuestionList();
@@ -105,15 +145,15 @@ var categoryList = [];
 										formatId : 0,
 										formatName : ''
 									},
-									tags : [],
-									category: [],
-									multiChoice:[],
-									dragDrops:[],
-									snippetTemplate:[]
+									tags : null,
+									category: null,
+									multiChoice:null,
+									dragDrops:null,
+									snippetTemplate:null
 								}; //this.question end
 							};//inner most if end 
 						}); //$http end
-				} else {
+					} else {
 					alert("Please Enter A Question Text");
 				}//mid if end
 			}	//outer if end	
@@ -136,7 +176,6 @@ var categoryList = [];
 			} else {
 				this.updatedQuestion = aQuestion;
 				question = aQuestion;
-				console.log(this.updatedQuestion);
 				this.show = true;
 			}	//if end
 		}; //showUpdateQuestion end

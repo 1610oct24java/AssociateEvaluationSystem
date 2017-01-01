@@ -1,6 +1,7 @@
 package com.revature.aes.beans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -60,7 +61,7 @@ public class Question implements Serializable {
 	 */
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL,mappedBy="question")
-	private List<Option> multiChoice; 
+	private List<Option> multiChoice = new ArrayList<>(); 
 	
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER, mappedBy="questionId")

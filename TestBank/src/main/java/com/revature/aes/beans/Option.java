@@ -57,6 +57,20 @@ public class Option implements Serializable {
 		super();
 	}
 
+	
+	public Option(Integer optionId, String optionText, Integer correct) {
+		this();
+		this.optionId = optionId;
+		this.optionText = optionText;
+		this.correct = correct;
+	}
+	
+	public Option(Integer optionId, String optionText, Integer correct, Question question) {
+		this(optionId, optionText, correct);
+		this.question = question;
+	}
+
+
 	public Integer getOptionId() {
 		return optionId;
 	}
