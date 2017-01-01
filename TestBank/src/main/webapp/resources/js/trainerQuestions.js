@@ -175,7 +175,6 @@ var url = domain + port + "/" + baseDirectory + "/"; // a concatenation of
 				this.show=false;
 			} else {
 				this.updatedQuestion = aQuestion;
-				question = aQuestion;
 				this.show = true;
 			}	//if end
 		}; //showUpdateQuestion end

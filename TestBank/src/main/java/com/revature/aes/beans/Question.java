@@ -61,11 +61,11 @@ public class Question implements Serializable {
 	 */
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL,mappedBy="question")
-	private List<Option> multiChoice = new ArrayList<>(); 
+	private List<Option> multiChoice; 
 	
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER, mappedBy="questionId")
-	private Set<DragDrop> dragDrops;	
+	private Set<DragDrop> dragDrops;			
 	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="QUESTION_ID")
