@@ -16,13 +16,13 @@ public class AssessmentServiceLocatorImpl implements AssessmentServiceLocator {
 		String url = "http://www.google.com";
 		ResponseEntity<AssessmentRequest> responseEntity = restTemplate.postForEntity(url + "/assessment", request, AssessmentRequest.class);
 		
-		request = responseEntity.getBody();
+		AssessmentRequest response = responseEntity.getBody();
 		HttpStatus httpStatus = responseEntity.getStatusCode();
 		
 		if(httpStatus != HttpStatus.OK)
 			return null;
 		
-		return request;
+		return response;
 	}
 
 }
