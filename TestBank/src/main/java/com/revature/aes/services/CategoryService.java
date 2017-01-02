@@ -11,5 +11,4 @@ public interface CategoryService {
 	public void deleteCategoryById(Integer id);
 	public void deleteCategory(Category category);
 	public void deleteCategoryByName(String name);
-	public void linkToQuestion(Integer questionId, Integer categoryId);
 }

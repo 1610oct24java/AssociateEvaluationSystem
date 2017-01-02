@@ -46,10 +46,5 @@ public class CategoryServiceImpl implements CategoryService{
 	@Override
 	public void deleteCategoryByName(String name) {
 		cdao.deleteCategoryByName(name);
-	}	
-	
-	@Override
-	public void linkToQuestion(Integer questionId, Integer categoryId) {
-		cdao.insertLinkToQuestion(questionId, categoryId);
 	}
 }
