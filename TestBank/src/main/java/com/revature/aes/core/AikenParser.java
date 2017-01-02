@@ -4,10 +4,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.revature.aes.beans.Option;
 import com.revature.aes.beans.Question;
@@ -29,44 +32,31 @@ import com.revature.aes.exception.InvalidFileTypeException;
  */
 @Service
 public class AikenParser {
-	
-	public AikenParser() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-
 	private HashMap<Question, ArrayList<Option>> questionMap;
 	private String line;
+	
+	/**
+	 * Default constructor to please Spring.
+	 */
+	public AikenParser() {
+		super();
+	}
 	
 	/**
 	 * Constructor takes in a String representing the path to the Aiken file relative to the root to parse Questions and Options.
 	 * @param url of the file to be parsed
 	 */
-	public AikenParser(String url){	
-		questionMap = new HashMap<Question, ArrayList<Option>>();
+	public AikenParser(MultipartFile mpFile){			
+		questionMap = new HashMap<Question, ArrayList<Option>>();		
 		try {
-			parseFile(url);
+			parseFile(mpFile);
 		} catch (InvalidFileTypeException e) {
 			e.printStackTrace();
 		} catch (AikenSyntaxException e) {
 			e.printStackTrace();
-		}
-	}
-	
-	/**
-	 * Constructor takes in an Aiken file to parse out Questions and Options.
-	 * @param file to be parsed
-	 */
-	public AikenParser(File file){
-		questionMap = new HashMap<>();
-		try {
-			parseFile(file.getPath());
-		} catch (InvalidFileTypeException e) {
+		} catch (IllegalStateException e) {
 			e.printStackTrace();
-		} catch (AikenSyntaxException e) {
-			e.printStackTrace();
-		}
+		} 
 	}
 	
 	/**
@@ -75,10 +65,10 @@ public class AikenParser {
 	 * @throws InvalidFileTypeException 
 	 * @throws AikenSyntaxException 
 	 */
-	private void parseFile(String url) throws InvalidFileTypeException, AikenSyntaxException{
-		checkFileType(url);
+	private void parseFile(MultipartFile mpFile) throws InvalidFileTypeException, AikenSyntaxException{
+		//checkFileType(mpFile);
 		
-		try(BufferedReader br = new BufferedReader(new FileReader(url))) {
+		try(BufferedReader br = new BufferedReader(new InputStreamReader(mpFile.getInputStream()))) {
 			// Read first line of the file
 		    line = br.readLine();
 
@@ -192,13 +182,5 @@ public class AikenParser {
 	 */
 	public HashMap<Question, ArrayList<Option>> getQuestionsMap(){
 		return questionMap;
-	}
-	
-	
-	// To test the parser, change the filePath in main to your Aiken text File path relative to the root
-	public static void main(String[] args) {
-		String filePath = "quiz.txt";
-		
-		new AikenParser(filePath);		
 	}
 }
