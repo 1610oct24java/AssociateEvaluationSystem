@@ -13,7 +13,9 @@
 package com.revature.aes.services;
 
 import java.util.List;
+import java.util.Set;
 
+import com.revature.aes.beans.Category;
 import com.revature.aes.beans.Format;
 import com.revature.aes.beans.Question;
 import com.revature.aes.beans.QuestionOptionsJSONHandler;
@@ -29,6 +31,10 @@ public interface QuestionService {
 
 	public Question updateQuestion(Question question);
 
+	public Set<Question> getAllQuestionsByCategory(Category category);
+	
+	public Question updateQuestionById(Question question);
+	
 	public void deleteQuestionById(Integer id);
 
 	public Question addFullQuestion(QuestionOptionsJSONHandler question);

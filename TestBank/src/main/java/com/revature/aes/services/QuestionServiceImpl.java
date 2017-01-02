@@ -101,6 +101,20 @@ public class QuestionServiceImpl implements QuestionService
 	{
 		return qdao.findAllQuestionsByFormat(format);
 	}
+	
+	/**
+	 * Retrieves all Questions by a specific category from a database
+	 * @param the Category to determine the restriction type of SQL query
+	 * @return A List of Category restricted to a specific format
+	 * 
+	 * @see com.revature.aes.beans.Category
+	 */
+	@Override
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public Set<Question> getAllQuestionsByCategory(Category category)
+	{
+		return qdao.findAllQuestionsByCategory(category);
+	}
 
 	/**
 	 * Updates a Question which is stored in a database
