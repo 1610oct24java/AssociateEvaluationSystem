@@ -12,6 +12,7 @@
 package com.revature.aes.services;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.revature.aes.beans.Category;
 import com.revature.aes.beans.Format;
 import com.revature.aes.beans.Question;
 import com.revature.aes.daos.QuestionDAO;
@@ -79,6 +81,20 @@ public class QuestionServiceImpl implements QuestionService
 	public List<Question> getAllQuestionsByFormat(Format format)
 	{
 		return qdao.findAllQuestionsByFormat(format);
+	}
+	
+	/**
+	 * Retrieves all Questions by a specific category from a database
+	 * @param the Category to determine the restriction type of SQL query
+	 * @return A List of Category restricted to a specific format
+	 * 
+	 * @see com.revature.aes.beans.Category
+	 */
+	@Override
+	@Transactional(propagation=Propagation.SUPPORTS)
+	public Set<Question> getAllQuestionsByCategory(Category category)
+	{
+		return qdao.findAllQuestionsByCategory(category);
 	}
 
 	/**
