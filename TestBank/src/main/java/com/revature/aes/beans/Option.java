@@ -46,12 +46,13 @@ public class Option implements Serializable {
 	@Column(name = "CORRECT")
 	private Integer correct;
 
-	/**
-	 * @question The question associated with this class.
-	 */
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="QUESTION_ID")
-	private Question questionId;
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name = "QUESTION_ID")
+	private Question question;
+
+	public Option() {
+		super();
+	}
 
 	public Integer getOptionId() {
 		return optionId;
@@ -77,19 +78,17 @@ public class Option implements Serializable {
 		this.correct = correct;
 	}
 
-	public Question getQuestionId() {
-		return questionId;
+	public Question getQuestion() {
+		return question;
 	}
 
-	public void setQuestionId(Question questionId) {
-		this.questionId = questionId;
+	public void setQuestion(Question question) {
+		this.question = question;
 	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
-	
 
 	@Override
 	public int hashCode() {
@@ -98,7 +97,7 @@ public class Option implements Serializable {
 		result = prime * result + ((correct == null) ? 0 : correct.hashCode());
 		result = prime * result + ((optionId == null) ? 0 : optionId.hashCode());
 		result = prime * result + ((optionText == null) ? 0 : optionText.hashCode());
-		result = prime * result + ((questionId == null) ? 0 : questionId.hashCode());
+		result = prime * result + ((question == null) ? 0 : question.hashCode());
 		return result;
 	}
 
@@ -106,11 +105,12 @@ public class Option implements Serializable {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+
+		if ( (obj == null) || (getClass() != obj.getClass()) )
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
+
 		Option other = (Option) obj;
+
 		if (correct == null) {
 			if (other.correct != null)
 				return false;
@@ -126,10 +126,7 @@ public class Option implements Serializable {
 				return false;
 		} else if (!optionText.equals(other.optionText))
 			return false;
-		if (questionId == null) {
-			if (other.questionId != null)
-				return false;
-		} else if (!questionId.equals(other.questionId))
+		if (!question.equals(other.question))
 			return false;
 		return true;
 	}
@@ -137,12 +134,6 @@ public class Option implements Serializable {
 	@Override
 	public String toString() {
 		return "Option [optionId=" + optionId + ", optionText=" + optionText + ", correct=" + correct + ", questionId="
-				+ questionId + "]";
+				+ "]";
 	}
-
-	public Option() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
 }

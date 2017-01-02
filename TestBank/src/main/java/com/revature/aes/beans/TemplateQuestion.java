@@ -32,7 +32,7 @@ public class TemplateQuestion implements Serializable {
 	
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "question_id")
-	private Question templateQuestion;
+	private Question patternInquiry;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="TEMPLATE_ID")
@@ -40,13 +40,12 @@ public class TemplateQuestion implements Serializable {
 
 	public TemplateQuestion() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public String toString() {
 		return "TemplateQuestion [templateQuestionId=" + templateQuestionId + ", weight=" + weight
-				+ ", templateQuestion=" + templateQuestion + ", template=" + template + "]";
+				+ ", templateQuestion=" + patternInquiry + ", template=" + template + "]";
 	}
 
 	public int getTemplateQuestionId() {
@@ -66,11 +65,11 @@ public class TemplateQuestion implements Serializable {
 	}
 
 	public Question getTemplateQuestion() {
-		return templateQuestion;
+		return patternInquiry;
 	}
 
 	public void setTemplateQuestion(Question templateQuestion) {
-		this.templateQuestion = templateQuestion;
+		this.patternInquiry = templateQuestion;
 	}
 
 	public Template getTemplate() {

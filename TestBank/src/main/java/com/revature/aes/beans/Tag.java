@@ -35,6 +35,10 @@ public class Tag implements Serializable
 	@Column(name="TAG_NAME")
 	private String tagName;
 
+	public Tag() {
+		super();
+	}
+
 	public Integer getTagId() {
 		return tagId;
 	}
@@ -90,15 +94,4 @@ public class Tag implements Serializable
 	public String toString() {
 		return "Tag [tagId=" + tagId + ", tagName=" + tagName + "]";
 	}
-
-	public Tag() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-
-	
 }
-
-
-	

@@ -20,7 +20,7 @@ import org.springframework.stereotype.Repository;
 import com.revature.aes.beans.Format;
 import com.revature.aes.beans.Question;
 
-@Repository
+@Repository("questionDao")
 public interface QuestionDAO extends JpaRepository<Question, Integer>
 {
 	

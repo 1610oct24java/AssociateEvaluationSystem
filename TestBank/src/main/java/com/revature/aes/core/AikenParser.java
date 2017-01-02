@@ -13,14 +13,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import com.revature.aes.beans.Option;
-import com.revature.aes.beans.Question;
-import com.revature.aes.exception.AikenSyntaxException;
-import com.revature.aes.exception.InvalidFileTypeException;
-
 /**
  * A parser for the Moodle Aiken format. Generates an map of Questions and their Options.
  * 
