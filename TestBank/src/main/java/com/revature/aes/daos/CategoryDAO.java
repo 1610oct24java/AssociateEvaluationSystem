@@ -22,4 +22,5 @@ public interface CategoryDAO extends JpaRepository<Category, Integer>{
 	
 	@Query(value="insert into aes_question_category(question_id, category_id) values (?1, ?2)", nativeQuery=true)
 	public void insertLinkToQuestion(Integer questionId, Integer categoryId);
+	public void deleteCategoryByName(String name);
 }

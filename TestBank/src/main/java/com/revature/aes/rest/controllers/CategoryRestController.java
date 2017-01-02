@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,8 +29,8 @@ public class CategoryRestController {
 		service.addCategory(category);
 	}
 	
-	@RequestMapping(value="category", method=RequestMethod.DELETE)
-	public void deleteCategory(Category category){
-		service.deleteCategory(category);
+	@RequestMapping(value="category/{name}", method=RequestMethod.DELETE)
+	public void deleteCategory(@PathVariable String name){
+		service.deleteCategoryByName(name);
 	}
 }

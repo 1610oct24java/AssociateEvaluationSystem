@@ -7,6 +7,7 @@ var app;
 	app = angular.module("myCatMod", [ "ui.bootstrap", "ui.bootstrap.tpls" ]);
 	app.controller("CatModCtrl", function($http) {
 		this.categories =[];
+		this.delCategory = '';
 		this.newCategory = {
 				categoryId : 0,
 				name : ''
@@ -24,15 +25,31 @@ var app;
 			); 	
 		};
 		this.saveCategory = () =>{
-			console.log(this.newCategory);
-			$http.post(url + "category", this.newCategory).then(
+			if(this.newCategory.name == ''){
+				alert("Please enter a name for the category");
+			}
+			else{
+				$http.post(url + "category", this.newCategory).then(
+					// success
+					(response) => {
+						console.log(response);
+					},
+					// failure
+					() => {
+						alert("Unable to save category!");
+					}
+				);
+			}
+		};
+		this.deleteCategory = () =>{
+			$http.delete(url + "category/" + this.delCategory).then(
 				// success
 				(response) => {
 					console.log(response);
 				},
-				//failure
+				// failure
 				() => {
-					alert("Unable to save category!");
+					alert("Unable to remove category!")
 				}
 			);
 		};
