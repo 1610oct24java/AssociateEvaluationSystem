@@ -12,8 +12,9 @@
 		<intercept-url pattern="/" access="isAnonymous()"/>
 		<form-login login-page="/"
 		login-processing-url="/login"
-		authentication-failure-url="/login?error"
-		default-target-url="/home"/>
+		/>
+<!-- 		authentication-failure-url="/login?error"
+		default-target-url="/home"/> -->
 		<csrf disabled="true"/>
 	</http>
 
