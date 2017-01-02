@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,5 +21,15 @@ public class CategoryRestController {
 	@RequestMapping(value="category", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	public List<Category> getCategories(){
 		return service.getAllCategory();
+	}
+	
+	@RequestMapping(value="category", method=RequestMethod.POST, produces={MediaType.APPLICATION_JSON_VALUE})
+	public void saveCategory(@RequestBody Category category){
+		service.addCategory(category);
+	}
+	
+	@RequestMapping(value="category", method=RequestMethod.DELETE)
+	public void deleteCategory(Category category){
+		service.deleteCategory(category);
 	}
 }
