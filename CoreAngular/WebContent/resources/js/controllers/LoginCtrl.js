@@ -1,19 +1,18 @@
-app.controller('LoginCtrl', function($scope, $http) {
-	$scope.showNav = false;
+app.controller('LoginCtrl', function($scope, $http, $location) {
 	$scope.login = function() {
 		makeUser($scope);
 		$http.post("http://localhost:8080/core/login",'', $scope.user)
 		.then(function(response) {
-			console.log("INSIDE RESPONSE TO /LOGIN");
-			console.log(response.data);
+			//console.log("INSIDE RESPONSE TO /LOGIN");
+			//console.log(response.data);
 			$http.get("http://localhost:8080/core/user")
 			.then(function(response) {
-				navVisible($http,$scope);
 				console.log("INSIDE RESPONSE TO /USER");
 				console.log(response.data);
 				console.log('authenticated: ' + response.data.authenticated);
 				console.log('username     : ' + response.data.principal.username);
 				console.log('authority    : ' + response.data.principal.authorities[0].authority);
+				$location.path('/CanidateViewer');
 			})
 		})
 	}
@@ -36,6 +35,10 @@ function navVisible($http,$scope) {
 	})
 }
 
+function initRecruiterNav($scope) {
+	
+}
+
 function makeUser($scope) {
 	var user = {
 			params: {
@@ -45,5 +48,5 @@ function makeUser($scope) {
 	};
 
 	$scope.user = user
-	console.log(user);
+	//console.log(user);
 }

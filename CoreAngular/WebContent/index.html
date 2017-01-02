@@ -36,12 +36,6 @@
 				<div id="navbar" class="navbar-collapse rev-menu collapse" aria-expanded="false" style="height: 1px;">
 					<div class="menu-header-menu-container">
 						<ul id="menu-header-menu" class="nav navbar-nav">
-<!-- 							<li id="menu-item-1386" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1386">
-								<a href="/CoreAngular">LOGIN</a>
-							</li> -->
-							<li id="menu-item-1386" ng-show="showNav" ng-controller="LoginCtrl" class="ng-hide">
-								<a href="/RecruiterDashboard">DASHBOARD {{showNav}}</a>
-							</li>
 							<li id="menu-item-38" ng-show="showNav" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-38">
 								<a href="/CanidateViewer">CANIDATES</a>
 							</li>
@@ -60,21 +54,21 @@
 
 </div>
 
-<!-- angular js -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.9/angular.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.9/angular-route.js"></script>
 <!-- jquery (required for bootstrap js) -->
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 <!-- bootstrap js-->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<!-- angular js -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.9/angular.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.9/angular-route.js"></script>
 
 <!-- modules -->
 <script type="text/javascript" src="CoreAngular/resources/js/app.js"></script>
 <!-- controllers -->
-<script type="text/javascript" src="CoreAngular/resources/js/controllers/RecruiterDashboardCtrl.js"></script>
 <script type="text/javascript" src="CoreAngular/resources/js/controllers/RegisterCanidateCtrl.js"></script>
 <script type="text/javascript" src="CoreAngular/resources/js/controllers/CanidateViewerCtrl.js"></script>
 <script type="text/javascript" src="CoreAngular/resources/js/controllers/LoginCtrl.js"></script>
+<script type="text/javascript" src="CoreAngular/resources/js/controllers/NavCtrl.js"></script>
 
 </body>
 </html>
