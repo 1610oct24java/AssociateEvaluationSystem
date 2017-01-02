@@ -64,6 +64,8 @@ var app;
 				}
 			);
 		};
+		// Find the index of the category matching delCategory.
+		// The index is needed to remove the element from the list.
 		this.findIndexOfCategory = () =>{
 			for(var i=0;i<this.categories.length;i++){
 				if (this.categories[i].name == this.delCategory){
