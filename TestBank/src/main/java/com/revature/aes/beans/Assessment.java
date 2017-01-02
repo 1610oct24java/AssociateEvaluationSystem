@@ -56,10 +56,10 @@ public class Assessment implements Serializable {
 		inverseJoinColumns = @JoinColumn(name = "option_id"))
 	private Set<Option> options;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "assessmentDragDropId")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "assessmentId")
 	private Set<AssessmentDragDrop> assessmentDragDrop;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy ="fileId")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy ="assessmentId")
 	private Set<FileUpload> fileUpload;
 	
 	@ManyToMany(fetch = FetchType.EAGER)

@@ -98,15 +98,13 @@
 			<artifactId>jackson-annotations</artifactId>
 		</dependency>
 		<dependency>
-<<<<<<< HEAD
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-=======
-			<groupId>org.apache.tomcat.maven</groupId>
-			<artifactId>tomcat7-maven-plugin</artifactId>
-			<version>2.2</version>
-			<type>maven-plugin</type>
->>>>>>> dfb7854e3d6ff3d35bfe85fee2f46f108022a828
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tomcat</groupId>
+			<artifactId>tomcat-catalina</artifactId>
+			<version>7.0.72</version>
 		</dependency>
 	</dependencies>
 </project>
