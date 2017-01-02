@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,7 +46,7 @@ public class AikenParser {
 	 * @param url of the file to be parsed
 	 */
 	public AikenParser(MultipartFile mpFile){			
-		questionMap = new HashMap<Question, ArrayList<Option>>();		
+		questionMap = new HashMap<Question, ArrayList<Option>>();
 		try {
 			parseFile(mpFile);
 		} catch (InvalidFileTypeException e) {
