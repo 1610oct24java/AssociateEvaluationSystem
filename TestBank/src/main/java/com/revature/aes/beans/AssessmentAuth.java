@@ -1,11 +1,10 @@
 package com.revature.aes.beans;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import java.io.Serializable;
 
 public class AssessmentAuth implements Serializable {
 

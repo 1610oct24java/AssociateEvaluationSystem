@@ -12,13 +12,12 @@
 
 package com.revature.aes.daos;
 
-import java.util.List;
-
+import com.revature.aes.beans.Format;
+import com.revature.aes.beans.Question;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.revature.aes.beans.Format;
-import com.revature.aes.beans.Question;
+import java.util.List;
 
 @Repository("questionDao")
 public interface QuestionDAO extends JpaRepository<Question, Integer>
