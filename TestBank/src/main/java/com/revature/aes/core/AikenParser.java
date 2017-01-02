@@ -18,7 +18,7 @@ import com.revature.aes.exception.AikenSyntaxException;
 import com.revature.aes.exception.InvalidFileTypeException;
 
 /**
- * A parser for the Moodle Aiken format. Generates an arraylist of Questions to form an assessment.
+ * A parser for the Moodle Aiken format. Generates an map of Questions and their Options.
  * 
  * Aiken Format Guide:
  * The Question must be all on one line. 
