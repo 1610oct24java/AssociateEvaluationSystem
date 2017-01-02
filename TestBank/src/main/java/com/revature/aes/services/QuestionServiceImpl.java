@@ -9,6 +9,7 @@
  * Authors: Matthew Beauregard, Conner Anderson, Travis Deshotels,
  * 		Edward Crader, Jon-Erik Williams 
  ****************************************************************/
+
 package com.revature.aes.services;
 
 import java.util.List;
@@ -42,6 +43,14 @@ public class QuestionServiceImpl implements QuestionService
 	@Transactional(propagation=Propagation.REQUIRED)
 	public Question addQuestion(Question question)
 	{
+		//ensures question text isn't null or an empty string.
+		if(question.getQuestionText() == null || question.getQuestionText().trim() == "")
+		{
+			System.out.println("In if block of Add Question QuestionServiceImpl");
+			return null;
+		}
+		
+		System.out.println("It should be saving now!!!!");
 		return qdao.save(question);
 	}
 
@@ -104,7 +113,7 @@ public class QuestionServiceImpl implements QuestionService
 	 */
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
-	public Question updateQuestionById(Question question)
+	public Question updateQuestion(Question question)
 	{
 		return qdao.save(question);
 	}
@@ -117,9 +126,8 @@ public class QuestionServiceImpl implements QuestionService
 	@Transactional(propagation=Propagation.REQUIRED)
 	public void deleteQuestionById(Integer id)
 	{
-		qdao.delete(qdao.findOne(id));
-		
+		qdao.delete(qdao.findOne(id)); 	
 	}
-	
-	
+
+
 }

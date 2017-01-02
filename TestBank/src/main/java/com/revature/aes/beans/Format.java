@@ -37,6 +37,12 @@ public class Format implements Serializable {
 	public Format() {
 		super();
 	}
+	
+	public Format(Integer formatId, String formatName) {
+		this();
+		this.formatId = formatId;
+		this.formatName = formatName;
+	}
 
 	public Integer getFormatId() {
 		return formatId;
@@ -93,7 +99,5 @@ public class Format implements Serializable {
 	public String toString() {
 		return "Format [formatId=" + formatId + ", formatName=" + formatName + "]";
 	}
-
-	
 
 }

@@ -1,6 +1,7 @@
 package com.revature.aes.beans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -20,11 +21,14 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "aes_question")
 public class Question implements Serializable {
 
 	private static final long serialVersionUID = 4510024807505207528L;
+
 	@Id
 	@Column(name = "QUESTION_ID")
 	@SequenceGenerator(sequenceName = "AES_QUESTION_SEQ", name = "AES_QUESTION_SEQ")
@@ -34,10 +38,11 @@ public class Question implements Serializable {
 	@Column(name = "QUESTION_TEXT")
 	private String questionText;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "QUESTION_FORMAT_ID")
 	private Format format;
 
+	@JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "AES_QUESTION_TAG", 
 		joinColumns = @JoinColumn(name = "QUESTION_ID"), 
@@ -50,12 +55,17 @@ public class Question implements Serializable {
 		inverseJoinColumns = @JoinColumn(name = "CATEGORY_ID"))
 	private Set<Category> category;
 	
+	/**
+	 * Represents a list of the Options (answers) for a question.
+	 * IE True or False for a True/False Format question.
+	 */
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL,mappedBy="question")
-	private List<Option> multiChoice;
+	private List<Option> multiChoice; 
 	
-	@OneToMany(fetch = FetchType.EAGER)
-	@JoinColumn(name="QUESTION_ID")
-	private Set<DragDrop> dragDrops;	
+	@JsonIgnore
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="questionId")
+	private Set<DragDrop> dragDrops;			
 	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="QUESTION_ID")
@@ -64,11 +74,18 @@ public class Question implements Serializable {
 	public Question() {
 		super();
 	}
-
-	@Override
-	public String toString() {
-		return "Question [questionId=" + questionId + ", questionText=" + questionText + ", format=" + format
-				+ ", multiChoice=" + multiChoice + "]";
+	
+	public Question(int questionId, String questionText, Format format, Set<Tag> tags, Set<Category> category,
+			List<Option> multiChoice, Set<DragDrop> dragDrops, SnippetTemplate snippetTemplate) {
+		this();
+		this.questionId = questionId;
+		this.questionText = questionText;
+		this.format = format;
+		this.tags = tags;
+		this.category = category;
+		this.multiChoice = multiChoice;
+		this.dragDrops = dragDrops;
+		this.snippetTemplate = snippetTemplate;
 	}
 
 	@Override
@@ -198,6 +215,13 @@ public class Question implements Serializable {
 	public void setSnippetTemplate(SnippetTemplate snippetTemplate) {
 		this.snippetTemplate = snippetTemplate;
 	}
+
+	@Override
+	public String toString() {
+		return "Question [questionId=" + questionId + ", questionText=" + questionText + ", format=" + format
+				+ ", tags=" + tags + ", category=" + category + ", multiChoice=" + multiChoice + ", dragDrops="
+				+ dragDrops + ", snippetTemplate=" + snippetTemplate + "]";
+	}
 	
-	
+
 }
