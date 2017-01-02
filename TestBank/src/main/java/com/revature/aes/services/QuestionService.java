@@ -16,6 +16,7 @@ import java.util.List;
 
 import com.revature.aes.beans.Format;
 import com.revature.aes.beans.Question;
+import com.revature.aes.beans.QuestionOptionsJSONHandler;
 
 public interface QuestionService {
 	public Question addQuestion(Question question);
@@ -29,5 +30,7 @@ public interface QuestionService {
 	public Question updateQuestion(Question question);
 
 	public void deleteQuestionById(Integer id);
+
+	public Question addFullQuestion(QuestionOptionsJSONHandler question);
 
 }

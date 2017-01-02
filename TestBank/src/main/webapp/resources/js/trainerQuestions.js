@@ -4,7 +4,8 @@ var app; // the base application for angular.
 var port = ":8090"; // the port for ajax calls.
 var baseDirectory = "TestBank" // the base directory for AJAX calls.
 var domain = "http://localhost"; // the base domain for AJAX calls.
-var url = domain + port + "/" + baseDirectory + "/"; // a concatenation of
+var url =  /*domain + port + */"/" + baseDirectory + "/"; // a concatenation
+															// of
 														// the domain, port, and
 														// base directory to
 														// establish a base url.
@@ -29,15 +30,16 @@ var url = domain + port + "/" + baseDirectory + "/"; // a concatenation of
 			$http.get(url + "format")
 			.then(response => {
 				this.fList = response.data;
-			});//$http end;
-		};//getFormatList() end
+			});// $http end;
+		};// getFormatList() end
 		
 		angular.element(document).ready(() => {
 			this.getFormatList();
-		}); //angular element end
-	}); //FormatController end
+		}); // angular element end
+	}); // FormatController end
 
 	app.controller('QuestionController', function($http) {
+		
 		this.formatSet = false;
 		this.questionTextChanged = false;
 		this.optionTextChanged = false;
@@ -60,32 +62,34 @@ var url = domain + port + "/" + baseDirectory + "/"; // a concatenation of
 				correct: -1
 		};
 		this.question = {
-			questionId : 0,
-			questionText : '',
+			question: {
+				questionId : 0,
+				questionText : '',
+			},
 			format : {
 				formatId : 0,
 				formatName : ''
 			},
 			tags : null,
-			category: null,
+			categories: null,
 			multiChoice:null,
 			dragDrops:null,
 			snippetTemplate:null
 		};
 		
-		//Retrieves the List of Questions from the Database
+		// Retrieves the List of Questions from the Database
 		this.getQuestionList = () => {
 			$http.get(url + "question")
 				.then(response => {	
 					this.qList = response.data;
-				}); //$http end
-		}; //getQuestionList() end
+				}); // $http end
+		}; // getQuestionList() end
 		
-		//Adds a option to a Question being created
+		// Adds a option to a Question being created
 		this.addOption = () =>{
 			if(this.question.multiChoice == null){
 				this.question.multiChoice = [];
-			}//end if
+			}// end if
 			if(this.option.optionText == ''){
 				alert("Please enter a Option");
 			} else if(this.option.correct == -1){
@@ -97,9 +101,10 @@ var url = domain + port + "/" + baseDirectory + "/"; // a concatenation of
 						optionText: '',
 						correct: -1
 				};
-			};//end if
+			};// end if
 		};
-		//This functions ensures a user populates all the necessary fields for a question. 
+		// This functions ensures a user populates all the necessary fields for
+		// a question.
 		this.addAddQuestionButton = (x) => {
 			switch(x) {
 			
@@ -116,12 +121,12 @@ var url = domain + port + "/" + baseDirectory + "/"; // a concatenation of
 				this.correctValue = true;
 				break;
 			default:
-			} //switch end
+			} // switch end
 			
 			if(this.formatSet == true && this.questionTextChanged == true && this.optionTextChanged == true && this.correctValue == true){
 				this.addButton = true;
 			}
-		}; //addAddQuestionButton end
+		}; // addAddQuestionButton end
 		
 		this.addQuestion = () => {
 			this.question.format = this.format;
@@ -131,7 +136,7 @@ var url = domain + port + "/" + baseDirectory + "/"; // a concatenation of
 				if(this.question.questionText != ''){
 					console.log("Saving ");
 					console.log(this.question);
-				$http.post(url + "question", this.question)
+				$http.post(url + "fullQuestion", this.question)
 					.success((response) => {
 						this.question = response.data;
 						if (this.question == null) {
@@ -139,25 +144,27 @@ var url = domain + port + "/" + baseDirectory + "/"; // a concatenation of
 						} else {
 							this.getQuestionList();
 							this.question = {
+								question :{	
 									questionId : 0,
-									questionText : '',
+									questionText : ''
+										},
 									format : {
 										formatId : 0,
 										formatName : ''
 									},
 									tags : null,
-									category: null,
+									categories: null,
 									multiChoice:null,
 									dragDrops:null,
 									snippetTemplate:null
-								}; //this.question end
-							};//inner most if end 
-						}); //$http end
+								}; // this.question end
+							};// inner most if end
+						}); // $http end
 					} else {
 					alert("Please Enter A Question Text");
-				}//mid if end
-			}	//outer if end	
-		}; //addQuestion() end
+				}// mid if end
+			}	// outer if end
+		}; // addQuestion() end
 
 		this.deleteQuestion = () => {
 			$http.delete(url + "question/" + this.deleteme)
@@ -167,8 +174,8 @@ var url = domain + port + "/" + baseDirectory + "/"; // a concatenation of
 				})
 				.error(() => {
 					alert("unable to properly delete the question");
-				}); //$http end
-		}; //deleteQuestion end
+				}); // $http end
+		}; // deleteQuestion end
 		
 		this.showUpdateQuestion = (aQuestion) => {
 			if(this.question == null){
@@ -176,8 +183,8 @@ var url = domain + port + "/" + baseDirectory + "/"; // a concatenation of
 			} else {
 				this.updatedQuestion = aQuestion;
 				this.show = true;
-			}	//if end
-		}; //showUpdateQuestion end
+			}	// if end
+		}; // showUpdateQuestion end
 
 		this.updateQuestion = () => {
 			this.question.format = questionformat;
@@ -192,35 +199,37 @@ var url = domain + port + "/" + baseDirectory + "/"; // a concatenation of
 						} else {
 							this.getQuestionList();
 							this.question = {
-									questionId : 0,
-									questionText : '',
+									question : {
+										questionId : 0,
+										questionText : ''
+									},
 									format : {
 										formatId : 0,
 										formatName : ''
 									},
-									tags : [],
-									category: [],
-									multiChoice:[],
-									dragDrops:[],
-									snippetTemplate:[]
-								};	//this.question end	
+									tags : null,
+									categories: null,
+									multiChoice:null,
+									dragDrops: null,
+									snippetTemplate:null
+								};	// this.question end
 							this.show = false;
-						} //inner if end
-					}); //$http end
-			}; //outer if end
+						} // inner if end
+					}); // $http end
+			}; // outer if end
 			
-			} //updateQuestion() end
+			} // updateQuestion() end
 		angular.element(document).ready(() => {
 			this.getQuestionList();
-		}); //angular.element end
-	}); //QuestionController end
+		}); // angular.element end
+	}); // QuestionController end
 	
 	app.controller('CategoryController', function($http){
 			
-	}); //CategoryController end
+	}); // CategoryController end
 	app.controller('TagController', function($http){
 			
-	}); //TagController end
+	}); // TagController end
 	
 	
 })// the end of the closure

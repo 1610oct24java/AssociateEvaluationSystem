@@ -56,7 +56,6 @@ public class Option implements Serializable {
 	public Option() {
 		super();
 	}
-
 	
 	public Option(Integer optionId, String optionText, Integer correct) {
 		this();
@@ -69,7 +68,6 @@ public class Option implements Serializable {
 		this(optionId, optionText, correct);
 		this.question = question;
 	}
-
 
 	public Integer getOptionId() {
 		return optionId;

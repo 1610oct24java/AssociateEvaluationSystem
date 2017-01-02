@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.aes.beans.Format;
 import com.revature.aes.beans.Question;
+import com.revature.aes.beans.QuestionOptionsJSONHandler;
 import com.revature.aes.services.QuestionService;
 
 /**
@@ -51,7 +52,6 @@ public class QuestionRestController
 			produces = { MediaType.APPLICATION_JSON_VALUE })
 	public Question addQuestion(@RequestBody Question question)
 	{
-		System.out.println("Rest Controller: " + question.toString());
 		return questionService.addQuestion(question);
 	}
 
@@ -120,4 +120,9 @@ public class QuestionRestController
 		questionService.deleteQuestionById(id);
 	}
 	
+	@RequestMapping(value ="fullQuestion", method = RequestMethod.POST)
+	public Question addFullQuestion(@RequestBody QuestionOptionsJSONHandler question ){
+		System.out.println(question);
+		return questionService.addFullQuestion(question);
+	}
 }

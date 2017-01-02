@@ -60,7 +60,7 @@ public class Question implements Serializable {
 	 * IE True or False for a True/False Format question.
 	 */
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL,mappedBy="question")
+	@OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.MERGE,mappedBy="question")
 	private List<Option> multiChoice; 
 	
 	@JsonIgnore
