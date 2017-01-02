@@ -1,12 +1,22 @@
 package com.revature.aes.beans;
 
-import javax.persistence.*;
 import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "aes_assessment_drag_drop")
 public class AssessmentDragDrop implements Serializable {
-
+	
 	private static final long serialVersionUID = -6980285894791938854L;
 	
 	@Id
@@ -29,7 +39,7 @@ public class AssessmentDragDrop implements Serializable {
 	public AssessmentDragDrop() {
 		super();
 	}
-
+	
 	@Override
 	public String toString() {
 		return "AssessmentDragDrop [userOrder=" + userOrder + ", assessmentId=" + assessmentId + ", dragDrop="

@@ -1,7 +1,14 @@
 package com.revature.aes.beans;
 
-import javax.persistence.*;
 import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 
 @Entity
@@ -27,7 +34,7 @@ public class Tag implements Serializable
 	 */
 	@Column(name="TAG_NAME")
 	private String tagName;
-
+	
 	public Tag() {
 		super();
 	}
@@ -86,5 +93,5 @@ public class Tag implements Serializable
 	@Override
 	public String toString() {
 		return "Tag [tagId=" + tagId + ", tagName=" + tagName + "]";
-	}
+	}	
 }

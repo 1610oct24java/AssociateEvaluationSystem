@@ -34,5 +34,13 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/ojdbc7.jar"/>
+<<<<<<< HEAD
+=======
+	<classpathentry excluding="**" kind="src" output="target/classes" path="src/main/resources">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+>>>>>>> dfb7854e3d6ff3d35bfe85fee2f46f108022a828
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

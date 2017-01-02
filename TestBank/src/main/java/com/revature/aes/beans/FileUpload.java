@@ -1,7 +1,16 @@
 package com.revature.aes.beans;
 
-import javax.persistence.*;
 import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "aes_file_upload")
@@ -56,6 +65,7 @@ public class FileUpload implements Serializable {
 	@Override
 	public String toString() {
 		return "FileUpload [fileId=" + fileId + ", fileUrl=" + fileUrl + ", grade=" + grade + ", assessmentId="
+				
 				+ "]";
 	}
 }
