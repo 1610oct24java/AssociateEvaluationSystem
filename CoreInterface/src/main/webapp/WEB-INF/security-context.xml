@@ -15,6 +15,7 @@
 		login-processing-url="/login"
 		authentication-failure-url="/login?error"
 		default-target-url="/home"/>
+		<logout/>
 		<csrf disabled="true"/>
 	</http>
 
