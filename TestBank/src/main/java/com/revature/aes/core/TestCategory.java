@@ -1,5 +1,6 @@
 package com.revature.aes.core;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,19 @@ public class TestCategory {
 		cservice.deleteCategory(category);
 	}
 	public void testQuestionCategory(){
-		cservice.linkToQuestion(6, 2);
+		Question question = qservice.getQuestionById(1);
+		Category category = cservice.getCategoryById(2);
+		Set<Category> categories = new HashSet<Category>();
+		categories.add(category);
+		category = cservice.getCategoryById(1);
+		categories.add(category);
+		question.setCategory(categories);
+		qservice.addQuestion(question);
 	}
 }
+
+
+
+
+
+
