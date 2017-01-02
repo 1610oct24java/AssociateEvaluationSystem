@@ -33,6 +33,15 @@ var app;
 					// success
 					(response) => {
 						console.log(response);
+						// add new category to the list
+						this.categories.push({
+							categoryId : this.newCategory.categoryId,
+							name: this.newCategory.name});
+						// clear the textbox
+						this.newCategory = {
+							categoryId : 0,
+							name : ''
+						};
 					},
 					// failure
 					() => {
@@ -46,12 +55,21 @@ var app;
 				// success
 				(response) => {
 					console.log(response);
+					this.categories.splice(this.findIndexOfCategory(), 1);
+					this.delCategory = '';
 				},
 				// failure
 				() => {
 					alert("Unable to remove category!")
 				}
 			);
+		};
+		this.findIndexOfCategory = () =>{
+			for(var i=0;i<this.categories.length;i++){
+				if (this.categories[i].name == this.delCategory){
+					return i;
+				}
+			}
 		};
 		this.getCategories();
 	});
