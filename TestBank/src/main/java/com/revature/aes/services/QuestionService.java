@@ -33,8 +33,6 @@ public interface QuestionService {
 
 	public Set<Question> getAllQuestionsByCategory(Category category);
 	
-	public Question updateQuestionById(Question question);
-	
 	public void deleteQuestionById(Integer id);
 
 	public Question addFullQuestion(QuestionOptionsJSONHandler question);
