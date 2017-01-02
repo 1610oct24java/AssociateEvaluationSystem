@@ -22,8 +22,6 @@ import com.revature.aes.beans.Question;
 
 @Repository("questionDao")
 public interface QuestionDAO extends JpaRepository<Question, Integer>
-{
-	
+{	
 	public List<Question> findAllQuestionsByFormat(Format format);
-
 }

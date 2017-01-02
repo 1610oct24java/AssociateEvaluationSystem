@@ -31,6 +31,7 @@ import com.revature.aes.beans.Question;
 import com.revature.aes.beans.QuestionOptionsJSONHandler;
 import com.revature.aes.beans.SnippetTemplate;
 import com.revature.aes.beans.Tag;
+import com.revature.aes.daos.OptionsDAO;
 import com.revature.aes.daos.QuestionDAO;
 
 @Service("QuestionServiceImpl")
@@ -41,6 +42,8 @@ public class QuestionServiceImpl implements QuestionService
 	@Qualifier("questionDao")
 	private QuestionDAO qdao;
 
+	@Autowired
+	private OptionsDAO odao;
 	/**
 	 * Adds a Question to the Database
 	 * @param The Question to be persisted to the database 
@@ -128,7 +131,8 @@ public class QuestionServiceImpl implements QuestionService
 	 */
 	@Override
 	public Question addFullQuestion(QuestionOptionsJSONHandler question) {
-		Question baseQuestion = question.getQuestion();	
+		
+		Question baseQuestion = addQuestion(question.getQuestion());	
 		Format format = question.getFormat();
 		List<Option> multiChoiceList = new ArrayList<>();
 		Option[] multiChoice = question.getMultiChoice();
@@ -140,11 +144,14 @@ public class QuestionServiceImpl implements QuestionService
 		Tag[] tags = question.getTags();
 		Set<Tag> tagSet = new HashSet<>();
 		
+		
 		if(multiChoice != null){
 			for(Option option : multiChoice){
-				multiChoiceList.add(option);
+				option.setQuestion(baseQuestion);
+				odao.saveAndFlush(option);
 			}
 		}
+		
 		if(categories != null){
 			for(Category cat : categories){
 				categorySet.add(cat);
@@ -162,16 +169,8 @@ public class QuestionServiceImpl implements QuestionService
 				tagSet.add(tag);
 			}
 		}
-		
-		baseQuestion.setFormat(format);
-		baseQuestion.setMultiChoice(multiChoiceList);
-		baseQuestion.setCategory(categorySet);
-		baseQuestion.setDragDrops(dragDropSet);
-		baseQuestion.setSnippetTemplate(snippetTemplate);
-		baseQuestion.setTags(tagSet);
-	
-		System.out.println(baseQuestion);
-		return addQuestion(baseQuestion);
+
+		return baseQuestion;
 	}
 
 

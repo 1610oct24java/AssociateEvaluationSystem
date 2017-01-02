@@ -45,7 +45,6 @@ var url =  /*domain + port + */"/" + baseDirectory + "/"; // a concatenation
 		this.optionTextChanged = false;
 		this.correctValue = false;
 		this.addButton = false;
-		this.format;
 		this.updatedQuestion;
 		this.show = false;
 		this.qList;
@@ -65,10 +64,10 @@ var url =  /*domain + port + */"/" + baseDirectory + "/"; // a concatenation
 			question: {
 				questionId : 0,
 				questionText : '',
-			},
-			format : {
-				formatId : 0,
-				formatName : ''
+				format : {
+					formatId : 0,
+					formatName : ''
+				}
 			},
 			tags : null,
 			categories: null,
@@ -129,8 +128,8 @@ var url =  /*domain + port + */"/" + baseDirectory + "/"; // a concatenation
 		}; // addAddQuestionButton end
 		
 		this.addQuestion = () => {
-			this.question.format = this.format;
-			if (this.question.format.formatId === 0) {
+			this.question.question.format = this.format;
+			if (this.question.question.format.formatId === 0) {
 				alert("please choose a format type");
 			} else {
 				if(this.question.questionText != ''){
@@ -144,14 +143,14 @@ var url =  /*domain + port + */"/" + baseDirectory + "/"; // a concatenation
 						} else {
 							this.getQuestionList();
 							this.question = {
-								question :{	
+								question : {	
 									questionId : 0,
-									questionText : ''
-										},
+									questionText : '',
 									format : {
 										formatId : 0,
 										formatName : ''
-									},
+									}
+								},
 									tags : null,
 									categories: null,
 									multiChoice:null,
@@ -187,7 +186,7 @@ var url =  /*domain + port + */"/" + baseDirectory + "/"; // a concatenation
 		}; // showUpdateQuestion end
 
 		this.updateQuestion = () => {
-			this.question.format = questionformat;
+			this.question.question.format = questionformat;
 			if (questionformat.formatId === 0) {
 				alert("please choose a format type");
 			} else {
@@ -201,11 +200,11 @@ var url =  /*domain + port + */"/" + baseDirectory + "/"; // a concatenation
 							this.question = {
 									question : {
 										questionId : 0,
-										questionText : ''
-									},
-									format : {
-										formatId : 0,
-										formatName : ''
+										questionText : '',
+										format : {
+											formatId : 0,
+											formatName : ''
+										}
 									},
 									tags : null,
 									categories: null,
