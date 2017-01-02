@@ -1,9 +1,11 @@
 package com.revature.aes.service;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -17,8 +19,6 @@ import com.revature.aes.dao.UserDao;
  * interacts with the UserDao as well as the SecurityService 
  * to create/read/update/remove users to/from the database.
  * 
- * Pretty straightforward.
- * 
  * @author Michelle Slay
  * @author Willie Jensen
  */
@@ -26,6 +26,7 @@ import com.revature.aes.dao.UserDao;
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
+	Logger log = Logger.getRootLogger();
 	
 	@Autowired
 	private UserDao dao;
@@ -33,6 +34,8 @@ public class UserServiceImpl implements UserService {
 	private SecurityService security;
 	@Autowired
 	private RoleService role;
+	@Autowired
+	private RestServices client;
 
 	@Override
 	public User findUserByEmail(String email) {
@@ -45,13 +48,15 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	/**
-	 * The following method needed a little bit of added complexity by making it 
-	 * a transaction. We didn't want it to be possible to add a user
-	 * but have the password adding fail.
+	 * createCandidate creates a candidate and adds them to the database.
 	 * 
-	 *  The pattern is necessary to work with the DATE format in 
-	 *  Oracle SQL. It's possible that a different format would be 
-	 *  usable with a different kind of database.
+	 * The following method needed a little bit of added complexity by making it 
+	 * a transaction. We didn't want it to be possible to add a user but have 
+	 * the password adding fail.
+	 * 
+	 *  The pattern is necessary to work with the DATE format in Oracle SQL. 
+	 *  It's possible that a different format is required for a different kind 
+	 *  of database but that's your problem.
 	 */
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
@@ -67,7 +72,9 @@ public class UserServiceImpl implements UserService {
 		
 		dao.save(candidate);
 		
-		security.createSecurity(candidate);
+		String pass = security.createSecurity(candidate);
+		
+		client.finalizeCandidate(candidate, pass);
 		
 		return candidate;
 	}
@@ -77,5 +84,57 @@ public class UserServiceImpl implements UserService {
 		int recruiterId = dao.findUserByEmail(email).getUserId();
 		
 		return dao.findUsersByRecruiterId(recruiterId);
+	}
+
+	@Override
+	public User findUserById(int id) {
+		return dao.getOne(id);
+	}
+
+	@Override
+	public User findUserByIndex(int index, String email) {
+		// 
+		List<User> users = findUsersByRecruiter(email);
+		if(index >= users.size())
+			return null;
+		return users.get(index);
+	}
+
+	@Override
+	public User updateCandidate(User updates, String email, int index) {
+		// 
+		User candidate = findUserByIndex(index, email);
+		if(candidate == null)
+			return null;
+		
+		Date passIssued;
+
+		String inFormat = "yyyy-MM-dd HH:mm:ss.S";
+		String outFormat = "dd-MMM-yy";
+		SimpleDateFormat inFmt = new SimpleDateFormat(inFormat);
+		SimpleDateFormat outFmt = new SimpleDateFormat(outFormat);
+		
+		try {
+			passIssued = inFmt.parse(candidate.getDatePassIssued());
+			candidate.setDatePassIssued(outFmt.format(passIssued));
+		} catch (ParseException e) {
+			log.error(e);
+			return null;
+		}
+
+		candidate.setFirstName(updates.getFirstName());
+		candidate.setLastName(updates.getLastName());
+		candidate.setFormat(updates.getFormat());
+		candidate.setEmail(updates.getEmail());
+		
+		return candidate;
+	}
+
+	@Override
+	public void removeCandidate(String email, int index) {
+		// 
+		User candidate = findUsersByRecruiter(email).get(index);
+		
+		dao.delete(candidate);
 	}
 }

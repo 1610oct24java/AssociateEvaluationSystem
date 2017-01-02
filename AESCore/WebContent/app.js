@@ -38,6 +38,8 @@ app.controller('RegisterCanidateCtrl', function($scope,$location,$http) {
 
 		console.log(canidateInfo);
 
+		
+		
 		$scope.firstName = '';
 		$scope.lastName = '';
 		$scope.email = '';
