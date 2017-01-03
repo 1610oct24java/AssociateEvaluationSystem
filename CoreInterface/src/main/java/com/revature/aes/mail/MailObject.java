@@ -13,10 +13,17 @@ public class MailObject {
 	
 	public MailObject(String link, String tempPass, String type, int assesmentId) {
 		super();
-		this.link = link;
-		this.tempPass = tempPass;
-		this.type = type;
-		this.assessmentId = assesmentId;
+		try{
+			this.link = link;
+			this.tempPass = tempPass;
+			this.type = type;
+			this.assessmentId = assesmentId;
+		}catch(NullPointerException npe){
+			this.link = link;
+			this.tempPass = tempPass;
+			this.type = type;
+			this.assessmentId = 0;
+		}
 	}
 	
 	public void setAssesmentId(int assesmentId){
