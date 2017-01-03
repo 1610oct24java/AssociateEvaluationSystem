@@ -53,10 +53,12 @@ public class QuestionServiceImpl implements QuestionService
 	public Question addQuestion(Question question)
 	{
 		//ensures question text isn't null or an empty string.
-		if(question.getQuestionText() == null || question.getQuestionText().trim() == "")
+		if(question.getQuestionText().trim() == "" || question.getQuestionText() == null  )
 		{
+			System.out.println("in if");
 			return null;
 		}
+		System.out.println("should be saving: " + question);
 		return qdao.save(question);
 	}
 
@@ -152,14 +154,21 @@ public class QuestionServiceImpl implements QuestionService
 		Set<Tag> tagSet = new HashSet<>();
 		List<Option> options = new ArrayList<>();
 		
+		System.out.println(baseQuestion);
+		baseQuestion = qdao.saveAndFlush(baseQuestion);
 		if(multiChoice != null){
 			for(Option option : multiChoice){
 				option.setQuestion(baseQuestion);
-				options.add(option);
+				odao.saveAndFlush(option);
 			}
 		}
 		
-		odao.save(options);	
+		System.out.println("base Question: sAF" + baseQuestion);
+	
+		baseQuestion.setMultiChoice(options);
+		
+	
+		//odao.save(options);	
 		
 		if(categories != null){
 			for(Category cat : categories){
