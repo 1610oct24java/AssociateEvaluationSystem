@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ValidationController {
 	
-	@RequestMapping(value="/user")
+	@RequestMapping(value="/auth")
 	public Principal user(Principal user){
 		return user;
 	}

@@ -20,6 +20,8 @@ public class RecruiterController {
 	
 	@RequestMapping(value="/recruiter/{email}/candidates", method=RequestMethod.POST)
 	public User createCandidate(@RequestBody User candidate, @PathVariable String email){
+		System.out.println("HEY: " + candidate);
+		System.out.println("HEYHEY: " + email);
 		return userService.createCandidate(candidate, email);
 	}
 	
