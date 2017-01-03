@@ -1,8 +1,12 @@
 package com.revature.aes.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,14 +28,42 @@ public class CustomUserDetailsService implements UserDetailsService {
 	@Autowired
 	SecurityService sService;
 	
-	
 	@Override
 	public UserDetails loadUserByUsername(String arg0) throws UsernameNotFoundException {
 		com.revature.aes.beans.User user = uService.findUserByEmail(arg0);
 		Security security = sService.findSecurityByUserId(user.getUserId());
+		if(!this.checkForValidPassword(user, security)) {
+			security.setPassword("");
+		}
 		return new User(arg0, security.getPassword(), getAuthorities(user.getRole().getRoleTitle()));
 	}
 
+    public boolean checkForValidPassword(com.revature.aes.beans.User user, Security security) {
+    	if(security.getValid() == 1) {
+			String pattern = "dd-MMM-yy";
+			SimpleDateFormat fmt = new SimpleDateFormat(pattern);
+			String date = fmt.format(new Date());
+			Date currentDate = null;
+			Date passwordDate = null;
+			try {
+				currentDate = fmt.parse(date);
+				fmt = new SimpleDateFormat("yyyy-MM-dd");
+				passwordDate = fmt.parse(user.getDatePassIssued().substring(0,10));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			long diff = currentDate.getTime() - passwordDate.getTime();
+			long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+			if("Candidate".equals(user.getRole().getRoleTitle()) && days > 7) {
+				security.setValid(0);
+				sService.updateSecurity(security);
+			} else {
+				return true;
+			}
+    	}
+    	return false;
+    }
+	
     public Collection<? extends GrantedAuthority> getAuthorities(String role) {
         return getGrantedAuthorities(getRoles(role));
     }
