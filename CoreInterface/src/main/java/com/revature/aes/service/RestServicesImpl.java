@@ -37,7 +37,7 @@ public class RestServicesImpl implements RestServices {
 		
 		AssessmentAuth auth = new AssessmentAuth();
 		auth.setUrlAssessment(link);
-		auth.setUrlAuth("https://localhost:8443/core/");
+		auth.setUrlAuth("http://localhost:8080/core/");
 		auth.setUserId(userId);
 		
 		authService.save(auth);

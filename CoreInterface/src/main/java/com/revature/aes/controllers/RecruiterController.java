@@ -28,7 +28,6 @@ public class RecruiterController {
 	public User createCandidate(@RequestBody User candidate, @PathVariable String email){
 		Map<String,String> map = userService.createCandidate(candidate, email);
 		User u = userService.findUserByEmail(candidate.getEmail());
-		System.out.println("USER: " + u);
 		mailService.sendPassword(map.get("email"), map.get("link"), map.get("pass"));
 		return u;
 	}
