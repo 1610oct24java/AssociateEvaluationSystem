@@ -7,23 +7,25 @@ import com.revature.aes.beans.AssessmentRequest;
 import com.revature.aes.beans.Category;
 import com.revature.aes.beans.Format;
 import com.revature.aes.beans.Question;
+import com.revature.aes.daos.CategoryDAO;
 import com.revature.aes.daos.QuestionDAO;
 
 public class SystemTemplate {
 
 	private QuestionDAO qDao;
+	private CategoryDAO cDao;
 
 	/**
 	 * 
 	 * @param assReq
-	 *            is the AssessmentRequest object being passed in from Core team
+	 *            The AssessmentRequest object being passed in from Core team
 	 *            containing the amount of questions for a specific format and
 	 *            the category.
 	 * @return The list of questions taken from the database for the template.
 	 */
 	public List<Question> getRandomSelectionFromCategory(AssessmentRequest assReq) {
 
-		String name = assReq.getCategory();
+		String catName = assReq.getCategory();
 		int multiChoice = assReq.getMcQuestions();
 		int multiSelect = assReq.getMsQuestions();
 		int dragDrop = assReq.getDdQuestions();
@@ -31,8 +33,10 @@ public class SystemTemplate {
 		List<Question> AssessList = new ArrayList<Question>();
 
 		// set instead of list
-		Category cat = (Category) qDao.findCategoryByName(name);
-		List<Question> filteredQuestions = qDao.findByCategory(cat);
+		System.out.println("The category name: " + catName);
+		Category cat = (Category) cDao.getByName(catName);
+		System.out.println("The category object: " + cat.toString());
+		List<Question> filteredQuestions = (List<Question>) qDao.findAllQuestionsByCategory(cat);
 		List<Question> formatList = null;
 
 		// Make a separate method instead of repeating this four times.
