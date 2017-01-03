@@ -44,7 +44,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 			SimpleDateFormat fmt = new SimpleDateFormat(pattern);
 			String date = fmt.format(new Date());
 			Date currentDate = new Date();
-			Date passwordDate = null;
+			Date passwordDate = new Date();
 			try {
 				currentDate = fmt.parse(date);
 				fmt = new SimpleDateFormat("yyyy-MM-dd");
