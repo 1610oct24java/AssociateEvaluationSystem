@@ -12,7 +12,6 @@
 
 package com.revature.aes.services;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -29,7 +28,6 @@ import com.revature.aes.beans.Format;
 import com.revature.aes.beans.Option;
 import com.revature.aes.beans.Question;
 import com.revature.aes.beans.QuestionOptionsJSONHandler;
-import com.revature.aes.beans.SnippetTemplate;
 import com.revature.aes.beans.Tag;
 import com.revature.aes.daos.OptionsDAO;
 import com.revature.aes.daos.QuestionDAO;

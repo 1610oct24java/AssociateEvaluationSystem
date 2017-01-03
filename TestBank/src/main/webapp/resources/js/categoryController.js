@@ -4,6 +4,7 @@ var url = "http://localhost:8080/TestBank/";
 var app;
 
 (function() {
+	
 	app = angular.module("myCatMod", [ "ui.bootstrap", "ui.bootstrap.tpls" ]);
 	app.controller("CatModCtrl", function($http) {
 		this.categories =[];
@@ -12,6 +13,7 @@ var app;
 				categoryId : 0,
 				name : ''
 		};
+		
 		this.getCategories = () =>{
 			$http.get(url + "category").then(
 				// success
@@ -24,6 +26,7 @@ var app;
 				}
 			); 	
 		};
+		
 		this.saveCategory = () =>{
 			if(this.newCategory.name == ''){
 				alert("Please enter a name for the category");
@@ -49,6 +52,7 @@ var app;
 				);
 			}
 		};
+		
 		this.deleteCategory = () =>{
 			$http.delete(url + "category/" + this.delCategory).then(
 				// success
@@ -62,6 +66,7 @@ var app;
 				}
 			);
 		};
+		
 		// Find the index of the category matching delCategory.
 		// The index is needed to remove the element from the list.
 		this.findIndexOfCategory = () =>{
@@ -71,6 +76,9 @@ var app;
 				}
 			}
 		};
+		
 		this.getCategories();
+		
 	});
+	
 })();
