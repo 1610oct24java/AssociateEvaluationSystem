@@ -278,9 +278,7 @@ i {
 
 /* The navigation menu links */
 .sidenav a {
-    padding: 0px 8px 0px 32px;
     text-decoration: none;
-    font-size: 25px;
     color: #434851;
     display: block;
     transition: 0.3s;
@@ -289,6 +287,11 @@ i {
 /* When you mouse over the navigation links, change their color */
 .sidenav a:hover, .offcanvas a:focus{
     color: #f26925;
+}
+
+.sidenav .navbar-link {
+	padding: 0px 8px 0px 32px;
+	font-size: 25px;
 }
 
 /* Position and style the close button (top right corner) */
@@ -351,4 +354,8 @@ i {
 @media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
+}
+
+nav-link {
+	font-size: 12px !important;
 }
