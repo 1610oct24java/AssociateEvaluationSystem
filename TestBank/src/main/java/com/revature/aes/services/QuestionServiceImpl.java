@@ -12,13 +12,13 @@
 
 package com.revature.aes.services;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -143,7 +143,6 @@ public class QuestionServiceImpl implements QuestionService
 	public Question addFullQuestion(QuestionOptionsJSONHandler question) {
 		
 		Question baseQuestion = addQuestion(question.getQuestion());	
-		Format format = question.getFormat();
 		Option[] multiChoice = question.getMultiChoice();
 		Set<Category> categorySet = new HashSet<>();
 		Category[] categories = question.getCategories();
@@ -151,15 +150,16 @@ public class QuestionServiceImpl implements QuestionService
 		DragDrop[] dragDrops = question.getDragDrops();
 		Tag[] tags = question.getTags();
 		Set<Tag> tagSet = new HashSet<>();
-		
-		baseQuestion.setFormat(format);
+		List<Option> options = new ArrayList<>();
 		
 		if(multiChoice != null){
 			for(Option option : multiChoice){
 				option.setQuestion(baseQuestion);
-				odao.saveAndFlush(option);
+				options.add(option);
 			}
 		}
+		
+		odao.save(options);	
 		
 		if(categories != null){
 			for(Category cat : categories){
