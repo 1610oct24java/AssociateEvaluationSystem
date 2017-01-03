@@ -60,7 +60,7 @@ public class Mail {
 			
 			case "candidateCompleted":
 				
-				int grade = ad.findAssesmentByUser(candidate).getGrade(); //*******change ID to what I get in mail object
+				int grade = ad.findAssesmentByUser(candidate).getGrade(); 
 				//argument for this is if this is eventually going to be for lms then there needs to be a new 
 				//service that gets all the grades for an ASSOCIATE, not the ONE for the candidate.
 				//send email to recruiter with grade

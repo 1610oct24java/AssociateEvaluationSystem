@@ -1,6 +1,12 @@
 package com.revature.aes.mail;
 
+import org.apache.log4j.Logger;
+
+import com.revature.aes.logging.*;
+
 public class MailObject {
+	
+	private Logger log = Logger.getRootLogger();
 	
 	private String link;
 	private String tempPass;
@@ -19,6 +25,8 @@ public class MailObject {
 			this.type = type;
 			this.assessmentId = assesmentId;
 		}catch(NullPointerException npe){
+			log.info("Setting assesmentId to 0." + npe);
+			
 			this.link = link;
 			this.tempPass = tempPass;
 			this.type = type;
