@@ -1,6 +1,5 @@
 package com.revature.aes.beans;
 
-import javax.persistence.*;
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -34,7 +33,7 @@ public class Format implements Serializable {
 	 */
 	@Column(name = "FORMAT_NAME")
 	private String formatName;
-
+	
 	public Format() {
 		super();
 	}
@@ -100,4 +99,5 @@ public class Format implements Serializable {
 	public String toString() {
 		return "Format [formatId=" + formatId + ", formatName=" + formatName + "]";
 	}
+
 }

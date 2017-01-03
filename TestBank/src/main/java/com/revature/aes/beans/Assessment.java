@@ -168,4 +168,5 @@ public class Assessment implements Serializable {
 				+ ", template=" + template + ", options=" + options + ", assessmentDragDrop=" + assessmentDragDrop
 				+ ", fileUpload=" + fileUpload + ", snippedTemplate=" + snippedTemplate + "]";
 	}
+
 }

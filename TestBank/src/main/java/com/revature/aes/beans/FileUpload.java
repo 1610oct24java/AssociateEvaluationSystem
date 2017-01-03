@@ -25,15 +25,15 @@ public class FileUpload implements Serializable {
 	@GeneratedValue(generator = "file_upload_seq", strategy = GenerationType.SEQUENCE)
 	private int fileId;
 
-	@ManyToOne(fetch=FetchType.EAGER)
-    @JoinColumn(name="ASSESSMENT_ID")
-    private Assessment assessmentId;
-	
 	@Column(name = "file_url")
 	private String fileUrl;
 
 	@Column(name = "grade")
 	private int grade;
+
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="ASSESSMENT_ID")
+	private Assessment assessmentId;
 
 	public FileUpload() {
 		super();
