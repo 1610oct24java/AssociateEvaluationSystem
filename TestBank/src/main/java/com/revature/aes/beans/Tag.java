@@ -95,9 +95,4 @@ public class Tag implements Serializable
 	public String toString() {
 		return "Tag [tagId=" + tagId + ", tagName=" + tagName + "]";
 	}
-
 }
-
-
-	
-

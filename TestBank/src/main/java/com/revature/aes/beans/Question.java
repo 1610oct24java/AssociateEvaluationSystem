@@ -1,5 +1,6 @@
 package com.revature.aes.beans;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
@@ -224,6 +225,4 @@ public class Question implements Serializable {
 				+ ", tags=" + tags + ", category=" + category + ", multiChoice=" + multiChoice + ", dragDrops="
 				+ dragDrops + ", snippetTemplate=" + snippetTemplate + "]";
 	}
-	
-
 }
