@@ -22,12 +22,6 @@ public class TestController
 	@RequestMapping(path="/test",method=RequestMethod.GET)
 	public String testParse(ModelMap map, HttpSession session)
 	{
-		cat.testQuestionCategory();
-		//cat.testAddCategory();
-		//cat.testDeleteCategory();
-		//System.out.println("get questions by category!");
-		//cat.testGetQuestionsByCategory();
-		//csv.parseCSV(session.getServletContext().getRealPath("/")+"test.csv");
 		return "resources/pages/RevatureTemplate.html";
 	}
 }

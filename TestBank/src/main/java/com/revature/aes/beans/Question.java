@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,6 +19,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -60,7 +62,8 @@ public class Question implements Serializable {
 	 * IE True or False for a True/False Format question.
 	 */
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL,mappedBy="question")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="question")
+	@Cascade({CascadeType.SAVE_UPDATE}) //http://www.mkyong.com/hibernate/cascade-jpa-hibernate-annotation-common-mistake/ 
 	private List<Option> multiChoice; 
 	
 	@JsonIgnore

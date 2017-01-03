@@ -12,6 +12,8 @@
 
 package com.revature.aes.services;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -22,8 +24,14 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.revature.aes.beans.Category;
+import com.revature.aes.beans.DragDrop;
 import com.revature.aes.beans.Format;
+import com.revature.aes.beans.Option;
 import com.revature.aes.beans.Question;
+import com.revature.aes.beans.QuestionOptionsJSONHandler;
+import com.revature.aes.beans.SnippetTemplate;
+import com.revature.aes.beans.Tag;
+import com.revature.aes.daos.OptionsDAO;
 import com.revature.aes.daos.QuestionDAO;
 
 @Service("QuestionServiceImpl")
@@ -34,6 +42,8 @@ public class QuestionServiceImpl implements QuestionService
 	@Qualifier("questionDao")
 	private QuestionDAO qdao;
 
+	@Autowired
+	private OptionsDAO odao;
 	/**
 	 * Adds a Question to the Database
 	 * @param The Question to be persisted to the database 
@@ -127,6 +137,54 @@ public class QuestionServiceImpl implements QuestionService
 	public void deleteQuestionById(Integer id)
 	{
 		qdao.delete(qdao.findOne(id)); 	
+	}
+
+	/**
+	 * This method fixes the inconsistency of JSON object return an array while
+	 * our beans use various collection like Set and List.
+	 */
+	@Override
+	public Question addFullQuestion(QuestionOptionsJSONHandler question) {
+		
+		Question baseQuestion = addQuestion(question.getQuestion());	
+		Format format = question.getFormat();
+		List<Option> multiChoiceList = new ArrayList<>();
+		Option[] multiChoice = question.getMultiChoice();
+		Set<Category> categorySet = new HashSet<>();
+		Category[] categories = question.getCategories();
+		Set<DragDrop> dragDropSet = new HashSet<>();
+		DragDrop[] dragDrops = question.getDragDrops();
+		SnippetTemplate snippetTemplate = question.getSnippetTemplate();
+		Tag[] tags = question.getTags();
+		Set<Tag> tagSet = new HashSet<>();
+		
+		
+		if(multiChoice != null){
+			for(Option option : multiChoice){
+				option.setQuestion(baseQuestion);
+				odao.saveAndFlush(option);
+			}
+		}
+		
+		if(categories != null){
+			for(Category cat : categories){
+				categorySet.add(cat);
+			}
+		}
+		
+		if(dragDrops != null){
+			for(DragDrop dragDrop: dragDrops){
+				dragDropSet.add(dragDrop);
+			}
+		}
+		
+		if(tags != null){
+			for(Tag tag: tags){
+				tagSet.add(tag);
+			}
+		}
+
+		return baseQuestion;
 	}
 
 
