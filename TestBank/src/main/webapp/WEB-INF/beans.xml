@@ -23,8 +23,8 @@
 	
   <!--  this the old legacy way
   reference http://www.baeldung.com/spring-mvc-static-resources and https://spring.io/blog/2014/07/24/spring-framework-4-1-handling-static-web-resources
-  <mvc:resources location="/resources/" mapping="/resources/**"></mvc:resources> 
-  -->	
+   -->	
+   <mvc:resources location="/resources/" mapping="/resources/**"></mvc:resources> 
 	<!-- Enable Transactions -->
 	<tx:annotation-driven/>
 	

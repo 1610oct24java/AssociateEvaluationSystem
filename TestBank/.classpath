@@ -34,6 +34,5 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/ojdbc7.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/ehcache-3.2.0.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
