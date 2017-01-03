@@ -9,6 +9,7 @@
  * Authors: Matthew Beauregard, Conner Anderson, Travis Deshotels,
  * 		Edward Crader, Jon-Erik Williams 
  ****************************************************************/
+
 package com.revature.aes.daos;
 
 import java.util.List;
@@ -25,4 +26,5 @@ import com.revature.aes.beans.Question;
 public interface QuestionDAO extends JpaRepository<Question, Integer>{
 	public List<Question> findAllQuestionsByFormat(Format format);
 	public Set<Question> findAllQuestionsByCategory(Category category);
+	public Question updateQuestionById(Integer id);
 }

@@ -47,7 +47,5 @@ public class TestCategory {
 		cservice.addCategory(category);
 		cservice.deleteCategory(category);
 	}
-	public void testQuestionCategory(){
-		cservice.linkToQuestion(6, 2);
-	}
+
 }

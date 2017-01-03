@@ -9,12 +9,19 @@
  * Authors: Matthew Beauregard, Conner Anderson, Travis Deshotels,
  * 		Edward Crader, Jon-Erik Williams 
  ****************************************************************/
-package com.revature.aes.exception;
+package com.revature.aes.services;
 
-public class AikenSyntaxException extends Exception{
-	private static final long serialVersionUID = -2064804666415410169L;
+import java.util.List;
 
-	public AikenSyntaxException(String message){
-		super(message);
-	}
+import com.revature.aes.beans.Format;
+
+public interface FormatService
+{
+	//c
+	//r
+		public Format findFormatById(Integer id);
+		public List<Format> findAllFormats();
+	//u
+	//d
+	
 }

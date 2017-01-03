@@ -1,4 +1,9 @@
 /*******************************************************************************
+   12/28/2016 : Added primary keys and sequences to AES_ASSESSMENT_OPTIONS and AES_TEMPLATE_QUESTION
+********************************************************************************/
+
+
+/*******************************************************************************
    Drop Constraints
 ********************************************************************************/
 
@@ -121,6 +126,8 @@ DROP SEQUENCE aes_option_seq;
 DROP SEQUENCE aes_drag_drop_seq;
 DROP SEQUENCE aes_templates_seq;
 DROP SEQUENCE aes_assessment_auth_seq;
+CREATE SEQUENCE aes_assessment_drag_drop_seq;
+CREATE SEQUENCE aes_template_question_seq;
 
 /*******************************************************************************
    Create Tables
@@ -177,9 +184,11 @@ CREATE TABLE aes_question_category
 
 CREATE TABLE aes_assessment_drag_drop
 (
-  assessment_id   NUMBER NOT NULL,
-  drag_drop_id    NUMBER NOT NULL,
-  user_order      NUMBER
+  assessment_drag_drop_id 	NUMBER,
+  assessment_id   			NUMBER NOT NULL,
+  drag_drop_id    			NUMBER NOT NULL,
+  user_order      			NUMBER,
+  CONSTRAINT pk_aes_assessment_drag_drop PRIMARY KEY ( assessment_drag_drop_id )
 );
 
 CREATE TABLE aes_assessment_options
@@ -247,9 +256,11 @@ CREATE TABLE aes_security
 
 CREATE TABLE aes_template_question
 (
-  template_id   NUMBER NOT NULL,
-  question_id   NUMBER NOT NULL,
-  weight        NUMBER DEFAULT 1
+  template_question_id 	NUMBER,
+  template_id   		NUMBER NOT NULL,
+  question_id  			NUMBER NOT NULL,
+  weight        		NUMBER DEFAULT 1,
+  CONSTRAINT pk_aes_template_question PRIMARY KEY ( template_question_id )
 );
 
 CREATE TABLE aes_templates
@@ -358,6 +369,12 @@ CREATE SEQUENCE aes_assessment_auth_seq MINVALUE 1
                                         START WITH 1
                                         INCREMENT BY 1
                                         NOCACHE;
+/
+
+CREATE SEQUENCE aes_assessment_drag_drop_seq MINVALUE 1 START WITH 1 INCREMENT BY 1 NOCACHE;
+/
+
+CREATE SEQUENCE aes_template_question_seq MINVALUE 1 START WITH 1 INCREMENT BY 1 NOCACHE;
 /
 
 /*******************************************************************************
