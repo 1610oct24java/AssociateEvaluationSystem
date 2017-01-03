@@ -61,7 +61,8 @@ public class Mail {
 			case "candidateCompleted":
 				
 				int grade = ad.findAssesmentByUser(candidate).getGrade(); //*******change ID to what I get in mail object
-				
+				//argument for this is if this is eventually going to be for lms then there needs to be a new 
+				//service that gets all the grades for an ASSOCIATE, not the ONE for the candidate.
 				//send email to recruiter with grade
 				ms.sendEmail(ms.setupMessage(recruiterEmail, candidateName + " has completed quiz", candidateName
 						+RECRUITER_COMPLETED_BODY+String.valueOf(grade)));
