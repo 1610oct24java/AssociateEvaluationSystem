@@ -24,10 +24,6 @@ public class MailObject {
 			this.assessmentId = assesmentId;
 		}catch(NullPointerException npe){
 			log.info("Setting assesmentId to 0." + npe);
-			
-			this.link = link;
-			this.tempPass = tempPass;
-			this.type = type;
 			this.assessmentId = 0;
 		}
 	}
