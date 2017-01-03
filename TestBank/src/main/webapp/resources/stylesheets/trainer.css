@@ -1,5 +1,10 @@
 @CHARSET "ISO-8859-1";
 
+@font-face {
+  font-family: 'futura-pt';
+  src: url('../fonts/FuturaPTComplete/ParaType-FuturaPTBook.ttf');
+}
+
 body {
     font-family: 'futura-pt';
    	font-size: 14px;
@@ -7,7 +12,6 @@ body {
    	line-height: 20px;
    	word-spacing: 0px;
 }
-
 
 @media (min-width: 768px)
 .navbar-wrapper {
@@ -36,15 +40,19 @@ body {
 	font-size: 12px !important;
 }
 
+.logo img{
+	width: 180px;
+}
+
 .rev-menu li a {
-color: #474c55;
-    font-size: 14px;
-    text-decoration: none;
-    font-family: 'futura-pt';
-    padding: 0;
-    line-height: 30px;
-    background-color: initial !important;
-    font-weight: bolder;
+	color: #474c55;
+	font-size: 14px;
+	text-decoration: none;
+	font-family: 'futura-pt';
+	padding: 0;
+	line-height: 30px;
+	background-color: initial !important;
+	font-weight: bolder;
 }
 
 #navbar {
@@ -57,4 +65,24 @@ color: #474c55;
 	display: block;
 	list-style-type: none;
 	list-stytle-position: outside;
+}
+
+/* layout.css Style */
+.upload-drop-zone {
+  height: 200px;
+  border-width: 2px;
+  margin-bottom: 20px;
+}
+
+/* skin.css Style*/
+.upload-drop-zone {
+  color: #ccc;
+  border-style: dashed;
+  border-color: #ccc;
+  line-height: 200px;
+  text-align: center
+}
+.upload-drop-zone.drop {
+  color: #222;
+  border-color: #222;
 }
