@@ -49,7 +49,6 @@ public class Mail {
 				break;
 			
 			case "candidateNotCompleted":
-				
 				//send email to candidate
 				ms.sendEmail(ms.setupMessage(email, "Quiz Timer Expired", CANDIDATE_NOT_COMPLETE_BODY));
 				
@@ -66,6 +65,9 @@ public class Mail {
 				//send email to recruiter with grade
 				ms.sendEmail(ms.setupMessage(recruiterEmail, candidateName + " has completed quiz", candidateName
 						+RECRUITER_COMPLETED_BODY+String.valueOf(grade)));
+				break;
+			
+			default:
 				break;
 			}
 		}
