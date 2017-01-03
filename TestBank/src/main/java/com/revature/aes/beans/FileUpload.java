@@ -16,7 +16,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "aes_file_upload")
 public class FileUpload implements Serializable {
+	
 	private static final long serialVersionUID = 3082492540225468947L;
+	
 	@Id
 	@Column(name = "file_id")
 	@SequenceGenerator(sequenceName = "file_upload_seq", name = "file_upload_seq")
@@ -33,6 +35,9 @@ public class FileUpload implements Serializable {
 	@Column(name = "grade")
 	private int grade;
 
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="ASSESSMENT_ID")
+	private Assessment assessmentId;
 
 	public FileUpload() {
 		super();
@@ -62,6 +67,13 @@ public class FileUpload implements Serializable {
 		this.grade = grade;
 	}
 
+	public Assessment getAssessmentId() {
+		return assessmentId;
+	}
+
+	public void setAssessmentId(Assessment assessmentId) {
+		this.assessmentId = assessmentId;
+	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
@@ -69,8 +81,7 @@ public class FileUpload implements Serializable {
 
 	@Override
 	public String toString() {
-		return "FileUpload [fileId=" + fileId + ", fileUrl=" + fileUrl + ", grade=" + grade + ", assessmentId="
-				
-				+ "]";
+		return "FileUpload [fileId=" + fileId + ", fileUrl=" + fileUrl + ", grade=" + grade + "]";
 	}
+	
 }

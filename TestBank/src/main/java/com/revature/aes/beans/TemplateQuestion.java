@@ -37,7 +37,7 @@ public class TemplateQuestion implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="TEMPLATE_ID")
 	private Template template;
-
+	
 	public TemplateQuestion() {
 		super();
 	}

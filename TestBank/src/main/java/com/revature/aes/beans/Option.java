@@ -38,14 +38,17 @@ public class Option implements Serializable {
 	private String optionText;
 	/**
 	 * @correct A Integer value representing the correct answer for a question.
-	 *          Minimun value is 0, Maximun value is 1. 0 is equavalent to false
-	 *          while 1 is equavalent to true.
+	 *          Minimum value is 0, Maximum value is 1. 0 is equivalent to false
+	 *          while 1 is equivalent to true.
 	 */
 	@Min(value = 0)
 	@Max(value = 1)
 	@Column(name = "CORRECT")
 	private Integer correct;
 	
+	/**
+	 * @question The question associated with this class.
+	 */
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "QUESTION_ID")
 	private Question question;
@@ -53,7 +56,25 @@ public class Option implements Serializable {
 	public Option() {
 		super();
 	}
+	public Option(String optionText, Integer correct, Question question){
+		this();
+		this.optionText = optionText;
+		this.correct = correct;
+		this.question = question;
+	}
 	
+	public Option(Integer optionId, String optionText, Integer correct) {
+		this();
+		this.optionId = optionId;
+		this.optionText = optionText;
+		this.correct = correct;
+	}
+	
+	public Option(Integer optionId, String optionText, Integer correct, Question question) {
+		this(optionId, optionText, correct);
+		this.question = question;
+	}
+
 	public Integer getOptionId() {
 		return optionId;
 	}
@@ -84,10 +105,6 @@ public class Option implements Serializable {
 
 	public void setQuestion(Question question) {
 		this.question = question;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 
 	@Override
@@ -133,7 +150,7 @@ public class Option implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Option [optionId=" + optionId + ", optionText=" + optionText + ", correct=" + correct + ", questionId="
+		return "Option [optionId=" + optionId + ", optionText=" + optionText + ", correct=" + correct
 				+ "]";
 	}
 }

@@ -22,7 +22,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "aes_assessment")
 public class Assessment implements Serializable {
-
+	
 	private static final long serialVersionUID = -6152668317029130986L;
 	@Id
 	@Column(name = "assessment_id")
@@ -70,14 +70,6 @@ public class Assessment implements Serializable {
 
 	public Assessment() {
 		super();
-	}
-
-	@Override
-	public String toString() {
-		return "Assessment [assessmentId=" + assessmentId + ", user=" + user + ", grade=" + grade + ", timeLimit="
-				+ timeLimit + ", createdTimeStamp=" + createdTimeStamp + ", finishedTimeStamp=" + finishedTimeStamp
-				+ ", template=" + template + ", options=" + options + ", assessmentDragDrop=" + assessmentDragDrop
-				+ ", fileUpload=" + fileUpload + ", snippedTemplate=" + snippedTemplate + "]";
 	}
 
 	public int getAssessmentId() {
@@ -144,6 +136,7 @@ public class Assessment implements Serializable {
 		this.options = options;
 	}
 
+
 	public Set<AssessmentDragDrop> getAssessmentDragDrop() {
 		return assessmentDragDrop;
 	}
@@ -166,5 +159,13 @@ public class Assessment implements Serializable {
 
 	public void setSnippedTemplate(Set<SnippetTemplate> snippedTemplate) {
 		this.snippedTemplate = snippedTemplate;
+	}
+
+	@Override
+	public String toString() {
+		return "Assessment [assessmentId=" + assessmentId + ", user=" + user + ", grade=" + grade + ", timeLimit="
+				+ timeLimit + ", createdTimeStamp=" + createdTimeStamp + ", finishedTimeStamp=" + finishedTimeStamp
+				+ ", template=" + template + ", options=" + options + ", assessmentDragDrop=" + assessmentDragDrop
+				+ ", fileUpload=" + fileUpload + ", snippedTemplate=" + snippedTemplate + "]";
 	}
 }

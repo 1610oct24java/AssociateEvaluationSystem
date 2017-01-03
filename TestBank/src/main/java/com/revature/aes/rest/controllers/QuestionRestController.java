@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.aes.beans.Format;
 import com.revature.aes.beans.Question;
+import com.revature.aes.beans.QuestionOptionsJSONHandler;
 import com.revature.aes.services.QuestionService;
 
 /**
@@ -100,11 +101,11 @@ public class QuestionRestController
 	 * @param id the Id of question, cannot be null or less than 0
 	 * @return the updated Question 
 	 */
-	@RequestMapping(value ="question/{questionId}", method = RequestMethod.PUT, produces = 
+	@RequestMapping(value ="question", method = RequestMethod.PUT, produces = 
 	{ MediaType.APPLICATION_JSON_VALUE })
 	public Question updateQuestionById(@RequestBody Question question)
 	{
-		return questionService.updateQuestionById(question);
+		return questionService.updateQuestion(question);
 	}
 	
 	
@@ -119,4 +120,9 @@ public class QuestionRestController
 		questionService.deleteQuestionById(id);
 	}
 	
+	@RequestMapping(value ="fullQuestion", method = RequestMethod.POST)
+	public Question addFullQuestion(@RequestBody QuestionOptionsJSONHandler question ){
+		System.out.println(question);
+		return questionService.addFullQuestion(question);
+	}
 }

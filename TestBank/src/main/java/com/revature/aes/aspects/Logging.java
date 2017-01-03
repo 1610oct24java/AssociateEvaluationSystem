@@ -26,15 +26,16 @@ public class Logging
 {
 	private static Logger log = Logger.getRootLogger();
 	@Pointcut("execution(* com.revature.aes..*(..))")
-	public void anyMethod(){}
-	
+	public void anyMethod(){
+		// This method is a hook to be used on any method (usefull for logging.)
+	}
 	
 	@Around("anyMethod()")
-	public Object log(ProceedingJoinPoint pjp) throws Throwable{
+	public Object log(ProceedingJoinPoint pjp) {
 		MethodSignature signature = (MethodSignature) pjp.getSignature();
 		String methodClass = signature.getDeclaringTypeName().toString();
 		String method = signature.getName().toString();
-		Object result;
+		Object result = null;
 		
 		log.trace(methodClass + " ==> " + method);
 		Object[] args = pjp.getArgs();
@@ -43,9 +44,13 @@ public class Logging
 		}
 		
 		log.trace("Executing...");
-		result = pjp.proceed();
-		
-		log.trace(methodClass + " ==> " + method + " - Exit\nReturning: " + result);
+		try {
+			result = pjp.proceed();
+			log.trace(methodClass + " ==> " + method + " - Exit\nReturning: " + result);
+		} catch (Throwable e) {
+			log.warn("error in pjp" + e.getStackTrace());
+		}
+
 		return result;
 	}
 	

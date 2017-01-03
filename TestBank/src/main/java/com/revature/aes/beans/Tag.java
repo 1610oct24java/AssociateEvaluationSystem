@@ -55,6 +55,7 @@ public class Tag implements Serializable
 		this.tagName = tagName;
 	}
 
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -93,5 +94,5 @@ public class Tag implements Serializable
 	@Override
 	public String toString() {
 		return "Tag [tagId=" + tagId + ", tagName=" + tagName + "]";
-	}	
+	}
 }

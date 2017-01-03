@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="AES_CATEGORY")
-public class Category implements Serializable{
+public class Category implements Serializable {
 	/**
 	 * @serialVersionUID An auto-generated field that is used for serialization.
 	 */
@@ -35,7 +35,6 @@ public class Category implements Serializable{
 	public Category() {
 		super();
 	}
-
 
 	public Integer getCategoryId() {
 		return categoryId;
