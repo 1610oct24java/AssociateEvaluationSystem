@@ -42,13 +42,13 @@ public class Mail {
 			
 			switch (m.getType()){
 			
-			case "candidiateNeedsQuiz":
+			case "candidateNeedsQuiz":
 				
 				ms.sendEmail(ms.setupMessage(email, "Revature Quiz", CANIDATE_COMPLETED_BODY + "Link: " + m.getLink() 
 						+ "\nTemporary Pass: " + m.getTempPass()));
 				break;
 			
-			case "canidateNotCompleted":
+			case "candidateNotCompleted":
 				
 				//send email to candidate
 				ms.sendEmail(ms.setupMessage(email, "Quiz Timer Expired", CANDIDATE_NOT_COMPLETE_BODY));
