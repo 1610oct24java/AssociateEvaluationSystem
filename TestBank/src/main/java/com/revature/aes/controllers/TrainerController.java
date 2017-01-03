@@ -30,7 +30,7 @@ public class TrainerController
 	public void parseAikenFile(@RequestParam("file") MultipartFile file){
 		
 		AikenParser aikenParser = new AikenParser(file);
-		HashMap<Question, ArrayList<Option>> questionsMap = aikenParser.getQuestionsMap();
+		HashMap<Question, ArrayList<Option>> questionsMap = (HashMap<Question, ArrayList<Option>>) aikenParser.getQuestionsMap();
 		System.out.println("QUESTIONS: ");
 		for(Question q : questionsMap.keySet()){
 			System.out.println(q.toString());

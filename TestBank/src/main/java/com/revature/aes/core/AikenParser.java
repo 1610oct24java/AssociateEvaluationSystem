@@ -1,18 +1,20 @@
 package com.revature.aes.core;
-import com.revature.aes.beans.Option;
-import com.revature.aes.beans.Question;
-import com.revature.aes.exception.AikenSyntaxException;
-import com.revature.aes.exception.InvalidFileTypeException;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.revature.aes.beans.Option;
+import com.revature.aes.beans.Question;
+import com.revature.aes.exception.AikenSyntaxException;
+import com.revature.aes.exception.InvalidFileTypeException;
 
 /**
  * A parser for the Moodle Aiken format. Generates an map of Questions and their Options.
@@ -44,10 +46,9 @@ public class AikenParser {
 	 * @param url of the file to be parsed
 	 */
 	public AikenParser(MultipartFile mpFile){			
-		Map<Question, ArrayList<Option>>questionMap = new HashMap<>();
 		try {
 			parseFile(mpFile);
-		} catch (InvalidFileTypeException | AikenSyntaxException | IllegalStateException e ) {
+		} catch (AikenSyntaxException | IllegalStateException e ) {
 			e.printStackTrace();
 		} 
 	}
@@ -67,7 +68,7 @@ public class AikenParser {
 
 		    // Each loop is a new question being read
 		    while (line != null) {
-		    	Question question = getQuestion(br);
+		    	Question question = getQuestion();
 		    	ArrayList<Option> optionsList = getOptionsList(br);
 		    	
 		    	setCorrectAnswer(optionsList);
@@ -99,6 +100,7 @@ public class AikenParser {
 	 * @throws InvalidFileTypeException
 	 */
 	private void checkFileType(String url) throws InvalidFileTypeException{
+
 		if(!url.endsWith(".txt")){
 			throw new InvalidFileTypeException("Aiken files must be of type \".txt\" ");
 		}
@@ -115,9 +117,6 @@ public class AikenParser {
 		// First line will be a question
     	Question question = new Question();
     	question.setQuestionText(line);
-    	String questionString = "Question: " + line;
-    	System.out.println(questionString);
-    	
     	return question;
 	}
 	
@@ -129,12 +128,11 @@ public class AikenParser {
 	 * @throws IOException
 	 */
 	private ArrayList<Option> getOptionsList(BufferedReader br) throws IOException{	
-    	List<Option> optionsList = new ArrayList<>();
-		line = br.readLine();
-    	
 		// Create new options list for each Question
     	List<Option> optionsList = new ArrayList<>();
 		
+    	line = br.readLine();
+    			
     	// Parse lines until "ANSWER:" to retrieve Options
     	while(!line.startsWith("ANSWER:")){
     		Option option = new Option();
@@ -146,7 +144,7 @@ public class AikenParser {
     		
     		line = br.readLine();
     	}
-    	return optionsList;
+    	return (ArrayList<Option>) optionsList;
 	}
 	
 	/**

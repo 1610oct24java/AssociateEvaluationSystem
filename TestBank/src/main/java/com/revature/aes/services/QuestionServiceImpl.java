@@ -12,7 +12,6 @@
 
 package com.revature.aes.services;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -58,7 +57,6 @@ public class QuestionServiceImpl implements QuestionService
 			System.out.println("in if");
 			return null;
 		}
-		System.out.println("should be saving: " + question);
 		return qdao.save(question);
 	}
 
@@ -152,9 +150,7 @@ public class QuestionServiceImpl implements QuestionService
 		DragDrop[] dragDrops = question.getDragDrops();
 		Tag[] tags = question.getTags();
 		Set<Tag> tagSet = new HashSet<>();
-		List<Option> options = new ArrayList<>();
 		
-		System.out.println(baseQuestion);
 		baseQuestion = qdao.saveAndFlush(baseQuestion);
 		if(multiChoice != null){
 			for(Option option : multiChoice){
@@ -162,13 +158,6 @@ public class QuestionServiceImpl implements QuestionService
 				odao.saveAndFlush(option);
 			}
 		}
-		
-		System.out.println("base Question: sAF" + baseQuestion);
-	
-		baseQuestion.setMultiChoice(options);
-		
-	
-		//odao.save(options);	
 		
 		if(categories != null){
 			for(Category cat : categories){
@@ -187,7 +176,7 @@ public class QuestionServiceImpl implements QuestionService
 				tagSet.add(tag);
 			}
 		}
-
+		
 		return baseQuestion;
 	}
 
