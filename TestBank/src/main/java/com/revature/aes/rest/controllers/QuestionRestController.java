@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.revature.aes.beans.Category;
 import com.revature.aes.beans.Format;
 import com.revature.aes.beans.Question;
+import com.revature.aes.beans.QuestionOptionsJSONHandler;
 import com.revature.aes.services.QuestionService;
 
 /**
@@ -36,9 +36,10 @@ public class QuestionRestController
 	 * @return a List of Questions
 	 * 
 	 */
-	@RequestMapping(value = "question", method = RequestMethod.POST, produces =
-	{ MediaType.APPLICATION_JSON_VALUE })
-	public Question addQuestion(@RequestBody Question question){
+	@RequestMapping(value = "question", method = RequestMethod.POST, 
+			produces = { MediaType.APPLICATION_JSON_VALUE })
+	public Question addQuestion(@RequestBody Question question)
+	{
 		return questionService.addQuestion(question);
 	}
 
@@ -81,29 +82,35 @@ public class QuestionRestController
 		return questionService.getAllQuestionsByFormat(format);
 	}
 	
+	
 	/**
 	 * Modifies the a question in the database by its unique identifier
 	 * 
 	 * @param id the Id of question, cannot be null or less than 0
 	 * @return the updated Question 
 	 */
-	@RequestMapping(value ="question/{questionId}", method = RequestMethod.PUT, produces = 
+	@RequestMapping(value ="question", method = RequestMethod.PUT, produces = 
 	{ MediaType.APPLICATION_JSON_VALUE })
 	public Question updateQuestionById(@RequestBody Question question)
 	{
 		return questionService.updateQuestionById(question);
 	}
 	
+	
 	/**
 	 * Deletes a question from the database
 	 * 
 	 * @param id the unique identifier of a question, cannot be null or less than 0
 	 */
-	@RequestMapping(value ="question/{questionId}", method = RequestMethod.DELETE, produces = 
-	{ MediaType.APPLICATION_JSON_VALUE })
+	@RequestMapping(value ="question/{id}", method = RequestMethod.DELETE)
 	public void deleteQuestionById(@PathVariable Integer id)
 	{
 		questionService.deleteQuestionById(id);
 	}
 	
+	@RequestMapping(value ="fullQuestion", method = RequestMethod.POST)
+	public Question addFullQuestion(@RequestBody QuestionOptionsJSONHandler question ){
+		System.out.println(question);
+		return questionService.addFullQuestion(question);
+	}
 }

@@ -1,38 +1,166 @@
 package com.revature.aes.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.revature.aes.beans.AssessmentRequest;
+import com.revature.aes.beans.Category;
 import com.revature.aes.beans.Format;
 import com.revature.aes.beans.Question;
 import com.revature.aes.daos.QuestionDAO;
 
 public class SystemTemplate {
-	
+
 	private QuestionDAO qDao;
 
 	/**
-	 * List of questions that will make up the test. Take in an amount of questions, a format, and a category, and add them to the list.
 	 * 
-	 * @param amount: The number of questions that is being requested.
-	 * @param format: The format of the questions being requested.
-	 * @param category: The category of the question that is being requested.
-	 * @param AssessList: The either empty, or partially filled list of questions for an assessment. 
-	 * @return The same list that is taken in, but with more questions added to it.
+	 * @param assReq
+	 *            is the AssessmentRequest object being passed in from Core team
+	 *            containing the amount of questions for a specific format and
+	 *            the category.
+	 * @return The list of questions taken from the database for the template.
 	 */
-	public List<Question> getRandomSelectionFromCategory(int amount, Format format, List category, List<Question> AssessList){
-		
-		//set instead of list
-		List<Question> filteredQuestions = qDao.findByFormatAndCategory(format, category);
-		int n =filteredQuestions.size();
-		/*
-		 * loop through all the questions a pick out 'amount' number of them.
-		 */
-		int randomizedId = 0;
-		for(int i = 0;i<amount;i++)
-			randomizedId = (int)(n*Math.random());
-			AssessList.add(filteredQuestions.get(randomizedId));
-		
+	public List<Question> getRandomSelectionFromCategory(AssessmentRequest assReq) {
+
+		String name = assReq.getCategory();
+		int multiChoice = assReq.getMcQuestions();
+		int multiSelect = assReq.getMsQuestions();
+		int dragDrop = assReq.getDdQuestions();
+		int codeSnip = assReq.getCsQuestions();
+		List<Question> AssessList = new ArrayList<Question>();
+
+		// set instead of list
+		Category cat = (Category) qDao.findCategoryByName(name);
+		List<Question> filteredQuestions = qDao.findByCategory(cat);
+		List<Question> formatList = null;
+
+		// Make a separate method instead of repeating this four times.
+
+		formatList = new ArrayList<>();
+		int size;
+
+		if (multiChoice != 0) {
+
+			formatList = multiChoiceQuestionAdder(formatList, filteredQuestions);
+
+			size = formatList.size() - 1; // subtract 1 so that this can be used
+											// to get an index for random
+											// question
+
+			for (int i = 0; i <= multiChoice; i++) {
+				int num = (int) (Math.random() * size);
+				AssessList.add(formatList.remove(num));
+				size--;
+				if (size == 0) {
+					break;
+				}
+			}
+
+		}
+
+		if (multiSelect != 0) {
+
+			formatList = multiSelectQuestionAdder(formatList, filteredQuestions);
+
+			size = formatList.size() - 1; // subtract 1 so that this can be used
+											// to get an index for random
+											// question
+
+			for (int i = 0; i <= multiChoice; i++) {
+				int num = (int) (Math.random() * size);
+				AssessList.add(formatList.remove(num));
+				size--;
+				if (size == 0) {
+					break;
+				}
+			}
+
+		}
+
+		if (dragDrop != 0) {
+
+			formatList = dragDropQuestionAdder(formatList, filteredQuestions);
+
+			size = formatList.size() - 1; // subtract 1 so that this can be used
+											// to get an index for random
+											// question
+
+			for (int i = 0; i <= multiChoice; i++) {
+				int num = (int) (Math.random() * size);
+				AssessList.add(formatList.remove(num));
+				size--;
+				if (size == 0) {
+					break;
+				}
+			}
+
+		}
+
+		if (codeSnip != 0) {
+
+			formatList = codeSnippetQuestionAdder(formatList, filteredQuestions);
+
+			size = formatList.size() - 1; // subtract 1 so that this can be used
+											// to get an index for random
+											// question
+
+			for (int i = 0; i <= multiChoice; i++) {
+				int num = (int) (Math.random() * size);
+				AssessList.add(formatList.remove(num));
+				size--;
+				if (size == 0) {
+					break;
+				}
+			}
+
+		}
+
 		return AssessList;
+	}
+
+	public List<Question> multiChoiceQuestionAdder(List<Question> formatList, List<Question> filteredQuestions) {
+
+		for (Question q : filteredQuestions) {
+
+			if (q.getFormat().getFormatName().equals("Multiple Choice")) {
+				formatList.add(q);
+			}
+		}
+		return formatList;
+	}
+
+	public List<Question> multiSelectQuestionAdder(List<Question> formatList, List<Question> filteredQuestions) {
+
+		for (Question q : filteredQuestions) {
+
+			if (q.getFormat().getFormatName().equals("Multiple Select")) {
+				formatList.add(q);
+			}
+		}
+		return formatList;
+	}
+
+	public List<Question> dragDropQuestionAdder(List<Question> formatList, List<Question> filteredQuestions) {
+
+		for (Question q : filteredQuestions) {
+
+			if (q.getFormat().getFormatName().equals("Drag and Drop")) {
+				formatList.add(q);
+			}
+		}
+		return formatList;
+	}
+
+	public List<Question> codeSnippetQuestionAdder(List<Question> formatList, List<Question> filteredQuestions) {
+
+		for (Question q : filteredQuestions) {
+
+			if (q.getFormat().getFormatName().equals("Code Snippet")) {
+				formatList.add(q);
+			}
+		}
+		return formatList;
 	}
 
 }

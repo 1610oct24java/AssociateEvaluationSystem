@@ -27,8 +27,8 @@ public class AssessmentRestController {
 		{MediaType.APPLICATION_JSON_VALUE})
 	public AssessmentRequest createAssessment(@RequestBody AssessmentRequest assReq){
 		
-		Template temp = new Template()
-		systemp.getRandomSelectionFromCategory(, assReq.get, category, AssessList)
+		Template tmpl = new Template();
+		tmpl.setTemplateQuestion(systemp.getRandomSelectionFromCategory(assReq));
 		return assReq;
 	}
 	
