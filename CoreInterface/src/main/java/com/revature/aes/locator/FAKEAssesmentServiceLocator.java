@@ -9,7 +9,7 @@ public class FAKEAssesmentServiceLocator implements AssessmentServiceLocator {
 	
 	@Override
 	public AssessmentRequest getLink(AssessmentRequest assessment) {
-		// TODO remove the @Service annotation when we get the real impl working
+		//@Service annotation when we get the real impl working
 		assessment.setLink("www.google.com");
 		return assessment;
 	}
