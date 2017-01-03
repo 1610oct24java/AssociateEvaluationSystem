@@ -13,6 +13,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name="AES_CATEGORY")
 public class Category implements Serializable{
+	
+	public Category() {
+		super();
+	}	
 	/**
 	 * @serialVersionUID An auto-generated field that is used for serialization.
 	 */
@@ -86,10 +90,5 @@ public class Category implements Serializable{
 	@Override
 	public String toString() {
 		return "Category [categoryId=" + categoryId + ", name=" + name + "]";
-	}
-
-	public Category() {
-		super();
-		// TODO Auto-generated constructor stub
-	}		
+	}	
 }
