@@ -1,5 +1,6 @@
 package com.revature.aes.service;
 
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class AssessmentServiceImpl implements AssessmentService {
 		List<Assessment> gradlessAssessments = dao.findByGradeIsNull();
 		
 		for(Assessment a : gradlessAssessments){
+			long hours = ChronoUnit.HOURS.between(a.getCreatedTimeStamp(), LocalDateTime.now())
 			if(a.getCreatedTimeStamp())
 		}
 		
