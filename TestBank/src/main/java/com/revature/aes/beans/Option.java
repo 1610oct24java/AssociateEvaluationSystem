@@ -1,6 +1,7 @@
 	package com.revature.aes.beans;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -129,24 +130,16 @@ public class Option implements Serializable {
 		
 		Option other = (Option) obj;
 		
-		if (correct == null) {
-			if (other.correct != null)
-				return false;
-		} else if (!correct.equals(other.correct))
-			return false;
-		if (optionId == null) {
-			if (other.optionId != null)
-				return false;
-		} else if (!optionId.equals(other.optionId))
-			return false;
-		if (optionText == null) {
-			if (other.optionText != null)
-				return false;
-		} else if (!optionText.equals(other.optionText))
-			return false;
-		if (!question.equals(other.question))
-			return false;
-		return true;
+
+		
+		return Objects.equals(correct, other.correct)
+				&& Objects.equals(optionId, other.optionId)
+				&& Objects.equals(optionText, other.optionText)
+				&& Objects.equals(question, other.question);
+		
+		
+		
+		
 	}
 
 	@Override
