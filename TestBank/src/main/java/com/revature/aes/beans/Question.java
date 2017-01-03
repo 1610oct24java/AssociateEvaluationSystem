@@ -2,7 +2,6 @@ package com.revature.aes.beans;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -113,15 +112,50 @@ public class Question implements Serializable {
 		
 		Question other = (Question) obj;
 		
-		return Objects.equals(category, other.category)
-		        && Objects.equals(dragDrops, other.dragDrops)
-		        && Objects.equals(format, other.format)
-		        && Objects.equals(multiChoice, other.multiChoice )
-		        && Objects.equals(questionId, other.questionId)
-		        && Objects.equals(questionText, other.questionText)
-		        && Objects.equals(snippetTemplate, other.snippetTemplate)
-		        && Objects.equals(tags, other.tags);
-	
+		if (category == null) {
+			if (other.category != null)
+				return false;
+		} else if (!category.equals(other.category))
+			return false;
+		
+		if (dragDrops == null) {
+			if (other.dragDrops != null)
+				return false;
+		} else if (!dragDrops.equals(other.dragDrops))
+			return false;
+		
+		if (format == null) {
+			if (other.format != null)
+				return false;
+		} else if (!format.equals(other.format))
+			return false;
+		
+		if (multiChoice == null) {
+			if (other.multiChoice != null)
+				return false;
+		} else if (!multiChoice.equals(other.multiChoice))
+			return false;
+		
+		if (questionId != other.questionId)
+			return false;
+		
+		if (questionText == null) {
+			if (other.questionText != null)
+				return false;
+		} else if (!questionText.equals(other.questionText))
+			return false;
+		
+		if (snippetTemplate == null) {
+			if (other.snippetTemplate != null)
+				return false;
+		} else if (!snippetTemplate.equals(other.snippetTemplate))
+			return false;
+		if (tags == null) {
+			if (other.tags != null)
+				return false;
+		} else if (!tags.equals(other.tags))
+			return false;
+		return true;
 	}
 
 	public int getQuestionId() {
