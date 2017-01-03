@@ -1,6 +1,26 @@
 var app = angular.module("quizApp", [ 'ui.bootstrap', 'as.sortable',
 		'ngAnimate' ]);
 
+app.service('ajaxService', function() {
+    this.myFunc = function (x) {
+        return x.toString(16);
+    }
+});
+
+app.factory('ajaxService', ['$http', function($http) {
+
+  var doRequest = function(username) {
+    return $http({
+      url: 'https://MySuperURL.com/getTheData'
+    });
+ }
+
+  return {
+    events: doRequest
+  };
+
+}]);
+
 app.controller("dragController", function($scope) {
 	// DRAG AND DROP
 	$scope.dragControlListeners = {
@@ -230,9 +250,9 @@ function closeSideNav() {
 /* COUNTDOWN TIMER LOGIC */
 app.controller('CountdownController', function($scope, $rootScope, $interval) {
 	
-	var startTime = 30;
+	var startTime = 15;
 	$scope.minutes = 0;
-	$scope.seconds = 30;
+	$scope.seconds = startTime;
 	$scope.barUpdate = getBarUpdate();
 	
 //    m = checkTime(m);
@@ -277,7 +297,7 @@ app.controller('CountdownController', function($scope, $rootScope, $interval) {
 
 // Submit Assessment Logic
 function submitAssessment() {
-	
+	console.log("submitted assessment");
 }
 
 var submitModal = document.getElementById("submitModal");

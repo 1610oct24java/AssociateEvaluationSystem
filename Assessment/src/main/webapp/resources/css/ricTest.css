@@ -330,7 +330,7 @@ i {
 	margin: 15% auto;
 	padding: 20px;
 	border: 1px solid #888;
-	width: 80%;
+	width: 70%;
 	text-align: center;
 }
 #submitBtn {
@@ -347,6 +347,7 @@ i {
 	padding: 12px 30px;
 	text-decoration: none;
 	font-weight: 600;
+	outline: none;
 }
 
 /* BUTTON STYLING ON HOVER */
@@ -355,4 +356,5 @@ i {
 	background-color: #fff;
 	color: #f26925;
 	text-decoration: none;
+	outline: none;
 }
