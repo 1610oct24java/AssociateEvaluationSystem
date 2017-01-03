@@ -1,0 +1,9 @@
+package com.revature.aes.service;
+
+import java.util.List;
+
+import com.revature.aes.beans.User;
+
+public interface AssessmentService {
+	public List<User> findUsersWithNoGrade();
+}
