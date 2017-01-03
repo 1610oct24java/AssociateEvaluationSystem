@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="editQuestions">
+<html lang="en" ng-app="app">
 <head>
 <meta charset="ISO-8859-1">
 <title>Associate Evaluation System</title>
@@ -62,9 +62,25 @@
 	</div>
 
 	<main class="container">
-		<ul>
-			<li ng-repeat="q in ctrl.qList">{{q.question.questionText}}</li>
-		</ul>
+		<div>
+			<h3>Edit Questions</h3>
+			<ol>
+				<li ng-repeat="q in ctrl.qList">
+					{{q.questionText}}
+				</li>
+			</ol>
+		</div>
+		<div>
+			<form>
+				<div>
+					Question#, Categories, Tags
+				</div>
+				<input type="number">
+				<input type="text">
+				<input type="text">
+				<input type="submit">
+			</form>
+		</div>
 	</main>
 
 	<script type="text/javascript"
