@@ -43,6 +43,7 @@ public class Assessment implements Serializable {
 	@Column(name = "time_limit")
 	private int timeLimit;
 
+	@Transient
 	@Column(name = "created_timestamp")
 	private LocalDateTime createdTimeStamp;
 

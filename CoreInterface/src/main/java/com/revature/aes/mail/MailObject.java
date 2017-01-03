@@ -2,8 +2,6 @@ package com.revature.aes.mail;
 
 import org.apache.log4j.Logger;
 
-import com.revature.aes.logging.*;
-
 public class MailObject {
 	
 	private Logger log = Logger.getRootLogger();
