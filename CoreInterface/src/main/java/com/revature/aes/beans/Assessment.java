@@ -26,7 +26,6 @@ import javax.persistence.Transient;
 public class Assessment implements Serializable {
 
 	private static final long serialVersionUID = -6152668317029130986L;
-
 	@Id
 	@Column(name = "assessment_id")
 	@SequenceGenerator(sequenceName = "aes_assessment_seq", name = "aes_assessment_seq")
