@@ -205,6 +205,11 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	$scope.currentPage = 1;
 	$scope.numPerPage = 5;
 	$scope.maxSize = 5;
+	
+	$scope.jumpPage = function (numPage) {
+		console.log("Jump to Page: " + numPage);
+		$scope.currentPage = numPage;
+	};
 
 	$scope.$watch('currentPage + numPerPage', function() {
 		var begin = (($scope.currentPage - 1) * $scope.numPerPage), end = begin
