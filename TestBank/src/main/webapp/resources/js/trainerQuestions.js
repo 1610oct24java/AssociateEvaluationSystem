@@ -1,4 +1,4 @@
-	'use strict';
+'use strict';
 
 var app; // the base application for angular.
 var port = ":8090"; // the port for ajax calls.
@@ -126,7 +126,23 @@ var url =  /*domain + port + */"/" + baseDirectory + "/"; // a concatenation
 				this.addButton = true;
 			}
 		}; // addAddQuestionButton end
-		
+		this.resetQuestion = () => {
+			this.question = {
+					question : {	
+						questionId : 0,
+						questionText : '',
+						format : {
+							formatId : 0,
+							formatName : ''
+						}
+					},
+						tags : null,
+						categories: null,
+						multiChoice:null,
+						dragDrops:null,
+						snippetTemplate:null
+					}; // this.question end
+		}
 		this.addQuestion = () => {
 			this.question.question.format = this.format;
 			if (this.question.question.format.formatId === 0) {
@@ -138,23 +154,10 @@ var url =  /*domain + port + */"/" + baseDirectory + "/"; // a concatenation
 						this.question = response.data;
 						if (this.question == null) {
 							alert("Error Saving Question Please Try Again");
+							this.resetQuestion();
 						} else {
 							this.getQuestionList();
-							this.question = {
-								question : {	
-									questionId : 0,
-									questionText : '',
-									format : {
-										formatId : 0,
-										formatName : ''
-									}
-								},
-									tags : null,
-									categories: null,
-									multiChoice:null,
-									dragDrops:null,
-									snippetTemplate:null
-								}; // this.question end
+							this.resetQuestion();
 							}// inner most if end
 						}); // $http end
 					} else {
@@ -195,21 +198,7 @@ var url =  /*domain + port + */"/" + baseDirectory + "/"; // a concatenation
 							alert("Error Saving Question Please Try Again");
 						} else {
 							this.getQuestionList();
-							this.question = {
-									question : {
-										questionId : 0,
-										questionText : '',
-										format : {
-											formatId : 0,
-											formatName : ''
-										}
-									},
-									tags : null,
-									categories: null,
-									multiChoice:null,
-									dragDrops: null,
-									snippetTemplate:null
-								};	// this.question end
+							this.resetQuestion();
 							this.show = false;
 						} // inner if end
 					}); // $http end
