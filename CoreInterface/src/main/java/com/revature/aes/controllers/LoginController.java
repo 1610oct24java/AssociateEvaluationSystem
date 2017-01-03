@@ -23,32 +23,8 @@ public class LoginController {
 		return "index";
 	}
 	@RequestMapping(value="/home",method = RequestMethod.GET)
-	public String getLoginPage(ModelMap modelMap) {
-		org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-	    String name = user.getUsername(); //get logged in username
-	    User currentUser = service.findUserByEmail(name);
-	    
-	    //direct user based on user
-	    String location = "";
-	    switch(currentUser.getRole().getRoleTitle().toLowerCase()) {
-	    case "recruiter":
-	    	location = "recruiterhome";
-	    	break;
-	    	
-	    case "candidate":
-	    	
-	    	//this will pull the link from the database to the candidate's assessment
-	    	break;
-	    	
-	    case "trainer":
-	    	location = "trainerhome";
-	    	break;
-	    	
-    	default:
-    		break;
-	    }
-	    
-		return location;
+	public void getLoginPage(ModelMap modelMap) {
+		//For security perposes
 	}
 	
 	@RequestMapping(value="/admin/private",method = RequestMethod.GET)
