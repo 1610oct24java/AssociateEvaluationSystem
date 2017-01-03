@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,6 +22,8 @@ import com.revature.aes.beans.Security;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
+	
+	private Logger log = Logger.getRootLogger();
 
 	@Autowired
 	UserService uService;
@@ -50,7 +53,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 				fmt = new SimpleDateFormat("yyyy-MM-dd");
 				passwordDate = fmt.parse(user.getDatePassIssued().substring(0,10));
 			} catch (ParseException e) {
-				e.printStackTrace();
+				log.info(e);
 			}
 			long diff = currentDate.getTime() - passwordDate.getTime();
 			long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
