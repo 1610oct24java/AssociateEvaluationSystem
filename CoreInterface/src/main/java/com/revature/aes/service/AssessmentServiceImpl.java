@@ -23,7 +23,7 @@ public class AssessmentServiceImpl implements AssessmentService {
 		List<Assessment> gradlessAssessments = dao.findByGradeIsNull();
 		
 		for(Assessment a : gradlessAssessments){
-			users.add(a.getUser());
+			if(a.getCreatedTimeStamp())
 		}
 		
 		return users;
