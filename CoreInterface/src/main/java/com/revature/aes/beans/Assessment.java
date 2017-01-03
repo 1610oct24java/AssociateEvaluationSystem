@@ -1,7 +1,7 @@
 package com.revature.aes.beans;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -43,12 +43,11 @@ public class Assessment implements Serializable {
 	@Column(name = "time_limit")
 	private int timeLimit;
 
-	@Transient
 	@Column(name = "created_timestamp")
-	private LocalDateTime createdTimeStamp;
+	private Timestamp createdTimeStamp;
 
 	@Column(name = "finished_timestamp")
-	private LocalDateTime finishedTimeStamp;
+	private Timestamp finishedTimeStamp;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "template_id")
@@ -124,19 +123,19 @@ public class Assessment implements Serializable {
 		this.timeLimit = timeLimit;
 	}
 
-	public LocalDateTime getCreatedTimeStamp() {
+	public Timestamp getCreatedTimeStamp() {
 		return createdTimeStamp;
 	}
 
-	public void setCreatedTimeStamp(LocalDateTime createdTimeStamp) {
+	public void setCreatedTimeStamp(Timestamp createdTimeStamp) {
 		this.createdTimeStamp = createdTimeStamp;
 	}
 
-	public LocalDateTime getFinishedTimeStamp() {
+	public Timestamp getFinishedTimeStamp() {
 		return finishedTimeStamp;
 	}
 
-	public void setFinishedTimeStamp(LocalDateTime finishedTimeStamp) {
+	public void setFinishedTimeStamp(Timestamp finishedTimeStamp) {
 		this.finishedTimeStamp = finishedTimeStamp;
 	}
 
