@@ -15,7 +15,7 @@ public class MailController {
 	
 	@Autowired
 	private Mail mail;
-	
+
 	@RequestMapping(value="user/{userEmail}/mail", method=RequestMethod.POST)
 	public void candidateNeedsQuiz(@RequestBody MailObject obj, @PathVariable String userEmail){
 		mail.sendEmail(obj, userEmail);

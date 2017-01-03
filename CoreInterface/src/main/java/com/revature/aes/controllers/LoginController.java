@@ -1,7 +1,5 @@
 package com.revature.aes.controllers;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -25,8 +23,7 @@ public class LoginController {
 		return "index";
 	}
 	@RequestMapping(value="/home",method = RequestMethod.GET)
-	public String getLoginPage(ModelMap modelMap, HttpSession session) {
-		
+	public String getLoginPage(ModelMap modelMap) {
 		org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	    String name = user.getUsername(); //get logged in username
 	    User currentUser = service.findUserByEmail(name);
