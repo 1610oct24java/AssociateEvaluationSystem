@@ -9,12 +9,16 @@
  * Authors: Matthew Beauregard, Conner Anderson, Travis Deshotels,
  * 		Edward Crader, Jon-Erik Williams 
  ****************************************************************/
-package com.revature.aes.exception;
 
-public class AikenSyntaxException extends Exception{
-	private static final long serialVersionUID = -2064804666415410169L;
+package com.revature.aes.daos;
 
-	public AikenSyntaxException(String message){
-		super(message);
-	}
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.revature.aes.beans.Format;
+
+@Repository
+public interface FormatDAO extends JpaRepository<Format, Integer>
+{
+
 }

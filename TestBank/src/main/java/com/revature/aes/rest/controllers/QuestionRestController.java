@@ -93,7 +93,7 @@ public class QuestionRestController
 	{ MediaType.APPLICATION_JSON_VALUE })
 	public Question updateQuestionById(@RequestBody Question question)
 	{
-		return questionService.updateQuestionById(question);
+		return questionService.updateQuestion(question);
 	}
 	
 	

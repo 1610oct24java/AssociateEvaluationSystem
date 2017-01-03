@@ -19,6 +19,7 @@ import javax.persistence.Table;
 @Table(name = "aes_templates")
 public class Template implements Serializable {
 	private static final long serialVersionUID = -8060916464018913931L;
+	
 	@Id
 	@Column(name = "template_id")
 	@SequenceGenerator(sequenceName = "aes_templates_seq", name = "aes_templates_seq")

@@ -23,8 +23,6 @@ public interface QuestionService {
 	
 	public void deleteQuestionById(Integer id);
 
-	public Question updateQuestion(Question question);
-
 	public Question addFullQuestion(QuestionOptionsJSONHandler question);
 
 }

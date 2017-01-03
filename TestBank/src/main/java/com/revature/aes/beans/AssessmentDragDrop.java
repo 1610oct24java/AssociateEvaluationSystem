@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "aes_assessment_drag_drop")
 public class AssessmentDragDrop implements Serializable {
-	
+
 	private static final long serialVersionUID = -6980285894791938854L;
 	
 	@Id
@@ -25,7 +25,7 @@ public class AssessmentDragDrop implements Serializable {
 	@GeneratedValue(generator = "aes_assessment_drag_drop_seq", strategy = GenerationType.SEQUENCE)
 	private int assessmentDragDropId;
 	
-	@Column(name = "user_order ")
+	@Column(name = "user_order")
 	private int userOrder;
 
 	@ManyToOne(fetch=FetchType.EAGER)
