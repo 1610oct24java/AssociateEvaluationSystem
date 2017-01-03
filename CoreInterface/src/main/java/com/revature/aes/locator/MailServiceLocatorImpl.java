@@ -40,7 +40,7 @@ public class MailServiceLocatorImpl implements MailServiceLocator {
 	private boolean send(MailerEntity requestEntity, String email){
 		ResponseEntity<MailerEntity> responseEntity = restTemplate.postForEntity(url+"/user/"+ email +"/mail", requestEntity, MailerEntity.class);
 		log.debug("url: " + responseEntity.getHeaders().getLocation() + " body: " + responseEntity.getBody()+": Status="+responseEntity.getStatusCode());
-		
+		System.out.println("STATUS CODE: " +responseEntity.getStatusCode());
 		if(responseEntity.getStatusCode() == HttpStatus.OK)
 			return true;
 		

@@ -1,5 +1,8 @@
 package com.revature.aes.service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +23,8 @@ public class RestServicesImpl implements RestServices {
 	private AssessmentAuthService authService;
 
 	@Override
-	public void finalizeCandidate(User candidate, String pass) {
-		// 
+	public Map<String,String> finalizeCandidate(User candidate, String pass) {
+		Map<String,String> map = new HashMap<String,String>();
 		int userId = candidate.getUserId();
 		String email = candidate.getEmail();
 		String category = candidate.getFormat();
@@ -39,7 +42,11 @@ public class RestServicesImpl implements RestServices {
 		
 		authService.save(auth);
 		
-		mailService.sendPassword(email, link, pass);
+		//mailService.sendPassword(email, link, pass);
+		map.put("email", email);
+		map.put("link", auth.getUrlAuth());
+		map.put("pass", pass);
+		return map;
 	}
 
 }

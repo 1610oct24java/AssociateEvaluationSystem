@@ -1,6 +1,7 @@
 package com.revature.aes.controllers;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.aes.beans.User;
+import com.revature.aes.locator.MailServiceLocator;
+import com.revature.aes.service.RestServices;
 import com.revature.aes.service.UserService;
 
 @RestController
@@ -18,9 +21,16 @@ public class RecruiterController {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private MailServiceLocator mailService;
+	
 	@RequestMapping(value="/recruiter/{email}/candidates", method=RequestMethod.POST)
 	public User createCandidate(@RequestBody User candidate, @PathVariable String email){
-		return userService.createCandidate(candidate, email);
+		Map<String,String> map = userService.createCandidate(candidate, email);
+		User u = userService.findUserByEmail(candidate.getEmail());
+		System.out.println("USER: " + u);
+		mailService.sendPassword(map.get("email"), map.get("link"), map.get("pass"));
+		return u;
 	}
 	
 	@RequestMapping(value="/recruiter/{email}/candidates", method=RequestMethod.GET)

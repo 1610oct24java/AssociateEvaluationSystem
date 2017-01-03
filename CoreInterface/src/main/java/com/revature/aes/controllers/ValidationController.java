@@ -6,11 +6,10 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@CrossOrigin
 @RestController
 public class ValidationController {
 	
-	@RequestMapping(value="/user")
+	@RequestMapping(value="/auth")
 	public Principal user(Principal user){
 		return user;
 	}

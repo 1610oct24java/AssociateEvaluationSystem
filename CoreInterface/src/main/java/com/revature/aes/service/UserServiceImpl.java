@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +61,7 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
-	public User createCandidate(User candidate, String recruiterEmail) {
+	public Map<String,String> createCandidate(User candidate, String recruiterEmail) {
 		String pattern = "dd-MMM-yy";
 		SimpleDateFormat fmt = new SimpleDateFormat(pattern);
 		
@@ -74,9 +75,9 @@ public class UserServiceImpl implements UserService {
 		
 		String pass = security.createSecurity(candidate);
 		
-		client.finalizeCandidate(candidate, pass);
+		Map<String,String> map = client.finalizeCandidate(candidate, pass);
 		
-		return candidate;
+		return map;
 	}
 
 	@Override

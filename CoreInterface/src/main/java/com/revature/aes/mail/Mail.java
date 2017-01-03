@@ -33,7 +33,9 @@ public class Mail {
 				+ " Your temporary password is no longer valid";
 		
 		public void sendEmail(MailObject m, String email){
-			
+			System.out.println("IN SEND MAIL");
+			System.out.println(m);
+			System.out.println(email);
 			User candidate = us.findUserByEmail(email);
 			User recruiter = ud.findRecruiterByEmail(email);
 			
@@ -42,14 +44,15 @@ public class Mail {
 			
 			switch (m.getType()){
 			
-			case "candidiateNeedsQuiz":
-				
+			case "candidateNeedsQuiz":
+				System.out.println("CANDINATE NEED QUIZZZZZZZZZZZZZZZZ");
+				System.out.println(email);
 				ms.sendEmail(ms.setupMessage(email, "Revature Quiz", CANIDATE_COMPLETED_BODY + "Link: " + m.getLink() 
 						+ "\nTemporary Pass: " + m.getTempPass()));
 				break;
 			
-			case "canidateNotCompleted":
-				
+			case "candidateNotCompleted":
+				System.out.println("canidateNotCompleted");
 				//send email to candidate
 				ms.sendEmail(ms.setupMessage(email, "Quiz Timer Expired", CANDIDATE_NOT_COMPLETE_BODY));
 				
