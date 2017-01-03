@@ -40,7 +40,6 @@ public class TemplateQuestion implements Serializable {
 
 	public TemplateQuestion() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
