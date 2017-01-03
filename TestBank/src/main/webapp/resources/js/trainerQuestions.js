@@ -100,7 +100,7 @@ var url =  /*domain + port + */"/" + baseDirectory + "/"; // a concatenation
 						optionText: '',
 						correct: -1
 				};
-			};// end if
+			}// end if
 		};
 		// This functions ensures a user populates all the necessary fields for
 		// a question.
@@ -122,7 +122,7 @@ var url =  /*domain + port + */"/" + baseDirectory + "/"; // a concatenation
 			default:
 			} // switch end
 			
-			if(this.formatSet == true && this.questionTextChanged == true && this.optionTextChanged == true && this.correctValue == true){
+			if(this.formatSet === true && this.questionTextChanged === true && this.optionTextChanged === true && this.correctValue === true){
 				this.addButton = true;
 			}
 		}; // addAddQuestionButton end
@@ -133,8 +133,6 @@ var url =  /*domain + port + */"/" + baseDirectory + "/"; // a concatenation
 				alert("please choose a format type");
 			} else {
 				if(this.question.questionText != ''){
-					console.log("Saving ");
-					console.log(this.question);
 				$http.post(url + "fullQuestion", this.question)
 					.success((response) => {
 						this.question = response.data;
@@ -157,7 +155,7 @@ var url =  /*domain + port + */"/" + baseDirectory + "/"; // a concatenation
 									dragDrops:null,
 									snippetTemplate:null
 								}; // this.question end
-							};// inner most if end
+							}// inner most if end
 						}); // $http end
 					} else {
 					alert("Please Enter A Question Text");
@@ -167,7 +165,7 @@ var url =  /*domain + port + */"/" + baseDirectory + "/"; // a concatenation
 
 		this.deleteQuestion = () => {
 			$http.delete(url + "question/" + this.deleteme)
-				.success((response) => {
+				.success(() => {
 					this.getQuestionList();
 					alert("delete successful");
 				})
@@ -215,7 +213,7 @@ var url =  /*domain + port + */"/" + baseDirectory + "/"; // a concatenation
 							this.show = false;
 						} // inner if end
 					}); // $http end
-			}; // outer if end
+			} // outer if end
 			
 			} // updateQuestion() end
 		angular.element(document).ready(() => {
@@ -224,12 +222,11 @@ var url =  /*domain + port + */"/" + baseDirectory + "/"; // a concatenation
 	}); // QuestionController end
 	
 	app.controller('CategoryController', function($http){
-			
+		//TODO	
 	}); // CategoryController end
 	app.controller('TagController', function($http){
-			
+		//TODO 	
 	}); // TagController end
 	
 	
-})// the end of the closure
-(); // invoking the function within the closure.
+})();// the end of the closure invoking the function within the closure.

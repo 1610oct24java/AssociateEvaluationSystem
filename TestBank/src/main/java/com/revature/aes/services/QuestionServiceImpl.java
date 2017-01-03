@@ -12,7 +12,6 @@
 
 package com.revature.aes.services;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,7 +29,6 @@ import com.revature.aes.beans.Format;
 import com.revature.aes.beans.Option;
 import com.revature.aes.beans.Question;
 import com.revature.aes.beans.QuestionOptionsJSONHandler;
-import com.revature.aes.beans.SnippetTemplate;
 import com.revature.aes.beans.Tag;
 import com.revature.aes.daos.OptionsDAO;
 import com.revature.aes.daos.QuestionDAO;
@@ -57,11 +55,8 @@ public class QuestionServiceImpl implements QuestionService
 		//ensures question text isn't null or an empty string.
 		if(question.getQuestionText() == null || question.getQuestionText().trim() == "")
 		{
-			System.out.println("In if block of Add Question QuestionServiceImpl");
 			return null;
 		}
-		
-		System.out.println("It should be saving now!!!!");
 		return qdao.save(question);
 	}
 
@@ -149,16 +144,15 @@ public class QuestionServiceImpl implements QuestionService
 		
 		Question baseQuestion = addQuestion(question.getQuestion());	
 		Format format = question.getFormat();
-		List<Option> multiChoiceList = new ArrayList<>();
 		Option[] multiChoice = question.getMultiChoice();
 		Set<Category> categorySet = new HashSet<>();
 		Category[] categories = question.getCategories();
 		Set<DragDrop> dragDropSet = new HashSet<>();
 		DragDrop[] dragDrops = question.getDragDrops();
-		SnippetTemplate snippetTemplate = question.getSnippetTemplate();
 		Tag[] tags = question.getTags();
 		Set<Tag> tagSet = new HashSet<>();
 		
+		baseQuestion.setFormat(format);
 		
 		if(multiChoice != null){
 			for(Option option : multiChoice){
