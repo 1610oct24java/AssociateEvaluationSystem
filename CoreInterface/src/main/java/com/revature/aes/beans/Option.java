@@ -50,6 +50,10 @@ public class Option implements Serializable {
 	@JoinColumn(name = "QUESTION_ID")
 	private Question question;
 	
+	public Option() {
+		super();
+	}
+	
 	public Integer getOptionId() {
 		return optionId;
 	}
@@ -132,9 +136,5 @@ public class Option implements Serializable {
 	public String toString() {
 		return "Option [optionId=" + optionId + ", optionText=" + optionText + ", correct=" + correct + ", questionId="
 				+ "]";
-	}
-
-	public Option() {
-		super();
 	}
 }
