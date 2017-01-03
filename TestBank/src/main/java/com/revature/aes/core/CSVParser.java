@@ -15,14 +15,24 @@ import org.springframework.stereotype.Component;
 import com.revature.aes.beans.Format;
 import com.revature.aes.beans.Option;
 import com.revature.aes.beans.Question;
+import com.revature.aes.services.FormatService;
 import com.revature.aes.services.QuestionService;
 
 @Component
 public class CSVParser {
-	private final String commaReplacement = "!__comma__!";
+	private static final String commaReplacement = "!__comma__!";
+	private static final String TRUE_OR_FALSE = "True/False";
+	private static final String MULTIPLE_CHOICE = "Multiple Choice";
+	private static final String MULTIPLE_SELECT = "Multiple Select";
+	
+	private List<Format> formatList;
+	
 	private Map<String, Format> formats;
 	@Autowired
 	private QuestionService service;
+	
+	@Autowired
+	private FormatService fmtService;
 	
 	/**
 	 * Replace all instances of quoted commas with a placeholder.
@@ -30,31 +40,18 @@ public class CSVParser {
 	 * @return List containing the cleaned input lines.
 	 * @throws IOException 
 	 */
-	private List<String> escapeCommas(String filename) throws IOException{
-		List<String> linesCleaned = new ArrayList<String>();
-		BufferedReader br = null;
-		FileReader fr = null;
+	private List<String> escapeCommas(String filename) throws IOException, FileNotFoundException{
+		List<String> linesCleaned = new ArrayList<>();
 		String lineInFile = "";
 		
-		try {
-			fr = new FileReader(filename);
-			br = new BufferedReader(fr);
+		try(FileReader fr = new FileReader(filename); BufferedReader br = new BufferedReader(fr);) {
 			while ((lineInFile = br.readLine()) != null) {
 				// This will replace a quoted comma with the placeholder.
 				// Any spaces inside the quotes are removed.
 				lineInFile = lineInFile.replaceAll("\"\\s*,\\s*\"", commaReplacement);
 				linesCleaned.add(lineInFile);
 			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} finally {
-			if (fr != null){
-				fr.close();
-			}
-			if (br != null) {
-				br.close();
-			}
-		}
+		} 
 		//TODO if (lineInFile.length()%2==1) throw InvalidFileFormatException
 		return linesCleaned;
 	}
@@ -75,15 +72,13 @@ public class CSVParser {
 	 * @return the format type id needed for storing the question.
 	 */
 	private Format getFormatType(int numberOfChoices){		
-		// TODO get formats from db
-		
 		switch(numberOfChoices){
 		case 0:
-			return formats.get("True/False");
+ 			return formats.get(TRUE_OR_FALSE);
 		case 1:
-			return formats.get("Multiple Choice");
+ 			return formats.get(MULTIPLE_CHOICE);
 		default:
-			return formats.get("Multiple Select");
+ 			return formats.get(MULTIPLE_SELECT);
 		}
 	}
 	
@@ -91,50 +86,32 @@ public class CSVParser {
 	 * Parse a CSV file and create questions.
 	 * @param filename contains the questions to be added to the system.
 	 * @return all questions that are created from the input file.
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
 	 */
-	public Map<String, Question> parseCSV(String filename) {
+	public Map<String, Question> parseCSV(String filename) throws FileNotFoundException, IOException {
 		String cvsSplitBy = ",";
 		String[] linesList;
 		String line;
 		Question question;
 		String questionText;
-		Format format;
+		Format format = null;
 		Option option;
 		boolean trueFalseQuestion = false;
-		List<Option> options = new ArrayList<Option>();
-		Map<String, Question> questions = new HashMap<String, Question>();
+		List<Option> options = new ArrayList<>();
+		Map<String, Question> questions = new HashMap<>();
 		
-		formats = new HashMap<String, Format>();
-		format = new Format();
-		format.setFormatId(1);
-		format.setFormatName("True/False");
-		formats.put("True/False", format);
-		format.setFormatId(2);
-		format.setFormatName("Multiple Choice");
-		formats.put("Multiple Choice", format);
-		format.setFormatId(3);
-		format.setFormatName("Multiple Select");
-		formats.put("Multiple Select", format);
-		format.setFormatId(4);
-		format.setFormatName("Drag and Drop");
-		formats.put("Drag and Drop", format);
-		format.setFormatId(5);
-		format.setFormatName("Essay");
-		formats.put("Essay", format);
-		format.setFormatId(6);
-		format.setFormatName("Short Answer");
-		formats.put("Short Answer", format);
-		format.setFormatId(7);
-		format.setFormatName("Code Snippet");
-		formats.put("Code Snippet", format);
+		this.formatList = fmtService.findAllFormats();
+		
+		formats = new HashMap<>();
+		
+		for(Format f : formatList){
+			formats.put(f.getFormatName(), f);
+		}
 		
 		// handle the quoted commas
 		List<String> linesCleaned = null;
-		try {
-			linesCleaned = escapeCommas(filename);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		linesCleaned = escapeCommas(filename);
 		
 		for (int i=0;i<linesCleaned.size();i+=2){
 			// *question line
@@ -158,45 +135,23 @@ public class CSVParser {
 			line = linesCleaned.get(i+1);
 			linesList = line.split(cvsSplitBy);
 			if (trueFalseQuestion){
-				format = formats.get("True/False");
+				format = formats.get(TRUE_OR_FALSE);
 				if("true".equalsIgnoreCase(linesList[0]) || "T".equalsIgnoreCase(linesList[0])){
-					option = new Option();
-					option.setOptionText("True");
-					option.setCorrect(1);
-					option.setQuestion(question);
-					options.add(option);
-					
-					option = new Option();
-					option.setOptionText("False");
-					option.setCorrect(0);
-					option.setQuestion(question);
-					options.add(option);
+					options.add(setTrueOrFalse("True", 1, question));
+					options.add(setTrueOrFalse("False", 0, question));
 				}
 				else{
-					option = new Option();
-					option.setOptionText("True");
-					option.setCorrect(0);
-					option.setQuestion(question);
-					options.add(option);
-					
-					option = new Option();
-					option.setOptionText("False");
-					option.setCorrect(1);
-					option.setQuestion(question);
-					options.add(option);
+					options.add(setTrueOrFalse("True", 0, question));
+					options.add(setTrueOrFalse("False", 1, question));
 				}
 			}
 			else{
 				// go through multiple choice options to mark the correct ones
 				for (int j=0;j<linesList.length;j++){
 					format = getFormatType(linesList.length);
-					for (Option opt : options){
-						// if answer is correct, update the option
-						if (linesList[j].trim().equals(opt.getOptionText())){
-							opt.setCorrect(1);
-						}
+					options = parseOptions(options, linesList[j]);
 					}
-				}
+				
 			}
 			question.setFormat(format);
 			question.setMultiChoice(options);
@@ -205,8 +160,24 @@ public class CSVParser {
 			// add questions to the return map
 			questions.put(question.getQuestionText(), question);
 			// reset options
-			options = new ArrayList<Option>();
+			options = new ArrayList<>();
 		}
 		return questions;
 	}
+	
+	public List<Option> parseOptions(List<Option> options, String line){
+		for (Option opt : options){
+			// if answer is correct, update the option
+			if (line.trim().equals(opt.getOptionText())){
+				opt.setCorrect(1);
+			}
+		}
+		return options;
+	}
+		
+	public Option setTrueOrFalse(String isTrue,int isCorrect, Question question){
+		return new Option(isTrue, isCorrect, question);
+	}
+	
+
 }
