@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A parser for the Moodle Aiken format. Generates an map of Questions and their Options.
@@ -43,14 +44,10 @@ public class AikenParser {
 	 * @param url of the file to be parsed
 	 */
 	public AikenParser(MultipartFile mpFile){			
-		questionMap = new HashMap<Question, ArrayList<Option>>();
+		Map<Question, ArrayList<Option>>questionMap = new HashMap<>();
 		try {
 			parseFile(mpFile);
-		} catch (InvalidFileTypeException e) {
-			e.printStackTrace();
-		} catch (AikenSyntaxException e) {
-			e.printStackTrace();
-		} catch (IllegalStateException e) {
+		} catch (InvalidFileTypeException | AikenSyntaxException | IllegalStateException e ) {
 			e.printStackTrace();
 		} 
 	}
@@ -61,8 +58,8 @@ public class AikenParser {
 	 * @throws InvalidFileTypeException 
 	 * @throws AikenSyntaxException 
 	 */
-	private void parseFile(MultipartFile mpFile) throws InvalidFileTypeException, AikenSyntaxException{
-		//checkFileType(mpFile);
+	private void parseFile(MultipartFile mpFile) throws  AikenSyntaxException{
+		
 		
 		try(BufferedReader br = new BufferedReader(new InputStreamReader(mpFile.getInputStream()))) {
 			// Read first line of the file
@@ -114,7 +111,7 @@ public class AikenParser {
 	 * @return the Question generated from the parsed line
 	 * @throws IOException
 	 */
-	private Question getQuestion(BufferedReader br) throws IOException{
+	private Question getQuestion() throws IOException{
 		// First line will be a question
     	Question question = new Question();
     	question.setQuestionText(line);
@@ -132,11 +129,11 @@ public class AikenParser {
 	 * @throws IOException
 	 */
 	private ArrayList<Option> getOptionsList(BufferedReader br) throws IOException{	
-    	ArrayList<Option> optionsList = new ArrayList<Option>();
+    	List<Option> optionsList = new ArrayList<>();
 		line = br.readLine();
     	
 		// Create new options list for each Question
-    	optionsList = new ArrayList<Option>();
+    	List<Option> optionsList = new ArrayList<>();
 		
     	// Parse lines until "ANSWER:" to retrieve Options
     	while(!line.startsWith("ANSWER:")){
@@ -176,7 +173,7 @@ public class AikenParser {
 	 * @see com.revature.aes.beans.Option
 	 * @see com.revature.aes.beans.Question
 	 */
-	public HashMap<Question, ArrayList<Option>> getQuestionsMap(){
+	public Map<Question, ArrayList<Option>> getQuestionsMap(){
 		return questionMap;
 	}
 }
