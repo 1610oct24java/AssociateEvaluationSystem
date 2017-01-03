@@ -12,7 +12,7 @@ import com.revature.aes.mail.MailObject;
 public class MailController {
 	
 	@Autowired
-	Mail mail;      
+	Mail mail;
 	
 	/*Used for when a candidate needs sent a quiz. Takes the candidates Email, the Link to
 	 * the login page, and the temporary password.

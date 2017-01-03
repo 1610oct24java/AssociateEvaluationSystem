@@ -36,7 +36,7 @@
     <!-- Editable user database that can also be used by
          UserDatabaseRealm to authenticate users
     -->
-    <Resource auth="Container" description="User database that can be updated and saved" factory="org.apache.catalina.users.MemoryUserDatabaseFactory" name="UserDatabase" pathname="conf/tomcat-users.xml" type="org.apache.catalina.UserDatabase"/>
+    <Resource auth="Container" description="User database that can be updated and saved" driverClassName="oracle.jdbc.OracleDriver" global="jdbc/DB" maxActive="100" maxIdle="20" maxWaitMillis="-1" name="jdbc/DB" password="punchKin$17" type="javax.sql.DataSource" url="jdbc:oracle:thin:@ocle.cu56su7c6xk.us-west-2.rds.amazonaws.com:1521:ORCL" username="admin"/>
   </GlobalNamingResources>
 
   <!-- A "Service" is a collection of one or more "Connectors" that share
@@ -76,19 +76,9 @@
          Either JSSE or OpenSSL style configuration may be used regardless of
          the SSLImplementation selected. JSSE style configuration is used below.
     -->
-    <Connector 	
-		protocol="org.apache.coyote.http11.Http11NioProtocol"
-		port="8443" maxThreads="150"
-		scheme="https" secure="true" SSLEnabled="true" 
-		compression="on">
-		
-		<SSLHostConfig
-				sslProtocol="TLS">
-            <Certificate 
-				certificateKeystoreFile="${user.home}\.keystore"
-				certificateKeystorePassword="changeit"
-				certificateKeyAlias="tomcat"
-                type="RSA" />
+    <Connector SSLEnabled="true" compression="on" maxThreads="150" port="8443" protocol="org.apache.coyote.http11.Http11NioProtocol" scheme="https" secure="true">
+        <SSLHostConfig sslProtocol="TLS">
+            <Certificate certificateKeyAlias="tomcat" certificateKeystoreFile="${user.home}\.keystore" certificateKeystorePassword="changeit" type="RSA"/>
         </SSLHostConfig>
     </Connector>
     <!-- Define a SSL/TLS HTTP/1.1 Connector on port 8443 with HTTP/2
@@ -134,13 +124,14 @@
 
       <!-- Use the LockOutRealm to prevent attempts to guess user passwords
            via a brute-force attack -->
-      <Realm className="org.apache.catalina.realm.LockOutRealm">
-        <!-- This Realm uses the UserDatabase configured in the global JNDI
+      <!-- <Realm className="org.apache.catalina.realm.LockOutRealm">
+        This Realm uses the UserDatabase configured in the global JNDI
              resources under the key "UserDatabase".  Any edits
              that are performed against this UserDatabase are immediately
-             available for use by the Realm.  -->
-        <Realm className="org.apache.catalina.realm.UserDatabaseRealm" resourceName="UserDatabase"/>
-      </Realm>
+             available for use by the Realm. 
+        <Realm className="org.apache.catalina.realm.UserDatabaseRealm"
+               resourceName="UserDatabase"/>
+      </Realm> -->
 
       <Host appBase="webapps" autoDeploy="true" name="localhost" unpackWARs="true">
 
@@ -155,7 +146,7 @@
              Note: The pattern used is equivalent to using pattern="common" -->
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log" suffix=".txt"/>
 
-      <Context docBase="C:\Users\AC42\Documents\GitRepo\Assessment Evaluation System\AES Local\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\ROOT" path="" reloadable="false"/><Context docBase="C:\Users\AC42\Documents\GitRepo\Assessment Evaluation System\AES Local\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\CoreInterface" path="/CoreInterface" reloadable="true" source="org.eclipse.jst.jee.server:CoreInterface"/></Host>
+      <Context docBase="core" path="/core" reloadable="true" source="org.eclipse.jst.jee.server:core"/></Host>
     </Engine>
   </Service>
 </Server>
