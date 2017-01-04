@@ -14,9 +14,6 @@ import javax.persistence.Table;
 @Table(name="AES_CATEGORY")
 public class Category implements Serializable{
 	
-	public Category() {
-		super();
-	}	
 	/**
 	 * @serialVersionUID An auto-generated field that is used for serialization.
 	 */
@@ -24,6 +21,7 @@ public class Category implements Serializable{
 	/**
 	 * @cateogryId A unique Identifier for the Class.
 	 */
+	
 	@Id
 	@SequenceGenerator(name = "AES_CATEGORIES_SEQ", sequenceName = "AES_CATEGORIES_SEQ")
 	@GeneratedValue(generator = "AES_CATEGORIES_SEQ", strategy = GenerationType.SEQUENCE)
@@ -35,6 +33,10 @@ public class Category implements Serializable{
 	 */
 	@Column(name="CATEGORY_NAME")
 	private String name;
+	
+	public Category() {
+		super();
+	}	
 
 	public Integer getCategoryId() {
 		return categoryId;

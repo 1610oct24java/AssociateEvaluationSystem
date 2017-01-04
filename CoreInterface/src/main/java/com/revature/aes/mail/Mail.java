@@ -43,29 +43,20 @@ public class Mail {
 			switch (m.getType()){
 			
 			case "candidateNeedsQuiz":
-				
 				ms.sendEmail(ms.setupMessage(email, "Revature Quiz", CANIDATE_COMPLETED_BODY + "Link: " + m.getLink() 
 						+ "\nTemporary Pass: " + m.getTempPass()));
 				break;
-			
 			case "candidateNotCompleted":
-				
-				//send email to candidate
 				ms.sendEmail(ms.setupMessage(email, "Quiz Timer Expired", CANDIDATE_NOT_COMPLETE_BODY));
-				
-				//send email to recruiter
-				ms.sendEmail(ms.setupMessage(recruiterEmail, candidateName + " did not complete their quiz", "The timer for: " 
-						+ candidateName + " has expired and their temporary password is no longer invalid."));
+				ms.sendEmail(ms.setupMessage(recruiterEmail, candidateName + " did not complete their quiz", "The timer for: " + candidateName + " has expired and their temporary password is no longer invalid."));
 				break;
 			
 			case "candidateCompleted":
-				
 				int grade = ad.findAssesmentByUser(candidate).getGrade(); 
-				//argument for this is if this is eventually going to be for lms then there needs to be a new 
-				//service that gets all the grades for an ASSOCIATE, not the ONE for the candidate.
-				//send email to recruiter with grade
 				ms.sendEmail(ms.setupMessage(recruiterEmail, candidateName + " has completed quiz", candidateName
 						+RECRUITER_COMPLETED_BODY+String.valueOf(grade)));
+				break;
+			default:
 				break;
 			}
 		}
