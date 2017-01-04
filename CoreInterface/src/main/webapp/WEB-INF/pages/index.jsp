@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <link rel="stylesheet" href="resources/css/login.css"/>
@@ -25,8 +25,8 @@
 
 	<div class="wpb_wrapper text-center">
 		<div class="hero-hw-video">
-			<video id="hero-video" autoplay="" class="hero-video" preload="auto"
-				loop="">
+			<video id="hero-video" autoplay class="hero-video" preload="auto"
+				loop>
 			<source
 				src="https://revature.com/wp-content/uploads/2016/11/Hero_Full_720P.m4v"
 				type="video/mp4"></video>
@@ -37,7 +37,7 @@
 					<input type="text" name="username" placeholder="Username">
 					<br> <br> <input type="text" name="password"
 						placeholder="Password"> <br> <br>
-					<input type="submit" name="submit" class="css3button">Login</button>
+					<input type="submit" name="submit" class="css3button">
 					<br> <br>
 				</form>
 				</div>
@@ -47,7 +47,6 @@
 	
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.9/angular.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.9/angular-route.js"></script>
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-		crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 </body>
 </html>
