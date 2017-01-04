@@ -34,7 +34,7 @@ public class Mail {
 		
 		public void sendEmail(MailObject m, String email){
 			User candidate = us.findUserByEmail(email);
-			User recruiter = ud.findRecruiterByEmail(email);
+			User recruiter = ud.findOne(candidate.getRecruiterId());
 			
 			String recruiterEmail = recruiter.getEmail();
 			String candidateName = candidate.getFirstName() + " " + candidate.getLastName();
