@@ -1,7 +1,8 @@
-package com.revature.aes.beans;
+	package com.revature.aes.beans;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -27,7 +28,7 @@ public class Option implements Serializable {
 	 * @optionId the unique Identifier for the Option class
 	 */
 	@Id
-	@SequenceGenerator(name = "AES_OPTION_SEQ", sequenceName = "AES_OPTION_SEQ")
+	@SequenceGenerator(name = "AES_OPTION_SEQ", sequenceName = "AES_OPTION_SEQ", allocationSize=1)
 	@GeneratedValue(generator = "AES_OPTION_SEQ", strategy = GenerationType.SEQUENCE)
 	@Column(name = "OPTION_ID")
 	private Integer optionId;
@@ -49,7 +50,7 @@ public class Option implements Serializable {
 	/**
 	 * @question The question associated with this class.
 	 */
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY, cascade={CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinColumn(name = "QUESTION_ID")
 	private Question question;
 	

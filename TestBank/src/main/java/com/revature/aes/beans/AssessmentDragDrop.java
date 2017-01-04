@@ -21,7 +21,7 @@ public class AssessmentDragDrop implements Serializable {
 	
 	@Id
 	@Column(name = "assessment_drag_drop_id")
-	@SequenceGenerator(sequenceName = "aes_assessment_drag_drop_seq", name = "aes_assessment_drag_drop_seq")
+	@SequenceGenerator(sequenceName = "aes_assessment_drag_drop_seq", name = "aes_assessment_drag_drop_seq", allocationSize=1)
 	@GeneratedValue(generator = "aes_assessment_drag_drop_seq", strategy = GenerationType.SEQUENCE)
 	private int assessmentDragDropId;
 	

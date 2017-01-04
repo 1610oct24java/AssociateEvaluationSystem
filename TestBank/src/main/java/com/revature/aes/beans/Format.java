@@ -23,7 +23,7 @@ public class Format implements Serializable {
 	 * @formatId The unique Identifier for the Class
 	 */
 	@Id
-	@SequenceGenerator(name = "AES_FORMATS_SEQ", sequenceName = "AES_FORMATS_SEQ")
+	@SequenceGenerator(name = "AES_FORMATS_SEQ", sequenceName = "AES_FORMATS_SEQ", allocationSize=1)
 	@GeneratedValue(generator = "AES_FORMATS_SEQ", strategy = GenerationType.SEQUENCE)
 	@Column(name = "FORMAT_ID")
 	private Integer formatId;

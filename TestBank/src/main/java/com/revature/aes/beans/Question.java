@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,9 +20,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -32,15 +30,15 @@ public class Question implements Serializable {
 
 	@Id
 	@Column(name = "QUESTION_ID")
-	@SequenceGenerator(sequenceName = "AES_QUESTION_SEQ", name = "AES_QUESTION_SEQ")
+	@SequenceGenerator(sequenceName = "AES_QUESTION_SEQ", name = "AES_QUESTION_SEQ", allocationSize=1)
 	@GeneratedValue(generator = "AES_QUESTION_SEQ", strategy = GenerationType.SEQUENCE)
 	private int questionId;
 
 	@Column(name = "QUESTION_TEXT")
 	private String questionText;
 
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name = "QUESTION_FORMAT_ID")
+	@ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.MERGE})
+	@JoinColumn(name = "QUESTION_FORMAT_ID")	
 	private Format format;
 
 	@JsonIgnore
@@ -61,8 +59,8 @@ public class Question implements Serializable {
 	 * IE True or False for a True/False Format question.
 	 */
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.EAGER, mappedBy="question")
-	@Cascade({CascadeType.SAVE_UPDATE}) //http://www.mkyong.com/hibernate/cascade-jpa-hibernate-annotation-common-mistake/ 
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="question" )
+	//http://www.mkyong.com/hibernate/cascade-jpa-hibernate-annotation-common-mistake/ 
 	private List<Option> multiChoice; 
 	
 	@JsonIgnore

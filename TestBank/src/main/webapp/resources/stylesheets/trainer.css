@@ -1,12 +1,12 @@
 @CHARSET "ISO-8859-1";
 
-@font-face {
-  font-family: 'futura-pt';
+/* @font-face {
+  font-family: 'futura-pt, Helvetica, Arial, Sans-Serif';
   src: url('../fonts/FuturaPTComplete/ParaType-FuturaPTBook.ttf');
-}
+} */
 
 body {
-    font-family: 'futura-pt';
+    font-family: 'futura-pt, Helvetica, Arial, Sans-Serif';
    	font-size: 14px;
    	font-weight: normal;
    	line-height: 20px;

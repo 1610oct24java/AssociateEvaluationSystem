@@ -20,7 +20,7 @@ public class DragDrop implements Serializable {
 	private static final long serialVersionUID = 7681552840411022561L;
 	@Id
 	@Column(name = "drag_drop_id")
-	@SequenceGenerator(sequenceName = "aes_drag_drop_seq", name = "aes_drag_drop_seq")
+	@SequenceGenerator(sequenceName = "aes_drag_drop_seq", name = "aes_drag_drop_seq", allocationSize=1)
 	@GeneratedValue(generator = "aes_drag_drop_seq", strategy = GenerationType.SEQUENCE)
 	private int dragDropId;
 
