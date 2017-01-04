@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.revature.aes.beans.Assessment;
 import com.revature.aes.beans.User;
 import com.revature.aes.dao.UserDao;
 
@@ -32,6 +34,8 @@ public class UserServiceImpl implements UserService {
 	private UserDao dao;
 	@Autowired 
 	private SecurityService security;
+	@Autowired
+	private AssessmentService asmt;
 	@Autowired
 	private RoleService role;
 	@Autowired
@@ -60,7 +64,7 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
-	public User createCandidate(User candidate, String recruiterEmail) {
+	public Map<String,String> createCandidate(User candidate, String recruiterEmail) {
 		String pattern = "dd-MMM-yy";
 		SimpleDateFormat fmt = new SimpleDateFormat(pattern);
 		
@@ -74,16 +78,26 @@ public class UserServiceImpl implements UserService {
 		
 		String pass = security.createSecurity(candidate);
 		
-		client.finalizeCandidate(candidate, pass);
+		Map<String,String> map = client.finalizeCandidate(candidate, pass);
 		
-		return candidate;
+		return map;
 	}
 
 	@Override
 	public List<User> findUsersByRecruiter(String email) {
 		int recruiterId = dao.findUserByEmail(email).getUserId();
+		List<User> users = dao.findUsersByRecruiterId(recruiterId); 
 		
-		return dao.findUsersByRecruiterId(recruiterId);
+		for(User u : users){
+			Assessment m = asmt.findByUser(u);
+			if(m != null && m.getGrade() != null)
+				u.setGrade(m.getGrade());
+			else
+				u.setGrade(-1);
+		}
+		
+		System.out.println(users);	
+		return users;
 	}
 
 	@Override
@@ -97,6 +111,7 @@ public class UserServiceImpl implements UserService {
 		List<User> users = findUsersByRecruiter(email);
 		if(index >= users.size())
 			return null;
+		
 		return users.get(index);
 	}
 

@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.revature.aes.beans.AssessmentAuth;
+import com.revature.aes.beans.User;
 import com.revature.aes.dao.AssessmentAuthDao;
 
 @Service
@@ -14,11 +15,20 @@ public class AssessmentAuthServiceImpl implements AssessmentAuthService {
 	
 	@Autowired
 	private AssessmentAuthDao dao;
+	@Autowired
+	private UserService uService;
 
 	@Override
 	@Transactional(propagation=Propagation.MANDATORY)
 	public AssessmentAuth save(AssessmentAuth link) {
 		// 
 		return dao.save(link);
+	}
+
+	@Override
+	public AssessmentAuth getLink(String email) {
+		// 
+		User u = uService.findUserByEmail(email);
+		return dao.findByUserId(u.getUserId());
 	}
 }

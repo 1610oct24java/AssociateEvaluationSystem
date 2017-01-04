@@ -33,7 +33,6 @@ public class Mail {
 				+ " Your temporary password is no longer valid";
 		
 		public void sendEmail(MailObject m, String email){
-			
 			User candidate = us.findUserByEmail(email);
 			User recruiter = ud.findRecruiterByEmail(email);
 			
@@ -46,6 +45,7 @@ public class Mail {
 				ms.sendEmail(ms.setupMessage(email, "Revature Quiz", CANIDATE_COMPLETED_BODY + "Link: " + m.getLink() 
 						+ "\nTemporary Pass: " + m.getTempPass()));
 				break;
+				
 			case "candidateNotCompleted":
 				ms.sendEmail(ms.setupMessage(email, "Quiz Timer Expired", CANDIDATE_NOT_COMPLETE_BODY));
 				ms.sendEmail(ms.setupMessage(recruiterEmail, candidateName + " did not complete their quiz", "The timer for: " + candidateName + " has expired and their temporary password is no longer invalid."));
