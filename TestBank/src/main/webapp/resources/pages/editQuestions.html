@@ -72,10 +72,10 @@
 		</div>
 		<div>
 			<form>
-				<input type="number" placeholder="Question #">
-				<input type="text" placeholder="Add Categories">
-				<input type="text" placeholder="Add Tags">
-				<input type="submit">
+				<input type="number" ng-model="ctrl.questionBeingUpdated" placeholder="Question #">
+				<input type="text" ng-model="ctrl.catList" placeholder="Add Categories">
+				<input type="text" ng-model="ctrl.tagList" placeholder="Add Tags">
+				<input type="submit" ng-click="ctrl.addCategoriesAndTags()">
 			</form>
 		</div>
 	</main>

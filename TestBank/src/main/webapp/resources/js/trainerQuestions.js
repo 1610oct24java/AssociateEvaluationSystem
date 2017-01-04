@@ -45,6 +45,9 @@ var url = "/" + baseDirectory + "/";
 		this.qList;
 		this.deleteme = 0;
 		this.selected = {};
+		this.tagList = '';
+		this.catList = '';
+		this.questionBeingUpdated = '';
 		this.format = {
 			format : 0,
 			formatName : ''
@@ -205,6 +208,37 @@ var url = "/" + baseDirectory + "/";
 					}); // $http end
 			} // outer if end	
 		} // updateQuestion() end
+		
+		this.getQuestionId = () => {
+			for(var i=0;i<this.qList.length;i++){
+				if(i==this.questionBeingUpdated){
+					return this.qList[i-1].questionId;
+				}
+			}
+		} // getQuestionId() end
+		
+		this.addCategoriesAndTags = () => {
+			// question must be selected
+			if(this.questionBeingUpdated===''){
+				alert('Please select a question number');
+				return;
+			}
+			if(this.tagList==='' && this.catList===''){
+				alert('Please provide a category or tag');
+				return;
+			}
+			// initialize question
+			this.question = this.qList[this.questionBeingUpdated-1];
+			console.log(this.question);
+			
+			// get categories into an array
+			var selectedCategories = this.catList.split(',');
+			for (var i=0;i<selectedCategories.length;i++){
+				//console.log(selectedCategories[i]);
+				// add category
+				
+			}
+		} // addCategoriesAndTags() end
 		
 		angular.element(document).ready(() => {
 			this.getQuestionList();
