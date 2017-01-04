@@ -16,7 +16,8 @@ public class AssessmentServiceImpl implements AssessmentService {
 	@Override
 	public Assessment findByUser(User user) {
 		// 
-		return dao.findAssesmentByUser(user);
+		//return dao.findAssesmentByUser(user);
+		return dao.findByUser(user);
 	}
 
 }

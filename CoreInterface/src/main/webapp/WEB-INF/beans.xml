@@ -51,12 +51,14 @@
 		<property name="dataSource" ref="mydataSource" />
 		<property name="packagesToScan" value="com.revature.aes.beans"></property>
 		<property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter"></property>
+		
 		<property name="jpaProperties">
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>
 				<prop key="hibernate.show_sql">false</prop>
 				<prop key="hibernate.format_sql">false</prop>
 				<prop key="hibernate.use_sql_comments">false</prop>
+				<prop key="hibernate.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
 			</props>
 		</property>
 	</bean>

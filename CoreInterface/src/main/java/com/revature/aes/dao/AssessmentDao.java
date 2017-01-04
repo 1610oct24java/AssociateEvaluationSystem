@@ -8,4 +8,5 @@ import com.revature.aes.beans.User;
 @Repository
 public interface AssessmentDao extends JpaRepository<Assessment, Integer>{
 	public Assessment findAssesmentByUser(User id);
+	public Assessment findByUser(User usr);
 }
