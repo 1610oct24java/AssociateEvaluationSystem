@@ -131,11 +131,11 @@ public class AikenParser {
 	 * @throws IOException
 	 */
 	private ArrayList<Option> getOptionsList(BufferedReader br) throws IOException{	
-    	ArrayList<Option> optionsList = new ArrayList<Option>();
+    	
 		line = br.readLine();
     	
 		// Create new options list for each Question
-    	optionsList = new ArrayList<Option>();
+		ArrayList<Option> optionsList = new ArrayList<>();
 		
     	line = br.readLine();
     			
