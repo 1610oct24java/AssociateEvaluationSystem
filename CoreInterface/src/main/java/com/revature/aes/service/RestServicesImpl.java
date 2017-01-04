@@ -39,7 +39,7 @@ public class RestServicesImpl implements RestServices {
 		
 		authService.save(auth);
 		
-		mailService.send(email, pass, link);
+		mailService.sendPassword(email, link, pass);
 	}
 
 }

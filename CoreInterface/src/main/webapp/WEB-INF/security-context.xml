@@ -6,6 +6,7 @@
     http://www.springframework.org/schema/security/spring-security-4.0.xsd">
 
 	<http pattern="/" security="none"/>
+	<http pattern="/user/**" security="none"/>
 
 	<http auto-config="true" use-expressions="true">
 		<intercept-url pattern="/*" access="hasRole('ROLE_RECRUITER')" />
@@ -13,9 +14,10 @@
 		<intercept-url pattern="/" access="isAnonymous()"/>
 		<form-login login-page="/"
 		login-processing-url="/login"
-		/>
-<!-- 		authentication-failure-url="/login?error"
-		default-target-url="/home"/> -->
+		authentication-failure-url="/login?error"
+		default-target-url="/home"/>
+		<logout/>
+
 		<csrf disabled="true"/>
 	</http>
 

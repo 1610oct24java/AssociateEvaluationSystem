@@ -72,4 +72,11 @@ public class SecurityServiceImpl implements SecurityService {
 		
 		return pass;
 	}
+
+	@Override
+	public void updateSecurity(Security security) {
+		dao.save(security);
+	}
+
+
 }

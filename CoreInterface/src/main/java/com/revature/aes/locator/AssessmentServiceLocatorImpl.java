@@ -11,7 +11,7 @@ public class AssessmentServiceLocatorImpl implements AssessmentServiceLocator {
 
 	@Override
 	public AssessmentRequest getLink(AssessmentRequest request) {
-		// TODO Change the URL to whatever Matthew's thingy will be
+		//Change the URL to whatever Matthew's thingy will be
 		
 		String url = "http://www.google.com";
 		ResponseEntity<AssessmentRequest> responseEntity = restTemplate.postForEntity(url + "/assessment", request, AssessmentRequest.class);

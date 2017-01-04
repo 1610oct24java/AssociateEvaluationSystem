@@ -1,45 +1,39 @@
 package com.revature.aes.mail;
 
+import org.apache.log4j.Logger;
+
 public class MailObject {
 	
-	private String candidateEmail;
+	private Logger log = Logger.getRootLogger();
+	
 	private String link;
 	private String tempPass;
-	private String candidateName;
-	private String recruiterEmail;
-	private String grade;
+	private String type;
+	private int assessmentId;
 	
 	MailObject(){
 		super();
 	}
 	
-	MailObject(String string1, String string2, String string3, int id){
-		if(id==1)
-		{
-			this.candidateEmail= string1;
-			this.link=string2;
-			this.tempPass=string3;
-		}
-		else if(id==2)
-		{
-			this.candidateEmail=string1;
-			this.recruiterEmail=string2;
-			this.candidateName=string3;
-		}
-		else if(id==3)
-		{
-			this.recruiterEmail=string1;
-			this.candidateName=string2;
-			this.grade=string3;
+	public MailObject(String link, String tempPass, String type, int assesmentId) {
+		super();
+		try{
+			this.link = link;
+			this.tempPass = tempPass;
+			this.type = type;
+			this.assessmentId = assesmentId;
+		}catch(NullPointerException npe){
+			log.info("Setting assesmentId to 0." + npe);
+			this.assessmentId = 0;
 		}
 	}
 	
-	public String getCandidateEmail() {
-		return candidateEmail;
+	public void setAssesmentId(int assesmentId){
+		this.assessmentId=assesmentId;
 	}
-
-	public void setCandidateEmail(String canidateEmail) {
-		this.candidateEmail = canidateEmail;
+	
+	public int getAssesmentId(){
+		return assessmentId;
 	}
 
 	public String getLink() {
@@ -57,34 +51,17 @@ public class MailObject {
 	public void setTempPass(String tempPass) {
 		this.tempPass = tempPass;
 	}
-
-	public String getCandidateName() {
-		return candidateName;
+	
+	public String getType(){
+		return type;
 	}
-
-	public void setCandidateName(String candidateName) {
-		this.candidateName = candidateName;
-	}
-
-	public String getRecruiterEmail() {
-		return recruiterEmail;
-	}
-
-	public void setRecruiterEmail(String recruiterEmail) {
-		this.recruiterEmail = recruiterEmail;
-	}
-
-	public String getGrade() {
-		return grade;
-	}
-
-	public void setGrade(String grade) {
-		this.grade = grade;
+	
+	public void setType(String type){
+		this.type=type;
 	}
 
 	@Override
 	public String toString() {
-		return "MailObject [candidateEmail=" + candidateEmail + ", link=" + link + ", tempPass=" + tempPass
-				+ ", candidateName=" + candidateName + ", recruiterEmail=" + recruiterEmail + ", grade=" + grade + "]";
+		return "MailObject [link=" + link + ", tempPass=" + tempPass + ", type=" + type + "]";
 	}
 }
