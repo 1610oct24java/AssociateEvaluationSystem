@@ -79,9 +79,11 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	$scope.numEditors = 0;
 	$scope.oneAtATime = false;
 	$scope.editors = new Array();
+	$scope.protoTest = tstQuiz2;
+	$scope.questions = $scope.protoTest.template.templateQuestion
 
 	var incrementEditorIfNeeded = function(i) {
-		if ($scope.quiz.questions[i].type === 3) {
+		if ($scope.questions[i].templateQuestion.format.formatId === 3) {
 			$scope.numEditors++;
 		};
 	};
@@ -95,16 +97,16 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 		$scope.states.push(temp);
 	};
 	var makeAnswers = function(ndx) {
-		if($scope.quiz.questions[ndx].type === 0) {
+		if($scope.questions[ndx].templateQuestion.format.formatId === 0) {
 			$scope.answers.push(-1);
-		} else if ($scope.quiz.questions[ndx].type === 1 ) {
+		} else if ($scope.questions[ndx].templateQuestion.format.formatId === 1 ) {
 			$scope.answers.push([-1]);
 		} else {
 			$scope.answers.push(-1);
 		};
 	}
 	var initSetup = function() {
-		for (var i = 0; i < $scope.quiz.questions.length; i++) {
+		for (var i = 0; i < $scope.questions.length; i++) {
 			incrementEditorIfNeeded(i);
 			makeState(i);
 			makeAnswers(i);
@@ -128,10 +130,10 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	};
 	
 	$scope.selectOption = function (ndxOption, ndxQuestion) {
-		if($scope.quiz.questions[ndxQuestion].type === 0) {
+		if($scope.questions[ndxQuestion].templateQuestion.format.formatId === 0) {
 			console.log("1) Select Option: " + ndxOption + " in Question: " + ndxQuestion);
 			$scope.answers[ndxQuestion] = ndxOption;
-		} else if ($scope.quiz.questions[ndxQuestion].type === 1 ) {
+		} else if ($scope.questions[ndxQuestion].templateQuestion.format.formatId === 1 ) {
 			console.log("2) Select Option: " + ndxOption + " in Question: " + ndxQuestion);
 			var foundAt = $scope.answers[ndxQuestion].indexOf(ndxOption)
 			if (foundAt === -1){
@@ -145,11 +147,11 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	$scope.checkChecked = function (ndxOption, ndxQuestion) {
 		var output = false;
 		
-		if($scope.quiz.questions[ndxQuestion].type === 0) {
+		if($scope.questions[ndxQuestion].templateQuestion.format.formatId === 0) {
 			if ($scope.answers[ndxQuestion] === ndxOption) {
 				output = true;
 			}
-		} else if ($scope.quiz.questions[ndxQuestion].type === 1 ) {
+		} else if ($scope.questions[ndxQuestion].templateQuestion.format.formatId === 1 ) {
 			if ($scope.answers[ndxQuestion].indexOf(ndxOption) != -1){
 				output = true;
 			}
@@ -162,9 +164,9 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	$scope.checkNeedEditor2 = function(questionIndex) {
 		// console.log("Checking if q " + questionIndex + " needs an editor.");
 		if ($scope.editors.length < $scope.numEditors) {
-			var currQ = $scope.quiz.questions[questionIndex];
+			var currQ = $scope.questions[questionIndex];
 
-			if (currQ.type === 3) {
+			if (currQ.templateQuestion.format.formatId === 3) {
 				// If this question is a coding question
 				// Create an editor for it
 				var newEditor = ace.edit("editor" + questionIndex);
@@ -176,8 +178,8 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	};
 	
 	$scope.checkNeedEditor = function(questionIndex) {
-		var currQ = $scope.quiz.questions[questionIndex];
-		if(currQ.type === 3) {
+		var currQ = $scope.questions[questionIndex];
+		if(currQ.templateQuestion.format.formatId === 3) {
 			// If this question is a coding question
 			var temp = ace.edit("editor" + questionIndex);
 			temp.setTheme("ace/theme/monokai");
@@ -215,7 +217,7 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 		var begin = (($scope.currentPage - 1) * $scope.numPerPage), end = begin
 				+ $scope.numPerPage;
 
-		$scope.filteredQuestions = $scope.quiz.questions.slice(begin, end);
+		$scope.filteredQuestions = $scope.questions.slice(begin, end);
 	});
 });
 
