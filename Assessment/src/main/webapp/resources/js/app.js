@@ -129,15 +129,19 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	};
 	
 	$scope.selectOption = function (ndxOption, ndxQuestion) {
+		// Handles putting the answer into the javascript object when the uesr
+		// selects an option
+		
 		if($scope.questions[ndxQuestion].templateQuestion.format.formatId === 0) {
-			console.log("1) Select Option: " + ndxOption + " in Question: " + ndxQuestion);
+			// Handles multiple choice questions
 			$scope.answers[ndxQuestion] = ndxOption;
 			var answer = $scope.questions[ndxQuestion].templateQuestion.multiChoice[ndxOption];
 			var question = $scope.questions[ndxQuestion].templateQuestion;
 			var foundAt = $scope.protoTest.options.indexOf(answer);
+			// If it's not already in the system
 			if (foundAt === -1) {
+				// Make sure there's only one option per questions
 				for (var i = 0; i < $scope.protoTest.options.length; i++) {
-					console.log($scope.protoTest.options[i].questionId + ", " + question.questionId);
 					if ($scope.protoTest.options[i].questionId === question.questionId){
 						$scope.protoTest.options.splice(foundAt, 1);
 					}
@@ -147,10 +151,13 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 		} else if ($scope.questions[ndxQuestion].templateQuestion.format.formatId === 1 ) {
 			console.log("2) Select Option: " + ndxOption + " in Question: " + ndxQuestion);
 			var foundAt = $scope.answers[ndxQuestion].indexOf(ndxOption)
+			var answer = $scope.questions[ndxQuestion].templateQuestion.multiChoice[ndxOption];
 			if (foundAt === -1){
 				$scope.answers[ndxQuestion].push(ndxOption);
+				$scope.protoTest.options.push(answer);
 			} else {
 				$scope.answers[ndxQuestion].splice(foundAt, 1);
+				$scope.protoTest.options.splice(foundAt, 1);
 			}
 		};
 	}
