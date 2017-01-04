@@ -105,7 +105,9 @@ public class QuestionRestController
 	{ MediaType.APPLICATION_JSON_VALUE })
 	public Question updateQuestionById(@RequestBody Question question)
 	{
-		return questionService.updateQuestion(question);
+		Question q1 = questionService.updateQuestion(question);
+		System.out.println(q1);
+		return q1;
 	}
 	
 	

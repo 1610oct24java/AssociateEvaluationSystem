@@ -178,7 +178,7 @@ var url = "/" + baseDirectory + "/";
 				if(this.question.questionText != ''){
 				$http.post(url + "fullQuestion", this.question)
 					.success(response => {
-						this.question.question = response.data;
+						this.question.question = response;
 						if (this.question.question == null) {
 							alert("Error Saving Question Please Try Again");
 							this.resetQuestion();

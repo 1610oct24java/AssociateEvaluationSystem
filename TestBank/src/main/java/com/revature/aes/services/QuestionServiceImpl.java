@@ -132,6 +132,9 @@ public class QuestionServiceImpl implements QuestionService
 	@Transactional(propagation=Propagation.REQUIRED)
 	public void deleteQuestionById(Integer id)
 	{
+		System.out.println("-----------------------------");
+		System.out.println(qdao.findOne(id));
+		System.out.println("-----------------------------");
 		qdao.delete(qdao.findOne(id)); 	
 	}
 
