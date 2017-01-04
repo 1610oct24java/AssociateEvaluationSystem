@@ -13,7 +13,6 @@ import com.revature.aes.beans.Question;
 @Repository("questionDao")
 public interface QuestionDAO extends JpaRepository<Question, Integer>{
 	public List<Question> findAllQuestionsByFormat(Format format);
-	public List<Question> findCategoryByName(String name);
-	public Set<Question> findAllQuestionsByCategory(Category category); 
-	public Question updateQuestionById(Integer id);
+	public List<Question> findAllQuestionsByCategory(Category category); 
+	//public Question updateQuestionById(Integer id);
 }

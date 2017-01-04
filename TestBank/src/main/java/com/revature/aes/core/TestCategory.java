@@ -1,6 +1,6 @@
 package com.revature.aes.core;
 
-import java.util.Set;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,7 +23,7 @@ public class TestCategory {
 		Category category = new Category();
 		category.setCategoryId(1);
 		category.setName("Java");
-		Set<Question> questions = qservice.getAllQuestionsByCategory(category);
+		List<Question> questions = qservice.getAllQuestionsByCategory(category);
 		System.out.println("questions!");
 		for (Question question : questions){
 			System.out.print(question.getQuestionId());

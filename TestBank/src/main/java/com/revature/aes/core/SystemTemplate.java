@@ -1,19 +1,34 @@
 package com.revature.aes.core;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.revature.aes.beans.AssessmentRequest;
 import com.revature.aes.beans.Category;
-import com.revature.aes.beans.Format;
 import com.revature.aes.beans.Question;
+import com.revature.aes.beans.TemplateQuestion;
+import com.revature.aes.beans.User;
+import com.revature.aes.daos.AssessmentDAO;
 import com.revature.aes.daos.CategoryDAO;
 import com.revature.aes.daos.QuestionDAO;
+import com.revature.aes.daos.UserDAO;
 
+@Component
 public class SystemTemplate {
 
+	@Autowired
 	private QuestionDAO qDao;
+	@Autowired
 	private CategoryDAO cDao;
+	@Autowired
+	private UserDAO uDao;
+	@Autowired
+	private AssessmentDAO aDao;
 
 	/**
 	 * 
@@ -23,26 +38,24 @@ public class SystemTemplate {
 	 *            the category.
 	 * @return The list of questions taken from the database for the template.
 	 */
-	public List<Question> getRandomSelectionFromCategory(AssessmentRequest assReq) {
+	public Set<TemplateQuestion> getRandomSelectionFromCategory(AssessmentRequest assReq) {
 
 		String catName = assReq.getCategory();
 		int multiChoice = assReq.getMcQuestions();
 		int multiSelect = assReq.getMsQuestions();
 		int dragDrop = assReq.getDdQuestions();
 		int codeSnip = assReq.getCsQuestions();
-		List<Question> AssessList = new ArrayList<Question>();
-
-		// set instead of list
-		System.out.println("The category name: " + catName);
-		Category cat = (Category) cDao.getByName(catName);
-		System.out.println("The category object: " + cat.toString());
-		List<Question> filteredQuestions = (List<Question>) qDao.findAllQuestionsByCategory(cat);
-		List<Question> formatList = null;
-
-		// Make a separate method instead of repeating this four times.
-
-		formatList = new ArrayList<>();
 		int size;
+		String userEmail = assReq.getUserEmail();
+		Set<Question> AssessList = new HashSet<Question>();
+		List<Question> formatList = null;
+		Set<TemplateQuestion> finalList = new HashSet<TemplateQuestion>();
+		formatList = new ArrayList<>();
+		User user = uDao.findByEmail(userEmail);
+		
+		Category cat = (Category) cDao.getByName(catName);
+		
+		List<Question> filteredQuestions = (List<Question>) qDao.findAllQuestionsByCategory(cat);
 
 		if (multiChoice != 0) {
 
@@ -119,8 +132,15 @@ public class SystemTemplate {
 			}
 
 		}
-
-		return AssessList;
+		for(Question q : AssessList)
+		{
+			TemplateQuestion tq = new TemplateQuestion();
+			tq.setPatternInquiry(q);
+			
+			finalList.add(tq);
+		}
+		
+		return finalList;
 	}
 
 	public List<Question> multiChoiceQuestionAdder(List<Question> formatList, List<Question> filteredQuestions) {

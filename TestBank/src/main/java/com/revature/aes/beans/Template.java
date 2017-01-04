@@ -3,6 +3,8 @@ package com.revature.aes.beans;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -33,7 +35,7 @@ public class Template implements Serializable {
 	@JoinColumn(name="CREATOR_ID", referencedColumnName="USER_ID")
 	private User creator;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy ="template")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy ="template", cascade = CascadeType.ALL)
 	private Set<TemplateQuestion> templateQuestion;
 
 	public Template() {

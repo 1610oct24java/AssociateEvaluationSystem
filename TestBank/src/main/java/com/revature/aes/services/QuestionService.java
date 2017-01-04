@@ -19,7 +19,7 @@ public interface QuestionService {
 
 	public Question updateQuestion(Question question);
 
-	public Set<Question> getAllQuestionsByCategory(Category category);
+	public List<Question> getAllQuestionsByCategory(Category category);
 	
 	public void deleteQuestionById(Integer id);
 

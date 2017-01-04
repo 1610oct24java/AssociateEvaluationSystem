@@ -64,11 +64,11 @@ public class TemplateQuestion implements Serializable {
 		this.weight = weight;
 	}
 
-	public Question getTemplateQuestion() {
+	public Question getPatternInquiry() {
 		return patternInquiry;
 	}
 
-	public void setTemplateQuestion(Question templateQuestion) {
+	public void setPatternInquiry(Question templateQuestion) {
 		this.patternInquiry = templateQuestion;
 	}
 

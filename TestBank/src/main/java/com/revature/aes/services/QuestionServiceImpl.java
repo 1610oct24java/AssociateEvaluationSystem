@@ -94,7 +94,7 @@ public class QuestionServiceImpl implements QuestionService{
 	 */
 	@Override
 	@Transactional(propagation=Propagation.SUPPORTS)
-	public Set<Question> getAllQuestionsByCategory(Category category)
+	public List<Question> getAllQuestionsByCategory(Category category)
 	{
 		return qdao.findAllQuestionsByCategory(category);
 	}

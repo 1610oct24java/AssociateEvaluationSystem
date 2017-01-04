@@ -1,5 +1,7 @@
 package com.revature.aes.rest.controllers;
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.aes.beans.AssessmentRequest;
 import com.revature.aes.beans.Template;
+import com.revature.aes.beans.TemplateQuestion;
 import com.revature.aes.core.SystemTemplate;
 
 @RestController
@@ -25,11 +28,19 @@ public class AssessmentRestController {
 	 */
 	@RequestMapping(value = "user/{email}/RandomAssessment", method=RequestMethod.POST, consumes = 
 		{MediaType.APPLICATION_JSON_VALUE})
-	public AssessmentRequest createAssessment(@RequestBody AssessmentRequest assReq){
+	public Template createAssessment(@RequestBody AssessmentRequest assReq){
 		
 		Template tmpl = new Template();
-		tmpl.setTemplateQuestion(systemp.getRandomSelectionFromCategory(assReq));
-		return assReq;
+		Set <TemplateQuestion> finalQuestion = systemp.getRandomSelectionFromCategory(assReq);
+		for(TemplateQuestion tq : finalQuestion)
+		{
+			tq.setTemplate(tmpl);
+		}
+		tmpl.setTemplateQuestion(finalQuestion);
+		
+		
+		
+		return tmpl;
 	}
 	
 
