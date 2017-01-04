@@ -48,7 +48,7 @@ public class TestCategory {
 		cservice.addCategory(category);
 		cservice.deleteCategory(category);
 	}
-<<<<<<< HEAD
+
 	public void testQuestionCategory(){
 		Question question = qservice.getQuestionById(1);
 		Category category = cservice.getCategoryById(2);
@@ -60,13 +60,3 @@ public class TestCategory {
 		qservice.addQuestion(question);
 	}
 }
-
-
-
-
-
-
-=======
-
-}
->>>>>>> dd36c15fcfd570ca015fd343293e38b7aaa8a7d0
