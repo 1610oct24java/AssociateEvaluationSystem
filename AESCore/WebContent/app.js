@@ -22,7 +22,14 @@ app.controller('LoginCtrl', function($scope, $http) {
 						window.location = 'viewCandidates.html';
 						break;
 					case 'ROLE_CANDIDATE':
-						window.location = 'https://usatftw.files.wordpress.com/2016/05/usp-nhl_-stanley-cup-playoffs-dallas-stars-at-st-_002.jpg?w=1000&h=600&crop=1';
+						$scope.candEmail = 'mpski17@gmail.com';
+						$http.get('http://localhost:8080/core/candidate/' + $scope.candEmail + '/link')
+						.then(function(response) {
+							console.log(response.data);
+							window.location = 'https://' + response.data.urlAssessment;
+							console.log('CHOOCKED');
+						})
+						//window.location = 'https://usatftw.files.wordpress.com/2016/05/usp-nhl_-stanley-cup-playoffs-dallas-stars-at-st-_002.jpg?w=1000&h=600&crop=1';
 						break;
 					case 'ROLE_TRAINER':
 						window.location = 'http://sports.cbsimg.net/images/nhl/blog/Ryan_Reaves_Kiss.JPG';
@@ -50,7 +57,7 @@ app.controller('RegisterCanidateCtrl', function($scope,$location,$http) {
 			recruiterId   : null,
 			role          : null,
 			datePassIssued: null,
-			format		  : $scope.program.name
+			format		  : $scope.program.value
 		};
 
 		console.log(canidateInfo);
@@ -95,6 +102,7 @@ app.controller('RegisterCanidateCtrl', function($scope,$location,$http) {
 }); //end register candidate controller
 
 app.controller('CandidateViewCtrl', function($scope,$http) {
+	authorize($scope,$http);
 	var email = 'asd@gmail.com';
 	$http.get('http://localhost:8080/core/recruiter/' + email + '/candidates')
 	.then(function(response) {
@@ -155,7 +163,7 @@ function authorize($scope, $http) {
 //				window.location = 'index.html';
 //			}
 			//return authUser;
-		} 
+		}
 //		else {
 //			window.location = 'https://cbsstlouis.files.wordpress.com/2016/05/unknown.jpg?w=420';
 //		}
