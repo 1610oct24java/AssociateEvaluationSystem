@@ -13,8 +13,15 @@ import com.revature.aes.dao.AssessmentDao;
 
 @Service
 public class AssessmentServiceImpl implements AssessmentService {
+
 	@Autowired
 	private AssessmentDao dao;
+
+	@Override
+	public Assessment findByUser(User user) {
+		// 
+		return dao.findAssesmentByUser(user);
+	}
 
 	@Override
 	public List<User> findUsersWithNoGrade() {
@@ -30,5 +37,4 @@ public class AssessmentServiceImpl implements AssessmentService {
 		
 		return users;
 	}
-
 }

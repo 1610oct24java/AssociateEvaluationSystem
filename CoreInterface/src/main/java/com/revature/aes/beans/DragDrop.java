@@ -36,7 +36,6 @@ public class DragDrop implements Serializable {
 
 	public DragDrop() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

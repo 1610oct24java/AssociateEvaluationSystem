@@ -6,4 +6,5 @@ import com.revature.aes.beans.User;
 
 public interface AssessmentService {
 	public List<User> findUsersWithNoGrade();
+	public Assessment findByUser(User user);
 }

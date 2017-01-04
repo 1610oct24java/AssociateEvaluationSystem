@@ -4,13 +4,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.revature.aes.beans.MailService;
-
+import com.revature.aes.beans.User;
+import com.revature.aes.dao.AssessmentDao;
+import com.revature.aes.dao.UserDao;
+import com.revature.aes.service.UserService;
 
 @Component
 public class Mail {
 		
 		@Autowired
-		MailService ms;
+		private MailService ms;
+		
+		@Autowired
+		private UserService us;
+		
+		@Autowired
+		private UserDao ud;
+		
+		@Autowired
+		private AssessmentDao ad;
 		
 		static final String CANIDATE_COMPLETED_BODY = "Please click the link below and complete the quiz within one week.\n"
 				+ "If you can not click the link please copy and paste it into your URL bar\n\n";
@@ -20,24 +32,32 @@ public class Mail {
 		static final String CANDIDATE_NOT_COMPLETE_BODY = "The time to complete your quiz has passed."
 				+ " Your temporary password is no longer valid";
 		
-		
-		
-		public void sendQuizEmail(String candidateEmail, String link, String tempPass){
-			ms.sendEmail(ms.setupMessage(candidateEmail, "Revature Quiz", CANIDATE_COMPLETED_BODY + "Link: " + link 
-					+ "\nTemporary Pass: " + tempPass));
-		}
-		
-		public void recruiterReturnGradeEmail(String recruiterEmail, String candidateName, String grade){
-			ms.sendEmail(ms.setupMessage(recruiterEmail, candidateName + " has completed quiz",candidateName
-					+RECRUITER_COMPLETED_BODY+grade));
-		}
-		
-		public void candidateNotCompletedEmail(String candidateEmail){
-			ms.sendEmail(ms.setupMessage(candidateEmail, "Quiz Timer Expired", CANDIDATE_NOT_COMPLETE_BODY));
-		}
-		
-		public void recruiterNotCompletedEmail(String recruiterEmail, String candidateName){
-			ms.sendEmail(ms.setupMessage(recruiterEmail, candidateName + " did not complete their quiz", "The timer for: " 
-					+ candidateName + " has expired and their temporary password is no longer invalid."));
+		public void sendEmail(MailObject m, String email){
+			User candidate = us.findUserByEmail(email);
+			User recruiter = ud.findRecruiterByEmail(email);
+			
+			String recruiterEmail = recruiter.getEmail();
+			String candidateName = candidate.getFirstName() + " " + candidate.getLastName();
+			
+			switch (m.getType()){
+			
+			case "candidateNeedsQuiz":
+				ms.sendEmail(ms.setupMessage(email, "Revature Quiz", CANIDATE_COMPLETED_BODY + "Link: " + m.getLink() 
+						+ "\nTemporary Pass: " + m.getTempPass()));
+				break;
+				
+			case "candidateNotCompleted":
+				ms.sendEmail(ms.setupMessage(email, "Quiz Timer Expired", CANDIDATE_NOT_COMPLETE_BODY));
+				ms.sendEmail(ms.setupMessage(recruiterEmail, candidateName + " did not complete their quiz", "The timer for: " + candidateName + " has expired and their temporary password is no longer invalid."));
+				break;
+			
+			case "candidateCompleted":
+				int grade = ad.findAssesmentByUser(candidate).getGrade(); 
+				ms.sendEmail(ms.setupMessage(recruiterEmail, candidateName + " has completed quiz", candidateName
+						+RECRUITER_COMPLETED_BODY+String.valueOf(grade)));
+				break;
+			default:
+				break;
+			}
 		}
 }

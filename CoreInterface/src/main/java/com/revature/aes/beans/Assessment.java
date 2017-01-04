@@ -1,7 +1,7 @@
 package com.revature.aes.beans;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -18,9 +18,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "aes_assessment")
+
 public class Assessment implements Serializable {
 
 	private static final long serialVersionUID = -6152668317029130986L;
@@ -35,33 +37,34 @@ public class Assessment implements Serializable {
 	private User user;
 
 	@Column(name = "grade")
-	private int grade;
+	private Integer grade;
 
 	@Column(name = "time_limit")
 	private int timeLimit;
 
 	@Column(name = "created_timestamp")
-	private LocalDateTime createdTimeStamp;
+	private Timestamp createdTimeStamp;
 
 	@Column(name = "finished_timestamp")
-	private LocalDateTime finishedTimeStamp;
+	private Timestamp finishedTimeStamp;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "template_id")
 	private Template template;
-	
+
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "aes_assessment_options", 
 		joinColumns = @JoinColumn(name = "assessment_id"), 
 		inverseJoinColumns = @JoinColumn(name = "option_id"))
 	private Set<Option> options;
-
+	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "assessmentDragDropId")
 	private Set<AssessmentDragDrop> assessmentDragDrop;
-	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy ="fileId")
+
+	@Transient
+	@OneToMany(fetch = FetchType.EAGER, mappedBy ="assessmentId")
 	private Set<FileUpload> fileUpload;
-	
+
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "aes_snippet_response", 
 		joinColumns = @JoinColumn(name = "snippet_template_id"), 
@@ -70,19 +73,25 @@ public class Assessment implements Serializable {
 
 	public Assessment() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public String toString() {
+
 		return "Assessment [assessmentId=" + assessmentId + ", user=" + user + ", grade=" + grade + ", timeLimit="
+
 				+ timeLimit + ", createdTimeStamp=" + createdTimeStamp + ", finishedTimeStamp=" + finishedTimeStamp
+
 				+ ", template=" + template + ", options=" + options + ", assessmentDragDrop=" + assessmentDragDrop
+
 				+ ", fileUpload=" + fileUpload + ", snippedTemplate=" + snippedTemplate + "]";
+
 	}
 
 	public int getAssessmentId() {
+
 		return assessmentId;
+
 	}
 
 	public void setAssessmentId(int assessmentId) {
@@ -97,7 +106,7 @@ public class Assessment implements Serializable {
 		this.user = user;
 	}
 
-	public int getGrade() {
+	public Integer getGrade() {
 		return grade;
 	}
 
@@ -113,19 +122,19 @@ public class Assessment implements Serializable {
 		this.timeLimit = timeLimit;
 	}
 
-	public LocalDateTime getCreatedTimeStamp() {
+	public Timestamp getCreatedTimeStamp() {
 		return createdTimeStamp;
 	}
 
-	public void setCreatedTimeStamp(LocalDateTime createdTimeStamp) {
+	public void setCreatedTimeStamp(Timestamp createdTimeStamp) {
 		this.createdTimeStamp = createdTimeStamp;
 	}
 
-	public LocalDateTime getFinishedTimeStamp() {
+	public Timestamp getFinishedTimeStamp() {
 		return finishedTimeStamp;
 	}
 
-	public void setFinishedTimeStamp(LocalDateTime finishedTimeStamp) {
+	public void setFinishedTimeStamp(Timestamp finishedTimeStamp) {
 		this.finishedTimeStamp = finishedTimeStamp;
 	}
 

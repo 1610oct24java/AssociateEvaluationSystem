@@ -23,7 +23,7 @@ public class User implements Serializable{
 	@SequenceGenerator(name = "AES_USERS_SEQ", sequenceName = "AES_USERS_SEQ")
 	@GeneratedValue(generator = "AES_USERS_SEQ", strategy = GenerationType.SEQUENCE)
 	@Column(name="USER_ID")
-	private int userId;
+	private Integer userId;
 	
 	@Column(name="EMAIL")
 	private String email;
@@ -50,6 +50,17 @@ public class User implements Serializable{
 	@Transient
 	private String format;
 	
+	@Transient
+	private int grade;
+	
+	public int getGrade() {
+		return grade;
+	}
+
+	public void setGrade(int grade) {
+		this.grade = grade;
+	}
+
 	public User() {
 		super();
 	}

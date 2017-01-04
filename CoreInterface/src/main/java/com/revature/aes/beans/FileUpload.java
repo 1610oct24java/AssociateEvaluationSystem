@@ -4,9 +4,12 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -26,8 +29,9 @@ public class FileUpload implements Serializable {
 	@Column(name = "grade")
 	private int grade;
 
-	@Column(name = "assessment_id")
-	private int assessmentId;
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="ASSESSMENT_ID")
+	private Assessment assessmentId;
 
 	public FileUpload() {
 		super();
@@ -57,11 +61,11 @@ public class FileUpload implements Serializable {
 		this.grade = grade;
 	}
 
-	public int getAssessmentId() {
+	public Assessment getAssessmentId() {
 		return assessmentId;
 	}
 
-	public void setAssessmentId(int assessmentId) {
+	public void setAssessmentId(Assessment assessmentId) {
 		this.assessmentId = assessmentId;
 	}
 

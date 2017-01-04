@@ -2,9 +2,9 @@ package com.revature.aes.beans;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,11 +20,17 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "aes_question")
 public class Question implements Serializable {
 
 	private static final long serialVersionUID = 4510024807505207528L;
+
 	@Id
 	@Column(name = "QUESTION_ID")
 	@SequenceGenerator(sequenceName = "AES_QUESTION_SEQ", name = "AES_QUESTION_SEQ")
@@ -34,10 +40,11 @@ public class Question implements Serializable {
 	@Column(name = "QUESTION_TEXT")
 	private String questionText;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "QUESTION_FORMAT_ID")
 	private Format format;
 
+	@JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "AES_QUESTION_TAG", 
 		joinColumns = @JoinColumn(name = "QUESTION_ID"), 
@@ -50,25 +57,38 @@ public class Question implements Serializable {
 		inverseJoinColumns = @JoinColumn(name = "CATEGORY_ID"))
 	private Set<Category> category;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL,mappedBy="question")
-	private List<Option> multiChoice;
+	/**
+	 * Represents a list of the Options (answers) for a question.
+	 * IE True or False for a True/False Format question.
+	 */
+	@JsonIgnore
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="question")
+	@Cascade({CascadeType.SAVE_UPDATE}) //http://www.mkyong.com/hibernate/cascade-jpa-hibernate-annotation-common-mistake/ 
+	private List<Option> multiChoice; 
 	
-	@OneToMany(fetch = FetchType.EAGER)
-	@JoinColumn(name="QUESTION_ID")
-	private Set<DragDrop> dragDrops;	
+	@JsonIgnore
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="questionId")
+	private Set<DragDrop> dragDrops;			
 	
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="QUESTION_ID")
+	
 	private SnippetTemplate snippetTemplate;
 
 	public Question() {
 		super();
 	}
-
-	@Override
-	public String toString() {
-		return "Question [questionId=" + questionId + ", questionText=" + questionText + ", format=" + format
-				+ ", multiChoice=" + multiChoice + "]";
+	
+	public Question(int questionId, String questionText, Format format, Set<Tag> tags, Set<Category> category,
+			List<Option> multiChoice, Set<DragDrop> dragDrops, SnippetTemplate snippetTemplate) {
+		this();
+		this.questionId = questionId;
+		this.questionText = questionText;
+		this.format = format;
+		this.tags = tags;
+		this.category = category;
+		this.multiChoice = multiChoice;
+		this.dragDrops = dragDrops;
+		this.snippetTemplate = snippetTemplate;
 	}
 
 	@Override
@@ -90,49 +110,26 @@ public class Question implements Serializable {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		
 		Question other = (Question) obj;
-		if (category == null) {
-			if (other.category != null)
-				return false;
-		} else if (!category.equals(other.category))
-			return false;
-		if (dragDrops == null) {
-			if (other.dragDrops != null)
-				return false;
-		} else if (!dragDrops.equals(other.dragDrops))
-			return false;
-		if (format == null) {
-			if (other.format != null)
-				return false;
-		} else if (!format.equals(other.format))
-			return false;
-		if (multiChoice == null) {
-			if (other.multiChoice != null)
-				return false;
-		} else if (!multiChoice.equals(other.multiChoice))
-			return false;
-		if (questionId != other.questionId)
-			return false;
-		if (questionText == null) {
-			if (other.questionText != null)
-				return false;
-		} else if (!questionText.equals(other.questionText))
-			return false;
-		if (snippetTemplate == null) {
-			if (other.snippetTemplate != null)
-				return false;
-		} else if (!snippetTemplate.equals(other.snippetTemplate))
-			return false;
-		if (tags == null) {
-			if (other.tags != null)
-				return false;
-		} else if (!tags.equals(other.tags))
-			return false;
-		return true;
+		
+		boolean catDragFormat = Objects.equals(category, other.category)
+		        				&& Objects.equals(dragDrops, other.dragDrops)
+		        				&& Objects.equals(format, other.format);
+		
+		boolean multiQuestIdText = Objects.equals(multiChoice, other.multiChoice )
+		        				&& Objects.equals(questionId, other.questionId)
+		        				&& Objects.equals(questionText, other.questionText);
+		
+		boolean snippetTags = Objects.equals(snippetTemplate, other.snippetTemplate)
+		       					&& Objects.equals(tags, other.tags);
+		
+		return catDragFormat && multiQuestIdText && snippetTags;
+		         
+		         
+	
 	}
 
 	public int getQuestionId() {
@@ -198,6 +195,4 @@ public class Question implements Serializable {
 	public void setSnippetTemplate(SnippetTemplate snippetTemplate) {
 		this.snippetTemplate = snippetTemplate;
 	}
-	
-	
 }
