@@ -11,7 +11,6 @@ import com.revature.aes.beans.AssessmentRequest;
 import com.revature.aes.beans.User;
 import com.revature.aes.loader.AssessmentRequestLoader;
 import com.revature.aes.locator.AssessmentServiceLocator;
-import com.revature.aes.locator.MailServiceLocator;
 
 @Service
 public class RestServicesImpl implements RestServices {

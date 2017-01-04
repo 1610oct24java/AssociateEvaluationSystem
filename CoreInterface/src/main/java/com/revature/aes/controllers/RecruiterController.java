@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.aes.beans.User;
 import com.revature.aes.locator.MailServiceLocator;
-import com.revature.aes.service.RestServices;
 import com.revature.aes.service.UserService;
 
 @RestController
