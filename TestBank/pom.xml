@@ -122,20 +122,20 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			</dependency>
+		</dependency>
 
 		<!-- Mockito -->
 		<dependency>
 			<groupId>org.mockito</groupId>
-			<artifactId>mockito-core</artifactId>
-			<scope>test</scope>
+			<artifactId>mockito-all</artifactId>
+			<version>1.10.19</version>
 		</dependency>
-		
-		<!-- Servlet (needed for proper JUnit Testing) -->
+
+		<!-- Servlet (needed for proper JUnit testing using Spring with mock objects 
+			Mockito) -->
 		<dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
-        </dependency> 
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+		</dependency>
 	</dependencies>
 </project>
