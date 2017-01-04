@@ -62,7 +62,7 @@
 												<!-- MULTIPLE CHOICE -->
 												<div ng-click="selectOption($index, $parent.$index+numPerPage*(currentPage-1))" class="radio"
 													ng-show="q.templateQuestion.format.formatId === 0">
-													<label><input class="radio" type="radio" name="q{{q.templateQuestion.questionID}}"
+													<label><input class="radio" type="radio" name="q{{q.templateQuestion.questionId}}"
 														ng-checked="checkChecked($index, $parent.$index+numPerPage*(currentPage-1))">{{option.optionText}}</label>
 												</div>
 												<!-- MULTIPLE SELECT -->
