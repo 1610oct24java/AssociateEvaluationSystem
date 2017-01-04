@@ -110,7 +110,7 @@ public class CSVParser {
 		}
 		
 		// handle the quoted commas
-		List<String> linesCleaned = null;
+		List<String> linesCleaned;
 		linesCleaned = escapeCommas(filename);
 		
 		for (int i=0;i<linesCleaned.size();i+=2){
