@@ -10,5 +10,6 @@ import com.revature.aes.beans.User;
 @Repository
 public interface AssessmentDao extends JpaRepository<Assessment, Integer>{
 	public List<Assessment> findByGradeIsNull();
-	public Assessment findAssesmentByUser(User id);
+	public Assessment findByUser(User id);
+	public Integer findGradeByUser(User user);
 }

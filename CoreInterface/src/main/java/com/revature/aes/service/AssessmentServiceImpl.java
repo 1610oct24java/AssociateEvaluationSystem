@@ -1,6 +1,5 @@
 package com.revature.aes.service;
 
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +19,12 @@ public class AssessmentServiceImpl implements AssessmentService {
 	@Override
 	public Assessment findByUser(User user) {
 		// 
-		return dao.findAssesmentByUser(user);
+		return dao.findByUser(user);
+	}
+	
+	@Override
+	public Integer findGradeByUser(User user){
+		return dao.findByUser(user).getGrade();
 	}
 
 	@Override
@@ -29,10 +33,13 @@ public class AssessmentServiceImpl implements AssessmentService {
 		ArrayList<User> users = new ArrayList<>();
 		
 		List<Assessment> gradlessAssessments = dao.findByGradeIsNull();
+		int oneWeekInMillis = 7 * 24 * 60 * 60 * 1000;
+		int tenSecondGracePeriod = 10000;
+		oneWeekInMillis += tenSecondGracePeriod;
 		
 		for(Assessment a : gradlessAssessments){
-			long hours = ChronoUnit.HOURS.between(a.getCreatedTimeStamp(), LocalDateTime.now())
-			if(a.getCreatedTimeStamp())
+			if(a.getCreatedTimeStamp().getTime() > oneWeekInMillis)
+				users.add(a.getUser());
 		}
 		
 		return users;

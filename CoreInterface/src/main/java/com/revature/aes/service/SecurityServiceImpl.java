@@ -65,7 +65,7 @@ public class SecurityServiceImpl implements SecurityService {
 		security.setUserId(userId);
 		security.setValid(1);
 		
-		String pass = new BigInteger(130,rando).toString(32);
+		String pass = new BigInteger(130,rando).toString(16).substring(0, 5);
 		security.setPassword(MyEncoder.encodePassword(pass));
 		
 		dao.save(security);
@@ -78,5 +78,10 @@ public class SecurityServiceImpl implements SecurityService {
 		dao.save(security);
 	}
 
-
+	@Override
+	public void invalidatePassword(User u) {
+		// 
+		Security s = dao.findSecurityByUserId(u.getUserId());
+		s.setValid(0);
+	}
 }
