@@ -71,7 +71,7 @@ var url = "/" + baseDirectory + "/";
 				}
 			},
 			tags : null,
-			categories: null,
+			category: null,
 			multiChoice:null,
 			dragDrops:null,
 			snippetTemplate:null
@@ -106,20 +106,21 @@ var url = "/" + baseDirectory + "/";
 		
 		// Adds a category to a Question being updated
 		this.addCategory = (categoryName) => {
-			if(this.question.categories == null){
-				this.question.categories = [];
+			if(this.question.category == null){
+				this.question.category = [];
 			}
 			// search for category in categoriesInDatabase
 			for(var i=0;i<this.categoriesInDatabase.length;i++){
 				if(categoryName==this.categoriesInDatabase[i].name){
-					console.log("category found" + this.categoriesInDatabase[i].name);
-					this.question.categories.push(this.categoriesInDatabase[i]);
+					//console.log("category found " + this.categoriesInDatabase[i].name);
+					this.question.category.push(this.categoriesInDatabase[i]);
+					console.log(this.question);
 					return true;
 				}
 			}
 			// category not found
 			alert('Invalid Category');
-			this.question.categories=null;
+			this.question.category=null;
 			return false;
 		};
 		
@@ -162,7 +163,7 @@ var url = "/" + baseDirectory + "/";
 						}
 					},
 						tags : null,
-						categories: null,
+						category: null,
 						multiChoice:null,
 						dragDrops:null,
 						snippetTemplate:null
@@ -254,6 +255,19 @@ var url = "/" + baseDirectory + "/";
 					//console.log(this.question.categories);
 				}
 			}
+			$http.put(url + "question", this.question)
+			.success(response => {
+				this.question = response.data;
+				if (this.question == null) {
+					//alert("Error Saving Question Please Try Again");
+					//alert(this.question);
+					console.log(response);
+				} else {
+					this.getQuestionList();	
+					this.resetQuestion();
+					this.show = false;
+				} // inner if end
+			}); // $http end
 		} // addCategoriesAndTags() end
 		
 		// Load categories from database so that they can be added to questions
