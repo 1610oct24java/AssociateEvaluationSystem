@@ -125,31 +125,7 @@ public class QuestionOptionsJSONHandler implements Serializable {
 							&&	Objects.equals(tags, other.tags);
 		
 		return catDragMultiArray && formatQuest && snippetTags;
-		//
-//		if (!Arrays.equals(categories, other.categories))
-//			return false;
-//		if (!Arrays.equals(dragDrops, other.dragDrops))
-//			return false;
-//		if (format == null) {
-//			if (other.format != null)
-//				return false;
-//		} else if (!format.equals(other.format))
-//			return false;
-//		if (!Arrays.equals(multiChoice, other.multiChoice))
-//			return false;
-//		if (question == null) {
-//			if (other.question != null)
-//				return false;
-//		} else if (!question.equals(other.question))
-//			return false;
-//		if (snippetTemplate == null) {
-//			if (other.snippetTemplate != null)
-//				return false;
-//		} else if (!snippetTemplate.equals(other.snippetTemplate))
-//			return false;
-//		if (!Arrays.equals(tags, other.tags))
-//			return false;
-//		return true;
+		
 	}
 
 	@Override
