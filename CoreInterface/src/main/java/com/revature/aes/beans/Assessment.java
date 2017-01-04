@@ -37,7 +37,7 @@ public class Assessment implements Serializable {
 	private User user;
 
 	@Column(name = "grade")
-	private int grade;
+	private Integer grade;
 
 	@Column(name = "time_limit")
 	private int timeLimit;
@@ -106,7 +106,7 @@ public class Assessment implements Serializable {
 		this.user = user;
 	}
 
-	public int getGrade() {
+	public Integer getGrade() {
 		return grade;
 	}
 
