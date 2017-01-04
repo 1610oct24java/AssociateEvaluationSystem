@@ -112,9 +112,7 @@ var url = "/" + baseDirectory + "/";
 			// search for category in categoriesInDatabase
 			for(var i=0;i<this.categoriesInDatabase.length;i++){
 				if(categoryName==this.categoriesInDatabase[i].name){
-					//console.log("category found " + this.categoriesInDatabase[i].name);
 					this.question.category.push(this.categoriesInDatabase[i]);
-					console.log(this.question);
 					return true;
 				}
 			}
@@ -238,6 +236,7 @@ var url = "/" + baseDirectory + "/";
 				alert('Please select a question number');
 				return;
 			}
+			// a tag or category must be provided
 			if(this.tagList==='' && this.catList===''){
 				alert('Please provide a category or tag');
 				return;
@@ -252,16 +251,13 @@ var url = "/" + baseDirectory + "/";
 					if(!this.addCategory(selectedCategories[i])){
 						return;
 					}
-					//console.log(this.question.categories);
 				}
 			}
+			// save the question
 			$http.put(url + "question", this.question)
 			.success(response => {
-				this.question = response.data;
-				if (this.question == null) {
-					//alert("Error Saving Question Please Try Again");
-					//alert(this.question);
-					console.log(response);
+				if (response == null) {
+					alert("Error Saving Question Please Try Again");
 				} else {
 					this.getQuestionList();	
 					this.resetQuestion();
