@@ -26,7 +26,7 @@ app.controller('QuizNavController', function($scope, $rootScope) {
 });
 
 app.controller("quizController", function($scope, $rootScope, $http, $location) {
-	$rootScope.quiz = tstQuiz; //getQuizQuestions();
+	$scope.quiz = tstQuiz; //getQuizQuestions();
 	$scope.answers = new Array();
 	$rootScope.states = new Array();
 	$scope.numEditors = 0;
@@ -34,7 +34,7 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	$scope.editors = new Array();
 
 	var incrementEditorIfNeeded = function(i) {
-		if ($rootScope.quiz.questions[i].type === 3) {
+		if ($scope.quiz.questions[i].type === 3) {
 			$scope.numEditors++;
 		};
 	};
@@ -48,16 +48,16 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 		$scope.states.push(temp);
 	};
 	var makeAnswers = function(ndx) {
-		if($rootScope.quiz.questions[ndx].type === 0) {
+		if($scope.quiz.questions[ndx].type === 0) {
 			$scope.answers.push(-1);
-		} else if ($rootScope.quiz.questions[ndx].type === 1 ) {
+		} else if ($scope.quiz.questions[ndx].type === 1 ) {
 			$scope.answers.push([-1]);
 		} else {
 			$scope.answers.push(-1);
 		};
 	}
 	var initSetup = function() {
-		for (var i = 0; i < $rootScope.quiz.questions.length; i++) {
+		for (var i = 0; i < $scope.quiz.questions.length; i++) {
 			incrementEditorIfNeeded(i);
 			makeState(i);
 			makeAnswers(i);
@@ -81,10 +81,10 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	};
 	
 	$scope.selectOption = function (ndxOption, ndxQuestion) {
-		if($rootScope.quiz.questions[ndxQuestion].type === 0) {
+		if($scope.quiz.questions[ndxQuestion].type === 0) {
 			console.log("1) Select Option: " + ndxOption + " in Question: " + ndxQuestion);
 			$scope.answers[ndxQuestion] = ndxOption;
-		} else if ($rootScope.quiz.questions[ndxQuestion].type === 1 ) {
+		} else if ($scope.quiz.questions[ndxQuestion].type === 1 ) {
 			console.log("2) Select Option: " + ndxOption + " in Question: " + ndxQuestion);
 			var foundAt = $scope.answers[ndxQuestion].indexOf(ndxOption)
 			if (foundAt === -1){
@@ -98,11 +98,11 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	$scope.checkChecked = function (ndxOption, ndxQuestion) {
 		var output = false;
 		
-		if($rootScope.quiz.questions[ndxQuestion].type === 0) {
+		if($scope.quiz.questions[ndxQuestion].type === 0) {
 			if ($scope.answers[ndxQuestion] === ndxOption) {
 				output = true;
 			}
-		} else if ($rootScope.quiz.questions[ndxQuestion].type === 1 ) {
+		} else if ($scope.quiz.questions[ndxQuestion].type === 1 ) {
 			if ($scope.answers[ndxQuestion].indexOf(ndxOption) != -1){
 				output = true;
 			}
@@ -115,7 +115,7 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	$scope.checkNeedEditor2 = function(questionIndex) {
 		// console.log("Checking if q " + questionIndex + " needs an editor.");
 		if ($scope.editors.length < $scope.numEditors) {
-			var currQ = $rootScope.quiz.questions[questionIndex];
+			var currQ = $scope.quiz.questions[questionIndex];
 
 			if (currQ.type === 3) {
 				// If this question is a coding question
@@ -129,7 +129,7 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	};
 	
 	$scope.checkNeedEditor = function(questionIndex) {
-		var currQ = $rootScope.quiz.questions[questionIndex];
+		var currQ = $scope.quiz.questions[questionIndex];
 		if(currQ.type === 3) {
 			// If this question is a coding question
 			var temp = ace.edit("editor" + questionIndex);
@@ -153,7 +153,7 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 		.then(function(response) {
 		    //First function handles success
 		    console.log("Received Quiz Object= " + response.data);
-		    $rootScope.quiz = response.data;
+		    $scope.quiz = response.data;
 		        
 		}, function(response) {
 		    //Second function handles error
@@ -180,7 +180,7 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 		var begin = (($scope.currentPage - 1) * $scope.numPerPage), end = begin
 				+ $scope.numPerPage;
 
-		$scope.filteredQuestions = $rootScope.quiz.questions.slice(begin, end);
+		$scope.filteredQuestions = $scope.quiz.questions.slice(begin, end);
 	});
 });
 
@@ -237,9 +237,9 @@ app.controller('CountdownController', function($scope, $rootScope, $interval) {
 	}
 });
 
-app.controller('SideNavController', function($scope, $rootScope, $interval, $http) {
+app.controller('SideNavController', function($scope, $interval, $http) {
 	
-	function submitAssessment(){
+	$scope.submitAssessment = function(){
 		answerData = {"id":1};
 		
 		postAssessment(answerData);
@@ -262,9 +262,9 @@ app.controller('SideNavController', function($scope, $rootScope, $interval, $htt
 	}
 });
 
-app.controller('ModalController', function($scope, $rootScope, $interval, $http) {
+app.controller('ModalController', function($scope, $interval, $http) {
 	
-	function submitAssessment(){
+	$scope.submitAssessment = function(){
 		answerData = {"id":1};
 		
 		postAssessment(answerData);
