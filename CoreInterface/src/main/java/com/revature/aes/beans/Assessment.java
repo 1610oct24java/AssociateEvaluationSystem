@@ -48,29 +48,6 @@ public class Assessment implements Serializable {
 	@Column(name = "finished_timestamp")
 	private Timestamp finishedTimeStamp;
 
-//	@ManyToOne(fetch = FetchType.EAGER)
-//	@JoinColumn(name = "template_id")
-//	private Template template;
-//
-//	@ManyToMany(fetch = FetchType.EAGER)
-//	@JoinTable(name = "aes_assessment_options", 
-//		joinColumns = @JoinColumn(name = "assessment_id"), 
-//		inverseJoinColumns = @JoinColumn(name = "option_id"))
-//	private Set<Option> options;
-//	
-//	@OneToMany(fetch = FetchType.EAGER, mappedBy = "assessmentDragDropId")
-//	private Set<AssessmentDragDrop> assessmentDragDrop;
-//
-//	@Transient
-//	@OneToMany(fetch = FetchType.EAGER, mappedBy ="assessmentId")
-//	private Set<FileUpload> fileUpload;
-//
-//	@ManyToMany(fetch = FetchType.EAGER)
-//	@JoinTable(name = "aes_snippet_response", 
-//		joinColumns = @JoinColumn(name = "SNIPPET_TEMPLATE_ID"), 
-//		inverseJoinColumns = @JoinColumn(name = "assessment_id"))
-//	private Set<SnippetTemplate> snippetTemplate;
-
 	public Assessment() {
 		super();
 	}
@@ -79,13 +56,7 @@ public class Assessment implements Serializable {
 	public String toString() {
 
 		return "Assessment [assessmentId=" + assessmentId + ", user=" + user + ", grade=" + grade + ", timeLimit="
-
 				+ timeLimit + ", createdTimeStamp=" + createdTimeStamp + ", finishedTimeStamp=" + finishedTimeStamp + "]";
-
-//				+ ", template=" + template + ", options=" + options + ", assessmentDragDrop=" + assessmentDragDrop
-//
-//				+ ", fileUpload=" + fileUpload + ", snippetTemplate=" + snippetTemplate + "]";
-
 	}
 
 	public int getAssessmentId() {
@@ -138,43 +109,4 @@ public class Assessment implements Serializable {
 		this.finishedTimeStamp = finishedTimeStamp;
 	}
 
-//	public Template getTemplate() {
-//		return template;
-//	}
-//
-//	public void setTemplate(Template template) {
-//		this.template = template;
-//	}
-//
-//	public Set<Option> getOptions() {
-//		return options;
-//	}
-//
-//	public void setOptions(Set<Option> options) {
-//		this.options = options;
-//	}
-//
-//	public Set<AssessmentDragDrop> getAssessmentDragDrop() {
-//		return assessmentDragDrop;
-//	}
-//
-//	public void setAssessmentDragDrop(Set<AssessmentDragDrop> assessmentDragDrop) {
-//		this.assessmentDragDrop = assessmentDragDrop;
-//	}
-//
-//	public Set<FileUpload> getFileUpload() {
-//		return fileUpload;
-//	}
-//
-//	public void setFileUpload(Set<FileUpload> fileUpload) {
-//		this.fileUpload = fileUpload;
-//	}
-//
-//	public Set<SnippetTemplate> getsnippetTemplate() {
-//		return snippetTemplate;
-//	}
-//
-//	public void setsnippetTemplate(Set<SnippetTemplate> snippetTemplate) {
-//		this.snippetTemplate = snippetTemplate;
-//	}
 }

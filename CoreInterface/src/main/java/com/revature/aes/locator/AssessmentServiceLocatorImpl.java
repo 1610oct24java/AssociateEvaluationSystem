@@ -13,7 +13,7 @@ public class AssessmentServiceLocatorImpl implements AssessmentServiceLocator {
 	public AssessmentRequest getLink(AssessmentRequest request) {
 		//Change the URL to whatever Matthew's thingy will be
 		
-		String url = "http://www.google.com";
+		String url = "http://localhost:8080/bank/";
 		ResponseEntity<AssessmentRequest> responseEntity = restTemplate.postForEntity(url + "/assessment", request, AssessmentRequest.class);
 		
 		AssessmentRequest response = responseEntity.getBody();
