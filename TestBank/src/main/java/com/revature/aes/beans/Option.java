@@ -129,32 +129,12 @@ public class Option implements Serializable {
 			return false;
 		
 		Option other = (Option) obj;
-		///
+	
 		return Objects.equals(correct, other.correct) 
 			&& Objects.equals(optionId, other.optionId)
 			&& Objects.equals(optionText, other.optionText)
 			&& Objects.equals(question, other.question);
-		///
-		
-//		if (correct == null) {
-//			if (other.correct != null)
-//				return false;
-//		} else if (!correct.equals(other.correct))
-//			return false;
-		
-//		if (optionId == null) {
-//			if (other.optionId != null)
-//				return false;
-//		} else if (!optionId.equals(other.optionId))
-//			return false;
-//		if (optionText == null) {
-//			if (other.optionText != null)
-//				return false;
-//		} else if (!optionText.equals(other.optionText))
-//			return false;
-//		if (!question.equals(other.question))
-//			return false;
-//		return true;
+
 	}
 
 	@Override
