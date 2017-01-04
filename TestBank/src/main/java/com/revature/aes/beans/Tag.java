@@ -24,7 +24,7 @@ public class Tag implements Serializable
 	 * @tagId The unique Identifier for the Class
 	 */
 	@Id
-	@SequenceGenerator(name = "AES_TAGS_SEQ", sequenceName = "AES_TAGS_SEQ")
+	@SequenceGenerator(name = "AES_TAGS_SEQ", sequenceName = "AES_TAGS_SEQ", allocationSize=1)
 	@GeneratedValue(generator = "AES_TAGS_SEQ", strategy = GenerationType.SEQUENCE)
 	@Column(name = "TAG_ID")
 	private Integer tagId;

@@ -28,7 +28,7 @@ public class Option implements Serializable {
 	 * @optionId the unique Identifier for the Option class
 	 */
 	@Id
-	@SequenceGenerator(name = "AES_OPTION_SEQ", sequenceName = "AES_OPTION_SEQ")
+	@SequenceGenerator(name = "AES_OPTION_SEQ", sequenceName = "AES_OPTION_SEQ", allocationSize=1)
 	@GeneratedValue(generator = "AES_OPTION_SEQ", strategy = GenerationType.SEQUENCE)
 	@Column(name = "OPTION_ID")
 	private Integer optionId;

@@ -21,7 +21,7 @@ public class Category implements Serializable {
 	 * @cateogryId A unique Identifier for the Class.
 	 */
 	@Id
-	@SequenceGenerator(name = "AES_CATEGORIES_SEQ", sequenceName = "AES_CATEGORIES_SEQ")
+	@SequenceGenerator(name = "AES_CATEGORIES_SEQ", sequenceName = "AES_CATEGORIES_SEQ", allocationSize=1)
 	@GeneratedValue(generator = "AES_CATEGORIES_SEQ", strategy = GenerationType.SEQUENCE)
 	@Column(name="CATEGORY_ID")
 	private Integer categoryId;

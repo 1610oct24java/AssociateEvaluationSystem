@@ -1,14 +1,9 @@
 'use strict';
 
 var app; // the base application for angular.
-var port = ":8090"; // the port for ajax calls.
-var baseDirectory = "TestBank" // the base directory for AJAX calls.
-var domain = "http://localhost"; // the base domain for AJAX calls.
-var url =  /*domain + port + */"/" + baseDirectory + "/"; // a concatenation
-															// of
-														// the domain, port, and
-														// base directory to
-														// establish a base url.
+var baseDirectory = "TestBank";
+var url = "/" + baseDirectory + "/"; 
+
 /*
  * A JavaScript closure of a function using ES2015 concise syntax. Using concise
  * syntax of (()=> {})(); is equivalent of window.onload = function() {}; This
@@ -30,8 +25,8 @@ var url =  /*domain + port + */"/" + baseDirectory + "/"; // a concatenation
 			$http.get(url + "format")
 			.then(response => {
 				this.fList = response.data;
-			});// $http end;
-		};// getFormatList() end
+			}); // $http end;
+		}; // getFormatList() end
 		
 		angular.element(document).ready(() => {
 			this.getFormatList();
@@ -60,6 +55,7 @@ var url =  /*domain + port + */"/" + baseDirectory + "/"; // a concatenation
 				optionText: '',
 				correct: -1
 		};
+		
 		this.question = {
 			question: {
 				questionId : 0,
@@ -85,7 +81,7 @@ var url =  /*domain + port + */"/" + baseDirectory + "/"; // a concatenation
 		}; // getQuestionList() end
 		
 		// Adds a option to a Question being created
-		this.addOption = () =>{
+		this.addOption = () => {
 			if(this.question.multiChoice == null){
 				this.question.multiChoice = [];
 			}// end if
@@ -105,8 +101,8 @@ var url =  /*domain + port + */"/" + baseDirectory + "/"; // a concatenation
 		// This functions ensures a user populates all the necessary fields for
 		// a question.
 		this.addAddQuestionButton = (x) => {
-			switch(x) {
 			
+			switch(x) {
 			case 1:
 				this.formatSet = true;
 				break;
@@ -122,10 +118,14 @@ var url =  /*domain + port + */"/" + baseDirectory + "/"; // a concatenation
 			default:
 			} // switch end
 			
-			if(this.formatSet === true && this.questionTextChanged === true && this.optionTextChanged === true && this.correctValue === true){
+			if(this.formatSet === true 
+					&& this.questionTextChanged === true 
+					&& this.optionTextChanged === true 
+					&& this.correctValue === true){
 				this.addButton = true;
 			}
 		}; // addAddQuestionButton end
+		
 		this.resetQuestion = () => {
 			this.question = {
 					question : {	
@@ -142,7 +142,8 @@ var url =  /*domain + port + */"/" + baseDirectory + "/"; // a concatenation
 						dragDrops:null,
 						snippetTemplate:null
 					}; // this.question end
-		}
+		} //this.requeQuestion() end
+		
 		this.addQuestion = () => {
 			this.question.question.format = this.format;
 			if (this.question.question.format.formatId === 0) {
@@ -150,7 +151,7 @@ var url =  /*domain + port + */"/" + baseDirectory + "/"; // a concatenation
 			} else {
 				if(this.question.questionText != ''){
 				$http.post(url + "fullQuestion", this.question)
-					.success((response) => {
+					.success(response => {
 						this.question = response.data;
 						if (this.question == null) {
 							alert("Error Saving Question Please Try Again");
@@ -187,35 +188,26 @@ var url =  /*domain + port + */"/" + baseDirectory + "/"; // a concatenation
 		}; // showUpdateQuestion end
 
 		this.updateQuestion = () => {
-			this.question.question.format = questionformat;
-			if (questionformat.formatId === 0) {
+			this.question.question.format = this.format;
+			if (this.format.formatId === 0) {
 				alert("please choose a format type");
 			} else {
 				$http.put(url + "question", this.question)
-					.success((response) => {
+					.success(response => {
 						this.question = response.data;
-						if (question == null) {
+						if (this.question == null) {
 							alert("Error Saving Question Please Try Again");
 						} else {
-							this.getQuestionList();
+							this.getQuestionList();	
 							this.resetQuestion();
 							this.show = false;
 						} // inner if end
 					}); // $http end
-			} // outer if end
-			
-			} // updateQuestion() end
+			} // outer if end	
+		} // updateQuestion() end
+		
 		angular.element(document).ready(() => {
 			this.getQuestionList();
 		}); // angular.element end
 	}); // QuestionController end
-	
-	app.controller('CategoryController', function($http){
-		//TODO	
-	}); // CategoryController end
-	app.controller('TagController', function($http){
-		//TODO 	
-	}); // TagController end
-	
-	
 })();// the end of the closure invoking the function within the closure.

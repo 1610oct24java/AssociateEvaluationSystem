@@ -21,7 +21,7 @@ public class FileUpload implements Serializable {
 	
 	@Id
 	@Column(name = "file_id")
-	@SequenceGenerator(sequenceName = "file_upload_seq", name = "file_upload_seq")
+	@SequenceGenerator(sequenceName = "file_upload_seq", name = "file_upload_seq", allocationSize=1)
 	@GeneratedValue(generator = "file_upload_seq", strategy = GenerationType.SEQUENCE)
 	private int fileId;
 
