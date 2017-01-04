@@ -150,7 +150,7 @@ public class AikenParser {
     		
     		line = br.readLine();
     	}
-    	return (ArrayList<Option>) optionsList;
+    	return  optionsList;
 	}
 	
 	/**
