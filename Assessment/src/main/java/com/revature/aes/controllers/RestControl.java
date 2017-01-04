@@ -3,19 +3,17 @@ package com.revature.aes.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.aes.beans.Role;
 import com.revature.aes.beans.User;
 
 @RestController
+@RequestMapping("/rest")
 public class RestControl {
 	
-	@RequestMapping(value = "/users", method = RequestMethod.GET, produces = {
-			MediaType.APPLICATION_JSON_VALUE })
+	@RequestMapping(value = "/users")
 	public List<User> getUsers() {
 		
 		System.out.println("Rest Controller");
@@ -26,6 +24,8 @@ public class RestControl {
 	
 	// Utiliy method to create user list.
 	public List<User> createUserList() {
+		
+		System.out.println("Running rest");
 		
 		User user = new User();
 		user.setUserId(1);

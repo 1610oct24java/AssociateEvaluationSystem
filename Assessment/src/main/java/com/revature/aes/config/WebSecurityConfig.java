@@ -12,21 +12,16 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/", "/home").permitAll()
-				.anyRequest().authenticated().and().formLogin()
-				.loginPage("/login").permitAll().and().logout().permitAll()
-				.and().exceptionHandling().accessDeniedPage("/404").and()
+		http.authorizeRequests().antMatchers("/").permitAll().anyRequest()
+				.authenticated().and().formLogin().loginPage("/login")
+				.permitAll().and().logout().logoutUrl("/logout")
+				.deleteCookies("remember-me").permitAll().and().rememberMe()
+				.and().exceptionHandling().accessDeniedPage("/error").and()
 				.authorizeRequests().antMatchers("/static/**").permitAll()
-				.anyRequest().authenticated();
-		;
+				.anyRequest().authenticated().and().authorizeRequests()
+				.antMatchers("/rest/**").permitAll().anyRequest()
+				.authenticated().and().csrf().disable();
 	}
-	
-	// @Autowired
-	// public void configureGlobal(AuthenticationManagerBuilder auth)
-	// throws Exception {
-	// auth.inMemoryAuthentication().withUser("user").password("password")
-	// .roles("USER");
-	// }
 	
 	@Autowired
 	private CustomAuthenticationProvider authProvider;
@@ -34,6 +29,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth)
 			throws Exception {
-		auth.authenticationProvider(authProvider);
+		// auth.authenticationProvider(authProvider);
+		auth.inMemoryAuthentication().withUser("user").password("password")
+				.roles("USER");
 	}
 }

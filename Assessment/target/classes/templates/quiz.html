@@ -1,26 +1,170 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
+<html data-ng-app="quizApp" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.0/angular.js"></script>
+<meta charset="ISO-8859-1" />
+<title>Assessment</title>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-<!-- Optional theme -->
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" />
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<title>Hello World!</title>
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/revatureStyle.css}"
+	href="../static/css/revatureStyle.css" />
+
 </head>
 <body>
-	<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
-	<form th:action="@{/logout}" method="post">
-		<input type="submit" value="Sign Out" />
-	</form>
+	<div id="page-container" class="wrap">
+		<!-- NAVBAR -->
+		<div class="navbar">
+			<img th:src="@{/images/revature_logo.png}"
+				src="../static/images/revature_logo.png" alt="Revature"
+				style="width: 150px;" /> <a class="navbar-title"
+				href="http://revature.com">Revature Assessment Evaluation System</a>
+
+			<button type="button" id="navbarMenuBtn" data-toggle="dropdown"
+				class="btn btn-lg navbar-menu-btn" onclick="openSideNav()">
+				<span class="glyphicon glyphicon-menu-hamburger rev-grey"></span>
+			</button>
+		</div>
+		<!-- QUIZ -->
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-10 col-sm-offset-1">
+					<div data-ng-controller="quizController" my-main-directive>
+						<h2 class="h2">Welcome to the test</h2>
+						<hr>
+						<uib-accordion close-others="oneAtATime">
+						<div data-ng-repeat="q in filteredQuestions" my-repeat-directive>
+							<div uib-accordion-group class="panel panel-default question-box"
+								is-disabled="true"
+								is-open="states[$index+numPerPage*(currentPage-1)].open">
+								<uib-accordion-heading>
+								<div class="panel-heading-revature"
+									style="display: inline-block;"
+									data-ng-click="collapseQuestion($index+numPerPage*(currentPage-1))">Question
+									{{q.id + 1}}</div>
+								<i class="pull-right glyphicon"
+									data-ng-class="{'glyphicon-chevron-down glyph-silver': states[$index+numPerPage*(currentPage-1)].open, 'glyphicon-chevron-right glyph-silver': !states[$index+numPerPage*(currentPage-1)].open }"
+									data-ng-click="collapseQuestion($index+numPerPage*(currentPage-1))"
+									title="Collapsed"> </i> <i
+									class="pull-right glyphicon glyphicon-floppy-disk"
+									data-ng-class="{'glyph-blue': states[$index+numPerPage*(currentPage-1)].saved, 'glyph-silver': !states[$index+numPerPage*(currentPage-1)].saved}"
+									data-ng-click="saveQuestion($index+numPerPage*(currentPage-1))"
+									title="Saved"> </i> <i
+									class="pull-right glyphicon glyphicon-flag"
+									data-ng-class="{'glyph-red': states[$index+numPerPage*(currentPage-1)].flagged, 'glyph-silver': !states[$index+numPerPage*(currentPage-1)].flagged}"
+									data-ng-click="flagQuestion($index+numPerPage*(currentPage-1))"
+									title="Title"></i> </uib-accordion-heading>
+
+								<div class="panel-body">
+									{{q.txtQ}} <br>
+									<hr>
+									<div data-ng-show="q.type === 0">Choose one:</div>
+									<div data-ng-show="q.type === 1">Choose as many as
+										applicable:</div>
+									<div data-ng-show="q.type === 2">Drag and drop:</div>
+									<div data-ng-show="q.type === 3">Write your code below:</div>
+									<ul data-ng-show="q.type < 2" class="list-group">
+										<li class="list-group-item"
+											data-ng-repeat="option in q.options">
+											<div
+												data-ng-click="selectOption($index, $parent.$index+numPerPage*(currentPage-1))"
+												class="radio" data-ng-show="q.type === 0">
+												<label><input type="radio" name="q{{q.id}}"
+													data-ng-checked="checkChecked($index, $parent.$index+numPerPage*(currentPage-1))">{{option.txtA}}</label>
+											</div>
+											<div
+												data-ng-click="selectOption($index, $parent.$index+numPerPage*(currentPage-1))"
+												class="checkbox" data-ng-show="q.type === 1">
+												<label><input type="checkbox" name="q{{q.id}}"
+													data-ng-checked="checkChecked($index, $parent.$index+numPerPage*(currentPage-1))">{{option.txtA}}</label>
+											</div>
+										</li>
+									</ul>
+									<div data-ng-show="q.type === 2"
+										data-ng-controller="dragController">
+										<ul id="revature" class="list-group"
+											data-as-sortable="board.dragControlListeners"
+											data-ng-model="q.options">
+											<li data-ng-repeat="option in q.options"
+												class="list-group-item" data-as-sortable-item>
+												<div data-as-sortable-item-handle>
+													<span class="glyphicon glyphicon-option-vertical"></span>{{option.txtA}}
+												</div>
+											</li>
+										</ul>
+									</div>
+									{{checkNeedEditor($index+numPerPage*(currentPage-1))}}
+									<div data-ng-show="q.type === 3">
+										<div id="editor{{$index+numPerPage*(currentPage-1)}}"
+											class="editor">{{q.options[0].txtA}}</div>
+									</div>
+									<div></div>
+								</div>
+							</div>
+							<br>
+						</div>
+						</uib-accordion>
+						<div class="text-center">
+							<ul uib-pagination data-ng-model="currentPage"
+								items-per-page="numPerPage" total-items="quiz.questions.length"
+								max-size="maxSize" boundary-links="true">
+							</ul>
+							<br>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- SIDE BAR -->
+	<div id="sidenav" class="sidenav">
+		<a href="javascript:void(0)" class="closebtn" onclick="closeSideNav()">&times;</a>
+		<a href="#">About</a> <a href="#">Services</a> <a href="#">Clients</a>
+		<a href="#">Contact</a>
+
+		<div data-ng-controller="QuizNavController">
+			<h3>Quiz Navigation</h3>
+			<div id="sideNavTable">
+				<table class="nav-table">
+					<tr data-ng-repeat="i in array" data-ng-init="index = i*5">
+						<td data-ng-repeat="state in states.slice(index,index+5)"><i
+							class="text-center glyphicon glyphicon-floppy-disk"
+							data-ng-class="{'glyph-grey': state.saved, 'glyph-blue': !state.saved,
+             				   			  'glyph-noBorder': !state.flagged, 'glyph-bordered': state.flagged}">
+						</i><br>{{state.id + 1}}</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+	<!-- FOOTER -->
+	<div class="footer">
+		<span class="horizon-line"></span> &copy; Copyright 2015, Revature
+		LLC., All Rights Reserved. Sharing or distribution of the contents of
+		this portal without explicit permission from Revature management is a
+		violation of employment terms with Revature.
+	</div>
+
+	<!-- JAVASCRIPT -->
+	<!-- 	LIBRARIES -->
+	<!-- 	<link rel="stylesheet" type="text/css" -->
+	<!-- 	th:href="@{/css/revatureStyle.css}" -->
+	<!-- 	href="../static/css/revatureStyle.css" /> -->
+
+	<script th:src="@{/js/lib/src/ace.js}"
+		src="../static/js/lib/src/ace.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-animate.js"></script>
+	<script th:src="@{/js/lib/ui-bootstrap-tpls-2.3.1.js}"
+		src="../static/js/lib/ui-bootstrap-tpls-2.3.1.js"></script>
+	<script th:src="@{/js/lib/ng-sortable.js}"
+		src="../static/js/lib/ng-sortable.js"></script>
+	<!-- 	CUSTOM -->
+	<script th:src="@{/js/testData.js}" src="../static/js/testData.js"></script>
+	<script th:src="@{/js/app.js}" src="../static/js/app.js"></script>
 </body>
 </html>

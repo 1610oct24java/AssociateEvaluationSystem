@@ -22,17 +22,17 @@ public class FileUpload implements Serializable {
 	@SequenceGenerator(sequenceName = "file_upload_seq", name = "file_upload_seq")
 	@GeneratedValue(generator = "file_upload_seq", strategy = GenerationType.SEQUENCE)
 	private int fileId;
-
+	
 	@Column(name = "file_url")
 	private String fileUrl;
-
+	
 	@Column(name = "grade")
 	private int grade;
-
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="ASSESSMENT_ID")
-	private int assessmentId;
-
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "assessment_id")
+	private Assessment assessment;
+	
 	public FileUpload() {
 		super();
 	}
@@ -40,42 +40,49 @@ public class FileUpload implements Serializable {
 	public int getFileId() {
 		return fileId;
 	}
-
+	
 	public void setFileId(int fileId) {
 		this.fileId = fileId;
 	}
-
+	
 	public String getFileUrl() {
 		return fileUrl;
 	}
-
+	
 	public void setFileUrl(String fileUrl) {
 		this.fileUrl = fileUrl;
 	}
-
+	
 	public int getGrade() {
 		return grade;
 	}
-
+	
 	public void setGrade(int grade) {
 		this.grade = grade;
 	}
-
-	public int getAssessmentId() {
-		return assessmentId;
+	
+	public Assessment getAssessment() {
+		return assessment;
 	}
-
-	public void setAssessmentId(int assessmentId) {
-		this.assessmentId = assessmentId;
+	
+	public void setAssessment(Assessment assessment) {
+		this.assessment = assessment;
 	}
-
+	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
+	
 	@Override
 	public String toString() {
-		return "FileUpload [fileId=" + fileId + ", fileUrl=" + fileUrl + ", grade=" + grade + ", assessmentId="
-				+ assessmentId + "]";
+		return "FileUpload [fileId="
+				+ fileId
+				+ ", fileUrl="
+				+ fileUrl
+				+ ", grade="
+				+ grade
+				+ ", assessment="
+				+ assessment
+				+ "]";
 	}
 }

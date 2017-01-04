@@ -18,7 +18,7 @@ import javax.validation.constraints.Min;
 @Entity
 @Table(name = "AES_OPTIONS")
 public class Option implements Serializable {
-
+	
 	/**
 	 * @serialVersionUID An auto-generated field that is used for serialization.
 	 */
@@ -45,61 +45,64 @@ public class Option implements Serializable {
 	@Max(value = 1)
 	@Column(name = "CORRECT")
 	private Integer correct;
-
+	
 	/**
 	 * @question The question associated with this class.
 	 */
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="QUESTION_ID")
-	private int questionId;
-
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "QUESTION_ID")
+	private Question question;
+	
 	public Integer getOptionId() {
 		return optionId;
 	}
-
+	
 	public void setOptionId(Integer optionId) {
 		this.optionId = optionId;
 	}
-
+	
 	public String getOptionText() {
 		return optionText;
 	}
-
+	
 	public void setOptionText(String optionText) {
 		this.optionText = optionText;
 	}
-
+	
 	public Integer getCorrect() {
 		return correct;
 	}
-
+	
 	public void setCorrect(Integer correct) {
 		this.correct = correct;
 	}
-
-	public int getQuestionId() {
-		return questionId;
+	
+	public Question getQuestion() {
+		return question;
 	}
-
-	public void setQuestionId(int questionId) {
-		this.questionId = questionId;
+	
+	public void setQuestion(Question questionId) {
+		this.question = questionId;
 	}
-
+	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((correct == null) ? 0 : correct.hashCode());
-		result = prime * result + ((optionId == null) ? 0 : optionId.hashCode());
-		result = prime * result + ((optionText == null) ? 0 : optionText.hashCode());
-		result = prime * result + questionId;
+		result = prime * result
+				+ ((optionId == null) ? 0 : optionId.hashCode());
+		result = prime * result
+				+ ((optionText == null) ? 0 : optionText.hashCode());
+		result = prime * result
+				+ ((question == null) ? 0 : question.hashCode());
 		return result;
 	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -124,20 +127,30 @@ public class Option implements Serializable {
 				return false;
 		} else if (!optionText.equals(other.optionText))
 			return false;
-		if (questionId != other.questionId)
+		if (question == null) {
+			if (other.question != null)
+				return false;
+		} else if (!question.equals(other.question))
 			return false;
 		return true;
 	}
-
+	
 	@Override
 	public String toString() {
-		return "Option [optionId=" + optionId + ", optionText=" + optionText + ", correct=" + correct + ", questionId="
-				+ questionId + "]";
+		return "Option [optionId="
+				+ optionId
+				+ ", optionText="
+				+ optionText
+				+ ", correct="
+				+ correct
+				+ ", question="
+				+ question
+				+ "]";
 	}
-
+	
 	public Option() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
+	
 }

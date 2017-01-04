@@ -26,17 +26,13 @@ public class AssessmentAuth implements Serializable {
 	
 	@Id
 	@Column(name = "assessment_auth_id")
-	@SequenceGenerator(
-			sequenceName = "aes_assessment_auth_seq",
-			name = "aes_assessment_auth_seq")
-	@GeneratedValue(
-			generator = "aes_assessment_auth_seq",
-			strategy = GenerationType.SEQUENCE)
+	@SequenceGenerator(sequenceName = "aes_assessment_auth_seq", name = "aes_assessment_auth_seq")
+	@GeneratedValue(generator = "aes_assessment_auth_seq", strategy = GenerationType.SEQUENCE)
 	private int assessmentAuthId;
 	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
-	private int userId;
+	private User user;
 	
 	@Column(name = "url_auth")
 	private String urlAuth;
@@ -54,14 +50,14 @@ public class AssessmentAuth implements Serializable {
 		this.assessmentAuthId = assessmentAuthId;
 	}
 	
-	public int getUserId() {
+	public User getUser() {
 		
-		return userId;
+		return user;
 	}
 	
-	public void setUserId(int userId) {
+	public void setUser(User user) {
 		
-		this.userId = userId;
+		this.user = user;
 	}
 	
 	public String getUrlAuth() {
@@ -90,7 +86,7 @@ public class AssessmentAuth implements Serializable {
 		return "AssessmentAuth [assessmentAuthId="
 				+ assessmentAuthId
 				+ ", userId="
-				+ userId
+				+ user
 				+ ", urlAuth="
 				+ urlAuth
 				+ ", urlAssessment="

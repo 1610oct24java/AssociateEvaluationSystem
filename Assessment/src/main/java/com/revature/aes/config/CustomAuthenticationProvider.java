@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
 
 import com.revature.aes.util.Error;
-
+import com.revature.aes.beans.Role;
 import com.revature.aes.beans.User;
 
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 	
-	RestTemplate restTemplate;
+	private RestTemplate restTemplate;
 	
 	@Override
 	public Authentication authenticate(Authentication authentication)
@@ -30,46 +30,46 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		System.out.println("From Assessment login");
 		System.out.println("Name:" + name + " | password:" + password);
 		
-		// Role role = new Role();
-		// role.setRoleId(1);
-		// role.setRoleTitle("admin");
+		Role role = new Role();
+		role.setRoleId(1);
+		role.setRoleTitle("admin");
+		
+		User user = new User();
+		user.setUserId(1);
+		user.setEmail("email@email.com");
+		user.setFirstName("First");
+		user.setLastName("Last");
+		user.setSalesforce(1);
+		user.setRecruiterId(1);
+		user.setRole(role);
+		user.setDatePassIssued("01/01/2001");
+		
+		// User user = null;
+		// try {
+		// user = restTemplate.getForObject(
+		// "http://192.168.60.64:1993/core/user", User.class);
+		// // rest call
+		// System.out.println(user.toString());
+		// } catch (Exception e) {
+		// System.out.println("User is null");
+		// StackTraceElement thing = Thread.currentThread().getStackTrace()[1];
+		// Error.error("\nat Line:\t"
+		// + thing.getLineNumber()
+		// + "\nin Method:\t"
+		// + thing.getMethodName()
+		// + "\nin Class:\t"
+		// + thing.getClassName(), e);
 		//
-		// User user = new User();
+		// user = new User();
 		// user.setUserId(1);
-		// user.setEmail("email@email.com");
 		// user.setFirstName("First");
 		// user.setLastName("Last");
+		// user.setEmail("email@email.com");
 		// user.setSalesforce(1);
 		// user.setRecruiterId(1);
-		// user.setRole(role);
-		// user.setDatePassIssued("01/01/2001");
-		
-		User user = null;
-		try {
-			user = restTemplate.getForObject(
-					"http://192.168.60.64:1993/core/user", User.class);
-			// rest call
-			System.out.println(user.toString());
-		} catch (Exception e) {
-			System.out.println("User is null");
-			StackTraceElement thing = Thread.currentThread().getStackTrace()[1];
-			Error.error("\nat Line:\t"
-					+ thing.getLineNumber()
-					+ "\nin Method:\t"
-					+ thing.getMethodName()
-					+ "\nin Class:\t"
-					+ thing.getClassName(), e);
-			
-			user = new User();
-			user.setUserId(1);
-			user.setFirstName("First");
-			user.setLastName("Last");
-			user.setEmail("email@email.com");
-			user.setSalesforce(1);
-			user.setRecruiterId(1);
-			user.setRole(null);
-			user.setDatePassIssued("01/01/2017");
-		}
+		// user.setRole(null);
+		// user.setDatePassIssued("01/01/2017");
+		// }
 		
 		if (user != null) {
 			

@@ -28,12 +28,8 @@ public class Assessment implements Serializable {
 	
 	@Id
 	@Column(name = "assessment_id")
-	@SequenceGenerator(
-			sequenceName = "aes_assessment_seq",
-			name = "aes_assessment_seq")
-	@GeneratedValue(
-			generator = "aes_assessment_seq",
-			strategy = GenerationType.SEQUENCE)
+	@SequenceGenerator(sequenceName = "aes_assessment_seq", name = "aes_assessment_seq")
+	@GeneratedValue(generator = "aes_assessment_seq", strategy = GenerationType.SEQUENCE)
 	private int assessmentId;
 	
 	@OneToOne(fetch = FetchType.EAGER)
@@ -57,23 +53,17 @@ public class Assessment implements Serializable {
 	private Template template;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(
-			name = "aes_assessment_options",
-			joinColumns = @JoinColumn(name = "assessment_id"),
-			inverseJoinColumns = @JoinColumn(name = "option_id"))
+	@JoinTable(name = "aes_assessment_options", joinColumns = @JoinColumn(name = "assessment_id"), inverseJoinColumns = @JoinColumn(name = "option_id"))
 	private Set<Option> options;
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "assessmentId")
 	private Set<AssessmentDragDrop> assessmentDragDrop;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "assessmentId")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "assessment")
 	private Set<FileUpload> fileUpload;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(
-			name = "aes_snippet_response",
-			joinColumns = @JoinColumn(name = "snippet_template_id"),
-			inverseJoinColumns = @JoinColumn(name = "assessment_id"))
+	@JoinTable(name = "aes_snippet_response", joinColumns = @JoinColumn(name = "snippet_template_id"), inverseJoinColumns = @JoinColumn(name = "assessment_id"))
 	private Set<SnippetTemplate> snippedTemplate;
 	
 	public Assessment() {

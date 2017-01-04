@@ -1,0 +1,263 @@
+@CHARSET "ISO-8859-1";
+
+/* Revature Main Orange:           	f26925 */
+/* Revature Accent (Darker) Orange: ef5c1e */
+/* Revature Main Grey:         		474c55 */
+/* Revature Accent (Darker) Grey:   434851 */
+
+/* REVATURE FONT FAMILY */
+@font-face {
+    font-family: 'futura-heavy';
+    src: url('../fonts/ParaType-FuturaPTHeavy.ttf');
+}
+@font-face {
+    font-family: 'futura-heavy-italics';
+    src: url('../fonts/ParaType-FuturaPTHeavyOblique.ttf');
+}
+@font-face {
+    font-family: 'futura-book';
+    src: url('../fonts/ParaType-FuturaPTBook.ttf');
+}
+@font-face {
+    font-family: 'futura-book-italics';
+    src: url('../fonts/ParaType-FuturaPTBookOblique.ttf');
+}
+@font-face {
+    font-family: 'futura-light';
+    src: url('../fonts/ParaType-FuturaPTLight.ttf');
+}
+@font-face {
+    font-family: 'futura-light-italics';
+    src: url('../fonts/ParaType-FuturaPTLightOblique.ttf');
+}
+@font-face {
+    font-family: 'futura-medium';
+    src: url('../fonts/ParaType-FuturaPTMedium.ttf');
+}
+@font-face {
+    font-family: 'futura-medium-italics';
+    src: url('../fonts/ParaType-FuturaPTMediumOblique.ttf');
+}
+@font-face {
+    font-family: 'futura-bold';
+    src: url('../fonts/ParaType-FuturaPTBold.ttf');
+}
+
+html {
+	height: 100%;
+	box-sizing: border-box;
+}
+body {
+  position: relative;
+  margin: 0;
+  padding-bottom: 8rem;
+  min-height: 100%;
+  background-color: #474C55;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
+/* NAVBAR STYLING */
+.navbar {
+	font-family: 'futura-heavy';
+	background-color: #ffffff;
+	display: inline-block;
+	margin-left: 15px;
+	margin-right: 15px;
+    padding: 15px 20px;
+    top: 0;
+    left: 0;
+    right: 0;
+    border-radius: 0px 0px 6px 6px;
+    overflow: hidden;
+    position: fixed;
+    z-index: 99;
+}
+.navbar-title {
+	
+}
+.navbar-title:link {
+	color: #474C55;
+	text-decoration: none;
+	margin: 15px 25px;
+	font-size: 25px;
+}
+.navbar-title:visited {
+	color: #474C55;
+	text-decoration: none;
+}
+.navbar-title:hover {
+	color: #F26925;
+	text-decoration: none;
+}
+.navbar-menu-btn {
+	background-color: #ffffff;
+	float: right;
+	border: 3px solid #474C55;
+	padding: 4px 4px 0px 4px;
+	font-size: 30px;
+}
+.navbar-menu-btn:focus{outline: none;}
+.navbar-overlay-spacing {
+	margin-top: 100px;
+}
+
+.rev-grey {
+	color: #474C55;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+.footer {
+  position: absolute;
+  height: 85px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 2rem;
+  background-color: #474C55;
+  color: #efefef;
+  text-align: center;
+}
+.horizon-line{ 
+    display:block;
+    border:none;
+    color: #474C55;
+    height:1px;
+    margin-bottom: 10px;
+    background: #ffffff; /* for unsupported browsers */
+  background: -webkit-linear-gradient(left, #474C55 , #ffffff, #474C55); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(right, #474C55 , #ffffff, #474C55); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(right, #474C55 , #ffffff, #474C55); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to right, #474C55 , #ffffff, #474C55); /* Standard syntax */
+}
+}
+
+/* QUESTION CONTENT STYLING */
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+.accordion-toggle:focus{outline: none;}
+
+.question-box {
+	margin-left: 10%;
+	margin-right: 10%;
+	font-family: 'futura-book';
+}
+
+.glyph-grey {
+	color: grey;
+}
+.glyph-red {
+	color: red;
+}
+.glyph-blue {
+	color:blue;
+}
+.glyph-noBorder {
+	border: 3px solid #ffffff;
+}
+.glyph-bordered {
+	border: 3px solid red;
+}
+
+i {
+	padding-right: 10px;
+}
+
+
+ /* The side navigation menu */
+.sidenav {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 100; /* Stay on top */
+    top: 0;
+    right: 0;
+    background-color: #f8f8f8;
+    border-left: 3px solid #f26925;
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+/* The navigation menu links */
+.sidenav a {
+    padding: 0px 8px 0px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #434851;
+    display: block;
+    transition: 0.3s;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover, .offcanvas a:focus{
+    color: #f26925;
+}
+
+/* Position and style the close button (top right corner) */
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+.sidenav h3 {
+	color: #434851;
+	text-align: center;
+}
+
+/* QUIZ NAVIGATION STYLING */
+#sideNavTable {
+	border: 2px solid #434851;
+	width: 90%;
+	margin: 15px;
+}
+.sidenav table {
+	background-color: #ffffff;
+	border-collapse: collapse;
+}
+.sidenav table td {
+	vertical-align: center;
+	text-align: center;
+	padding: 7px;
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#page-container {
+    transition: margin-left .5s;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}
+
+/* BUTTON STYLING */
+/* .Orange-read-btn { */
+/* 	font-family: 'futura-heavy'; */
+/*     background-color: #f26925; */
+/*     -moz-border-radius: 28px; */
+/*     -webkit-border-radius: 28px; */
+/*     border-radius: 28px; */
+/*     border: 3px solid #f26925; */
+/*     display: inline-block; */
+/*     cursor: pointer; */
+/*     color: #fff; */
+/*     font-size: 15px; */
+/*     padding: 12px 30px; */
+/*     text-decoration: none; */
+/*     font-weight: 600; */
+/* } */
+
+/* BUTTON STYLING ON HOVER */
+/* .Orange-read-btn:hover { */
+/* 	font-family: 'futura-heavy'; */
+/* 	background-color: #fff; */
+/* 	color: #f26925; */
+/* 	text-decoration: none; */
+/* } */

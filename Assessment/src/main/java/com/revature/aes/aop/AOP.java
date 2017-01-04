@@ -64,7 +64,7 @@ public class AOP {
 		
 	}
 	
-	@Pointcut("execution(* com.revature.aes.*(..))")
+	@Pointcut("execution(* *.grading.*(..))")
 	public void everything() {
 		
 	}
