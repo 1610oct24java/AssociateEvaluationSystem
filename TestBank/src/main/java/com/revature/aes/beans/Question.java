@@ -107,44 +107,38 @@ public class Question implements Serializable {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if ((obj == null) || (getClass() != obj.getClass()))
+		if (obj == null)
 			return false;
-		
+		if (getClass() != obj.getClass())
+			return false;
 		Question other = (Question) obj;
-		
 		if (category == null) {
 			if (other.category != null)
 				return false;
 		} else if (!category.equals(other.category))
 			return false;
-		
 		if (dragDrops == null) {
 			if (other.dragDrops != null)
 				return false;
 		} else if (!dragDrops.equals(other.dragDrops))
 			return false;
-		
 		if (format == null) {
 			if (other.format != null)
 				return false;
 		} else if (!format.equals(other.format))
 			return false;
-		
 		if (multiChoice == null) {
 			if (other.multiChoice != null)
 				return false;
 		} else if (!multiChoice.equals(other.multiChoice))
 			return false;
-		
 		if (questionId != other.questionId)
 			return false;
-		
 		if (questionText == null) {
 			if (other.questionText != null)
 				return false;
 		} else if (!questionText.equals(other.questionText))
 			return false;
-		
 		if (snippetTemplate == null) {
 			if (other.snippetTemplate != null)
 				return false;

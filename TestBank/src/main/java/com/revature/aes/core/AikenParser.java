@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,9 +44,14 @@ public class AikenParser {
 	 * @param url of the file to be parsed
 	 */
 	public AikenParser(MultipartFile mpFile){			
+		questionMap = new HashMap<Question, ArrayList<Option>>();
 		try {
 			parseFile(mpFile);
-		} catch (AikenSyntaxException | IllegalStateException e ) {
+		} catch (InvalidFileTypeException e) {
+			e.printStackTrace();
+		} catch (AikenSyntaxException e) {
+			e.printStackTrace();
+		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		} 
 	}
@@ -59,8 +62,8 @@ public class AikenParser {
 	 * @throws InvalidFileTypeException 
 	 * @throws AikenSyntaxException 
 	 */
-	private void parseFile(MultipartFile mpFile) throws  AikenSyntaxException{
-		
+	private void parseFile(MultipartFile mpFile) throws InvalidFileTypeException, AikenSyntaxException{
+		//checkFileType(mpFile);
 		
 		try(BufferedReader br = new BufferedReader(new InputStreamReader(mpFile.getInputStream()))) {
 			// Read first line of the file
@@ -113,7 +116,7 @@ public class AikenParser {
 	 * @return the Question generated from the parsed line
 	 * @throws IOException
 	 */
-	private Question getQuestion() throws IOException{
+	private Question getQuestion(BufferedReader br) throws IOException{
 		// First line will be a question
     	Question question = new Question();
     	question.setQuestionText(line);
@@ -128,8 +131,11 @@ public class AikenParser {
 	 * @throws IOException
 	 */
 	private ArrayList<Option> getOptionsList(BufferedReader br) throws IOException{	
+    	ArrayList<Option> optionsList = new ArrayList<Option>();
+		line = br.readLine();
+    	
 		// Create new options list for each Question
-    	List<Option> optionsList = new ArrayList<>();
+    	optionsList = new ArrayList<Option>();
 		
     	line = br.readLine();
     			
@@ -171,7 +177,7 @@ public class AikenParser {
 	 * @see com.revature.aes.beans.Option
 	 * @see com.revature.aes.beans.Question
 	 */
-	public Map<Question, ArrayList<Option>> getQuestionsMap(){
+	public HashMap<Question, ArrayList<Option>> getQuestionsMap(){
 		return questionMap;
 	}
 }
