@@ -13,6 +13,7 @@ public class ValidationServiceImpl implements ValidationService {
 	private ApplicationContext appContext;
 
 	@Override
+	@Deprecated
 	public boolean validate(int userId) {
 		// 
 		User user = appContext.getBean(User.class);
@@ -23,6 +24,7 @@ public class ValidationServiceImpl implements ValidationService {
 		return false;
 	}
 	
+	@Deprecated
 	public User register(int userId) {
 		User u = appContext.getBean(User.class);
 		u.setUserId(userId);
