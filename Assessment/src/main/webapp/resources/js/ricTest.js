@@ -1,25 +1,5 @@
 var app = angular.module("quizApp", [ 'ui.bootstrap', 'as.sortable',
-		'ngAnimate' ]);
-
-app.service('ajaxService', function() {
-    this.myFunc = function (x) {
-        return x.toString(16);
-    }
-});
-
-app.factory('ajaxService', ['$http', function($http) {
-
-  var doRequest = function(username) {
-    return $http({
-      url: 'https://MySuperURL.com/getTheData'
-    });
- }
-
-  return {
-    events: doRequest
-  };
-
-}]);
+		'ngAnimate', '$http']);
 
 app.controller("dragController", function($scope) {
 	// DRAG AND DROP
@@ -45,55 +25,8 @@ app.controller('QuizNavController', function($scope, $rootScope) {
 	
 });
 
-app.controller('AjaxController', function($scope, $http) {
-
-	   getAssessmentData();
-	 
-	    $scope.submitAssessment = function(){
-	        var assessmentResults = {username:this.registerUser,password:this.registerPass};
-	        
-	        postAssessmentData(assessmentResults);
-	    }
-	    
-	    // postData takes in JSON, sends with HTTP POST to Spring LoginController
-	    function getAssessmentData(data){
-	    	
-	    	// setup variables
-	    	
-	        $http({
-	            method: 'GET',
-	            url: '/Assessment/getAssessment',
-	            headers: {'Content-Type': 'application/json'},
-	            data: data
-	        })
-	        .success(function (data){
-	            // SETUP QUESTIONS AND STATE ARRAYS
-	            // START TIMER
-	            console.log("GET ASSESSMENT SUCCESS");
-	        })
-	        .error(function (response){
-	            console.log("Error Status: " + response);
-	        });
-	    }
-	    
-	    function postAssessmentData(data){
-	        $http({
-	            method: 'POST',
-	            url: '/Assessment/submitAssessment',
-	            headers: {'Content-Type': 'application/json'},
-	            data: data
-	        })
-	        .success(function (data){
-	            console.log("Posted results");
-	        })
-	        .error(function (response){
-	            console.log("Error while submitting assessment");
-	        });
-	    }
-	});
-
 app.controller("quizController", function($scope, $rootScope, $http, $location) {
-	$scope.quiz = tstQuiz;
+	$rootScope.quiz = tstQuiz; //getQuizQuestions();
 	$scope.answers = new Array();
 	$rootScope.states = new Array();
 	$scope.numEditors = 0;
@@ -101,7 +34,7 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	$scope.editors = new Array();
 
 	var incrementEditorIfNeeded = function(i) {
-		if ($scope.quiz.questions[i].type === 3) {
+		if ($rootScope.quiz.questions[i].type === 3) {
 			$scope.numEditors++;
 		};
 	};
@@ -115,16 +48,16 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 		$scope.states.push(temp);
 	};
 	var makeAnswers = function(ndx) {
-		if($scope.quiz.questions[ndx].type === 0) {
+		if($rootScope.quiz.questions[ndx].type === 0) {
 			$scope.answers.push(-1);
-		} else if ($scope.quiz.questions[ndx].type === 1 ) {
+		} else if ($rootScope.quiz.questions[ndx].type === 1 ) {
 			$scope.answers.push([-1]);
 		} else {
 			$scope.answers.push(-1);
 		};
 	}
 	var initSetup = function() {
-		for (var i = 0; i < $scope.quiz.questions.length; i++) {
+		for (var i = 0; i < $rootScope.quiz.questions.length; i++) {
 			incrementEditorIfNeeded(i);
 			makeState(i);
 			makeAnswers(i);
@@ -148,10 +81,10 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	};
 	
 	$scope.selectOption = function (ndxOption, ndxQuestion) {
-		if($scope.quiz.questions[ndxQuestion].type === 0) {
+		if($rootScope.quiz.questions[ndxQuestion].type === 0) {
 			console.log("1) Select Option: " + ndxOption + " in Question: " + ndxQuestion);
 			$scope.answers[ndxQuestion] = ndxOption;
-		} else if ($scope.quiz.questions[ndxQuestion].type === 1 ) {
+		} else if ($rootScope.quiz.questions[ndxQuestion].type === 1 ) {
 			console.log("2) Select Option: " + ndxOption + " in Question: " + ndxQuestion);
 			var foundAt = $scope.answers[ndxQuestion].indexOf(ndxOption)
 			if (foundAt === -1){
@@ -165,11 +98,11 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	$scope.checkChecked = function (ndxOption, ndxQuestion) {
 		var output = false;
 		
-		if($scope.quiz.questions[ndxQuestion].type === 0) {
+		if($rootScope.quiz.questions[ndxQuestion].type === 0) {
 			if ($scope.answers[ndxQuestion] === ndxOption) {
 				output = true;
 			}
-		} else if ($scope.quiz.questions[ndxQuestion].type === 1 ) {
+		} else if ($rootScope.quiz.questions[ndxQuestion].type === 1 ) {
 			if ($scope.answers[ndxQuestion].indexOf(ndxOption) != -1){
 				output = true;
 			}
@@ -182,7 +115,7 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	$scope.checkNeedEditor2 = function(questionIndex) {
 		// console.log("Checking if q " + questionIndex + " needs an editor.");
 		if ($scope.editors.length < $scope.numEditors) {
-			var currQ = $scope.quiz.questions[questionIndex];
+			var currQ = $rootScope.quiz.questions[questionIndex];
 
 			if (currQ.type === 3) {
 				// If this question is a coding question
@@ -196,7 +129,7 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	};
 	
 	$scope.checkNeedEditor = function(questionIndex) {
-		var currQ = $scope.quiz.questions[questionIndex];
+		var currQ = $rootScope.quiz.questions[questionIndex];
 		if(currQ.type === 3) {
 			// If this question is a coding question
 			var temp = ace.edit("editor" + questionIndex);
@@ -210,7 +143,24 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 				$scope.editors.push(temp);
 			}
 		}
+		
+	function getQuizQuestions() {
+		$http({
+			method: 'GET',
+			url: '/Assessment/getAssessmentData',
+			headers: {'Content-Type': 'application/json'}
+		})
+		.then(function(response) {
+		    //First function handles success
+		    console.log("Received Quiz Object= " + response.data);
+		    $rootScope.quiz = response.data;
+		        
+		}, function(response) {
+		    //Second function handles error
+		    console.log("ERROR: status code: " + response.status);
+		});
 	}
+}
 
 	/*
 	 * var initEditors = function () { for (var i = 0; i <
@@ -230,22 +180,9 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 		var begin = (($scope.currentPage - 1) * $scope.numPerPage), end = begin
 				+ $scope.numPerPage;
 
-		$scope.filteredQuestions = $scope.quiz.questions.slice(begin, end);
+		$scope.filteredQuestions = $rootScope.quiz.questions.slice(begin, end);
 	});
 });
-
-
-/* Set the width of the side navigation to 250px and the right margin of the page content to 250px */
-function openSideNav() {
-    document.getElementById("sidenav").style.width = "250px";
-    document.getElementById("page-container").style.marginRight = "250px";
-}
-
-/* Set the width of the side navigation to 0 and the right margin of the page content to 0 */
-function closeSideNav() {
-    document.getElementById("sidenav").style.width = "0";
-    document.getElementById("page-container").style.marginRight = "0";
-}
 
 /* COUNTDOWN TIMER LOGIC */
 app.controller('CountdownController', function($scope, $rootScope, $interval) {
@@ -254,6 +191,7 @@ app.controller('CountdownController', function($scope, $rootScope, $interval) {
 	$scope.minutes = 0;
 	$scope.seconds = startTime;
 	$scope.barUpdate = getBarUpdate();
+	$scope.submitModal = document.getElementById("submitModal");
 	
 //    m = checkTime(m);
 //    s = checkTime(s);
@@ -293,18 +231,70 @@ app.controller('CountdownController', function($scope, $rootScope, $interval) {
 	    if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
 	    return i;
 	}
+	
+	function showSubmitModal() {
+		submitModal.style.display = "block";
+	}
 });
 
-// Submit Assessment Logic
-function submitAssessment() {
-	console.log("submitted assessment");
+app.controller('SideNavController', function($scope, $rootScope, $interval, $http) {
+	
+	function submitAssessment(){
+		answerData = {"id":1};
+		
+		postAssessment(answerData);
+	}
+	
+	function postAssessment(answerData){
+		$http({
+			method: 'POST',
+			url: '/Assessment/submitAssessment',
+			headers: {'Content-Type': 'application/json'},
+			data: answerData
+		})
+		.then(function(response) {
+			//First function handles success
+			console.log("Answers sent: " + response.data);
+		}, function(response) {
+			//Second function handles error
+			console.log("status code: " + response.status);
+		});
+	}
+});
+
+app.controller('ModalController', function($scope, $rootScope, $interval, $http) {
+	
+	function submitAssessment(){
+		answerData = {"id":1};
+		
+		postAssessment(answerData);
+	}
+	
+	function postAssessment(answerData){
+		$http({
+			method: 'POST',
+			url: '/Assessment/submitAssessment',
+			headers: {'Content-Type': 'application/json'},
+			data: answerData
+		})
+		.then(function(response) {
+			//First function handles success
+			console.log("Answers sent: " + response.data);
+		}, function(response) {
+			//Second function handles error
+			console.log("status code: " + response.status);
+		});
+	}
+});
+
+/* Set the width of the side navigation to 250px and the right margin of the page content to 250px */
+function openSideNav() {
+    document.getElementById("sidenav").style.width = "250px";
+    document.getElementById("page-container").style.marginRight = "250px";
 }
 
-var submitModal = document.getElementById("submitModal");
-function showSubmitModal() {
-	submitModal.style.display = "block";
+/* Set the width of the side navigation to 0 and the right margin of the page content to 0 */
+function closeSideNav() {
+    document.getElementById("sidenav").style.width = "0";
+    document.getElementById("page-container").style.marginRight = "0";
 }
-
-window.onload = function () {
-	document.getElementById("submitBtn").addEventListener("click", submitAssessment);
-};
