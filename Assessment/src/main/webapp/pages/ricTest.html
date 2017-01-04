@@ -104,15 +104,15 @@
 	<!-- -------- -->
 	<!-- SIDE BAR -->
 	<!-- -------- -->
-	<div id="sidenav" class="sidenav">
+	<div id="sidenav" class="sidenav" ng-controller="SideNavController">
 		<a href="javascript:void(0)" class="closebtn" onclick="closeSideNav()">&times;</a> 
 		<a href="#">About</a> 
 		<a href="#">Services</a>
 		<a href="#">Contact</a> 
-		<a href="#" class="submitBtn">Submit Now</a>
+		<a href="#" class="submitBtn" ng-click="submitAssessment()">Submit Now</a>
 
 		<!-- ------------- -->
-		<!-- PROGRESS BAR -->
+		<!-- PROGRESS BAR  -->
 		<!-- ------------- -->
 		<div class="progress text-center" ng-controller="CountdownController">
   			<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="barUpdate"
@@ -138,10 +138,10 @@
 	<!-- ------------ -->
 	<!-- Submit Modal -->
 	<!-- ------------ -->
-	<div id="submitModal" class="modal">
+	<div id="submitModal" class="modal" ng-controller="ModalController">
 		<div class="modal-content">
 			<p>Thank you for completing the assessment. Your time has expired. Please submit now.</p>
-			<button type="button" id="submitBtn">Submit Assessment</button>
+			<button type="button" id="submitBtn" ng-click="submitAssessment()">Submit Assessment</button>
 		</div>
 	</div>
 	

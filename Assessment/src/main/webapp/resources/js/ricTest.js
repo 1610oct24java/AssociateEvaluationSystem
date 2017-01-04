@@ -1,25 +1,5 @@
 var app = angular.module("quizApp", [ 'ui.bootstrap', 'as.sortable',
-		'ngAnimate' ]);
-
-app.service('ajaxService', function() {
-    this.myFunc = function (x) {
-        return x.toString(16);
-    }
-});
-
-app.factory('ajaxService', ['$http', function($http) {
-
-  var doRequest = function(username) {
-    return $http({
-      url: 'https://MySuperURL.com/getTheData'
-    });
- }
-
-  return {
-    events: doRequest
-  };
-
-}]);
+		'ngAnimate', '$http']);
 
 app.controller("dragController", function($scope) {
 	// DRAG AND DROP
@@ -45,55 +25,8 @@ app.controller('QuizNavController', function($scope, $rootScope) {
 	
 });
 
-app.controller('AjaxController', function($scope, $http) {
-
-	   getAssessmentData();
-	 
-	    $scope.submitAssessment = function(){
-	        var assessmentResults = {username:this.registerUser,password:this.registerPass};
-	        
-	        postAssessmentData(assessmentResults);
-	    }
-	    
-	    // postData takes in JSON, sends with HTTP POST to Spring LoginController
-	    function getAssessmentData(data){
-	    	
-	    	// setup variables
-	    	
-	        $http({
-	            method: 'GET',
-	            url: '/Assessment/getAssessment',
-	            headers: {'Content-Type': 'application/json'},
-	            data: data
-	        })
-	        .success(function (data){
-	            // SETUP QUESTIONS AND STATE ARRAYS
-	            // START TIMER
-	            console.log("GET ASSESSMENT SUCCESS");
-	        })
-	        .error(function (response){
-	            console.log("Error Status: " + response);
-	        });
-	    }
-	    
-	    function postAssessmentData(data){
-	        $http({
-	            method: 'POST',
-	            url: '/Assessment/submitAssessment',
-	            headers: {'Content-Type': 'application/json'},
-	            data: data
-	        })
-	        .success(function (data){
-	            console.log("Posted results");
-	        })
-	        .error(function (response){
-	            console.log("Error while submitting assessment");
-	        });
-	    }
-	});
-
 app.controller("quizController", function($scope, $rootScope, $http, $location) {
-	$scope.quiz = tstQuiz;
+	$scope.quiz = tstQuiz; //getQuizQuestions();
 	$scope.answers = new Array();
 	$rootScope.states = new Array();
 	$scope.numEditors = 0;
@@ -210,7 +143,24 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 				$scope.editors.push(temp);
 			}
 		}
+		
+	function getQuizQuestions() {
+		$http({
+			method: 'GET',
+			url: '/Assessment/getAssessmentData',
+			headers: {'Content-Type': 'application/json'}
+		})
+		.then(function(response) {
+		    //First function handles success
+		    console.log("Received Quiz Object= " + response.data);
+		    $scope.quiz = response.data;
+		        
+		}, function(response) {
+		    //Second function handles error
+		    console.log("ERROR: status code: " + response.status);
+		});
 	}
+}
 
 	/*
 	 * var initEditors = function () { for (var i = 0; i <
@@ -234,19 +184,6 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	});
 });
 
-
-/* Set the width of the side navigation to 250px and the right margin of the page content to 250px */
-function openSideNav() {
-    document.getElementById("sidenav").style.width = "250px";
-    document.getElementById("page-container").style.marginRight = "250px";
-}
-
-/* Set the width of the side navigation to 0 and the right margin of the page content to 0 */
-function closeSideNav() {
-    document.getElementById("sidenav").style.width = "0";
-    document.getElementById("page-container").style.marginRight = "0";
-}
-
 /* COUNTDOWN TIMER LOGIC */
 app.controller('CountdownController', function($scope, $rootScope, $interval) {
 	
@@ -254,6 +191,7 @@ app.controller('CountdownController', function($scope, $rootScope, $interval) {
 	$scope.minutes = 0;
 	$scope.seconds = startTime;
 	$scope.barUpdate = getBarUpdate();
+	$scope.submitModal = document.getElementById("submitModal");
 	
 //    m = checkTime(m);
 //    s = checkTime(s);
@@ -293,18 +231,70 @@ app.controller('CountdownController', function($scope, $rootScope, $interval) {
 	    if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
 	    return i;
 	}
+	
+	function showSubmitModal() {
+		submitModal.style.display = "block";
+	}
 });
 
-// Submit Assessment Logic
-function submitAssessment() {
-	console.log("submitted assessment");
+app.controller('SideNavController', function($scope, $interval, $http) {
+	
+	$scope.submitAssessment = function(){
+		answerData = {"id":1};
+		
+		postAssessment(answerData);
+	}
+	
+	function postAssessment(answerData){
+		$http({
+			method: 'POST',
+			url: '/Assessment/submitAssessment',
+			headers: {'Content-Type': 'application/json'},
+			data: answerData
+		})
+		.then(function(response) {
+			//First function handles success
+			console.log("Answers sent: " + response.data);
+		}, function(response) {
+			//Second function handles error
+			console.log("status code: " + response.status);
+		});
+	}
+});
+
+app.controller('ModalController', function($scope, $interval, $http) {
+	
+	$scope.submitAssessment = function(){
+		answerData = {"id":1};
+		
+		postAssessment(answerData);
+	}
+	
+	function postAssessment(answerData){
+		$http({
+			method: 'POST',
+			url: '/Assessment/submitAssessment',
+			headers: {'Content-Type': 'application/json'},
+			data: answerData
+		})
+		.then(function(response) {
+			//First function handles success
+			console.log("Answers sent: " + response.data);
+		}, function(response) {
+			//Second function handles error
+			console.log("status code: " + response.status);
+		});
+	}
+});
+
+/* Set the width of the side navigation to 250px and the right margin of the page content to 250px */
+function openSideNav() {
+    document.getElementById("sidenav").style.width = "250px";
+    document.getElementById("page-container").style.marginRight = "250px";
 }
 
-var submitModal = document.getElementById("submitModal");
-function showSubmitModal() {
-	submitModal.style.display = "block";
+/* Set the width of the side navigation to 0 and the right margin of the page content to 0 */
+function closeSideNav() {
+    document.getElementById("sidenav").style.width = "0";
+    document.getElementById("page-container").style.marginRight = "0";
 }
-
-window.onload = function () {
-	document.getElementById("submitBtn").addEventListener("click", submitAssessment);
-};
