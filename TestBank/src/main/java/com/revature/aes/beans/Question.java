@@ -115,20 +115,14 @@ public class Question implements Serializable {
 		
 		Question other = (Question) obj;
 		
-		boolean catDragFormat = Objects.equals(category, other.category)
-		        				&& Objects.equals(dragDrops, other.dragDrops)
-		        				&& Objects.equals(format, other.format);
-		
-		boolean multiQuestIdText = Objects.equals(multiChoice, other.multiChoice )
-		        				&& Objects.equals(questionId, other.questionId)
-		        				&& Objects.equals(questionText, other.questionText);
-		
-		boolean snippetTags = Objects.equals(snippetTemplate, other.snippetTemplate)
-		       					&& Objects.equals(tags, other.tags);
-		
-		return catDragFormat && multiQuestIdText && snippetTags;
-		         
-		         
+		return Objects.equals(category, other.category)
+		        && Objects.equals(dragDrops, other.dragDrops)
+		        && Objects.equals(format, other.format)
+		        && Objects.equals(multiChoice, other.multiChoice )
+		        && Objects.equals(questionId, other.questionId)
+		        && Objects.equals(questionText, other.questionText)
+		        && Objects.equals(snippetTemplate, other.snippetTemplate)
+		        && Objects.equals(tags, other.tags);
 	
 	}
 
