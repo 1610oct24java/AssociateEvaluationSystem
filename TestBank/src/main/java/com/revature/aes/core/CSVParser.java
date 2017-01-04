@@ -20,7 +20,7 @@ import com.revature.aes.services.QuestionService;
 
 @Component
 public class CSVParser {
-	private static final String commaReplacement = "!__comma__!";
+	private static final String COMMA_REPLACEMENT = "!__comma__!";
 	private static final String TRUE_OR_FALSE = "True/False";
 	private static final String MULTIPLE_CHOICE = "Multiple Choice";
 	private static final String MULTIPLE_SELECT = "Multiple Select";
@@ -48,7 +48,7 @@ public class CSVParser {
 			while ((lineInFile = br.readLine()) != null) {
 				// This will replace a quoted comma with the placeholder.
 				// Any spaces inside the quotes are removed.
-				lineInFile = lineInFile.replaceAll("\"\\s*,\\s*\"", commaReplacement);
+				lineInFile = lineInFile.replaceAll("\"\\s*,\\s*\"", COMMA_REPLACEMENT);
 				linesCleaned.add(lineInFile);
 			}
 		} 
@@ -62,7 +62,7 @@ public class CSVParser {
 	 * @return Line with commas replacing the placeholders.
 	 */
 	private String placeCommas(String line){
-		return line.replaceAll(commaReplacement, ",");
+		return line.replaceAll(COMMA_REPLACEMENT, ",");
 	}
 	
 	
@@ -89,7 +89,7 @@ public class CSVParser {
 	 * @throws IOException 
 	 * @throws FileNotFoundException 
 	 */
-	public Map<String, Question> parseCSV(String filename) throws FileNotFoundException, IOException {
+	public Map<String, Question> parseCSV(String filename) throws IOException {
 		String cvsSplitBy = ",";
 		String[] linesList;
 		String line;
