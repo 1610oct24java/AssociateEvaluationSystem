@@ -59,10 +59,7 @@ var url = "/" + baseDirectory + "/";
 				correct: -1
 		};
 		
-		this.category = {
-				categoryId: 0,
-				name: ''
-		};
+		this.categoriesInDatabase = null;
 		
 		this.question = {
 			question: {
@@ -111,13 +108,19 @@ var url = "/" + baseDirectory + "/";
 		this.addCategory = (categoryName) => {
 			if(this.question.categories == null){
 				this.question.categories = [];
-			}// end if
-			this.category.name = categoryName;
-			this.question.categories.push(this.category);
-			this.category = {
-				categoryId: 0,
-				name: ''
-			};
+			}
+			// search for category in categoriesInDatabase
+			for(var i=0;i<this.categoriesInDatabase.length;i++){
+				if(categoryName==this.categoriesInDatabase[i].name){
+					console.log("category found" + this.categoriesInDatabase[i].name);
+					this.question.categories.push(this.categoriesInDatabase[i]);
+					return true;
+				}
+			}
+			// category not found
+			alert('Invalid Category');
+			this.question.categories=null;
+			return false;
 		};
 		
 		// This functions ensures a user populates all the necessary fields for
@@ -241,17 +244,29 @@ var url = "/" + baseDirectory + "/";
 			// initialize question
 			this.question = this.qList[this.questionBeingUpdated-1];
 			
-			
 			// get categories into an array
-			var selectedCategories = this.catList.split(',');
-			for (var i=0;i<selectedCategories.length;i++){
-				this.addCategory(selectedCategories[i]);
-				console.log(this.question.categories);
+			if(this.catList != null && this.catList != ''){	
+				var selectedCategories = this.catList.split(',');
+				for (var i=0;i<selectedCategories.length;i++){
+					if(!this.addCategory(selectedCategories[i])){
+						return;
+					}
+					//console.log(this.question.categories);
+				}
 			}
 		} // addCategoriesAndTags() end
 		
+		// Load categories from database so that they can be added to questions
+		this.loadCategories = () => {
+			$http.get(url + "category")
+			.then(response => {	
+				this.categoriesInDatabase = response.data;
+			});
+		}
+		
 		angular.element(document).ready(() => {
 			this.getQuestionList();
+			this.loadCategories();
 		}); // angular.element end
 	}); // QuestionController end
 })();// the end of the closure invoking the function within the closure.
