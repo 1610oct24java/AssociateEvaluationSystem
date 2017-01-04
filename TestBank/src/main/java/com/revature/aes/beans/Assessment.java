@@ -26,7 +26,7 @@ public class Assessment implements Serializable {
 	private static final long serialVersionUID = -6152668317029130986L;
 	@Id
 	@Column(name = "assessment_id")
-	@SequenceGenerator(sequenceName = "aes_assessment_seq", name = "aes_assessment_seq")
+	@SequenceGenerator(sequenceName = "aes_assessment_seq", name = "aes_assessment_seq", allocationSize=1)
 	@GeneratedValue(generator = "aes_assessment_seq", strategy = GenerationType.SEQUENCE)
 	private int assessmentId;
 

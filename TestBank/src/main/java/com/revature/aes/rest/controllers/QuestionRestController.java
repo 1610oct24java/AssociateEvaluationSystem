@@ -120,9 +120,9 @@ public class QuestionRestController
 		questionService.deleteQuestionById(id);
 	}
 	
-	@RequestMapping(value ="fullQuestion", method = RequestMethod.POST)
+	@RequestMapping(value ="fullQuestion", method = RequestMethod.POST, produces = 
+		{ MediaType.APPLICATION_JSON_VALUE })
 	public Question addFullQuestion(@RequestBody QuestionOptionsJSONHandler question ){
-		System.out.println(question);
 		return questionService.addFullQuestion(question);
 	}
 }

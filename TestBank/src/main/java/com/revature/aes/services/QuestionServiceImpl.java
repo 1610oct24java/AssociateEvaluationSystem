@@ -52,8 +52,9 @@ public class QuestionServiceImpl implements QuestionService
 	public Question addQuestion(Question question)
 	{
 		//ensures question text isn't null or an empty string.
-		if(question.getQuestionText() == null || question.getQuestionText().trim() == "")
+		if(question.getQuestionText().trim() == "" || question.getQuestionText() == null  )
 		{
+			System.out.println("in if");
 			return null;
 		}
 		return qdao.save(question);
@@ -142,7 +143,6 @@ public class QuestionServiceImpl implements QuestionService
 	public Question addFullQuestion(QuestionOptionsJSONHandler question) {
 		
 		Question baseQuestion = addQuestion(question.getQuestion());	
-		Format format = question.getFormat();
 		Option[] multiChoice = question.getMultiChoice();
 		Set<Category> categorySet = new HashSet<>();
 		Category[] categories = question.getCategories();
@@ -151,8 +151,7 @@ public class QuestionServiceImpl implements QuestionService
 		Tag[] tags = question.getTags();
 		Set<Tag> tagSet = new HashSet<>();
 		
-		baseQuestion.setFormat(format);
-		
+		baseQuestion = qdao.saveAndFlush(baseQuestion);
 		if(multiChoice != null){
 			for(Option option : multiChoice){
 				option.setQuestion(baseQuestion);
@@ -177,7 +176,7 @@ public class QuestionServiceImpl implements QuestionService
 				tagSet.add(tag);
 			}
 		}
-
+		
 		return baseQuestion;
 	}
 
