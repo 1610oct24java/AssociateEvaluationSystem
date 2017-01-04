@@ -65,7 +65,7 @@ public class SecurityServiceImpl implements SecurityService {
 		security.setUserId(userId);
 		security.setValid(1);
 		
-		String pass = new BigInteger(130,rando).toString(32);
+		String pass = new BigInteger(130,rando).toString(32).substring(0,8);
 		security.setPassword(MyEncoder.encodePassword(pass));
 		
 		dao.save(security);
