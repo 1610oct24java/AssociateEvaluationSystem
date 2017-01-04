@@ -29,7 +29,6 @@ public interface QuestionService {
 
 	public List<Question> getAllQuestionsByFormat(Format format);
 	
-	public Question updateQuestionById(Question question);
 	public Question updateQuestion(Question question);
 
 	public Set<Question> getAllQuestionsByCategory(Category category);
