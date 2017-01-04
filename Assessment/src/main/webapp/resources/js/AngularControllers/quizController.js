@@ -59,17 +59,20 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 		// selects an option
 		
 		if($scope.questions[ndxQuestion].templateQuestion.format.formatId === 0) {
+			console.log("ndxOption: " + ndxOption + ", ndxQuestion: " + ndxQuestion);
 			// Handles multiple choice questions
 			$scope.answers[ndxQuestion] = ndxOption;
 			var answer = $scope.questions[ndxQuestion].templateQuestion.multiChoice[ndxOption];
 			var question = $scope.questions[ndxQuestion].templateQuestion;
 			var foundAt = $scope.protoTest.options.indexOf(answer);
+			console.log("Found At: " + foundAt);
 			// If it's not already in the system
 			if (foundAt === -1) {
 				// Make sure there's only one option per questions
 				for (var i = 0; i < $scope.protoTest.options.length; i++) {
 					if ($scope.protoTest.options[i].questionId === question.questionId){
-						$scope.protoTest.options.splice(foundAt, 1);
+						console.log("Deleting at: " + foundAt);
+						$scope.protoTest.options.splice(i, 1);
 					}
 				}
 				$scope.protoTest.options.push(answer);
@@ -150,7 +153,7 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 		.then(function(response) {
 		    //First function handles success
 		    console.log("Received Quiz Object= " + response.data);
-		    $scope.quiz = response.data;
+		    $scope.protoTest = response.data;
 		        
 		}, function(response) {
 		    //Second function handles error

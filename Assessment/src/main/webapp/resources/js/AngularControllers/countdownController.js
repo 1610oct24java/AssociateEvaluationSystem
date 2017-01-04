@@ -30,7 +30,7 @@ app.controller('CountdownController', function($scope, $rootScope, $interval) {
 			$scope.minutes = $scope.minutes - 1;
 		}
 
-		console.log($scope.minutes + "m " + $scope.seconds + "s");
+		//console.log($scope.minutes + "m " + $scope.seconds + "s");
 		
 		if ($scope.minutes < 0) {
 			$interval.cancel(timer);
