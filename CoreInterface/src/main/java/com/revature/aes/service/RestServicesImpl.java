@@ -18,8 +18,6 @@ public class RestServicesImpl implements RestServices {
 	@Autowired
 	private AssessmentServiceLocator assessmentService;
 	@Autowired
-	private MailServiceLocator mailService;
-	@Autowired
 	private AssessmentAuthService authService;
 
 	@Override
