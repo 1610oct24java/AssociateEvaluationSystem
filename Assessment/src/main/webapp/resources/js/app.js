@@ -73,9 +73,8 @@ app.controller('AjaxController', function($scope, $http) {
 	});
 
 app.controller("quizController", function($scope, $rootScope, $http, $location) {
-	$scope.quiz = tstQuiz;
-	$scope.answers = new Array();
 	$rootScope.states = new Array();
+	$scope.answers = new Array();
 	$scope.numEditors = 0;
 	$scope.oneAtATime = false;
 	$scope.editors = new Array();
@@ -156,27 +155,10 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 				output = true;
 			}
 		};
-		
 		return output;
 	}
 
-	// EDITORS
-	$scope.checkNeedEditor2 = function(questionIndex) {
-		// console.log("Checking if q " + questionIndex + " needs an editor.");
-		if ($scope.editors.length < $scope.numEditors) {
-			var currQ = $scope.questions[questionIndex];
-
-			if (currQ.templateQuestion.format.formatId === 3) {
-				// If this question is a coding question
-				// Create an editor for it
-				var newEditor = ace.edit("editor" + questionIndex);
-				newEditor.setTheme("ace/theme/monokai");
-				newEditor.getSession().setMode("ace/mode/" + "java");
-				$scope.editors.push(newEditor);
-			}
-		}
-	};
-	
+	// EDITORS	
 	$scope.checkNeedEditor = function(questionIndex) {
 		var currQ = $scope.questions[questionIndex];
 		if(currQ.templateQuestion.format.formatId === 3) {
@@ -193,14 +175,6 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 			}
 		}
 	}
-
-	/*
-	 * var initEditors = function () { for (var i = 0; i <
-	 * $scope.quiz.questions.length; i++) { console.log("Does " + i + " need an
-	 * editor?"); checkNeedEditor(i); }; };
-	 * 
-	 * initEditors();
-	 */
 
 	// PAGINATION
 	$scope.filteredQuestions = [];
