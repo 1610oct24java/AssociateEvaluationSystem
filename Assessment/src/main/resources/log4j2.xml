@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration monitorInterval="60">
 	<Properties>
-		<Property name="path">${catalina.base}/logs</Property>
+		<Property name="path">${sys:catalina.home}/logs</Property>
 	</Properties>
 	<Appenders>
 		<Console name="Console-Appender" target="SYSTEM_OUT">
@@ -12,7 +12,7 @@
 				</pattern>
 			</PatternLayout>
 		</Console>
-		<File name="App-Appender" fileName="${path}/app_log.log">
+		<File name="App-Appender" fileName="${path}/asmt-error.txt">
 			<PatternLayout>
 				<pattern>
 					[%p] [%r ms] [%d{MM-dd-yyyy HH:mm:ss}] [%c{1} (%M : %L)] -
@@ -20,7 +20,7 @@
 				</pattern>
 			</PatternLayout>
 		</File>
-		<File name="SpringBoot-Appender" fileName="${path}/springboot_log.log">
+		<File name="SpringBoot-Appender" fileName="${path}/asmt-debug.txt">
 			<PatternLayout>
 				<pattern>
 					[%p] [%r ms] [%d{MM-dd-yyyy HH:mm:ss}] [%c{1} (%M : %L)] -
