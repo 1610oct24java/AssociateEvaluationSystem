@@ -116,7 +116,7 @@ public class AikenParser {
 	 * @return the Question generated from the parsed line
 	 * @throws IOException
 	 */
-	private Question getQuestion(BufferedReader br) throws IOException{
+	private Question getQuestion() throws IOException{
 		// First line will be a question
     	Question question = new Question();
     	question.setQuestionText(line);
