@@ -27,7 +27,7 @@ public class MailService {
     	Logger logger = Logger.getAnonymousLogger();
 
         try{
-        	mailSender.send(msg);
+        	mailSender.send(msg); 
         	return true;
         }
         catch(MailException e){
