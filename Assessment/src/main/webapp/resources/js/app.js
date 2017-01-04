@@ -70,7 +70,7 @@ app.controller('AjaxController', function($scope, $http) {
 	            console.log("Error while submitting assessment");
 	        });
 	    }
-	});
+});
 
 app.controller("quizController", function($scope, $rootScope, $http, $location) {
 	$rootScope.states = new Array();
@@ -132,6 +132,18 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 		if($scope.questions[ndxQuestion].templateQuestion.format.formatId === 0) {
 			console.log("1) Select Option: " + ndxOption + " in Question: " + ndxQuestion);
 			$scope.answers[ndxQuestion] = ndxOption;
+			var answer = $scope.questions[ndxQuestion].templateQuestion.multiChoice[ndxOption];
+			var question = $scope.questions[ndxQuestion].templateQuestion;
+			var foundAt = $scope.protoTest.options.indexOf(answer);
+			if (foundAt === -1) {
+				for (var i = 0; i < $scope.protoTest.options.length; i++) {
+					console.log($scope.protoTest.options[i].questionId + ", " + question.questionId);
+					if ($scope.protoTest.options[i].questionId === question.questionId){
+						$scope.protoTest.options.splice(foundAt, 1);
+					}
+				}
+				$scope.protoTest.options.push(answer);
+			}
 		} else if ($scope.questions[ndxQuestion].templateQuestion.format.formatId === 1 ) {
 			console.log("2) Select Option: " + ndxOption + " in Question: " + ndxQuestion);
 			var foundAt = $scope.answers[ndxQuestion].indexOf(ndxOption)
