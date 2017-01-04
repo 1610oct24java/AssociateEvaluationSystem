@@ -75,6 +75,7 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 				$scope.protoTest.options.push(answer);
 			}
 		} else if ($scope.questions[ndxQuestion].templateQuestion.format.formatId === 1 ) {
+			// Handles multiple select questions
 			console.log("2) Select Option: " + ndxOption + " in Question: " + ndxQuestion);
 			var foundAt = $scope.answers[ndxQuestion].indexOf(ndxOption)
 			var answer = $scope.questions[ndxQuestion].templateQuestion.multiChoice[ndxOption];
@@ -138,4 +139,22 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 
 		$scope.filteredQuestions = $scope.questions.slice(begin, end);
 	});
+	
+	// AJAX
+	function getQuizQuestions() {
+		$http({
+			method: 'GET',
+			url: '/Assessment/getAssessmentData',
+			headers: {'Content-Type': 'application/json'}
+		})
+		.then(function(response) {
+		    //First function handles success
+		    console.log("Received Quiz Object= " + response.data);
+		    $scope.quiz = response.data;
+		        
+		}, function(response) {
+		    //Second function handles error
+		    console.log("ERROR: status code: " + response.status);
+		});
+	}
 });
