@@ -2,6 +2,7 @@ package com.revature.aes.beans;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Objects;
 
 import org.springframework.stereotype.Component;
 
@@ -105,35 +106,50 @@ public class QuestionOptionsJSONHandler implements Serializable {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		
 		QuestionOptionsJSONHandler other = (QuestionOptionsJSONHandler) obj;
-		if (!Arrays.equals(categories, other.categories))
-			return false;
-		if (!Arrays.equals(dragDrops, other.dragDrops))
-			return false;
-		if (format == null) {
-			if (other.format != null)
-				return false;
-		} else if (!format.equals(other.format))
-			return false;
-		if (!Arrays.equals(multiChoice, other.multiChoice))
-			return false;
-		if (question == null) {
-			if (other.question != null)
-				return false;
-		} else if (!question.equals(other.question))
-			return false;
-		if (snippetTemplate == null) {
-			if (other.snippetTemplate != null)
-				return false;
-		} else if (!snippetTemplate.equals(other.snippetTemplate))
-			return false;
-		if (!Arrays.equals(tags, other.tags))
-			return false;
-		return true;
+		
+		//
+		
+		boolean catDragMultiArray = Objects.equals(categories, other.categories)
+								&&	Objects.equals(dragDrops, other.dragDrops)
+								&& 	Objects.equals(multiChoice, other.multiChoice); 
+		
+		boolean formatQuest = Objects.equals(format, other.format)
+							&&	Objects.equals(question, other.question);
+		
+		boolean snippetTags = Objects.equals(snippetTemplate, other.snippetTemplate)
+							&&	Objects.equals(tags, other.tags);
+		
+		return catDragMultiArray && formatQuest && snippetTags;
+		//
+//		if (!Arrays.equals(categories, other.categories))
+//			return false;
+//		if (!Arrays.equals(dragDrops, other.dragDrops))
+//			return false;
+//		if (format == null) {
+//			if (other.format != null)
+//				return false;
+//		} else if (!format.equals(other.format))
+//			return false;
+//		if (!Arrays.equals(multiChoice, other.multiChoice))
+//			return false;
+//		if (question == null) {
+//			if (other.question != null)
+//				return false;
+//		} else if (!question.equals(other.question))
+//			return false;
+//		if (snippetTemplate == null) {
+//			if (other.snippetTemplate != null)
+//				return false;
+//		} else if (!snippetTemplate.equals(other.snippetTemplate))
+//			return false;
+//		if (!Arrays.equals(tags, other.tags))
+//			return false;
+//		return true;
 	}
 
 	@Override
