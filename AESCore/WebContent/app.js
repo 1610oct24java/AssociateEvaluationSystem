@@ -65,7 +65,7 @@ app.controller('RegisterCanidateCtrl', function($scope,$location,$http) {
 
 	$scope.postRegister = function(canidateInfo) {
 		console.log("POSTREGISTER")
-		var email = $scope.recruiterEmail;
+		var email = 'asd@gmail.com';
 		$http({
 			method  : 'POST',
 			url: 'http://localhost:8080/core/recruiter/' + email + '/candidates',

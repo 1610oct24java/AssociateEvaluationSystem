@@ -15,7 +15,7 @@
 		<form-login login-page="/"
 		login-processing-url="/login"
 		authentication-failure-url="/login?error"
-		default-target-url="/home"/>
+		default-target-url="/"/>
 		<logout/>
 
 		<csrf disabled="true"/>
