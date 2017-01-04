@@ -1,7 +1,7 @@
 package com.revature.aes.beans;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -26,7 +26,6 @@ import javax.persistence.Transient;
 public class Assessment implements Serializable {
 
 	private static final long serialVersionUID = -6152668317029130986L;
-
 	@Id
 	@Column(name = "assessment_id")
 	@SequenceGenerator(sequenceName = "aes_assessment_seq", name = "aes_assessment_seq")
@@ -38,16 +37,16 @@ public class Assessment implements Serializable {
 	private User user;
 
 	@Column(name = "grade")
-	private int grade;
+	private Integer grade;
 
 	@Column(name = "time_limit")
 	private int timeLimit;
 
 	@Column(name = "created_timestamp")
-	private LocalDateTime createdTimeStamp;
+	private Timestamp createdTimeStamp;
 
 	@Column(name = "finished_timestamp")
-	private LocalDateTime finishedTimeStamp;
+	private Timestamp finishedTimeStamp;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "template_id")
@@ -107,7 +106,7 @@ public class Assessment implements Serializable {
 		this.user = user;
 	}
 
-	public int getGrade() {
+	public Integer getGrade() {
 		return grade;
 	}
 
@@ -123,19 +122,19 @@ public class Assessment implements Serializable {
 		this.timeLimit = timeLimit;
 	}
 
-	public LocalDateTime getCreatedTimeStamp() {
+	public Timestamp getCreatedTimeStamp() {
 		return createdTimeStamp;
 	}
 
-	public void setCreatedTimeStamp(LocalDateTime createdTimeStamp) {
+	public void setCreatedTimeStamp(Timestamp createdTimeStamp) {
 		this.createdTimeStamp = createdTimeStamp;
 	}
 
-	public LocalDateTime getFinishedTimeStamp() {
+	public Timestamp getFinishedTimeStamp() {
 		return finishedTimeStamp;
 	}
 
-	public void setFinishedTimeStamp(LocalDateTime finishedTimeStamp) {
+	public void setFinishedTimeStamp(Timestamp finishedTimeStamp) {
 		this.finishedTimeStamp = finishedTimeStamp;
 	}
 

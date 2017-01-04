@@ -1,15 +1,12 @@
 package com.revature.aes.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.revature.aes.beans.User;
 import com.revature.aes.service.UserService;
 
 @Controller
@@ -23,32 +20,8 @@ public class LoginController {
 		return "index";
 	}
 	@RequestMapping(value="/home",method = RequestMethod.GET)
-	public String getLoginPage(ModelMap modelMap) {
-		org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-	    String name = user.getUsername(); //get logged in username
-	    User currentUser = service.findUserByEmail(name);
-	    
-	    //direct user based on user
-	    String location = "";
-	    switch(currentUser.getRole().getRoleTitle().toLowerCase()) {
-	    case "recruiter":
-	    	location = "recruiterhome";
-	    	break;
-	    	
-	    case "candidate":
-	    	
-	    	//this will pull the link from the database to the candidate's assessment
-	    	break;
-	    	
-	    case "trainer":
-	    	location = "trainerhome";
-	    	break;
-	    	
-    	default:
-    		break;
-	    }
-	    
-		return location;
+	public void getLoginPage(ModelMap modelMap) {
+		//For security purposes
 	}
 	
 	@RequestMapping(value="/admin/private",method = RequestMethod.GET)

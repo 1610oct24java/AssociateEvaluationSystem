@@ -7,5 +7,5 @@ import com.revature.aes.beans.AssessmentAuth;
 
 @Repository
 public interface AssessmentAuthDao extends JpaRepository<AssessmentAuth, Integer> {
-	
+	public AssessmentAuth findByUserId(int userId);
 }

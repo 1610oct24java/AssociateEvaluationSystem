@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.revature.aes.beans.Assessment;
 import com.revature.aes.beans.User;
 import com.revature.aes.dao.UserDao;
 
@@ -33,6 +34,8 @@ public class UserServiceImpl implements UserService {
 	private UserDao dao;
 	@Autowired 
 	private SecurityService security;
+	@Autowired
+	private AssessmentService asmt;
 	@Autowired
 	private RoleService role;
 	@Autowired
@@ -83,8 +86,18 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<User> findUsersByRecruiter(String email) {
 		int recruiterId = dao.findUserByEmail(email).getUserId();
+		List<User> users = dao.findUsersByRecruiterId(recruiterId); 
 		
-		return dao.findUsersByRecruiterId(recruiterId);
+		for(User u : users){
+			Assessment m = asmt.findByUser(u);
+			if(m != null && m.getGrade() != null)
+				u.setGrade(m.getGrade());
+			else
+				u.setGrade(-1);
+		}
+		
+		System.out.println(users);	
+		return users;
 	}
 
 	@Override
@@ -98,6 +111,7 @@ public class UserServiceImpl implements UserService {
 		List<User> users = findUsersByRecruiter(email);
 		if(index >= users.size())
 			return null;
+		
 		return users.get(index);
 	}
 
