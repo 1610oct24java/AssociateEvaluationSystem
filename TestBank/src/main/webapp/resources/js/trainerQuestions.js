@@ -59,6 +59,11 @@ var url = "/" + baseDirectory + "/";
 				correct: -1
 		};
 		
+		this.category = {
+				categoryId: 0,
+				name: ''
+		};
+		
 		this.question = {
 			question: {
 				questionId : 0,
@@ -101,6 +106,20 @@ var url = "/" + baseDirectory + "/";
 				};
 			}// end if
 		};
+		
+		// Adds a category to a Question being updated
+		this.addCategory = (categoryName) => {
+			if(this.question.categories == null){
+				this.question.categories = [];
+			}// end if
+			this.category.name = categoryName;
+			this.question.categories.push(this.category);
+			this.category = {
+				categoryId: 0,
+				name: ''
+			};
+		};
+		
 		// This functions ensures a user populates all the necessary fields for
 		// a question.
 		this.addAddQuestionButton = (x) => {
@@ -209,14 +228,6 @@ var url = "/" + baseDirectory + "/";
 			} // outer if end	
 		} // updateQuestion() end
 		
-		this.getQuestionId = () => {
-			for(var i=0;i<this.qList.length;i++){
-				if(i==this.questionBeingUpdated){
-					return this.qList[i-1].questionId;
-				}
-			}
-		} // getQuestionId() end
-		
 		this.addCategoriesAndTags = () => {
 			// question must be selected
 			if(this.questionBeingUpdated===''){
@@ -229,14 +240,13 @@ var url = "/" + baseDirectory + "/";
 			}
 			// initialize question
 			this.question = this.qList[this.questionBeingUpdated-1];
-			console.log(this.question);
+			
 			
 			// get categories into an array
 			var selectedCategories = this.catList.split(',');
 			for (var i=0;i<selectedCategories.length;i++){
-				//console.log(selectedCategories[i]);
-				// add category
-				
+				this.addCategory(selectedCategories[i]);
+				console.log(this.question.categories);
 			}
 		} // addCategoriesAndTags() end
 		
