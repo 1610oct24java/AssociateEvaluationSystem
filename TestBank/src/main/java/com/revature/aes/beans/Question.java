@@ -113,7 +113,7 @@ public class Question implements Serializable {
 		
 		Question other = (Question) obj;
 		
-		// field comparison
+		// field comparison    
 		boolean catDragFormat = Objects.equals(category, other.category)
 							&&	Objects.equals(dragDrops, other.dragDrops)
 							&& 	Objects.equals(format, other.format);
