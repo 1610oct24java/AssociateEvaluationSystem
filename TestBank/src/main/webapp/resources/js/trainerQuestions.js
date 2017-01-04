@@ -45,6 +45,9 @@ var url = "/" + baseDirectory + "/";
 		this.qList;
 		this.deleteme = 0;
 		this.selected = {};
+		this.tagList = '';
+		this.catList = '';
+		this.questionBeingUpdated = '';
 		this.format = {
 			format : 0,
 			formatName : ''
@@ -56,6 +59,8 @@ var url = "/" + baseDirectory + "/";
 				correct: -1
 		};
 		
+		this.categoriesInDatabase = null;
+		
 		this.question = {
 			question: {
 				questionId : 0,
@@ -66,7 +71,7 @@ var url = "/" + baseDirectory + "/";
 				}
 			},
 			tags : null,
-			categories: null,
+			category: null,
 			multiChoice:null,
 			dragDrops:null,
 			snippetTemplate:null
@@ -98,6 +103,27 @@ var url = "/" + baseDirectory + "/";
 				};
 			}// end if
 		};
+		
+		// Adds a category to a Question being updated
+		this.addCategory = (categoryName) => {
+			if(this.question.category == null){
+				this.question.category = [];
+			}
+			// search for category in categoriesInDatabase
+			for(var i=0;i<this.categoriesInDatabase.length;i++){
+				if(categoryName==this.categoriesInDatabase[i].name){
+					//console.log("category found " + this.categoriesInDatabase[i].name);
+					this.question.category.push(this.categoriesInDatabase[i]);
+					console.log(this.question);
+					return true;
+				}
+			}
+			// category not found
+			alert('Invalid Category');
+			this.question.category=null;
+			return false;
+		};
+		
 		// This functions ensures a user populates all the necessary fields for
 		// a question.
 		this.addAddQuestionButton = (x) => {
@@ -137,7 +163,7 @@ var url = "/" + baseDirectory + "/";
 						}
 					},
 						tags : null,
-						categories: null,
+						category: null,
 						multiChoice:null,
 						dragDrops:null,
 						snippetTemplate:null
@@ -206,8 +232,55 @@ var url = "/" + baseDirectory + "/";
 			} // outer if end	
 		} // updateQuestion() end
 		
+		this.addCategoriesAndTags = () => {
+			// question must be selected
+			if(this.questionBeingUpdated===''){
+				alert('Please select a question number');
+				return;
+			}
+			if(this.tagList==='' && this.catList===''){
+				alert('Please provide a category or tag');
+				return;
+			}
+			// initialize question
+			this.question = this.qList[this.questionBeingUpdated-1];
+			
+			// get categories into an array
+			if(this.catList != null && this.catList != ''){	
+				var selectedCategories = this.catList.split(',');
+				for (var i=0;i<selectedCategories.length;i++){
+					if(!this.addCategory(selectedCategories[i])){
+						return;
+					}
+					//console.log(this.question.categories);
+				}
+			}
+			$http.put(url + "question", this.question)
+			.success(response => {
+				this.question = response.data;
+				if (this.question == null) {
+					//alert("Error Saving Question Please Try Again");
+					//alert(this.question);
+					console.log(response);
+				} else {
+					this.getQuestionList();	
+					this.resetQuestion();
+					this.show = false;
+				} // inner if end
+			}); // $http end
+		} // addCategoriesAndTags() end
+		
+		// Load categories from database so that they can be added to questions
+		this.loadCategories = () => {
+			$http.get(url + "category")
+			.then(response => {	
+				this.categoriesInDatabase = response.data;
+			});
+		}
+		
 		angular.element(document).ready(() => {
 			this.getQuestionList();
+			this.loadCategories();
 		}); // angular.element end
 	}); // QuestionController end
 })();// the end of the closure invoking the function within the closure.
