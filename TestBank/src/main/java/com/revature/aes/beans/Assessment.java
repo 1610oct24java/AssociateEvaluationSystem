@@ -32,7 +32,7 @@ public class Assessment implements Serializable {
 	@GeneratedValue(generator = "aes_assessment_seq", strategy = GenerationType.SEQUENCE)
 	private int assessmentId;
 
-	@OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
 	private User user;
 
@@ -48,7 +48,7 @@ public class Assessment implements Serializable {
 	@Column(name = "finished_timestamp")
 	private Timestamp finishedTimeStamp;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "template_id")
 	private Template template;
 	

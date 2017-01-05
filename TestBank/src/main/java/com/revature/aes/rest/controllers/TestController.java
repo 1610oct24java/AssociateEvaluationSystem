@@ -72,17 +72,15 @@ public class TestController
 	public Assessment getAssessment(ModelMap map, HttpSession session){
 		Template tmpl = new Template();
 		User user = new User();
-		List<TemplateQuestion> tqList = new ArrayList<>();
-		
-		//ObjectMapper mapper = new ObjectMapper();
+//		ObjectMapper mapper = new ObjectMapper();
 		AssessmentRequest assReq = new AssessmentRequest("Java",2,2,0,0,null,"person@place.com");
 		Set <TemplateQuestion> finalQuestion = systemp.getRandomSelectionFromCategory(assReq);
 		
-/*		for(TemplateQuestion tq : finalQuestion)
+		for(TemplateQuestion tq : finalQuestion)
 		{
 			tq.setTemplate(tmpl);
 			
-		}*/
+		}
 		
 		//tqList.addAll(finalQuestion);
 		//return tempQuestServ.addTemplateQuestion(tqList);
@@ -90,24 +88,20 @@ public class TestController
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		tmpl.setTemplateQuestion(finalQuestion);
 		tmpl.setCreateTimeStamp(timestamp);	
-		tmpl.setCreator(null);
+		tmpl.setCreator(userService.getUserById(1));
 		
-        tmpl = templateService.addTemplate(tmpl);
-		 System.out.println("=================");
+		 System.out.println("Before save==================================================");
 		 System.out.println(tmpl);
-		 System.out.println("=================");
-		 
+		 System.out.println("=============================================================");		 
 		 
 		user = userService.getUserByEmail(assReq.getUserEmail());
 		
 		Assessment assessment = new Assessment(user,0,30,null,null,tmpl);
 		
-//		System.out.println("assessment: " + assessment);
-		
-		/*//int assId = assServ.addNewAssessment(assessment).getAssessmentId();
+		System.out.println("assessment: " + assessment);
 		
 		//mapper.writeValueAsString(assServ.addNewAssessment(assessment).getAssessmentId());
-		 */		
+		 		
 		return assServ.addNewAssessment(assessment); 
 	}
 }

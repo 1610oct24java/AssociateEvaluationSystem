@@ -33,12 +33,11 @@ public class Template implements Serializable {
 	@Column(name = "create_timestamp")
 	private Timestamp createTimeStamp;
 
-	@OneToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="CREATOR_ID", referencedColumnName="USER_ID")
 	private User creator;
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy ="template", cascade = CascadeType.ALL)
-	
 	private Set<TemplateQuestion> templateQuestion;
 
 	public Template() {

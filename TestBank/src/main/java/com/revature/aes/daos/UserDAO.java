@@ -9,5 +9,6 @@ import com.revature.aes.beans.User;
 public interface UserDAO extends JpaRepository<User, Integer>{
 	
 	public User findByEmail(String email);
+	public User findByUserId(int userId);
 
 }
