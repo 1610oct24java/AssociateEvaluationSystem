@@ -25,7 +25,7 @@
 	
 	<!-- Scheduled Task -->
 	<task:scheduled-tasks>
-		<task:scheduled ref="scheduler" method="run" cron="*/10 * * * * *"/>
+		<task:scheduled ref="scheduler" method="run" cron="0 0 0 * * *"/>
 	</task:scheduled-tasks>
 
 	<!-- Search for spring beans -->
