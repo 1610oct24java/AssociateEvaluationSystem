@@ -27,6 +27,33 @@ var app;
 			); 	
 		};
 		
+		this.saveTag = () =>{
+			if(this.newTag.tagName == ''){
+				alert("Please enter a name for the Tag");
+			}
+			else{
+				console.log(this.newTag);
+				$http.post(url + "tag", this.newTag).then(
+					// success
+					(response) => {
+						// add new tag to the list
+						this.tags.push({
+							tagId : this.newTag.tagId,
+							tagName: this.newTag.tagName});
+						// clear the textbox
+						this.newTag = {
+							tagId : 0,
+							tagName : ''
+						};
+					},
+					// failure
+					() => {
+						alert("Unable to save tag!");
+					}
+				);
+			}
+		};
+		
 		this.getTags();
 	});
 	
