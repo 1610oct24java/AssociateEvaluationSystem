@@ -57,6 +57,7 @@ public class Option implements Serializable {
 	
 	public Option() {
 		super();
+		this.optionId = 0;
 	}
 	public Option(String optionText, Integer correct, Question question){
 		this();
@@ -116,7 +117,6 @@ public class Option implements Serializable {
 		result = prime * result + ((correct == null) ? 0 : correct.hashCode());
 		result = prime * result + ((optionId == null) ? 0 : optionId.hashCode());
 		result = prime * result + ((optionText == null) ? 0 : optionText.hashCode());
-		result = prime * result + ((question == null) ? 0 : question.hashCode());
 		return result;
 	}
 
@@ -132,8 +132,7 @@ public class Option implements Serializable {
 	
 		return Objects.equals(correct, other.correct) 
 			&& Objects.equals(optionId, other.optionId)
-			&& Objects.equals(optionText, other.optionText)
-			&& Objects.equals(question, other.question);
+			&& Objects.equals(optionText, other.optionText);
 
 	}
 

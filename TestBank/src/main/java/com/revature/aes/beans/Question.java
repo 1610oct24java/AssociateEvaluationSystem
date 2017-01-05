@@ -60,7 +60,7 @@ public class Question implements Serializable {
 	 * IE True or False for a True/False Format question.
 	 */
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.EAGER, mappedBy="question" )
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="question", cascade=CascadeType.ALL )
 	//http://www.mkyong.com/hibernate/cascade-jpa-hibernate-annotation-common-mistake/ 
 	private List<Option> multiChoice; 
 	
@@ -74,6 +74,7 @@ public class Question implements Serializable {
 
 	public Question() {
 		super();
+		this.questionId = 0;
 	}
 	
 	public Question(int questionId, String questionText, Format format, Set<Tag> tags, Set<Category> category,

@@ -1,5 +1,4 @@
 /****************************************************************
- * Project Name: Associate Evaluation System - Test Bank
  * 
  * Description: A simple rest application that persists test
  * 		information into a database. Use to evaluate associates
@@ -57,7 +56,9 @@ public class QuestionServiceImpl implements QuestionService
 			System.out.println("in if");
 			return null;
 		}
-		return qdao.save(question);
+		System.out.println("Added questions?");
+		odao.save(question.getMultiChoice());
+		return qdao.saveAndFlush(question);
 	}
 
 	/**

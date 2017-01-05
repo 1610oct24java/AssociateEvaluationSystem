@@ -49,15 +49,17 @@ public class Logging
 			log.trace(methodClass + " ==> " + method + " - Exit\nReturning: " + result);
 		} catch (Throwable e) {
 			log.warn("error in pjp" + e.getStackTrace());
+			e.printStackTrace();
 		}
 
 		return result;
 	}
 	
-	@AfterThrowing(pointcut="anyMethod()", throwing="e")
-	public void stackTraceLogging(Exception e){
-		for(StackTraceElement st : e.getStackTrace()){
-			log.error(st.getMethodName() + " at line " + st.getLineNumber());
-		}
-	}
+//	@AfterThrowing(pointcut="anyMethod()", throwing="e")
+//	public void stackTraceLogging(Exception e){
+//		for(StackTraceElement st : e.getStackTrace()){
+//			log.error(st.getMethodName() + " at line " + st.getLineNumber());
+//		}
+//		e.printStackTrace();
+//	}
 }
