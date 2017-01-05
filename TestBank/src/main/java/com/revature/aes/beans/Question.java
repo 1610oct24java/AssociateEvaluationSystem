@@ -42,7 +42,6 @@ public class Question implements Serializable {
 	@JoinColumn(name = "QUESTION_FORMAT_ID")	
 	private Format format;
 
-	@JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "AES_QUESTION_TAG", 
 		joinColumns = @JoinColumn(name = "QUESTION_ID"), 
