@@ -1,15 +1,3 @@
-/****************************************************************
- * Project Name: Associate Evaluation System - Test Bank
- * 
- * Description: A simple rest application that persists test
- * 		information into a database. Use to evaluate associates
- * 		performance both during and before employment with Revature 
- * 		LLC.
- * 
- * Authors: Matthew Beauregard, Conner Anderson, Travis Deshotels,
- * 		Edward Crader, Jon-Erik Williams 
- ****************************************************************/
-
 package com.revature.aes.services;
 
 import java.util.HashSet;
@@ -34,8 +22,8 @@ import com.revature.aes.daos.QuestionDAO;
 
 @Service("QuestionServiceImpl")
 @Transactional
-public class QuestionServiceImpl implements QuestionService
-{
+public class QuestionServiceImpl implements QuestionService{
+	
 	@Autowired
 	@Qualifier("questionDao")
 	private QuestionDAO qdao;
@@ -107,7 +95,7 @@ public class QuestionServiceImpl implements QuestionService
 	 */
 	@Override
 	@Transactional(propagation=Propagation.SUPPORTS)
-	public Set<Question> getAllQuestionsByCategory(Category category)
+	public List<Question> getAllQuestionsByCategory(Category category)
 	{
 		return qdao.findAllQuestionsByCategory(category);
 	}
