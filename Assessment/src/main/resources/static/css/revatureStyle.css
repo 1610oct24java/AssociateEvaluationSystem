@@ -94,6 +94,7 @@ body {
 	overflow: hidden;
 	position: fixed;
 	z-index: 99;
+	box-shadow: 5px 5px 5px #434851;
 }
 
 .navbar-title {
@@ -277,9 +278,7 @@ i {
 
 /* The navigation menu links */
 .sidenav a {
-    padding: 0px 8px 0px 32px;
     text-decoration: none;
-    font-size: 25px;
     color: #434851;
     display: block;
     transition: 0.3s;
@@ -288,6 +287,11 @@ i {
 /* When you mouse over the navigation links, change their color */
 .sidenav a:hover, .offcanvas a:focus{
     color: #f26925;
+}
+
+.sidenav .navbar-link {
+	padding: 0px 8px 0px 32px;
+	font-size: 25px;
 }
 
 /* Position and style the close button (top right corner) */
@@ -304,10 +308,31 @@ i {
 	text-align: center;
 }
 
+/*Status indicators */
+.status-container {
+    position: relative;
+}
+
+.icon-size {
+    font-size:20px;
+}
+
+.shoppingBadge-custom{
+    position:absolute;
+    left:25%; /** you can make changes here to change position **/
+    top:25%;
+    font-size:12px;
+    z-index: 3;
+}
+
+.shoppingBadge-flagged{
+	background-color: #986161;	
+}
+
 /* QUIZ NAVIGATION STYLING */
 #sideNavTable {
 	border: 2px solid #434851;
-	width: 90%;
+	width: 87%;
 	margin: 15px;
 }
 .sidenav table {
@@ -317,7 +342,7 @@ i {
 .sidenav table td {
 	vertical-align: center;
 	text-align: center;
-	padding: 7px;
+	padding: 6px;
 }
 
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
@@ -329,4 +354,56 @@ i {
 @media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
+}
+
+nav-link {
+	font-size: 12px !important;
+}
+
+/* MODAL SUBMIT STYLING */
+.modal {
+	display: none;
+	position: fixed;
+	z-index: 99;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgb(0,0,0);
+	background-color: rgba(0,0,0,0.5);
+}
+.modal-content {
+	background-color: #fefefe;
+	font-family: 'futura-book';
+	margin: 15% auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 70%;
+	text-align: center;
+}
+#submitBtn {
+	font-family: 'futura-heavy';
+	background-color: #f26925;
+	-moz-border-radius: 28px;
+	-webkit-border-radius: 28px;
+	border-radius: 28px;
+	border: 3px solid #f26925;
+	display: inline-block;
+	cursor: pointer;
+	color: #fff;
+	font-size: 15px;
+	padding: 12px 30px;
+	text-decoration: none;
+	font-weight: 600;
+	outline: none;
+}
+
+/* BUTTON STYLING ON HOVER */
+#submitBtn:hover {
+	font-family: 'futura-heavy';
+	background-color: #fff;
+	color: #f26925;
+	text-decoration: none;
+	outline: none;
 }
