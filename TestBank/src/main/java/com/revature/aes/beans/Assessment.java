@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Set;
 
 import java.sql.Timestamp;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -26,11 +28,11 @@ public class Assessment implements Serializable {
 	private static final long serialVersionUID = -6152668317029130986L;
 	@Id
 	@Column(name = "assessment_id")
-	@SequenceGenerator(sequenceName = "aes_assessment_seq", name = "aes_assessment_seq")
+	@SequenceGenerator(sequenceName = "aes_assessment_seq", name = "aes_assessment_seq", allocationSize=1)
 	@GeneratedValue(generator = "aes_assessment_seq", strategy = GenerationType.SEQUENCE)
 	private int assessmentId;
 
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id")
 	private User user;
 
@@ -46,7 +48,7 @@ public class Assessment implements Serializable {
 	@Column(name = "finished_timestamp")
 	private Timestamp finishedTimeStamp;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "template_id")
 	private Template template;
 	

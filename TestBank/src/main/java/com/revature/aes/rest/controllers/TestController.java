@@ -1,6 +1,7 @@
 package com.revature.aes.rest.controllers;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -13,17 +14,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.aes.beans.Assessment;
 import com.revature.aes.beans.AssessmentRequest;
 import com.revature.aes.beans.Category;
 import com.revature.aes.beans.Question;
 import com.revature.aes.beans.Template;
 import com.revature.aes.beans.TemplateQuestion;
+import com.revature.aes.beans.User;
 import com.revature.aes.core.SystemTemplate;
 import com.revature.aes.services.AssessmentService;
 import com.revature.aes.services.CategoryService;
 import com.revature.aes.services.QuestionService;
+import com.revature.aes.services.TemplateQuestionService;
+import com.revature.aes.services.TemplateService;
 import com.revature.aes.services.UserService;
 
 @RestController
@@ -40,6 +43,10 @@ public class TestController
 	private UserService userService;
 	@Autowired
 	private AssessmentService assServ;
+	@Autowired
+	private TemplateService templateService;
+	@Autowired
+	private TemplateQuestionService tempQuestServ;
 	
 	@RequestMapping(path="/test",method=RequestMethod.GET,produces = 
 		{ MediaType.APPLICATION_JSON_VALUE })
@@ -62,30 +69,45 @@ public class TestController
 	
 	@RequestMapping(path="test/assess",method=RequestMethod.GET,produces = 
 		{ MediaType.APPLICATION_JSON_VALUE })
-	public Template getAssessment(ModelMap map, HttpSession session){
+	public Assessment getAssessment(ModelMap map, HttpSession session){
 		Template tmpl = new Template();
+		User user = new User();
+		List<TemplateQuestion> tqList = new ArrayList<>();
+		
 		//ObjectMapper mapper = new ObjectMapper();
 		AssessmentRequest assReq = new AssessmentRequest("Java",2,2,0,0,null,"person@place.com");
 		Set <TemplateQuestion> finalQuestion = systemp.getRandomSelectionFromCategory(assReq);
 		
-		for(TemplateQuestion tq : finalQuestion)
+/*		for(TemplateQuestion tq : finalQuestion)
 		{
 			tq.setTemplate(tmpl);
-		}
+			
+		}*/
+		
+		//tqList.addAll(finalQuestion);
+		//return tempQuestServ.addTemplateQuestion(tqList);
 
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		tmpl.setTemplateQuestion(finalQuestion);
-		tmpl.setCreateTimeStamp(timestamp);		
+		tmpl.setCreateTimeStamp(timestamp);	
+		tmpl.setCreator(null);
 		
-		return tmpl;
+        tmpl = templateService.addTemplate(tmpl);
+		 System.out.println("=================");
+		 System.out.println(tmpl);
+		 System.out.println("=================");
+		 
+		 
+		user = userService.getUserByEmail(assReq.getUserEmail());
 		
-//		Assessment assessment = new Assessment(userService.getUserByEmail(assReq.getUserEmail()),0,30,null,null,tmpl);
+		Assessment assessment = new Assessment(user,0,30,null,null,tmpl);
 		
+//		System.out.println("assessment: " + assessment);
 		
 		/*//int assId = assServ.addNewAssessment(assessment).getAssessmentId();
 		
 		//mapper.writeValueAsString(assServ.addNewAssessment(assessment).getAssessmentId());
 		 */		
-//		return assServ.addNewAssessment(assessment); 
+		return assServ.addNewAssessment(assessment); 
 	}
 }

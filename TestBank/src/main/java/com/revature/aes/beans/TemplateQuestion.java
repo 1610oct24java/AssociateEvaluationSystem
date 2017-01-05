@@ -15,6 +15,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "aes_template_question")
 public class TemplateQuestion implements Serializable {
@@ -34,8 +36,9 @@ public class TemplateQuestion implements Serializable {
 	@JoinColumn(name = "question_id")
 	private Question patternInquiry;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name="TEMPLATE_ID")
+	@JsonIgnore
 	private Template template;
 	
 	public TemplateQuestion() {

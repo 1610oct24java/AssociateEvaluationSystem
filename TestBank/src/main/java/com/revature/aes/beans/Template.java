@@ -17,6 +17,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "aes_templates")
 public class Template implements Serializable {
@@ -31,11 +33,12 @@ public class Template implements Serializable {
 	@Column(name = "create_timestamp")
 	private Timestamp createTimeStamp;
 
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
 	@JoinColumn(name="CREATOR_ID", referencedColumnName="USER_ID")
 	private User creator;
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy ="template", cascade = CascadeType.ALL)
+	
 	private Set<TemplateQuestion> templateQuestion;
 
 	public Template() {
