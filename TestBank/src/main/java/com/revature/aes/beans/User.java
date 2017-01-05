@@ -2,6 +2,7 @@ package com.revature.aes.beans;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="AES_USERS")
@@ -39,12 +41,15 @@ public class User implements Serializable{
 	@Column(name="RECRUITER_ID")
 	private Integer recruiterId;
 	
-	@ManyToOne(fetch=FetchType.EAGER,targetEntity = Role.class)
+	@ManyToOne(fetch=FetchType.EAGER,targetEntity = Role.class, cascade=CascadeType.ALL)
 	@JoinColumn(name="ROLE_ID")
 	private Role role;
 	
 	@Column(name="DATE_PASS_ISSUED")
 	private String datePassIssued;
+	
+	@Transient
+    private String format;
 	
 	public User() {
 		super();
