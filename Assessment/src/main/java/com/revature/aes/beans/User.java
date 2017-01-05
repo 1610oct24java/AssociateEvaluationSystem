@@ -14,6 +14,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 @Entity
 @Table(name = "AES_USERS")
 public class User implements Serializable {
@@ -39,6 +41,7 @@ public class User implements Serializable {
 	
 	@Column(name = "RECRUITER_ID")
 	private Integer recruiterId;
+	
 	
 	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Role.class)
 	@JoinColumn(name = "ROLE_ID")

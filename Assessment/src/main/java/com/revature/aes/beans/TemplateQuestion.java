@@ -15,7 +15,11 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 @Entity
+@Component
 @Table(name = "aes_template_question")
 public class TemplateQuestion implements Serializable {
 
@@ -30,10 +34,12 @@ public class TemplateQuestion implements Serializable {
 	@Column(name = "weight")
 	private int weight;
 	
+	
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "question_id")
 	private Question templateQuestion;
 
+	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="TEMPLATE_ID")
 	private Template template;

@@ -13,7 +13,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 @Entity
+@Component
 @Table(name = "aes_file_upload")
 public class FileUpload implements Serializable {
 	private static final long serialVersionUID = 3082492540225468947L;
@@ -28,6 +32,7 @@ public class FileUpload implements Serializable {
 	
 	@Column(name = "grade")
 	private int grade;
+	
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "assessment_id")

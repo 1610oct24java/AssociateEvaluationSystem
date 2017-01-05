@@ -10,7 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.springframework.stereotype.Component;
+
 @Entity
+@Component
 @Table(name="AES_SNIPPET_TEMPLATE")
 public class SnippetTemplate implements Serializable
 {

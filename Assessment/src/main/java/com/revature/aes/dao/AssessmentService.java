@@ -9,11 +9,13 @@ import com.revature.aes.beans.Format;
 @Service
 public class AssessmentService implements IAssessmentService {
 
-//	@Autowired
+	@Autowired
 	AssessmentDAO assDAO;
+	
 	@Override
 	public Assessment getAssessmentById(int id) {
-		Assessment out = assDAO.findOne(id);
+		System.out.println("I'm servicing things! Poorly!");
+		Assessment out = assDAO.findAssesmentByAssessmentId(id);
 		return out;
 	}
 

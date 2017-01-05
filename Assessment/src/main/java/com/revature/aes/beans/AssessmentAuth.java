@@ -14,7 +14,11 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 @Entity
+@Component
 @Table(name = "aes_assessment_auth")
 public class AssessmentAuth implements Serializable {
 	
@@ -29,6 +33,7 @@ public class AssessmentAuth implements Serializable {
 	@SequenceGenerator(sequenceName = "aes_assessment_auth_seq", name = "aes_assessment_auth_seq")
 	@GeneratedValue(generator = "aes_assessment_auth_seq", strategy = GenerationType.SEQUENCE)
 	private int assessmentAuthId;
+	
 	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")

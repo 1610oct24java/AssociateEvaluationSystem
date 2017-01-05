@@ -1,31 +1,23 @@
-package com.revature.aes.config;
+package com.revature.aes;
 
-import javax.sql.DataSource;
-
-import org.apache.catalina.Context;
-import org.apache.catalina.startup.Tomcat;
-import org.apache.tomcat.util.descriptor.web.ContextResource;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer;
-import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.client.RestTemplate;
-
-import com.revature.aes.beans.Assessment;
-import com.revature.aes.dao.AssessmentDAO;
 
 @SpringBootApplication
 @ComponentScan({ "com.revature.aes.controllers", "com.revature.aes.beans",
 		"com.revature.aes.aop", "com.revature.aes.dao",
 		"com.revature.aes.config" })
+@EnableJpaRepositories("com.revature.aes.dao")
+@EnableAutoConfiguration
+//@EntityScan("com.revature.aes.beans")
 public class Application extends SpringBootServletInitializer {
 	
 	@Override

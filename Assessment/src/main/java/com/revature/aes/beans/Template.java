@@ -1,6 +1,7 @@
 package com.revature.aes.beans;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -16,7 +17,10 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.springframework.stereotype.Component;
+
 @Entity
+@Component
 @Table(name = "aes_templates")
 public class Template implements Serializable {
 	private static final long serialVersionUID = -8060916464018913931L;
@@ -27,14 +31,20 @@ public class Template implements Serializable {
 	private int templateId;
 
 	@Column(name = "create_timestamp")
-	private LocalDateTime createTimeStamp;
+	private Timestamp createTimeStamp;
 
+	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="CREATOR_ID", referencedColumnName="USER_ID")
 	private User creator;
 
+	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy ="template")
 	private Set<TemplateQuestion> templateQuestion;
+	
+	//@Autowired
+	// @OneToMany(fetch = FetchType.LAZY, mappedBy = "myTemplate")
+	// private Assessment myAssessment;
 
 	public Template() {
 		super();
@@ -55,11 +65,11 @@ public class Template implements Serializable {
 		this.templateId = templateId;
 	}
 
-	public LocalDateTime getCreateTimeStamp() {
+	public Timestamp getCreateTimeStamp() {
 		return createTimeStamp;
 	}
 
-	public void setCreateTimeStamp(LocalDateTime createTimeStamp) {
+	public void setCreateTimeStamp(Timestamp createTimeStamp) {
 		this.createTimeStamp = createTimeStamp;
 	}
 

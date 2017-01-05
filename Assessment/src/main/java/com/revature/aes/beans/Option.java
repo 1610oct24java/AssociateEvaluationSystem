@@ -15,7 +15,11 @@ import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 @Entity
+@Component
 @Table(name = "AES_OPTIONS")
 public class Option implements Serializable {
 	
@@ -49,6 +53,7 @@ public class Option implements Serializable {
 	/**
 	 * @question The question associated with this class.
 	 */
+	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "QUESTION_ID")
 	private Question question;

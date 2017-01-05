@@ -10,6 +10,4 @@ import com.revature.aes.beans.Format;
 public interface AssessmentDAO extends JpaRepository<Assessment, Integer> {
 	
 	public Assessment findAssesmentByAssessmentId(int id);
-	
-	public void saveAssessmentByAssessment(Assessment assessment);
 }

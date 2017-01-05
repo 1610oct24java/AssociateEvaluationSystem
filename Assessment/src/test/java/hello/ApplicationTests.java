@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = com.revature.aes.config.Application.class)
+@SpringBootTest(classes = com.revature.aes.Application.class)
 @AutoConfigureMockMvc
 public class ApplicationTests {
 	@Autowired

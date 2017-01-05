@@ -2,6 +2,7 @@
 package com.revature.aes.beans;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -20,7 +21,10 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.springframework.stereotype.Component;
+
 @Entity
+@Component
 @Table(name = "aes_assessment")
 public class Assessment implements Serializable {
 	
@@ -43,14 +47,14 @@ public class Assessment implements Serializable {
 	private int timeLimit;
 	
 	@Column(name = "created_timestamp")
-	private LocalDateTime createdTimeStamp;
+	private Timestamp createdTimeStamp;
 	
 	@Column(name = "finished_timestamp")
-	private LocalDateTime finishedTimeStamp;
+	private Timestamp finishedTimeStamp;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "template_id")
-	private Template template;
+	private Template myTemplate;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "aes_assessment_options", joinColumns = @JoinColumn(name = "assessment_id"), inverseJoinColumns = @JoinColumn(name = "option_id"))
@@ -87,7 +91,7 @@ public class Assessment implements Serializable {
 				+ ", finishedTimeStamp="
 				+ finishedTimeStamp
 				+ ", template="
-				+ template
+				+ myTemplate
 				+ ", options="
 				+ options
 				+ ", assessmentDragDrop="
@@ -139,34 +143,34 @@ public class Assessment implements Serializable {
 		this.timeLimit = timeLimit;
 	}
 	
-	public LocalDateTime getCreatedTimeStamp() {
+	public Timestamp getCreatedTimeStamp() {
 		
 		return createdTimeStamp;
 	}
 	
-	public void setCreatedTimeStamp(LocalDateTime createdTimeStamp) {
+	public void setCreatedTimeStamp(Timestamp createdTimeStamp) {
 		
 		this.createdTimeStamp = createdTimeStamp;
 	}
 	
-	public LocalDateTime getFinishedTimeStamp() {
+	public Timestamp getFinishedTimeStamp() {
 		
 		return finishedTimeStamp;
 	}
 	
-	public void setFinishedTimeStamp(LocalDateTime finishedTimeStamp) {
+	public void setFinishedTimeStamp(Timestamp finishedTimeStamp) {
 		
 		this.finishedTimeStamp = finishedTimeStamp;
 	}
 	
-	public Template getTemplate() {
+	public Template getMyTemplate() {
 		
-		return template;
+		return myTemplate;
 	}
 	
-	public void setTemplate(Template template) {
+	public void setMyTemplate(Template template) {
 		
-		this.template = template;
+		this.myTemplate = template;
 	}
 	
 	public Set<Option> getOptions() {

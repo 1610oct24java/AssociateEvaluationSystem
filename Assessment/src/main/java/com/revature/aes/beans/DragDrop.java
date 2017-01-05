@@ -13,7 +13,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 @Entity
+@Component
 @Table(name = "aes_drag_drop")
 public class DragDrop implements Serializable {
 
@@ -30,6 +34,7 @@ public class DragDrop implements Serializable {
 	@Column(name = "correct_order")
 	private int correctOrder;
 
+	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="QUESTION_ID")
 	private Question questionId;
