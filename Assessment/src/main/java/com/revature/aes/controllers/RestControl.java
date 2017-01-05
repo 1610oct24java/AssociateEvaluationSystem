@@ -16,7 +16,6 @@ public class RestControl {
 	@RequestMapping(value = "/users")
 	public List<User> getUsers() {
 		
-		System.out.println("Rest Controller");
 		List<User> listOfUsers = new ArrayList<User>();
 		listOfUsers = createUserList();
 		return listOfUsers;
@@ -24,8 +23,6 @@ public class RestControl {
 	
 	// Utiliy method to create user list.
 	public List<User> createUserList() {
-		
-		System.out.println("Running rest");
 		
 		User user = new User();
 		user.setUserId(1);

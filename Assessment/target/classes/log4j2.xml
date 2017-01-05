@@ -32,12 +32,12 @@
 		</RollingFile>
 	</Appenders>
 	<Loggers>
-		<Logger name="org.springframework.web" level="info" additivity="false">
+		<Logger name="org.springframework.web" level="trace" additivity="false">
 			<appender-ref ref="trace-log" level="debug" />
 			<appender-ref ref="error-log" level="warn" />
 			<appender-ref ref="console-log" level="warn" />
 		</Logger>
-		<Root level="debug" additivity="false">
+		<Root level="info" additivity="false">
 			<AppenderRef ref="console-log" />
 		</Root>
 	</Loggers>
