@@ -275,8 +275,8 @@ var url = "/" + baseDirectory + "/";
 			// get tags into an array
 			if(this.tagList != null && this.tagList != ''){
 				var selectedTags = this.tagList.split(',');
-				for (var i=0;i<selectedTags.length;i++){
-					if(!this.addTag(selectedTags[i])){
+				for (var j=0;i<selectedTags.length;j++){
+					if(!this.addTag(selectedTags[j])){
 						return;
 					}
 				}
