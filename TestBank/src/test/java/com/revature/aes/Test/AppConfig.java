@@ -1,4 +1,4 @@
-package com.revature.aes.Test;
+package com.revature.aes.test;
 
 import static org.mockito.Mockito.mock;
 
