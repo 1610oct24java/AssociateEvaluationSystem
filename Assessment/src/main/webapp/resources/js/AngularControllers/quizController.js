@@ -65,13 +65,11 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 			var answer = $scope.questions[ndxQuestion].templateQuestion.multiChoice[ndxOption];
 			var question = $scope.questions[ndxQuestion].templateQuestion;
 			var foundAt = $scope.protoTest.options.indexOf(answer);
-			console.log("Found At: " + foundAt);
 			// If it's not already in the system
 			if (foundAt === -1) {
 				// Make sure there's only one option per questions
 				for (var i = 0; i < $scope.protoTest.options.length; i++) {
 					if ($scope.protoTest.options[i].questionId === question.questionId){
-						console.log("Deleting at: " + foundAt);
 						$scope.protoTest.options.splice(i, 1);
 					}
 				}
@@ -81,11 +79,13 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 			// Handles multiple select questions
 			console.log("2) Select Option: " + ndxOption + " in Question: " + ndxQuestion);
 			var foundAt = $scope.answers[ndxQuestion].indexOf(ndxOption)
+			console.log("Found at: " + foundAt);
 			var answer = $scope.questions[ndxQuestion].templateQuestion.multiChoice[ndxOption];
 			if (foundAt === -1){
 				$scope.answers[ndxQuestion].push(ndxOption);
 				$scope.protoTest.options.push(answer);
 			} else {
+				console.log("Delete at: " + foundAt);
 				$scope.answers[ndxQuestion].splice(foundAt, 1);
 				$scope.protoTest.options.splice(foundAt, 1);
 			}

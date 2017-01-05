@@ -1,7 +1,7 @@
 /* COUNTDOWN TIMER LOGIC */
 app.controller('CountdownController', function($scope, $rootScope, $interval) {
 	
-	var startTime = 120;
+	var startTime = 1200;
 	$scope.minutes = 0;
 	$scope.seconds = startTime;
 	$scope.barUpdate = getBarUpdate();
