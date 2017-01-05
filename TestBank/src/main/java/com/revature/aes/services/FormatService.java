@@ -13,6 +13,8 @@ package com.revature.aes.services;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.revature.aes.beans.Format;
 
 public interface FormatService

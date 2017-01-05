@@ -249,6 +249,30 @@ var url = "/" + baseDirectory + "/";
 			} // outer if end	
 		}; // updateQuestion() end
 		
+		this.addCategories = () => {
+			// get categories into an array
+			if(this.catList != null && this.catList != ''){	
+				var selectedCategories = this.catList.split(',');
+				for (var i=0;i<selectedCategories.length;i++){
+					if(!this.addCategory(selectedCategories[i])){
+						return;
+					}
+				}
+			}
+		};
+		
+		this.addTags = () => {
+			// get tags into an array
+			if(this.tagList != null && this.tagList != ''){
+				var selectedTags = this.tagList.split(',');
+				for (var j=0;j<selectedTags.length;j++){
+					if(!this.addTag(selectedTags[j])){
+						return;
+					}
+				}
+			}
+		};
+		
 		this.addCategoriesAndTags = () => {
 			// question must be selected
 			if(this.questionBeingUpdated===''){
@@ -263,24 +287,9 @@ var url = "/" + baseDirectory + "/";
 			// initialize question
 			this.question = this.qList[this.questionBeingUpdated-1];
 			
-			// get categories into an array
-			if(this.catList != null && this.catList != ''){	
-				var selectedCategories = this.catList.split(',');
-				for (var i=0;i<selectedCategories.length;i++){
-					if(!this.addCategory(selectedCategories[i])){
-						return;
-					}
-				}
-			}
-			// get tags into an array
-			if(this.tagList != null && this.tagList != ''){
-				var selectedTags = this.tagList.split(',');
-				for (var i=0;i<selectedTags.length;i++){
-					if(!this.addTag(selectedTags[i])){
-						return;
-					}
-				}
-			}
+			this.addCategories();
+			this.addTags();
+
 			// save the question
 			$http.put(url + "question", this.question)
 			.success(response => {

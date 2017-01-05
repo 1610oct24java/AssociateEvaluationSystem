@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Set;
 
 import java.sql.Timestamp;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -46,7 +48,7 @@ public class Assessment implements Serializable {
 	@Column(name = "finished_timestamp")
 	private Timestamp finishedTimeStamp;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "template_id")
 	private Template template;
 	
@@ -167,6 +169,17 @@ public class Assessment implements Serializable {
 				+ timeLimit + ", createdTimeStamp=" + createdTimeStamp + ", finishedTimeStamp=" + finishedTimeStamp
 				+ ", template=" + template + ", options=" + options + ", assessmentDragDrop=" + assessmentDragDrop
 				+ ", fileUpload=" + fileUpload + ", snippedTemplate=" + snippedTemplate + "]";
+	}
+
+	public Assessment(User user, int grade, int timeLimit, Timestamp createdTimeStamp,
+			Timestamp finishedTimeStamp, Template template) {
+		super();
+		this.user = user;
+		this.grade = grade;
+		this.timeLimit = timeLimit;
+		this.createdTimeStamp = createdTimeStamp;
+		this.finishedTimeStamp = finishedTimeStamp;
+		this.template = template;
 	}
 
 }
