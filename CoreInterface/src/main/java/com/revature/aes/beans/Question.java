@@ -70,8 +70,7 @@ public class Question implements Serializable {
 	@OneToMany(fetch = FetchType.EAGER, mappedBy="questionId")
 	private Set<DragDrop> dragDrops;			
 	
-	@OneToOne(fetch = FetchType.EAGER)
-	
+	@OneToOne(fetch = FetchType.EAGER, mappedBy = "question")
 	private SnippetTemplate snippetTemplate;
 
 	public Question() {

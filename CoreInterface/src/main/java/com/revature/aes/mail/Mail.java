@@ -52,7 +52,7 @@ public class Mail {
 				break;
 			
 			case "candidateCompleted":
-				int grade = ad.findAssesmentByUser(candidate).getGrade(); 
+				int grade = ad.findByUser(candidate).getGrade(); 
 				ms.sendEmail(ms.setupMessage(recruiterEmail, candidateName + " has completed quiz", candidateName
 						+RECRUITER_COMPLETED_BODY+String.valueOf(grade)));
 				break;

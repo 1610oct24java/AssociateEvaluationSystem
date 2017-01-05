@@ -78,5 +78,10 @@ public class SecurityServiceImpl implements SecurityService {
 		dao.save(security);
 	}
 
-
+	@Override
+	public void invalidatePassword(User u) {
+		// 
+		Security s = dao.findSecurityByUserId(u.getUserId());
+		s.setValid(0);
+	}
 }
