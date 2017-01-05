@@ -5,7 +5,10 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	$scope.oneAtATime = false;
 	$scope.editors = new Array();
 	$scope.protoTest = tstQuiz2;
-	$scope.questions = $scope.protoTest.template.templateQuestion
+	$scope.questions = $scope.protoTest.template.templateQuestion;
+	$scope.protoTest2 = {};
+	
+	getQuizQuestions()
 
 	var incrementEditorIfNeeded = function(i) {
 		if ($scope.questions[i].templateQuestion.format.formatId === 3) {
@@ -140,17 +143,31 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 		$scope.filteredQuestions = $scope.questions.slice(begin, end);
 	});
 	
+	 function getNewLobbyData(){
+	    	console.log("Fetching first lobby data...");
+	        $http({
+	            method: 'GET',
+	            url: '/Splice/lobbyCtrl',
+	            headers: {'Content-Type': 'application/json'}
+	        }).success(function (data){
+	            $scope.lobbyList = data.lobbies;
+	        }).error(function (response){
+	        	console.log("Something went wrong with creating a new lobby!");
+	        });
+	    }
+	
 	// AJAX
 	function getQuizQuestions() {
+		console.log("Tryna get dat Ass...essment");
 		$http({
 			method: 'GET',
-			url: '/Assessment/getAssessmentData',
+			url: 'localhost:1993/Assessment/view/1',
 			headers: {'Content-Type': 'application/json'}
 		})
 		.then(function(response) {
 		    //First function handles success
 		    console.log("Received Quiz Object= " + response.data);
-		    $scope.quiz = response.data;
+		    $scope.protoTest2 = response.data;
 		        
 		}, function(response) {
 		    //Second function handles error

@@ -29,13 +29,15 @@ public class GetAssessmentController
 		return "thisIsALink";
 	}
 	
-	@RequestMapping(value="/view/{id}", method=RequestMethod.POST)
+	@RequestMapping(value="/view/{id}", method=RequestMethod.GET)
 	public String getAssessment(@PathVariable int AssessmentId) throws JsonProcessingException
 	{
+		System.out.println("I'm here!");
 		String JSONString;
 		ObjectMapper mapper = new ObjectMapper();
-		httpSession.getAttribute("assessmentId"); 
-		Assessment assessment = service.findAssesmentByAssessmentId(AssessmentId);
+		//httpSession.getAttribute("assessmentId"); 
+		//Assessment assessment = service.findAssesmentByAssessmentId(AssessmentId);
+		Assessment assessment = service.findOne(AssessmentId);
 		System.out.println(assessment);
 		JSONString = mapper.writeValueAsString(assessment);
 		return JSONString;
