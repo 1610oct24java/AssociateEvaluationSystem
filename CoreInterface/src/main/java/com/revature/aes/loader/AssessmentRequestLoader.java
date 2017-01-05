@@ -30,7 +30,7 @@ public class AssessmentRequestLoader {
 		ar.setMsQuestions(Integer.parseInt(prop.getProperty("msQuestions")));
 		ar.setDdQuestions(Integer.parseInt(prop.getProperty("ddQuestions")));
 		ar.setCsQuestions(Integer.parseInt(prop.getProperty("csQuestions")));
-		ar.setTimelimit(Integer.parseInt(prop.getProperty("timelimit")));
+		//ar.setTimelimit(Integer.parseInt(prop.getProperty("timelimit")));
 		
 		return ar;
 	}

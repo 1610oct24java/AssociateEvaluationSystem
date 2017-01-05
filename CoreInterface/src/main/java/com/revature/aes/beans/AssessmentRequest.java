@@ -13,18 +13,25 @@ public class AssessmentRequest implements Serializable{
 	private int msQuestions;
 	private int ddQuestions;
 	private int csQuestions;
-	private int timelimit;
+	//private int timelimit;
 	private String link;
+	private String userEmail;
 
+	public String getUserEmail() {
+		return userEmail;
+	}
+	public void setUserEmail(String email) {
+		this.userEmail = email;
+	}
 	public AssessmentRequest() {
 		super();
 	}
-	public int getTimelimit() {
+	/*public int getTimelimit() {
 		return timelimit;
 	}
 	public void setTimelimit(int timelimit) {
 		this.timelimit = timelimit;
-	}	
+	}*/	
 	public int getCsQuestions() {
 		return csQuestions;
 	}
@@ -64,7 +71,8 @@ public class AssessmentRequest implements Serializable{
 	@Override
 	public String toString() {
 		return "AssessmentRequest [category=" + category + ", mcQuestions=" + mcQuestions + ", msQuestions="
-				+ msQuestions + ", ddQuestions=" + ddQuestions + ", csQuestions=" + csQuestions + ", timelimit="
-				+ timelimit + ", link=" + link + "]";
+				+ msQuestions + ", ddQuestions=" + ddQuestions + ", csQuestions=" + csQuestions + ", link=" + link
+				+ ", userEmail=" + userEmail + "]";
 	}
+	
 }

@@ -2,7 +2,6 @@ package com.revature.aes.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Service;
 
 import com.revature.aes.beans.User;
 
@@ -17,7 +16,7 @@ import com.revature.aes.beans.User;
  * used.
  *
  */
-@Service
+
 @Deprecated
 public class ValidationServiceImpl implements ValidationService {
 	
