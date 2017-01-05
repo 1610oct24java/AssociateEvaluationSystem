@@ -1,13 +1,16 @@
 package com.revature.aes.locator;
 
+import org.apache.log4j.Logger;
+
 import com.revature.aes.beans.AssessmentRequest;
 
 public class FAKEAssesmentServiceLocator implements AssessmentServiceLocator {
+	Logger log = Logger.getRootLogger();
 	
 	public AssessmentRequest getLink(AssessmentRequest assessment) {
-		//TODO Remove @Service annotation when we get the real impl working
+		//
 		assessment.setLink("www.google.com");
-		System.out.println(assessment.getUserEmail());
+		log.debug(assessment.getUserEmail());
 		return assessment;
 	}
 

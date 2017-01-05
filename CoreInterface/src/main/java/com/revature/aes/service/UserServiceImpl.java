@@ -95,7 +95,7 @@ public class UserServiceImpl implements UserService {
 				u.setGrade(-1);
 		}
 		
-		System.out.println(users);	
+		log.debug(users);	
 		return users;
 	}
 

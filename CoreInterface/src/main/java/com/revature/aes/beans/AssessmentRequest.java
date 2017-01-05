@@ -13,9 +13,10 @@ public class AssessmentRequest implements Serializable{
 	private int msQuestions;
 	private int ddQuestions;
 	private int csQuestions;
-	//private int timelimit;
 	private String link;
 	private String userEmail;
+	//For a future sprint you'd have a timelimit field here
+	//As well as getters and setters and adding it to the tostring of course
 
 	public String getUserEmail() {
 		return userEmail;
@@ -26,12 +27,6 @@ public class AssessmentRequest implements Serializable{
 	public AssessmentRequest() {
 		super();
 	}
-	/*public int getTimelimit() {
-		return timelimit;
-	}
-	public void setTimelimit(int timelimit) {
-		this.timelimit = timelimit;
-	}*/	
 	public int getCsQuestions() {
 		return csQuestions;
 	}

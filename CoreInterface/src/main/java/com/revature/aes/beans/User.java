@@ -52,6 +52,10 @@ public class User implements Serializable{
 	
 	@Transient
 	private Integer grade;
+
+	public User() {
+		super();
+	}
 	
 	public int getGrade() {
 		return grade;
@@ -59,10 +63,6 @@ public class User implements Serializable{
 
 	public void setGrade(Integer grade) {
 		this.grade = grade;
-	}
-
-	public User() {
-		super();
 	}
 	
 	public String getFormat() {

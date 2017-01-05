@@ -15,7 +15,7 @@ import com.revature.aes.locator.AssessmentServiceLocator;
 @Service
 public class RestServicesImpl implements RestServices {
 	
-	private static final String login = "http://localhost:8080/core/"; 
+	private static final String LOGIN = "http://localhost:8080/core/"; 
 	@Autowired
 	private AssessmentServiceLocator assessmentService;
 	@Autowired
@@ -38,7 +38,7 @@ public class RestServicesImpl implements RestServices {
 		
 		AssessmentAuth auth = new AssessmentAuth();
 		auth.setUrlAssessment(link);
-		auth.setUrlAuth(login);
+		auth.setUrlAuth(LOGIN);
 		auth.setUserId(userId);
 		
 		authService.save(auth);
