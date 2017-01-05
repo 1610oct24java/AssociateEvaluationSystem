@@ -65,10 +65,10 @@ public class Question implements Serializable {
 	private List<Option> multiChoice; 
 	
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.EAGER, mappedBy="questionId")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="questionId", cascade=CascadeType.ALL)
 	private Set<DragDrop> dragDrops;			
 	
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
 	@JoinColumn(name="QUESTION_ID")
 	private SnippetTemplate snippetTemplate;
 

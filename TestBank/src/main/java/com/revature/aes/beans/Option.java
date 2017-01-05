@@ -51,7 +51,7 @@ public class Option implements Serializable {
 	/**
 	 * @question The question associated with this class.
 	 */
-	@ManyToOne(fetch=FetchType.LAZY, cascade={CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToOne(fetch=FetchType.LAZY, cascade={CascadeType.ALL})
 	@JoinColumn(name = "QUESTION_ID")
 	private Question question;
 	

@@ -62,7 +62,7 @@ public class AikenParser {
 		    // Each loop is a new question being read
 		    while (line != null) {
 		    	Question question = getQuestion();
-		    	ArrayList<Option> optionsList = getOptionsList(br);
+		    	ArrayList<Option> optionsList = getOptionsList(br, question);
 		    	
 		    	setCorrectAnswer(optionsList);
 		    	// Add the question and its options to the map
@@ -125,20 +125,19 @@ public class AikenParser {
 	 * @return	the list of options for the current question
 	 * @throws IOException
 	 */
-	private ArrayList<Option> getOptionsList(BufferedReader br) throws IOException{	
+	private ArrayList<Option> getOptionsList(BufferedReader br, Question optionQuestion) throws IOException{	
     	
 		line = br.readLine();
     	
 		// Create new options list for each Question
 		ArrayList<Option> optionsList = new ArrayList<>();
 		
-    	line = br.readLine();
-    			
     	// Parse lines until "ANSWER:" to retrieve Options
     	while(!line.startsWith("ANSWER:")){
     		Option option = new Option();
     		option.setOptionText(line);
     		option.setOptionId(0);
+    		option.setQuestion(optionQuestion);
     		optionsList.add(option);
     		
     		String optionString = "Option: " + option.getOptionText();

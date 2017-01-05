@@ -53,11 +53,8 @@ public class QuestionServiceImpl implements QuestionService
 		//ensures question text isn't null or an empty string.
 		if(question.getQuestionText().trim() == "" || question.getQuestionText() == null  )
 		{
-			System.out.println("in if");
 			return null;
 		}
-		System.out.println("Added questions?");
-		odao.save(question.getMultiChoice());
 		return qdao.saveAndFlush(question);
 	}
 

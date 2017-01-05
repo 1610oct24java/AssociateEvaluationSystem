@@ -47,16 +47,12 @@ public class AssessmentGenService {
 			e.printStackTrace();
 		}
 		HashMap<Question, ArrayList<Option>> questionsMap = (HashMap<Question, ArrayList<Option>>) aikenParser.getQuestionsMap();
-		System.out.println("QUESTIONS: ");
 		
-	
 		for(Question q : questionsMap.keySet()){
 			// These two lines actually persist the question to the database...
-	    	System.out.println(questionsMap.get(q));
 			q.setMultiChoice(questionsMap.get(q));
 	    	
 	    	service.addQuestion(q);
-			System.out.println(q.toString());
 		}
 	}
 	
