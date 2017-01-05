@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Implementation-Title: Assessment
 Implementation-Version: 0.1.0
-Built-By: dougs
+Built-By: ausho
 Implementation-Vendor-Id: com.revature.aes
 Build-Jdk: 1.8.0_112
 Implementation-URL: http://projects.spring.io/spring-boot/Assessment/
