@@ -21,7 +21,7 @@ public class RestServicesImpl implements RestServices {
 
 	@Override
 	public Map<String,String> finalizeCandidate(User candidate, String pass) {
-		Map<String,String> map = new HashMap<String,String>();
+		Map<String,String> map = new HashMap<>();
 		int userId = candidate.getUserId();
 		String email = candidate.getEmail();
 		String category = candidate.getFormat();
