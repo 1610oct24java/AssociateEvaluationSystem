@@ -23,7 +23,7 @@ public class User implements Serializable{
 	@SequenceGenerator(name = "AES_USERS_SEQ", sequenceName = "AES_USERS_SEQ")
 	@GeneratedValue(generator = "AES_USERS_SEQ", strategy = GenerationType.SEQUENCE)
 	@Column(name="USER_ID")
-	private Integer userId;
+	private int userId;
 	
 	@Column(name="EMAIL")
 	private String email;

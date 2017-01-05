@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body ng-app="AESCoreApp" ng-controller="CandidateViewCtrl">
+
+<div id="navbar" class="navbar-collapse rev-menu collapse" aria-expanded="false" style="height: 1px;">
+	<div class="menu-header-menu-container">
+		<ul id="menu-header-menu" class="nav navbar-nav">
+			<li>
+				<a href="viewCandidates.html">CANIDATES</a>
+			</li>
+			<li>
+				<a href="recruitCandidate.html">REGISTER CANIDATE</a>
+			</li>
+			<li>
+				<button class="btn btn-primary" ng-click="logout()">logout</button>
+			</li>
+		</ul>
+	</div>
+</div>
+<br><br><br><br><br><br><br>
+<div>
+<table>
+<thead>
+	<tr>
+		<th>name</th>
+		<th>email</th>
+		<th>score</th>
+	</tr>
+</thead>
+<tbody>
+	<tr ng-repeat="candidate in candidates">
+		<td>{{candidate.lastName + ', ' + candidate.firstName}}</td>
+		<td>{{candidate.email}}</td>
+		<td>{{candidate.grade}}</td>
+	</tr>
+</tbody>
+</table>
+</div>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.9/angular.js"></script>
+<script type="text/javascript" src="app.js"></script>
+</body>
+</html>

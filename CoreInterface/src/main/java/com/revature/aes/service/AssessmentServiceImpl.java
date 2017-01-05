@@ -24,7 +24,11 @@ public class AssessmentServiceImpl implements AssessmentService {
 	
 	@Override
 	public Integer findGradeByUser(User user){
-		return dao.findByUser(user).getGrade();
+		Assessment asmt = dao.findByUser(user);
+		System.out.println(asmt);
+		if(asmt != null)
+			return dao.findByUser(user).getGrade();
+		else return null;
 	}
 
 	@Override

@@ -50,4 +50,5 @@ public class RecruiterController {
 	public void deleteCandidate(@PathVariable String email, @PathVariable int index){
 		userService.removeCandidate(email, index);
 	}
+
 }

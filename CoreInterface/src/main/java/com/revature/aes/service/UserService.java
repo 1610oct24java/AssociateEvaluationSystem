@@ -15,3 +15,4 @@ public interface UserService {
 	public User updateCandidate(User candidate, String email, int index);
 	public void removeCandidate(String email, int index);
 }
+

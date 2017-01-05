@@ -14,6 +14,8 @@ import com.revature.aes.locator.AssessmentServiceLocator;
 
 @Service
 public class RestServicesImpl implements RestServices {
+	
+	private static final String login = "http://localhost:8080/core/"; 
 	@Autowired
 	private AssessmentServiceLocator assessmentService;
 	@Autowired
@@ -21,12 +23,14 @@ public class RestServicesImpl implements RestServices {
 
 	@Override
 	public Map<String,String> finalizeCandidate(User candidate, String pass) {
-		Map<String,String> map = new HashMap<String,String>();
+		Map<String,String> map = new HashMap<>();
 		int userId = candidate.getUserId();
 		String email = candidate.getEmail();
 		String category = candidate.getFormat();
 		
 		AssessmentRequest ar = new AssessmentRequestLoader().loadRequest(category);
+		
+		ar.setUserEmail(candidate.getEmail());
 		
 		ar = assessmentService.getLink(ar);
 		
@@ -34,12 +38,11 @@ public class RestServicesImpl implements RestServices {
 		
 		AssessmentAuth auth = new AssessmentAuth();
 		auth.setUrlAssessment(link);
-		auth.setUrlAuth("http://localhost:8080/core/");
+		auth.setUrlAuth(login);
 		auth.setUserId(userId);
 		
 		authService.save(auth);
 		
-		//mailService.sendPassword(email, link, pass);
 		map.put("email", email);
 		map.put("link", auth.getUrlAuth());
 		map.put("pass", pass);

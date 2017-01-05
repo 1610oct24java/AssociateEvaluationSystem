@@ -10,17 +10,18 @@
 
 	<http auto-config="true" use-expressions="true">
 		<intercept-url pattern="/*" access="hasRole('ROLE_RECRUITER')" />
-		<intercept-url pattern="/" access="isAnonymous()"/>		
-		
+		<intercept-url pattern="/security/*" access="isFullyAuthenticated()" />
+		<intercept-url pattern="/" access="isAnonymous()"/>
 		<form-login login-page="/"
 		login-processing-url="/login"
 		authentication-failure-url="/login?error"
-		default-target-url="/home"/>
+		default-target-url="/"/>
 		<logout/>
+
 		<csrf disabled="true"/>
 	</http>
 
-	<beans:import resource="beans.xml" />
+	<beans:import resource="beans.xml"/>
 
 	<authentication-manager>
 		<authentication-provider user-service-ref="customUserDetailsService">

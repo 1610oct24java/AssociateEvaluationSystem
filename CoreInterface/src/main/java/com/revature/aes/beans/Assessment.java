@@ -2,7 +2,6 @@ package com.revature.aes.beans;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,14 +10,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
 @Table(name = "aes_assessment")
@@ -48,29 +42,6 @@ public class Assessment implements Serializable {
 	@Column(name = "finished_timestamp")
 	private Timestamp finishedTimeStamp;
 
-//	@ManyToOne(fetch = FetchType.EAGER)
-//	@JoinColumn(name = "template_id")
-//	private Template template;
-//
-//	@ManyToMany(fetch = FetchType.EAGER)
-//	@JoinTable(name = "aes_assessment_options", 
-//		joinColumns = @JoinColumn(name = "assessment_id"), 
-//		inverseJoinColumns = @JoinColumn(name = "option_id"))
-//	private Set<Option> options;
-//	
-//	@OneToMany(fetch = FetchType.EAGER, mappedBy = "assessmentDragDropId")
-//	private Set<AssessmentDragDrop> assessmentDragDrop;
-//
-//	@Transient
-//	@OneToMany(fetch = FetchType.EAGER, mappedBy ="assessmentId")
-//	private Set<FileUpload> fileUpload;
-//
-//	@ManyToMany(fetch = FetchType.EAGER)
-//	@JoinTable(name = "aes_snippet_response", 
-//		joinColumns = @JoinColumn(name = "snippet_template_id"), 
-//		inverseJoinColumns = @JoinColumn(name = "assessment_id"))
-//	private Set<SnippetTemplate> snippedTemplate;
-
 	public Assessment() {
 		super();
 	}
@@ -79,8 +50,7 @@ public class Assessment implements Serializable {
 	public String toString() {
 
 		return "Assessment [assessmentId=" + assessmentId + ", user=" + user + ", grade=" + grade + ", timeLimit="
-
-				+ timeLimit + ", createdTimeStamp=" + createdTimeStamp + ", finishedTimeStamp=" + finishedTimeStamp+"]";
+				+ timeLimit + ", createdTimeStamp=" + createdTimeStamp + ", finishedTimeStamp=" + finishedTimeStamp + "]";
 	}
 
 	public int getAssessmentId() {
@@ -133,43 +103,4 @@ public class Assessment implements Serializable {
 		this.finishedTimeStamp = finishedTimeStamp;
 	}
 
-//	public Template getTemplate() {
-//		return template;
-//	}
-//
-//	public void setTemplate(Template template) {
-//		this.template = template;
-//	}
-//
-//	public Set<Option> getOptions() {
-//		return options;
-//	}
-//
-//	public void setOptions(Set<Option> options) {
-//		this.options = options;
-//	}
-//
-//	public Set<AssessmentDragDrop> getAssessmentDragDrop() {
-//		return assessmentDragDrop;
-//	}
-//
-//	public void setAssessmentDragDrop(Set<AssessmentDragDrop> assessmentDragDrop) {
-//		this.assessmentDragDrop = assessmentDragDrop;
-//	}
-//
-//	public Set<FileUpload> getFileUpload() {
-//		return fileUpload;
-//	}
-//
-//	public void setFileUpload(Set<FileUpload> fileUpload) {
-//		this.fileUpload = fileUpload;
-//	}
-//
-//	public Set<SnippetTemplate> getSnippedTemplate() {
-//		return snippedTemplate;
-//	}
-//
-//	public void setSnippedTemplate(Set<SnippetTemplate> snippedTemplate) {
-//		this.snippedTemplate = snippedTemplate;
-//	}
 }
