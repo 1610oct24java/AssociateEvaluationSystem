@@ -7,7 +7,7 @@ public class CodeTester {
 	static FileParser fp = new FileParser();
 	static FileAccess fa = new FileAccess();
 		
-	public static boolean executeCodeTest(String keyFileKey, String testFileKey){
+	public boolean executeCodeTest(String keyFileKey, String testFileKey){
 		boolean getKey = fa.download(keyFileKey);
 		boolean getTest = fa.download(testFileKey);
 		boolean result = false;
