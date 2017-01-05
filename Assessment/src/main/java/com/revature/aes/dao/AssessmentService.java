@@ -1,14 +1,26 @@
 package com.revature.aes.dao;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.revature.aes.beans.Assessment;
+import com.revature.aes.beans.Format;
 
-@Repository
-public interface AssessmentService extends JpaRepository<Assessment, Integer> {
-	
-	public Assessment findAssesmentByAssessmentId(int id);
-	
-	public void saveAssessmentByAssessment(Assessment assessment);
+@Service
+public class AssessmentService implements IAssessmentService {
+
+//	@Autowired
+	AssessmentDAO assDAO;
+	@Override
+	public Assessment getAssessmentById(int id) {
+		Assessment out = assDAO.findOne(id);
+		return out;
+	}
+
+	@Override
+	public void saveAssessmentById() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

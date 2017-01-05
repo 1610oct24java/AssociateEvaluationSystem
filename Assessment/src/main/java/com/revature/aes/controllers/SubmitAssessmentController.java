@@ -13,14 +13,14 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.aes.beans.Assessment;
-import com.revature.aes.dao.AssessmentService;
+import com.revature.aes.dao.AssessmentDAO;
 
 @Controller
 @RequestMapping("/rest")
 public class SubmitAssessmentController {
 
 	 //@Autowired
-	  AssessmentService service;
+	  AssessmentDAO service;
 	 
 	@RequestMapping(value="/submitAssessment",method = RequestMethod.POST)
 	public String saveAssessmentAnswers(@RequestBody String JsonUserAnswers) throws JsonParseException, JsonMappingException, IOException

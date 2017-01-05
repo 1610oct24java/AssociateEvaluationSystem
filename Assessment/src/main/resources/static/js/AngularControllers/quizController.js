@@ -161,7 +161,7 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 		console.log("Tryna get dat Ass...essment");
 		$http({
 			method: 'GET',
-			url: 'localhost:1993/Assessment/view/1',
+			url: 'localhost:1993/Assessment/rest/1',
 			headers: {'Content-Type': 'application/json'}
 		})
 		.then(function(response) {
@@ -171,6 +171,7 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 		        
 		}, function(response) {
 		    //Second function handles error
+			console.log("ERROR: broken data: " + response.data);
 		    console.log("ERROR: status code: " + response.status);
 		});
 	}
