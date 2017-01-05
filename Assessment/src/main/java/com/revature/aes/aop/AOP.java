@@ -20,8 +20,6 @@ public class AOP {
 	@Around("everything()")
 	public void traceLogging(ProceedingJoinPoint pjp) {
 		
-		System.out.println("Starting around");
-		
 		// Setup for grabbing method information
 		MethodSignature sign = (MethodSignature) pjp.getSignature();
 		Class[] paramTypes = sign.getParameterTypes();
@@ -59,8 +57,6 @@ public class AOP {
 					+ "\nMethod exceptions:\n"
 					+ except, e);
 		}
-		
-		System.out.println("Ending around");
 		
 	}
 	

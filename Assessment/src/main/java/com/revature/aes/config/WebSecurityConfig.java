@@ -12,15 +12,25 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		http.authorizeRequests()
+				.antMatchers("/css/**", "/js/**", "/images/**", "/rest/**")
+				.permitAll();
+		
 		http.authorizeRequests().antMatchers("/").permitAll().anyRequest()
-				.authenticated().and().formLogin().loginPage("/login")
-				.permitAll().and().logout().logoutUrl("/logout")
-				.deleteCookies("remember-me").permitAll().and().rememberMe()
-				.and().exceptionHandling().accessDeniedPage("/error").and()
-				.authorizeRequests().antMatchers("/static/**").permitAll()
-				.anyRequest().authenticated().and().authorizeRequests()
-				.antMatchers("/rest/**").permitAll().anyRequest()
-				.authenticated().and().csrf().disable();
+				.authenticated()
+				
+				.and().formLogin().loginPage("/login").permitAll()
+				
+				.and().logout().logoutUrl("/logout")
+				.deleteCookies("remember-me").permitAll()
+				
+				.and().rememberMe().and().exceptionHandling()
+				.accessDeniedPage("/error")
+				
+				.and().authorizeRequests().antMatchers("/static/**").permitAll()
+				.anyRequest().authenticated()
+				
+				.and().authorizeRequests().and().csrf().disable();
 	}
 	
 	@Autowired

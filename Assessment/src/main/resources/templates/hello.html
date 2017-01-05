@@ -3,7 +3,6 @@
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-<meta charset="ISO-8859-1" />
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.0/angular.js"></script>
 <!-- Latest compiled and minified CSS -->
@@ -12,22 +11,23 @@
 <!-- Optional theme -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" />
+<link rel="stylesheet" th:href="@{css/customCSS.css}"
+	href="../static/css/customCSS.css" media="screen" />
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<!-- <meta http-equiv="refresh" content="3;url=/Assessment/" /> -->
-<title>Simple Error</title>
+<title>Hello World!</title>
 </head>
 <body>
-	<div class="alert alert-warning" role="alert">
-		<strong>Warning!</strong> If you are seeing this page, something <strong>minor</strong>
-		happened.
-	</div>
-	<img th:src="@{/images/logo.png}" src="../static/images/logo.png"
-		alt="revatureLogo" style="padding: 40px;">
-	<br>
-	<img th:src="@{/images/404.png}" src="../static/images/404.png"
-		alt="404">
+	<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+
+	<p>
+		Click <a th:href="@{/quiz}">here</a> to go to quiz.
+	</p>
+
+	<form th:action="@{/logout}" method="post">
+		<input type="submit" value="Sign Out" />
+	</form>
 </body>
 </html>
