@@ -1,14 +1,45 @@
 var app = angular.module('AESCoreApp',[]);
 
-app.controller('LoginCtrl', function($scope, $http) {
+app.constant("SITE_URL", {
+	"HTTP" : "http://",
+	"HTTPS": "https://",
+	"BASE" : "http://localhost:8080",
+	"PORT" : ":8080",
+	
+	"LOGIN": "index.html",
+	"VIEW_CANDIDATES" : "viewCandidates.html",
+	"REGISTER_CANDIDATE" : "",
+	
+	"TRAINER_HOME" : "http://sports.cbsimg.net/images/nhl/blog/Ryan_Reaves_Kiss.JPG"
+	
+});
+
+app.constant("API_URL", {
+	"BASE"      : "/core",
+	"LOGIN"     : "/login",
+	"LOGOUT"    : "/logout",
+	"AUTH"      : "/security/auth",
+	"CANDIDATE" : "/candidate/",
+	"RECRUITER" : "/recruiter/",
+	"LINK"      : "/link",
+	"CANDIDATES": "/candidates"
+});
+
+app.constant("ROLE", {
+	"RECRUITER" : "ROLE_RECRUITER",
+	"TRAINER"   : "ROLE_TRAINER",
+	"CANDIDATE" : "ROLE_CANDIDATE"
+});
+
+app.controller('LoginCtrl', function($scope, $http, SITE_URL, API_URL, ROLE) {
 	$scope.login = function() {
 		console.log('LOGIN CALLLED');
 		makeUser($scope);
 		console.log('MAKE USER CALLED');
-		$http.post("http://localhost:8080/core/login",'', $scope.user)
+		$http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGIN,'', $scope.user)
 		.then(function(response) {
 			console.log('INSIDE POST TO LOGIN');
-			$http.get("http://localhost:8080/core/security/auth")
+			$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 			.then(function(response) {
 				if (response.data.authenticated) {
 					var authUser = {
@@ -18,24 +49,24 @@ app.controller('LoginCtrl', function($scope, $http) {
 					console.log(authUser);
 					$scope.authUser = authUser;
 					switch ($scope.authUser.authority) {
-					case 'ROLE_RECRUITER':
-						window.location = 'viewCandidates.html';
+					case ROLE.RECRUITER:
+						window.location = SITE_URL.VIEW_CANDIDATES;
 						break;
-					case 'ROLE_CANDIDATE':
-						$scope.candEmail = 'mpski17@gmail.com';
-						$http.get('http://localhost:8080/core/candidate/' + $scope.candEmail + '/link')
+					case ROLE.CANDIDATE:
+						//$scope.candEmail = 'mpski17@gmail.com';
+						$scope.candidateEmail = authUser.username;
+						$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.CANDIDATE + $scope.candidateEmail + API_URL.LINK)
 						.then(function(response) {
 							console.log(response.data);
-							window.location = 'https://' + response.data.urlAssessment;
+							window.location = SITE_URL.HTTPS + response.data.urlAssessment;
 							console.log('CHOOCKED');
 						})
-						//window.location = 'https://usatftw.files.wordpress.com/2016/05/usp-nhl_-stanley-cup-playoffs-dallas-stars-at-st-_002.jpg?w=1000&h=600&crop=1';
 						break;
-					case 'ROLE_TRAINER':
-						window.location = 'http://sports.cbsimg.net/images/nhl/blog/Ryan_Reaves_Kiss.JPG';
+					case ROLE.TRAINER:
+						window.location = SITE_URL.TRAINER_HOME;
 						break;
 					default:
-						window.location = 'index.html';
+						window.location = SITE_URL.LOGIN;
 					}
 				}
 		})
@@ -43,9 +74,25 @@ app.controller('LoginCtrl', function($scope, $http) {
 	}
 }); //end login controller
 
-app.controller('RegisterCanidateCtrl', function($scope,$location,$http) {
+app.controller('RegisterCanidateCtrl', function($scope,$location,$http,SITE_URL, API_URL, ROLE) {
 
-	authorize($scope,$http);
+	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
+	.then(function(response) {
+		if (response.data.authenticated) {
+			var authUser = {
+				username : response.data.principal.username,
+				authority: response.data.principal.authorities[0].authority
+			}
+			console.log(authUser);
+			$scope.authUser = authUser;
+			if($scope.authUser.authority != ROLE.RECRUITER) {
+				window.location = SITE_URL.LOGIN;
+			}
+		} else {
+			window.location = SITE_URL.LOGIN;
+		}
+	})
+	
 	$scope.register = function() {
 
 		var canidateInfo = {
@@ -72,10 +119,9 @@ app.controller('RegisterCanidateCtrl', function($scope,$location,$http) {
 
 	$scope.postRegister = function(canidateInfo) {
 		console.log("POSTREGISTER")
-		var email = 'asd@gmail.com';
 		$http({
 			method  : 'POST',
-			url: 'http://localhost:8080/core/recruiter/' + email + '/candidates',
+			url: SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + $scope.authUser.username + API_URL.CANDIDATES,
 			headers : {'Content-Type' : 'application/json'},
 			data    : canidateInfo
 		}).success( function(res) {
@@ -87,7 +133,6 @@ app.controller('RegisterCanidateCtrl', function($scope,$location,$http) {
 		});
 	};
 
-	//TODO populate dynamically from db
 	$scope.options = [{
 		name: 'Java',
 		value: 'java'
@@ -98,17 +143,57 @@ app.controller('RegisterCanidateCtrl', function($scope,$location,$http) {
 		name: '.NET',
 		value: 'dotnet'
 	}];
+	
+	$scope.logout = function() {
+		$http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
+		.then(function(response) {
+			window.location = SITE_URL.LOGIN;
+		})
+	}
 
 }); //end register candidate controller
 
-app.controller('CandidateViewCtrl', function($scope,$http) {
-	authorize($scope,$http);
-	var email = 'asd@gmail.com';
-	$http.get('http://localhost:8080/core/recruiter/' + email + '/candidates')
+app.controller('CandidateViewCtrl', function($scope,$http, SITE_URL, API_URL, ROLE) {
+
+	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
-		console.log(response.data);
-		$scope.candidates = response.data;
-	})		
+		if (response.data.authenticated) {
+			var authUser = {
+				username : response.data.principal.username,
+				authority: response.data.principal.authorities[0].authority
+			}
+			console.log(authUser);
+			$scope.authUser = authUser;
+			if($scope.authUser.authority != ROLE.RECRUITER) {
+				window.location = SITE_URL.LOGIN;
+			}
+			$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + $scope.authUser.username + API_URL.CANDIDATES)
+			.then(function(response) {
+				console.log(response.data);
+				//$scope.candidates = response.data;
+				var c =  response.data;
+				console.log('length: ' + c.length);
+				for (var i=0; i<c.length; i++) {
+					console.log('c[i]: ' + c[i]);
+					if (c[i].grade == -1) {
+						console.log('GKJGKJHJKHJHK');
+						c[i].grade = 'N/A';
+					}
+				}
+				$scope.candidates = c;
+			})
+		} else {
+			window.location = SITE_URL.LOGIN;
+		}
+	})
+	
+	$scope.logout = function() {
+		$http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
+		.then(function(response) {
+			window.location = SITE_URL.LOGIN;
+		})
+	}
+	
 });
 
 function makeUser($scope) {
@@ -119,58 +204,6 @@ function makeUser($scope) {
 			}
 	};
 
-	$scope.user = user
-	//console.log(user);
+	$scope.user = user;
 }
 
-function authorize($scope, $http) {
-	console.log('INSIDE AUTHORIZE');
-	$http.get("http://localhost:8080/core/security/auth")
-	.then(function(response) {
-		if (response.data.authenticated) {
-			var authUser = {
-				username : response.data.principal.username,
-				authority: response.data.principal.authorities[0].authority
-			}
-			console.log(authUser);
-			$scope.authUser = authUser;
-			if($scope.authUser.authority != 'ROLE_RECRUITER') {
-				window.location = 'index.html';
-			}
-			
-			//			switch ($scope.authUser.authority) {
-//			case 'ROLE_RECRUITER':
-//				window.location = 'viewCandidates.html';
-//				break;
-//			case 'ROLE_CANDIDATE':
-//				window.location = 'index.html';
-//				break;
-//			case 'ROLE_TRAINER':
-//				window.location = 'http://sports.cbsimg.net/images/nhl/blog/Ryan_Reaves_Kiss.JPG';
-//				break;
-//			default:
-//				window.location = 'index.html';
-//			}
-//			if ($scope.authUser.authority === 'ROLE_RECRUITER') {
-//				window.location = 'viewCandidates.html';
-//			}
-//			else if ($scope.authUser.authority === 'ROLE_CANDIDATE') {
-//				window.location = 'https://usatftw.files.wordpress.com/2016/05/usp-nhl_-stanley-cup-playoffs-dallas-stars-at-st-_002.jpg?w=1000&h=600&crop=1';
-//			}
-//			else if ($scope.authUser.authority === 'ROLE_TRAINER') {
-//				window.location = 'http://sports.cbsimg.net/images/nhl/blog/Ryan_Reaves_Kiss.JPG';
-//			} else {
-//				window.location = 'index.html';
-//			}
-			//return authUser;
-		}
-//		else {
-//			window.location = 'https://cbsstlouis.files.wordpress.com/2016/05/unknown.jpg?w=420';
-//		}
-//		console.log('authenticated: ' + authenticated);
-//		console.log('username     : ' + response.data.principal.username);
-//		$scope.recruiterEmail = response.data.principal.username;
-//		console.log('authority    : ' + response.data.principal.authorities[0].authority);
-//		window.location = 'viewCandidates.html';
-	})
-}
