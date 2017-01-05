@@ -60,6 +60,7 @@ var url = "/" + baseDirectory + "/";
 		};
 		
 		this.categoriesInDatabase = null;
+		this.tagsInDatabase = null;
 		
 		this.question = {
 			question: {
@@ -104,7 +105,25 @@ var url = "/" + baseDirectory + "/";
 			}// end if
 		};
 		
-		// Adds a category to a Question being updated
+		// Adds a tag to the Question being updated
+		this.addTag = (tagName) => {
+			if(this.question.tags == null){
+				this.question.tags = [];
+			}
+			// search for tag in tagsInDatabase
+			for(var i=0;i<this.tagsInDatabase.length;i++){
+				if(tagName==this.tagsInDatabase[i].tagName){
+					this.question.tags.push(this.tagsInDatabase[i]);
+					return true;
+				}
+			}
+			// tag not found
+			alert('Invalid Tag');
+			this.question.tags=null;
+			return false;
+		};
+		
+		// Adds a category to the Question being updated
 		this.addCategory = (categoryName) => {
 			if(this.question.category == null){
 				this.question.category = [];
@@ -112,9 +131,7 @@ var url = "/" + baseDirectory + "/";
 			// search for category in categoriesInDatabase
 			for(var i=0;i<this.categoriesInDatabase.length;i++){
 				if(categoryName==this.categoriesInDatabase[i].name){
-					//console.log("category found " + this.categoriesInDatabase[i].name);
 					this.question.category.push(this.categoriesInDatabase[i]);
-					console.log(this.question);
 					return true;
 				}
 			}
@@ -168,7 +185,7 @@ var url = "/" + baseDirectory + "/";
 						dragDrops:null,
 						snippetTemplate:null
 					}; // this.question end
-		} //this.requeQuestion() end
+		}; //this.requeQuestion() end
 		
 		this.addQuestion = () => {
 			this.question.question.format = this.format;
@@ -230,7 +247,7 @@ var url = "/" + baseDirectory + "/";
 						} // inner if end
 					}); // $http end
 			} // outer if end	
-		} // updateQuestion() end
+		}; // updateQuestion() end
 		
 		this.addCategoriesAndTags = () => {
 			// question must be selected
@@ -238,6 +255,7 @@ var url = "/" + baseDirectory + "/";
 				alert('Please select a question number');
 				return;
 			}
+			// a tag or category must be provided
 			if(this.tagList==='' && this.catList===''){
 				alert('Please provide a category or tag');
 				return;
@@ -252,23 +270,29 @@ var url = "/" + baseDirectory + "/";
 					if(!this.addCategory(selectedCategories[i])){
 						return;
 					}
-					//console.log(this.question.categories);
 				}
 			}
+			// get tags into an array
+			if(this.tagList != null && this.tagList != ''){
+				var selectedTags = this.tagList.split(',');
+				for (var i=0;i<selectedTags.length;i++){
+					if(!this.addTag(selectedTags[i])){
+						return;
+					}
+				}
+			}
+			// save the question
 			$http.put(url + "question", this.question)
 			.success(response => {
-				this.question = response.data;
-				if (this.question == null) {
-					//alert("Error Saving Question Please Try Again");
-					//alert(this.question);
-					console.log(response);
+				if (response == null) {
+					alert("Error Saving Question Please Try Again");
 				} else {
 					this.getQuestionList();	
 					this.resetQuestion();
 					this.show = false;
 				} // inner if end
 			}); // $http end
-		} // addCategoriesAndTags() end
+		}; // addCategoriesAndTags() end
 		
 		// Load categories from database so that they can be added to questions
 		this.loadCategories = () => {
@@ -276,11 +300,20 @@ var url = "/" + baseDirectory + "/";
 			.then(response => {	
 				this.categoriesInDatabase = response.data;
 			});
-		}
+		};
+		
+		this.loadTags = () => {
+			$http.get(url + "tag")
+			.then(response => {
+				this.tagsInDatabase = response.data;
+				console.log(this.tagsInDatabase);
+			})
+		};
 		
 		angular.element(document).ready(() => {
 			this.getQuestionList();
 			this.loadCategories();
+			this.loadTags();
 		}); // angular.element end
 	}); // QuestionController end
 })();// the end of the closure invoking the function within the closure.
