@@ -1,45 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration monitorInterval="60">
+<Configuration status="WARN">
 	<Properties>
-		<Property name="path">${sys:catalina.home}/logs</Property>
+		<Property name="log-path">${sys:catalina.home}/logs</Property>
 	</Properties>
 	<Appenders>
-		<Console name="Console-Appender" target="SYSTEM_OUT">
-			<PatternLayout>
-				<pattern>
-					[%p] [%r ms] [%d{MM-dd-yyyy HH:mm:ss}] [%c{1} (%M : %L)] -
-					%m%n
-				</pattern>
-			</PatternLayout>
+		<Console name="console-log" target="SYSTEM_OUT">
+			<PatternLayout
+				pattern="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n" />
 		</Console>
-		<File name="App-Appender" fileName="${path}/asmt-error.txt">
+		<RollingFile name="trace-log" fileName="${log-path}/asmt-trace.log"
+			filePattern="${log-path}/asmt-trace-%d{yyyy-MM-dd}.log">
 			<PatternLayout>
-				<pattern>
-					[%p] [%r ms] [%d{MM-dd-yyyy HH:mm:ss}] [%c{1} (%M : %L)] -
-					%m%n
-				</pattern>
+				<pattern>[%p] [%r ms] [%d{MM-dd-yyyy HH:mm:ss}] [%c{1} (%M : %L)] -
+					%m%n</pattern>
 			</PatternLayout>
-		</File>
-		<File name="SpringBoot-Appender" fileName="${path}/asmt-debug.txt">
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1"
+					modulate="true" />
+			</Policies>
+		</RollingFile>
+		<RollingFile name="error-log" fileName="${log-path}/asmt-error.log"
+			filePattern="${log-path}/asmt-error-%d{yyyy-MM-dd}.log">
 			<PatternLayout>
-				<pattern>
-					[%p] [%r ms] [%d{MM-dd-yyyy HH:mm:ss}] [%c{1} (%M : %L)] -
-					%m%n
-				</pattern>
+				<pattern>[%p] [%r ms] [%d{MM-dd-yyyy HH:mm:ss}] [%c{1} (%M : %L)] -
+					%m%n</pattern>
 			</PatternLayout>
-		</File>
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1"
+					modulate="true" />
+			</Policies>
+		</RollingFile>
 	</Appenders>
 	<Loggers>
 		<Logger name="org.springframework.web" level="info" additivity="false">
-			<AppenderRef ref="SpringBoot-Appender" />
-			<AppenderRef ref="Console-Appender" />
+			<appender-ref ref="trace-log" level="debug" />
+			<appender-ref ref="error-log" level="warn" />
+			<appender-ref ref="console-log" level="warn" />
 		</Logger>
-		<Logger name="com.log4j2.controller" level="info" additivity="false">
-			<AppenderRef ref="App-Appender" />
-			<AppenderRef ref="Console-Appender" />
-		</Logger>
-		<Root>
-			<AppenderRef ref="Console-Appender" />
+		<Root level="debug" additivity="false">
+			<AppenderRef ref="console-log" />
 		</Root>
 	</Loggers>
 </Configuration>
