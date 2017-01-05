@@ -48,7 +48,8 @@ public class Logging
 			result = pjp.proceed();
 			log.trace(methodClass + " ==> " + method + " - Exit\nReturning: " + result);
 		} catch (Throwable e) {
-			log.warn("error in pjp" + e.getStackTrace());
+			log.error("error in pjp" + e.getStackTrace());
+			e.printStackTrace();
 		}
 
 		return result;
@@ -58,6 +59,7 @@ public class Logging
 	public void stackTraceLogging(Exception e){
 		for(StackTraceElement st : e.getStackTrace()){
 			log.error(st.getMethodName() + " at line " + st.getLineNumber());
+			e.printStackTrace();
 		}
 	}
 }

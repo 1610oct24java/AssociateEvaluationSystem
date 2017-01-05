@@ -1,5 +1,7 @@
 package com.revature.aes.core;
 
+import java.util.List;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,7 +26,7 @@ public class TestCategory {
 		Category category = new Category();
 		category.setCategoryId(1);
 		category.setName("Java");
-		Set<Question> questions = qservice.getAllQuestionsByCategory(category);
+		List<Question> questions = qservice.getAllQuestionsByCategory(category);
 		System.out.println("questions!");
 		for (Question question : questions){
 			System.out.print(question.getQuestionId());
