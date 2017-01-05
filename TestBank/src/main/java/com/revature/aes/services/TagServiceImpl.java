@@ -27,4 +27,9 @@ public class TagServiceImpl implements TagService {
 	public void saveTag(Tag tag) {
 		tdao.save(tag);
 	}
+
+	@Override
+	public void deleteTag(Integer id) {
+		tdao.delete(id);
+	}
 }

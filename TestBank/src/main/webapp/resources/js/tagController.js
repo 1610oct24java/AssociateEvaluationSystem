@@ -54,6 +54,39 @@ var app;
 			}
 		};
 		
+		this.findTagId = () =>{
+			for(var i=0;i<this.tags.length;i++){
+				if(this.tags[i].tagName==this.delTag){
+					return this.tags[i].tagId;
+				}
+			}
+			return 0;
+		};
+		
+		this.deleteTag = () =>{
+			var delTagId = this.findTagId(); 
+			var delTagName = this.delTag;
+			if(delTagId==0){
+				alert("Unable to remove tag!");
+				return;
+			}
+			this.delTag = {
+				tagId : delTagId,
+				tagName : delTagName
+			};
+			$http.delete(url + "tag/" + delTagId).then(
+				// success
+				() => {
+					//this.categories.splice(this.findIndexOfCategory(), 1);
+					//this.delTag = '';
+				},
+				// failure
+				() => {
+					alert("Unable to remove tag!")
+				}
+			);
+		};
+		
 		this.getTags();
 	});
 	
