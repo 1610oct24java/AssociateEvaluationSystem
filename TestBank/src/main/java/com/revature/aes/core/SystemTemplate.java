@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -48,10 +49,11 @@ public class SystemTemplate {
 		int size;
 		String userEmail = assReq.getUserEmail();
 		Set<Question> AssessList = new HashSet<Question>();
-		List<Question> formatList = null;
+		List<Question> formatList;
 		Set<TemplateQuestion> finalList = new HashSet<TemplateQuestion>();
 		formatList = new ArrayList<>();
 		User user = uDao.findByEmail(userEmail);
+		Random rando = new Random();
 		
 		Category cat = (Category) cDao.getByName(catName);
 		
@@ -66,7 +68,8 @@ public class SystemTemplate {
 											// question
 
 			for (int i = 0; i <= multiChoice; i++) {
-				int num = (int) (Math.random() * size);
+				
+				int num = rando.nextInt(size);
 				AssessList.add(formatList.remove(num));
 				size--;
 				if (size == 0) {
@@ -85,7 +88,7 @@ public class SystemTemplate {
 											// question
 
 			for (int i = 0; i <= multiChoice; i++) {
-				int num = (int) (Math.random() * size);
+				int num = rando.nextInt(size);
 				AssessList.add(formatList.remove(num));
 				size--;
 				if (size == 0) {
@@ -104,7 +107,7 @@ public class SystemTemplate {
 											// question
 
 			for (int i = 0; i <= multiChoice; i++) {
-				int num = (int) (Math.random() * size);
+				int num = rando.nextInt(size);
 				AssessList.add(formatList.remove(num));
 				size--;
 				if (size == 0) {
@@ -123,7 +126,7 @@ public class SystemTemplate {
 											// question
 
 			for (int i = 0; i <= multiChoice; i++) {
-				int num = (int) (Math.random() * size);
+				int num = rando.nextInt(size);
 				AssessList.add(formatList.remove(num));
 				size--;
 				if (size == 0) {
@@ -147,7 +150,7 @@ public class SystemTemplate {
 
 		for (Question q : filteredQuestions) {
 
-			if (q.getFormat().getFormatName().equals("Multiple Choice")) {
+			if ("Multiple Choice".equals(q.getFormat().getFormatName())) {
 				formatList.add(q);
 			}
 		}
@@ -158,7 +161,7 @@ public class SystemTemplate {
 
 		for (Question q : filteredQuestions) {
 
-			if (q.getFormat().getFormatName().equals("Multiple Select")) {
+			if ("Multiple Select".equals(q.getFormat().getFormatName())) {
 				formatList.add(q);
 			}
 		}
@@ -169,7 +172,7 @@ public class SystemTemplate {
 
 		for (Question q : filteredQuestions) {
 
-			if (q.getFormat().getFormatName().equals("Drag and Drop")) {
+			if ("Drag and Drop".equals(q.getFormat().getFormatName())) {
 				formatList.add(q);
 			}
 		}
@@ -180,7 +183,7 @@ public class SystemTemplate {
 
 		for (Question q : filteredQuestions) {
 
-			if (q.getFormat().getFormatName().equals("Code Snippet")) {
+			if ("Code Snippet".equals(q.getFormat().getFormatName())) {
 				formatList.add(q);
 			}
 		}
