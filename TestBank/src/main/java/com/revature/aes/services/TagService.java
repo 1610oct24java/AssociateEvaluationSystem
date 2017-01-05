@@ -7,5 +7,5 @@ import com.revature.aes.beans.Tag;
 public interface TagService {
 	public List<Tag> getAllTags();
 	public void saveTag(Tag tag);
-	public void deleteTag(Integer id);
+	public void deleteByTagName(String name);
 }

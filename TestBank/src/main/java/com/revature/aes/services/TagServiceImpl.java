@@ -29,7 +29,7 @@ public class TagServiceImpl implements TagService {
 	}
 
 	@Override
-	public void deleteTag(Integer id) {
-		tdao.delete(id);
+	public void deleteByTagName(String name) {
+		tdao.deleteByTagName(name);
 	}
 }

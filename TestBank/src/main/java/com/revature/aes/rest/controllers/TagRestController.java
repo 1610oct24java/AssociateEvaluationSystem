@@ -33,11 +33,8 @@ public class TagRestController {
 		service.saveTag(tag);
 	}
 	
-	@RequestMapping(value="tag/{id}", method=RequestMethod.DELETE)
-	public void deleteTag(@PathVariable Integer id){
-		System.out.println("------------------------------------------------------");
-		System.out.println("Inside deleteTag in RC");
-		System.out.println("------------------------------------------------------");
-		service.deleteTag(id);
+	@RequestMapping(value="tag/{name}", method=RequestMethod.DELETE)
+	public void deleteTag(@PathVariable String name){
+		service.deleteByTagName(name);
 	}
 }

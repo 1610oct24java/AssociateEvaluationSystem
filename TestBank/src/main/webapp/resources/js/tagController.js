@@ -53,15 +53,6 @@ var app;
 			}
 		};
 		
-		this.findTagId = () =>{
-			for(var i=0;i<this.tags.length;i++){
-				if(this.tags[i].tagName==this.delTag){
-					return this.tags[i].tagId;
-				}
-			}
-			return 0;
-		};
-		
 		this.findIndexOfTag = () =>{
 			for(var i=0;i<this.tags.length;i++){
 				if(this.tags[i].tagName==this.delTag){
@@ -71,13 +62,11 @@ var app;
 		};
 		
 		this.deleteTag = () =>{
-			var delTagId = this.findTagId(); 
-			var delTagName = this.delTag;
-			if(delTagId==0){
+			if(this.delTag==''){
 				alert("Unable to remove tag!");
 				return;
 			}
-			$http.delete(url + "tag/" + delTagId).then(
+			$http.delete(url + "tag/" + this.delTag).then(
 				// success
 				() => {
 					this.tags.splice(this.findIndexOfTag(), 1);
