@@ -1,4 +1,4 @@
-package com.revature.aes.test;
+package com.revature.aes.Test;
 
 import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
