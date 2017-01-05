@@ -21,7 +21,7 @@ public class User implements Serializable{
 
 	private static final long serialVersionUID = 6104022944061620088L;
 	@Id
-	@SequenceGenerator(name = "AES_USERS_SEQ", sequenceName = "AES_USERS_SEQ")
+	@SequenceGenerator(name = "AES_USERS_SEQ", sequenceName = "AES_USERS_SEQ", allocationSize=1)
 	@GeneratedValue(generator = "AES_USERS_SEQ", strategy = GenerationType.SEQUENCE)
 	@Column(name="USER_ID")
 	private int userId;

@@ -1,7 +1,9 @@
-package com.revature.aes.beans;
+	package com.revature.aes.beans;
 
 import java.io.Serializable;
+import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -27,7 +29,7 @@ public class Option implements Serializable {
 	 * @optionId the unique Identifier for the Option class
 	 */
 	@Id
-	@SequenceGenerator(name = "AES_OPTION_SEQ", sequenceName = "AES_OPTION_SEQ")
+	@SequenceGenerator(name = "AES_OPTION_SEQ", sequenceName = "AES_OPTION_SEQ", allocationSize=1)
 	@GeneratedValue(generator = "AES_OPTION_SEQ", strategy = GenerationType.SEQUENCE)
 	@Column(name = "OPTION_ID")
 	private Integer optionId;
@@ -49,7 +51,7 @@ public class Option implements Serializable {
 	/**
 	 * @question The question associated with this class.
 	 */
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY, cascade={CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinColumn(name = "QUESTION_ID")
 	private Question question;
 	
@@ -127,25 +129,12 @@ public class Option implements Serializable {
 			return false;
 		
 		Option other = (Option) obj;
-		
-		if (correct == null) {
-			if (other.correct != null)
-				return false;
-		} else if (!correct.equals(other.correct))
-			return false;
-		if (optionId == null) {
-			if (other.optionId != null)
-				return false;
-		} else if (!optionId.equals(other.optionId))
-			return false;
-		if (optionText == null) {
-			if (other.optionText != null)
-				return false;
-		} else if (!optionText.equals(other.optionText))
-			return false;
-		if (!question.equals(other.question))
-			return false;
-		return true;
+	
+		return Objects.equals(correct, other.correct) 
+			&& Objects.equals(optionId, other.optionId)
+			&& Objects.equals(optionText, other.optionText)
+			&& Objects.equals(question, other.question);
+
 	}
 
 	@Override

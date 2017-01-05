@@ -19,7 +19,7 @@ public class SnippetTemplate implements Serializable
 	
 
 	@Id
-	@SequenceGenerator(name = "AES_SNIPPET_TEMPLATE_SEQ", sequenceName = "AES_SNIPPET_TEMPLATE_SEQ")
+	@SequenceGenerator(name = "AES_SNIPPET_TEMPLATE_SEQ", sequenceName = "AES_SNIPPET_TEMPLATE_SEQ", allocationSize=1)
 	@GeneratedValue(generator = "AES_SNIPPET_TEMPLATE_SEQ", strategy = GenerationType.SEQUENCE)
 	@Column(name = "SNIPPET_TEMPLATE_ID")
 	private Integer snippetTemplateId;

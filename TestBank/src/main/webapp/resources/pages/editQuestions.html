@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+<meta charset="ISO-8859-1">
+<title>Associate Evaluation System</title>
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous">
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+	rel="stylesheet"
+	integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+	crossorigin="anonymous">
+</head>
+<body ng-controller="QuestionController as ctrl">
+	<div class="navbar-wrapper hero-bm">
+		<div class="container">
+			<nav class="navbar navbar-revature navbar-static-top navbar-bg">
+				<div class="container">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle collapsed"
+							data-toggle="collapse" data-target="#navbar"
+							aria-expanded="false" aria-controls="navbar">
+							<span class="sr-only">Toggle navigation</span> <span
+								class="icon-bar"></span> <span class="icon-bar"></span> <span
+								class="icon-bar"></span>
+						</button>
+						<div class="logo">
+							<a href="https://revature.com"> <img
+								src="https://3g4d13k75x47q7v53surz1gi-wpengine.netdna-ssl.com/wp-content/themes/revature/imgs/logo.png"
+								alt="Revature">
+							</a>
+						</div>
+					</div>
+					<div id="navbar" class="navbar-collapse collapse rev-menu">
+						<div class="menu-header-menu-container">
+							<ul id="menu-header-menu" class="nav navbar-nav">
+								<li id="menu-item-aes-trainer-home"
+									class="menu-item menu-item-type-post_type menu-item-object-page menu-item-aes-trainer-home">
+									<!-- need URL for anchor --> <a href="">TRAINER HOME</a>
+								</li>
+								<li id="menu-item-aes-trainer-questions"
+									class="menu-item menu-item-type-post_type menu-item-object-page menu-item-aes-trainer-questions">
+									<!-- need URL for anchor --> <a href="">MODIFY QUESTIONS</a>
+								</li>
+								<li id="menu-item-aes-trainer-assessment"
+									class="menu-item menu-item-type-post_type menu-item-object-page menu-item-aes-trainer-assessment">
+									<!-- need URL for anchor --> <a href="">CREATE ASSESSMENT</a>
+								</li>
+								<li id="menu-item-aes-trainer-reports"
+									class="menu-item menu-item-type-post_type menu-item-object-page menu-item-aes-trainer-report">
+									<!-- need URL for anchor --> <a href="">REPORTS</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</nav>
+		</div>
+	</div>
+
+	<main class="container">
+		<div>
+			<h3>Edit Questions</h3>
+			<ol>
+				<li ng-repeat="q in ctrl.qList">
+					{{q.questionText}}
+				</li>
+			</ol>
+		</div>
+		<div>
+			<form>
+				<input type="number" ng-model="ctrl.questionBeingUpdated" placeholder="Question #">
+				<input type="text" ng-model="ctrl.catList" placeholder="Add Categories">
+				<input type="text" ng-model="ctrl.tagList" placeholder="Add Tags">
+				<input type="submit" ng-click="ctrl.addCategoriesAndTags()">
+			</form>
+		</div>
+	</main>
+
+	<script type="text/javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
+	<script type="text/javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.3.3/ui-bootstrap-tpls.min.js"></script>
+	<script type="text/javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.3.3/ui-bootstrap.min.js"></script>
+	<script type="text/javascript"
+		src="../js/trainerQuestions.js"></script>
+</body>
+</html>

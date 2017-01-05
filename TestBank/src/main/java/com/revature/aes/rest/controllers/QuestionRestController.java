@@ -82,7 +82,6 @@ public class QuestionRestController
 		return questionService.getAllQuestionsByFormat(format);
 	}
 	
-	
 	/**
 	 * Modifies the a question in the database by its unique identifier
 	 * 
@@ -93,7 +92,7 @@ public class QuestionRestController
 	{ MediaType.APPLICATION_JSON_VALUE })
 	public Question updateQuestionById(@RequestBody Question question)
 	{
-		return questionService.updateQuestion(question);
+		return questionService.updateQuestion(question);		
 	}
 	
 	
@@ -108,9 +107,9 @@ public class QuestionRestController
 		questionService.deleteQuestionById(id);
 	}
 	
-	@RequestMapping(value ="fullQuestion", method = RequestMethod.POST)
+	@RequestMapping(value ="fullQuestion", method = RequestMethod.POST, produces = 
+		{ MediaType.APPLICATION_JSON_VALUE })
 	public Question addFullQuestion(@RequestBody QuestionOptionsJSONHandler question ){
-		System.out.println(question);
 		return questionService.addFullQuestion(question);
 	}
 }

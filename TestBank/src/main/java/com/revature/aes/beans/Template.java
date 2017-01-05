@@ -26,7 +26,7 @@ public class Template implements Serializable {
 	
 	@Id
 	@Column(name = "template_id")
-	@SequenceGenerator(sequenceName = "aes_templates_seq", name = "aes_templates_seq")
+	@SequenceGenerator(sequenceName = "aes_templates_seq", name = "aes_templates_seq", allocationSize=1)
 	@GeneratedValue(generator = "aes_templates_seq", strategy = GenerationType.SEQUENCE)
 	private int templateId;
 
