@@ -32,7 +32,6 @@ var app;
 				alert("Please enter a name for the Tag");
 			}
 			else{
-				console.log(this.newTag);
 				$http.post(url + "tag", this.newTag).then(
 					// success
 					(response) => {
@@ -63,6 +62,14 @@ var app;
 			return 0;
 		};
 		
+		this.findIndexOfTag = () =>{
+			for(var i=0;i<this.tags.length;i++){
+				if(this.tags[i].tagName==this.delTag){
+					return i;
+				}
+			}			
+		};
+		
 		this.deleteTag = () =>{
 			var delTagId = this.findTagId(); 
 			var delTagName = this.delTag;
@@ -70,15 +77,11 @@ var app;
 				alert("Unable to remove tag!");
 				return;
 			}
-			this.delTag = {
-				tagId : delTagId,
-				tagName : delTagName
-			};
 			$http.delete(url + "tag/" + delTagId).then(
 				// success
 				() => {
-					//this.categories.splice(this.findIndexOfCategory(), 1);
-					//this.delTag = '';
+					this.tags.splice(this.findIndexOfTag(), 1);
+					this.delTag = '';
 				},
 				// failure
 				() => {
