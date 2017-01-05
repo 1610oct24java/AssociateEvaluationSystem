@@ -7,14 +7,6 @@ public class CodeTester {
 	static FileParser fp = new FileParser();
 	static FileAccess fa = new FileAccess();
 		
-	public static void main(String args[]){
-		List<String> arguments = fp.getArgs("newFailKeyMike.cpp");
-		System.out.println(arguments.toString());
-		String output = bd.runCodeTestScript("newFailKeyMike.cpp","newTestMike.cpp", arguments);
-		System.out.println(output);
-	}
-	
-	
 	public static boolean executeCodeTest(String keyFileKey, String testFileKey){
 		boolean getKey = fa.download(keyFileKey);
 		boolean getTest = fa.download(testFileKey);
