@@ -4,11 +4,16 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="AES_SNIPPET_TEMPLATE")
@@ -33,8 +38,10 @@ public class SnippetTemplate implements Serializable
 	@Column(name="SOLUTION_URL")
 	private String solutionUrl;
 	
-	@Column(name="QUESTION_ID")
-	private int questionId;
+	@JsonIgnore
+	@OneToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="QUESTION_ID")
+	private Question question;
 	
 	public SnippetTemplate() {
 		super();
@@ -72,12 +79,12 @@ public class SnippetTemplate implements Serializable
 		this.solutionUrl = solutionUrl;
 	}
 
-	public int getQuestionId() {
-		return questionId;
+	public Question getQuestionId() {
+		return question;
 	}
 
-	public void setQuestionId(int questionId) {
-		this.questionId = questionId;
+	public void setQuestionId(Question questionId) {
+		this.question = questionId;
 	}
 
 	public static long getSerialversionuid() {
@@ -87,6 +94,6 @@ public class SnippetTemplate implements Serializable
 	@Override
 	public String toString() {
 		return "SnippetTemplate [snippetTemplateId=" + snippetTemplateId + ", fileType=" + fileType + ", templateUrl="
-				+ templateUrl + ", solutionUrl=" + solutionUrl + ", questionId=" + questionId + "]";
+				+ templateUrl + ", solutionUrl=" + solutionUrl + ", questionId=" + question.getQuestionId() + "]";
 	}
 }

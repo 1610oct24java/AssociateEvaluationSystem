@@ -3,9 +3,7 @@ package com.revature.aes.beans;
 import java.io.Serializable;
 
 public class AssessmentRequest implements Serializable{
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -4368879898192684993L;
 	
 	private String category;
@@ -13,25 +11,19 @@ public class AssessmentRequest implements Serializable{
 	private int msQuestions;
 	private int ddQuestions;
 	private int csQuestions;
-	//private int timelimit;
 	private String link;
 	private String userEmail;
-
+	//For a future sprint you'd have a timelimit field here
+	//As well as getters and setters and adding it to the tostring of course
+	public AssessmentRequest() {
+		super();
+	}
 	public String getUserEmail() {
 		return userEmail;
 	}
 	public void setUserEmail(String email) {
 		this.userEmail = email;
 	}
-	public AssessmentRequest() {
-		super();
-	}
-	/*public int getTimelimit() {
-		return timelimit;
-	}
-	public void setTimelimit(int timelimit) {
-		this.timelimit = timelimit;
-	}*/	
 	public int getCsQuestions() {
 		return csQuestions;
 	}

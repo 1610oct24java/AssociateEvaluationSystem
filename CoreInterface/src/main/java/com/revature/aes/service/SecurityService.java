@@ -7,4 +7,5 @@ public interface SecurityService {
 	public Security findSecurityByUserId(int id);
 	public String createSecurity(User user);
 	public void updateSecurity(Security security);
+	public void invalidatePassword(User u);
 }
