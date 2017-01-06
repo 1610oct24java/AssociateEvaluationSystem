@@ -50,8 +50,7 @@ public class AikenParser {
 	}
 	
 
-	public void parseFile(MultipartFile mpFile) throws InvalidFileTypeException, AikenSyntaxException{
-		//checkFileType(mpFile);
+	public void parseFile(MultipartFile mpFile) throws InvalidFileTypeException, AikenSyntaxException, IOException{
 		
 		try(BufferedReader br = new BufferedReader(new InputStreamReader(mpFile.getInputStream()))) {
 			// Read first line of the file
@@ -78,10 +77,6 @@ public class AikenParser {
 		    	// Sets line to read next Question
 		    	line = br.readLine();
 		    }
-		}catch(FileNotFoundException e){
-			e.printStackTrace();
-		}catch (IOException e1) {
-			e1.printStackTrace();
 		}
 	}
 	
@@ -150,7 +145,6 @@ public class AikenParser {
 		for(Option option : optionsList){
 			if(option.getOptionText().startsWith(correctLetter.toString())){
 				option.setCorrect(1);
-				System.out.println("Correct Option is: " + option.getOptionText());
 			}else{
 				option.setCorrect(0);
 			}
