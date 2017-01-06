@@ -67,22 +67,24 @@ body {
 	list-stytle-position: outside;
 }
 
-/* layout.css Style */
-.upload-drop-zone {
+.drop-box {
   height: 200px;
   border-width: 2px;
   margin-bottom: 20px;
-}
-
-/* skin.css Style*/
-.upload-drop-zone {
   color: #ccc;
   border-style: dashed;
   border-color: #ccc;
   line-height: 200px;
   text-align: center
 }
-.upload-drop-zone.drop {
-  color: #222;
-  border-color: #222;
+
+.drop-box.dragover {
+    border-color: #0e0;
+    background-color: #b2fab2;
+}
+
+.drop-box.dragover-err
+{
+    border-color: #f00;
+    background-color: #ffb2b2;
 }

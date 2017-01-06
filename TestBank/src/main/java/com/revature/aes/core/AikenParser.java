@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,7 +47,7 @@ public class AikenParser {
 	@Autowired
 	public AikenParser(FormatService fs) {
 		this.formatService=fs;
-		questionMap = new HashMap<Question, ArrayList<Option>>();
+		questionMap = new HashMap<>();
 	}
 	
 
@@ -86,7 +87,6 @@ public class AikenParser {
 	 * @throws InvalidFileTypeException
 	 */
 	private void checkFileType(String url) throws InvalidFileTypeException{
-
 		if(!url.endsWith(".txt")){
 			throw new InvalidFileTypeException("Aiken files must be of type \".txt\" ");
 		}
@@ -158,7 +158,7 @@ public class AikenParser {
 	 * @see com.revature.aes.beans.Option
 	 * @see com.revature.aes.beans.Question
 	 */
-	public HashMap<Question, ArrayList<Option>> getQuestionsMap(){
+	public Map<Question, ArrayList<Option>> getQuestionsMap(){
 		return questionMap;
 	}
 
