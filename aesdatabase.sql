@@ -239,7 +239,7 @@ CREATE TABLE aes_assessment
   user_id              NUMBER NOT NULL,
   grade                NUMBER,
   time_limit           NUMBER NOT NULL,
-  created_timestamp    DATE NOT NULL,
+  created_timestamp    DATE,
   finished_timestamp   DATE,
   template_id          NUMBER,
   CONSTRAINT pk_aes_assessment PRIMARY KEY ( assessment_id )
