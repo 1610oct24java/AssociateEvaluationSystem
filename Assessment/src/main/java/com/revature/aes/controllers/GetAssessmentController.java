@@ -48,6 +48,7 @@ public class GetAssessmentController {
 		}
 		// Assessment assessment = service.findOne(AssessmentId);
 		System.out.println(assessment);
+		System.out.println(assessment.getMyTemplate().getTemplateQuestion().toString());
 		JSONString = mapper.writeValueAsString(assessment);
 		return JSONString;
 	}

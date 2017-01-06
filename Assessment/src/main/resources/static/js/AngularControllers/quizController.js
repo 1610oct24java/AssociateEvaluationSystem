@@ -4,11 +4,11 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	$scope.numEditors = 0;
 	$scope.oneAtATime = false;
 	$scope.editors = new Array();
-	$scope.protoTest = tstQuiz2;
-	$scope.questions = $scope.protoTest.template.templateQuestion;
+	$rootScope.protoTest;
+	$scope.questions;
+	// $scope.questions = $scope.protoTest.template.templateQuestion;
 	$scope.protoTest2 = {};
-	
-	getQuizQuestions()
+	getQuizQuestions();
 
 	var incrementEditorIfNeeded = function(i) {
 		if ($scope.questions[i].templateQuestion.format.formatId === 3) {
@@ -40,7 +40,7 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 			makeAnswers(i);
 		};
 	};
-	initSetup();
+	// initSetup();
 
 	$scope.collapseQuestion = function(index) {
 		console.log("Entered collapse: glyph id=" + index);
@@ -66,16 +66,16 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 			$scope.answers[ndxQuestion] = ndxOption;
 			var answer = $scope.questions[ndxQuestion].templateQuestion.multiChoice[ndxOption];
 			var question = $scope.questions[ndxQuestion].templateQuestion;
-			var foundAt = $scope.protoTest.options.indexOf(answer);
+			var foundAt = $rootScope.protoTest.options.indexOf(answer);
 			// If it's not already in the system
 			if (foundAt === -1) {
 				// Make sure there's only one option per questions
-				for (var i = 0; i < $scope.protoTest.options.length; i++) {
-					if ($scope.protoTest.options[i].questionId === question.questionId){
-						$scope.protoTest.options.splice(foundAt, 1);
+				for (var i = 0; i < $rootScope.protoTest.options.length; i++) {
+					if ($rootScope.protoTest.options[i].questionId === question.questionId){
+						$rootScope.protoTest.options.splice(foundAt, 1);
 					}
 				}
-				$scope.protoTest.options.push(answer);
+				$rootScope.protoTest.options.push(answer);
 			}
 		} else if ($scope.questions[ndxQuestion].templateQuestion.format.formatId === 1 ) {
 			// Handles multiple select questions
@@ -84,10 +84,10 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 			var answer = $scope.questions[ndxQuestion].templateQuestion.multiChoice[ndxOption];
 			if (foundAt === -1){
 				$scope.answers[ndxQuestion].push(ndxOption);
-				$scope.protoTest.options.push(answer);
+				$rootScope.protoTest.options.push(answer);
 			} else {
 				$scope.answers[ndxQuestion].splice(foundAt, 1);
-				$scope.protoTest.options.splice(foundAt, 1);
+				$rootScope.protoTest.options.splice(foundAt, 1);
 			}
 		};
 	}
@@ -126,9 +126,9 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	}
 
 	// PAGINATION
-	$scope.filteredQuestions = [];
+ 	$scope.filteredQuestions = [];
 	$scope.currentPage = 1;
-	$scope.numPerPage = 5;
+	$scope.numPerPage = 1;
 	$scope.maxSize = 5;
 	
 	$scope.jumpPage = function (numPage) {
@@ -143,32 +143,30 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 		$scope.filteredQuestions = $scope.questions.slice(begin, end);
 	});
 	
-	 function getNewLobbyData(){
-	    	console.log("Fetching first lobby data...");
-	        $http({
-	            method: 'GET',
-	            url: '/Splice/lobbyCtrl',
-	            headers: {'Content-Type': 'application/json'}
-	        }).success(function (data){
-	            $scope.lobbyList = data.lobbies;
-	        }).error(function (response){
-	        	console.log("Something went wrong with creating a new lobby!");
-	        });
-	    }
+	$scope.$watch('questions', function() {
+		var begin = (($scope.currentPage - 1) * $scope.numPerPage), end = begin
+				+ $scope.numPerPage;
+
+		$scope.filteredQuestions = $scope.questions.slice(begin, end);
+	});
 	
 	// AJAX
 	function getQuizQuestions() {
 		console.log("Tryna get dat Ass...essment");
 		$http({
 			method: 'GET',
-			url: 'localhost:1993/Assessment/rest/1',
+			url: 'http://localhost:1993/Assessment/rest/1',
 			headers: {'Content-Type': 'application/json'}
 		})
 		.then(function(response) {
 		    //First function handles success
 		    console.log("Received Quiz Object= " + response.data);
-		    $scope.protoTest2 = response.data;
-		        
+		    
+		    	$rootScope.protoTest = response.data;
+			    $scope.questions = $rootScope.protoTest.myTemplate.templateQuestion;
+		    
+		    
+		    initSetup();
 		}, function(response) {
 		    //Second function handles error
 			console.log("ERROR: broken data: " + response.data);

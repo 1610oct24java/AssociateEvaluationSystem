@@ -51,11 +51,15 @@ public class Template implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
+	
+
 	@Override
 	public String toString() {
 		return "Template [templateId=" + templateId + ", createTimeStamp=" + createTimeStamp + ", creator=" + creator
-				 + "]";
+				+ ", templateQuestion=" + templateQuestion + "]";
 	}
+
+
 
 	public int getTemplateId() {
 		return templateId;

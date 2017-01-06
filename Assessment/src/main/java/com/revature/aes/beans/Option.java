@@ -54,9 +54,12 @@ public class Option implements Serializable {
 	 * @question The question associated with this class.
 	 */
 	
-	@ManyToOne(fetch = FetchType.EAGER) //?
+	/*@ManyToOne(fetch = FetchType.EAGER) //?
 	@JoinColumn(name = "QUESTION_ID")
-	private Question question;
+	private Question question;*/
+	
+	@Column(name = "QUESTION_ID")
+	private Integer question;
 	
 	public Integer getOptionId() {
 		return optionId;
@@ -82,18 +85,22 @@ public class Option implements Serializable {
 		this.correct = correct;
 	}
 	
-	public Question getQuestion() {
+	/*public Question getQuestion() {
 		return question;
 	}
 	
 	public void setQuestion(Question questionId) {
 		this.question = questionId;
-	}
+	}*/
 	
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public Integer getQuestion() {
+		return question;
 	}
-	
+
+	public void setQuestion(Integer question) {
+		this.question = question;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -140,19 +147,14 @@ public class Option implements Serializable {
 		return true;
 	}
 	
+	
+	
 	@Override
 	public String toString() {
-		return "Option [optionId="
-				+ optionId
-				+ ", optionText="
-				+ optionText
-				+ ", correct="
-				+ correct
-				+ ", question="
-				+ question
-				+ "]";
+		return "Option [optionId=" + optionId + ", optionText=" + optionText + ", correct=" + correct + ", question="
+				+ question + "]";
 	}
-	
+
 	public Option() {
 		super();
 		// TODO Auto-generated constructor stub
