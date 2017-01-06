@@ -9,7 +9,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 
 public class SnippetEvaluationClient {
-	public boolean evaluateSnippet(String submissionKey, String solutionKey) {
+	public int evaluateSnippet(String submissionKey, String solutionKey) {
 		HttpClient httpClient = HttpClientBuilder.create().build();
 		try {
 			HttpPost request = new HttpPost("http://ec2-54-203-115-7.us-west-2.compute.amazonaws.com:8080/FileRunner/submit");
@@ -20,10 +20,10 @@ public class SnippetEvaluationClient {
 			HttpEntity entity = response.getEntity();
 			String responseString = EntityUtils.toString(entity, "UTF-8");
 			System.out.println("Snippet: " + submissionKey + " [" + (Boolean.parseBoolean(responseString)? "pass" : "fail") + " ]");
-			return new Boolean(responseString);
+			return Boolean.parseBoolean(responseString) ? 1 : 0;
 
-		} catch (Exception ex) {
-			return false;
+		} catch (Exception e) {
+			return 1;
 		}
 	}
 }
