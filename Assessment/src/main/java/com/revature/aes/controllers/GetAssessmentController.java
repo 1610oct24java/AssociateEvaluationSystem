@@ -2,6 +2,7 @@ package com.revature.aes.controllers;
 
 import java.io.IOException;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 
@@ -36,7 +37,7 @@ public class GetAssessmentController {
 	}
 	
 	@RequestMapping(value="/submitAssessment",method = RequestMethod.POST)
-	public String saveAssessmentAnswers(@RequestBody String JsonUserAnswers) throws JsonParseException, JsonMappingException, IOException
+	public String saveAssessmentAnswers(@RequestBody String JsonUserAnswers, HttpServletResponse response) throws JsonParseException, JsonMappingException, IOException
 	{
 		System.out.println("I'm gonna save the thing!");
 		ObjectMapper om = new ObjectMapper();
@@ -45,7 +46,9 @@ public class GetAssessmentController {
 		service.updateAssessment(assessment);
 		System.out.println("Hopefully I saved the thing!");
 		
-    	return "redirect:pages/GoodBye.html";
+		response.sendRedirect("/Assessment/goodbye");
+		
+    	return "Gucci?";
 	}
 
 	@RequestMapping(value = "{id}")
