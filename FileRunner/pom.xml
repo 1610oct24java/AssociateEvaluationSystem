@@ -50,6 +50,13 @@
 		<groupId>org.springframework</groupId>
 		<artifactId>spring-context</artifactId>
 	</dependency>
+	<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk -->
+<dependency>
+    <groupId>com.amazonaws</groupId>
+    <artifactId>aws-java-sdk</artifactId>
+    <version>1.11.76</version>
+</dependency>
+	
 	<dependency>
 		<groupId>commons-logging</groupId>
 		<artifactId>commons-logging</artifactId>

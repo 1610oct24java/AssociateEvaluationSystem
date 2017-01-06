@@ -5,7 +5,6 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +17,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.aes.beans.Assessment;
-
 import com.revature.aes.dao.AssessmentService;
 
 @RestController
@@ -43,6 +41,7 @@ public class GetAssessmentController {
 		ObjectMapper om = new ObjectMapper();
 		//SAVE the answers into the database
 		Assessment assessment = om.readValue(JsonUserAnswers,Assessment.class);
+		service.gradeAssessment(assessment);
 		service.updateAssessment(assessment);
 		System.out.println("Hopefully I saved the thing!");
 		

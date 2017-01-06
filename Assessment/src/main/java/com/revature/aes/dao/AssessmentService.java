@@ -1,9 +1,13 @@
 package com.revature.aes.dao;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.revature.aes.beans.Assessment;
+import com.revature.aes.beans.AssessmentDragDrop;
+import com.revature.aes.grading.QuestionGrader;
 
 @Service
 public class AssessmentService implements IAssessmentService {
@@ -29,5 +33,12 @@ public class AssessmentService implements IAssessmentService {
 		Assessment oldAssessment = assDAO.findOne(assessment.getAssessmentId());
 		oldAssessment = assessment;
 		assDAO.save(oldAssessment);
+	}
+
+	@SuppressWarnings("unchecked")
+	public void gradeAssessment(Assessment assessment) {
+		QuestionGrader grader = new QuestionGrader();
+		grader.gradeMultipleChoice(assessment);
+		grader.gradeDragDrop((ArrayList<AssessmentDragDrop>) assessment.getAssessmentDragDrop());
 	}
 }
