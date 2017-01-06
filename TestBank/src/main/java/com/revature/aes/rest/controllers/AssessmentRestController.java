@@ -34,7 +34,7 @@ public class AssessmentRestController {
 	private UserService userService;
 	@Autowired
 	private AssessmentService assServ;
-	private final static String url = "http://localhost:8080/TestBank";
+	private static final String URL = "http://localhost:8080/TestBank";
 	private RestTemplate restTemplate = new RestTemplate();
 
 	/**
@@ -70,9 +70,9 @@ public class AssessmentRestController {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 
-		RequestEntity<Integer> request = null;
+		RequestEntity<Integer> request;
 		
-		request = RequestEntity.post(new URI(url + "/user/link")).accept(MediaType.APPLICATION_JSON).body(assessment.getAssessmentId());
+		request = RequestEntity.post(new URI(URL + "/user/link")).accept(MediaType.APPLICATION_JSON).body(assessment.getAssessmentId());
 		ResponseEntity<String> result = restTemplate.exchange(request, String.class);
 
 		String link = result.getBody();
