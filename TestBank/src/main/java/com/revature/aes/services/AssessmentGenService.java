@@ -1,5 +1,6 @@
 package com.revature.aes.services;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -23,6 +24,9 @@ public class AssessmentGenService {
 	
 	@Autowired
 	private AikenParser aikenParser;
+	
+	@Autowired
+	private CSVParser csvParser;
 	
 	public AssessmentGenService() {
 		super();
@@ -56,9 +60,12 @@ public class AssessmentGenService {
 		}
 	}
 	
-	public void uploadCSVFile(){
-		CSVParser csvParser = new CSVParser();
-		
+	public void uploadCSVFile() {
+		try {
+			csvParser.parseCSV(file);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void uploadCodeSnippet(){

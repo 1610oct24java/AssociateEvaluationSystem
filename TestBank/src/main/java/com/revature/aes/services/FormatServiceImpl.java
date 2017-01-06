@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.revature.aes.beans.Format;
 import com.revature.aes.daos.FormatDAO;
 
-@Service("formatService")
+@Service("FormatService")
 @Transactional
 public class FormatServiceImpl implements FormatService {
 	@Autowired

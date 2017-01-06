@@ -34,8 +34,6 @@ public class AikenParser {
 	private HashMap<Question, ArrayList<Option>> questionMap;
 	private String line;
 	
-	//@Autowired
-	//@Qualifier("formatService")
 	private FormatService formatService;
 	
 	/**
@@ -67,7 +65,6 @@ public class AikenParser {
 		    	setCorrectAnswer(optionsList);
 		    	// Add the question and its options to the map
 		    	questionMap.put(question, optionsList);
-		    	
 		    	
 		    	// Reads an extra line to skip \n between questions
 		    	line = br.readLine();
@@ -109,11 +106,8 @@ public class AikenParser {
 	 */
 	private Question getQuestion() throws IOException{
 		// First line will be a question
-		System.out.println("getQuestion");
     	Question question = new Question();
     	question.setQuestionText(line);
-    	System.out.println(question);
-    	System.out.println(formatService);
     	question.setFormat(formatService.getFormatByName("Multiple Choice"));
     	return question;
 	}
@@ -140,9 +134,6 @@ public class AikenParser {
     		option.setQuestion(optionQuestion);
     		optionsList.add(option);
     		
-    		String optionString = "Option: " + option.getOptionText();
-    		System.out.println(optionString);
-    		
     		line = br.readLine();
     	}
     	return  optionsList;
@@ -155,7 +146,6 @@ public class AikenParser {
 	private void setCorrectAnswer(ArrayList<Option> optionsList){
 		// Gets the correct character from the "ANSWER" line
 		Character correctLetter = line.trim().charAt(line.length()-1);
-		System.out.println("Correct Option: " + correctLetter);
 		
 		for(Option option : optionsList){
 			if(option.getOptionText().startsWith(correctLetter.toString())){
