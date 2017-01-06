@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -44,7 +45,7 @@ public class AikenParser {
 	 * @param url of the file to be parsed
 	 */
 	public AikenParser(MultipartFile mpFile){			
-		questionMap = new HashMap<Question, ArrayList<Option>>();
+		Map<Question, ArrayList<Option>> questionMap = new HashMap<>();
 		try {
 			parseFile(mpFile);
 		} catch (InvalidFileTypeException e) {

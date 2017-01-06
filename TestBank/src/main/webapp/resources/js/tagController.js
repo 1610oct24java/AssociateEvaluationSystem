@@ -34,7 +34,7 @@ var app;
 			else{
 				$http.post(url + "tag", this.newTag).then(
 					// success
-					(response) => {
+					() => {
 						// add new tag to the list
 						this.tags.push({
 							tagId : this.newTag.tagId,
