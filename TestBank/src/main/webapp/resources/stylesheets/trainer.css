@@ -1,0 +1,88 @@
+@CHARSET "ISO-8859-1";
+
+/* @font-face {
+  font-family: 'futura-pt, Helvetica, Arial, Sans-Serif';
+  src: url('../fonts/FuturaPTComplete/ParaType-FuturaPTBook.ttf');
+} */
+
+body {
+    font-family: 'futura-pt, Helvetica, Arial, Sans-Serif';
+   	font-size: 14px;
+   	font-weight: normal;
+   	line-height: 20px;
+   	word-spacing: 0px;
+}
+
+@media (min-width: 768px)
+.navbar-wrapper {
+    margin-top: 40px;
+}
+@media only screen and (max-width: 767px)
+.navbar-header {
+    background: #fff;
+    padding: 0;
+}
+@media only screen and (max-width: 767px)
+.navbar-wrapper .navbar {
+    padding: 0;
+    margin: 0;
+}
+
+.rev-menu li {
+	list-style: none;
+	position: relative;
+	padding: 20px 0 0 0;
+	margin: 0 12px;
+}
+
+@media only screen and (max-width: 1023px) and (min-width: 768px)
+.rev-menu li a {
+	font-size: 12px !important;
+}
+
+.logo img{
+	width: 180px;
+}
+
+.rev-menu li a {
+	color: #474c55;
+	font-size: 14px;
+	text-decoration: none;
+	font-family: 'futura-pt';
+	padding: 0;
+	line-height: 30px;
+	background-color: initial !important;
+	font-weight: bolder;
+}
+
+#navbar {
+	position: block;
+	height: 56.66667px
+}
+
+#menu-header-menu {
+	float: right;
+	display: block;
+	list-style-type: none;
+	list-stytle-position: outside;
+}
+
+/* layout.css Style */
+.upload-drop-zone {
+  height: 200px;
+  border-width: 2px;
+  margin-bottom: 20px;
+}
+
+/* skin.css Style*/
+.upload-drop-zone {
+  color: #ccc;
+  border-style: dashed;
+  border-color: #ccc;
+  line-height: 200px;
+  text-align: center
+}
+.upload-drop-zone.drop {
+  color: #222;
+  border-color: #222;
+}

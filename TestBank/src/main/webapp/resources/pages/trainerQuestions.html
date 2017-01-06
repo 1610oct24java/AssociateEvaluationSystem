@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+<meta charset="ISO-8859-1">
+<title>Associate Evaluation System</title>
+
+<!-- Angular -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-route.js"></script>
+<script type="text/javascript"
+ 		src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.3.3/ui-bootstrap-tpls.min.js"></script>
+ <script type="text/javascript"
+ 		src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.3.3/ui-bootstrap.min.js"></script>
+<!-- Custom JS -->
+<script type="text/javascript" src="../js/trainerQuestions.js"></script>
+<!-- Bootstrap -->
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous">
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+	rel="stylesheet"
+	integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+	crossorigin="anonymous">
+<!-- Custom CSS -->
+<link href="../stylesheets/trainer.css" rel="stylesheet">
+</head>
+<body>
+	<div ng-include="'header.html'"></div>
+
+	<main class="container">
+	<div ng-controller="QuestionController as qc">
+		<div ng-controller="FormatController as fc">
+			<label for="format">Question Format</label> 
+			<select ng-model="qc.format" ng-options="format.formatName for format in fc.fList" name="format"
+				id="format" ng-change="qc.addAddQuestionButton(1)"></select>
+		</div>
+		<label for="questionText">Question</label> <input type="text"
+			ng-model="qc.question.question.questionText" name="questionText"
+			id="questionText" placeholder="enter question"
+			ng-change="qc.addAddQuestionButton(2)"></input> <label
+			for="enterOption">Enter Option</label> <input type="text"
+			id="qc.option" name="enterOption" id="enterOption"
+			placeholder="Enter Option" ng-model="qc.option.optionText"
+			ng-change="qc.addAddQuestionButton(3)"></input> <label
+			for="correctAnswer">Correct Answer:</label> <select
+			ng-model="qc.option.correct" name="correctAnswer" id="correctAnswer"
+			ng-change="qc.addAddQuestionButton(4)">
+			<option value=1>"Yes"</option>
+			<option value=0>"No"</option>
+		</select>
+		<!-- add option button -->
+		<input type="submit" ng-click="qc.addOption()" class="btn btn-info"
+			value="Add Option"></input> <label for="addQuestion">Review
+			Question: {{qc.question.questionText}} <span
+			ng-repeat="option in qc.question.multiChoice track by $index">{{option.optionText}}
+				Correct: {{option.correct == 1 && "Yes" || "No" }}</span>
+		</label> <input type="submit" ng-click="qc.addQuestion()" name="addQuestion"
+			id="addQuestion" class="btn btn-info" value="Add Question"
+			ng-show="qc.addButton"></input>
+		<hr>
+		<ul>
+			<li ng-repeat="question in qc.qList"><br />{{question.format.formatName}}
+				:: {{question.questionText}}</li>
+		</ul>
+		<hr>
+
+		<select ng-model="qc.question"
+			ng-options="question.questionText for question in qc.qList"
+			name="questionUpdate" id="questionUpdate"
+			ng-change="qc.showUpdateQuestion(qc.question)">
+			<option value="" />
+		</select>
+		<div ng-show=qc.show>
+			<div ng-controller="FormatController as fc">
+				<label for="format">Question Format</label> <select
+					ng-model="fc.format"
+					ng-options="format.formatName for format in fc.fList" name="format"
+					id="format" ng-change="fc.setFormat()"></select>
+			</div>
+			<label for="questionText">Question</label> <input type="text"
+				ng-model="qc.updatedQuestion.questionText"
+				placeholder="enter question"></input> <input type="sumbit"
+				ng-click="qc.updateQuestion()" class="btn btn-info"
+				value="Update Question"></input>
+		</div>
+		<label for="deleteQuestion">Enter Question ID to delete</label> <input
+			type="number" ng-model="qc.deleteme"></input> <input type="submit"
+			ng-click="qc.deleteQuestion()" class="btn btn-danger"
+			value="Delete Question"></input>
+	</div>
+	</main>
+
+	</main>
+</body>
+</html>
