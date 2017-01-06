@@ -21,4 +21,6 @@ import com.revature.aes.beans.Format;
 public interface FormatDAO extends JpaRepository<Format, Integer>
 {
 
+	public Format getByFormatName(String formatName);
+		
 }

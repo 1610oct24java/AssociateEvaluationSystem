@@ -21,10 +21,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.revature.aes.beans.Format;
 import com.revature.aes.daos.FormatDAO;
 
-@Service
+@Service("FormatService")
 @Transactional
-public class FormatServiceImpl implements FormatService
-{
+public class FormatServiceImpl implements FormatService {
 	@Autowired
 	private FormatDAO fdao;
 
@@ -48,4 +47,13 @@ public class FormatServiceImpl implements FormatService
 	{
 		return fdao.findAll();
 	}
+
+	@Override
+	public Format getFormatByName(String name) {
+		System.out.println(name);
+		Format format = fdao.getByFormatName(name);
+		System.out.println(format);
+		return fdao.getByFormatName(name);
+	}
+
 }

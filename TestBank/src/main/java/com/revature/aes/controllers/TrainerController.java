@@ -17,19 +17,7 @@ import com.revature.aes.core.AikenParser;
 
 
 @Controller
-public class TrainerController
-{
-
-	@RequestMapping(value="/parseAiken", method=RequestMethod.POST)
-	public void parseAikenFile(@RequestParam("file") MultipartFile file){
-		
-		AikenParser aikenParser = new AikenParser(file);
-		HashMap<Question, ArrayList<Option>> questionsMap = (HashMap<Question, ArrayList<Option>>) aikenParser.getQuestionsMap();
-		System.out.println("QUESTIONS: ");
-		for(Question q : questionsMap.keySet()){
-			System.out.println(q.toString());
-		}
-	}
+public class TrainerController{
 	
 	@RequestMapping(value="/trainer", method=RequestMethod.GET)
 	public String getIndex(){
