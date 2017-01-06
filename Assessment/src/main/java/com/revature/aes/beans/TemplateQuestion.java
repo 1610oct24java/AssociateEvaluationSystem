@@ -40,10 +40,13 @@ public class TemplateQuestion implements Serializable {
 	private Question templateQuestion;
 
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+/*	@ManyToOne(fetch = FetchType.LAZY)//?
 	@JoinColumn(name="TEMPLATE_ID")
-	private Template template;
+	private Template template;*/
 
+	@Column(name="TEMPLATE_ID")
+	Integer template;
+	
 	public TemplateQuestion() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -79,11 +82,19 @@ public class TemplateQuestion implements Serializable {
 		this.templateQuestion = templateQuestion;
 	}
 
-	public Template getTemplate() {
+	/*public Template getTemplate() {
 		return template;
 	}
 
 	public void setTemplate(Template template) {
+		this.template = template;
+	}*/
+	
+	public Integer getTemplate() {
+		return template;
+	}
+
+	public void setTemplate(Integer template) {
 		this.template = template;
 	}
 }

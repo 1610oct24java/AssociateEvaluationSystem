@@ -66,7 +66,7 @@ public class Assessment implements Serializable {
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "assessment")
 	private Set<FileUpload> fileUpload;
 	
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.LAZY) /*come back to this*/
 	@JoinTable(name = "aes_snippet_response", joinColumns = @JoinColumn(name = "snippet_template_id"), inverseJoinColumns = @JoinColumn(name = "assessment_id"))
 	private Set<SnippetTemplate> snippedTemplate;
 	

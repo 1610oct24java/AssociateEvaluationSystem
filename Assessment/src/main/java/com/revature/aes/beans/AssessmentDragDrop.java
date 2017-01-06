@@ -37,7 +37,7 @@ public class AssessmentDragDrop implements Serializable {
 	private int userOrder;
 
 	
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.LAZY)//?
 	@JoinColumn(name="ASSESSMENT_ID")
 	private Assessment assessmentId;
 

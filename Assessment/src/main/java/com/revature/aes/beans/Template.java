@@ -54,7 +54,7 @@ public class Template implements Serializable {
 	@Override
 	public String toString() {
 		return "Template [templateId=" + templateId + ", createTimeStamp=" + createTimeStamp + ", creator=" + creator
-				+ ", templateQuestion=" + templateQuestion + "]";
+				 + "]";
 	}
 
 	public int getTemplateId() {

@@ -55,7 +55,7 @@ public class Question implements Serializable {
 	private Set<Category> category;
 	
 	
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER) //?
 	@JoinColumn(name="QUESTION_ID")
 	private Set<Option> multiChoice;
 
