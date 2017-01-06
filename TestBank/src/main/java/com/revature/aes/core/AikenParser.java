@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,6 +14,7 @@ import com.revature.aes.beans.Option;
 import com.revature.aes.beans.Question;
 import com.revature.aes.exception.AikenSyntaxException;
 import com.revature.aes.exception.InvalidFileTypeException;
+import com.revature.aes.services.FormatService;
 
 /**
  * A parser for the Moodle Aiken format. Generates an map of Questions and their Options.
@@ -32,6 +34,8 @@ public class AikenParser {
 	private HashMap<Question, ArrayList<Option>> questionMap;
 	private String line;
 	
+	private FormatService formatService;
+	
 	/**
 	 * Default constructor to please Spring.
 	 */
@@ -39,31 +43,14 @@ public class AikenParser {
 		super();
 	}
 	
-	/**
-	 * Constructor takes in a String representing the path to the Aiken file relative to the root to parse Questions and Options.
-	 * @param url of the file to be parsed
-	 */
-	public AikenParser(MultipartFile mpFile){			
+	@Autowired
+	public AikenParser(FormatService fs) {
+		this.formatService=fs;
 		questionMap = new HashMap<Question, ArrayList<Option>>();
-		try {
-			parseFile(mpFile);
-		} catch (InvalidFileTypeException e) {
-			e.printStackTrace();
-		} catch (AikenSyntaxException e) {
-			e.printStackTrace();
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		} 
 	}
 	
-	/**
-	 * Parses an Aiken formatted text file for Questions and Options. 
-	 * @param url String of the file to be parsed
-	 * @throws InvalidFileTypeException 
-	 * @throws AikenSyntaxException 
-	 */
-	private void parseFile(MultipartFile mpFile) throws InvalidFileTypeException, AikenSyntaxException{
-		//checkFileType(mpFile);
+
+	public void parseFile(MultipartFile mpFile) throws InvalidFileTypeException, AikenSyntaxException, IOException{
 		
 		try(BufferedReader br = new BufferedReader(new InputStreamReader(mpFile.getInputStream()))) {
 			// Read first line of the file
@@ -72,12 +59,12 @@ public class AikenParser {
 		    // Each loop is a new question being read
 		    while (line != null) {
 		    	Question question = getQuestion();
-		    	ArrayList<Option> optionsList = getOptionsList(br);
+		    	ArrayList<Option> optionsList = getOptionsList(br, question);
 		    	
 		    	setCorrectAnswer(optionsList);
 		    	// Add the question and its options to the map
 		    	questionMap.put(question, optionsList);
-
+		    	
 		    	// Reads an extra line to skip \n between questions
 		    	line = br.readLine();
 		    	if(line==null){
@@ -90,10 +77,6 @@ public class AikenParser {
 		    	// Sets line to read next Question
 		    	line = br.readLine();
 		    }
-		}catch(FileNotFoundException e){
-			e.printStackTrace();
-		}catch (IOException e1) {
-			e1.printStackTrace();
 		}
 	}
 	
@@ -120,6 +103,7 @@ public class AikenParser {
 		// First line will be a question
     	Question question = new Question();
     	question.setQuestionText(line);
+    	question.setFormat(formatService.getFormatByName("Multiple Choice"));
     	return question;
 	}
 	
@@ -130,23 +114,20 @@ public class AikenParser {
 	 * @return	the list of options for the current question
 	 * @throws IOException
 	 */
-	private ArrayList<Option> getOptionsList(BufferedReader br) throws IOException{	
+	private ArrayList<Option> getOptionsList(BufferedReader br, Question optionQuestion) throws IOException{	
     	
 		line = br.readLine();
     	
 		// Create new options list for each Question
 		ArrayList<Option> optionsList = new ArrayList<>();
 		
-    	line = br.readLine();
-    			
     	// Parse lines until "ANSWER:" to retrieve Options
     	while(!line.startsWith("ANSWER:")){
     		Option option = new Option();
     		option.setOptionText(line);
+    		option.setOptionId(0);
+    		option.setQuestion(optionQuestion);
     		optionsList.add(option);
-    		
-    		String optionString = "Option: " + option.getOptionText();
-    		System.out.println(optionString);
     		
     		line = br.readLine();
     	}
@@ -160,12 +141,12 @@ public class AikenParser {
 	private void setCorrectAnswer(ArrayList<Option> optionsList){
 		// Gets the correct character from the "ANSWER" line
 		Character correctLetter = line.trim().charAt(line.length()-1);
-		System.out.println("Correct Option: " + correctLetter);
 		
 		for(Option option : optionsList){
 			if(option.getOptionText().startsWith(correctLetter.toString())){
 				option.setCorrect(1);
-				System.out.println("Correct Option is: " + option.getOptionText());
+			}else{
+				option.setCorrect(0);
 			}
 		}
 	}
@@ -180,4 +161,13 @@ public class AikenParser {
 	public HashMap<Question, ArrayList<Option>> getQuestionsMap(){
 		return questionMap;
 	}
+
+	public FormatService getFormatService() {
+		return formatService;
+	}
+
+	public void setFormatService(FormatService formatService) {
+		this.formatService = formatService;
+	}
+	
 }

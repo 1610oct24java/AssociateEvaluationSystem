@@ -31,7 +31,7 @@ public class Logging
 	}
 	
 	@Around("anyMethod()")
-	public Object log(ProceedingJoinPoint pjp) {
+	public Object log(ProceedingJoinPoint pjp) throws Throwable {
 		MethodSignature signature = (MethodSignature) pjp.getSignature();
 		String methodClass = signature.getDeclaringTypeName().toString();
 		String method = signature.getName().toString();
@@ -44,14 +44,8 @@ public class Logging
 		}
 		
 		log.trace("Executing...");
-		try {
+	
 			result = pjp.proceed();
-			log.trace(methodClass + " ==> " + method + " - Exit\nReturning: " + result);
-		} catch (Throwable e) {
-			log.error("error in pjp" + e.getStackTrace());
-			e.printStackTrace();
-		}
-
 		return result;
 	}
 	
@@ -59,7 +53,6 @@ public class Logging
 	public void stackTraceLogging(Exception e){
 		for(StackTraceElement st : e.getStackTrace()){
 			log.error(st.getMethodName() + " at line " + st.getLineNumber());
-			e.printStackTrace();
 		}
 	}
 }

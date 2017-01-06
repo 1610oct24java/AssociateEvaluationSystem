@@ -59,20 +59,21 @@ public class Question implements Serializable {
 	 * IE True or False for a True/False Format question.
 	 */
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.EAGER, mappedBy="question", cascade=CascadeType.REMOVE)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="question", cascade=CascadeType.ALL )
 	//http://www.mkyong.com/hibernate/cascade-jpa-hibernate-annotation-common-mistake/ 
 	private List<Option> multiChoice; 
 	
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.EAGER, mappedBy="questionId")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy="questionId", cascade=CascadeType.ALL)
 	private Set<DragDrop> dragDrops;			
 	
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
 	@JoinColumn(name="QUESTION_ID")
 	private SnippetTemplate snippetTemplate;
 
 	public Question() {
 		super();
+		this.questionId = 0;
 	}
 	
 	public Question(int questionId, String questionText, Format format, Set<Tag> tags, Set<Category> category,

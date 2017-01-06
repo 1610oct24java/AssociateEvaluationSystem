@@ -23,5 +23,5 @@ public interface FormatService
 		public List<Format> findAllFormats();
 	//u
 	//d
-	
+	public Format getFormatByName(String name);
 }

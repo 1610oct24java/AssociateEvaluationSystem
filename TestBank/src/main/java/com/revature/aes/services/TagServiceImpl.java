@@ -22,4 +22,14 @@ public class TagServiceImpl implements TagService {
 	public List<Tag> getAllTags() {
 		return tdao.findAll();
 	}
+
+	@Override
+	public void saveTag(Tag tag) {
+		tdao.save(tag);
+	}
+
+	@Override
+	public void deleteByTagName(String name) {
+		tdao.deleteByTagName(name);
+	}
 }

@@ -2,15 +2,17 @@ package com.revature.aes.core;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.revature.aes.beans.Format;
 import com.revature.aes.beans.Option;
@@ -26,13 +28,22 @@ public class CSVParser {
 	private static final String MULTIPLE_SELECT = "Multiple Select";
 	
 	private List<Format> formatList;
-	
 	private Map<String, Format> formats;
+	
 	@Autowired
 	private QuestionService service;
 	
-	@Autowired
 	private FormatService fmtService;
+
+	public CSVParser() {
+		super();
+	}
+
+	@Autowired
+	public CSVParser(FormatService fmtService) {
+		super();
+		this.fmtService = fmtService;
+	}
 	
 	/**
 	 * Replace all instances of quoted commas with a placeholder.
@@ -40,11 +51,10 @@ public class CSVParser {
 	 * @return List containing the cleaned input lines.
 	 * @throws IOException 
 	 */
-	private List<String> escapeCommas(String filename) throws IOException, FileNotFoundException{
+	private List<String> escapeCommas(MultipartFile file) throws IOException, FileNotFoundException{
 		List<String> linesCleaned = new ArrayList<>();
 		String lineInFile = "";
-		
-		try(FileReader fr = new FileReader(filename); BufferedReader br = new BufferedReader(fr);) {
+		try(BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
 			while ((lineInFile = br.readLine()) != null) {
 				// This will replace a quoted comma with the placeholder.
 				// Any spaces inside the quotes are removed.
@@ -84,12 +94,12 @@ public class CSVParser {
 	
 	/**
 	 * Parse a CSV file and create questions.
-	 * @param filename contains the questions to be added to the system.
+	 * @param Multipart File to be parsed.
 	 * @return all questions that are created from the input file.
 	 * @throws IOException 
 	 * @throws FileNotFoundException 
 	 */
-	public Map<String, Question> parseCSV(String filename) throws IOException {
+	public Map<String, Question> parseCSV(MultipartFile file) throws IOException {
 		String cvsSplitBy = ",";
 		String[] linesList;
 		String line;
@@ -100,7 +110,6 @@ public class CSVParser {
 		boolean trueFalseQuestion = false;
 		List<Option> options = new ArrayList<>();
 		Map<String, Question> questions = new HashMap<>();
-		
 		this.formatList = fmtService.findAllFormats();
 		
 		formats = new HashMap<>();
@@ -111,7 +120,7 @@ public class CSVParser {
 		
 		// handle the quoted commas
 		List<String> linesCleaned;
-		linesCleaned = escapeCommas(filename);
+		linesCleaned = escapeCommas(file);
 		
 		for (int i=0;i<linesCleaned.size();i+=2){
 			// *question line
@@ -179,5 +188,52 @@ public class CSVParser {
 		return new Option(isTrue, isCorrect, question);
 	}
 	
+	public List<Format> getFormatList() {
+		return formatList;
+	}
+
+	public void setFormatList(List<Format> formatList) {
+		this.formatList = formatList;
+	}
+
+	public Map<String, Format> getFormats() {
+		return formats;
+	}
+
+	public void setFormats(Map<String, Format> formats) {
+		this.formats = formats;
+	}
+
+	public QuestionService getService() {
+		return service;
+	}
+
+	public void setService(QuestionService service) {
+		this.service = service;
+	}
+
+	public FormatService getFmtService() {
+		return fmtService;
+	}
+
+	public void setFmtService(FormatService fmtService) {
+		this.fmtService = fmtService;
+	}
+
+	public static String getCommaReplacement() {
+		return COMMA_REPLACEMENT;
+	}
+
+	public static String getTrueOrFalse() {
+		return TRUE_OR_FALSE;
+	}
+
+	public static String getMultipleChoice() {
+		return MULTIPLE_CHOICE;
+	}
+
+	public static String getMultipleSelect() {
+		return MULTIPLE_SELECT;
+	}
 
 }

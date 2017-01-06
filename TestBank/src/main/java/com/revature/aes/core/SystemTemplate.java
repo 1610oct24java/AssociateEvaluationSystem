@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -36,10 +37,11 @@ public class SystemTemplate {
 		int dragDrop = assReq.getDdQuestions();
 		int codeSnip = assReq.getCsQuestions();
 		int size;
-		Set<Question> AssessList = new HashSet<Question>();
-		List<Question> formatList = null;
-		Set<TemplateQuestion> finalList = new HashSet<TemplateQuestion>();
-		formatList = new ArrayList<>();
+
+		Set<Question> assessList = new HashSet<>();
+		List<Question> formatList = new ArrayList<>();;
+		Set<TemplateQuestion> finalList = new HashSet<>();
+		Random rando = new Random();
 		
 		Category cat = (Category) cDao.getByName(catName);
 		
@@ -54,8 +56,9 @@ public class SystemTemplate {
 											// question
 
 			for (int i = 0; i <= multiChoice; i++) {
-				int num = (int) (Math.random() * size);
-				AssessList.add(formatList.remove(num));
+				
+				int num = rando.nextInt(size);
+				assessList.add(formatList.remove(num));
 				size--;
 				if (size == 1) {
 					break;
@@ -73,8 +76,8 @@ public class SystemTemplate {
 											// question
 
 			for (int i = 0; i <= multiChoice; i++) {
-				int num = (int) (Math.random() * size);
-				AssessList.add(formatList.remove(num));
+				int num = rando.nextInt(size);
+				assessList.add(formatList.remove(num));
 				size--;
 				if (size == 1) {
 					break;
@@ -92,8 +95,8 @@ public class SystemTemplate {
 											// question
 
 			for (int i = 0; i <= multiChoice; i++) {
-				int num = (int) (Math.random() * size);
-				AssessList.add(formatList.remove(num));
+				int num = rando.nextInt(size);
+				assessList.add(formatList.remove(num));
 				size--;
 				if (size == 1) {
 					break;
@@ -111,8 +114,8 @@ public class SystemTemplate {
 											// question
 
 			for (int i = 0; i <= multiChoice; i++) {
-				int num = (int) (Math.random() * size);
-				AssessList.add(formatList.remove(num));
+				int num = rando.nextInt(size);
+				assessList.add(formatList.remove(num));
 				size--;
 				if (size == 1) {
 					break;
@@ -120,7 +123,7 @@ public class SystemTemplate {
 			}
 
 		}
-		for(Question q : AssessList)
+		for(Question q : assessList)
 		{
 			TemplateQuestion tq = new TemplateQuestion();
 			tq.setPatternInquiry(q);
@@ -135,7 +138,7 @@ public class SystemTemplate {
 
 		for (Question q : filteredQuestions) {
 
-			if (q.getFormat().getFormatName().equals("Multiple Choice")) {
+			if ("Multiple Choice".equals(q.getFormat().getFormatName())) {
 				formatList.add(q);
 			}
 		}
@@ -146,7 +149,7 @@ public class SystemTemplate {
 
 		for (Question q : filteredQuestions) {
 
-			if (q.getFormat().getFormatName().equals("Multiple Select")) {
+			if ("Multiple Select".equals(q.getFormat().getFormatName())) {
 				formatList.add(q);
 			}
 		}
@@ -157,7 +160,7 @@ public class SystemTemplate {
 
 		for (Question q : filteredQuestions) {
 
-			if (q.getFormat().getFormatName().equals("Drag and Drop")) {
+			if ("Drag and Drop".equals(q.getFormat().getFormatName())) {
 				formatList.add(q);
 			}
 		}
@@ -168,7 +171,7 @@ public class SystemTemplate {
 
 		for (Question q : filteredQuestions) {
 
-			if (q.getFormat().getFormatName().equals("Code Snippet")) {
+			if ("Code Snippet".equals(q.getFormat().getFormatName())) {
 				formatList.add(q);
 			}
 		}

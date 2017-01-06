@@ -34,7 +34,7 @@ var app;
 			else{
 				$http.post(url + "category", this.newCategory).then(
 					// success
-					(response) => {
+					() => {
 						// add new category to the list
 						this.categories.push({
 							categoryId : this.newCategory.categoryId,
@@ -56,7 +56,7 @@ var app;
 		this.deleteCategory = () =>{
 			$http.delete(url + "category/" + this.delCategory).then(
 				// success
-				(response) => {
+				() => {
 					this.categories.splice(this.findIndexOfCategory(), 1);
 					this.delCategory = '';
 				},

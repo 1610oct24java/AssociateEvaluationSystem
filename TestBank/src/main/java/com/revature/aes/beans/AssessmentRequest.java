@@ -1,5 +1,7 @@
 package com.revature.aes.beans;
 
+import java.util.Objects;
+
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,8 +16,9 @@ public class AssessmentRequest {
     
 	public AssessmentRequest() {
 		super();
-		// TODO Auto-generated constructor stub
+		
 	}
+	
 	public AssessmentRequest(String category, int mcQuestions, int msQuestions, int ddQuestions, int csQuestions,
 			String link, String userEmail) {
 		super();
@@ -86,35 +89,24 @@ public class AssessmentRequest {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		
+		
 		AssessmentRequest other = (AssessmentRequest) obj;
-		if (category == null) {
-			if (other.category != null)
-				return false;
-		} else if (!category.equals(other.category))
-			return false;
-		if (csQuestions != other.csQuestions)
-			return false;
-		if (ddQuestions != other.ddQuestions)
-			return false;
-		if (link == null) {
-			if (other.link != null)
-				return false;
-		} else if (!link.equals(other.link))
-			return false;
-		if (mcQuestions != other.mcQuestions)
-			return false;
-		if (msQuestions != other.msQuestions)
-			return false;
-		if (userEmail == null) {
-			if (other.userEmail != null)
-				return false;
-		} else if (!userEmail.equals(other.userEmail))
-			return false;
-		return true;
+		
+		boolean catCSandDDQuestions = Objects.equals(category, other.category) 
+									&& Objects.equals(csQuestions, other.csQuestions)
+									&& Objects.equals(ddQuestions, other.ddQuestions);
+		
+		boolean linkMCandMSQuestions = Objects.equals(link, other.link) 
+									&& Objects.equals(mcQuestions, other.mcQuestions)
+									&& Objects.equals(msQuestions, other.msQuestions);
+		
+		return catCSandDDQuestions && linkMCandMSQuestions && Objects.equals(userEmail, other.userEmail);
+		
+
 	}
 	@Override
 	public String toString() {
