@@ -48,7 +48,22 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	};
 
 	$scope.saveQuestion = function(index) {
-		console.log("Entered save: glyph id=" + index);
+		var q = $scope.questions[index];
+		console.log("Saving question " + q.templateId + ": " + q.templateQuestion.questionText);
+		
+		if(q.templateQuestion.format.formatId === 2) {
+			console.log("Drag and drop");
+			for (var i = 0; i < q.templateQuestion.dragDrops.length; i++) {
+				var assessmentDragDrop = {
+						assessmentDragDropId : ((q.templateId) * 100 + i),
+						userOrder : i+1,
+						assessmentId : $scope.protoTest.assessmentId,
+						dragDrop : q.templateQuestion.dragDrops[i]
+				};
+				$rootScope.protoTest.assessmentDragDrop.push(assessmentDragDrop);
+			};
+		}
+		
 		$scope.states[index].saved = !$scope.states[index].saved;
 	};
 
@@ -106,7 +121,11 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 		};
 		return output;
 	}
-
+	
+	$scope.$watch('questions', function() {
+		console.log("Test watcher");
+	});
+	
 	// EDITORS	
 	$scope.checkNeedEditor = function(questionIndex) {
 		var currQ = $scope.questions[questionIndex];

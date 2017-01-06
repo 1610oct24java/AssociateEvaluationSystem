@@ -1,16 +1,11 @@
 app.controller("dragController", function($scope) {
 	// DRAG AND DROP
 	$scope.dragControlListeners = {
-		accept : function(sourceItemHandleScope, destSortableScope) {
-			return boolean
-		},
 		itemMoved : function(event) {
 			console.log("Item Moved!");
-			console.log(event);
 		},
 		orderChanged : function(event) {
 			console.log("Order Changed");
-			console.log(event);
 		}
 	};
 });
