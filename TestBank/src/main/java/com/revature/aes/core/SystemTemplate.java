@@ -48,9 +48,9 @@ public class SystemTemplate {
 		int codeSnip = assReq.getCsQuestions();
 		int size;
 		String userEmail = assReq.getUserEmail();
-		Set<Question> AssessList = new HashSet<Question>();
+		Set<Question> assessList = new HashSet<>();
 		List<Question> formatList;
-		Set<TemplateQuestion> finalList = new HashSet<TemplateQuestion>();
+		Set<TemplateQuestion> finalList = new HashSet<>();
 		formatList = new ArrayList<>();
 		User user = uDao.findByEmail(userEmail);
 		Random rando = new Random();
@@ -70,7 +70,7 @@ public class SystemTemplate {
 			for (int i = 0; i <= multiChoice; i++) {
 				
 				int num = rando.nextInt(size);
-				AssessList.add(formatList.remove(num));
+				assessList.add(formatList.remove(num));
 				size--;
 				if (size == 0) {
 					break;
@@ -89,7 +89,7 @@ public class SystemTemplate {
 
 			for (int i = 0; i <= multiChoice; i++) {
 				int num = rando.nextInt(size);
-				AssessList.add(formatList.remove(num));
+				assessList.add(formatList.remove(num));
 				size--;
 				if (size == 0) {
 					break;
@@ -108,7 +108,7 @@ public class SystemTemplate {
 
 			for (int i = 0; i <= multiChoice; i++) {
 				int num = rando.nextInt(size);
-				AssessList.add(formatList.remove(num));
+				assessList.add(formatList.remove(num));
 				size--;
 				if (size == 0) {
 					break;
@@ -127,7 +127,7 @@ public class SystemTemplate {
 
 			for (int i = 0; i <= multiChoice; i++) {
 				int num = rando.nextInt(size);
-				AssessList.add(formatList.remove(num));
+				assessList.add(formatList.remove(num));
 				size--;
 				if (size == 0) {
 					break;
@@ -135,7 +135,7 @@ public class SystemTemplate {
 			}
 
 		}
-		for(Question q : AssessList)
+		for(Question q : assessList)
 		{
 			TemplateQuestion tq = new TemplateQuestion();
 			tq.setPatternInquiry(q);

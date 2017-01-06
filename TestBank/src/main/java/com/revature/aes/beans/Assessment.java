@@ -73,6 +73,17 @@ public class Assessment implements Serializable {
 	public Assessment() {
 		super();
 	}
+	
+	public Assessment(User user, int grade, int timeLimit, Timestamp createdTimeStamp,
+			Timestamp finishedTimeStamp, Template template) {
+		super();
+		this.user = user;
+		this.grade = grade;
+		this.timeLimit = timeLimit;
+		this.createdTimeStamp = createdTimeStamp;
+		this.finishedTimeStamp = finishedTimeStamp;
+		this.template = template;
+	}
 
 	public int getAssessmentId() {
 		return assessmentId;
@@ -171,15 +182,6 @@ public class Assessment implements Serializable {
 				+ ", fileUpload=" + fileUpload + ", snippedTemplate=" + snippedTemplate + "]";
 	}
 
-	public Assessment(User user, int grade, int timeLimit, Timestamp createdTimeStamp,
-			Timestamp finishedTimeStamp, Template template) {
-		super();
-		this.user = user;
-		this.grade = grade;
-		this.timeLimit = timeLimit;
-		this.createdTimeStamp = createdTimeStamp;
-		this.finishedTimeStamp = finishedTimeStamp;
-		this.template = template;
-	}
+	
 
 }
