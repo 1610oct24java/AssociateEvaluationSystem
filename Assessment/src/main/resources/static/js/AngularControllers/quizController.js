@@ -137,6 +137,16 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	});
 	
 	// EDITORS	
+	$scope.aceLoaded = function(_editor) {
+	    console.log("Loaded: ");
+	    _editor.question = 
+	    console.log(_editor);
+	};
+	
+	$scope.aceLoaded2 = function(num) {
+		console.log("Loaded2: " + num);
+	}
+	
 	$scope.checkNeedEditor = function(questionIndex) {
 		var currQ = $scope.questions[questionIndex];
 		if(currQ.templateQuestion.format.formatId === 3) {
