@@ -5,13 +5,14 @@ app.controller("dragController", function($scope) {
 			return boolean
 		},
 		itemMoved : function(event) {
+			console.log("Item Moved!");
+			console.log(event);
 		},
 		orderChanged : function(event) {
+			console.log("Order Changed");
 			console.log(event);
 		}
 	};
-
-	$scope.dragControlListeners1 = {};
 });
 
 app.controller('QuizNavController', function($scope, $rootScope) {

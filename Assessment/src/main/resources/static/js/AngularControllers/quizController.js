@@ -128,7 +128,7 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	// PAGINATION
  	$scope.filteredQuestions = [];
 	$scope.currentPage = 1;
-	$scope.numPerPage = 1;
+	$scope.numPerPage = 3;
 	$scope.maxSize = 5;
 	
 	$scope.jumpPage = function (numPage) {
@@ -155,7 +155,7 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 		console.log("Tryna get dat Ass...essment");
 		$http({
 			method: 'GET',
-			url: 'http://localhost:1993/Assessment/rest/1',
+			url: QUIZ_REST_URL,
 			headers: {'Content-Type': 'application/json'}
 		})
 		.then(function(response) {
@@ -181,7 +181,7 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	function postAssessment(answerData){
 		$http({
 			method: 'POST',
-			url: 'http://localhost:1993/Assessment/rest/submitAssessment',
+			url: UIZ_SUBMIT_REST_URL,
 			headers: {'Content-Type': 'application/json'},
 			data: answerData
 		})
