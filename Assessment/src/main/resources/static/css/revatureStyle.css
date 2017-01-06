@@ -10,8 +10,8 @@
 	cursor: pointer;
 }
 
-.editor {
-	height: 100px;
+.ace_editor {
+	height: 200px;
 	width: 100%
 }
 

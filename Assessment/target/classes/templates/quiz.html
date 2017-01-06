@@ -13,7 +13,7 @@
 <link rel="stylesheet" type="text/css"
 	th:href="@{/css/revatureStyle.css}"
 	href="../resources/css/revatureStyle.css">
-	
+
 </head>
 <body>
 	<div class="wrap" ng-controller="quizController">
@@ -118,13 +118,14 @@
 											</ul>
 										</div>
 										<!-- CODE SNIPPET -->
-										{{checkNeedEditor($index+numPerPage*(currentPage-1))}}
+										
 										<div ng-show="q.templateQuestion.format.formatId === 3">
-											<div id="editor{{$index+numPerPage*(currentPage-1)}}"
-												class="editor">public static void main(Strings[]
-												pirateNoises){}</div>
+											<!-- <div id="editor{{$index+numPerPage*(currentPage-1)}}"
+												class="editor">public static void main(Strings[] pirateNoises){}</div> -->
+											<div ui-ace = "{theme: 'monokai', mode: 'java'}">private static void main(String[] args) {}</div>
 										</div>
 										<div></div>
+
 									</div>
 								</div>
 								<br>
@@ -184,9 +185,11 @@
 			<br>
 			<hr>
 			<br>
-			<div class = "text-center"><a href="goodbye"><button type="button" id="submitBtn" ng-click="submitAssessment()">Submit
-					Assessment</button></a></div>
-			
+			<div class="text-center">
+				<a href="goodbye"><button type="button" id="submitBtn"
+						ng-click="submitAssessment()">Submit Assessment</button></a>
+			</div>
+
 		</div>
 		<!-- ------------ -->
 		<!-- Submit Modal -->
@@ -195,8 +198,8 @@
 			<div class="modal-content">
 				<p>Thank you for completing the assessment. Your time has
 					expired. Please submit now.</p>
-				<a href="goodbye"><button type="button" id="submitBtn" ng-click="submitAssessment()">Submit
-					Assessment</button></a>
+				<a href="goodbye"><button type="button" id="submitBtn"
+						ng-click="submitAssessment()">Submit Assessment</button></a>
 			</div>
 		</div>
 		<!------------>
@@ -217,17 +220,27 @@
 		src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-animate.js"></script>
-	<script th:src="@{/js/lib/ui-bootstrap-tpls-2.3.1.js}" src="../static/js/lib/ui-bootstrap-tpls-2.3.1.js"></script>
-	<script th:src="@{/js/lib/ng-sortable.js}" src="../static/js/lib/ng-sortable.js"></script>
+	<script th:src="@{/js/lib/ui-bootstrap-tpls-2.3.1.js}"
+		src="../static/js/lib/ui-bootstrap-tpls-2.3.1.js"></script>
+	<script th:src="@{/js/lib/ui-ace.min.js}"
+		src="../static/js/lib/ui-ace.min.js"></script>
+	<script th:src="@{/js/lib/ng-sortable.js}"
+		src="../static/js/lib/ng-sortable.js"></script>
 	<!-- 	CUSTOM -->
 	<script th:src="@{/js/testData.js}" src="../resources/js/testData.js"></script>
 	<script th:src="@{/js/app.js}" src="../resources/js/app.js"></script>
-	<script th:src="@{/js/AngularControllers/dragController.js}" src="../static/js/AngularControllers/dragController.js"></script>
-	<script th:src="@{/js/AngularControllers/ajaxController.js}" src="../static/js/AngularControllers/ajaxController.js"></script>
-	<script th:src="@{/js/AngularControllers/quizController.js}" src="../static/js/AngularControllers/quizController.js"></script>
-	<script th:src="@{/js/AngularControllers/modalController.js}" src="../static/js/AngularControllers/modalController.js"></script>
-	<script th:src="@{/js/AngularControllers/countdownController.js}" src="../static/js/AngularControllers/countdownController.js"></script>
-	<script th:src="@{/js/AngularControllers/sideNavController.js}" src="../static/js/AngularControllers/sideNavController.js"></script>
+	<script th:src="@{/js/AngularControllers/dragController.js}"
+		src="../static/js/AngularControllers/dragController.js"></script>
+	<script th:src="@{/js/AngularControllers/ajaxController.js}"
+		src="../static/js/AngularControllers/ajaxController.js"></script>
+	<script th:src="@{/js/AngularControllers/quizController.js}"
+		src="../static/js/AngularControllers/quizController.js"></script>
+	<script th:src="@{/js/AngularControllers/modalController.js}"
+		src="../static/js/AngularControllers/modalController.js"></script>
+	<script th:src="@{/js/AngularControllers/countdownController.js}"
+		src="../static/js/AngularControllers/countdownController.js"></script>
+	<script th:src="@{/js/AngularControllers/sideNavController.js}"
+		src="../static/js/AngularControllers/sideNavController.js"></script>
 
 </body>
 </html>

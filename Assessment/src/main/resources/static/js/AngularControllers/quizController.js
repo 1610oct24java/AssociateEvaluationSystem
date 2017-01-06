@@ -56,19 +56,22 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 
 	var saveQuestion = function(index) {
 		var q = $scope.questions[index];
-		console.log("Saving question " + q.templateId + ": " + q.templateQuestion.questionText);
+		console.log("Saving question " + q.templateQuestionId + ": " + q.templateQuestion.questionText);
 		
 		if(q.templateQuestion.format.formatId === 2) {
 			console.log("Drag and drop");
 			for (var i = 0; i < q.templateQuestion.dragDrops.length; i++) {
 				var assessmentDragDrop = {
-						assessmentDragDropId : ((q.templateId) * 100 + i),
+						assessmentDragDropId : ((q.templateQuestionId) * 100 + i),
 						userOrder : i+1,
 						assessmentId : $scope.protoTest.assessmentId,
 						dragDrop : q.templateQuestion.dragDrops[i]
 				};
 				$rootScope.protoTest.assessmentDragDrop.push(assessmentDragDrop);
 			};
+		} else if (q.templateQuestion.format.formatId === 3) {
+			console.log("Code snippets");
+			
 		}
 		
 		$scope.states[index].saved = !$scope.states[index].saved;
@@ -207,7 +210,7 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	function postAssessment(answerData){
 		$http({
 			method: 'POST',
-			url: UIZ_SUBMIT_REST_URL,
+			url: QUIZ_SUBMIT_REST_URL,
 			headers: {'Content-Type': 'application/json'},
 			data: answerData
 		})
