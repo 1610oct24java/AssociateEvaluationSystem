@@ -7,7 +7,7 @@ import com.revature.aes.beans.Assessment;
 import com.revature.aes.beans.AssessmentDragDrop;
 import com.revature.aes.beans.Option;
 
-public class QuestionGrader {
+public class AssessmentGrader {
 	public double[] gradeDragDrop(ArrayList<AssessmentDragDrop> submission) {
 		// sum of correct choices
 		int countCorrect = 0;
@@ -16,7 +16,7 @@ public class QuestionGrader {
 		for (AssessmentDragDrop dd : submission)
 			if (dd.getUserOrder() == dd.getDragDrop().getCorrectOrder())
 				countCorrect++;
-			
+
 		// declare returned object array
 		double[] results = new double[2];
 		
@@ -39,5 +39,10 @@ public class QuestionGrader {
 			i++;
 		}
 		return results;
+	}
+
+	public double gradeAssessment(Assessment assessment) {
+
+		return 0;
 	}
 }
