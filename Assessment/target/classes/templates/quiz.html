@@ -13,7 +13,7 @@
 <link rel="stylesheet" type="text/css"
 	th:href="@{/css/revatureStyle.css}"
 	href="../resources/css/revatureStyle.css">
-
+	
 </head>
 <body>
 	<div class="wrap" ng-controller="quizController">
@@ -184,8 +184,9 @@
 			<br>
 			<hr>
 			<br>
-			<a href="goodbye"><button type="button" id="submitBtn" ng-click="submitAssessment()">Submit
-					Assessment</button></a>
+			<div class = "text-center"><a href="goodbye"><button type="button" id="submitBtn" ng-click="submitAssessment()">Submit
+					Assessment</button></a></div>
+			
 		</div>
 		<!-- ------------ -->
 		<!-- Submit Modal -->
@@ -194,7 +195,7 @@
 			<div class="modal-content">
 				<p>Thank you for completing the assessment. Your time has
 					expired. Please submit now.</p>
-				<a href="Assessment/goodbye"><button type="button" id="submitBtn" ng-click="submitAssessment()">Submit
+				<a href="goodbye"><button type="button" id="submitBtn" ng-click="submitAssessment()">Submit
 					Assessment</button></a>
 			</div>
 		</div>
@@ -211,7 +212,7 @@
 
 	<!-- JAVASCRIPT -->
 	<!-- 	LIBRARIES -->
-	<script th:src="@{/js/lib/src/ace.js}" src="../static/js/lib/src/ace.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
 	<script
