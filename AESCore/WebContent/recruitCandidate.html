@@ -2,7 +2,16 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>AES | Register Candidate</title>
+
+<link rel="icon" type="img/png" href="site-images/favicon_192.png">	
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<!-- included for mobile scaling -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="bigwilliestyle.css">
 </head>
 <body ng-app="AESCoreApp" ng-controller="RegisterCanidateCtrl">
 
@@ -16,6 +25,9 @@
 			<li>
 				<a href="recruitCandidate.html">REGISTER CANIDATE</a>
 			</li>
+			<li>
+				<button class="btn btn-primary btn-revature" ng-click="logout()">LOGOUT</button>
+			</li>
 		</ul>
 	</div>
 </div>
@@ -23,8 +35,8 @@
 <div class="container">
 
     <!-- TODO safari does not support required field -->
-    <form id="form-register-recruit" ng-submit="register()">
-        <h2 class="row">Register Canidate</h2>
+    <form class="form-revature" ng-submit="register()">
+        <h2 class="row">register candidate</h2>
         <div class="row input-field">
             <label class="sr-only" for="inputFirstName">first name</label>
             <input class="col-xs-12 col-md-12" id="inputFirstName" type="text" placeholder="first name" ng-model="firstName" required autofocus>
@@ -38,17 +50,17 @@
             <input class="col-xs-12 col-md-12" id="inputEmail" type="email" placeholder="email address" ng-model="email" required>
         </div>
         <div class="row">
-            <select class="col-xs-6 col-md-6"
+            <select class="col-xs-8 col-md-6"
                     ng-model="program" 
                     ng-options="option.name for option in options"
                     required>
                 <option value="" hidden>
-                --Select Program--
+                -- select program --
                 </option>
             </select>
         </div>
         <div class="row">
-            <input id="btn-register-recruit" class="btn btn-primary" type="submit" value="register">
+            <input id="btn-register-recruit" class="btn btn-primary btn-revature" type="submit" value="register">
         </div>
     </form>
 </div>

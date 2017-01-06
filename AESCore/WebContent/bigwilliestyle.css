@@ -1,0 +1,62 @@
+body {
+    font-family: Futura, Arial;
+}
+
+.form-revature {
+    max-width: 360px;
+    padding: 30px;
+    margin: auto;
+    background: #B9B9BA;
+    color: #474C55;
+    border: none;
+    border-radius: 10px;
+}
+
+.form-revature, div {
+    margin: 10px;
+}
+
+.btn-revature {
+    background: #F26925;
+    border: none;
+    color: #FFFFFF;
+    border-radius: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    float: right;
+}
+
+input {
+    /* border: none; */
+    border-radius: 10px;
+    border-color: #F26925;
+}
+
+#navbar {
+    float: right;
+}
+
+.logo {
+	margin: 30px;
+}
+
+.span-creds {
+	color: red;
+	margin: auto;
+	padding: 10px;
+}
+
+/*------------------------------------------------------------------------------
+COLOR GUIDE
+
+Primary Colors
+    Orange    : #F26925
+    White     : #FFFFFF
+    Dark Gray : #474C55
+Secondary Colors
+    Blue      : #72A4C2
+    Yellow    : #FCB414
+    Light Gray: #B9B9BA
+------------------------------------------------------------------------------*/
