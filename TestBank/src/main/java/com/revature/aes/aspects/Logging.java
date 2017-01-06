@@ -43,9 +43,8 @@ public class Logging
 		}
 		
 		log.trace("Executing...");
-		Object result = pjp.proceed();
-		
-		return result;
+	
+		return pjp.proceed();
 	}
 	
 	@AfterThrowing(pointcut="anyMethod()", throwing="e")
