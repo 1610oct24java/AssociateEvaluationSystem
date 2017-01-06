@@ -116,6 +116,7 @@
 			<groupId>org.apache.tomcat</groupId>
 			<artifactId>tomcat-catalina</artifactId>
 			<version>7.0.72</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- JUnit -->
