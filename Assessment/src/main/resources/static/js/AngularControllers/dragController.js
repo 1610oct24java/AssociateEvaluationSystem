@@ -7,7 +7,7 @@ app.controller("dragController", function($scope) {
 		itemMoved : function(event) {
 		},
 		orderChanged : function(event) {
-			
+			console.log(event);
 		}
 	};
 
