@@ -30,7 +30,7 @@ public class AssessmentRequestLoader {
 		ar.setMsQuestions(Integer.parseInt(prop.getProperty("msQuestions")));
 		ar.setDdQuestions(Integer.parseInt(prop.getProperty("ddQuestions")));
 		ar.setCsQuestions(Integer.parseInt(prop.getProperty("csQuestions")));
-		ar.setTimelimit(Integer.parseInt(prop.getProperty("timelimit")));
+		//For a future sprint this is where you would set the time limit
 		
 		return ar;
 	}

@@ -1,16 +1,16 @@
 package com.revature.aes.locator;
 
-import org.springframework.stereotype.Service;
+import org.apache.log4j.Logger;
 
 import com.revature.aes.beans.AssessmentRequest;
 
-@Service
 public class FAKEAssesmentServiceLocator implements AssessmentServiceLocator {
+	Logger log = Logger.getRootLogger();
 	
-	@Override
 	public AssessmentRequest getLink(AssessmentRequest assessment) {
-		//@Service annotation when we get the real impl working
+		//
 		assessment.setLink("www.google.com");
+		log.debug(assessment.getUserEmail());
 		return assessment;
 	}
 
