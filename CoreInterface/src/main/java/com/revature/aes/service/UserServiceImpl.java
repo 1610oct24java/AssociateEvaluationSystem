@@ -77,9 +77,7 @@ public class UserServiceImpl implements UserService {
 		
 		String pass = security.createSecurity(candidate);
 		
-		Map<String,String> map = client.finalizeCandidate(candidate, pass);
-		
-		return map;
+		return client.finalizeCandidate(candidate, pass);
 	}
 
 	@Override

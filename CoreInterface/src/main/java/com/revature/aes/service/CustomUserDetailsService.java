@@ -58,7 +58,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 			}
 			long diff = currentDate.getTime() - passwordDate.getTime();
 			long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-			if("Candidate".equals(user.getRole().getRoleTitle()) && days > 7) {
+			if("Candidate".equalsIgnoreCase(user.getRole().getRoleTitle()) && days > 7) {
 				security.setValid(0);
 				sService.updateSecurity(security);
 			} else {
