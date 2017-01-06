@@ -161,12 +161,10 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 		.then(function(response) {
 		    //First function handles success
 		    console.log("Received Quiz Object= " + response.data);
-		    
-		    	$rootScope.protoTest = response.data;
-			    $scope.questions = $rootScope.protoTest.myTemplate.templateQuestion;
-		    
-		    
+		    $rootScope.protoTest = response.data;
+			$scope.questions = $rootScope.protoTest.myTemplate.templateQuestion;
 		    initSetup();
+		    $rootScope.initQuizNav();
 		}, function(response) {
 		    //Second function handles error
 			console.log("ERROR: broken data: " + response.data);

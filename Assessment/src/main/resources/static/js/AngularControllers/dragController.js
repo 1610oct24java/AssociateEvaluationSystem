@@ -18,6 +18,15 @@ app.controller('QuizNavController', function($scope, $rootScope) {
 	$scope.index = 0;
     $scope.array = [];
     
+    $rootScope.initQuizNav = function () {
+    	console.log("Kizalled");
+    	for (var i=0; i < $rootScope.states.length/5; i++) {
+    		$scope.array.push(i);
+    		console.log("Tick");
+    	}
+    	consople.log("Kizomplete");
+    }
+    
     $scope.$watch(function(){
     	return $rootScope.states;
     }, function() {
