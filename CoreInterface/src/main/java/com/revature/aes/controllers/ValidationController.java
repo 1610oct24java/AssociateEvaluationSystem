@@ -10,7 +10,6 @@ public class ValidationController {
 	
 	@RequestMapping(value="/security/auth")
 	public Principal user(Principal user){
-		System.out.println("VALIDATING");
 		return user;
 	}
 }
