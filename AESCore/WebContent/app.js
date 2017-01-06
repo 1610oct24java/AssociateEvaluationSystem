@@ -32,6 +32,7 @@ app.constant("ROLE", {
 });
 
 app.controller('LoginCtrl', function($scope, $http, SITE_URL, API_URL, ROLE) {
+	
 	$scope.login = function() {
 		console.log('LOGIN CALLLED');
 		makeUser($scope);
@@ -53,7 +54,6 @@ app.controller('LoginCtrl', function($scope, $http, SITE_URL, API_URL, ROLE) {
 						window.location = SITE_URL.VIEW_CANDIDATES;
 						break;
 					case ROLE.CANDIDATE:
-						//$scope.candEmail = 'mpski17@gmail.com';
 						$scope.candidateEmail = authUser.username;
 						$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.CANDIDATE + $scope.candidateEmail + API_URL.LINK)
 						.then(function(response) {
@@ -66,8 +66,16 @@ app.controller('LoginCtrl', function($scope, $http, SITE_URL, API_URL, ROLE) {
 						window.location = SITE_URL.TRAINER_HOME;
 						break;
 					default:
+						console.log('INVALID LOGIN?');
+						$scope.username = '';
+						$scope.password = '';
 						window.location = SITE_URL.LOGIN;
 					}
+				} else {
+					console.log('!!! INVALID LOGIN');
+					$scope.username = '';
+					$scope.password = '';
+					$scope.bunkCreds = false;
 				}
 		})
 	})
@@ -78,6 +86,7 @@ app.controller('RegisterCanidateCtrl', function($scope,$location,$http,SITE_URL,
 
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
+		console.log(response.data);
 		if (response.data.authenticated) {
 			var authUser = {
 				username : response.data.principal.username,
@@ -110,7 +119,6 @@ app.controller('RegisterCanidateCtrl', function($scope,$location,$http,SITE_URL,
 		console.log(canidateInfo);
 		$scope.postRegister(canidateInfo);
 		
-		
 		$scope.firstName = '';
 		$scope.lastName = '';
 		$scope.email = '';
@@ -126,10 +134,8 @@ app.controller('RegisterCanidateCtrl', function($scope,$location,$http,SITE_URL,
 			data    : canidateInfo
 		}).success( function(res) {
 			console.log('success');
-			console.log(res);
 		}).error( function(res) {
 			console.log('error');
-			console.log(res);
 		});
 	};
 

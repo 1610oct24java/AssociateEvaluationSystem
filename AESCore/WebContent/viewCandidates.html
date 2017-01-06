@@ -2,28 +2,40 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>AES | Recruiter Home</title>
+
+<link rel="icon" type="img/png" href="site-images/favicon_192.png">	
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<!-- included for mobile scaling -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="bigwilliestyle.css">
 </head>
 <body ng-app="AESCoreApp" ng-controller="CandidateViewCtrl">
 
-<div id="navbar" class="navbar-collapse rev-menu collapse" aria-expanded="false" style="height: 1px;">
-	<div class="menu-header-menu-container">
-		<ul id="menu-header-menu" class="nav navbar-nav">
-			<li>
-				<a href="viewCandidates.html">CANIDATES</a>
-			</li>
-			<li>
-				<a href="recruitCandidate.html">REGISTER CANIDATE</a>
-			</li>
-			<li>
-				<button class="btn btn-primary" ng-click="logout()">logout</button>
-			</li>
-		</ul>
+<div class="container">
+<div class="row">
+	<div class="container logo col-xs-2 col-md-6">
+		<a href="index.html">
+			<img src="site-images/Revature-Logo.png" alt="Revature" height="75px">
+		</a>
+		<!-- <h4>Associate Evaluation System</h4> -->
+	</div>
+	<div class="col-xs-10 col-md-6">
+		<button class="btn btn-primary btn-revature" ng-click="logout()">logout</button>
 	</div>
 </div>
-<br><br><br><br><br><br><br>
+</div>
+
 <div>
-<table>
+	<a href="recruitCandidate.html">register candidate</a>
+</div>
+
+<div>
+<h2>Candidate Assessment Scores</h2>
+<table class=" table table-striped table-bordered">
 <thead>
 	<tr>
 		<th>name</th>
