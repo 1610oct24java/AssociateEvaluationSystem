@@ -48,7 +48,7 @@ public class SystemTemplate {
 		int codeSnip = assReq.getCsQuestions();
 		int size;
 		String userEmail = assReq.getUserEmail();
-		Set<Question> assessList = new HashSet<Question>();
+		Set<Question> assessList = new HashSet<>();
 		List<Question> formatList;
 		Set<TemplateQuestion> finalList = new HashSet<>();
 		formatList = new ArrayList<>();
