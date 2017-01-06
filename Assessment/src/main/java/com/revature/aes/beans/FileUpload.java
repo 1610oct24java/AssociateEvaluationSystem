@@ -38,6 +38,18 @@ public class FileUpload implements Serializable {
 	@JoinColumn(name = "assessment_id")
 	private Assessment assessment;
 	
+	@Column(name = "QUESTION_ID")
+	private int questionId;
+	
+	
+	public int getQuestionId() {
+		return questionId;
+	}
+
+	public void setQuestionId(int questionId) {
+		this.questionId = questionId;
+	}
+
 	public FileUpload() {
 		super();
 	}
@@ -77,17 +89,12 @@ public class FileUpload implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "FileUpload [fileId="
-				+ fileId
-				+ ", fileUrl="
-				+ fileUrl
-				+ ", grade="
-				+ grade
-				+ ", assessment="
-				+ assessment
-				+ "]";
+		return "FileUpload [fileId=" + fileId + ", fileUrl=" + fileUrl + ", grade=" + grade + ", assessment="
+				+ assessment + ", questionId=" + questionId + "]";
 	}
+	
+	
 }
