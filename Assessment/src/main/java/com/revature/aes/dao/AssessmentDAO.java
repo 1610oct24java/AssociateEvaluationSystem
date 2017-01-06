@@ -4,10 +4,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.revature.aes.beans.Assessment;
-import com.revature.aes.beans.Format;
-
 @Repository
 public interface AssessmentDAO extends JpaRepository<Assessment, Integer> {
 	
-	public Assessment findAssesmentByAssessmentId(int id);
+	public Assessment findAssessmentByAssessmentId(int id);
+	//public void saveAssessmentBy(Assessment newAssessment);
 }

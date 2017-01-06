@@ -9,7 +9,7 @@ app.controller('ModalController', function($scope, $interval, $http) {
 	function postAssessment(answerData){
 		$http({
 			method: 'POST',
-			url: '/Assessment/submitAssessment',
+			url: 'http://localhost:1993/Assessment/rest/submitAssessment',
 			headers: {'Content-Type': 'application/json'},
 			data: answerData
 		})

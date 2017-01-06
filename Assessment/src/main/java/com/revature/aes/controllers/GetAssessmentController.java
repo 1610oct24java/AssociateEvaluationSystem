@@ -1,8 +1,9 @@
 package com.revature.aes.controllers;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpSession;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,10 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.aes.beans.Assessment;
-import com.revature.aes.beans.Format;
+
 import com.revature.aes.dao.AssessmentService;
 
 @RestController
@@ -31,6 +34,19 @@ public class GetAssessmentController {
 		httpSession.setAttribute("assessmentId", assessmentId);
 		return "thisIsALink";
 	}
+	
+	@RequestMapping(value="/submitAssessment",method = RequestMethod.POST)
+	public String saveAssessmentAnswers(@RequestBody String JsonUserAnswers) throws JsonParseException, JsonMappingException, IOException
+	{
+		System.out.println("I'm gonna save the thing!");
+		ObjectMapper om = new ObjectMapper();
+		//SAVE the answers into the database
+		Assessment assessment = om.readValue(JsonUserAnswers,Assessment.class);
+		service.updateAssessment(assessment);
+		System.out.println("Hopefully I saved the thing!");
+		
+    	return "redirect:pages/GoodBye.html";
+	}
 
 	@RequestMapping(value = "{id}")
 	public String getAssessment(@PathVariable("id") int AssessmentId) throws JsonProcessingException {
@@ -46,7 +62,6 @@ public class GetAssessmentController {
 			System.out.println("error");
 			e.printStackTrace();
 		}
-		// Assessment assessment = service.findOne(AssessmentId);
 		System.out.println(assessment);
 		System.out.println(assessment.getMyTemplate().getTemplateQuestion().toString());
 		JSONString = mapper.writeValueAsString(assessment);

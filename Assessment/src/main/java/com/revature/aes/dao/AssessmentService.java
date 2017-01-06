@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.revature.aes.beans.Assessment;
-import com.revature.aes.beans.Format;
 
 @Service
 public class AssessmentService implements IAssessmentService {
@@ -15,14 +14,20 @@ public class AssessmentService implements IAssessmentService {
 	@Override
 	public Assessment getAssessmentById(int id) {
 		System.out.println("I'm servicing things! Poorly!");
-		Assessment out = assDAO.findAssesmentByAssessmentId(id);
+		Assessment out = assDAO.findAssessmentByAssessmentId(id);
 		return out;
 	}
 
 	@Override
-	public void saveAssessmentById() {
-		// TODO Auto-generated method stub
-		
+	public void saveAssessment(Assessment assessment) {
+		System.out.println("I am saving things!! maybe?");
+		assDAO.save(assessment);
 	}
-
+	
+	@Override
+	public void updateAssessment(Assessment assessment) {
+		Assessment oldAssessment = assDAO.findOne(assessment.getAssessmentId());
+		oldAssessment = assessment;
+		assDAO.save(oldAssessment);
+	}
 }
