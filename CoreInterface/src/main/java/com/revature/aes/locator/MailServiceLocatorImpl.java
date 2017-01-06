@@ -21,7 +21,6 @@ public class MailServiceLocatorImpl implements MailServiceLocator {
 		requestEntity.setLink(contents[0]);
 		requestEntity.setTempPass(contents[1]);
 		requestEntity.setType("candidateNeedsQuiz");
-		log.info("\nEmail: "+ email+"\nLink: "+ contents[0]+ "\nPassword: "+contents[1]+"\n");
 		
 		return send(requestEntity, email);
 	}

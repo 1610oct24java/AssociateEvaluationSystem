@@ -71,8 +71,12 @@ public class UserServiceImpl implements UserService {
 		
 		candidate.setRecruiterId(recruiterId);
 		candidate.setRole(role.findRoleByRoleTitle("Candidate"));
-		candidate.setDatePassIssued(fmt.format(new Date()));
 		
+		User existingCandidate = dao.findUserByEmail(candidate.getEmail());
+		if(existingCandidate != null) {
+			candidate = existingCandidate;
+		}
+		candidate.setDatePassIssued(fmt.format(new Date()));
 		dao.save(candidate);
 		
 		String pass = security.createSecurity(candidate);

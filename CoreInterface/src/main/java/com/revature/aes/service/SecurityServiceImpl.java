@@ -60,8 +60,10 @@ public class SecurityServiceImpl implements SecurityService {
 		// 
 		
 		int userId = user.getUserId();
-		
-		Security security = new Security();
+		Security security = dao.findSecurityByUserId(user.getUserId());
+		if(security == null) {
+			security = new Security();
+		}
 		security.setUserId(userId);
 		security.setValid(1);
 		
