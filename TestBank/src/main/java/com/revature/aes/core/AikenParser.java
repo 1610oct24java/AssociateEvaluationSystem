@@ -178,7 +178,7 @@ public class AikenParser {
 	 * @see com.revature.aes.beans.Option
 	 * @see com.revature.aes.beans.Question
 	 */
-	public HashMap<Question, ArrayList<Option>> getQuestionsMap(){
+	public Map<Question, ArrayList<Option>> getQuestionsMap(){
 		return questionMap;
 	}
 }
