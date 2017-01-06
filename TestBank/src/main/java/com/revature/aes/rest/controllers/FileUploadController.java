@@ -18,7 +18,7 @@ public class FileUploadController {
 	@RequestMapping(value="/parseAiken", method=RequestMethod.POST)
 	public void parseAikenFile(@RequestParam("file") MultipartFile file){
 		assGenService.setFile(file);
-		String fileName = file.getOriginalFilename();
+		String fileName = file.getOriginalFilename().toLowerCase();
 		
 		if(fileName.endsWith(".txt")){
 			assGenService.uploadAikenFile();

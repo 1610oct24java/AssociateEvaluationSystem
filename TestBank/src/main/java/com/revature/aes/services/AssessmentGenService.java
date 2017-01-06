@@ -30,7 +30,6 @@ public class AssessmentGenService {
 	
 	public AssessmentGenService() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public AssessmentGenService(MultipartFile file, QuestionService service) {
@@ -46,6 +45,7 @@ public class AssessmentGenService {
 	public void uploadAikenFile(){
 		try {
 			aikenParser.parseFile(file);
+			// redundant exception invalid file type 
 		} catch (InvalidFileTypeException | AikenSyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
