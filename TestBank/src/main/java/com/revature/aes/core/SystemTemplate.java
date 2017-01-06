@@ -39,7 +39,7 @@ public class SystemTemplate {
 		int size;
 
 		Set<Question> assessList = new HashSet<>();
-		List<Question> formatList = new ArrayList<>();;
+		List<Question> formatList = new ArrayList<>();
 		Set<TemplateQuestion> finalList = new HashSet<>();
 		Random rando = new Random();
 		

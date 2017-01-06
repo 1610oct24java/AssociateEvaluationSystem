@@ -34,7 +34,7 @@ public class AssessmentRestController {
 	private UserService userService;
 	@Autowired
 	private AssessmentService assServ;
-	private final String url = "http://localhost:8080/TestBank";
+	private final static String url = "http://localhost:8080/TestBank";
 	private RestTemplate restTemplate = new RestTemplate();
 
 	/**
@@ -43,16 +43,12 @@ public class AssessmentRestController {
 	 * @param category:
 	 *            The category that a question falls into.
 	 * @return a list of questions that are of the requested categories.
+	 * @throws URISyntaxException 
 	 */
 	@RequestMapping(value = "user/RandomAssessment", method = RequestMethod.POST, consumes = {
 			MediaType.APPLICATION_JSON_VALUE })
-	public AssessmentRequest createAssessment(@RequestBody AssessmentRequest assReq) {
+	public AssessmentRequest createAssessment(@RequestBody AssessmentRequest assReq) throws URISyntaxException {
 		Template tmpl = new Template();
-		User user = new User();
-		
-		System.out.println("AssessmentRequest-----------------------------------------------------------------------");
-		System.out.println(assReq);
-		System.out.println("----------------------------------------------------------------------------------------");
 
 		Set<TemplateQuestion> finalQuestion = systemp.getRandomSelectionFromCategory(assReq);
 
@@ -65,16 +61,8 @@ public class AssessmentRestController {
 		tmpl.setCreateTimeStamp(timestamp);
 		// The user id needs to be set to whatever system is in the user table.
 		tmpl.setCreator(userService.getUserById(1));
-		
-		System.out.println("template--------------------------------------------------------------------------------");
-		System.out.println(tmpl);
-		System.out.println("----------------------------------------------------------------------------------------");
 
-		user = userService.getUserByEmail(assReq.getUserEmail());
-		
-		System.out.println("user------------------------------------------------------------------------------------");
-		System.out.println(user);
-		System.out.println("----------------------------------------------------------------------------------------");
+		User user = userService.getUserByEmail(assReq.getUserEmail());
 
 		Assessment assessment = new Assessment(user, -1, 30, null, null, tmpl);
 		assessment = assServ.addNewAssessment(assessment);
@@ -83,22 +71,11 @@ public class AssessmentRestController {
 		headers.setContentType(MediaType.APPLICATION_JSON);
 
 		RequestEntity<Integer> request = null;
-		try {
-			request = RequestEntity.post(new URI(url + "/user/link")).accept(MediaType.APPLICATION_JSON).body(assessment.getAssessmentId());
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
+		
+		request = RequestEntity.post(new URI(url + "/user/link")).accept(MediaType.APPLICATION_JSON).body(assessment.getAssessmentId());
 		ResponseEntity<String> result = restTemplate.exchange(request, String.class);
 
-		System.out.println("result----------------------------------------------------------------------------------");
-		System.out.println(result);
-		System.out.println("----------------------------------------------------------------------------------------");
-
 		String link = result.getBody();
-
-		System.out.println("link------------------------------------------------------------------------------------");
-		System.out.println(link);
-		System.out.println("----------------------------------------------------------------------------------------");
 		
 		assReq.setLink(link);
 
