@@ -46,8 +46,15 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 		console.log("Entered collapse: glyph id=" + index);
 		$scope.states[index].open = !$scope.states[index].open;
 	};
+	
+	$scope.handleSaveClick = function(index) {
+		//If question is not already saved, save it
+		if (!$scope.states[index].saved) {
+			saveQuestion(index);
+		}
+	}
 
-	$scope.saveQuestion = function(index) {
+	var saveQuestion = function(index) {
 		var q = $scope.questions[index];
 		console.log("Saving question " + q.templateId + ": " + q.templateQuestion.questionText);
 		
