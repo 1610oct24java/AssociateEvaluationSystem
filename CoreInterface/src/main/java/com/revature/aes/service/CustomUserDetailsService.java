@@ -33,6 +33,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername(String arg0) throws UsernameNotFoundException {
+		System.out.println("CHECKING USERNAME: " + arg0);
 		com.revature.aes.beans.User user = uService.findUserByEmail(arg0);
 		Security security = sService.findSecurityByUserId(user.getUserId());
 		if(!this.checkForValidPassword(user, security)) {

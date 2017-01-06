@@ -53,7 +53,6 @@ app.controller('LoginCtrl', function($scope, $http, SITE_URL, API_URL, ROLE) {
 						window.location = SITE_URL.VIEW_CANDIDATES;
 						break;
 					case ROLE.CANDIDATE:
-						//$scope.candEmail = 'mpski17@gmail.com';
 						$scope.candidateEmail = authUser.username;
 						$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.CANDIDATE + $scope.candidateEmail + API_URL.LINK)
 						.then(function(response) {
