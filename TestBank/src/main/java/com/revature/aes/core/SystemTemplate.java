@@ -47,12 +47,11 @@ public class SystemTemplate {
 		int dragDrop = assReq.getDdQuestions();
 		int codeSnip = assReq.getCsQuestions();
 		int size;
-		String userEmail = assReq.getUserEmail();
+		
 		Set<Question> assessList = new HashSet<>();
 		List<Question> formatList;
 		Set<TemplateQuestion> finalList = new HashSet<>();
 		formatList = new ArrayList<>();
-		User user = uDao.findByEmail(userEmail);
 		Random rando = new Random();
 		
 		Category cat = (Category) cDao.getByName(catName);

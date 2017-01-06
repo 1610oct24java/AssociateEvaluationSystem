@@ -43,13 +43,8 @@ public class AssessmentGenService {
 		this.file = file;
 	}
 	
-	public void uploadAikenFile(){
-		try {
-			aikenParser.parseFile(file);
-		} catch (InvalidFileTypeException | AikenSyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void uploadAikenFile() throws IOException, InvalidFileTypeException, AikenSyntaxException{
+		aikenParser.parseFile(file);
 		HashMap<Question, ArrayList<Option>> questionsMap = (HashMap<Question, ArrayList<Option>>) aikenParser.getQuestionsMap();
 		
 		for(Question q : questionsMap.keySet()){
@@ -60,12 +55,8 @@ public class AssessmentGenService {
 		}
 	}
 	
-	public void uploadCSVFile() {
-		try {
-			csvParser.parseCSV(file);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public void uploadCSVFile() throws IOException {
+			csvParser.parseCSV(file);	
 	}
 	
 	public void uploadCodeSnippet(){
