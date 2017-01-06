@@ -13,10 +13,19 @@ import org.springframework.stereotype.Component;
 
 import com.revature.aes.util.Error;
 
+/**
+ * The Class AOP.
+ */
 @Component
 @Aspect
 public class AOP {
 	
+	/**
+	 * Trace logging, surrounds the given point cut with error logging.
+	 *
+	 * @param pjp
+	 *            the pjp
+	 */
 	@Around("everything()")
 	public void traceLogging(ProceedingJoinPoint pjp) {
 		
@@ -46,7 +55,9 @@ public class AOP {
 		
 		// Surround proceed in try catch
 		try {
+			
 			obj = pjp.proceed();
+			
 		} catch (Throwable e) {
 			Error.error("\nin Class:\t"
 					+ sign.getDeclaringTypeName()
@@ -60,7 +71,10 @@ public class AOP {
 		
 	}
 	
-	@Pointcut("execution(* *.grading.*(..))")
+	/**
+	 * Pointcut for everything.
+	 */
+	@Pointcut("execution(* *.*(..))")
 	public void everything() {
 		
 	}

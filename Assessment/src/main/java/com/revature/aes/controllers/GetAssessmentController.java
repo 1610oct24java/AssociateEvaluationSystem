@@ -34,9 +34,10 @@ public class GetAssessmentController {
 		return "thisIsALink";
 	}
 	
-	@RequestMapping(value="/submitAssessment",method = RequestMethod.POST)
-	public String saveAssessmentAnswers(@RequestBody String JsonUserAnswers, HttpServletResponse response) throws JsonParseException, JsonMappingException, IOException
-	{
+	@RequestMapping(value = "/submitAssessment", method = RequestMethod.POST)
+	public String saveAssessmentAnswers(@RequestBody String JsonUserAnswers,
+			HttpServletResponse response)
+			throws JsonParseException, JsonMappingException, IOException {
 		System.out.println("I'm gonna save the thing!");
 		ObjectMapper om = new ObjectMapper();
 		//SAVE the answers into the database
@@ -47,12 +48,13 @@ public class GetAssessmentController {
 		
 		response.sendRedirect("/Assessment/goodbye");
 		
-    	return "Gucci?";
+		return "Gucci?";
 	}
-
+	
 	@RequestMapping(value = "{id}")
-	public String getAssessment(@PathVariable("id") int AssessmentId) throws JsonProcessingException {
-
+	public String getAssessment(@PathVariable("id") int AssessmentId)
+			throws JsonProcessingException {
+		
 		System.out.println("I'm here!" + AssessmentId);
 		String JSONString;
 		ObjectMapper mapper = new ObjectMapper();
@@ -65,7 +67,8 @@ public class GetAssessmentController {
 			e.printStackTrace();
 		}
 		System.out.println(assessment);
-		System.out.println(assessment.getMyTemplate().getTemplateQuestion().toString());
+		System.out.println(
+				assessment.getMyTemplate().getTemplateQuestion().toString());
 		JSONString = mapper.writeValueAsString(assessment);
 		return JSONString;
 	}

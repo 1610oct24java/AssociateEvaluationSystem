@@ -18,6 +18,7 @@ public class RestControl {
 		
 		List<User> listOfUsers = new ArrayList<User>();
 		listOfUsers = createUserList();
+		
 		return listOfUsers;
 	}
 	
