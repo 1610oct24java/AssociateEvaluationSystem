@@ -11,6 +11,7 @@ public class AssessmentRequest {
     private int csQuestions;
     private String link;
     private String userEmail;
+    
 	public AssessmentRequest() {
 		super();
 		// TODO Auto-generated constructor stub
