@@ -15,6 +15,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "aes_template_question")
 public class TemplateQuestion implements Serializable {
@@ -30,12 +32,13 @@ public class TemplateQuestion implements Serializable {
 	@Column(name = "weight")
 	private int weight;
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
 	@JoinColumn(name = "question_id")
 	private Question patternInquiry;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
 	@JoinColumn(name="TEMPLATE_ID")
+	@JsonIgnore
 	private Template template;
 	
 	public TemplateQuestion() {
@@ -45,7 +48,7 @@ public class TemplateQuestion implements Serializable {
 	@Override
 	public String toString() {
 		return "TemplateQuestion [templateQuestionId=" + templateQuestionId + ", weight=" + weight
-				+ ", templateQuestion=" + patternInquiry + ", template=" + template + "]";
+				+ ", templateQuestion=" + patternInquiry +"]";
 	}
 
 	public int getTemplateQuestionId() {
@@ -64,11 +67,11 @@ public class TemplateQuestion implements Serializable {
 		this.weight = weight;
 	}
 
-	public Question getTemplateQuestion() {
+	public Question getPatternInquiry() {
 		return patternInquiry;
 	}
 
-	public void setTemplateQuestion(Question templateQuestion) {
+	public void setPatternInquiry(Question templateQuestion) {
 		this.patternInquiry = templateQuestion;
 	}
 
