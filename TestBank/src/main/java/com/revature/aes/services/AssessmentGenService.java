@@ -47,7 +47,8 @@ public class AssessmentGenService {
 			aikenParser.parseFile(file);
 			// redundant exception invalid file type 
 		} catch (InvalidFileTypeException | AikenSyntaxException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		HashMap<Question, ArrayList<Option>> questionsMap = (HashMap<Question, ArrayList<Option>>) aikenParser.getQuestionsMap();
@@ -60,12 +61,8 @@ public class AssessmentGenService {
 		}
 	}
 	
-	public void uploadCSVFile() {
-		try {
-			csvParser.parseCSV(file);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public void uploadCSVFile() throws IOException {
+			csvParser.parseCSV(file);	
 	}
 	
 	public void uploadCodeSnippet(){

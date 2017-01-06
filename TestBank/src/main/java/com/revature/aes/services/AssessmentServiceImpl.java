@@ -11,13 +11,9 @@ public class AssessmentServiceImpl implements AssessmentService{
 
 	@Autowired
 	private AssessmentDAO aDao;
-	@Autowired
-	private TemplateService tServ;
 	
 	@Override
 	public Assessment addNewAssessment(Assessment assess) {
-		
-		//assess.setTemplate(tServ.addTemplate(assess.getTemplate()));
 		return aDao.save(assess);
 	}
 	

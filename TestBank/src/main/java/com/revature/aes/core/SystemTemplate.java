@@ -13,11 +13,8 @@ import com.revature.aes.beans.AssessmentRequest;
 import com.revature.aes.beans.Category;
 import com.revature.aes.beans.Question;
 import com.revature.aes.beans.TemplateQuestion;
-import com.revature.aes.beans.User;
-import com.revature.aes.daos.AssessmentDAO;
 import com.revature.aes.daos.CategoryDAO;
 import com.revature.aes.daos.QuestionDAO;
-import com.revature.aes.daos.UserDAO;
 
 @Component
 public class SystemTemplate {
@@ -26,18 +23,11 @@ public class SystemTemplate {
 	private QuestionDAO qDao;
 	@Autowired
 	private CategoryDAO cDao;
-	@Autowired
-	private UserDAO uDao;
-	@Autowired
-	private AssessmentDAO aDao;
 
 	/**
 	 * 
-	 * @param assReq
-	 *            The AssessmentRequest object being passed in from Core team
-	 *            containing the amount of questions for a specific format and
-	 *            the category.
-	 * @return The list of questions taken from the database for the template.
+	 * @param assReq: The AssessmentRequest object being sent from Core team. See bean for content.
+	 * @return	Returns the same object with the link to the assessment that Assessment team generates.
 	 */
 	public Set<TemplateQuestion> getRandomSelectionFromCategory(AssessmentRequest assReq) {
 
@@ -47,12 +37,10 @@ public class SystemTemplate {
 		int dragDrop = assReq.getDdQuestions();
 		int codeSnip = assReq.getCsQuestions();
 		int size;
-		String userEmail = assReq.getUserEmail();
+
 		Set<Question> assessList = new HashSet<>();
-		List<Question> formatList;
+		List<Question> formatList = new ArrayList<>();
 		Set<TemplateQuestion> finalList = new HashSet<>();
-		formatList = new ArrayList<>();
-		User user = uDao.findByEmail(userEmail);
 		Random rando = new Random();
 		
 		Category cat = (Category) cDao.getByName(catName);
@@ -72,7 +60,7 @@ public class SystemTemplate {
 				int num = rando.nextInt(size);
 				assessList.add(formatList.remove(num));
 				size--;
-				if (size == 0) {
+				if (size == 1) {
 					break;
 				}
 			}
@@ -91,7 +79,7 @@ public class SystemTemplate {
 				int num = rando.nextInt(size);
 				assessList.add(formatList.remove(num));
 				size--;
-				if (size == 0) {
+				if (size == 1) {
 					break;
 				}
 			}
@@ -110,7 +98,7 @@ public class SystemTemplate {
 				int num = rando.nextInt(size);
 				assessList.add(formatList.remove(num));
 				size--;
-				if (size == 0) {
+				if (size == 1) {
 					break;
 				}
 			}
@@ -129,7 +117,7 @@ public class SystemTemplate {
 				int num = rando.nextInt(size);
 				assessList.add(formatList.remove(num));
 				size--;
-				if (size == 0) {
+				if (size == 1) {
 					break;
 				}
 			}
