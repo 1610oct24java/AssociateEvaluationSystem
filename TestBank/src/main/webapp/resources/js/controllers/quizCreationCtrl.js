@@ -50,7 +50,7 @@ app.controller('MasterCtrl', ['$scope', '$rootScope', 'fileUpload', 'ngProgressF
 
     
 	$scope.progressUpdater = function(evt){
-		var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+		return parseInt(100.0 * evt.loaded / evt.total);
 	};
 	
 	$scope.someFunction = function(data, status, headers, config){
