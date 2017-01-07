@@ -49,7 +49,7 @@ public class FormatServiceImpl implements FormatService {
 
 	@Override
 	public Format getFormatByName(String name) {
-		Format format = fdao.getByFormatName(name);
+		
 		return fdao.getByFormatName(name);
 	}
 
