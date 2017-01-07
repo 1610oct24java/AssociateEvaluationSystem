@@ -11,12 +11,12 @@ import com.revature.aes.service.AssessmentAuthService;
 
 /**
  * 
- * @author Michelle Slay
- * 
  * This is the controller the candidates access to find the link to their
  * assessment.
  * 
  * The email path variable should be the candidate's email.
+ * 
+ * @author Michelle Slay
  *
  */
 @RestController

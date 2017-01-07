@@ -10,6 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.revature.aes.mail.Mail;
 import com.revature.aes.mail.MailObject;
 
+/**
+ * Controller for an endpoint to the mail service
+ * 
+ * @author Wes
+ *
+ */
 @RestController
 public class MailController {   
 	

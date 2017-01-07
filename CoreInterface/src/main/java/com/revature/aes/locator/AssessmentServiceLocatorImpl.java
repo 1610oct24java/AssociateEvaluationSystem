@@ -10,10 +10,10 @@ import com.revature.aes.beans.AssessmentRequest;
 
 /**
  * 
- * @author Michelle Slay
- * 
  * This service locator class provides a single location to send Rest calls
  * to the Bank team's code. 
+ * 
+ * @author Michelle Slay
  *
  */
 
