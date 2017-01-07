@@ -7,10 +7,12 @@ app.controller('MasterCtrl', ['$scope', '$rootScope', 'fileUpload', 'ngProgressF
 	};
 	
 	$scope.addTags = function(){
+		$state.go("tag");
 		$rootScope.templateName = "Add Tags";
 	};
 	
 	$scope.modifyQuestions = function(){
+		$state.go("question");
 		$scope.templateName = "Modify Questions";
 	};
 	

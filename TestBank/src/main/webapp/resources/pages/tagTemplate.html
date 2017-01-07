@@ -1,0 +1,25 @@
+<div>
+	<main class="container">
+		<div>
+			<form>
+				<input type="text" ng-model="ctrl.newTag.tagName">
+				<input type="submit" value="Add" ng-click="ctrl.saveTag()">
+			</form>
+		</div>
+		<div>
+			<h3>Tags</h3>
+			<ul>
+				<li ng-repeat="tag in ctrl.tags">
+				{{tag.tagName}}
+				</li>
+				<p ng-bind="ctrl.newTag.tagName"></p>
+			</ul>
+		</div>
+		<div>
+			<form>
+				<input type="text" ng-model="ctrl.delTag">
+				<input type="submit" value="Remove" ng-click="ctrl.deleteTag()">
+			</form>
+		</div>
+	</main>
+</div>

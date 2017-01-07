@@ -1,71 +1,62 @@
-app.controller('CategoryCtrl', ['$scope', function($scope, $http){
+app.controller('CategoryCtrl', function($scope, $http){
 	var url = "http://localhost:8080/TestBank/";
-	this.categories =[];
-	this.delCategory = '';
-	this.newCategory = {
+	$scope.categories =[];
+	$scope.delCategory = '';
+	$scope.newCategory = {
 			categoryId : 0,
 			name : ''
 	};
 	
-	this.getCategories = () =>{
-		$http.get(url + "category").then(
-			// success
-			(response) => {
-				this.categories = response.data;
-			},
-			// failure
-			() => {
-			}
-		); 	
+	function getCategories() {
+		var array = $http.get(url + "category").then(
+				function(response){
+					return response.data;
+				}); 
+		return array.$$state;
 	};
 	
-	this.saveCategory = () =>{
-		if(this.newCategory.name == ''){
+	$scope.saveCategory = function() {
+		if($scope.newCategory.name == ''){
+			// alert dem bitches
 		}
 		else{
-			$http.post(url + "category", this.newCategory).then(
+			$http.post(url + "category", $scope.newCategory).then(
 				// success
-				() => {
+				function() {
 					// add new category to the list
-					this.categories.push({
-						categoryId : this.newCategory.categoryId,
-						name: this.newCategory.name});
+					$scope.categories.push({
+						categoryId : $scope.newCategory.categoryId,
+						name: $scope.newCategory.name});
 					// clear the textbox
-					this.newCategory = {
+					$scope.newCategory = {
 						categoryId : 0,
 						name : ''
 					};
-				},
-				// failure
-				() => {
 				}
 			);
 		}
 	};
 	
-	this.deleteCategory = () =>{
-		$http.delete(url + "category/" + this.delCategory).then(
+	$scope.deleteCategory = function() {
+		$http.delete(url + "category/" + $scope.delCategory).then(
 			// success
-			() => {
-				this.categories.splice(this.findIndexOfCategory(), 1);
-				this.delCategory = '';
-			},
-			// failure
-			() => {
+			function() {
+				$scope.categories.splice($scope.findIndexOfCategory(), 1);
+				$scope.delCategory = '';
 			}
 		);
 	};
 	
 	// Find the index of the category matching delCategory.
 	// The index is needed to remove the element from the list.
-	this.findIndexOfCategory = () =>{
-		for(var i=0;i<this.categories.length;i++){
-			if (this.categories[i].name == this.delCategory){
+	$scope.findIndexOfCategory = function() {
+		for(var i=0;i<$scope.categories.length;i++){
+			if ($scope.categories[i].name == $scope.delCategory){
 				return i;
 			}
 		}
 	};
 	
-	this.getCategories();
-	
-}]);
+	$scope.categories =  getCategories();
+	console.log($scope.categories);
+});
