@@ -1,4 +1,13 @@
-var app = angular.module("AESapp", ['ngProgress','ngFileUpload']);
+var app = angular.module("AESapp", [ 'ngRoute', 'ngFileUpload','ngProgress']);
+
+app.config(function ($routeProvider) {
+    
+    $routeProvider
+        .when("/home", {
+            templateUrl : "login-box.html",
+            controller : "loginController"
+        })
+});
 
 app.directive('fileModel', ['$parse', function ($parse) {
     return {
