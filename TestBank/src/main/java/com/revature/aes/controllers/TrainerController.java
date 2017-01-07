@@ -7,9 +7,10 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class TrainerController{
 	
-	@RequestMapping(value="/trainer", method=RequestMethod.GET)
+	@RequestMapping(value="/", method=RequestMethod.GET)
 	public String getIndex(){
-		return "redirect:resources/pages/trainerHome.html";
+		System.out.println("made it here:");
+;		return "forward:resources/pages/trainerHome.html";
 	}
 }
 
