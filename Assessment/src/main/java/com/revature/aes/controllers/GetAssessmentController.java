@@ -41,7 +41,7 @@ public class GetAssessmentController {
 
 	private HttpSession httpSession;
 
-	private String coreEmailClientEndpointAddress = "WE NEED THIS ADDY FROM CORE";
+	private String coreEmailClientEndpointAddress = "http://54.201.37.54:8080/core/";
 	
 	@RequestMapping(value = "/link", method = RequestMethod.POST)
 	public String getAssessmentID(@RequestBody int assessmentId) {
