@@ -15,10 +15,9 @@ public class AssessmentGrader {
 	public double gradeAssessment(Assessment assessment){
 		double dragDrop[] = gradeDragDrop(assessment);
 		double multChoiceSelect[] = gradeMultChoiceSelect(assessment); 
-		 
 		double snippet[] = gradeSnippet(assessment);
 		
-		return ((dragDrop[0]+multChoiceSelect[0]+snippet[0])/(dragDrop[1]+multChoiceSelect[1]+snippet[1]));
+		return ((100*(dragDrop[0]+multChoiceSelect[0]+snippet[0]))/(dragDrop[1]+multChoiceSelect[1]+snippet[1]));
 	}
 	
 	public double[] gradeMultChoiceSelect(Assessment assessment){
