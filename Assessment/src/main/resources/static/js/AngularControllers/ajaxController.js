@@ -15,7 +15,7 @@ app.controller('AjaxController', function($scope, $http) {
 	    	
 	        $http({
 	            method: 'GET',
-	            url: '/Assessment/getAssessment',
+	            url: 'getAssessment',
 	            headers: {'Content-Type': 'application/json'},
 	            data: data
 	        })
@@ -32,7 +32,7 @@ app.controller('AjaxController', function($scope, $http) {
 	    function postAssessmentData(data){
 	        $http({
 	            method: 'POST',
-	            url: '/Assessment/submitAssessment',
+	            url: 'submitAssessment',
 	            headers: {'Content-Type': 'application/json'},
 	            data: data
 	        })

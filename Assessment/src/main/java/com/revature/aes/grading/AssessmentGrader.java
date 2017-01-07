@@ -85,8 +85,7 @@ public class AssessmentGrader {
 				userDataMap.put(dragDrop.getDragDrop().getQuestionId(), dragDropSet);
 			}
 		}
-		
-		
+
 		for(int key: userDataMap.keySet()){
 			itemWeight = templateDataMap.get(key).getWeight();
 			

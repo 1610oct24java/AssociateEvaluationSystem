@@ -1,0 +1,6 @@
+[WARN] [27793 ms] [01-06-2017 22:41:50] [DefaultHandlerExceptionResolver (handleHttpMessageNotReadable : 384)] -
+					Failed to read HTTP message: org.springframework.http.converter.HttpMessageNotReadableException: Required request body is missing: public java.lang.String com.revature.aes.controllers.GetAssessmentController.saveAssessmentAnswers(java.lang.String,javax.servlet.http.HttpServletResponse) throws com.fasterxml.jackson.core.JsonParseException,com.fasterxml.jackson.databind.JsonMappingException,java.io.IOException
+[WARN] [91513 ms] [01-06-2017 23:35:20] [PageNotFound (handleHttpRequestMethodNotSupported : 215)] -
+					Request method 'POST' not supported
+[WARN] [96935 ms] [01-06-2017 23:35:26] [PageNotFound (handleHttpRequestMethodNotSupported : 215)] -
+					Request method 'POST' not supported
