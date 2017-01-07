@@ -42,7 +42,7 @@ public class AssessmentGenService {
 		this.file = file;
 	}
 	
-	public void uploadAikenFile() throws AikenSyntaxException,IOException {
+	public void uploadAikenFile() throws InvalidFileTypeException, AikenSyntaxException,IOException {
 		try {
 			aikenParser.parseFile(file);
 			// redundant exception invalid file type 
