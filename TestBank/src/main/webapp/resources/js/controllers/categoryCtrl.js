@@ -15,14 +15,12 @@ app.controller('CategoryCtrl', ['$scope', function($scope, $http){
 			},
 			// failure
 			() => {
-				alert("Unable to retrieve categories!");
 			}
 		); 	
 	};
 	
 	this.saveCategory = () =>{
 		if(this.newCategory.name == ''){
-			alert("Please enter a name for the category");
 		}
 		else{
 			$http.post(url + "category", this.newCategory).then(
@@ -40,7 +38,6 @@ app.controller('CategoryCtrl', ['$scope', function($scope, $http){
 				},
 				// failure
 				() => {
-					alert("Unable to save category!");
 				}
 			);
 		}
@@ -55,7 +52,6 @@ app.controller('CategoryCtrl', ['$scope', function($scope, $http){
 			},
 			// failure
 			() => {
-				alert("Unable to remove category!")
 			}
 		);
 	};
