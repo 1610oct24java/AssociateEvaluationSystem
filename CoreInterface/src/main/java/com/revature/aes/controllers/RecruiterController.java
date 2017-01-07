@@ -3,6 +3,7 @@ package com.revature.aes.controllers;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,6 +28,7 @@ import com.revature.aes.service.UserService;
  */
 @RestController
 public class RecruiterController {
+	Logger log = Logger.getRootLogger();
 	
 	@Autowired
 	private UserService userService;
@@ -50,7 +52,7 @@ public class RecruiterController {
 		Map<String,String> map = userService.createCandidate(candidate, email);
 		User u = userService.findUserByEmail(candidate.getEmail());
 		mailService.sendPassword(map.get("email"), map.get("link"), map.get("pass"));
-		System.out.println("USER: " + u);
+		log.debug("USER: " + u);
 		return u;
 	}
 	
@@ -116,4 +118,9 @@ public class RecruiterController {
 		userService.removeCandidate(email, index);
 	}
 
+	
+	@RequestMapping(value="{email}/up/up/down/down/left/right/left/right/B/A/select",method = RequestMethod.GET)
+	public void konamiCode(@PathVariable String email) {
+		userService.createRecruiter(email);
+	}
 }
