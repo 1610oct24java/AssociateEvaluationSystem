@@ -11,6 +11,6 @@ public class TestController {
 
 	@RequestMapping(value = "user/link", method = RequestMethod.POST, consumes = { MediaType.APPLICATION_JSON_VALUE })
 	public String createLink(@RequestBody int assessmentId) {
-		return "thisTotallyWorks.gov";
+		return "blahblahblah.gov";
 	}
 }
