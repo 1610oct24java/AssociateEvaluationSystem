@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +26,8 @@ import com.revature.aes.grading.CoreEmailClient;
 import com.revature.aes.logging.Logging;
 import com.revature.aes.service.S3Service;
 import com.revature.aes.util.Error;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 @RestController
 @RequestMapping("/rest")
@@ -38,17 +41,34 @@ public class GetAssessmentController {
 
 	@Autowired
 	S3Service s3;
-
+	
 	private HttpSession httpSession;
 
 	private Logging log = new Logging();
 
 	private String coreEmailClientEndpointAddress = "http://localhost:8080/core/";
 
-	@RequestMapping(value = "/link", method = RequestMethod.POST)
-	public String getAssessmentID(@RequestBody int assessmentId) {
+	@RequestMapping(value = "/link", method = RequestMethod.POST, consumes = {
+			MediaType.APPLICATION_JSON })
+	public String getAssessmentID(@RequestBody String JSONData,
+			HttpSession event) {
+		int assessmentId;
+		
+		System.out.println("Link called " + JSONData);
+		
+		JsonParser parser = new JsonParser();
+		JsonObject obj = parser.parse(JSONData).getAsJsonObject();
+		
+		assessmentId = Integer.parseInt(obj.get("assessmentId").getAsString());
+		
+		httpSession = event;
+		
 		httpSession.setAttribute("assessmentId", assessmentId);
-		return "thisIsALink";
+		System.out.println("Attrtibute set");
+		
+		System.out.println(httpSession.getAttribute("assessmentId"));
+		
+		return "http://localhost:8090/asmt/quiz";
 	}
 
 	@RequestMapping(value = "/submitAssessment", method = RequestMethod.POST)
@@ -59,6 +79,7 @@ public class GetAssessmentController {
 
 		// Separate the incoming data
 		Packet incoming = om.readValue(jsonUserAnswers, Packet.class);
+
 		Assessment assessment = incoming.getAssessment();
 		List<SnippetUpload> lstSnippetUploads = incoming.getSnippetUpload();
 
@@ -81,6 +102,7 @@ public class GetAssessmentController {
 		log.info("Hopefully I saved the thing!");
 
 		int recruiterId = assessment.getUser().getRecruiterId();
+
 		String recruiterEmail = usersService.findOne(recruiterId).getEmail();
 
 		new CoreEmailClient(coreEmailClientEndpointAddress).sendEmailAfterGrading(recruiterEmail,
