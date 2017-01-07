@@ -30,7 +30,6 @@ public class AssessmentGenService {
 	
 	public AssessmentGenService() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public AssessmentGenService(MultipartFile file, QuestionService service) {
@@ -43,8 +42,17 @@ public class AssessmentGenService {
 		this.file = file;
 	}
 	
-	public void uploadAikenFile() throws IOException, InvalidFileTypeException, AikenSyntaxException{
-		aikenParser.parseFile(file);
+	public void uploadAikenFile() throws InvalidFileTypeException, AikenSyntaxException,IOException {
+		try {
+			aikenParser.parseFile(file);
+			// redundant exception invalid file type 
+		} catch (InvalidFileTypeException | AikenSyntaxException e) {
+			throw e;
+			
+		} catch (IOException e) {
+			throw e;
+			
+		}
 		HashMap<Question, ArrayList<Option>> questionsMap = (HashMap<Question, ArrayList<Option>>) aikenParser.getQuestionsMap();
 		
 		for(Question q : questionsMap.keySet()){

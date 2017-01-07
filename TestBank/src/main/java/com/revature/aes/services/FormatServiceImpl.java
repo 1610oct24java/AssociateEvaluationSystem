@@ -24,6 +24,7 @@ import com.revature.aes.daos.FormatDAO;
 @Service("FormatService")
 @Transactional
 public class FormatServiceImpl implements FormatService {
+	
 	@Autowired
 	private FormatDAO fdao;
 
@@ -33,8 +34,7 @@ public class FormatServiceImpl implements FormatService {
 	 * @return The format object to be returned or null if no object found;
 	 */
 	@Override
-	public Format findFormatById(Integer id)
-	{
+	public Format findFormatById(Integer id) {
 		return fdao.findOne(id);
 	}
 
@@ -43,16 +43,13 @@ public class FormatServiceImpl implements FormatService {
 	 * @return The List of Format Objects
 	 */
 	@Override
-	public List<Format> findAllFormats()
-	{
+	public List<Format> findAllFormats() {
 		return fdao.findAll();
 	}
 
 	@Override
 	public Format getFormatByName(String name) {
-		System.out.println(name);
-		Format format = fdao.getByFormatName(name);
-		System.out.println(format);
+		
 		return fdao.getByFormatName(name);
 	}
 

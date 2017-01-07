@@ -35,7 +35,6 @@ public class Logging
 		MethodSignature signature = (MethodSignature) pjp.getSignature();
 		String methodClass = signature.getDeclaringTypeName().toString();
 		String method = signature.getName().toString();
-		Object result = null;
 		
 		log.trace(methodClass + " ==> " + method);
 		Object[] args = pjp.getArgs();
@@ -45,8 +44,7 @@ public class Logging
 		
 		log.trace("Executing...");
 	
-			result = pjp.proceed();
-		return result;
+		return pjp.proceed();
 	}
 	
 	@AfterThrowing(pointcut="anyMethod()", throwing="e")

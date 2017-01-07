@@ -1,4 +1,31 @@
-var app = angular.module("AESapp", []);
+var app = angular.module("AESapp", [ 'ui.router', 'ngFileUpload','ngProgress']);
+
+app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+    //$urlRouterProvider.otherwise('resources/pages/trainerHome.html#/');
+ 
+    $stateProvider
+        .state('category', {
+            url:'/category',
+            templateUrl: 'categoryTemplate.html',
+            controller: 'MasterCtrl as ctrl'
+        })
+        .state('tag', {
+            url:'/',
+            templateUrl: 'about.html',
+            controller: 'MasterCtrl'
+        })
+        .state('question', {
+            url:'/',
+            templateUrl: 'about.html',
+            controller: 'MasterCtrl'
+        })
+        .state('upload', {
+            url:'/upload',
+            templateUrl: 'uploadTemplate.html',
+            controller: 'MasterCtrl'
+        })
+ 
+}]);
 
 app.directive('fileModel', ['$parse', function ($parse) {
     return {
@@ -20,15 +47,9 @@ app.service('fileUpload', ['$http', function ($http) {
     this.uploadFileToUrl = function(file, uploadUrl){
         var fd = new FormData();
         fd.append('file', file);
-        $http.post(uploadUrl, fd, {
+        return $http.post(uploadUrl, fd, {
             transformRequest: angular.identity,
             headers: {'Content-Type': undefined}
         })
-        .success(function(){
-        	console.log("Successfully uploaded a file!")
-        })
-        .error(function(){
-        	console.log("Something went wrong in FileUpload Service");
-        });
     }
 }]);

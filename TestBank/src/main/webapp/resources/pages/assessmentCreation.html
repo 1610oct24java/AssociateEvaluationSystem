@@ -7,6 +7,7 @@
 	<!-- Angular -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-route.js"></script>
+	<script src="../js/lib/ng-file-upload.js"></script>
 	<!-- Custom Angular -->
 	<script type="text/javascript" src="../js/app.js"></script>
 	<script type="text/javascript" src="../js/controllers/quizCreationCtrl.js"></script>
@@ -15,7 +16,9 @@
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" rel="stylesheet" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 	<!-- Custom CSS -->
 	<link href="../stylesheets/trainer.css" rel="stylesheet">
-	
+	<!-- ngProgress -->
+	<script src="../js/lib/ngprogress.js"></script>
+	<link rel="stylesheet" href="../stylesheets/ngProgress.css">
 </head>
 
 <body>
@@ -33,21 +36,18 @@
               <div class="form-group">
                 <input type="file" file-model="myFile" name="file" id="js-upload-files">
               </div>
-              <button ng-click="uploadFile()" class="btn btn-sm btn-primary" id="js-upload-submit">Upload file</button>
+              <button ng-click="uploadFile()" class="btn btn-sm btn-primary" id="js-upload-submit">Upload File</button>
             </div>
-
-          <!-- Drop Zone -->
-          <h4>Or drag and drop files below</h4>
-          <div class="upload-drop-zone" id="drop-zone">
-            Just drag and drop files here
-          </div>
-
-          <!-- Progress Bar -->
-          <div class="progress">
-            <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 20%;">
-              <span class="sr-only">20% Complete</span>
-            </div>
-          </div>
+            
+         <!-- Drop Zone -->  
+        <h4>Or drag and drop files below:</h4>
+     	<div ngf-select="" 
+        ngf-drop="" 
+        ng-model="files" 
+        class="drop-box" 
+        ngf-drag-over-class="{ accept:'dragover', reject:'dragover-err', delay:100}" 
+		ngf-multiple="true" ngf-allow-dir="false"
+      	>Drag and drop files here or click to upload!</div>
 
           <!-- Upload Finished -->
           <div class="js-upload-finished">
