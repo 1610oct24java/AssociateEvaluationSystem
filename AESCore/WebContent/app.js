@@ -3,7 +3,7 @@ var app = angular.module('AESCoreApp',[]);
 app.constant("SITE_URL", {
 	"HTTP" : "http://",
 	"HTTPS": "https://",
-	"BASE" : "http://localhost:8080",
+	"BASE" : "",
 	"PORT" : ":8080",
 	
 	"LOGIN": "index.html",

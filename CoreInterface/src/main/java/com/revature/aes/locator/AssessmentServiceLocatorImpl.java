@@ -40,8 +40,7 @@ public class AssessmentServiceLocatorImpl implements AssessmentServiceLocator {
 		log.debug(request);
 		log.debug(lines);
 		
-		ResponseEntity<AssessmentRequest> responseEntity = restTemplate.postForEntity(URL + "/user/RandomAssessment", request, AssessmentRequest.class);
-		
+		ResponseEntity<AssessmentRequest> responseEntity = restTemplate.postForEntity(URL + "/user/RandomAssessment", request, AssessmentRequest.class);	
 		AssessmentRequest response = responseEntity.getBody();
 		log.debug(lines);
 		log.debug(response);
