@@ -6,16 +6,15 @@
 	<groupId>com.revature.aes</groupId>
 	<artifactId>Assessment</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<name>asmt</name>
 
 	<properties>
-		<start-class>asmt.Application</start-class>
-
+		<start-class>com.revature.aes.Application</start-class>
+		<tomcat.version>7.0.72</tomcat.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-
 	</properties>
 
 	<parent>
