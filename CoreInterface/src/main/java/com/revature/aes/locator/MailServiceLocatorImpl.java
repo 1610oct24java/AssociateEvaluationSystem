@@ -21,7 +21,7 @@ import org.springframework.web.client.RestTemplate;
 public class MailServiceLocatorImpl implements MailServiceLocator {
 	Logger log = Logger.getRootLogger();
 	RestTemplate restTemplate = new RestTemplate();
-	private static final String URL = "/core";
+	private static final String URL = "http://localhost:8080/core";
 
 	@Override
 	/**
