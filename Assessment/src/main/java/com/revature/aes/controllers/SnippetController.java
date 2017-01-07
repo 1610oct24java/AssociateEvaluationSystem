@@ -20,11 +20,11 @@ public class SnippetController {
 		File file;
 		try {
 			file = File.createTempFile("snippet", ".tmp");
-			file.deleteOnExit();
 			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
 			writer.write(snippetContents);
 			new SnippetIO().upload(file, key);
 			writer.close();
+			file.delete();
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
