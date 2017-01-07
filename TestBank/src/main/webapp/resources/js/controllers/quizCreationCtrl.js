@@ -1,10 +1,30 @@
-app.controller('CreationCtrl', ['$scope', 'fileUpload', 'ngProgressFactory','$log','Upload', function($scope, fileUpload, ngProgressFactory, $log, Upload){
+app.controller('MasterCtrl', ['$scope', '$rootScope', 'fileUpload', 'ngProgressFactory','$log','Upload', '$state', function($scope, $rootScope, fileUpload, ngProgressFactory, $log, Upload, $state){
+	$rootScope.templateName = "";
+	
+	$scope.addCategories = function(){
+		$state.go("category")
+		$rootScope.templateName = "Add Categories";
+	};
+	
+	$scope.addTags = function(){
+		$rootScope.templateName = "Add Tags";
+	};
+	
+	$scope.modifyQuestions = function(){
+		$scope.templateName = "Modify Questions";
+	};
+	
+	$scope.uploadAssessment = function(){
+		$state.go("upload");
+		$scope.templateName = "Upload Assessment";
+	};
+	
 	// ngProgress bar initialization
-	$scope.progressbar = ngProgressFactory.createInstance();
+	$scope.progressbar = ngProgressFactory.createInstance;
 	
     $scope.uploadFile = function(){
     	// Start the progressbar
-    	$scope.progressbar.start();
+    	$scope.progressbar.start;
         // File uploaded by the user
     	var file = $scope.myFile;
         // URL to Spring Controller
@@ -19,7 +39,6 @@ app.controller('CreationCtrl', ['$scope', 'fileUpload', 'ngProgressFactory','$lo
         $scope.progressbar.complete();
     }
     
-    var self = this;
     $scope.busy = true;
     $scope.ready = false;
 
@@ -30,7 +49,6 @@ app.controller('CreationCtrl', ['$scope', 'fileUpload', 'ngProgressFactory','$lo
     });
 
     $scope.upload = function (files) {
-      $log.debug("upload... ", files);
 
           if (files && files.length) {
               for (var i = 0; i < files.length; i++) {

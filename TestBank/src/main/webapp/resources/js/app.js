@@ -1,4 +1,31 @@
-var app = angular.module("AESapp", ['ngProgress','ngFileUpload']);
+var app = angular.module("AESapp", [ 'ui.router', 'ngFileUpload','ngProgress']);
+
+app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+    //$urlRouterProvider.otherwise('resources/pages/trainerHome.html#/');
+ 
+    $stateProvider
+        .state('category', {
+            url:'/category',
+            templateUrl: 'categoryTemplate.html',
+            controller: 'MasterCtrl as ctrl'
+        })
+        .state('tag', {
+            url:'/',
+            templateUrl: 'about.html',
+            controller: 'MasterCtrl'
+        })
+        .state('question', {
+            url:'/',
+            templateUrl: 'about.html',
+            controller: 'MasterCtrl'
+        })
+        .state('upload', {
+            url:'/upload',
+            templateUrl: 'uploadTemplate.html',
+            controller: 'MasterCtrl'
+        })
+ 
+}]);
 
 app.directive('fileModel', ['$parse', function ($parse) {
     return {
