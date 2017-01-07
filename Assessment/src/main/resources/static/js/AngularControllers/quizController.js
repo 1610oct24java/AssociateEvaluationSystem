@@ -46,9 +46,34 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 		console.log("Entered collapse: glyph id=" + index);
 		$scope.states[index].open = !$scope.states[index].open;
 	};
+	
+	$scope.handleSaveClick = function(index) {
+		//If question is not already saved, save it
+		if (!$scope.states[index].saved) {
+			saveQuestion(index);
+		}
+	}
 
-	$scope.saveQuestion = function(index) {
-		console.log("Entered save: glyph id=" + index);
+	var saveQuestion = function(index) {
+		var q = $scope.questions[index];
+		console.log("Saving question " + q.templateQuestionId + ": " + q.templateQuestion.questionText);
+		
+		if(q.templateQuestion.format.formatId === 2) {
+			console.log("Drag and drop");
+			for (var i = 0; i < q.templateQuestion.dragDrops.length; i++) {
+				var assessmentDragDrop = {
+						assessmentDragDropId : ((q.templateQuestionId) * 100 + i),
+						userOrder : i+1,
+						assessmentId : $scope.protoTest.assessmentId,
+						dragDrop : q.templateQuestion.dragDrops[i]
+				};
+				$rootScope.protoTest.assessmentDragDrop.push(assessmentDragDrop);
+			};
+		} else if (q.templateQuestion.format.formatId === 3) {
+			console.log("Code snippets");
+			
+		}
+		
 		$scope.states[index].saved = !$scope.states[index].saved;
 	};
 
@@ -106,8 +131,22 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 		};
 		return output;
 	}
-
+	
+	$scope.$watch('questions', function() {
+		console.log("Test watcher");
+	});
+	
 	// EDITORS	
+	$scope.aceLoaded = function(_editor) {
+	    console.log("Loaded: ");
+	    _editor.question = 
+	    console.log(_editor);
+	};
+	
+	$scope.aceLoaded2 = function(num) {
+		console.log("Loaded2: " + num);
+	}
+	
 	$scope.checkNeedEditor = function(questionIndex) {
 		var currQ = $scope.questions[questionIndex];
 		if(currQ.templateQuestion.format.formatId === 3) {
@@ -128,7 +167,7 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	// PAGINATION
  	$scope.filteredQuestions = [];
 	$scope.currentPage = 1;
-	$scope.numPerPage = 1;
+	$scope.numPerPage = 3;
 	$scope.maxSize = 5;
 	
 	$scope.jumpPage = function (numPage) {
@@ -155,7 +194,7 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 		console.log("Tryna get dat Ass...essment");
 		$http({
 			method: 'GET',
-			url: 'rest/1',
+			url: QUIZ_REST_URL,
 			headers: {'Content-Type': 'application/json'}
 		})
 		.then(function(response) {
@@ -181,7 +220,7 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	function postAssessment(answerData){
 		$http({
 			method: 'POST',
-			url: 'rest/submitAssessment',
+			url: QUIZ_SUBMIT_REST_URL,
 			headers: {'Content-Type': 'application/json'},
 			data: answerData
 		})

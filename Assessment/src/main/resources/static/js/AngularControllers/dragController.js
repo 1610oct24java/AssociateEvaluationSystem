@@ -1,17 +1,13 @@
 app.controller("dragController", function($scope) {
 	// DRAG AND DROP
 	$scope.dragControlListeners = {
-		accept : function(sourceItemHandleScope, destSortableScope) {
-			return boolean
-		},
 		itemMoved : function(event) {
+			console.log("Item Moved!");
 		},
 		orderChanged : function(event) {
-			
+			console.log("Order Changed");
 		}
 	};
-
-	$scope.dragControlListeners1 = {};
 });
 
 app.controller('QuizNavController', function($scope, $rootScope) {

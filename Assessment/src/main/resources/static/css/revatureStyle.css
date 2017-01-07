@@ -10,8 +10,8 @@
 	cursor: pointer;
 }
 
-.editor {
-	height: 100px;
+.ace_editor {
+	height: 200px;
 	width: 100%
 }
 
@@ -170,6 +170,7 @@ body {
 	background: linear-gradient(to right, #474C55, #ffffff, #474C55);
 	/* Standard syntax */
 }
+
 
 /* BUTTON STYLING */
 .Orange-read-btn {
