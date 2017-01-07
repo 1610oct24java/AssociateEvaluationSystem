@@ -155,7 +155,7 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 		console.log("Tryna get dat Ass...essment");
 		$http({
 			method: 'GET',
-			url: 'http://localhost:1993/Assessment/rest/1',
+			url: 'rest/1',
 			headers: {'Content-Type': 'application/json'}
 		})
 		.then(function(response) {
@@ -181,7 +181,7 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	function postAssessment(answerData){
 		$http({
 			method: 'POST',
-			url: 'http://localhost:1993/Assessment/rest/submitAssessment',
+			url: 'rest/submitAssessment',
 			headers: {'Content-Type': 'application/json'},
 			data: answerData
 		})

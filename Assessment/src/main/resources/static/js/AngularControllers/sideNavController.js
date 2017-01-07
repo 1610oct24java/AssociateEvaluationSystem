@@ -11,7 +11,7 @@ app.controller('SideNavController', function($scope, $interval, $http) {
 	function postAssessment(answerData) {
 		$http({
 			method : 'POST',
-			url : '/Assessment/submitAssessment',
+			url : 'submitAssessment',
 			headers : {
 				'Content-Type' : 'application/json'
 			},

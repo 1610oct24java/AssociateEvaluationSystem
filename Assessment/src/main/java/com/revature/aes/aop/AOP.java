@@ -74,7 +74,7 @@ public class AOP {
 	/**
 	 * Pointcut for everything.
 	 */
-	@Pointcut("execution(* *.*(..))")
+	@Pointcut("execution(* *.grading.*(..))")
 	public void everything() {
 		
 	}
