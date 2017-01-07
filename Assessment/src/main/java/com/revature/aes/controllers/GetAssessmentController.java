@@ -17,17 +17,23 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.aes.beans.Assessment;
+import com.revature.aes.beans.User;
 import com.revature.aes.dao.AssessmentService;
+import com.revature.aes.dao.UsersDao;
+import com.revature.aes.grading.CoreEmailClient;
 
 @RestController
 @RequestMapping("/rest")
 public class GetAssessmentController {
+	
 	@Autowired
 	private AssessmentService service;
+	
+	@Autowired 
+	UsersDao UsersService;
 
-	// @Autowired
 	private HttpSession httpSession;
-
+	
 	@RequestMapping(value = "/link", method = RequestMethod.POST)
 	public String getAssessmentID(@RequestBody int assessmentId) {
 		httpSession.setAttribute("assessmentId", assessmentId);
@@ -47,6 +53,11 @@ public class GetAssessmentController {
 		System.out.println("Hopefully I saved the thing!");
 		
 		response.sendRedirect("/Assessment/goodbye");
+		
+		int recruiterId = assessment.getUser().getRecruiterId();
+		String recruiterEmail = UsersService.findOne(recruiterId).getEmail();
+		
+		new CoreEmailClient().sendEmailAfterGrading(recruiterEmail, assessment.getAssessmentId());
 		
 		return "Gucci?";
 	}
