@@ -139,13 +139,19 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	// EDITORS	
 	$scope.aceLoaded = function(_editor) {
 	    console.log("Loaded: ");
-	    _editor.question = 
 	    console.log(_editor);
+	    var id = 0 + _editor.container.id;
+	    console.log("Id2: " + id);
+	    console.log("Value: " + _editor.container.id);
 	};
 	
-	$scope.aceLoaded2 = function(num) {
-		console.log("Loaded2: " + num);
-	}
+	$scope.aceChanged = function(e) {
+		console.log("Edited!");
+		console.log(e);
+		console.log("Edit value: " + e[1].container.id);
+		var id2 = e[1].container.id;
+		console.log("Edit ID: " + id2);
+	};
 	
 	$scope.checkNeedEditor = function(questionIndex) {
 		var currQ = $scope.questions[questionIndex];
