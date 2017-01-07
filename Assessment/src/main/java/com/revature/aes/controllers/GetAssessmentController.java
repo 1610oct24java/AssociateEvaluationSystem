@@ -17,7 +17,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.aes.beans.Assessment;
-import com.revature.aes.beans.User;
 import com.revature.aes.dao.AssessmentService;
 import com.revature.aes.dao.UsersDao;
 import com.revature.aes.grading.CoreEmailClient;
@@ -33,6 +32,8 @@ public class GetAssessmentController {
 	UsersDao UsersService;
 
 	private HttpSession httpSession;
+
+	private String coreEmailClientEndpointAddress = "WE NEED THIS ADDY FROM CORE";
 	
 	@RequestMapping(value = "/link", method = RequestMethod.POST)
 	public String getAssessmentID(@RequestBody int assessmentId) {
@@ -57,7 +58,7 @@ public class GetAssessmentController {
 		int recruiterId = assessment.getUser().getRecruiterId();
 		String recruiterEmail = UsersService.findOne(recruiterId).getEmail();
 		
-		new CoreEmailClient().sendEmailAfterGrading(recruiterEmail, assessment.getAssessmentId());
+		new CoreEmailClient(coreEmailClientEndpointAddress ).sendEmailAfterGrading(recruiterEmail, assessment.getAssessmentId());
 		
 		return "Gucci?";
 	}

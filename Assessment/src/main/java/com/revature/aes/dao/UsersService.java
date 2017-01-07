@@ -1,7 +1,5 @@
 package com.revature.aes.dao;
 
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.revature.aes.beans.User;
@@ -16,9 +14,4 @@ public class UsersService implements IUsersService{
 		
 		return usersDao.findOne(id);
 	}
-	
-	
-	
-	
-
 }
