@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,7 +25,8 @@ import com.revature.aes.dao.AssessmentService;
 import com.revature.aes.dao.UsersDao;
 import com.revature.aes.grading.CoreEmailClient;
 import com.revature.aes.service.S3Service;
-
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 @RestController
 @RequestMapping("/rest")
@@ -33,20 +35,38 @@ public class GetAssessmentController {
 	@Autowired
 	private AssessmentService service;
 	
-	@Autowired 
+	@Autowired
 	UsersDao UsersService;
 	
 	@Autowired
 	S3Service s3;
-
-	private HttpSession httpSession;
-
-	private String coreEmailClientEndpointAddress = "http://54.201.37.54:8080/core/";
 	
-	@RequestMapping(value = "/link", method = RequestMethod.POST)
-	public String getAssessmentID(@RequestBody int assessmentId) {
+	private HttpSession httpSession;
+	
+	private String coreEmailClientEndpointAddress =
+			"http://54.201.37.54:8080/core/";
+	
+	@RequestMapping(value = "/link", method = RequestMethod.POST, consumes = {
+			MediaType.APPLICATION_JSON })
+	public String getAssessmentID(@RequestBody String JSONData,
+			HttpSession event) {
+		int assessmentId;
+		
+		System.out.println("Link called " + JSONData);
+		
+		JsonParser parser = new JsonParser();
+		JsonObject obj = parser.parse(JSONData).getAsJsonObject();
+		
+		assessmentId = Integer.parseInt(obj.get("assessmentId").getAsString());
+		
+		httpSession = event;
+		
 		httpSession.setAttribute("assessmentId", assessmentId);
-		return "thisIsALink";
+		System.out.println("Attrtibute set");
+		
+		System.out.println(httpSession.getAttribute("assessmentId"));
+		
+		return "http://localhost:8090/asmt/quiz";
 	}
 	
 	@RequestMapping(value = "/submitAssessment", method = RequestMethod.POST)
@@ -56,7 +76,7 @@ public class GetAssessmentController {
 		System.out.println("I'm gonna save the thing!");
 		ObjectMapper om = new ObjectMapper();
 		
-		//Separate the incoming data
+		// Separate the incoming data
 		Packet incoming = om.readValue(JsonUserAnswers, Packet.class);
 		Assessment assessment = incoming.getAssessment();
 		List<SnippetUpload> lstSnippetUploads = incoming.getSnippetUpload();
@@ -67,14 +87,14 @@ public class GetAssessmentController {
 			key += "Take1_userAnswer_";
 			key += assessment.getAssessmentId() + "_";
 			key += su.getQuestionId();
-			key += ".java";		//TODO Not hardcode this?
+			key += ".java"; // TODO Not hardcode this?
 			System.out.println(su);
 			System.out.println("Key: " + key);
 			System.out.println(su.getCode());
 			s3.uploadToS3(su.getCode(), key);
 		}
 		
-		//SAVE the answers into the database
+		// SAVE the answers into the database
 		service.gradeAssessment(assessment);
 		service.updateAssessment(assessment);
 		System.out.println("Hopefully I saved the thing!");
@@ -82,7 +102,9 @@ public class GetAssessmentController {
 		int recruiterId = assessment.getUser().getRecruiterId();
 		String recruiterEmail = UsersService.findOne(recruiterId).getEmail();
 		
-		new CoreEmailClient(coreEmailClientEndpointAddress ).sendEmailAfterGrading(recruiterEmail, assessment.getAssessmentId());
+		new CoreEmailClient(coreEmailClientEndpointAddress)
+				.sendEmailAfterGrading(recruiterEmail,
+						assessment.getAssessmentId());
 		
 		return "Gucci?";
 	}
