@@ -75,7 +75,7 @@ app.controller('LoginCtrl', function($scope, $http, SITE_URL, API_URL, ROLE) {
 					console.log('!!! INVALID LOGIN');
 					$scope.username = '';
 					$scope.password = '';
-					$scope.bunkCreds = false;
+					$scope.bunkCreds = true;
 				}
 		})
 	})
@@ -141,13 +141,13 @@ app.controller('RegisterCanidateCtrl', function($scope,$location,$http,SITE_URL,
 
 	$scope.options = [{
 		name: 'Java',
-		value: 'java'
+		value: 'Java'
 	}, {
 		name: 'SDET',
-		value: 'sdet'
+		value: 'Sdet'
 	}, {
 		name: '.NET',
-		value: 'dotnet'
+		value: '.net'
 	}];
 	
 	$scope.logout = function() {

@@ -16,25 +16,23 @@
 <body ng-app="AESCoreApp" ng-controller="RegisterCanidateCtrl">
 
 
-<div id="navbar" class="navbar-collapse rev-menu collapse" aria-expanded="false" style="height: 1px;">
-	<div class="menu-header-menu-container">
-		<ul id="menu-header-menu" class="nav navbar-nav">
-			<li>
-				<a href="viewCandidates.html">CANIDATES</a>
-			</li>
-			<li>
-				<a href="recruitCandidate.html">REGISTER CANIDATE</a>
-			</li>
-			<li>
-				<button class="btn btn-primary btn-revature" ng-click="logout()">LOGOUT</button>
-			</li>
-		</ul>
-	</div>
-</div>
-<br><br><br><br><br><br><br>
 <div class="container">
 
-    <!-- TODO safari does not support required field -->
+	<div class="container logo">
+		<a href="index.html">
+			<img src="site-images/Revature-Logo.png" alt="Revature" height="75px">
+		</a>
+	</div>
+
+	<div class="row stylePro">
+		<span class="col-xs-6 col-md-6">
+			<a href="viewCandidates.html">view candidates</a>
+		</span>
+		<span class="col-xs-6 col-md-6">
+			<button class="btn-revature" ng-click="logout()">logout</button>
+		</span>
+	</div>
+
     <form class="form-revature" ng-submit="register()">
         <h2 class="row">register candidate</h2>
         <div class="row input-field">
@@ -60,9 +58,10 @@
             </select>
         </div>
         <div class="row">
-            <input id="btn-register-recruit" class="btn btn-primary btn-revature" type="submit" value="register">
+            <input id="btn-register-recruit" class="btn-revature" type="submit" value="register">
         </div>
     </form>
+    
 </div>
 
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.9/angular.js"></script>
