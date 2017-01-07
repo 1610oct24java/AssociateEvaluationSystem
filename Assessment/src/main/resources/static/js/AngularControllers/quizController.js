@@ -146,11 +146,16 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	};
 	
 	$scope.aceChanged = function(e) {
-		console.log("Edited!");
-		console.log(e);
-		console.log("Edit value: " + e[1].container.id);
 		var id2 = e[1].container.id;
 		console.log("Edit ID: " + id2);
+		var editor = e[1];
+		var SnippetUpload = function(_code, _questionId){
+			this.code = _code;
+			this.questionId = _questionId;
+		};
+		
+		newSnippet = new SnippetUpload(editor.getValue(), id2.substr(5,id.length));
+		console.log(newSnippet);
 	};
 	
 	$scope.checkNeedEditor = function(questionIndex) {
