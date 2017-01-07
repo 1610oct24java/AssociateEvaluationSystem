@@ -60,7 +60,7 @@
 										title="Collapsed"> </i> <i
 										class="pull-right glyphicon glyphicon-floppy-disk"
 										ng-class="{'glyph-blue': states[$index+numPerPage*(currentPage-1)].saved, 'glyph-silver': !states[$index+numPerPage*(currentPage-1)].saved}"
-										ng-click="saveQuestion($index+numPerPage*(currentPage-1))"
+										ng-click="handleSaveClick($index+numPerPage*(currentPage-1))"
 										title="Saved"> </i> <i
 										class="pull-right glyphicon glyphicon-flag"
 										ng-class="{'glyph-red': states[$index+numPerPage*(currentPage-1)].flagged, 'glyph-silver': !states[$index+numPerPage*(currentPage-1)].flagged}"
@@ -118,11 +118,11 @@
 											</ul>
 										</div>
 										<!-- CODE SNIPPET -->
-										{{checkNeedEditor($index+numPerPage*(currentPage-1))}}
+										
 										<div ng-show="q.templateQuestion.format.formatId === 3">
-											<div id="editor{{$index+numPerPage*(currentPage-1)}}"
-												class="editor">public static void main(Strings[]
-												pirateNoises){}</div>
+											<!-- <div id="editor{{$index+numPerPage*(currentPage-1)}}"
+												class="editor">public static void main(Strings[] pirateNoises){}</div> -->
+											<div id="editor{{q.templateQuestion.questionId}}" ui-ace = "{theme: 'monokai', mode: 'java', onLoad: aceLoaded, onChange:aceChanged}">{{q.templateQuestion.questionId}}</div>
 										</div>
 										<div></div>
 									</div>
@@ -179,13 +179,13 @@
 			<div class="progress text-center" ng-controller="CountdownController">
 				<div class="progress-bar progress-bar-info" role="progressbar"
 					aria-valuenow="barUpdate" aria-valuemin="0" aria-valuemax="100"
-					ng-style="barUpdate">{{minutes}}m {{seconds}}s</div>
+					ng-style="barUpdate">{{timeLeft}}</div>
 			</div>
 			<br>
 			<hr>
 			<br>
 			<div class="text-center">
-				<a href="goodbye"><button type="button" id="submitBtn"
+				<a href="#"><button type="button" id="submitBtn"
 						ng-click="submitAssessment()">Submit Assessment</button></a>
 			</div>
 
@@ -221,6 +221,8 @@
 		src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-animate.js"></script>
 	<script th:src="@{/js/lib/ui-bootstrap-tpls-2.3.1.js}"
 		src="../static/js/lib/ui-bootstrap-tpls-2.3.1.js"></script>
+	<script th:src="@{/js/lib/ui-ace.min.js}"
+		src="../static/js/lib/ui-ace.min.js"></script>
 	<script th:src="@{/js/lib/ng-sortable.js}"
 		src="../static/js/lib/ng-sortable.js"></script>
 	<!-- 	CUSTOM -->
