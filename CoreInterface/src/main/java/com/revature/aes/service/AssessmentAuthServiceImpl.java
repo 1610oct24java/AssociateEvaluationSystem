@@ -21,8 +21,14 @@ public class AssessmentAuthServiceImpl implements AssessmentAuthService {
 	@Override
 	@Transactional(propagation=Propagation.MANDATORY)
 	public AssessmentAuth save(AssessmentAuth link) {
-		// 
-		return dao.save(link);
+		AssessmentAuth assessmentAuth = dao.findByUserId(link.getUserId());
+		
+		if(assessmentAuth != null) {
+			assessmentAuth.setUrlAssessment(link.getUrlAssessment());
+			return dao.save(assessmentAuth);
+		} else {
+			return dao.save(link);
+		}
 	}
 
 	@Override

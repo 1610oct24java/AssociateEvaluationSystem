@@ -7,6 +7,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.revature.aes.service.UserService;
 
+/**
+ * Controler for redirecting users to the login page
+ * 
+ * @author Willy Jensen
+ *
+ */
 @Controller
 public class LoginController {
 

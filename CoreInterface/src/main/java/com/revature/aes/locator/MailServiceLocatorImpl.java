@@ -7,13 +7,28 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+/**
+ * 
+ * This is a Service Locator meant to send an email through a rest
+ * call. 
+ * 
+ * @author Michelle Slay
+ * 
+ * 
+ *
+ */
 @Service
 public class MailServiceLocatorImpl implements MailServiceLocator {
 	Logger log = Logger.getRootLogger();
 	RestTemplate restTemplate = new RestTemplate();
-	String url = "http://localhost:8080/core";
+	private static final String URL = "/core";
 
 	@Override
+	/**
+	 * 
+	 * 
+	 * 
+	 */
 	public boolean sendPassword(String email, String... contents) {
 		// 
 		MailerEntity requestEntity = new MailerEntity();
@@ -21,7 +36,6 @@ public class MailServiceLocatorImpl implements MailServiceLocator {
 		requestEntity.setLink(contents[0]);
 		requestEntity.setTempPass(contents[1]);
 		requestEntity.setType("candidateNeedsQuiz");
-		log.info("\nEmail: "+ email+"\nLink: "+ contents[0]+ "\nPassword: "+contents[1]+"\n");
 		
 		return send(requestEntity, email);
 	}
@@ -38,7 +52,7 @@ public class MailServiceLocatorImpl implements MailServiceLocator {
 	}
 	
 	private boolean send(MailerEntity requestEntity, String email){
-		ResponseEntity<MailerEntity> responseEntity = restTemplate.postForEntity(url+"/user/"+ email +"/mail", requestEntity, MailerEntity.class);
+		ResponseEntity<MailerEntity> responseEntity = restTemplate.postForEntity(URL+"/user/"+ email +"/mail", requestEntity, MailerEntity.class);
 		log.debug("url: " + responseEntity.getHeaders().getLocation() + " body: " + responseEntity.getBody()+": Status="+responseEntity.getStatusCode());
 		if(responseEntity.getStatusCode() == HttpStatus.OK)
 			return true;

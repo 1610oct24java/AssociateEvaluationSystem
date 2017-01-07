@@ -8,7 +8,7 @@ public class FAKEAssesmentServiceLocator implements AssessmentServiceLocator {
 	Logger log = Logger.getRootLogger();
 	
 	public AssessmentRequest getLink(AssessmentRequest assessment) {
-		//
+		
 		assessment.setLink("www.google.com");
 		log.debug(assessment.getUserEmail());
 		return assessment;
