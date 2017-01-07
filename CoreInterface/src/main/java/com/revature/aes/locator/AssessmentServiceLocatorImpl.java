@@ -17,7 +17,7 @@ import com.revature.aes.beans.AssessmentRequest;
  *
  */
 
-@Service
+//@Service
 public class AssessmentServiceLocatorImpl implements AssessmentServiceLocator {
 	private static final String URL = "/bank";
 	private RestTemplate restTemplate = new RestTemplate();
