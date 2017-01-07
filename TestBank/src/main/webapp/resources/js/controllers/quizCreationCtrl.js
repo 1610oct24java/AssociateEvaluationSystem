@@ -48,6 +48,15 @@ app.controller('MasterCtrl', ['$scope', '$rootScope', 'fileUpload', 'ngProgressF
       $scope.upload($scope.files);
     });
 
+    
+	$scope.progressUpdater = function(evt){
+		var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+	};
+	
+	$scope.someFunction = function(data, status, headers, config){
+		
+	};
+	
     $scope.upload = function (files) {
 
           if (files && files.length) {
@@ -59,12 +68,8 @@ app.controller('MasterCtrl', ['$scope', '$rootScope', 'fileUpload', 'ngProgressF
                         'filecontext': 'product',
                       },
                       file: file
-                  }).progress(function (evt) {
-                      var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                      $log.debug('progress: ' + progressPercentage + '% ' + evt.config.file.name);
-                  }).success(function (data, status, headers, config) {
-                      $log.debug('file ' + config.file.name + 'uploaded. Response: ' + data);
-                  });
+                  }).progress(progressUpdater(evt))
+                  .success(someFunction(data, status, headers, config));
               }
           }
       };

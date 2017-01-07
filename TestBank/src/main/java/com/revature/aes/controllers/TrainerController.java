@@ -9,8 +9,7 @@ public class TrainerController{
 	
 	@RequestMapping(value="/", method=RequestMethod.GET)
 	public String getIndex(){
-		System.out.println("made it here:");
-;		return "forward:resources/pages/trainerHome.html";
+		return "forward:resources/pages/trainerHome.html";
 	}
 }
 
