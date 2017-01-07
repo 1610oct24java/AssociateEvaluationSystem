@@ -64,7 +64,7 @@ public class GetAssessmentController {
 		for (SnippetUpload su : lstSnippetUploads) {
 			// userAnswer_assID_qID
 			String key = "";
-			key += "userAnswer_";
+			key += "Take1_userAnswer_";
 			key += assessment.getAssessmentId() + "_";
 			key += su.getQuestionId();
 			key += ".java";		//TODO Not hardcode this?

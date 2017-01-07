@@ -15,6 +15,7 @@ public class S3Service {
 	public boolean uploadToS3(String snippetContents, String key){
 		File file;
 		try {
+			System.out.println("Upload contents: " + snippetContents);
 			file = File.createTempFile("snippet", ".tmp");
 			file.deleteOnExit();
 			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
