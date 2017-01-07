@@ -42,16 +42,14 @@ public class AssessmentGenService {
 		this.file = file;
 	}
 	
-	public void uploadAikenFile() throws InvalidFileTypeException, IOException{
+	public void uploadAikenFile(){
 		try {
 			aikenParser.parseFile(file);
 			// redundant exception invalid file type 
 		} catch (InvalidFileTypeException | AikenSyntaxException e) {
-			throw new InvalidFileTypeException("");
-			
+			e.printStackTrace();
 		} catch (IOException e) {
-			throw new IOException();
-			
+			e.printStackTrace();
 		}
 		HashMap<Question, ArrayList<Option>> questionsMap = (HashMap<Question, ArrayList<Option>>) aikenParser.getQuestionsMap();
 		
