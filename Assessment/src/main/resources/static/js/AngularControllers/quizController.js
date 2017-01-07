@@ -11,11 +11,6 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	$scope.protoTest2 = {};
 	getQuizQuestions();
 
-	var incrementEditorIfNeeded = function(i) {
-		if ($scope.questions[i].templateQuestion.format.formatId === 3) {
-			$scope.numEditors++;
-		};
-	};
 	var makeState = function(input) {
 		var temp = {
 			id: input,
@@ -36,7 +31,6 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	}
 	var initSetup = function() {
 		for (var i = 0; i < $scope.questions.length; i++) {
-			incrementEditorIfNeeded(i);
 			makeState(i);
 			makeAnswers(i);
 		};
@@ -165,23 +159,6 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 		}
 		$scope.snippetSubmissions.push(newSnippet);
 	};
-	
-	$scope.checkNeedEditor = function(questionIndex) {
-		var currQ = $scope.questions[questionIndex];
-		if(currQ.templateQuestion.format.formatId === 3) {
-			// If this question is a coding question
-			var temp = ace.edit("editor" + questionIndex);
-			temp.setTheme("ace/theme/monokai");
-			temp.getSession().setMode("ace/mode/" + "java");
-			
-			var foundAt = $scope.editors.indexOf(temp);
-			if (foundAt != -1) {
-				$scope.editors[foundAt] = temp;
-			} else {
-				$scope.editors.push(temp);
-			}
-		}
-	}
 
 	// PAGINATION
  	$scope.filteredQuestions = [];

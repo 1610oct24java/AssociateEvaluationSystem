@@ -231,11 +231,13 @@ body {
 }
 
 .glyph-red {
-	color: #986161;
+	/* color: #986161; */
+	color: #9d2323;
 }
 
 .glyph-blue {
-	color: #63698f;
+	/* color: #63698f; */
+	color: #4b57a3;
 }
 
 .glyph-dark-grey {
@@ -327,7 +329,7 @@ i {
 }
 
 .shoppingBadge-flagged{
-	background-color: #986161;	
+	background-color: #9d2323;	
 }
 
 /* QUIZ NAVIGATION STYLING */
