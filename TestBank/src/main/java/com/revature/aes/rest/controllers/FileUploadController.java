@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.revature.aes.exception.AikenSyntaxException;
-import com.revature.aes.exception.InvalidFileTypeException;
+
 import com.revature.aes.services.AssessmentGenService;
 
 @RestController
@@ -20,7 +20,7 @@ public class FileUploadController {
 	private AssessmentGenService assGenService;
 	
 	@RequestMapping(value="/parseAiken", method=RequestMethod.POST)
-	public void parseAikenFile(@RequestParam("file") MultipartFile file) throws IOException, InvalidFileTypeException, AikenSyntaxException{
+	public void parseAikenFile(@RequestParam("file") MultipartFile file) throws IOException, AikenSyntaxException{
 		assGenService.setFile(file);
 		String fileName = file.getOriginalFilename().toLowerCase();
 		
