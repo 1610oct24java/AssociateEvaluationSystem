@@ -4,6 +4,12 @@ import java.util.Objects;
 
 import org.springframework.stereotype.Component;
 
+/** The object that Core team is sending that contains the amount of questions, category, and user info
+ * 		that is needed to create an assessment.
+ * 
+ * @author Matthew
+ *
+ */
 @Component
 public class AssessmentRequest {
     private String category;

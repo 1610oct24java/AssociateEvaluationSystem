@@ -75,7 +75,7 @@ public class SystemTemplate {
 											// to get an index for random
 											// question
 
-			for (int i = 0; i <= multiChoice; i++) {
+			for (int i = 0; i <= multiSelect; i++) {
 				int num = rando.nextInt(size);
 				assessList.add(formatList.remove(num));
 				size--;
@@ -94,7 +94,7 @@ public class SystemTemplate {
 											// to get an index for random
 											// question
 
-			for (int i = 0; i <= multiChoice; i++) {
+			for (int i = 0; i <= dragDrop; i++) {
 				int num = rando.nextInt(size);
 				assessList.add(formatList.remove(num));
 				size--;
@@ -113,7 +113,7 @@ public class SystemTemplate {
 											// to get an index for random
 											// question
 
-			for (int i = 0; i <= multiChoice; i++) {
+			for (int i = 0; i <= codeSnip; i++) {
 				int num = rando.nextInt(size);
 				assessList.add(formatList.remove(num));
 				size--;
