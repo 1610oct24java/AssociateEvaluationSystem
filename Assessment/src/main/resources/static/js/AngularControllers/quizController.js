@@ -5,7 +5,8 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	$scope.oneAtATime = false;
 	$scope.editors = new Array();
 	$rootScope.protoTest;
-	$scope.questions;
+	$scope.questions = [];
+	$scope.snippetSubmissions = [];
 	// $scope.questions = $scope.protoTest.template.templateQuestion;
 	$scope.protoTest2 = {};
 	getQuizQuestions();
@@ -154,8 +155,15 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 			this.questionId = _questionId;
 		};
 		
-		newSnippet = new SnippetUpload(editor.getValue(), id2.substr(5,id.length));
+		newSnippet = new SnippetUpload(editor.getValue(), id2.substr(6, id2.length));
 		console.log(newSnippet);
+		
+		for (var i = 0; i < $scope.snippetSubmissions.length; i++){
+			if ($scope.snippetSubmissions[i].questionId = newSnippet.questionId){
+				$scope.snippetSubmissions.splice(i, 1);
+			}
+		}
+		$scope.snippetSubmissions.push(newSnippet);
 	};
 	
 	$scope.checkNeedEditor = function(questionIndex) {
@@ -223,8 +231,12 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	};
 	
 	$scope.submitAssessment = function(){
-		answerData = $rootScope.protoTest;
-		
+		answerData = {
+				assessment : $rootScope.protoTest,
+				snippetUpload : $scope.snippetSubmissions
+		};
+		//answerData = $rootScope.protoTest;
+		console.log(answerData);
 		postAssessment(answerData);
 	}
 	

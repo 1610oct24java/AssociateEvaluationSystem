@@ -1,8 +1,8 @@
 var app = angular.module("quizApp", [ 'ui.bootstrap', 'as.sortable',
 		'ngAnimate', 'ui.ace']);
 
-var QUIZ_REST_URL = "http://localhost:1993/Assessment/rest/1";
-var QUIZ_SUBMIT_REST_URL = "http://localhost:1993/Assessment/rest/submitAssessment";
+var QUIZ_REST_URL = "http://localhost:8090/rest/1";
+var QUIZ_SUBMIT_REST_URL = "http://localhost:8090/rest/submitAssessment";
 
 /* Set the width of the side navigation to 250px and the right margin of the page content to 250px */
 function openSideNav() {
