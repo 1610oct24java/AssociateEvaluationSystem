@@ -1,9 +1,9 @@
 app.controller("quizController", function($scope, $rootScope, $http) {
-	$rootScope.states = {};
-	$scope.answers = {};
+	$rootScope.states = [];
+	$scope.answers = [];
 	$scope.numEditors = 0;
 	$scope.oneAtATime = false;
-	$scope.editors = {};
+	$scope.editors = [];
 	$rootScope.protoTest;
 	$scope.questions = [];
 	$scope.snippetSubmissions = [];
