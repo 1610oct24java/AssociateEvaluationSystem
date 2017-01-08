@@ -53,7 +53,7 @@ app.controller("quizController", function($scope, $rootScope, $http) {
 			}
 		}
 		
-		$scope.states[index].saved = !$scope.states[index].saved;
+		$scope.states[index].saved = true;
 	};
 
 	$scope.handleSaveClick = function(index) {
@@ -98,6 +98,7 @@ app.controller("quizController", function($scope, $rootScope, $http) {
 				$rootScope.protoTest.options.splice(foundAt, 1);
 			}
 		}
+		saveQuestion(ndxQuestion);
 	}
 	
 	$scope.checkChecked = function (ndxOption, ndxQuestion) {
@@ -169,6 +170,7 @@ app.controller("quizController", function($scope, $rootScope, $http) {
 			}
 		}
 		$scope.snippetSubmissions.push(newSnippet);
+		saveQuestion(id2.substr(6, id2.length));
 	};
 
 	// PAGINATION
