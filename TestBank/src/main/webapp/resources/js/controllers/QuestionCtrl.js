@@ -10,7 +10,7 @@ app.controller('QuestionCtrl', function($http, $scope) {
 		$http.get(url + "format")
 		.then(function(response) {
 			$scope.fList = response.data;
-			console.log($scope.fList);
+			
 		}); // $http end;
 	} // getFormatList() end
 	
@@ -75,8 +75,8 @@ app.controller('QuestionCtrl', function($http, $scope) {
 		if($scope.question.multiChoice == null){
 			$scope.question.multiChoice = [];
 		}// end if
-		if($scope.option.optionText == ''){
-		} else if($scope.option.correct == -1){
+		if($scope.option.optionText == '' || $scope.option.correct == -1){
+		} 
 		} else {
 			$scope.question.multiChoice.push($scope.option);
 			$scope.option = {
@@ -208,13 +208,13 @@ app.controller('QuestionCtrl', function($http, $scope) {
 	$scope.updateQuestion = function() {
 		$scope.question.question.format = $scope.format;
 		if ($scope.format.formatId === 0) {
-			alert("please choose a format type");
+			
 		} else {
 			$http.put(url + "question", $scope.question)
 				.success(function(response) {
 					$scope.question = response.data;
 					if ($scope.question == null) {
-						alert("Error Saving Question Please Try Again");
+						
 					} else {
 						$scope.getQuestionList();	
 						$scope.resetQuestion();

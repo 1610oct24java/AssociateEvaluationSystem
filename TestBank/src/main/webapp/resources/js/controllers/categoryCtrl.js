@@ -11,10 +11,10 @@ app.controller('CategoryCtrl', function($scope, $http){
 		var array = $http.get(url + "category").then(
 				function(response){
 					$scope.categories = response.data;
-					console.log($scope.categories);
+					
 				}); 
 		return array.$$state;
-	};
+	}
 	
 	$scope.saveCategory = function() {
 		if($scope.newCategory.name == ''){
@@ -59,5 +59,5 @@ app.controller('CategoryCtrl', function($scope, $http){
 	};
 	
 	$scope.categories =  getCategories();
-	console.log($scope.categories);
+	
 });
