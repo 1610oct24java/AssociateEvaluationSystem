@@ -29,6 +29,7 @@ import com.revature.aes.service.UserService;
 @RestController
 public class RecruiterController {
 	Logger log = Logger.getRootLogger();
+	private static boolean triggered = false;
 	
 	@Autowired
 	private UserService userService;
@@ -121,6 +122,9 @@ public class RecruiterController {
 	
 	@RequestMapping(value="init/{email}/",method = RequestMethod.POST)
 	public void initRecruiter(@PathVariable String email) {
-		userService.createRecruiter(email);
+		if(!triggered){
+			triggered = true;
+			userService.createRecruiter(email);
+		}
 	}
 }
