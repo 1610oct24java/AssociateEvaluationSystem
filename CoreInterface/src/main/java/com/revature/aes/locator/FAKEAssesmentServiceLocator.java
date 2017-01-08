@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.revature.aes.beans.AssessmentRequest;
 
-//@Service
+@Service
 public class FAKEAssesmentServiceLocator implements AssessmentServiceLocator {
 	Logger log = Logger.getRootLogger();
 	

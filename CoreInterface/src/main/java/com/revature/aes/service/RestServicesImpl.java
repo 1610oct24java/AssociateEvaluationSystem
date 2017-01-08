@@ -38,7 +38,7 @@ public class RestServicesImpl implements RestServices {
 		
 		AssessmentAuth auth = new AssessmentAuth();
 		auth.setUrlAssessment(link);
-		auth.setUrlAuth(loader.loadAddress());
+		auth.setUrlAuth(loader.loadAddress() + "/aes");
 		auth.setUserId(userId);
 		
 		authService.save(auth);
@@ -48,5 +48,4 @@ public class RestServicesImpl implements RestServices {
 		map.put("pass", pass);
 		return map;
 	}
-
 }

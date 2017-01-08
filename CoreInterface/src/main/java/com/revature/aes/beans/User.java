@@ -57,7 +57,7 @@ public class User implements Serializable{
 		super();
 	}
 	
-	public int getGrade() {
+	public Integer getGrade() {
 		return grade;
 	}
 
