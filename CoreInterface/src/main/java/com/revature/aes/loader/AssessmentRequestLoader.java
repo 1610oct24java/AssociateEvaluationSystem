@@ -2,8 +2,6 @@ package com.revature.aes.loader;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
@@ -37,8 +35,7 @@ public class AssessmentRequestLoader {
 		return ar;
 	}
 
-	public Map<String, String> loadAddresses(){
-		Map<String, String> ipProps = new HashMap<>();
+	public String loadAddress(){
 		Properties prop = new Properties();
 		
 		try(InputStream input = this.getClass().getClassLoader().getResourceAsStream("ipConfig.properties")){
@@ -49,11 +46,6 @@ public class AssessmentRequestLoader {
 			return null;
 		}
 		
-		ipProps.put("core", prop.getProperty("core"));
-		ipProps.put("asmt", prop.getProperty("asmt"));
-		ipProps.put("bank", prop.getProperty("bank"));
-		ipProps.put("aes",  prop.getProperty("aes"));
-		
-		return ipProps;
+		return prop.getProperty("home");
 	}
 }

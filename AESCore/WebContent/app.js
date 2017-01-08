@@ -58,7 +58,7 @@ app.controller('LoginCtrl', function($scope, $http, SITE_URL, API_URL, ROLE) {
 						$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.CANDIDATE + $scope.candidateEmail + API_URL.LINK)
 						.then(function(response) {
 							console.log(response.data);
-							window.location = SITE_URL.HTTPS + response.data.urlAssessment;
+							window.location = response.data.urlAssessment;
 							console.log('CHOOCKED');
 						})
 						break;
