@@ -11,15 +11,17 @@ public class SnippetUpload implements Serializable{
 	
 	private String code;
 	private int questionId;
+	private String fileType;
 	
 	public SnippetUpload() {
 		super();	
 	}
 
-	public SnippetUpload(String code, int questionId) {
+	public SnippetUpload(String code, int questionId, String fileType) {
 		super();
 		this.code = code;
 		this.questionId = questionId;
+		this.fileType = fileType;
 	}
 
 	public String getCode() {
@@ -38,9 +40,17 @@ public class SnippetUpload implements Serializable{
 		this.questionId = questionId;
 	}
 
+	public String getFileType() {
+		return fileType;
+	}
+
+	public void setFileType(String fileType) {
+		this.fileType = fileType;
+	}
+
 	@Override
 	public String toString() {
-		return "SnippetUpload [code=" + code + ", questionId=" + questionId + "]";
+		return "SnippetUpload [code=" + code + ", questionId=" + questionId + ", fileType=" + fileType + "]";
 	}
 
 	@Override
@@ -48,6 +58,7 @@ public class SnippetUpload implements Serializable{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((code == null) ? 0 : code.hashCode());
+		result = prime * result + ((fileType == null) ? 0 : fileType.hashCode());
 		result = prime * result + questionId;
 		return result;
 	}
@@ -65,6 +76,11 @@ public class SnippetUpload implements Serializable{
 			if (other.code != null)
 				return false;
 		} else if (!code.equals(other.code))
+			return false;
+		if (fileType == null) {
+			if (other.fileType != null)
+				return false;
+		} else if (!fileType.equals(other.fileType))
 			return false;
 		if (questionId != other.questionId)
 			return false;

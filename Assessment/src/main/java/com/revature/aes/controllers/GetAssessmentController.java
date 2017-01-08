@@ -89,7 +89,7 @@ public class GetAssessmentController {
 			key += "Take1_userAnswer_";
 			key += assessment.getAssessmentId() + "_";
 			key += su.getQuestionId();
-			key += ".java";
+			key += "." + su.getFileType();
 			log.info(su.toString());
 			log.info("Key: " + key);
 			log.info(su.getCode());

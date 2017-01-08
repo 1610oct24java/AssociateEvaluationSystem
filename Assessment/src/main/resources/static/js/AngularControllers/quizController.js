@@ -141,12 +141,21 @@ app.controller("quizController", function($scope, $rootScope, $http) {
 	$scope.aceChanged = function(e) {
 		var id2 = e[1].container.id;
 		var editor = e[1];
-		var SnippetUpload = function(_code, _questionId){
+		var SnippetUpload = function(_code, _questionId, _fileType){
 			this.code = _code;
 			this.questionId = _questionId;
+			this.fileType = _fileType;
 		};
 		
-		var newSnippet = new SnippetUpload(editor.getValue(), id2.substr(6, id2.length));
+		var q;
+		for (var i = 0; i < $scope.questions.length; i++ ) {
+			if ($scope.questions[i].templateQuestion.questionId == id2.substr(6, id2.length)){
+				q = $scope.questions[i];
+			}
+		}
+		
+		var incFileType = q.templateQuestion.snippetTemplate[0].fileType;
+		var newSnippet = new SnippetUpload(editor.getValue(), id2.substr(6, id2.length), incFileType);
 		
 		for (var i = 0; i < $scope.snippetSubmissions.length; i++){
 			if ($scope.snippetSubmissions[i].questionId = newSnippet.questionId){
