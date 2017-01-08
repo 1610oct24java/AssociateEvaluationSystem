@@ -76,7 +76,6 @@ app.controller("quizController", function($scope, $rootScope, $http) {
 			// Handles multiple choice questions
 			$scope.answers[ndxQuestion] = ndxOption;
 			var answer = $scope.questions[ndxQuestion].templateQuestion.multiChoice[ndxOption];
-			var question = $scope.questions[ndxQuestion].templateQuestion;
 			
 			for (var i = 0; i < $scope.protoTest.options.length; i++){
 				if ($rootScope.protoTest.options[i].question === answer.question){
@@ -88,8 +87,7 @@ app.controller("quizController", function($scope, $rootScope, $http) {
 			$rootScope.protoTest.options.push(answer);
 		} else if ($scope.questions[ndxQuestion].templateQuestion.format.formatId === 1 ) {
 			// Handles multiple select questions
-			var answer = $scope.questions[ndxQuestion].templateQuestion.multiChoice[ndxOption];
-			var question = $scope.questions[ndxQuestion].templateQuestion;
+			answer = $scope.questions[ndxQuestion].templateQuestion.multiChoice[ndxOption];
 			var foundAt = $rootScope.protoTest.options.indexOf(answer);
 			
 			if (foundAt === -1) {
