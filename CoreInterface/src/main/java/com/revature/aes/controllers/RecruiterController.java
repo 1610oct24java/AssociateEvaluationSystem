@@ -119,8 +119,13 @@ public class RecruiterController {
 	}
 
 	
-	@RequestMapping(value="init/{email}/generate",method = RequestMethod.POST)
+	@RequestMapping(value="recruiter/{email}/init",method = RequestMethod.POST)
 	public void initRecruiter(@PathVariable String email) {
 		userService.createRecruiter(email);
+	}
+	
+	@RequestMapping(value="trainer/{email}/init",method = RequestMethod.POST)
+	public void initTrainer(@PathVariable String email) {
+		userService.createTrainer(email);
 	}
 }

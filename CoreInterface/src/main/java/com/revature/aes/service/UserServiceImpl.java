@@ -163,14 +163,24 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void createRecruiter(String email) {
-		// TODO Auto-generated method stub
+		// 
+		createAdmin(email, "Recruiter");
+	}
+
+	@Override
+	public void createTrainer(String email) {
+		// 
+		createAdmin(email, "Trainer");
+	}
+	
+	private void createAdmin(String email, String adminRole){
 		SimpleDateFormat fmt = new SimpleDateFormat(PATTERN);
 		User recruiter = new User();
 		recruiter.setEmail(email);
 		recruiter.setFirstName("John");
-		recruiter.setLastName("Cena");
+		recruiter.setLastName(adminRole);
 		
-		recruiter.setRole(role.findRoleByRoleTitle("Recruiter"));
+		recruiter.setRole(role.findRoleByRoleTitle(adminRole));
 		recruiter.setDatePassIssued(fmt.format(new Date()));
 		dao.save(recruiter);
 		
