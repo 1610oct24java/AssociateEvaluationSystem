@@ -25,7 +25,7 @@
 		</label> <input type="submit" ng-click="addQuestion()" name="addQuestion"
 			id="addQuestion" class="btn btn-info" value="Add Question"
 			ng-show="addButton"></input>
-		<ul>
+		<ul style="width: 300px; height: 200px; overflow: auto">
 			<li ng-repeat="question in qList"><br />{{question.format.formatName}}
 				:: {{question.questionText}}</li>
 		</ul>

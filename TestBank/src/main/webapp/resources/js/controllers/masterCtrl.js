@@ -31,7 +31,7 @@ app.controller('MasterCtrl', ['$scope', '$rootScope', 'fileUpload', 'ngProgressF
         // File uploaded by the user
     	var file = $scope.myFile;
         // URL to Spring Controller
-        var uploadUrl = "parseAiken";
+        var uploadUrl = "/TestBank/parseAiken";
         fileUpload.uploadFileToUrl(file, uploadUrl)
         	.then($scope.completeProgressbar);
     };
