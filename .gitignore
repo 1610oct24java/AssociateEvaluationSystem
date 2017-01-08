@@ -14,9 +14,9 @@ hs_err_pid*
 *.metadata
 .settings
 *.settings
-/bin/
-/Servers/
-/target/
-/RemoteSystemsTempFiles/
+bin/
+Servers/
+target/
+RemoteSystemsTempFiles/
 .recommenders
 *.recommenders
