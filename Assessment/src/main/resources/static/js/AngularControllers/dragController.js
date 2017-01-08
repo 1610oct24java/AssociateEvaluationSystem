@@ -1,9 +1,11 @@
 app.controller("dragController", function($scope) {
 	// DRAG AND DROP
 	$scope.dragControlListeners = {
-		itemMoved : function(event) {
+		itemMoved : function() {
+			// add 'event' to function() above if this is broken
 		},
-		orderChanged : function(event) {
+		orderChanged : function() {
+			// add 'event' to function() above if this is broken
 		}
 	};
 });

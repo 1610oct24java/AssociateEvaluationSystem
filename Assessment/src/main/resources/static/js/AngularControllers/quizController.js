@@ -25,7 +25,7 @@ app.controller("quizController", function($scope, $rootScope, $http) {
 		}
 		else {
 			$scope.answers.push(-1);
-		};
+		}
 	}
 	var initSetup = function() {
 		for (var i = 0; i < $scope.questions.length; i++) {
@@ -117,7 +117,6 @@ app.controller("quizController", function($scope, $rootScope, $http) {
 	
 	$scope.aceChanged = function(e) {
 		var id2 = e[1].container.id;
-		var numId = id2.substr(6, id2.length);
 		var editor = e[1];
 		var SnippetUpload = function(_code, _questionId){
 			this.code = _code;
@@ -172,7 +171,7 @@ app.controller("quizController", function($scope, $rootScope, $http) {
 		    initSetup();
 		    $rootScope.initQuizNav();
 		});
-	};
+	}
 	
 	$scope.submitAssessment = function(){
 		var answerData = {

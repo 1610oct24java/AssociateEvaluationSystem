@@ -54,12 +54,6 @@ public class Question implements Serializable {
 	@JoinColumn(name = "QUESTION_ID")
 	private Set<DragDrop> dragDrops;
 
-	/*
-	 * @OneToOne(fetch = FetchType.EAGER)
-	 * 
-	 * @JoinColumn(name="QUESTION_ID") private SnippetTemplate snippetTemplate;
-	 */
-
 	@OneToMany(fetch = FetchType.EAGER)
 	@JoinColumn(name = "QUESTION_ID")
 	private Set<SnippetTemplate> snippetTemplate;
@@ -138,12 +132,4 @@ public class Question implements Serializable {
 	public void setSnippetTemplate(Set<SnippetTemplate> snippetTemplate) {
 		this.snippetTemplate = snippetTemplate;
 	}
-
-	/*public SnippetTemplate getSnippetTemplate() {
-		return snippetTemplate;
-	}
-
-	public void setSnippetTemplate(SnippetTemplate snippetTemplate) {
-		this.snippetTemplate = snippetTemplate;
-	}*/
 }

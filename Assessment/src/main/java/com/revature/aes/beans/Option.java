@@ -90,20 +90,6 @@ public class Option implements Serializable {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((correct == null) ? 0 : correct.hashCode());
-		result = prime * result
-				+ ((optionId == null) ? 0 : optionId.hashCode());
-		result = prime * result
-				+ ((optionText == null) ? 0 : optionText.hashCode());
-		result = prime * result
-				+ ((question == null) ? 0 : question.hashCode());
-		return result;
-	}
-		
-	@Override
 	public String toString() {
 		return "Option [optionId=" + optionId + ", optionText=" + optionText + ", correct=" + correct + ", question="
 				+ question + "]";

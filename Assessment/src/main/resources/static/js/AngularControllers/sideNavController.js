@@ -1,7 +1,7 @@
 app.controller('SideNavController', function($scope, $interval, $http) {
 
 	$scope.submitAssessment = function() {
-		answerData = {
+		var answerData = {
 			"id" : 1
 		};
 
@@ -16,10 +16,6 @@ app.controller('SideNavController', function($scope, $interval, $http) {
 				'Content-Type' : 'application/json'
 			},
 			data : answerData
-		}).then(function(response) {
-			// First function handles success
-		}, function(response) {
-			// Second function handles error
 		});
 	}
 });
