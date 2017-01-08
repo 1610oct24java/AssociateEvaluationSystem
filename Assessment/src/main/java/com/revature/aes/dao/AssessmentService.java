@@ -30,9 +30,7 @@ public class AssessmentService implements IAssessmentService {
 	
 	@Override
 	public void updateAssessment(Assessment assessment) {
-		Assessment oldAssessment = assDAO.findOne(assessment.getAssessmentId());
-		oldAssessment = assessment;
-		assDAO.save(oldAssessment);
+		assDAO.save(assDAO.findOne(assessment.getAssessmentId()));
 	}
 
 

@@ -27,6 +27,14 @@ public class SnippetIO {
 		log.info("Error Type:       " + ase.getErrorType());
 		log.info("Request ID:       " + ase.getRequestId());		
 	}
+	
+	private static void handleAmazonClientException(AmazonClientException ace) {
+		StackTraceElement thing = Thread.currentThread().getStackTrace()[1];
+		Error.error("\nat Line:\t" + thing.getLineNumber() + "\nin Method:\t" + thing.getMethodName()
+				+ "\nin Class:\t" + thing.getClassName(), ace);
+		log.info("internal error while trying to communicate with S3");
+		log.info("Error Message: " + ace.getLocalizedMessage());
+	}
 
 	public boolean upload(File file, String key) {
 		AmazonS3 s3client = new AmazonS3Client();
@@ -39,14 +47,11 @@ public class SnippetIO {
 			SnippetIO.handleAmazonServiceException(ase);
 			return false;
 		} catch (AmazonClientException ace) {
-			StackTraceElement thing = Thread.currentThread().getStackTrace()[1];
-			Error.error("\nat Line:\t" + thing.getLineNumber() + "\nin Method:\t" + thing.getMethodName()
-					+ "\nin Class:\t" + thing.getClassName(), ace);
-			log.info("internal error while trying to communicate with S3");
-			log.info("Error Message: " + ace.getLocalizedMessage());
+			SnippetIO.handleAmazonClientException(ace);
 			return false;
 		}
 	}
+
 
 	public boolean download(String key) {
 		AmazonS3 s3client = new AmazonS3Client();
@@ -61,8 +66,7 @@ public class SnippetIO {
 			SnippetIO.handleAmazonServiceException(ase);
 			return false;
 		} catch (AmazonClientException ace) {
-			log.info("internal error while trying to communicate with S3");
-			log.info("Error Message: " + ace.getLocalizedMessage());
+			SnippetIO.handleAmazonClientException(ace);
 			return false;
 		}
 
