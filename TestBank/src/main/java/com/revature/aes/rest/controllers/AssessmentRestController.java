@@ -24,7 +24,11 @@ import com.revature.aes.beans.User;
 import com.revature.aes.core.SystemTemplate;
 import com.revature.aes.services.AssessmentService;
 import com.revature.aes.services.UserService;
-
+/** Handles the REST requests for making assessments.
+ * 
+ * @author Matthew
+ *
+ */
 @RestController
 public class AssessmentRestController {
 
@@ -34,7 +38,7 @@ public class AssessmentRestController {
 	private UserService userService;
 	@Autowired
 	private AssessmentService assServ;
-	private static final String URL = "http://localhost:8080/TestBank";
+	private static final String URL = ":8090/asmt";
 	private RestTemplate restTemplate = new RestTemplate();
 
 	/**
@@ -59,7 +63,7 @@ public class AssessmentRestController {
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		tmpl.setTemplateQuestion(finalQuestion);
 		tmpl.setCreateTimeStamp(timestamp);
-		// The user id needs to be set to whatever system is in the user table.
+		// The user id needs to be set to whatever system user is in the AES_USERS table.
 		tmpl.setCreator(userService.getUserById(1));
 
 		User user = userService.getUserByEmail(assReq.getUserEmail());
@@ -72,9 +76,9 @@ public class AssessmentRestController {
 
 		RequestEntity<Integer> request;
 		
-		request = RequestEntity.post(new URI(URL + "/user/link")).accept(MediaType.APPLICATION_JSON).body(assessment.getAssessmentId());
+		request = RequestEntity.post(new URI(URL + "/rest/link")).accept(MediaType.APPLICATION_JSON).body(assessment.getAssessmentId());
 		ResponseEntity<String> result = restTemplate.exchange(request, String.class);
-
+		
 		String link = result.getBody();
 		
 		assReq.setLink(link);

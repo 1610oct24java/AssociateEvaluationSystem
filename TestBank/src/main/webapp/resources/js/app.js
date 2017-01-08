@@ -1,7 +1,7 @@
 var app = angular.module("AESapp", [ 'ui.router', 'ngFileUpload','ngProgress']);
 
-app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
-    //$urlRouterProvider.otherwise('resources/pages/trainerHome.html#/');
+app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider) {
+    
  
     $stateProvider
         .state('category', {
