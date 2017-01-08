@@ -53,6 +53,10 @@ public class Option implements Serializable {
 	@Column(name = "QUESTION_ID")
 	private Integer question;
 	
+	public Option() {
+		super();
+	}
+	
 	public Integer getOptionId() {
 		return optionId;
 	}
@@ -139,8 +143,4 @@ public class Option implements Serializable {
 				+ question + "]";
 	}
 
-	public Option() {
-		super();
-	}
-	
 }

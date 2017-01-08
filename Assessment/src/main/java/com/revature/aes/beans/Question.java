@@ -17,7 +17,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Entity
@@ -71,7 +70,6 @@ public class Question implements Serializable {
 
 	public Question() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
