@@ -76,7 +76,7 @@ app.controller('QuestionCtrl', function($http, $scope) {
 			$scope.question.multiChoice = [];
 		}// end if
 		if($scope.option.optionText == '' || $scope.option.correct == -1){
-		} 
+			
 		} else {
 			$scope.question.multiChoice.push($scope.option);
 			$scope.option = {
