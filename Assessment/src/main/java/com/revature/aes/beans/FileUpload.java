@@ -13,7 +13,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Entity
@@ -42,6 +41,10 @@ public class FileUpload implements Serializable {
 	private int questionId;
 	
 	
+	public FileUpload() {
+		super();
+	}
+	
 	public int getQuestionId() {
 		return questionId;
 	}
@@ -50,10 +53,6 @@ public class FileUpload implements Serializable {
 		this.questionId = questionId;
 	}
 
-	public FileUpload() {
-		super();
-	}
-	
 	public int getFileId() {
 		return fileId;
 	}

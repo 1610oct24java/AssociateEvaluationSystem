@@ -10,12 +10,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Entity
@@ -37,25 +35,19 @@ public class TemplateQuestion implements Serializable {
 	
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "question_id")
-	private Question templateQuestion;
-
-	
-/*	@ManyToOne(fetch = FetchType.LAZY)//?
-	@JoinColumn(name="TEMPLATE_ID")
-	private Template template;*/
+	private Question patternInquiry;
 
 	@Column(name="TEMPLATE_ID")
 	Integer template;
 	
 	public TemplateQuestion() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public String toString() {
 		return "TemplateQuestion [templateQuestionId=" + templateQuestionId + ", weight=" + weight
-				+ ", templateQuestion=" + templateQuestion + ", template=" + template + "]";
+				+ ", templateQuestion=" + patternInquiry + ", template=" + template + "]";
 	}
 
 	public int getTemplateQuestionId() {
@@ -75,21 +67,13 @@ public class TemplateQuestion implements Serializable {
 	}
 
 	public Question getTemplateQuestion() {
-		return templateQuestion;
+		return patternInquiry;
 	}
 
 	public void setTemplateQuestion(Question templateQuestion) {
-		this.templateQuestion = templateQuestion;
+		this.patternInquiry = templateQuestion;
 	}
 
-	/*public Template getTemplate() {
-		return template;
-	}
-
-	public void setTemplate(Template template) {
-		this.template = template;
-	}*/
-	
 	public Integer getTemplate() {
 		return template;
 	}

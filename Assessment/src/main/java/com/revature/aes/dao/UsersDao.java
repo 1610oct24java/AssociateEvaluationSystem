@@ -7,5 +7,5 @@ import com.revature.aes.beans.User;
 
 @Repository
 public interface UsersDao extends JpaRepository<User, Integer> {
-	
+	public User getUserByUserId(int id);
 }

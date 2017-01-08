@@ -76,7 +76,7 @@ public class AOP {
 	 */
 	@Pointcut("execution(* *.grading.*(..))")
 	public void everything() {
-		
+		// Spring AOP Hook
 	}
 	
 }

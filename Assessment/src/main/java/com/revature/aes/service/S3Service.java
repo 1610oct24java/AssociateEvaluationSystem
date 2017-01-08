@@ -8,21 +8,22 @@ import java.io.PrintWriter;
 import org.springframework.stereotype.Service;
 
 import com.revature.aes.io.SnippetIO;
+import com.revature.aes.util.Error;
 
 @Service
 public class S3Service {
 
 	public boolean uploadToS3(String snippetContents, String key) {
 		File file = new File("tempFile");
-		try {
-		    BufferedWriter writer = new BufferedWriter(new PrintWriter(file));
-		    writer.write(snippetContents);
-		    writer.close();
+		try(BufferedWriter writer =
+                   new BufferedWriter(new PrintWriter(file))) {
+			writer.write(snippetContents);
 			new SnippetIO().upload(file, key);
-			file.delete();
-			return true;
+			return file.delete();
 		} catch (IOException e) {
-			e.printStackTrace();
+			StackTraceElement thing = Thread.currentThread().getStackTrace()[1];
+			Error.error("\nat Line:\t" + thing.getLineNumber() + "\nin Method:\t" + thing.getMethodName()
+					+ "\nin Class:\t" + thing.getClassName(), e);
 			return false;
 		}
 	}

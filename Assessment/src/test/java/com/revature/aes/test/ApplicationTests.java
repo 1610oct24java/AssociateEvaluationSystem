@@ -28,35 +28,4 @@ public class ApplicationTests {
 		
 		mockMvc.perform(login).andExpect(authenticated().withUsername("user"));
 	}
-	//
-	// @Test
-	// public void loginWithInvalidUserThenUnauthenticated() throws Exception {
-	// FormLoginRequestBuilder login = formLogin()
-	// .user("invalid")
-	// .password("invalidpassword");
-	//
-	// mockMvc.perform(login)
-	// .andExpect(unauthenticated());
-	// }
-	//
-	// @Test
-	// public void accessUnsecuredResourceThenOk() throws Exception {
-	// mockMvc.perform(get("/"))
-	// .andExpect(status().isOk());
-	// }
-	//
-	// @Test
-	// public void accessSecuredResourceUnauthenticatedThenRedirectsToLogin()
-	// throws Exception {
-	// mockMvc.perform(get("/hello"))
-	// .andExpect(status().is3xxRedirection())
-	// .andExpect(redirectedUrlPattern("**/login"));
-	// }
-	//
-	// @Test
-	// @WithMockUser
-	// public void accessSecuredResourceAuthenticatedThenOk() throws Exception {
-	// mockMvc.perform(get("/hello"))
-	// .andExpect(status().isOk());
-	// }
 }

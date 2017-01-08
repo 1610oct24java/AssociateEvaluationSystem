@@ -8,5 +8,4 @@ import com.revature.aes.beans.Assessment;
 public interface AssessmentDAO extends JpaRepository<Assessment, Integer> {
 	
 	public Assessment findAssessmentByAssessmentId(int id);
-	//public void saveAssessmentBy(Assessment newAssessment);
 }

@@ -13,6 +13,8 @@ import com.revature.aes.logging.Logging;
  */
 public class Error {
 	
+	private Error(){}
+	
 	/**
 	 * Gets the date.<br>
 	 * Used in {@link #error} to create timestamp
@@ -23,11 +25,11 @@ public class Error {
 	 */
 	public static String getDate(Date now) {
 		
-		String dateFormat = "dd/MM/yyyy", timeFormat = "HH:mm:ss";
-		SimpleDateFormat sdfDate = new SimpleDateFormat(dateFormat),
-				sdfTime = new SimpleDateFormat(timeFormat);
-		String timeStamp = sdfDate.format(now) + " | " + sdfTime.format(now);
-		return timeStamp;
+		String dateFormat = "dd/MM/yyyy";
+		String timeFormat = "HH:mm:ss";
+		SimpleDateFormat sdfDate = new SimpleDateFormat(dateFormat);
+		SimpleDateFormat sdfTime = new SimpleDateFormat(timeFormat);
+		return sdfDate.format(now) + " | " + sdfTime.format(now);
 	}
 	
 	/**
@@ -66,16 +68,16 @@ public class Error {
 		
 		if (t == null) {
 			entire = entire + border;
-			System.err.println(entire);
+			log.warn(entire);
 		} else {
 			entire = entire
 					+ "\nRoot Cause:\t"
 					+ t.getClass().getSimpleName()
 					+ "\nMessage:\t"
 					+ t.getMessage();
-			System.err.println(entire + "\nStackTrace:\n");
-			t.printStackTrace();
-			System.err.println(border);
+			log.warn(entire + "\nStackTrace:\n");
+			log.warn(t.getMessage());
+			log.warn(border);
 		}
 		
 		log.warn(entire);

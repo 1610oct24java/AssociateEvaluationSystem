@@ -22,10 +22,8 @@ app.controller('AjaxController', function($scope, $http) {
 	        .success(function (data){
 	            // SETUP QUESTIONS AND STATE ARRAYS
 	            // START TIMER
-	            console.log("GET ASSESSMENT SUCCESS");
 	        })
 	        .error(function (response){
-	            console.log("Error Status: " + response);
 	        });
 	    }
 	    
@@ -37,10 +35,8 @@ app.controller('AjaxController', function($scope, $http) {
 	            data: data
 	        })
 	        .success(function (data){
-	            console.log("Posted results");
 	        })
 	        .error(function (response){
-	            console.log("Error while submitting assessment");
 	        });
 	    }
 });

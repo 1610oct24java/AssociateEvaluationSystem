@@ -3,7 +3,6 @@ package com.revature.aes.beans;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -72,7 +71,6 @@ public class Assessment implements Serializable {
 	
 	public Assessment() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override

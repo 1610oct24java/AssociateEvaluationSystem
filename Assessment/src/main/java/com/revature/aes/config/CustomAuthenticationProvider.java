@@ -17,11 +17,12 @@ import org.springframework.web.client.RestTemplate;
 
 import com.revature.aes.beans.User;
 import com.revature.aes.util.Error;
+import com.revature.aes.logging.Logging;
 
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 	
-	private RestTemplate restTemplate;
+	Logging log = new Logging();
 	
 	@Override
 	public Authentication authenticate(Authentication authentication)
@@ -29,6 +30,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		
 		String name = authentication.getName();
 		String password = authentication.getCredentials().toString();
+		String postRequestEndpoint = "rest/users";
 		
 		// ==============Make post to /login=====================
 		
@@ -36,10 +38,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 			
 			HttpClient httpClient = HttpClientBuilder.create().build();
 			
-			HttpPost postRequest = new HttpPost("rest/users");
-			
-			// HttpPost postRequest =
-			// new HttpPost("http://localhost:1993/core/login");
+			HttpPost postRequest = new HttpPost(postRequestEndpoint);
 			
 			StringEntity input = new StringEntity("{\"params\":{\"username\":"
 					+ name
@@ -54,21 +53,18 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 			
 			HttpResponse response = httpClient.execute(postRequest);
 			
-			System.out.println(
+			log.info(
 					"Status code: " + response.getStatusLine().getStatusCode());
 			
 			// =============Make get to /auth===========================
 			
 			httpClient = HttpClientBuilder.create().build();
 			
-			// HttpGet getRequest =
-			// new HttpGet("http://localhost:1993/core/security/auth");
-			
-			HttpGet getRequest = new HttpGet("rest/users");
+			HttpGet getRequest = new HttpGet(postRequestEndpoint);
 			
 			HttpResponse responseGet = httpClient.execute(getRequest);
 			
-			System.out.println("Status code: "
+			log.info("Status code: "
 					+ responseGet.getStatusLine().getStatusCode());
 			
 			// ===============Return user information==================
@@ -86,14 +82,10 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		}
 		
 		// =============================================================================
-		User[] user = null;
 		
-		restTemplate = new RestTemplate();
+		RestTemplate restTemplate = new RestTemplate();
 		
-		// user = restTemplate.getForObject(
-		// "http://localhost:1993/core/security/auth", User[].class);
-		
-		user = restTemplate.getForObject("rest/users", User[].class);
+		User[] user = restTemplate.getForObject(postRequestEndpoint, User[].class);
 		
 		if (user != null) {
 			
