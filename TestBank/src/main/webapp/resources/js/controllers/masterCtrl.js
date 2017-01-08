@@ -37,8 +37,8 @@ app.controller('MasterCtrl', ['$scope', '$rootScope', 'fileUpload', 'ngProgressF
     
     // Stops the progressbar from.. progressing
     $scope.completeProgressbar = function(){
-    	$scope.progressbar.stop();
-        $scope.progressbar.complete();
+    	$scope.progressbar.stop;
+        $scope.progressbar.complete;
     }
     
     $scope.busy = true;
