@@ -62,7 +62,7 @@ public class CSVParser {
 				linesCleaned.add(lineInFile);
 			}
 		} 
-		//TODO if (lineInFile.length()%2==1) throw InvalidFileFormatException
+		
 		return linesCleaned;
 	}
 	
