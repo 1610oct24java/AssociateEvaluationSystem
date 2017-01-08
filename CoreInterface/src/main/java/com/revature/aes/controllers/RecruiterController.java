@@ -119,8 +119,8 @@ public class RecruiterController {
 	}
 
 	
-	@RequestMapping(value="{email}/up/up/down/down/left/right/left/right/B/A/select",method = RequestMethod.GET)
-	public void konamiCode(@PathVariable String email) {
+	@RequestMapping(value="init/{email}/",method = RequestMethod.POST)
+	public void initRecruiter(@PathVariable String email) {
 		userService.createRecruiter(email);
 	}
 }
