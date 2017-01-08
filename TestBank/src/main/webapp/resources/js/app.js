@@ -7,17 +7,19 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider) {
         .state('category', {
             url:'/category',
             templateUrl: 'categoryTemplate.html',
-            controller: 'MasterCtrl as ctrl'
+            controller: 'CategoryCtrl',
+            controllerAs: 'ctrl'
         })
         .state('tag', {
-            url:'/',
-            templateUrl: 'about.html',
-            controller: 'MasterCtrl'
+            url:'/tag',
+            templateUrl: 'tagTemplate.html',
+            controller: 'TagCtrl'
         })
         .state('question', {
-            url:'/',
-            templateUrl: 'about.html',
-            controller: 'MasterCtrl'
+            url:'/question',
+            templateUrl: 'questionTemplate.html',
+            controller: 'QuestionCtrl',
+            controllerAs: 'qc'
         })
         .state('upload', {
             url:'/upload',

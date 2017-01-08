@@ -1,16 +1,18 @@
 app.controller('MasterCtrl', ['$scope', '$rootScope', 'fileUpload', 'ngProgressFactory','$log','Upload', '$state', function($scope, $rootScope, fileUpload, ngProgressFactory, $log, Upload, $state){
-	$rootScope.templateName = "";
+	$scope.templateName = "";
 	
 	$scope.addCategories = function(){
 		$state.go("category")
-		$rootScope.templateName = "Add Categories";
+		$scope.templateName = "Add Categories";
 	};
 	
 	$scope.addTags = function(){
-		$rootScope.templateName = "Add Tags";
+		$state.go("tag");
+		$scope.templateName = "Add Tags";
 	};
 	
 	$scope.modifyQuestions = function(){
+		$state.go("question");
 		$scope.templateName = "Modify Questions";
 	};
 	
@@ -35,8 +37,8 @@ app.controller('MasterCtrl', ['$scope', '$rootScope', 'fileUpload', 'ngProgressF
     
     // Stops the progressbar from.. progressing
     $scope.completeProgressbar = function(){
-    	$scope.progressbar.stop();
-        $scope.progressbar.complete();
+    	$scope.progressbar.stop;
+        $scope.progressbar.complete;
     }
     
     $scope.busy = true;

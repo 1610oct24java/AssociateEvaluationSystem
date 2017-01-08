@@ -2,23 +2,23 @@
 	<main class="container">
 		<div>
 			<form>
-				<input type="text" ng-model="ctrl.newCategory.name">
-				<input type="submit" value="Add" ng-click="ctrl.saveCategory()">
+				<input type="text" ng-model="newCategory.name">
+				<input type="submit" value="Add" ng-click="saveCategory()">
 			</form>
 		</div>
 		<div>
 			<h3>Categories</h3>
 			<ul>
-				<li ng-repeat="cat in ctrl.categories">
+				<li ng-repeat="cat in categories">
 				{{cat.name}}
 				</li>
-				<span ng-bind="ctrl.newCategory.name"></span>
+				<span ng-bind="newCategory.name"></span>
 			</ul>
 		</div>
 		<div>
 			<form>
-				<input type="text" ng-model="ctrl.delCategory">
-				<input type="submit" value="Remove" ng-click="ctrl.deleteCategory()">
+				<input type="text" ng-model="delCategory">
+				<input type="submit" value="Remove" ng-click="deleteCategory()">
 			</form>
 		</div>
 	</main>

@@ -56,41 +56,35 @@ public class AikenParser {
 		try(BufferedReader br = new BufferedReader(new InputStreamReader(mpFile.getInputStream()))) {
 			// Read first line of the file
 		    line = br.readLine();
-
+		    System.out.println("Questions: " + line);
 		    // Each loop is a new question being read
 		    while (line != null) {
-		    	Question question = getQuestion();
-		    	ArrayList<Option> optionsList = getOptionsList(br, question);
+		    	Question question = setQuestion();
 		    	
+		    	ArrayList<Option> optionsList = getOptionsList(br, question);
 		    	setCorrectAnswer(optionsList);
+		    	
 		    	// Add the question and its options to the map
 		    	questionMap.put(question, optionsList);
 		    	
 		    	// Reads an extra line to skip \n between questions
 		    	line = br.readLine();
+
 		    	if(line==null){
 		    		break;
 		    	}
+		    	System.out.println("Blank line " + line);
 		    	if(line.length() != 0){
 		    		throw new AikenSyntaxException("Questions must be seperated by a blank line!");
 		    	}
 		    	
 		    	// Sets line to read next Question
 		    	line = br.readLine();
+		    	System.out.println("next question: "+ line );
 		    }
 		}
 	}
-	
-	/**
-	 * Checks if the file type is of type .txt and throws an exception if not.
-	 * @param url String of the file to be parsed
-	 * @throws InvalidFileTypeException
-	 */
-	private void checkFileType(String url) throws InvalidFileTypeException{
-		if(!url.endsWith(".txt")){
-			throw new InvalidFileTypeException("Aiken files must be of type \".txt\" ");
-		}
-	}
+
 	
 	/**
 	 * Creates a Question object based on the current question being parsed.
@@ -99,7 +93,7 @@ public class AikenParser {
 	 * @return the Question generated from the parsed line
 	 * @throws IOException
 	 */
-	private Question getQuestion() throws IOException{
+	private Question setQuestion() throws IOException{
 		// First line will be a question
     	Question question = new Question();
     	question.setQuestionText(line);
@@ -117,6 +111,7 @@ public class AikenParser {
 	private ArrayList<Option> getOptionsList(BufferedReader br, Question optionQuestion) throws IOException{	
     	
 		line = br.readLine();
+		System.out.println("Line 112: " + line);
     	
 		// Create new options list for each Question
 		ArrayList<Option> optionsList = new ArrayList<>();
@@ -130,6 +125,7 @@ public class AikenParser {
     		optionsList.add(option);
     		
     		line = br.readLine();
+    		System.out.println("Options: " + line);
     	}
     	return  optionsList;
 	}

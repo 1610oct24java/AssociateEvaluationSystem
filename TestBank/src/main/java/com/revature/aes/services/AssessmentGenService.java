@@ -57,6 +57,7 @@ public class AssessmentGenService {
 		
 		for(Question q : questionsMap.keySet()){
 			// These two lines actually persist the question to the database...
+			System.out.println("Ass Question: " + q);
 			q.setMultiChoice(questionsMap.get(q));
 	    	
 	    	service.addQuestion(q);
