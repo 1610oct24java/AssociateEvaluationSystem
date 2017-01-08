@@ -5,7 +5,9 @@
   src: url('../fonts/FuturaPTComplete/ParaType-FuturaPTBook.ttf');
 } */
 
-
+.buttonLabels{
+	color: white;
+}
 
 .fa{
 	color: #f26925;
