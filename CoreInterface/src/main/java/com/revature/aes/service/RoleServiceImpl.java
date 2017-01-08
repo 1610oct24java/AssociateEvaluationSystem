@@ -27,6 +27,11 @@ public class RoleServiceImpl implements RoleService {
 		if(r == null){
 			r = new Role();
 			r.setRoleTitle(roleTitle);
+			if("Candidate".equals(roleTitle))
+				r.setRoleId(100);
+			else if ("Trainer".equals(roleTitle))
+				r.setRoleId(50);
+			
 			
 			dao.save(r);
 		}
