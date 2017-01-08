@@ -128,6 +128,9 @@ app.controller("quizController", function($scope, $rootScope, $http) {
 		case "cs" :
 			output = "csharp";
 			break;
+		case "c" :
+			output = "c_cpp";
+			break;
 		default : 
 			output = "java";
 			break;
