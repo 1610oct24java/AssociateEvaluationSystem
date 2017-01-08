@@ -123,13 +123,11 @@ app.controller("quizController", function($scope, $rootScope, $http) {
 			output = "java";
 			break;
 		case "cpp" :
+		case "c" :
 			output = "c_cpp";
 			break;
 		case "cs" :
 			output = "csharp";
-			break;
-		case "c" :
-			output = "c_cpp";
 			break;
 		default : 
 			output = "java";
@@ -147,7 +145,7 @@ app.controller("quizController", function($scope, $rootScope, $http) {
 			this.fileType = _fileType;
 		};
 		
-		var q;
+		var q = {};
 		for (var i = 0; i < $scope.questions.length; i++ ) {
 			if ($scope.questions[i].templateQuestion.questionId == id2.substr(6, id2.length)){
 				q = $scope.questions[i];
@@ -157,7 +155,7 @@ app.controller("quizController", function($scope, $rootScope, $http) {
 		var incFileType = q.templateQuestion.snippetTemplate[0].fileType;
 		var newSnippet = new SnippetUpload(editor.getValue(), id2.substr(6, id2.length), incFileType);
 		
-		for (var i = 0; i < $scope.snippetSubmissions.length; i++){
+		for (i = 0; i < $scope.snippetSubmissions.length; i++){
 			if ($scope.snippetSubmissions[i].questionId = newSnippet.questionId){
 				$scope.snippetSubmissions.splice(i, 1);
 			}
