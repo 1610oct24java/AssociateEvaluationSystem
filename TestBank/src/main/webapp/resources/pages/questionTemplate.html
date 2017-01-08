@@ -1,60 +1,59 @@
 <div>
 	<main class="container">
 			<label for="format">Question Format</label> 
-			<select ng-model="qc.format" ng-options="format.formatName for format in fc.fList" name="format"
-				id="format" ng-change="qc.addAddQuestionButton(1)"></select>
+			<select ng-model="qc.format" ng-options="formatName for format in fList" name="format"
+				id="format" ng-change="addAddQuestionButton(1)"></select>
 		<label for="questionText">Question</label> <input type="text"
-			ng-model="qc.question.question.questionText" name="questionText"
+			ng-model="question.question.questionText" name="questionText"
 			id="questionText" placeholder="enter question"
-			ng-change="qc.addAddQuestionButton(2)"></input> <label
+			ng-change="addAddQuestionButton(2)"></input> <label
 			for="enterOption">Enter Option</label> <input type="text"
-			id="qc.option" name="enterOption" id="enterOption"
-			placeholder="Enter Option" ng-model="qc.option.optionText"
-			ng-change="qc.addAddQuestionButton(3)"></input> <label
+			id="option" name="enterOption" id="enterOption"
+			placeholder="Enter Option" ng-model="option.optionText"
+			ng-change="addAddQuestionButton(3)"></input> <label
 			for="correctAnswer">Correct Answer:</label> <select
-			ng-model="qc.option.correct" name="correctAnswer" id="correctAnswer"
-			ng-change="qc.addAddQuestionButton(4)">
+			ng-model="option.correct" name="correctAnswer" id="correctAnswer"
+			ng-change="addAddQuestionButton(4)">
 			<option value=1>"Yes"</option>
 			<option value=0>"No"</option>
 		</select>
 		<!-- add option button -->
-		<input type="submit" ng-click="qc.addOption()" class="btn btn-info"
+		<input type="submit" ng-click="addOption()" class="btn btn-info"
 			value="Add Option"></input> <label for="addQuestion">Review
-			Question: {{qc.question.questionText}} <span
-			ng-repeat="option in qc.question.multiChoice track by $index">{{option.optionText}}
+			Question: {{qc.question.questionText}} <span ng-repeat="option in question.multiChoice track by $index"><br>{{option.optionText}}
 				Correct: {{option.correct == 1 && "Yes" || "No" }}</span>
-		</label> <input type="submit" ng-click="qc.addQuestion()" name="addQuestion"
+		</label> <input type="submit" ng-click="addQuestion()" name="addQuestion"
 			id="addQuestion" class="btn btn-info" value="Add Question"
-			ng-show="qc.addButton"></input>
+			ng-show="addButton"></input>
 		<hr>
 		<ul>
-			<li ng-repeat="question in qc.qList"><br />{{question.format.formatName}}
+			<li ng-repeat="question in qList"><br />{{question.format.formatName}}
 				:: {{question.questionText}}</li>
 		</ul>
 		<hr>
 
-		<select ng-model="qc.question"
-			ng-options="question.questionText for question in qc.qList"
+		<select ng-model="question"
+			ng-options="question.questionText for question in qList"
 			name="questionUpdate" id="questionUpdate"
-			ng-change="qc.showUpdateQuestion(qc.question)">
+			ng-change="showUpdateQuestion(question)">
 			<option value="" />
 		</select>
-		<div ng-show=qc.show>
-			<div ng-controller="FormatController as fc">
+		<div ng-show=show>
+		
 				<label for="format">Question Format</label> <select
 					ng-model="fc.format"
-					ng-options="format.formatName for format in fc.fList" name="format"
-					id="format" ng-change="fc.setFormat()"></select>
-			</div>
+					ng-options="format.formatName for format in fList" name="format"
+					id="format" ng-change="setFormat()"></select>
+			
 			<label for="questionText">Question</label> <input type="text"
-				ng-model="qc.updatedQuestion.questionText"
+				ng-model="updatedQuestion.questionText"
 				placeholder="enter question"></input> <input type="sumbit"
-				ng-click="qc.updateQuestion()" class="btn btn-info"
+				ng-click="updateQuestion()" class="btn btn-info"
 				value="Update Question"></input>
 		</div>
 		<label for="deleteQuestion">Enter Question ID to delete</label> <input
-			type="number" ng-model="qc.deleteme"></input> <input type="submit"
-			ng-click="qc.deleteQuestion()" class="btn btn-danger"
+			type="number" ng-model="deleteme"></input> <input type="submit"
+			ng-click="deleteQuestion()" class="btn btn-danger"
 			value="Delete Question"></input>
 	</main>
 </div>
