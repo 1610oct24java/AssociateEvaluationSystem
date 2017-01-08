@@ -1,4 +1,5 @@
 app.controller('MasterCtrl', ['$scope', '$rootScope', 'fileUpload', 'ngProgressFactory','$log','Upload', '$state', function($scope, $rootScope, fileUpload, ngProgressFactory, $log, Upload, $state){
+	
 	$scope.templateName = "";
 	
 	$scope.addCategories = function(){
@@ -30,7 +31,7 @@ app.controller('MasterCtrl', ['$scope', '$rootScope', 'fileUpload', 'ngProgressF
         // File uploaded by the user
     	var file = $scope.myFile;
         // URL to Spring Controller
-        var uploadUrl = "/TestBank/parseAiken";
+        var uploadUrl = "parseAiken";
         fileUpload.uploadFileToUrl(file, uploadUrl)
         	.then($scope.completeProgressbar);
     };
