@@ -10,6 +10,7 @@ import com.revature.aes.beans.Assessment;
 import com.revature.aes.beans.AssessmentDragDrop;
 import com.revature.aes.beans.FileUpload;
 import com.revature.aes.beans.Option;
+import com.revature.aes.beans.SnippetTemplate;
 import com.revature.aes.beans.TemplateQuestion;
 
 public class AssessmentGrader {
@@ -142,10 +143,11 @@ public class AssessmentGrader {
 		for(Entry<Integer, FileUpload> entry: userDataMap.entrySet()){
 			key = entry.getKey();
 			String userFileName = userDataMap.get(key).getFileUrl();
-			//String keyFileName = templateDataMap.get(key).getTemplateQuestion().getSnippetTemplate().getSolutionUrl();
+			Set<SnippetTemplate> setST = templateDataMap.get(key).getTemplateQuestion().getSnippetTemplate();
+			String keyFileName = setST.iterator().next().getSolutionUrl();
 			itemWeight = templateDataMap.get(key).getWeight();
-			//int codeTestResult = sec.evaluateSnippet(userFileName, keyFileName);
-			//itemWeightedGrade = itemWeight*codeTestResult;//
+			int codeTestResult = sec.evaluateSnippet(userFileName, keyFileName);
+			itemWeightedGrade = itemWeight*codeTestResult;//
 			result[0] = result[0]+itemWeightedGrade;
 			result[1] = result[1]+itemWeight;
 		}
