@@ -128,6 +128,23 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	    var id = 0 + _editor.container.id;
 	};
 	
+	$scope.getType = function(filetype) {
+		var output = "";
+		switch(filetype) {
+		case "java" :
+			console.log("Filetype: java");
+			output = "java";
+			break;
+		case "cpp" :
+			console.log("Filetype: cpp");
+			output = "c_cpp";
+		case "cs" :
+			console.log("Filetype: cs");
+			output = "csharp";
+		}
+		return output;
+	}
+	
 	$scope.aceChanged = function(e) {
 		var id2 = e[1].container.id;
 		var numId = id2.substr(6, id2.length);
