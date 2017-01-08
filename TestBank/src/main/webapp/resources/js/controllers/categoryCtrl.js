@@ -1,6 +1,6 @@
 app.controller('CategoryCtrl', function($scope, $http){
 	var url = "http://localhost:8080/TestBank/";
-	$scope.categories =[];
+	$scope.categories;
 	$scope.delCategory = '';
 	$scope.newCategory = {
 			categoryId : 0,
@@ -10,14 +10,15 @@ app.controller('CategoryCtrl', function($scope, $http){
 	function getCategories() {
 		var array = $http.get(url + "category").then(
 				function(response){
-					return response.data;
+					$scope.categories = response.data;
+					console.log($scope.categories);
 				}); 
 		return array.$$state;
 	};
 	
 	$scope.saveCategory = function() {
 		if($scope.newCategory.name == ''){
-			// alert dem bitches
+			// #alert dem bitches
 		}
 		else{
 			$http.post(url + "category", $scope.newCategory).then(

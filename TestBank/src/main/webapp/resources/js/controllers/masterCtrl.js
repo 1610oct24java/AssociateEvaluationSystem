@@ -1,14 +1,14 @@
 app.controller('MasterCtrl', ['$scope', '$rootScope', 'fileUpload', 'ngProgressFactory','$log','Upload', '$state', function($scope, $rootScope, fileUpload, ngProgressFactory, $log, Upload, $state){
-	$rootScope.templateName = "";
+	$scope.templateName = "";
 	
 	$scope.addCategories = function(){
 		$state.go("category")
-		$rootScope.templateName = "Add Categories";
+		$scope.templateName = "Add Categories";
 	};
 	
 	$scope.addTags = function(){
 		$state.go("tag");
-		$rootScope.templateName = "Add Tags";
+		$scope.templateName = "Add Tags";
 	};
 	
 	$scope.modifyQuestions = function(){

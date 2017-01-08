@@ -5,7 +5,26 @@
   src: url('../fonts/FuturaPTComplete/ParaType-FuturaPTBook.ttf');
 } */
 
+
+
+.fa{
+	color: #f26925;
+}
+
+#buttons{
+	margin-top: 15px;
+}
+
+.navbar-wrapper.hero-bm.ng-scope{
+	background-color: #ffffff;
+}
+
+.navbar-bg{
+	margin-top: 20px;
+}
 body {
+	background-image: url("../images/gray.png");
+	background-color: #474c55;
     font-family: 'futura-pt, Helvetica, Arial, Sans-Serif';
    	font-size: 14px;
    	font-weight: normal;
