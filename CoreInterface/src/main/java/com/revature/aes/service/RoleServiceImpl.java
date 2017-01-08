@@ -21,8 +21,15 @@ public class RoleServiceImpl implements RoleService {
 
 	@Override
 	public Role findRoleByRoleTitle(String roleTitle) {
-		// 
-		return dao.findRoleByRoleTitle(roleTitle);
+		//
+		Role r = dao.findRoleByRoleTitle(roleTitle);
+		
+		if(r == null){
+			r = new Role();
+			r.setRoleTitle(roleTitle);
+			
+			dao.save(r);
+		}
+		return r;
 	}
-
 }
