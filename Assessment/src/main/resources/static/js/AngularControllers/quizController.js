@@ -44,7 +44,6 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	// initSetup();
 
 	$scope.collapseQuestion = function(index) {
-		console.log("Entered collapse: glyph id=" + index);
 		$scope.states[index].open = !$scope.states[index].open;
 	};
 	
@@ -57,10 +56,8 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 
 	var saveQuestion = function(index) {
 		var q = $scope.questions[index];
-		console.log("Saving question " + q.templateQuestionId + ": " + q.templateQuestion.questionText);
 		
 		if(q.templateQuestion.format.formatId === 2) {
-			console.log("Drag and drop");
 			for (var i = 0; i < q.templateQuestion.dragDrops.length; i++) {
 				var assessmentDragDrop = {
 						assessmentDragDropId : ((q.templateQuestionId) * 100 + i),
@@ -71,15 +68,12 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 				$rootScope.protoTest.assessmentDragDrop.push(assessmentDragDrop);
 			};
 		} else if (q.templateQuestion.format.formatId === 3) {
-			console.log("Code snippets");
-			
 		}
 		
 		$scope.states[index].saved = !$scope.states[index].saved;
 	};
 
 	$scope.flagQuestion = function(index) {
-		console.log("Entered flag: glyph id=" + index);
 		$scope.states[index].flagged = !$scope.states[index].flagged;
 	};
 	
@@ -105,7 +99,6 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 			}
 		} else if ($scope.questions[ndxQuestion].templateQuestion.format.formatId === 1 ) {
 			// Handles multiple select questions
-			console.log("2) Select Option: " + ndxOption + " in Question: " + ndxQuestion);
 			var foundAt = $scope.answers[ndxQuestion].indexOf(ndxOption)
 			var answer = $scope.questions[ndxQuestion].templateQuestion.multiChoice[ndxOption];
 			if (foundAt === -1){
@@ -134,21 +127,15 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	}
 	
 	$scope.$watch('questions', function() {
-		console.log("Test watcher");
 	});
 	
 	// EDITORS	
 	$scope.aceLoaded = function(_editor) {
-	    console.log("Loaded: ");
-	    console.log(_editor);
 	    var id = 0 + _editor.container.id;
-	    console.log("Id2: " + id);
-	    console.log("Value: " + _editor.container.id);
 	};
 	
 	$scope.aceChanged = function(e) {
 		var id2 = e[1].container.id;
-		console.log("Edit ID: " + id2);
 		var editor = e[1];
 		var SnippetUpload = function(_code, _questionId){
 			this.code = _code;
@@ -156,7 +143,6 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 		};
 		
 		newSnippet = new SnippetUpload(editor.getValue(), id2.substr(6, id2.length));
-		console.log(newSnippet);
 		
 		for (var i = 0; i < $scope.snippetSubmissions.length; i++){
 			if ($scope.snippetSubmissions[i].questionId = newSnippet.questionId){
@@ -190,7 +176,6 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	$scope.maxSize = 5;
 	
 	$scope.jumpPage = function (numPage) {
-		console.log("Jump to Page: " + numPage);
 		$scope.currentPage = numPage;
 	};
 
@@ -210,7 +195,6 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	
 	// AJAX
 	function getQuizQuestions() {
-		console.log("Tryna get dat Ass...essment");
 		$http({
 			method: 'GET',
 			url: QUIZ_REST_URL,
@@ -218,15 +202,12 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 		})
 		.then(function(response) {
 		    //First function handles success
-		    console.log("Received Quiz Object= " + response.data);
 		    $rootScope.protoTest = response.data;
 			$scope.questions = $rootScope.protoTest.myTemplate.templateQuestion;
 		    initSetup();
 		    $rootScope.initQuizNav();
 		}, function(response) {
 		    //Second function handles error
-			console.log("ERROR: broken data: " + response.data);
-		    console.log("ERROR: status code: " + response.status);
 		});
 	};
 	
@@ -236,7 +217,6 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 				snippetUpload : $scope.snippetSubmissions
 		};
 		//answerData = $rootScope.protoTest;
-		console.log(answerData);
 		postAssessment(answerData);
 	}
 	
@@ -249,10 +229,8 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 		})
 		.then(function(response) {
 			//First function handles success
-			console.log("Answers sent: " + response.data);
 		}, function(response) {
 			//Second function handles error
-			console.log("status code: " + response.status);
 		});
 	}
 });

@@ -11,7 +11,6 @@ public class PropertyReader {
 		InputStream inputStream = this.getClass().getClassLoader()
 				.getResourceAsStream("resources/ipconfig.properties");
 		
-		System.out.println("Input stream: " + inputStream);
 		Properties prop = new Properties();
 		
 		// load the inputStream using the Properties

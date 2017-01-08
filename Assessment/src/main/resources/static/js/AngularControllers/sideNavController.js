@@ -18,10 +18,8 @@ app.controller('SideNavController', function($scope, $interval, $http) {
 			data : answerData
 		}).then(function(response) {
 			// First function handles success
-			console.log("Answers sent: " + response.data);
 		}, function(response) {
 			// Second function handles error
-			console.log("status code: " + response.status);
 		});
 	}
 });

@@ -33,7 +33,6 @@ app.controller('CountdownController', function($scope, $rootScope, $interval) {
 		if ($scope.seconds < 0) {
 			$interval.cancel(timer);
 			showSubmitModal();
-			console.log("time over");
 		}
 		
 		return (($scope.seconds) / startTime) * 100;
