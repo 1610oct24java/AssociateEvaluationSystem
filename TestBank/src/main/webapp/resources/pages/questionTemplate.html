@@ -1,7 +1,7 @@
 <div>
 	<main class="container">
 			<label for="format">Question Format</label> 
-			<select ng-model="qc.format" ng-options="formatName for format in fList" name="format"
+			<select ng-model="format" ng-options="format.formatName for format in fList" name="format"
 				id="format" ng-change="addAddQuestionButton(1)"></select>
 		<label for="questionText">Question</label> <input type="text"
 			ng-model="question.question.questionText" name="questionText"
@@ -25,12 +25,10 @@
 		</label> <input type="submit" ng-click="addQuestion()" name="addQuestion"
 			id="addQuestion" class="btn btn-info" value="Add Question"
 			ng-show="addButton"></input>
-		<hr>
 		<ul>
 			<li ng-repeat="question in qList"><br />{{question.format.formatName}}
 				:: {{question.questionText}}</li>
 		</ul>
-		<hr>
 
 		<select ng-model="question"
 			ng-options="question.questionText for question in qList"
@@ -41,7 +39,7 @@
 		<div ng-show=show>
 		
 				<label for="format">Question Format</label> <select
-					ng-model="fc.format"
+					ng-model="format"
 					ng-options="format.formatName for format in fList" name="format"
 					id="format" ng-change="setFormat()"></select>
 			
@@ -55,5 +53,25 @@
 			type="number" ng-model="deleteme"></input> <input type="submit"
 			ng-click="deleteQuestion()" class="btn btn-danger"
 			value="Delete Question"></input>
+	</main>
+</div>
+<div>
+	<main class="container">
+		<div>
+			<h3>Edit Questions</h3>
+			<ol>
+				<li ng-repeat="q in ctrl.qList">
+					{{q.questionText}}
+				</li>
+			</ol>
+		</div>
+		<div>
+			<form>
+				<input type="number" ng-model="ctrl.questionBeingUpdated" placeholder="Question #">
+				<input type="text" ng-model="ctrl.catList" placeholder="Add Categories">
+				<input type="text" ng-model="ctrl.tagList" placeholder="Add Tags">
+				<input type="submit" ng-click="ctrl.addCategoriesAndTags()">
+			</form>
+		</div>
 	</main>
 </div>

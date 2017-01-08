@@ -1,4 +1,5 @@
 app.controller('QuestionCtrl', function($http, $scope) {
+	var url = "/TestBank/";
 	$scope.fList;
 	/*
 	 * var getFormatList = function() { $http.get(url + "format") .then(
@@ -9,6 +10,7 @@ app.controller('QuestionCtrl', function($http, $scope) {
 		$http.get(url + "format")
 		.then(function(response) {
 			$scope.fList = response.data;
+			console.log($scope.fList);
 		}); // $http end;
 	} // getFormatList() end
 	
