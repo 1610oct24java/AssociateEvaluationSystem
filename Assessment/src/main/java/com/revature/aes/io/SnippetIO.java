@@ -43,7 +43,7 @@ public class SnippetIO {
 			Error.error("\nat Line:\t" + thing.getLineNumber() + "\nin Method:\t" + thing.getMethodName()
 					+ "\nin Class:\t" + thing.getClassName(), ace);
 			log.info("internal error while trying to communicate with S3");
-			log.info("Error Message: " + ace.getMessage());
+			log.info("Error Message: " + ace.getLocalizedMessage());
 			return false;
 		}
 	}
@@ -62,7 +62,7 @@ public class SnippetIO {
 			return false;
 		} catch (AmazonClientException ace) {
 			log.info("internal error while trying to communicate with S3");
-			log.info("Error Message: " + ace.getMessage());
+			log.info("Error Message: " + ace.getLocalizedMessage());
 			return false;
 		}
 

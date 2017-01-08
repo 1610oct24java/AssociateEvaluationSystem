@@ -18,15 +18,11 @@ public class SnippetController {
 
 	@RequestMapping(value = "/s3upload/{key}")
 	public boolean uploadToS3(String snippetContents, @RequestParam String key) {
-		File file;
-		try {
-			file = File.createTempFile("snippet", ".tmp");
-			FileWriter fwriter = new FileWriter(file);
-			BufferedWriter writer = new BufferedWriter(fwriter);
+		File file = new File("snippet.tmp");
+		try(BufferedWriter writer =
+                new BufferedWriter(new FileWriter(file))) {
 			writer.write(snippetContents);
 			new SnippetIO().upload(file, key);
-			writer.close();
-			fwriter.close();
 			return file.delete();
 		} catch (IOException e) {
 			StackTraceElement thing = Thread.currentThread().getStackTrace()[1];
