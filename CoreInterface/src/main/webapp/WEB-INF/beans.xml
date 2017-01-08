@@ -96,7 +96,7 @@
 		<property name="password" value="d!ckButts" />
 		<property name="javaMailProperties">
 			<props>
-				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.auth">false</prop>
 				<prop key="mail.smtp.starttls.enable">true</prop>
 			</props>
 		</property>
