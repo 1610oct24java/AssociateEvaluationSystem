@@ -19,7 +19,7 @@ import com.revature.aes.beans.AssessmentRequest;
 
 @Service
 public class AssessmentServiceLocatorImpl implements AssessmentServiceLocator {
-	private static final String URL = "http://192.168.60.55:/8080/bank";
+	private static final String URL = "/bank";
 	private RestTemplate restTemplate = new RestTemplate();
 	Logger log = Logger.getRootLogger();
 	
