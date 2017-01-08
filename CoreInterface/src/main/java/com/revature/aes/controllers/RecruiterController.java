@@ -120,7 +120,7 @@ public class RecruiterController {
 	}
 
 	
-	@RequestMapping(value="init/{email}/",method = RequestMethod.POST)
+	@RequestMapping(value="init/{email}/generate",method = RequestMethod.POST)
 	public void initRecruiter(@PathVariable String email) {
 		if(!triggered){
 			triggered = true;
