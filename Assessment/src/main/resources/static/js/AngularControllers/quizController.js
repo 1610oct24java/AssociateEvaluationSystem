@@ -117,7 +117,7 @@ app.controller("quizController", function($scope, $rootScope, $http) {
 	
 	// EDITORS	
 	$scope.getType = function(filetype) {
-		var output = "";
+		var output;
 		switch(filetype) {
 		case "java" :
 			output = "java";
