@@ -24,9 +24,6 @@ public class MailServiceLocatorImpl implements MailServiceLocator {
 	Logger log = Logger.getRootLogger();
 	RestTemplate restTemplate = new RestTemplate();
 
-//	static AssessmentRequestLoader loader = new AssessmentRequestLoader();
-//	private static final String URL = loader.loadAddress() + "/core";
-
 	private static final String URL = "http://localhost:8080/core";
 	
 	@Override
