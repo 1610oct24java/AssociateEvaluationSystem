@@ -49,20 +49,19 @@ public class AssessmentGrader {
 			key = entry.getKey();
 			itemWeight = templateDataMap.get(key).getWeight();
 			
-			double countCorrect = 0.0;
-			double countOptions = 0.0;
+			int countCorrect = 0, countOptions = 0;
 			for(Option opt: userDataMap.get(key)){
 				if(opt.getCorrect() == 1){
-					countCorrect += 1.0;
+					countCorrect += 1;
 				}
-				countOptions += 1.0;
+				countOptions += 1;
 			}
 			
-			if(countOptions == 0.0){
-				countOptions = 1.0;
+			if(countOptions==0){
+				countOptions = 1;
 			}
 			
-			itemWeightedGrade = itemWeight*(countCorrect/countOptions);//
+			itemWeightedGrade = itemWeight*((double)countCorrect/(double)countOptions);//
 			result[0] = result[0]+itemWeightedGrade;
 			result[1] = result[1]+itemWeight;
 		}
@@ -98,20 +97,19 @@ public class AssessmentGrader {
 			key = entry.getKey();
 			itemWeight = templateDataMap.get(key).getWeight();
 			
-			double countCorrect = 0.0;
-			double countOptions = 0.0;
+			double countCorrect = 0, countOptions = 0;
 			for(AssessmentDragDrop dragDrop: userDataMap.get(key)){
 				if(dragDrop.getUserOrder() == dragDrop.getDragDrop().getCorrectOrder()){
-					countCorrect += 1.0;
+					countCorrect += 1;
 				}
-				countOptions += 1.0;
+				countOptions += 1;
 			}
 			
-			if(countOptions==0.0){
-				countOptions = 1.0;
+			if(countOptions==0){
+				countOptions = 1;
 			}
 			
-			itemWeightedGrade = itemWeight*(countCorrect/countOptions);//
+			itemWeightedGrade = itemWeight*((double)countCorrect/(double)countOptions);//
 			result[0] = result[0]+itemWeightedGrade;
 			result[1] = result[1]+itemWeight;
 		}

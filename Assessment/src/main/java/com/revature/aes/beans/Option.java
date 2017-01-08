@@ -4,18 +4,14 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Entity
@@ -43,7 +39,7 @@ public class Option implements Serializable {
 	/**
 	 * @correct A Integer value representing the correct answer for a question.
 	 *          Minimun value is 0, Maximun value is 1. 0 is equavalent to false
-	 *          while 1 is equavalent to true.
+	 *          while 1 is equivalent to true.
 	 */
 	@Min(value = 0)
 	@Max(value = 1)
@@ -53,10 +49,6 @@ public class Option implements Serializable {
 	/**
 	 * @question The question associated with this class.
 	 */
-	
-	/*@ManyToOne(fetch = FetchType.EAGER) //?
-	@JoinColumn(name = "QUESTION_ID")
-	private Question question;*/
 	
 	@Column(name = "QUESTION_ID")
 	private Integer question;
@@ -84,14 +76,6 @@ public class Option implements Serializable {
 	public void setCorrect(Integer correct) {
 		this.correct = correct;
 	}
-	
-	/*public Question getQuestion() {
-		return question;
-	}
-	
-	public void setQuestion(Question questionId) {
-		this.question = questionId;
-	}*/
 	
 	public Integer getQuestion() {
 		return question;
@@ -157,7 +141,6 @@ public class Option implements Serializable {
 
 	public Option() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	
 }

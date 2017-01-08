@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.revature.aes.beans.Assessment;
 import com.revature.aes.beans.Packet;
 import com.revature.aes.beans.SnippetUpload;
@@ -26,8 +28,6 @@ import com.revature.aes.grading.CoreEmailClient;
 import com.revature.aes.logging.Logging;
 import com.revature.aes.service.S3Service;
 import com.revature.aes.util.Error;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 @RestController
 @RequestMapping("/rest")
@@ -42,31 +42,31 @@ public class GetAssessmentController {
 	@Autowired
 	S3Service s3;
 	
-	private HttpSession httpSession;
-
 	private Logging log = new Logging();
 
 	private String coreEmailClientEndpointAddress = "http://localhost:8080/core/";
 
 	@RequestMapping(value = "/link", method = RequestMethod.POST, consumes = {
 			MediaType.APPLICATION_JSON })
-	public String getAssessmentID(@RequestBody String JSONData,
+	public String getAssessmentID(@RequestBody String jsonData,
 			HttpSession event) {
 		int assessmentId;
 		
-		System.out.println("Link called " + JSONData);
+		String assessmentIdString = "assessmentId";
+		
+		log.info("Link called " + jsonData);
 		
 		JsonParser parser = new JsonParser();
-		JsonObject obj = parser.parse(JSONData).getAsJsonObject();
+		JsonObject obj = parser.parse(jsonData).getAsJsonObject();
 		
-		assessmentId = Integer.parseInt(obj.get("assessmentId").getAsString());
+		assessmentId = Integer.parseInt(obj.get(assessmentIdString).getAsString());
 		
-		httpSession = event;
+		HttpSession httpSession = event;
 		
-		httpSession.setAttribute("assessmentId", assessmentId);
-		System.out.println("Attrtibute set");
+		httpSession.setAttribute(assessmentIdString, assessmentId);
+		log.info("Attrtibute set");
 		
-		System.out.println(httpSession.getAttribute("assessmentId"));
+		log.info(httpSession.getAttribute(assessmentIdString).toString());
 		
 		return "http://localhost:8090/asmt/quiz";
 	}
@@ -112,19 +112,18 @@ public class GetAssessmentController {
 	}
 
 	@RequestMapping(value = "{id}")
-	public String getAssessment(@PathVariable("id") int AssessmentId) throws JsonProcessingException {
+	public String getAssessment(@PathVariable("id") int assessmentId) throws JsonProcessingException {
 
-		log.info("I'm here!" + AssessmentId);
+		log.info("I'm here!" + assessmentId);
 		String jsonString;
 		ObjectMapper mapper = new ObjectMapper();
 		Assessment assessment = new Assessment();
 		try {
-			assessment = service.getAssessmentById(AssessmentId);
+			assessment = service.getAssessmentById(assessmentId);
 		} catch (NullPointerException e) {
 			StackTraceElement thing = Thread.currentThread().getStackTrace()[1];
 			Error.error("\nat Line:\t" + thing.getLineNumber() + "\nin Method:\t" + thing.getMethodName()
 					+ "\nin Class:\t" + thing.getClassName(), e);
-			e.printStackTrace();
 		}
 		log.info(assessment.toString());
 		log.info(assessment.getMyTemplate().getTemplateQuestion().toString());

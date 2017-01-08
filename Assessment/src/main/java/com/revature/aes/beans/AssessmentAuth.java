@@ -14,17 +14,12 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Entity
 @Component
 @Table(name = "aes_assessment_auth")
 public class AssessmentAuth implements Serializable {
-	
-	public AssessmentAuth() {
-		super();
-	}
 	
 	private static final long serialVersionUID = -2732479042247683247L;
 	
@@ -44,6 +39,10 @@ public class AssessmentAuth implements Serializable {
 	
 	@Column(name = "url_assessment")
 	private String urlAssessment;
+	
+	public AssessmentAuth() {
+		super();
+	}
 	
 	public int getAssessmentAuthId() {
 		
