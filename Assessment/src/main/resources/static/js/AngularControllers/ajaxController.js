@@ -18,12 +18,6 @@ app.controller('AjaxController', function($scope, $http) {
 	            url: 'getAssessment',
 	            headers: {'Content-Type': 'application/json'},
 	            data: data
-	        })
-	        .success(function (data){
-	            // SETUP QUESTIONS AND STATE ARRAYS
-	            // START TIMER
-	        })
-	        .error(function (response){
 	        });
 	    }
 	    
@@ -33,10 +27,6 @@ app.controller('AjaxController', function($scope, $http) {
 	            url: 'submitAssessment',
 	            headers: {'Content-Type': 'application/json'},
 	            data: data
-	        })
-	        .success(function (data){
-	        })
-	        .error(function (response){
 	        });
 	    }
 });
