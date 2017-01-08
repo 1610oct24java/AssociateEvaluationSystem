@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.revature.aes.loader.AssessmentRequestLoader;
+
 /**
  * 
  * This is a Service Locator meant to send an email through a rest
@@ -21,8 +23,12 @@ import org.springframework.web.client.RestTemplate;
 public class MailServiceLocatorImpl implements MailServiceLocator {
 	Logger log = Logger.getRootLogger();
 	RestTemplate restTemplate = new RestTemplate();
-	private static final String URL = "http://localhost:8080/core";
 
+//	static AssessmentRequestLoader loader = new AssessmentRequestLoader();
+//	private static final String URL = loader.loadAddress() + "/core";
+
+	private static final String URL = "http://localhost:8080/core";
+	
 	@Override
 	/**
 	 * 

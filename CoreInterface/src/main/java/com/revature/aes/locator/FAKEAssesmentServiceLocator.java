@@ -11,7 +11,7 @@ public class FAKEAssesmentServiceLocator implements AssessmentServiceLocator {
 	
 	public AssessmentRequest getLink(AssessmentRequest assessment) {
 		
-		assessment.setLink("www.google.com");
+		assessment.setLink("http://www.google.com");
 		log.debug(assessment.getUserEmail());
 		return assessment;
 	}
