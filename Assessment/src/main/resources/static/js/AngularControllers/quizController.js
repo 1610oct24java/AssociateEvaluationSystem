@@ -91,22 +91,14 @@ app.controller("quizController", function($scope, $rootScope, $http) {
 			var answer = $scope.questions[ndxQuestion].templateQuestion.multiChoice[ndxOption];
 			var question = $scope.questions[ndxQuestion].templateQuestion;
 			var foundAt = $rootScope.protoTest.options.indexOf(answer);
-			console.log("foundAt: " + foundAt);
+			
 			if (foundAt === -1) {
+				// User has not selected this previously, add it
 				$rootScope.protoTest.options.push(answer);
 			} else {
+				// User has selected this previously, delete it.
 				$rootScope.protoTest.options.splice(foundAt, 1);
 			}
-			
-			/*foundAt = $scope.answers[ndxQuestion].indexOf(ndxOption)
-			answer = $scope.questions[ndxQuestion].templateQuestion.multiChoice[ndxOption];
-			if (foundAt === -1){
-				$scope.answers[ndxQuestion].push(ndxOption);
-				$rootScope.protoTest.options.push(answer);
-			} else {
-				$scope.answers[ndxQuestion].splice(foundAt, 1);
-				$rootScope.protoTest.options.splice(foundAt, 1);
-			}*/
 		}
 	}
 	
@@ -114,11 +106,21 @@ app.controller("quizController", function($scope, $rootScope, $http) {
 		var output = false;
 		
 		if($scope.questions[ndxQuestion].templateQuestion.format.formatId === 0) {
+			// Handle multiple choice
 			if ($scope.answers[ndxQuestion] === ndxOption) {
 				output = true;
 			}
-		} else if ($scope.questions[ndxQuestion].templateQuestion.format.formatId === 1 && $scope.answers[ndxQuestion].indexOf(ndxOption) != -1) {
-			output = true;
+		} else if ($scope.questions[ndxQuestion].templateQuestion.format.formatId) {
+			// Handle multiple select
+			var answer = $scope.questions[ndxQuestion].templateQuestion.multiChoice[ndxOption];
+			var foundAt = $rootScope.protoTest.options.indexOf(answer);
+			if (foundAt === -1){
+				// This answer has not been previously selected
+				output = false;
+			} else {
+				// This answer has been previously selected, should be marked
+				output = true;
+			}
 		}
 		return output;
 	}
