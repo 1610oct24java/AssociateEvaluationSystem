@@ -34,17 +34,7 @@ public class QuestionRestControllerTest {
 	@Autowired
 	private QuestionService questionService;
 
-/*
-  	@Autowired
-    private WebApplicationContext webApplicationContext;
 
-    private MockMvc mockMvc;
-
-    @Before
-    public void setup() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
-                .build();
-    }*/
 	@Test
 	public void testGetAllQuestions() {
 		assertNotNull(questionService.getAllQuestions());		
