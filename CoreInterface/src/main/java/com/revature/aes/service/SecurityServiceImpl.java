@@ -90,7 +90,7 @@ public class SecurityServiceImpl implements SecurityService {
 	@Override
 	@Transactional(propagation=Propagation.MANDATORY)
 	public String createKnownSecurity(User user) {
-		// TODO Auto-generated method stub
+		// 
 		int userId = user.getUserId();
 		Security security = dao.findSecurityByUserId(userId);
 		if(security == null) {
