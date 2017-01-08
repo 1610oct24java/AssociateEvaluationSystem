@@ -49,7 +49,8 @@ public class AssessmentGrader {
 			key = entry.getKey();
 			itemWeight = templateDataMap.get(key).getWeight();
 			
-			int countCorrect = 0, countOptions = 0;
+			int countCorrect = 0;
+			int countOptions = 0;
 			for(Option opt: userDataMap.get(key)){
 				if(opt.getCorrect() == 1){
 					countCorrect += 1;
@@ -97,7 +98,8 @@ public class AssessmentGrader {
 			key = entry.getKey();
 			itemWeight = templateDataMap.get(key).getWeight();
 			
-			double countCorrect = 0, countOptions = 0;
+			int countCorrect = 0;
+			int countOptions = 0;
 			for(AssessmentDragDrop dragDrop: userDataMap.get(key)){
 				if(dragDrop.getUserOrder() == dragDrop.getDragDrop().getCorrectOrder()){
 					countCorrect += 1;

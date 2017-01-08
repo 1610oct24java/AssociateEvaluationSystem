@@ -10,6 +10,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+	@Autowired
+	private CustomAuthenticationProvider authProvider;
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
@@ -17,30 +20,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.permitAll();
 		
 		http.authorizeRequests().antMatchers("/**").permitAll().and().authorizeRequests().and().csrf().disable();
-		
-		// http.authorizeRequests().antMatchers("/").permitAll().anyRequest()
-		// .authenticated()
-		//
-		// .and().formLogin().loginPage("/login").permitAll()
-		//
-		// .and().logout().logoutUrl("/logout").invalidateHttpSession(true)
-		// .deleteCookies("remember-me").permitAll()
-		//
-		// .and().rememberMe().and().exceptionHandling()
-		// .accessDeniedPage("/error")
-		//
-		// .and().authorizeRequests().and().csrf().disable();
-		
 	}
-	
-	@Autowired
-	private CustomAuthenticationProvider authProvider;
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth)
 			throws Exception {
 		auth.authenticationProvider(authProvider);
-		// auth.inMemoryAuthentication().withUser("user").password("password")
-		// .roles("USER");
 	}
 }

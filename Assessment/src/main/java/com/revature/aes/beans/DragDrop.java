@@ -30,17 +30,11 @@ public class DragDrop implements Serializable {
 	@Column(name = "correct_order")
 	private int correctOrder;
 
-	
-	/*@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="QUESTION_ID")
-	private Question questionId;*/
-	
 	@Column(name = "QUESTION_ID")
 	private Integer questionId;
 
 	public DragDrop() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -80,14 +74,4 @@ public class DragDrop implements Serializable {
 	public void setQuestionId(Integer questionId) {
 		this.questionId = questionId;
 	}
-
-	/*public Question getQuestionId() {
-		return questionId;
-	}
-
-	public void setQuestionId(Question questionId) {
-		this.questionId = questionId;
-	}*/
-	
-	
 }

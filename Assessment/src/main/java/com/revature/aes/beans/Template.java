@@ -2,7 +2,6 @@ package com.revature.aes.beans;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -42,13 +41,8 @@ public class Template implements Serializable {
 	@OneToMany(fetch = FetchType.EAGER, mappedBy ="template")
 	private Set<TemplateQuestion> templateQuestion;
 	
-	//@Autowired
-	// @OneToMany(fetch = FetchType.LAZY, mappedBy = "myTemplate")
-	// private Assessment myAssessment;
-
 	public Template() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	
