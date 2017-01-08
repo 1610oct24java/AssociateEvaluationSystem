@@ -1,13 +1,12 @@
-app.controller("quizController", function($scope, $rootScope, $http, $location) {
-	$rootScope.states = new Array();
-	$scope.answers = new Array();
+app.controller("quizController", function($scope, $rootScope, $http) {
+	$rootScope.states = {};
+	$scope.answers = {};
 	$scope.numEditors = 0;
 	$scope.oneAtATime = false;
-	$scope.editors = new Array();
+	$scope.editors = {};
 	$rootScope.protoTest;
 	$scope.questions = [];
 	$scope.snippetSubmissions = [];
-	// $scope.questions = $scope.protoTest.template.templateQuestion;
 	$scope.protoTest2 = {};
 	getQuizQuestions();
 
@@ -21,11 +20,10 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 		$scope.states.push(temp);
 	};
 	var makeAnswers = function(ndx) {
-		if($scope.questions[ndx].templateQuestion.format.formatId === 0) {
-			$scope.answers.push(-1);
-		} else if ($scope.questions[ndx].templateQuestion.format.formatId === 1 ) {
+		if ($scope.questions[ndx].templateQuestion.format.formatId === 1 ) {
 			$scope.answers.push([-1]);
-		} else {
+		}
+		else {
 			$scope.answers.push(-1);
 		};
 	}
@@ -33,21 +31,13 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 		for (var i = 0; i < $scope.questions.length; i++) {
 			makeState(i);
 			makeAnswers(i);
-		};
+		}
 	};
-	// initSetup();
 
 	$scope.collapseQuestion = function(index) {
 		$scope.states[index].open = !$scope.states[index].open;
 	};
 	
-	$scope.handleSaveClick = function(index) {
-		//If question is not already saved, save it
-		if (!$scope.states[index].saved) {
-			saveQuestion(index);
-		}
-	}
-
 	var saveQuestion = function(index) {
 		var q = $scope.questions[index];
 		
@@ -60,12 +50,19 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 						dragDrop : q.templateQuestion.dragDrops[i]
 				};
 				$rootScope.protoTest.assessmentDragDrop.push(assessmentDragDrop);
-			};
-		} else if (q.templateQuestion.format.formatId === 3) {
+			}
 		}
 		
 		$scope.states[index].saved = !$scope.states[index].saved;
 	};
+
+	$scope.handleSaveClick = function(index) {
+		//If question is not already saved, save it
+		if (!$scope.states[index].saved) {
+			saveQuestion(index);
+		}
+	}
+
 
 	$scope.flagQuestion = function(index) {
 		$scope.states[index].flagged = !$scope.states[index].flagged;
@@ -93,8 +90,8 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 			}
 		} else if ($scope.questions[ndxQuestion].templateQuestion.format.formatId === 1 ) {
 			// Handles multiple select questions
-			var foundAt = $scope.answers[ndxQuestion].indexOf(ndxOption)
-			var answer = $scope.questions[ndxQuestion].templateQuestion.multiChoice[ndxOption];
+			foundAt = $scope.answers[ndxQuestion].indexOf(ndxOption)
+			answer = $scope.questions[ndxQuestion].templateQuestion.multiChoice[ndxOption];
 			if (foundAt === -1){
 				$scope.answers[ndxQuestion].push(ndxOption);
 				$rootScope.protoTest.options.push(answer);
@@ -102,7 +99,7 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 				$scope.answers[ndxQuestion].splice(foundAt, 1);
 				$rootScope.protoTest.options.splice(foundAt, 1);
 			}
-		};
+		}
 	}
 	
 	$scope.checkChecked = function (ndxOption, ndxQuestion) {
@@ -112,21 +109,11 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 			if ($scope.answers[ndxQuestion] === ndxOption) {
 				output = true;
 			}
-		} else if ($scope.questions[ndxQuestion].templateQuestion.format.formatId === 1 ) {
-			if ($scope.answers[ndxQuestion].indexOf(ndxOption) != -1){
-				output = true;
-			}
-		};
+		} else if ($scope.questions[ndxQuestion].templateQuestion.format.formatId === 1 && $scope.answers[ndxQuestion].indexOf(ndxOption) != -1) {
+			output = true;
+		}
 		return output;
 	}
-	
-	$scope.$watch('questions', function() {
-	});
-	
-	// EDITORS	
-	$scope.aceLoaded = function(_editor) {
-	    var id = 0 + _editor.container.id;
-	};
 	
 	$scope.aceChanged = function(e) {
 		var id2 = e[1].container.id;
@@ -137,7 +124,7 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 			this.questionId = _questionId;
 		};
 		
-		newSnippet = new SnippetUpload(editor.getValue(), id2.substr(6, id2.length));
+		var newSnippet = new SnippetUpload(editor.getValue(), id2.substr(6, id2.length));
 		
 		for (var i = 0; i < $scope.snippetSubmissions.length; i++){
 			if ($scope.snippetSubmissions[i].questionId = newSnippet.questionId){
@@ -184,17 +171,14 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 			$scope.questions = $rootScope.protoTest.myTemplate.templateQuestion;
 		    initSetup();
 		    $rootScope.initQuizNav();
-		}, function(response) {
-		    //Second function handles error
 		});
 	};
 	
 	$scope.submitAssessment = function(){
-		answerData = {
+		var answerData = {
 				assessment : $rootScope.protoTest,
 				snippetUpload : $scope.snippetSubmissions
 		};
-		//answerData = $rootScope.protoTest;
 		postAssessment(answerData);
 	}
 	
@@ -204,11 +188,6 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 			url: QUIZ_SUBMIT_REST_URL,
 			headers: {'Content-Type': 'application/json'},
 			data: answerData
-		})
-		.then(function(response) {
-			//First function handles success
-		}, function(response) {
-			//Second function handles error
 		});
 	}
 });
