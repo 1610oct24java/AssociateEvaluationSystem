@@ -60,7 +60,7 @@ public class SecurityServiceImpl implements SecurityService {
 		// 
 		
 		int userId = user.getUserId();
-		Security security = dao.findSecurityByUserId(user.getUserId());
+		Security security = dao.findSecurityByUserId(userId);
 		if(security == null) {
 			security = new Security();
 		}
@@ -85,5 +85,25 @@ public class SecurityServiceImpl implements SecurityService {
 		// 
 		Security s = dao.findSecurityByUserId(u.getUserId());
 		s.setValid(0);
+	}
+
+	@Override
+	@Transactional(propagation=Propagation.MANDATORY)
+	public String createKnownSecurity(User user) {
+		// TODO Auto-generated method stub
+		int userId = user.getUserId();
+		Security security = dao.findSecurityByUserId(userId);
+		if(security == null) {
+			security = new Security();
+		}
+		security.setUserId(userId);
+		security.setValid(1);
+		
+
+		security.setPassword(MyEncoder.encodePassword("password"));
+
+		dao.save(security);
+		
+		return "password";
 	}
 }

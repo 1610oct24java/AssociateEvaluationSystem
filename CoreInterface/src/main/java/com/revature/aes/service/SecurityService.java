@@ -8,4 +8,5 @@ public interface SecurityService {
 	public String createSecurity(User user);
 	public void updateSecurity(Security security);
 	public void invalidatePassword(User u);
+	public String createKnownSecurity(User recruiter);
 }

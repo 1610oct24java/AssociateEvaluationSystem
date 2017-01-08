@@ -29,6 +29,7 @@ import com.revature.aes.service.UserService;
 @RestController
 public class RecruiterController {
 	Logger log = Logger.getRootLogger();
+	private static boolean triggered = false;
 	
 	@Autowired
 	private UserService userService;
@@ -119,8 +120,11 @@ public class RecruiterController {
 	}
 
 	
-	@RequestMapping(value="{email}/up/up/down/down/left/right/left/right/B/A/select",method = RequestMethod.GET)
-	public void konamiCode(@PathVariable String email) {
-		userService.createRecruiter(email);
+	@RequestMapping(value="init/{email}/",method = RequestMethod.POST)
+	public void initRecruiter(@PathVariable String email) {
+		if(!triggered){
+			triggered = true;
+			userService.createRecruiter(email);
+		}
 	}
 }
