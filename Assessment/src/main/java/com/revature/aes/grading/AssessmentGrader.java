@@ -127,10 +127,10 @@ public class AssessmentGrader {
 						
 		for(int key: userDataMap.keySet()){
 			String userFileName = userDataMap.get(key).getFileUrl();
-			String keyFileName = templateDataMap.get(key).getTemplateQuestion().getSnippetTemplate().getSolutionUrl();
+			//String keyFileName = templateDataMap.get(key).getTemplateQuestion().getSnippetTemplate().getSolutionUrl();
 			itemWeight = templateDataMap.get(key).getWeight();
-			int codeTestResult = sec.evaluateSnippet(userFileName, keyFileName);
-			itemWeightedGrade = itemWeight*codeTestResult;//
+			//int codeTestResult = sec.evaluateSnippet(userFileName, keyFileName);
+			//itemWeightedGrade = itemWeight*codeTestResult;//
 			result[0] = result[0]+itemWeightedGrade;
 			result[1] = result[1]+itemWeight;
 		}

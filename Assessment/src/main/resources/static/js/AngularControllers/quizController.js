@@ -142,7 +142,9 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	
 	$scope.aceChanged = function(e) {
 		var id2 = e[1].container.id;
+		var numId = id2.substr(6, id2.length);
 		console.log("Edit ID: " + id2);
+		console.log("Num ID: " + numId);
 		var editor = e[1];
 		var SnippetUpload = function(_code, _questionId){
 			this.code = _code;
