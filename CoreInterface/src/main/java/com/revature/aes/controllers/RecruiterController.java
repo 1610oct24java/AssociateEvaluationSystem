@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.aes.beans.User;
 import com.revature.aes.locator.MailServiceLocator;
+import com.revature.aes.service.RoleService;
 import com.revature.aes.service.UserService;
 
 /**
@@ -32,6 +33,9 @@ public class RecruiterController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private RoleService roleService;
 	
 	@Autowired
 	private MailServiceLocator mailService;
@@ -127,5 +131,10 @@ public class RecruiterController {
 	@RequestMapping(value="trainer/{email}/init",method = RequestMethod.POST)
 	public void initTrainer(@PathVariable String email) {
 		userService.createTrainer(email);
+	}
+	
+	@RequestMapping(value="roles/init",method = RequestMethod.GET)
+	public void initRoles() {
+		roleService.initRoles();
 	}
 }

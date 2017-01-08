@@ -23,7 +23,6 @@ public class RoleServiceImpl implements RoleService {
 	public Role findRoleByRoleTitle(String roleTitle) {
 		
 		Role r = dao.findRoleByRoleTitle(roleTitle);
-		System.out.println(r);
 		if(r == null){
 			r = new Role();
 			r.setRoleTitle(roleTitle);
@@ -37,5 +36,33 @@ public class RoleServiceImpl implements RoleService {
 		}
 		
 		return r;
+	}
+	
+	public void initRoles() {
+		System.out.println("here");
+		Role candidate = dao.findRoleByRoleTitle("Candidate");
+		System.out.println("CANDIDATE: " + candidate);
+		if(candidate == null){
+			candidate = new Role();
+			candidate.setRoleTitle("Candidate");
+			candidate.setRoleId(50);
+			dao.save(candidate);
+		}
+		Role trainer = dao.findRoleByRoleTitle("Trainer");
+		System.out.println("TRAINER: " + trainer);
+		if(trainer == null){
+			trainer = new Role();
+			trainer.setRoleTitle("Trainer");
+			trainer.setRoleId(100);
+			dao.save(trainer);
+		}
+		Role recruiter = dao.findRoleByRoleTitle("Recruiter");
+		System.out.println("RECRUITER: " + recruiter);
+		if(recruiter == null){
+			recruiter = new Role();
+			recruiter.setRoleTitle("Recruiter");
+			recruiter.setRoleId(150);
+			dao.save(recruiter);
+		}
 	}
 }
