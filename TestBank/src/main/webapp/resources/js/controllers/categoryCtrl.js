@@ -15,6 +15,7 @@ app.controller('CategoryCtrl', ['$scope', function($scope, $http){
 			},
 			// failure
 			() => {
+				// failure
 			}
 		); 	
 	};
