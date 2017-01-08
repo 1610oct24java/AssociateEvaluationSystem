@@ -63,7 +63,7 @@ public class RoleServiceImpl implements RoleService {
 			dao.save(trainer);
 		}
 		Role recruiter = dao.findRoleByRoleTitle(RECRUITER);
-		System.out.println("RECRUITER: " + recruiter);
+		log.debug("RECRUITER: " + recruiter);
 		if(recruiter == null){
 			recruiter = new Role();
 			recruiter.setRoleTitle(RECRUITER);
