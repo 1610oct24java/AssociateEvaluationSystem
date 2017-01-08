@@ -72,25 +72,33 @@ app.controller("quizController", function($scope, $rootScope, $http) {
 		// Handles putting the answer into the javascript object when the uesr
 		// selects an option
 		
-		if($scope.questions[ndxQuestion].templateQuestion.format.formatId === 0) {
+		if($scope.questions[ndxQuestion].templateQuestion.format.formatId === 0) {			
 			// Handles multiple choice questions
 			$scope.answers[ndxQuestion] = ndxOption;
 			var answer = $scope.questions[ndxQuestion].templateQuestion.multiChoice[ndxOption];
 			var question = $scope.questions[ndxQuestion].templateQuestion;
-			var foundAt = $rootScope.protoTest.options.indexOf(answer);
-			// If it's not already in the system
-			if (foundAt === -1) {
-				// Make sure there's only one option per questions
-				for (var i = 0; i < $rootScope.protoTest.options.length; i++) {
-					if ($rootScope.protoTest.options[i].questionId === question.questionId){
-						$rootScope.protoTest.options.splice(foundAt, 1);
-					}
+			
+			for (var i = 0; i < $scope.protoTest.options.length; i++){
+				if ($rootScope.protoTest.options[i].question === answer.question){
+					// This question already has an option selected, need to replace it
+					$rootScope.protoTest.options.splice(i, 1);
 				}
-				$rootScope.protoTest.options.push(answer);
 			}
+			// Add to selected options
+			$rootScope.protoTest.options.push(answer);
 		} else if ($scope.questions[ndxQuestion].templateQuestion.format.formatId === 1 ) {
 			// Handles multiple select questions
-			foundAt = $scope.answers[ndxQuestion].indexOf(ndxOption)
+			var answer = $scope.questions[ndxQuestion].templateQuestion.multiChoice[ndxOption];
+			var question = $scope.questions[ndxQuestion].templateQuestion;
+			var foundAt = $rootScope.protoTest.options.indexOf(answer);
+			console.log("foundAt: " + foundAt);
+			if (foundAt === -1) {
+				$rootScope.protoTest.options.push(answer);
+			} else {
+				$rootScope.protoTest.options.splice(foundAt, 1);
+			}
+			
+			/*foundAt = $scope.answers[ndxQuestion].indexOf(ndxOption)
 			answer = $scope.questions[ndxQuestion].templateQuestion.multiChoice[ndxOption];
 			if (foundAt === -1){
 				$scope.answers[ndxQuestion].push(ndxOption);
@@ -98,7 +106,7 @@ app.controller("quizController", function($scope, $rootScope, $http) {
 			} else {
 				$scope.answers[ndxQuestion].splice(foundAt, 1);
 				$rootScope.protoTest.options.splice(foundAt, 1);
-			}
+			}*/
 		}
 	}
 	
