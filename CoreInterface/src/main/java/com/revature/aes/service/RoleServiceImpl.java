@@ -30,6 +30,7 @@ public class RoleServiceImpl implements RoleService {
 			
 			dao.save(r);
 		}
+		
 		return r;
 	}
 }
