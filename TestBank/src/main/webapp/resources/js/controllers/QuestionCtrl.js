@@ -1,5 +1,4 @@
 app.controller('QuestionCtrl', function($http, $scope) {
-	var url = "/TestBank/";
 	$scope.fList;
 	/*
 	 * var getFormatList = function() { $http.get(url + "format") .then(
@@ -7,7 +6,7 @@ app.controller('QuestionCtrl', function($http, $scope) {
 	 * formatList; });}
 	 */
 	$scope.getFormatList = function() {
-		$http.get(url + "format")
+		$http.get("format")
 		.then(function(response) {
 			$scope.fList = response.data;
 			
@@ -64,7 +63,7 @@ app.controller('QuestionCtrl', function($http, $scope) {
 	
 	// Retrieves the List of Questions from the Database
 	$scope.getQuestionList = function() {
-		$http.get(url + "question")
+		$http.get("question")
 			.then(function(response) {	
 				$scope.qList = response.data;
 			}); // $http end
@@ -172,7 +171,7 @@ app.controller('QuestionCtrl', function($http, $scope) {
 		if ($scope.question.question.format.formatId === 0) {
 		} else {
 			if($scope.question.questionText != ''){
-			$http.post(url + "fullQuestion", $scope.question)
+			$http.post("fullQuestion", $scope.question)
 				.success(function(response) {
 					$scope.question.question = response;
 					if ($scope.question.question == null) {
@@ -277,14 +276,14 @@ app.controller('QuestionCtrl', function($http, $scope) {
 	
 	// Load categories from database so that they can be added to questions
 	$scope.loadCategories = function() {
-		$http.get(url + "category")
+		$http.get("category")
 		.then(function(response) {	
 			$scope.categoriesInDatabase = response.data;
 		});
 	};
 	
 	$scope.loadTags = function() {
-		$http.get(url + "tag")
+		$http.get("tag")
 		.then(function(response) {
 			$scope.tagsInDatabase = response.data;
 		})
