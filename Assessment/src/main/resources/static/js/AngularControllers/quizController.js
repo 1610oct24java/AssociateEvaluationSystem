@@ -65,7 +65,6 @@ app.controller("quizController", function($scope, $rootScope, $http) {
 		}
 	}
 
-
 	$scope.flagQuestion = function(index) {
 		$scope.states[index].flagged = !$scope.states[index].flagged;
 	};
