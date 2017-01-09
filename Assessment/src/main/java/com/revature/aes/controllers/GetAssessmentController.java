@@ -68,7 +68,7 @@ public class GetAssessmentController {
 		
 		log.info(httpSession.getAttribute(assessmentIdString).toString());
 		
-		return "http://localhost:8090/asmt/quiz";
+		return "http://192.168.60.64:8090/asmt/quiz";
 	}
 
 	@RequestMapping(value = "/submitAssessment", method = RequestMethod.POST)
