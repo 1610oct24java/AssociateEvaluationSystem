@@ -9,6 +9,8 @@ app.controller("quizController", function($scope, $rootScope, $http) {
 	$scope.snippetSubmissions = [];
 	$scope.protoTest2 = {};
 	getQuizQuestions();
+	
+	//console.log(window.location.href);
 
 	var makeState = function(input) {
 		var temp = {
@@ -72,7 +74,7 @@ app.controller("quizController", function($scope, $rootScope, $http) {
 		// Handles putting the answer into the javascript object when the uesr
 		// selects an option
 		
-		if($scope.questions[ndxQuestion].templateQuestion.format.formatId === 0) {			
+		if($scope.questions[ndxQuestion].templateQuestion.format.formatId === 4) {			
 			// Handles multiple choice questions
 			$scope.answers[ndxQuestion] = ndxOption;
 			var answer = $scope.questions[ndxQuestion].templateQuestion.multiChoice[ndxOption];
@@ -104,12 +106,12 @@ app.controller("quizController", function($scope, $rootScope, $http) {
 	$scope.checkChecked = function (ndxOption, ndxQuestion) {
 		var output = false;
 		
-		if($scope.questions[ndxQuestion].templateQuestion.format.formatId === 0) {
+		if($scope.questions[ndxQuestion].templateQuestion.format.formatId === 4) {
 			// Handle multiple choice
 			if ($scope.answers[ndxQuestion] === ndxOption) {
 				output = true;
 			}
-		} else if ($scope.questions[ndxQuestion].templateQuestion.format.formatId) {
+		} else if ($scope.questions[ndxQuestion].templateQuestion.format.formatId == 1) {
 			// Handle multiple select
 			var answer = $scope.questions[ndxQuestion].templateQuestion.multiChoice[ndxOption];
 			var foundAt = $rootScope.protoTest.options.indexOf(answer);

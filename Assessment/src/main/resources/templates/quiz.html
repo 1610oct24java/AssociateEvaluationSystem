@@ -72,7 +72,7 @@
 									<div class="panel-body">
 										{{q.templateQuestion.questionText}} <br>
 										<hr>
-										<div ng-show="q.templateQuestion.format.formatId === 0">Choose
+										<div ng-show="q.templateQuestion.format.formatId === 4">Choose
 											one:</div>
 										<div ng-show="q.templateQuestion.format.formatId === 1">Choose
 											as many as applicable:</div>
@@ -80,7 +80,7 @@
 											and drop:</div>
 										<div ng-show="q.templateQuestion.format.formatId === 3">Write
 											your code below:</div>
-										<ul ng-show="q.templateQuestion.format.formatId < 2"
+										<ul ng-show="q.templateQuestion.format.formatId === 2 || q.templateQuestion.format.formatId === 4"
 											class="list-group">
 											<li class="list-group-item"
 												ng-repeat="option in q.templateQuestion.multiChoice">
@@ -88,7 +88,7 @@
 												<div
 													ng-click="selectOption($index, $parent.$index+numPerPage*(currentPage-1))"
 													class="radio"
-													ng-show="q.templateQuestion.format.formatId === 0">
+													ng-show="q.templateQuestion.format.formatId === 4">
 													<label><input class="radio" type="radio"
 														name="q{{q.templateQuestion.questionId}}"
 														ng-checked="checkChecked($index, $parent.$index+numPerPage*(currentPage-1))">{{option.optionText}}</label>
