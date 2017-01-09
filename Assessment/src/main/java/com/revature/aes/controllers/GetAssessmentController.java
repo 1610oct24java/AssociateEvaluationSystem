@@ -32,20 +32,21 @@ import com.revature.aes.util.Error;
 @RestController
 @RequestMapping("/rest")
 public class GetAssessmentController {
-
+	
 	@Autowired
 	private AssessmentService service;
-
+	
 	@Autowired
 	UsersDao usersService;
-
+	
 	@Autowired
 	S3Service s3;
 	
 	private Logging log = new Logging();
-
-	private String coreEmailClientEndpointAddress = "http://localhost:8080/core/";
-
+	
+	private String coreEmailClientEndpointAddress =
+			"http://localhost:8080/core/";
+	
 	@RequestMapping(value = "/link", method = RequestMethod.POST, consumes = {
 			MediaType.APPLICATION_JSON })
 	public String getAssessmentID(@RequestBody String jsonData,
@@ -56,10 +57,10 @@ public class GetAssessmentController {
 		
 		log.info("Link called " + jsonData);
 		
-		JsonParser parser = new JsonParser();
-		JsonObject obj = parser.parse(jsonData).getAsJsonObject();
+		// JsonParser parser = new JsonParser();
+		// JsonObject obj = parser.parse(jsonData).getAsJsonObject();
 		
-		assessmentId = Integer.parseInt(obj.get(assessmentIdString).getAsString());
+		assessmentId = Integer.parseInt(jsonData);
 		
 		HttpSession httpSession = event;
 		
@@ -70,19 +71,20 @@ public class GetAssessmentController {
 		
 		return "http://192.168.60.64:8090/asmt/quiz";
 	}
-
+	
 	@RequestMapping(value = "/submitAssessment", method = RequestMethod.POST)
-	public String saveAssessmentAnswers(@RequestBody String jsonUserAnswers, HttpServletResponse response)
+	public String saveAssessmentAnswers(@RequestBody String jsonUserAnswers,
+			HttpServletResponse response)
 			throws JsonMappingException, IOException {
 		log.info("I'm gonna save the thing!");
 		ObjectMapper om = new ObjectMapper();
-
+		
 		// Separate the incoming data
 		Packet incoming = om.readValue(jsonUserAnswers, Packet.class);
-
+		
 		Assessment assessment = incoming.getAssessment();
 		List<SnippetUpload> lstSnippetUploads = incoming.getSnippetUpload();
-
+		
 		for (SnippetUpload su : lstSnippetUploads) {
 			// userAnswer_assID_qID
 			String key = "";
@@ -95,25 +97,27 @@ public class GetAssessmentController {
 			log.info(su.getCode());
 			s3.uploadToS3(su.getCode(), key);
 		}
-
+		
 		// SAVE the answers into the database
 		service.gradeAssessment(assessment);
 		service.updateAssessment(assessment);
 		log.info("Hopefully I saved the thing!");
-
+		
 		int recruiterId = assessment.getUser().getRecruiterId();
-
+		
 		String recruiterEmail = usersService.findOne(recruiterId).getEmail();
-
-		new CoreEmailClient(coreEmailClientEndpointAddress).sendEmailAfterGrading(recruiterEmail,
-				assessment.getAssessmentId());
-
+		
+		new CoreEmailClient(coreEmailClientEndpointAddress)
+				.sendEmailAfterGrading(recruiterEmail,
+						assessment.getAssessmentId());
+		
 		return "Gucci?";
 	}
-
+	
 	@RequestMapping(value = "{id}")
-	public String getAssessment(@PathVariable("id") int assessmentId) throws JsonProcessingException {
-
+	public String getAssessment(@PathVariable("id") int assessmentId)
+			throws JsonProcessingException {
+		
 		log.info("I'm here!" + assessmentId);
 		String jsonString;
 		ObjectMapper mapper = new ObjectMapper();
@@ -122,8 +126,12 @@ public class GetAssessmentController {
 			assessment = service.getAssessmentById(assessmentId);
 		} catch (NullPointerException e) {
 			StackTraceElement thing = Thread.currentThread().getStackTrace()[1];
-			Error.error("\nat Line:\t" + thing.getLineNumber() + "\nin Method:\t" + thing.getMethodName()
-					+ "\nin Class:\t" + thing.getClassName(), e);
+			Error.error("\nat Line:\t"
+					+ thing.getLineNumber()
+					+ "\nin Method:\t"
+					+ thing.getMethodName()
+					+ "\nin Class:\t"
+					+ thing.getClassName(), e);
 		}
 		log.info(assessment.toString());
 		log.info(assessment.getMyTemplate().getTemplateQuestion().toString());
