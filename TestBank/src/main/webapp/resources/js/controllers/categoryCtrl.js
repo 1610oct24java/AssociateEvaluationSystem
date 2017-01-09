@@ -1,5 +1,4 @@
 app.controller('CategoryCtrl', function($scope, $http){
-	var url = "http://localhost:8080/TestBank/";
 	$scope.categories;
 	$scope.delCategory = '';
 	$scope.newCategory = {
@@ -8,7 +7,7 @@ app.controller('CategoryCtrl', function($scope, $http){
 	};
 	
 	function getCategories() {
-		var array = $http.get(url + "category").then(
+		var array = $http.get("category").then(
 				function(response){
 					$scope.categories = response.data;
 					
@@ -21,7 +20,7 @@ app.controller('CategoryCtrl', function($scope, $http){
 			// #alert dem bitches
 		}
 		else{
-			$http.post(url + "category", $scope.newCategory).then(
+			$http.post("category", $scope.newCategory).then(
 				// success
 				function() {
 					// add new category to the list
@@ -39,7 +38,7 @@ app.controller('CategoryCtrl', function($scope, $http){
 	};
 	
 	$scope.deleteCategory = function() {
-		$http.delete(url + "category/" + $scope.delCategory).then(
+		$http.delete("category/" + $scope.delCategory).then(
 			// success
 			function() {
 				$scope.categories.splice($scope.findIndexOfCategory(), 1);

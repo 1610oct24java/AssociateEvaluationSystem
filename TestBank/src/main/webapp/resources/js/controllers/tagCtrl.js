@@ -1,5 +1,4 @@
 app.controller("TagCtrl", function($http, $scope) {
-	var url = "http://localhost:8080/TestBank/";
 		$scope.tags =[];
 		$scope.delTag = '';
 		$scope.newTag = {
@@ -8,7 +7,7 @@ app.controller("TagCtrl", function($http, $scope) {
 		};
 		
 		$scope.getTags = function() {
-			$http.get(url + "tag").then(
+			$http.get("tag").then(
 				// success
 				function(response) {
 					$scope.tags = response.data;
@@ -20,7 +19,7 @@ app.controller("TagCtrl", function($http, $scope) {
 			if($scope.newTag.tagName == ''){
 			}
 			else{
-				$http.post(url + "tag", $scope.newTag).then(
+				$http.post("tag", $scope.newTag).then(
 					// success
 					function() {
 						// add new tag to the list
@@ -49,7 +48,7 @@ app.controller("TagCtrl", function($http, $scope) {
 			if($scope.delTag==''){
 				return;
 			}
-			$http.delete(url + "tag/" + $scope.delTag).then(
+			$http.delete("tag/" + $scope.delTag).then(
 				function() {
 					$scope.tags.splice($scope.findIndexOfTag(), 1);
 					$scope.delTag = '';
