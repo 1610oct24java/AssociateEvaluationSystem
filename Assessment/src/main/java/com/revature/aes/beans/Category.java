@@ -14,60 +14,53 @@ import org.springframework.stereotype.Component;
 
 @Entity
 @Component
-@Table(name="AES_CATEGORY")
-public class Category implements Serializable{
-	/**
-	 * @serialVersionUID An auto-generated field that is used for serialization.
-	 */
-	private static final long serialVersionUID = 1609968850692884482L;
+@Table(name = "AES_CATEGORY")
+public class Category implements Serializable {
 	/**
 	 * @cateogryId A unique Identifier for the Class.
 	 */
 	@Id
 	@SequenceGenerator(name = "AES_CATEGORIES_SEQ", sequenceName = "AES_CATEGORIES_SEQ")
 	@GeneratedValue(generator = "AES_CATEGORIES_SEQ", strategy = GenerationType.SEQUENCE)
-	@Column(name="CATEGORY_ID")
+	@Column(name = "CATEGORY_ID")
 	private Integer categoryId;
 	
 	/**
 	 * @name A String representation of the name of the Category.
 	 */
-	@Column(name="CATEGORY_NAME")
+	@Column(name = "CATEGORY_NAME")
 	private String name;
-
+	
 	public Category() {
 		super();
 	}
-
+	
 	public Integer getCategoryId() {
 		return categoryId;
 	}
-
+	
 	public void setCategoryId(Integer categoryId) {
 		this.categoryId = categoryId;
 	}
-
+	
 	public String getName() {
 		return name;
 	}
-
+	
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((categoryId == null) ? 0 : categoryId.hashCode());
+		result = prime * result
+				+ ((categoryId == null) ? 0 : categoryId.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -89,9 +82,9 @@ public class Category implements Serializable{
 			return false;
 		return true;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "Category [categoryId=" + categoryId + ", name=" + name + "]";
-	}		
+	}
 }

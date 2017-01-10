@@ -21,7 +21,6 @@ import org.springframework.stereotype.Component;
 @Table(name = "aes_assessment_auth")
 public class AssessmentAuth implements Serializable {
 	
-	private static final long serialVersionUID = -2732479042247683247L;
 	
 	@Id
 	@Column(name = "assessment_auth_id")

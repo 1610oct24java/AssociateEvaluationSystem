@@ -18,7 +18,6 @@ import javax.persistence.Transient;
 @Table(name = "AES_USERS")
 public class User implements Serializable {
 	
-	private static final long serialVersionUID = 6104022944061620088L;
 	@Id
 	@SequenceGenerator(name = "AES_USERS_SEQ", sequenceName = "AES_USERS_SEQ")
 	@GeneratedValue(generator = "AES_USERS_SEQ", strategy = GenerationType.SEQUENCE)
@@ -39,7 +38,6 @@ public class User implements Serializable {
 	
 	@Column(name = "RECRUITER_ID")
 	private Integer recruiterId;
-	
 	
 	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Role.class)
 	@JoinColumn(name = "ROLE_ID")
@@ -117,10 +115,6 @@ public class User implements Serializable {
 	
 	public void setDatePassIssued(String datePassIssued) {
 		this.datePassIssued = datePassIssued;
-	}
-	
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 	
 	@Override

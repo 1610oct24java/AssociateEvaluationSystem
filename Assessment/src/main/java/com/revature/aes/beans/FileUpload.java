@@ -19,7 +19,6 @@ import org.springframework.stereotype.Component;
 @Component
 @Table(name = "aes_file_upload")
 public class FileUpload implements Serializable {
-	private static final long serialVersionUID = 3082492540225468947L;
 	@Id
 	@Column(name = "file_id")
 	@SequenceGenerator(sequenceName = "file_upload_seq", name = "file_upload_seq")
@@ -32,14 +31,12 @@ public class FileUpload implements Serializable {
 	@Column(name = "grade")
 	private int grade;
 	
-	
-	@ManyToOne(fetch = FetchType.LAZY) //?
+	@ManyToOne(fetch = FetchType.LAZY) // ?
 	@JoinColumn(name = "assessment_id")
 	private Assessment assessment;
 	
 	@Column(name = "QUESTION_ID")
 	private int questionId;
-	
 	
 	public FileUpload() {
 		super();
@@ -48,11 +45,11 @@ public class FileUpload implements Serializable {
 	public int getQuestionId() {
 		return questionId;
 	}
-
+	
 	public void setQuestionId(int questionId) {
 		this.questionId = questionId;
 	}
-
+	
 	public int getFileId() {
 		return fileId;
 	}
@@ -85,15 +82,19 @@ public class FileUpload implements Serializable {
 		this.assessment = assessment;
 	}
 	
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
 	@Override
 	public String toString() {
-		return "FileUpload [fileId=" + fileId + ", fileUrl=" + fileUrl + ", grade=" + grade + ", assessment="
-				+ assessment + ", questionId=" + questionId + "]";
+		return "FileUpload [fileId="
+				+ fileId
+				+ ", fileUrl="
+				+ fileUrl
+				+ ", grade="
+				+ grade
+				+ ", assessment="
+				+ assessment
+				+ ", questionId="
+				+ questionId
+				+ "]";
 	}
-	
 	
 }

@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 @Table(name = "AES_ROLES")
 public class Role implements Serializable {
 	
-	private static final long serialVersionUID = 6033234014682351342L;
 	@Id
 	@Column(name = "ROLE_ID")
 	private int roleId;

@@ -1,4 +1,4 @@
-app.controller("quizController", function($scope, $rootScope, $http) {
+app.controller("quizController", function($scope, $rootScope, $http, $location) {
 	$rootScope.states = [];
 	$scope.answers = [];
 	$scope.numEditors = 0;
@@ -200,9 +200,11 @@ app.controller("quizController", function($scope, $rootScope, $http) {
 	
 	// AJAX
 	function getQuizQuestions() {
+		
+		console.log(QUIZ_REST_URL + $location.search().asmt);
 		$http({
 			method: 'GET',
-			url: QUIZ_REST_URL,
+			url: QUIZ_REST_URL + $location.search().asmt,
 			headers: {'Content-Type': 'application/json'}
 		})
 		.then(function(response) {

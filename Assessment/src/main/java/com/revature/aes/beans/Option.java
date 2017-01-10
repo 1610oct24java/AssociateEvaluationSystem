@@ -20,10 +20,6 @@ import org.springframework.stereotype.Component;
 public class Option implements Serializable {
 	
 	/**
-	 * @serialVersionUID An auto-generated field that is used for serialization.
-	 */
-	private static final long serialVersionUID = -2721235710924038934L;
-	/**
 	 * @optionId the unique Identifier for the Option class
 	 */
 	@Id

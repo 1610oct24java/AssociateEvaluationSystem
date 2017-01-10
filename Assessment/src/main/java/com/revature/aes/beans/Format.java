@@ -16,12 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Table(name = "AES_FORMATS")
 public class Format implements Serializable {
-
-	/**
-	 * @serialVersionUID An auto-generated field that is used for serialization.
-	 */
-	private static final long serialVersionUID = 9090154484770826813L;
-
+	
 	/**
 	 * @formatId The unique Identifier for the Class
 	 */
@@ -30,46 +25,44 @@ public class Format implements Serializable {
 	@GeneratedValue(generator = "AES_FORMATS_SEQ", strategy = GenerationType.SEQUENCE)
 	@Column(name = "FORMAT_ID")
 	private Integer formatId;
-
+	
 	/**
 	 * @formatName A String representation of the type of question format.
 	 */
 	@Column(name = "FORMAT_NAME")
 	private String formatName;
-
+	
 	public Format() {
 		super();
 	}
-
+	
 	public Integer getFormatId() {
 		return formatId;
 	}
-
+	
 	public void setFormatId(Integer formatId) {
 		this.formatId = formatId;
 	}
-
+	
 	public String getFormatName() {
 		return formatName;
 	}
-
+	
 	public void setFormatName(String formatName) {
 		this.formatName = formatName;
 	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((formatId == null) ? 0 : formatId.hashCode());
-		result = prime * result + ((formatName == null) ? 0 : formatName.hashCode());
+		result = prime * result
+				+ ((formatId == null) ? 0 : formatId.hashCode());
+		result = prime * result
+				+ ((formatName == null) ? 0 : formatName.hashCode());
 		return result;
 	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -91,9 +84,13 @@ public class Format implements Serializable {
 			return false;
 		return true;
 	}
-
+	
 	@Override
 	public String toString() {
-		return "Format [formatId=" + formatId + ", formatName=" + formatName + "]";
+		return "Format [formatId="
+				+ formatId
+				+ ", formatName="
+				+ formatName
+				+ "]";
 	}
 }

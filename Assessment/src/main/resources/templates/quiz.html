@@ -3,6 +3,7 @@
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
+<base href="/asmt"/>
 <meta charset="ISO-8859-1">
 <title>Assessment</title>
 <!-- Latest compiled and minified CSS -->
@@ -185,7 +186,7 @@
 			<hr>
 			<br>
 			<div class="text-center">
-				<a href="goodbye"><button type="button" id="submitBtn"
+				<a href="asmt/goodbye"><button type="button" id="submitBtn"
 						ng-click="submitAssessment()">Submit Assessment</button></a>
 			</div>
 
@@ -197,7 +198,7 @@
 			<div class="modal-content">
 				<p>Thank you for completing the assessment. Your time has
 					expired. Please submit now.</p>
-				<a href="goodbye"><button type="button" id="submitBtn"
+				<a href="asmt/goodbye"><button type="button" id="submitBtn"
 						ng-click="submitAssessment()">Submit Assessment</button></a>
 			</div>
 		</div>

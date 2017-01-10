@@ -69,7 +69,7 @@ public class GetAssessmentController {
 		
 		log.info(httpSession.getAttribute(assessmentIdString).toString());
 		
-		return "http://192.168.60.64:8090/asmt/quiz";
+		return "http://192.168.60.64:8090/asmt/quiz?asmt=" + jsonData;
 	}
 	
 	@RequestMapping(value = "/submitAssessment", method = RequestMethod.POST)
@@ -133,8 +133,8 @@ public class GetAssessmentController {
 					+ "\nin Class:\t"
 					+ thing.getClassName(), e);
 		}
-		log.info(assessment.toString());
-		log.info(assessment.getMyTemplate().getTemplateQuestion().toString());
+		log.info(""+assessment);
+//		log.info(assessment.getMyTemplate().getTemplateQuestion().toString());
 		jsonString = mapper.writeValueAsString(assessment);
 		return jsonString;
 	}

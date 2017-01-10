@@ -21,8 +21,6 @@ import org.springframework.stereotype.Component;
 @Table(name = "aes_template_question")
 public class TemplateQuestion implements Serializable {
 
-	private static final long serialVersionUID = -8227667088089601251L;
-	
 	@Id
 	@Column(name = "template_question_id")
 	@SequenceGenerator(sequenceName = "aes_template_question_seq", name = "aes_template_question_seq")

@@ -8,8 +8,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class Packet implements Serializable{
 	
-	private static final long serialVersionUID = -4093107248683252129L;
-	
 	private Assessment assessment;
 	private List<SnippetUpload> snippetUpload;
 	
