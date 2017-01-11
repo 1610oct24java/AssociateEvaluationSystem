@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import com.revature.aes.beans.Assessment;
 import com.revature.aes.grading.AssessmentGrader;
 
-@Service
+//@Service
 public class AssessmentService implements IAssessmentService {
 
 	@Autowired

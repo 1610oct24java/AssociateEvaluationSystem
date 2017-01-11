@@ -26,7 +26,7 @@ import com.revature.aes.grading.CoreEmailClient;
 import com.revature.aes.service.S3Service;
 
 
-@RestController
+//@RestController
 @RequestMapping("/rest")
 public class GetAssessmentController {
 	

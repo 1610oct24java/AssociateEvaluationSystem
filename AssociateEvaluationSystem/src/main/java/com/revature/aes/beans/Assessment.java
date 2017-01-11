@@ -23,8 +23,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "aes_assessment")
-public class Assessment implements Serializable {
-	
+public class Assessment implements Serializable
+{
 	private static final long serialVersionUID = -6152668317029130986L;
 	@Id
 	@Column(name = "assessment_id")
