@@ -10,24 +10,31 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
 @Entity
-@Table(name = "aes_drag_drop")
+@Table(name = "AES_DRAG_DROP")
 public class DragDrop implements Serializable {
 
 	private static final long serialVersionUID = 7681552840411022561L;
 	@Id
-	@Column(name = "drag_drop_id")
-	@SequenceGenerator(sequenceName = "aes_drag_drop_seq", name = "aes_drag_drop_seq", allocationSize=1)
-	@GeneratedValue(generator = "aes_drag_drop_seq", strategy = GenerationType.SEQUENCE)
+	@Column(name = "DRAG_DROP_ID")
+	@GeneratedValue(generator = "AES_DRAG_DROP_SEQ", strategy = GenerationType.SEQUENCE)
+	@GenericGenerator(name="AES_DRAG_DROP_SEQ", strategy="org.hibernate.id.enhanced.SequenceStyleGenerator", parameters={
+			@Parameter(name="sequence_name", value="AES_DRAG_DROP_SEQ"),
+			@Parameter(name="optimizer", value="hilo"),
+			@Parameter(name="initial_value",value="1"),
+			@Parameter(name="increment_size",value="1")
+	})
 	private int dragDropId;
 
-	@Column(name = "drag_drop_text")
+	@Column(name = "DRAG_DROP_TEXT")
 	private String dragDropText;
 
-	@Column(name = "correct_order")
+	@Column(name = "CORRECT_ORDER")
 	private int correctOrder;
 
 	@ManyToOne(fetch=FetchType.EAGER)
