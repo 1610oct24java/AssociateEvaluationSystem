@@ -24,7 +24,7 @@ public class Category implements Serializable {
 	@SequenceGenerator(name = "AES_CATEGORIES_SEQ", sequenceName = "AES_CATEGORIES_SEQ", allocationSize=1)
 	@GeneratedValue(generator = "AES_CATEGORIES_SEQ", strategy = GenerationType.SEQUENCE)
 	@Column(name="CATEGORY_ID")
-	private Integer categoryId;
+	private int categoryId;
 	
 	/**
 	 * @name A String representation of the name of the Category.
@@ -34,6 +34,11 @@ public class Category implements Serializable {
 	
 	public Category() {
 		super();
+	}
+	
+	public Category(int id, String cat)
+	{
+		this.categoryId=id;
 	}
 
 	public Integer getCategoryId() {
@@ -60,7 +65,7 @@ public class Category implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((categoryId == null) ? 0 : categoryId.hashCode());
+		result = prime * result + categoryId;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
@@ -74,10 +79,7 @@ public class Category implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Category other = (Category) obj;
-		if (categoryId == null) {
-			if (other.categoryId != null)
-				return false;
-		} else if (!categoryId.equals(other.categoryId))
+		if (categoryId != other.categoryId)
 			return false;
 		if (name == null) {
 			if (other.name != null)

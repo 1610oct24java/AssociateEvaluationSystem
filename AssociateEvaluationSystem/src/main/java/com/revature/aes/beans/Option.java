@@ -1,7 +1,6 @@
 	package com.revature.aes.beans;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,6 +15,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "AES_OPTIONS")
@@ -32,7 +33,7 @@ public class Option implements Serializable {
 	@SequenceGenerator(name = "AES_OPTION_SEQ", sequenceName = "AES_OPTION_SEQ", allocationSize=1)
 	@GeneratedValue(generator = "AES_OPTION_SEQ", strategy = GenerationType.SEQUENCE)
 	@Column(name = "OPTION_ID")
-	private Integer optionId;
+	private int optionId;
 	/**
 	 * @optionText A String representation of a possible answer for a question.
 	 */
@@ -46,43 +47,44 @@ public class Option implements Serializable {
 	@Min(value = 0)
 	@Max(value = 1)
 	@Column(name = "CORRECT")
-	private Integer correct;
+	private int correct;
 	
 	/**
 	 * @question The question associated with this class.
 	 */
-	@ManyToOne(fetch=FetchType.LAZY, cascade={CascadeType.ALL})
+	@ManyToOne(fetch=FetchType.LAZY, cascade={CascadeType.MERGE})
 	@JoinColumn(name = "QUESTION_ID")
+	@JsonIgnore
 	private Question question;
 	
 	public Option() {
 		super();
 		this.optionId = 0;
 	}
-	public Option(String optionText, Integer correct, Question question){
+	public Option(String optionText, int correct, Question question){
 		this();
 		this.optionText = optionText;
 		this.correct = correct;
 		this.question = question;
 	}
 	
-	public Option(Integer optionId, String optionText, Integer correct) {
+	public Option(Integer optionId, String optionText, int correct) {
 		this();
 		this.optionId = optionId;
 		this.optionText = optionText;
 		this.correct = correct;
 	}
 	
-	public Option(Integer optionId, String optionText, Integer correct, Question question) {
+	public Option(int optionId, String optionText, int correct, Question question) {
 		this(optionId, optionText, correct);
 		this.question = question;
 	}
 
-	public Integer getOptionId() {
+	public int getOptionId() {
 		return optionId;
 	}
 
-	public void setOptionId(Integer optionId) {
+	public void setOptionId(int optionId) {
 		this.optionId = optionId;
 	}
 
@@ -94,11 +96,11 @@ public class Option implements Serializable {
 		this.optionText = optionText;
 	}
 
-	public Integer getCorrect() {
+	public int getCorrect() {
 		return correct;
 	}
 
-	public void setCorrect(Integer correct) {
+	public void setCorrect(int correct) {
 		this.correct = correct;
 	}
 
@@ -114,28 +116,31 @@ public class Option implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((correct == null) ? 0 : correct.hashCode());
-		result = prime * result + ((optionId == null) ? 0 : optionId.hashCode());
+		result = prime * result + correct;
+		result = prime * result + optionId;
 		result = prime * result + ((optionText == null) ? 0 : optionText.hashCode());
 		return result;
 	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		
-		if ( (obj == null) || (getClass() != obj.getClass()) )
+		if (obj == null)
 			return false;
-		
+		if (getClass() != obj.getClass())
+			return false;
 		Option other = (Option) obj;
-	
-		return Objects.equals(correct, other.correct) 
-			&& Objects.equals(optionId, other.optionId)
-			&& Objects.equals(optionText, other.optionText);
-
+		if (correct != other.correct)
+			return false;
+		if (optionId != other.optionId)
+			return false;
+		if (optionText == null) {
+			if (other.optionText != null)
+				return false;
+		} else if (!optionText.equals(other.optionText))
+			return false;
+		return true;
 	}
-
 	@Override
 	public String toString() {
 		return "Option [optionId=" + optionId + ", optionText=" + optionText + ", correct=" + correct
