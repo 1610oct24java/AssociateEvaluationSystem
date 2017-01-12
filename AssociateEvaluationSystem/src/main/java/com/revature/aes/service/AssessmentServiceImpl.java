@@ -1,13 +1,14 @@
-package com.revature.aes.dao;
+package com.revature.aes.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.revature.aes.beans.Assessment;
+import com.revature.aes.dao.AssessmentDAO;
 import com.revature.aes.grading.AssessmentGrader;
 
 //@Service
-public class AssessmentService implements IAssessmentService {
+public class AssessmentServiceImpl implements AssessmentService {
 
 	@Autowired
 	AssessmentDAO assDAO;

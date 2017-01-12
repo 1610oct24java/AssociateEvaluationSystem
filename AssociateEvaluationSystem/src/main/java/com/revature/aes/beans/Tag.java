@@ -10,6 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
 
 @Entity
 @Table(name="AES_TAGS")
@@ -24,8 +27,13 @@ public class Tag implements Serializable
 	 * @tagId The unique Identifier for the Class
 	 */
 	@Id
-	@SequenceGenerator(name = "AES_TAGS_SEQ", sequenceName = "AES_TAGS_SEQ", allocationSize=1)
 	@GeneratedValue(generator = "AES_TAGS_SEQ", strategy = GenerationType.SEQUENCE)
+	@GenericGenerator(name="AES_TAGS_SEQ", strategy="org.hibernate.id.enhanced.SequenceStyleGenerator", parameters={
+			@Parameter(name="sequence_name", value="AES_TAGS_SEQ"),
+			@Parameter(name="optimizer", value="hilo"),
+			@Parameter(name="initial_value",value="1"),
+			@Parameter(name="increment_size",value="1")
+	})
 	@Column(name = "TAG_ID")
 	private Integer tagId;
 	

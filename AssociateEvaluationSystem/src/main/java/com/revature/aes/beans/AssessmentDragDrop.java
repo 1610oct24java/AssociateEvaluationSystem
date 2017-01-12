@@ -13,6 +13,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
 @Entity
 @Table(name = "aes_assessment_drag_drop")
 public class AssessmentDragDrop implements Serializable {
@@ -21,8 +24,13 @@ public class AssessmentDragDrop implements Serializable {
 	
 	@Id
 	@Column(name = "assessment_drag_drop_id")
-	@SequenceGenerator(sequenceName = "aes_assessment_drag_drop_seq", name = "aes_assessment_drag_drop_seq", allocationSize=1)
-	@GeneratedValue(generator = "aes_assessment_drag_drop_seq", strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(generator = "AES_ASSESSMENT_DRAG_DROP_SEQ", strategy = GenerationType.SEQUENCE)
+	@GenericGenerator(name="AES_ASSESSMENT_DRAG_DROP_SEQ", strategy="org.hibernate.id.enhanced.SequenceStyleGenerator", parameters={
+			@Parameter(name="sequence_name", value="AES_ASSESSMENT_DRAG_DROP_SEQ"),
+			@Parameter(name="optimizer", value="hilo"),
+			@Parameter(name="initial_value",value="1"),
+			@Parameter(name="increment_size",value="1")
+	})
 	private int assessmentDragDropId;
 	
 	@Column(name = "user_order")
@@ -30,7 +38,7 @@ public class AssessmentDragDrop implements Serializable {
 
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="ASSESSMENT_ID")
-	private Assessment assessmentId;
+	private Assessment assessment;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "drag_drop_id")
@@ -42,7 +50,7 @@ public class AssessmentDragDrop implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "AssessmentDragDrop [userOrder=" + userOrder + ", assessmentId=" + assessmentId + ", dragDrop="
+		return "AssessmentDragDrop [userOrder=" + userOrder + ", assessmentId=" + assessment + ", dragDrop="
 				+ dragDrop + "]";
 	}
 	public int getUserOrder() {
@@ -54,11 +62,11 @@ public class AssessmentDragDrop implements Serializable {
 	}
 
 	public Assessment getAssessmentId() {
-		return assessmentId;
+		return assessment;
 	}
 
 	public void setAssessmentId(Assessment assessmentId) {
-		this.assessmentId = assessmentId;
+		this.assessment = assessmentId;
 	}
 
 	public DragDrop getDragDrop() {

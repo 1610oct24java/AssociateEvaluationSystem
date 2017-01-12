@@ -13,6 +13,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
 @Entity
 @Table(name = "aes_file_upload")
 public class FileUpload implements Serializable {
@@ -21,8 +24,13 @@ public class FileUpload implements Serializable {
 	
 	@Id
 	@Column(name = "file_id")
-	@SequenceGenerator(sequenceName = "file_upload_seq", name = "file_upload_seq", allocationSize=1)
-	@GeneratedValue(generator = "file_upload_seq", strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(generator = "FILE_UPLOAD_SEQ", strategy = GenerationType.SEQUENCE)
+	@GenericGenerator(name="FILE_UPLOAD_SEQ", strategy="org.hibernate.id.enhanced.SequenceStyleGenerator", parameters={
+			@Parameter(name="sequence_name", value="FILE_UPLOAD_SEQ"),
+			@Parameter(name="optimizer", value="hilo"),
+			@Parameter(name="initial_value",value="1"),
+			@Parameter(name="increment_size",value="1")
+	})
 	private int fileId;
 
 	@Column(name = "file_url")

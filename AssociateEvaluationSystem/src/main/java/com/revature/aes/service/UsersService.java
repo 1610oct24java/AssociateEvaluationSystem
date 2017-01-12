@@ -1,8 +1,8 @@
-package com.revature.aes.dao;
+package com.revature.aes.service;
 
 import com.revature.aes.beans.User;
 
-public interface IUsersService {
+public interface UsersService {
 
 	public User getUserById(int id);
 }

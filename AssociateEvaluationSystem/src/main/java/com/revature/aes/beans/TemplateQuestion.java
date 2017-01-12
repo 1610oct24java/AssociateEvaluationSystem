@@ -15,6 +15,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -25,8 +28,13 @@ public class TemplateQuestion implements Serializable {
 	
 	@Id
 	@Column(name = "template_question_id")
-	@SequenceGenerator(sequenceName = "aes_template_question_seq", name = "aes_template_question_seq", allocationSize=1)
-	@GeneratedValue(generator = "aes_template_question_seq", strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(generator = "AES_TEMPLATE_QUESTION_SEQ", strategy = GenerationType.SEQUENCE)
+	@GenericGenerator(name="AES_TEMPLATE_QUESTION_SEQ", strategy="org.hibernate.id.enhanced.SequenceStyleGenerator", parameters={
+			@Parameter(name="sequence_name", value="AES_TEMPLATE_QUESTION_SEQ"),
+			@Parameter(name="optimizer", value="hilo"),
+			@Parameter(name="initial_value",value="1"),
+			@Parameter(name="increment_size",value="1")
+	})
 	private int templateQuestionId;
 	
 	@Column(name = "weight")
