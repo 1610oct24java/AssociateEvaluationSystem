@@ -104,7 +104,7 @@ public class GetAssessmentController {
 		}
 		System.out.println(assessment);
 		System.out.println(
-				assessment.getMyTemplate().getTemplateQuestion().toString());
+				assessment.getTemplate().getTemplateQuestion().toString());
 		JSONString = mapper.writeValueAsString(assessment);
 		return JSONString;
 	}
