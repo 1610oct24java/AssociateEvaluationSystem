@@ -19,7 +19,3 @@ hs_err_pid*
 /Servers/
 /target/
 /RemoteSystemsTempFiles/
-
-#IntelliJ
-*.idea
-*/.idea
