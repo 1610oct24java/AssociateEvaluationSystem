@@ -16,6 +16,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "AES_OPTIONS")
 public class Option implements Serializable {
@@ -50,8 +52,9 @@ public class Option implements Serializable {
 	/**
 	 * @question The question associated with this class.
 	 */
-	@ManyToOne(fetch=FetchType.LAZY, cascade={CascadeType.ALL})
+	@ManyToOne(fetch=FetchType.LAZY, cascade={CascadeType.MERGE})
 	@JoinColumn(name = "QUESTION_ID")
+	@JsonIgnore
 	private Question question;
 	
 	public Option() {
