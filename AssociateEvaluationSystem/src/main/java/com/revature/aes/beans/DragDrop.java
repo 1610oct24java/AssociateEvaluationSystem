@@ -32,7 +32,7 @@ public class DragDrop implements Serializable {
 
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="QUESTION_ID")
-	private Question questionId;
+	private Question question;
 
 	public DragDrop() {
 		super();
@@ -41,7 +41,7 @@ public class DragDrop implements Serializable {
 	@Override
 	public String toString() {
 		return "DragDrop [dragDropId=" + dragDropId + ", dragDropText=" + dragDropText + ", correctOrder="
-				+ correctOrder + ", questionId=" + questionId + "]";
+				+ correctOrder + ", questionId=" + question.getQuestionId() + "]";
 	}
 
 	public int getDragDropId() {
@@ -68,11 +68,11 @@ public class DragDrop implements Serializable {
 		this.correctOrder = correctOrder;
 	}
 
-	public Question getQuestionId() {
-		return questionId;
+	public Question getQuestion() {
+		return question;
 	}
 
-	public void setQuestionId(Question questionId) {
-		this.questionId = questionId;
+	public void setQuestion(Question questionId) {
+		this.question = question;
 	}
 }

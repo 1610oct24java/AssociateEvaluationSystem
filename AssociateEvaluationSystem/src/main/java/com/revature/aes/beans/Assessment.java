@@ -63,12 +63,99 @@ public class Assessment implements Serializable
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy ="assessmentId")
 	private Set<FileUpload> fileUpload;
-	
+
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "aes_snippet_response", 
 		joinColumns = @JoinColumn(name = "snippet_template_id"), 
 		inverseJoinColumns = @JoinColumn(name = "assessment_id"))
 	private Set<SnippetTemplate> snippedTemplate;
 
-	
+
+	public int getAssessmentId() {
+		return assessmentId;
+	}
+
+	public void setAssessmentId(int assessmentId) {
+		this.assessmentId = assessmentId;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public int getGrade() {
+		return grade;
+	}
+
+	public void setGrade(int grade) {
+		this.grade = grade;
+	}
+
+	public int getTimeLimit() {
+		return timeLimit;
+	}
+
+	public void setTimeLimit(int timeLimit) {
+		this.timeLimit = timeLimit;
+	}
+
+	public Timestamp getCreatedTimeStamp() {
+		return createdTimeStamp;
+	}
+
+	public void setCreatedTimeStamp(Timestamp createdTimeStamp) {
+		this.createdTimeStamp = createdTimeStamp;
+	}
+
+	public Timestamp getFinishedTimeStamp() {
+		return finishedTimeStamp;
+	}
+
+	public void setFinishedTimeStamp(Timestamp finishedTimeStamp) {
+		this.finishedTimeStamp = finishedTimeStamp;
+	}
+
+	public Template getTemplate() {
+		return template;
+	}
+
+	public void setTemplate(Template template) {
+		this.template = template;
+	}
+
+	public Set<Option> getOptions() {
+		return options;
+	}
+
+	public void setOptions(Set<Option> options) {
+		this.options = options;
+	}
+
+	public Set<AssessmentDragDrop> getAssessmentDragDrop() {
+		return assessmentDragDrop;
+	}
+
+	public void setAssessmentDragDrop(Set<AssessmentDragDrop> assessmentDragDrop) {
+		this.assessmentDragDrop = assessmentDragDrop;
+	}
+
+	public Set<FileUpload> getFileUpload() {
+		return fileUpload;
+	}
+
+	public void setFileUpload(Set<FileUpload> fileUpload) {
+		this.fileUpload = fileUpload;
+	}
+
+	public Set<SnippetTemplate> getSnippedTemplate() {
+		return snippedTemplate;
+	}
+
+	public void setSnippedTemplate(Set<SnippetTemplate> snippedTemplate) {
+		this.snippedTemplate = snippedTemplate;
+	}
 }

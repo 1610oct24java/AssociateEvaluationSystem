@@ -14,7 +14,7 @@ import com.revature.aes.beans.TemplateQuestion;
 public class AssessmentGrader {
 	public double gradeAssessment(Assessment assessment){
 		double dragDrop[] = gradeDragDrop(assessment);
-		double multChoiceSelect[] = gradeMultChoiceSelect(assessment); 
+		double multChoiceSelect[] = gradeMultChoiceSelect(assessment);
 		double snippet[] = gradeSnippet(assessment);
 		
 		return ((100*(dragDrop[0]+multChoiceSelect[0]+snippet[0]))/(dragDrop[1]+multChoiceSelect[1]+snippet[1]));
@@ -27,7 +27,7 @@ public class AssessmentGrader {
 		Map<Integer, TemplateQuestion> templateDataMap = new HashMap<Integer, TemplateQuestion>();
 		Map<Integer, Set<Option>> userDataMap = new HashMap<Integer, Set<Option>>();
 		
-		for(TemplateQuestion tQuestion: assessment.getMyTemplate().getTemplateQuestion()){
+		for(TemplateQuestion tQuestion: assessment.getTemplate().getTemplateQuestion()){
 			templateDataMap.put(tQuestion.getTemplateQuestionId(), tQuestion);
 		}
 		
@@ -39,7 +39,7 @@ public class AssessmentGrader {
 			else {
 				Set<Option> optSet = new HashSet<Option>();
 				optSet.add(opt);
-				userDataMap.put(opt.getQuestion(), optSet);
+				userDataMap.put(opt.getQuestion().getQuestionId(), optSet);
 			}
 		}
 		
@@ -70,19 +70,19 @@ public class AssessmentGrader {
 		Map<Integer, Set<AssessmentDragDrop>> userDataMap = new HashMap<Integer, Set<AssessmentDragDrop>>();
 		
 		
-		for(TemplateQuestion tQuestion: assessment.getMyTemplate().getTemplateQuestion()){
+		for(TemplateQuestion tQuestion: assessment.getTemplate().getTemplateQuestion()){
 			templateDataMap.put(tQuestion.getTemplateQuestionId(), tQuestion);
 		}
 		
 		
 		for(AssessmentDragDrop dragDrop: assessment.getAssessmentDragDrop()){
-			if(userDataMap.containsKey(dragDrop.getDragDrop().getQuestionId())){
-				userDataMap.get(dragDrop.getDragDrop().getQuestionId()).add(dragDrop);
+			if(userDataMap.containsKey(dragDrop.getDragDrop().getQuestion().getQuestionId())){
+				userDataMap.get(dragDrop.getDragDrop().getQuestion().getQuestionId()).add(dragDrop);
 			}
 			else {
 				Set<AssessmentDragDrop> dragDropSet = new HashSet<AssessmentDragDrop>();
 				dragDropSet.add(dragDrop);
-				userDataMap.put(dragDrop.getDragDrop().getQuestionId(), dragDropSet);
+				userDataMap.put(dragDrop.getDragDrop().getQuestion().getQuestionId(), dragDropSet);
 			}
 		}
 
@@ -117,17 +117,17 @@ public class AssessmentGrader {
 		Map<Integer, FileUpload> userDataMap = new HashMap<Integer, FileUpload>();
 		Map<Integer, TemplateQuestion> templateDataMap = new HashMap<Integer, TemplateQuestion>(); 
 		
-		for(TemplateQuestion tQuestion: assessment.getMyTemplate().getTemplateQuestion()){
+		for(TemplateQuestion tQuestion: assessment.getTemplate().getTemplateQuestion()){
 			templateDataMap.put(tQuestion.getTemplateQuestionId(), tQuestion);
 		}
 		
 		for(FileUpload file : assessment.getFileUpload()){	
-			userDataMap.put(file.getQuestionId(), file);
+			userDataMap.put(file.getQuestion().getQuestionId(), file);
 		}
 						
 		for(int key: userDataMap.keySet()){
 			String userFileName = userDataMap.get(key).getFileUrl();
-			String keyFileName = templateDataMap.get(key).getTemplateQuestion().getSnippetTemplate().getSolutionUrl();
+			String keyFileName = templateDataMap.get(key).getPatternInquiry().getSnippetTemplate().getSolutionUrl();
 			itemWeight = templateDataMap.get(key).getWeight();
 			int codeTestResult = sec.evaluateSnippet(userFileName, keyFileName);
 			itemWeightedGrade = itemWeight*codeTestResult;//
