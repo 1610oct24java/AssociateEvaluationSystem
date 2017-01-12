@@ -18,8 +18,8 @@ import com.revature.aes.util.Error;
  */
 @Component
 @Aspect
-public class AOP {
-	
+public class LoggingAspect
+{	
 	/**
 	 * Trace logging, surrounds the given point cut with error logging.
 	 *

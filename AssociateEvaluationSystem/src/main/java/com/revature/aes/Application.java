@@ -14,7 +14,8 @@ import org.springframework.web.client.RestTemplate;
  */
 @SpringBootApplication
 @EnableJpaRepositories("com.revature.aes.dao")
-public class Application extends SpringBootServletInitializer {
+public class Application extends SpringBootServletInitializer
+{
 	
 	/**
 	 * The main method, boot uses this to start.
@@ -24,7 +25,8 @@ public class Application extends SpringBootServletInitializer {
 	 * @throws Throwable
 	 *             the throwable
 	 */
-	public static void main(String[] args) throws Throwable {
+	public static void main(String[] args) throws Throwable
+	{
 		SpringApplication.run(Application.class, args);
 	}
 	
@@ -36,7 +38,8 @@ public class Application extends SpringBootServletInitializer {
 	 */
 	@Override
 	protected SpringApplicationBuilder configure(
-			SpringApplicationBuilder application) {
+			SpringApplicationBuilder application)
+	{
 		return application.sources(Application.class);
 	}
 	
@@ -48,7 +51,8 @@ public class Application extends SpringBootServletInitializer {
 	 * @return the rest template
 	 */
 	@Bean
-	public RestTemplate restTemplate(RestTemplateBuilder builder) {
+	public RestTemplate restTemplate(RestTemplateBuilder builder)
+	{
 		return builder.build();
 	}
 	
