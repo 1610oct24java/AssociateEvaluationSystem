@@ -62,6 +62,9 @@ public class Question implements Serializable {
 	@OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.ALL, mappedBy="fileId")
 	private Set<FileUpload> fileUpload;
 
+	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL, mappedBy="snippetTemplateId")
+	private Set<SnippetTemplate> snippetTemplates;
+
 	public Question(int questionId, Format format, Set<Category> questionCategory, String questionText,
 			Set<Tag> questionTags, Set<Option> multiple, Set<DragDrop> dragdrop, Set<FileUpload> fileUpload) {
 		super();
@@ -151,6 +154,14 @@ public class Question implements Serializable {
 
 	public void setFileUpload(Set<FileUpload> fileUpload) {
 		this.fileUpload = fileUpload;
+	}
+
+	public Set<SnippetTemplate> getSnippetTemplates() {
+		return snippetTemplates;
+	}
+
+	public void setSnippetTemplates(Set<SnippetTemplate> snippetTemplates) {
+		this.snippetTemplates = snippetTemplates;
 	}
 
 	@Override
