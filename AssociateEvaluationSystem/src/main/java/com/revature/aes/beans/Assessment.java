@@ -21,6 +21,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
 @Entity
 @Table(name = "aes_assessment")
 public class Assessment implements Serializable
@@ -28,8 +31,13 @@ public class Assessment implements Serializable
 	private static final long serialVersionUID = -6152668317029130986L;
 	@Id
 	@Column(name = "assessment_id")
-	@SequenceGenerator(sequenceName = "aes_assessment_seq", name = "aes_assessment_seq", allocationSize=1)
-	@GeneratedValue(generator = "aes_assessment_seq", strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(generator = "AES_ASSESSMENT_SEQ", strategy = GenerationType.SEQUENCE)
+	@GenericGenerator(name="AES_ASSESSMENT_SEQ", strategy="org.hibernate.id.enhanced.SequenceStyleGenerator", parameters={
+			@Parameter(name="sequence_name", value="AES_ASSESSMENT_SEQ"),
+			@Parameter(name="optimizer", value="hilo"),
+			@Parameter(name="initial_value",value="1"),
+			@Parameter(name="increment_size",value="1")
+	})
 	private int assessmentId;
 
 	@OneToOne(fetch = FetchType.EAGER)
@@ -58,10 +66,10 @@ public class Assessment implements Serializable
 		inverseJoinColumns = @JoinColumn(name = "option_id"))
 	private Set<Option> options;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "assessmentId")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "assessment")
 	private Set<AssessmentDragDrop> assessmentDragDrop;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy ="assessmentId")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy ="assessment")
 	private Set<FileUpload> fileUpload;
 
 	@ManyToMany(fetch = FetchType.EAGER)

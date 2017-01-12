@@ -10,6 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
 @Entity
 @Table(name="AES_SNIPPET_TEMPLATE")
 public class SnippetTemplate implements Serializable
@@ -19,8 +22,13 @@ public class SnippetTemplate implements Serializable
 	
 
 	@Id
-	@SequenceGenerator(name = "AES_SNIPPET_TEMPLATE_SEQ", sequenceName = "AES_SNIPPET_TEMPLATE_SEQ", allocationSize=1)
 	@GeneratedValue(generator = "AES_SNIPPET_TEMPLATE_SEQ", strategy = GenerationType.SEQUENCE)
+	@GenericGenerator(name="AES_SNIPPET_TEMPLATE_SEQ", strategy="org.hibernate.id.enhanced.SequenceStyleGenerator", parameters={
+			@Parameter(name="sequence_name", value="AES_SNIPPET_TEMPLATE_SEQ"),
+			@Parameter(name="optimizer", value="hilo"),
+			@Parameter(name="initial_value",value="1"),
+			@Parameter(name="increment_size",value="1")
+	})
 	@Column(name = "SNIPPET_TEMPLATE_ID")
 	private Integer snippetTemplateId;
 	

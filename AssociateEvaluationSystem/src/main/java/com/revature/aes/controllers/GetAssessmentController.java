@@ -20,9 +20,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.aes.beans.Assessment;
 import com.revature.aes.beans.Packet;
 import com.revature.aes.beans.SnippetUpload;
-import com.revature.aes.dao.AssessmentService;
 import com.revature.aes.dao.UsersDao;
 import com.revature.aes.grading.CoreEmailClient;
+import com.revature.aes.service.AssessmentServiceImpl;
 import com.revature.aes.service.S3Service;
 
 
@@ -31,7 +31,7 @@ import com.revature.aes.service.S3Service;
 public class GetAssessmentController {
 	
 	@Autowired
-	private AssessmentService service;
+	private AssessmentServiceImpl service;
 	
 	@Autowired 
 	UsersDao UsersService;

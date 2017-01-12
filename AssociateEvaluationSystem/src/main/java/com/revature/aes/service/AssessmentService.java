@@ -1,8 +1,8 @@
-package com.revature.aes.dao;
+package com.revature.aes.service;
 
 import com.revature.aes.beans.Assessment;
 
-public interface IAssessmentService {
+public interface AssessmentService {
 	public Assessment getAssessmentById(int id);
 	
 	public void saveAssessment(Assessment assessment);
