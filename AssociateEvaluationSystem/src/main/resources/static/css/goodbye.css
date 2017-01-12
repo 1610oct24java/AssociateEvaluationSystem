@@ -1,0 +1,46 @@
+@CHARSET "ISO-8859-1";
+
+@font-face {
+	font-family: 'futura-heavy';
+	src: url('../fonts/ParaType-FuturaPTHeavy.ttf');
+}
+
+@font-face {
+	font-family: 'futura-book';
+	src: url('../fonts/ParaType-FuturaPTBook.ttf');
+}
+
+html, body {
+	height: 100%;
+}
+
+h1 {
+	font-family: 'futura-heavy';
+	color: #474c55;
+}
+
+p {
+	font-family: 'futura-book';
+	color: #474c55;
+}
+
+.bar-top {
+	background-color: #474c55;
+	height: 15%;
+	top: 0;
+	left: 0;
+	width: 100%;
+	margin-bottom: 30px;
+}
+
+.bar-bot {
+	position: absolute;
+	background-color: #474c55;
+	color: #ffffff;
+	height: 15%;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	width: 100%;
+	padding-top: 20px;
+}
