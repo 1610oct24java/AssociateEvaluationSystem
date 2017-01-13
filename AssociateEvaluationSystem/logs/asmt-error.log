@@ -1,0 +1,6 @@
+[WARN] [71017 ms] [01-13-2017 14:18:10] [DefaultHandlerExceptionResolver (logException : 189)] -
+					Resolved exception caused by Handler execution: org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'POST' not supported
+[WARN] [57140 ms] [01-13-2017 14:48:58] [DefaultHandlerExceptionResolver (handleTypeMismatch : 356)] -
+					Failed to bind request element: org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type [java.lang.String] to required type [int]; nested exception is java.lang.NumberFormatException: For input string: "link"
+[WARN] [57148 ms] [01-13-2017 14:48:58] [DefaultHandlerExceptionResolver (logException : 189)] -
+					Resolved exception caused by Handler execution: org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type [java.lang.String] to required type [int]; nested exception is java.lang.NumberFormatException: For input string: "link"

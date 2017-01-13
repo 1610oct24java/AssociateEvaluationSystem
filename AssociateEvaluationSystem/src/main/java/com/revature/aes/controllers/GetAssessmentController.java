@@ -1,11 +1,18 @@
 package com.revature.aes.controllers;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.ws.rs.core.MediaType;
 
+
+import com.revature.aes.logging.Logging;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,14 +46,48 @@ public class GetAssessmentController {
 	@Autowired
 	S3Service s3;
 
+	@Inject
+	private org.springframework.boot.autoconfigure.web.ServerProperties serverProperties;
+
+	private static int port;
+
+	private static String ip;
+
+	@PostConstruct
+	protected void postConstruct(){
+
+		configureRestService();
+
+	}
+
+	private void configureRestService(){
+
+		port = serverProperties.getPort();
+
+		try{
+
+			ip = InetAddress.getLocalHost().getHostAddress();
+
+		} catch (UnknownHostException e) {
+			ip = "localhost";
+		}
+
+	}
+
+	private Logging log = new Logging();
+
+
 	private HttpSession httpSession;
 
-	private String coreEmailClientEndpointAddress = "http://54.201.37.54:8080/core/";
-	
-	@RequestMapping(value = "/link", method = RequestMethod.POST)
-	public String getAssessmentID(@RequestBody int assessmentId) {
-		httpSession.setAttribute("assessmentId", assessmentId);
-		return "thisIsALink";
+	private String coreEmailClientEndpointAddress = "http://localhost/aes/";
+
+	@RequestMapping(value = "/link", method = RequestMethod.POST, consumes = {
+			MediaType.APPLICATION_JSON })
+	public String getAssessmentID(@RequestBody Assessment assessment) {
+
+		log.info("Link called " + assessment);
+
+		return ip + ":" + port + "/aes/quiz?asmt=" + assessment.getAssessmentId();
 	}
 	
 	@RequestMapping(value = "/submitAssessment", method = RequestMethod.POST)
@@ -94,7 +135,6 @@ public class GetAssessmentController {
 		System.out.println("I'm here!" + AssessmentId);
 		String JSONString;
 		ObjectMapper mapper = new ObjectMapper();
-		// httpSession.getAttribute("assessmentId");
 		Assessment assessment = new Assessment();
 		try {
 			assessment = service.getAssessmentById(AssessmentId);
@@ -103,8 +143,6 @@ public class GetAssessmentController {
 			e.printStackTrace();
 		}
 		System.out.println(assessment);
-//		System.out.println(
-//				assessment.getTemplate().getTemplateQuestion().toString());
 		JSONString = mapper.writeValueAsString(assessment);
 		return JSONString;
 	}
