@@ -1,0 +1,2 @@
+[WARN] [36599 ms] [01-13-2017 16:05:46] [ExceptionHandlerExceptionResolver (logException : 189)] -
+					Resolved exception caused by Handler execution: org.springframework.data.rest.webmvc.ResourceNotFoundException: Resource not found!

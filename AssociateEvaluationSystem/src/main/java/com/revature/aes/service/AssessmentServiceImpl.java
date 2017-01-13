@@ -21,9 +21,9 @@ public class AssessmentServiceImpl implements AssessmentService {
 	}
 
 	@Override
-	public void saveAssessment(Assessment assessment) {
+	public Assessment saveAssessment(Assessment assessment) {
 		System.out.println("I am saving things!! maybe?");
-		assDAO.save(assessment);
+		return assDAO.save(assessment);
 	}
 	
 	@Override
