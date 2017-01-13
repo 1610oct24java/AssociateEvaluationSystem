@@ -7,7 +7,7 @@ import com.revature.aes.beans.Assessment;
 import com.revature.aes.dao.AssessmentDAO;
 import com.revature.aes.grading.AssessmentGrader;
 
-//@Service
+@Service
 public class AssessmentServiceImpl implements AssessmentService {
 
 	@Autowired

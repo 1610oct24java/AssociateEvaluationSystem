@@ -72,13 +72,6 @@ public class Assessment implements Serializable
 	@OneToMany(fetch = FetchType.EAGER, mappedBy ="assessment")
 	private Set<FileUpload> fileUpload;
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "aes_snippet_response", 
-		joinColumns = @JoinColumn(name = "snippet_template_id"), 
-		inverseJoinColumns = @JoinColumn(name = "assessment_id"))
-	private Set<SnippetTemplate> snippedTemplate;
-
-
 	public int getAssessmentId() {
 		return assessmentId;
 	}
@@ -157,13 +150,5 @@ public class Assessment implements Serializable
 
 	public void setFileUpload(Set<FileUpload> fileUpload) {
 		this.fileUpload = fileUpload;
-	}
-
-	public Set<SnippetTemplate> getSnippedTemplate() {
-		return snippedTemplate;
-	}
-
-	public void setSnippedTemplate(Set<SnippetTemplate> snippedTemplate) {
-		this.snippedTemplate = snippedTemplate;
 	}
 }
