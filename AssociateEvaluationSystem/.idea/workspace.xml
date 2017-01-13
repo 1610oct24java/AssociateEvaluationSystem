@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="a4cbb831-4b5f-45da-9953-ff542680f0f8" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/logs/asmt-error.log" afterPath="$PROJECT_DIR$/logs/asmt-error.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/logs/asmt-trace.log" afterPath="$PROJECT_DIR$/logs/asmt-trace.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/revature/aes/controllers/GetAssessmentController.java" afterPath="$PROJECT_DIR$/src/main/java/com/revature/aes/controllers/GetAssessmentController.java" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -1039,7 +1036,7 @@
       <workItem from="1484168950557" duration="2028000" />
       <workItem from="1484232886213" duration="4625000" />
       <workItem from="1484243952508" duration="13359000" />
-      <workItem from="1484318580708" duration="13367000" />
+      <workItem from="1484318580708" duration="13427000" />
     </task>
     <task id="LOCAL-00001" summary="Fixing AssessmentGrader in progress.">
       <created>1484236520355</created>
@@ -1069,11 +1066,18 @@
       <option name="project" value="LOCAL" />
       <updated>1484334237724</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Got Link rest service working with dynamically pulling ip and port">
+      <created>1484344234048</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1484344234048</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="33379000" />
+    <option name="totallyTimeSpent" value="33439000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1108,7 +1112,7 @@
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22099915" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22099915" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1371719" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28375" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1171,7 +1175,8 @@
     <MESSAGE value="Testing Dao started" />
     <MESSAGE value="Testing Dao continued" />
     <MESSAGE value="Asmt front to back working" />
-    <option name="LAST_COMMIT_MESSAGE" value="Asmt front to back working" />
+    <MESSAGE value="Got Link rest service working with dynamically pulling ip and port" />
+    <option name="LAST_COMMIT_MESSAGE" value="Got Link rest service working with dynamically pulling ip and port" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
