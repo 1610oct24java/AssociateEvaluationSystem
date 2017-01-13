@@ -26,7 +26,7 @@ import com.revature.aes.service.AssessmentServiceImpl;
 import com.revature.aes.service.S3Service;
 
 
-//@RestController
+@RestController
 @RequestMapping("/rest")
 public class GetAssessmentController {
 	
@@ -103,8 +103,8 @@ public class GetAssessmentController {
 			e.printStackTrace();
 		}
 		System.out.println(assessment);
-		System.out.println(
-				assessment.getTemplate().getTemplateQuestion().toString());
+//		System.out.println(
+//				assessment.getTemplate().getTemplateQuestion().toString());
 		JSONString = mapper.writeValueAsString(assessment);
 		return JSONString;
 	}
