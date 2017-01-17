@@ -1,0 +1,104 @@
+@CHARSET "ISO-8859-1";
+
+/* Revature Main Orange:           	f26925 */
+/* Revature Accent (Darker) Orange: ef5c1e */
+/* Revature Main Grey:         		474c55 */
+/* Revature Accent (Darker) Grey:   434851 */
+
+@font-face {
+	font-family: 'futura-heavy';
+	src: url('../fonts/ParaType-FuturaPTHeavy.ttf');
+}
+
+@font-face {
+	font-family: 'futura-book';
+	src: url('../fonts/ParaType-FuturaPTBook.ttf');
+}
+
+html, body {
+	height: 100%;
+}
+
+h1 {
+	font-family: 'futura-heavy';
+	color: #ffffff;
+}
+
+p {
+	font-family: 'futura-book';
+	color: #474c55;
+}
+
+img {
+	padding: 20px;
+}
+
+.bar-top {
+	background-color: #474c55;
+	color: #ffffff;
+	height: 15%;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 8;
+	padding-top: 15px;
+	padding-left: 15%;
+}
+
+.bar-mid {
+	background-color: #f26925;
+	width: 100%;
+	height: 80%;
+	position: absolute;
+	z-index: 5;
+}
+
+.bar-bot {
+	position: fixed;
+	background-color: #474c55;
+	color: #ffffff;
+	height: 15%;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	width: 100%;
+	padding-top: 20px;
+	z-index: 10;
+}
+
+.error {
+	padding: 15px;
+	margin-bottom: 20px;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	color: #a94442;
+	background-color: #f2dede;
+	border-color: #ebccd1;
+}
+
+.msg {
+	padding: 15px;
+	margin-bottom: 20px;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	color: #31708f;
+	background-color: #d9edf7;
+	border-color: #bce8f1;
+}
+
+.login-box {
+	font-family: 'futura-book';
+	width: 300px;
+	padding: 50px 20px;
+	margin: 50px auto;
+	background: #ffffff;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border: 1px solid #ffffff;
+}
+
+.btn-rev {
+	background-color: #f26925;
+	color: #ffffff;
+	margin-bottom: 15px;
+}
