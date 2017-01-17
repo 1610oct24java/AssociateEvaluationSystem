@@ -1,9 +1,8 @@
 package com.revature.aes.beans;
 
 import java.io.Serializable;
-import java.util.Set;
-
 import java.sql.Timestamp;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,7 +17,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -71,6 +69,42 @@ public class Assessment implements Serializable
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy ="assessment")
 	private Set<FileUpload> fileUpload;
+
+	public Assessment(User user, int grade, int timeLimit, Timestamp createdTimeStamp, Timestamp finishedTimeStamp, Template template)
+	{
+		super();
+		this.user = user;
+		this.grade = grade;
+		this.timeLimit = timeLimit;
+		this.createdTimeStamp = createdTimeStamp;
+		this.finishedTimeStamp = finishedTimeStamp;
+		this.template = template;
+	}
+
+	public Assessment(int assessmentId, User user, int grade, int timeLimit, Timestamp createdTimeStamp,
+			Timestamp finishedTimeStamp, Template template, Set<Option> options,
+			Set<AssessmentDragDrop> assessmentDragDrop, Set<FileUpload> fileUpload) {
+		super();
+		this.assessmentId = assessmentId;
+		this.user = user;
+		this.grade = grade;
+		this.timeLimit = timeLimit;
+		this.createdTimeStamp = createdTimeStamp;
+		this.finishedTimeStamp = finishedTimeStamp;
+		this.template = template;
+		this.options = options;
+		this.assessmentDragDrop = assessmentDragDrop;
+		this.fileUpload = fileUpload;
+	}
+
+
+
+	public Assessment() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
 
 	public int getAssessmentId() {
 		return assessmentId;

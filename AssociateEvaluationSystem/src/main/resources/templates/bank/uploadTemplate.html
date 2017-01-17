@@ -1,0 +1,36 @@
+<h4>Select CSV or Aiken file from your computer to generate quiz</h4>
+            <div class="form-inline">
+              <div class="form-group">
+                <input type="file" file-model="myFile" name="file" id="js-upload-files">
+              </div>
+              <button ng-click="uploadFile()" class="btn btn-sm btn-primary" id="js-upload-submit">Upload File</button>
+            </div>
+            
+         <!-- Drop Zone -->  
+        <h4>Or drag and drop files below:</h4>
+     	<div ngf-select="" 
+        ngf-drop="" 
+        ng-model="files" 
+        class="drop-box" 
+        ngf-drag-over-class="{ accept:'dragover', reject:'dragover-err', delay:100}" 
+		ngf-multiple="true" ngf-allow-dir="false"
+      	>Drag and drop files here or click to upload!</div>
+ 
+
+			<!--           Drop Zone
+          <h4>Or drag and drop files below:</h4>
+          <div class="drop-box" 
+          id="drop-zone" ng-model"files" 
+          ngf-drop="" ngf-select="" 
+          ngf-drag-over-class="{accept:'dragover', reject:'dragover-err', delay:100}"
+          ngf-multiple="true" ngf-allow-dir="false"
+          >Just drag and drop files here</div> -->
+
+
+          <!-- Upload Finished -->
+          <div class="js-upload-finished">
+            <h3>Processed files</h3>
+            <div class="list-group">
+              <a href="#" class="list-group-item list-group-item-success"><span class="badge alert-success pull-right">Success</span>image-01.jpg</a>
+            </div>
+          </div>

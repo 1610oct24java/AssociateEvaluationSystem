@@ -16,7 +16,6 @@ import org.springframework.web.client.RestTemplate;
 @EnableJpaRepositories("com.revature.aes.dao")
 public class Application extends SpringBootServletInitializer
 {
-	
 	/**
 	 * The main method, boot uses this to start.
 	 *

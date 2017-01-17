@@ -43,7 +43,6 @@ public class Question implements Serializable {
 	
 	@ManyToMany(fetch=FetchType.EAGER, cascade=CascadeType.MERGE)
 	@JoinTable(name="AES_QUESTION_CATEGORY", joinColumns= @JoinColumn(name="QUESTION_ID"), inverseJoinColumns=@JoinColumn(name="CATEGORY_ID"))
-
 	private Set<Category> questionCategory = new HashSet<Category>();
 
 	@Column(name = "QUESTION_TEXT")
