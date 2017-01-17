@@ -38,7 +38,7 @@ public class AssessmentRestController {
 	private UserService userService;
 	@Autowired
 	private AssessmentService assServ;
-	private static final String URL = ":8090/asmt";
+	private static final String URL = "http://localhost:8090/aes";
 	private RestTemplate restTemplate = new RestTemplate();
 
 	/**
@@ -74,9 +74,9 @@ public class AssessmentRestController {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 
-		RequestEntity<Integer> request;
+		RequestEntity<Assessment> request;
 		
-		request = RequestEntity.post(new URI(URL + "/rest/link")).accept(MediaType.APPLICATION_JSON).body(assessment.getAssessmentId());
+		request = RequestEntity.post(new URI(URL + "/rest/link")).accept(MediaType.APPLICATION_JSON).body(assessment);
 		ResponseEntity<String> result = restTemplate.exchange(request, String.class);
 		
 		String link = result.getBody();

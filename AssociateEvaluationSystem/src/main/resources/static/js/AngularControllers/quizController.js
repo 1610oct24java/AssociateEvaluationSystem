@@ -22,7 +22,7 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 		$scope.states.push(temp);
 	};
 	var makeAnswers = function(ndx) {
-		if ($scope.questions[ndx].templateQuestion.format.formatId === 1 ) {
+		if ($scope.questions[ndx].question.format.formatName === "Multiple Choice" ) {
 			$scope.answers.push([-1]);
 		}
 		else {
@@ -210,7 +210,7 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 		.then(function(response) {
 		    //First function handles success
 		    $rootScope.protoTest = response.data;
-			$scope.questions = $rootScope.protoTest.myTemplate.templateQuestion;
+			$scope.questions = $rootScope.protoTest.template.templateQuestion;
 		    initSetup();
 		    $rootScope.initQuizNav();
 		});

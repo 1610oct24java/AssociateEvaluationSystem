@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import com.amazonaws.services.dynamodbv2.xspec.S;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -46,6 +47,14 @@ public class SystemTemplate {
 		Category cat = (Category) cDao.getByName(catName);
 		
 		List<Question> filteredQuestions = (List<Question>) qDao.findAllByQuestionCategory(cat);
+
+		System.out.println("Questions for category " + cat);
+
+		for(Question q : filteredQuestions){
+
+			System.out.println(q);
+
+		}
 
 		if (multiChoice != 0) {
 
@@ -125,12 +134,21 @@ public class SystemTemplate {
 		}
 		for(Question q : assessList)
 		{
+			System.out.println("Question: " + q);
 			TemplateQuestion tq = new TemplateQuestion();
 			tq.setQuestion(q);
-			
+			System.out.println("Template Question " + q);
 			finalList.add(tq);
 		}
-		
+
+		System.out.println("Final Question List");
+
+		for(TemplateQuestion q : finalList){
+
+			System.out.println(q.getQuestion());
+
+		}
+
 		return finalList;
 	}
 
