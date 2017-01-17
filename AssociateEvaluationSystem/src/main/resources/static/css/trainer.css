@@ -109,3 +109,7 @@ body {
     border-color: #f00;
     background-color: #ffb2b2;
 }
+
+.cursor-fix {
+	cursor: pointer;
+}
