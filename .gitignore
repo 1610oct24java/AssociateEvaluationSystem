@@ -20,3 +20,8 @@ hs_err_pid*
 /target/
 /RemoteSystemsTempFiles/
 /External Files/
+
+.idea
+*.idea
+
+AssociateEvaluationSystem/logs/*
