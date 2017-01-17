@@ -80,6 +80,6 @@ public class DragDrop implements Serializable {
 	}
 
 	public void setQuestion(Question questionId) {
-		this.question = question;
+		this.question = questionId;
 	}
 }

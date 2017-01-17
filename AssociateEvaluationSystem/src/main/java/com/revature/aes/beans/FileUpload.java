@@ -10,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -80,7 +79,7 @@ public class FileUpload implements Serializable {
 	}
 
 	public void setAssessment(Assessment assessmentId) {
-		this.assessment = assessment;
+		this.assessment = assessmentId;
 	}
 
 	public Question getQuestion() {

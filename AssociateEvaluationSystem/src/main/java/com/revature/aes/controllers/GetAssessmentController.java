@@ -8,11 +8,8 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.ws.rs.core.MediaType;
 
-
-import com.revature.aes.logging.Logging;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +26,7 @@ import com.revature.aes.beans.Packet;
 import com.revature.aes.beans.SnippetUpload;
 import com.revature.aes.dao.UsersDao;
 import com.revature.aes.grading.CoreEmailClient;
+import com.revature.aes.logging.Logging;
 import com.revature.aes.service.AssessmentServiceImpl;
 import com.revature.aes.service.S3Service;
 
@@ -75,9 +73,6 @@ public class GetAssessmentController {
 	}
 
 	private Logging log = new Logging();
-
-
-	private HttpSession httpSession;
 
 	private String coreEmailClientEndpointAddress = "http://localhost/aes/";
 
