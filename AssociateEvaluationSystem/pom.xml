@@ -214,7 +214,7 @@
 			<artifactId>spring-boot-devtools</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.oracle.ojdbc7</groupId>
+			<groupId>com.oracle.ojdbc</groupId>
 			<artifactId>ojdbc</artifactId>
 			<version>12.1.0.1</version>
 		</dependency>
