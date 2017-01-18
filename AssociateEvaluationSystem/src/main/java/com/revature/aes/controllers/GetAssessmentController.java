@@ -12,6 +12,9 @@ import javax.servlet.http.HttpSession;
 import javax.ws.rs.core.MediaType;
 
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.introspect.VisibilityChecker;
 import com.revature.aes.logging.Logging;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -96,7 +99,10 @@ public class GetAssessmentController {
 			throws JsonParseException, JsonMappingException, IOException {
 		System.out.println("I'm gonna save the thing!");
 		ObjectMapper om = new ObjectMapper();
-		
+		om.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+		om.setVisibilityChecker(VisibilityChecker.Std.defaultInstance().withFieldVisibility(JsonAutoDetect.Visibility.ANY));
+		System.out.println("Info sent: " + JsonUserAnswers);
+
 		//Separate the incoming data
 		Packet incoming = om.readValue(JsonUserAnswers, Packet.class);
 		Assessment assessment = incoming.getAssessment();

@@ -41,7 +41,7 @@ public class Question implements Serializable {
 	@JoinColumn(name = "QUESTION_FORMAT_ID")	
 	private Format format;
 	
-	@ManyToMany(fetch=FetchType.EAGER, cascade=CascadeType.MERGE)
+	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name="AES_QUESTION_CATEGORY", joinColumns= @JoinColumn(name="QUESTION_ID"), inverseJoinColumns=@JoinColumn(name="CATEGORY_ID"))
 	private Set<Category> questionCategory = new HashSet<Category>();
 
