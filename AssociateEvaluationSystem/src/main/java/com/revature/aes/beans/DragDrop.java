@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -37,8 +38,9 @@ public class DragDrop implements Serializable {
 	@Column(name = "CORRECT_ORDER")
 	private int correctOrder;
 
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="QUESTION_ID")
+	@JsonIgnore
 	private Question question;
 
 	public DragDrop() {
