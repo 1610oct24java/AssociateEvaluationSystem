@@ -40,7 +40,7 @@ public class TemplateQuestion implements Serializable {
 	@Column(name = "weight")
 	private int weight;
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "question_id")
 	private Question question;
 

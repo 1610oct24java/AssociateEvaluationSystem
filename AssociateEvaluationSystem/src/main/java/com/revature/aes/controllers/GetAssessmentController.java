@@ -19,8 +19,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.introspect.VisibilityChecker;
 import com.revature.aes.beans.*;
 import com.revature.aes.logging.Logging;
-import com.revature.aes.service.DragDropService;
-import com.revature.aes.service.OptionService;
+import com.revature.aes.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,8 +33,6 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.aes.dao.UsersDao;
 import com.revature.aes.grading.CoreEmailClient;
-import com.revature.aes.service.AssessmentServiceImpl;
-import com.revature.aes.service.S3Service;
 
 
 @RestController
@@ -56,6 +53,9 @@ public class GetAssessmentController {
 
 	@Autowired
 	OptionService optService;
+
+	@Autowired
+	QuestionService questService;
 
 	@Inject
 	private org.springframework.boot.autoconfigure.web.ServerProperties serverProperties;
@@ -117,9 +117,36 @@ public class GetAssessmentController {
 		List<SnippetUpload> lstSnippetUploads = incoming.getSnippetUpload();*/
 
 		Assessment assessment = answerData.getAssessment();
+
 		List<SnippetUpload> lstSnippetUploads = answerData.getSnippetUploads();
 
+		Set<Option> optList = new HashSet<>();
+
+		for (Option opts : assessment.getOptions()){
+
+			optList.add(optService.getOptionById(opts.getOptionId()));
+
+		}
+
+		assessment.setOptions(optList);
+
+		for(Option opt : assessment.getOptions()){
+
+			System.out.println(opt);
+
+		}
+
+		for (AssessmentDragDrop add : assessment.getAssessmentDragDrop()){
+
+			add.setDragDrop(ddService.getDragDropById(add.getDragDrop().getDragDropId()));
+
+		}
+
+
+
 		//System.out.println(answerData.getSnippetUploads());
+
+		assessment.setFileUpload(new HashSet<FileUpload>());
 
 		for (SnippetUpload su : lstSnippetUploads) {
 			// userAnswer_assID_qID
@@ -132,29 +159,13 @@ public class GetAssessmentController {
 			System.out.println("Key: " + key);
 			System.out.println(su.getCode());
 			s3.uploadToS3(su.getCode(), key);
+			FileUpload fu = new FileUpload();
+			fu.setAssessment(assessment);
+			fu.setFileUrl(key);
+			fu.setQuestion(questService.getQuestionById(su.getQuestionId()));
+			assessment.getFileUpload().add(fu);
 		}
 
-		Set<Option> optList = new HashSet<>();
-
-		for (Option opts : answerData.getAssessment().getOptions()){
-
-			optList.add(optService.getOptionById(opts.getOptionId()));
-
-		}
-
-		answerData.getAssessment().setOptions(optList);
-
-		for(Option opt : answerData.getAssessment().getOptions()){
-
-			System.out.println(opt);
-
-		}
-
-		for (AssessmentDragDrop add : answerData.getAssessment().getAssessmentDragDrop()){
-
-			add.setDragDrop(ddService.getDragDropById(add.getDragDrop().getDragDropId()));
-
-		}
 
 		//SAVE the answers into the database
 		service.gradeAssessment(assessment);
