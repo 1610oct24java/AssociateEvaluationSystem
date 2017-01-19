@@ -2,24 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a4cbb831-4b5f-45da-9953-ff542680f0f8" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/revature/aes/beans/AnswerData.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/revature/aes/dao/DragDropDAO.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/revature/aes/dao/OptionDAO.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/revature/aes/service/DragDropService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/revature/aes/service/DragDropServiceImpl.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/revature/aes/service/OptionService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/revature/aes/service/OptionServiceImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/logs/asmt-error.log" afterPath="$PROJECT_DIR$/logs/asmt-error.log" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/logs/asmt-trace.log" afterPath="$PROJECT_DIR$/logs/asmt-trace.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/revature/aes/beans/Assessment.java" afterPath="$PROJECT_DIR$/src/main/java/com/revature/aes/beans/Assessment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/revature/aes/beans/AssessmentDragDrop.java" afterPath="$PROJECT_DIR$/src/main/java/com/revature/aes/beans/AssessmentDragDrop.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/revature/aes/beans/DragDrop.java" afterPath="$PROJECT_DIR$/src/main/java/com/revature/aes/beans/DragDrop.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/revature/aes/beans/Option.java" afterPath="$PROJECT_DIR$/src/main/java/com/revature/aes/beans/Option.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/revature/aes/controllers/GetAssessmentController.java" afterPath="$PROJECT_DIR$/src/main/java/com/revature/aes/controllers/GetAssessmentController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/revature/aes/grading/AssessmentGrader.java" afterPath="$PROJECT_DIR$/src/main/java/com/revature/aes/grading/AssessmentGrader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/revature/aes/restcontroller/AssessmentRestController.java" afterPath="$PROJECT_DIR$/src/main/java/com/revature/aes/restcontroller/AssessmentRestController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/static/js/AngularControllers/quizController.js" afterPath="$PROJECT_DIR$/src/main/resources/static/js/AngularControllers/quizController.js" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -56,6 +39,16 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="quizController.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/static/js/AngularControllers/quizController.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3691">
+              <caret line="234" column="10" lean-forward="true" selection-start-line="234" selection-start-column="10" selection-end-line="234" selection-end-column="10" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="Question.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/revature/aes/beans/Question.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -86,7 +79,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="QuestionOptionsJSONHandler.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="QuestionOptionsJSONHandler.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/revature/aes/beans/QuestionOptionsJSONHandler.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="2046">
@@ -104,16 +97,6 @@
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Option.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/revature/aes/beans/Option.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="623">
-              <caret line="156" column="33" lean-forward="false" selection-start-line="156" selection-start-column="33" selection-end-line="156" selection-end-column="33" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -1207,7 +1190,7 @@
       <workItem from="1484318580708" duration="13427000" />
       <workItem from="1484663475092" duration="15219000" />
       <workItem from="1484748814998" duration="22987000" />
-      <workItem from="1484836855400" duration="18464000" />
+      <workItem from="1484836855400" duration="18872000" />
     </task>
     <task id="LOCAL-00001" summary="Fixing AssessmentGrader in progress.">
       <created>1484236520355</created>
@@ -1248,7 +1231,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="90109000" />
+    <option name="totallyTimeSpent" value="90517000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1651,14 +1634,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/static/js/AngularControllers/quizController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3207">
-          <caret line="234" column="10" lean-forward="true" selection-start-line="234" selection-start-column="10" selection-end-line="234" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/revature/aes/dao/AssessmentDAO.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="88">
@@ -1699,14 +1674,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="277">
           <caret line="54" column="0" lean-forward="false" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/revature/aes/controllers/GetAssessmentController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1155">
-          <caret line="150" column="9" lean-forward="true" selection-start-line="150" selection-start-column="9" selection-end-line="150" selection-end-column="9" />
           <folding />
         </state>
       </provider>
@@ -1781,6 +1748,22 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2046">
           <caret line="127" column="8" lean-forward="true" selection-start-line="127" selection-start-column="8" selection-end-line="127" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/revature/aes/controllers/GetAssessmentController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1155">
+          <caret line="150" column="9" lean-forward="true" selection-start-line="150" selection-start-column="9" selection-end-line="150" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/static/js/AngularControllers/quizController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3691">
+          <caret line="234" column="10" lean-forward="true" selection-start-line="234" selection-start-column="10" selection-end-line="234" selection-end-column="10" />
           <folding />
         </state>
       </provider>
