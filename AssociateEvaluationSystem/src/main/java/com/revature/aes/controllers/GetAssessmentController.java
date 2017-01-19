@@ -17,10 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.introspect.VisibilityChecker;
 import com.revature.aes.beans.Assessment;
 import com.revature.aes.beans.Packet;
 import com.revature.aes.beans.SnippetUpload;
@@ -91,7 +94,10 @@ public class GetAssessmentController {
 			throws JsonParseException, JsonMappingException, IOException {
 		System.out.println("I'm gonna save the thing!");
 		ObjectMapper om = new ObjectMapper();
-		
+		om.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+		om.setVisibilityChecker(VisibilityChecker.Std.defaultInstance().withFieldVisibility(JsonAutoDetect.Visibility.ANY));
+		System.out.println("Info sent: " + JsonUserAnswers);
+
 		//Separate the incoming data
 		Packet incoming = om.readValue(JsonUserAnswers, Packet.class);
 		Assessment assessment = incoming.getAssessment();

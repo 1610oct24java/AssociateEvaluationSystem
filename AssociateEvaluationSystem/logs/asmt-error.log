@@ -1,0 +1,22 @@
+[WARN] [74377 ms] [01-19-2017 10:08:58] [ExceptionHandlerExceptionResolver (logException : 189)] -
+					Resolved exception caused by Handler execution: org.springframework.data.rest.webmvc.ResourceNotFoundException: Resource not found!
+[WARN] [617832 ms] [01-19-2017 10:18:01] [ExceptionHandlerExceptionResolver (logException : 189)] -
+					Resolved exception caused by Handler execution: org.springframework.data.rest.webmvc.ResourceNotFoundException: Resource not found!
+[WARN] [1138371 ms] [01-19-2017 10:26:42] [ExceptionHandlerExceptionResolver (logException : 189)] -
+					Resolved exception caused by Handler execution: org.springframework.data.rest.webmvc.ResourceNotFoundException: Resource not found!
+[WARN] [1191054 ms] [01-19-2017 10:27:35] [ExceptionHandlerExceptionResolver (logException : 189)] -
+					Resolved exception caused by Handler execution: org.springframework.data.rest.webmvc.ResourceNotFoundException: Resource not found!
+[WARN] [1280498 ms] [01-19-2017 10:29:04] [ExceptionHandlerExceptionResolver (logException : 189)] -
+					Resolved exception caused by Handler execution: org.springframework.data.rest.webmvc.ResourceNotFoundException: Resource not found!
+[WARN] [1338240 ms] [01-19-2017 10:30:02] [ExceptionHandlerExceptionResolver (logException : 189)] -
+					Resolved exception caused by Handler execution: org.springframework.data.rest.webmvc.ResourceNotFoundException: Resource not found!
+[WARN] [1515507 ms] [01-19-2017 10:32:59] [ExceptionHandlerExceptionResolver (logException : 189)] -
+					Resolved exception caused by Handler execution: org.springframework.data.rest.webmvc.ResourceNotFoundException: Resource not found!
+[WARN] [1578694 ms] [01-19-2017 10:34:02] [ExceptionHandlerExceptionResolver (logException : 189)] -
+					Resolved exception caused by Handler execution: org.springframework.data.rest.webmvc.ResourceNotFoundException: Resource not found!
+[WARN] [2612791 ms] [01-19-2017 10:51:16] [ExceptionHandlerExceptionResolver (logException : 189)] -
+					Resolved exception caused by Handler execution: org.springframework.data.rest.webmvc.ResourceNotFoundException: Resource not found!
+[WARN] [2761834 ms] [01-19-2017 10:53:45] [ExceptionHandlerExceptionResolver (logException : 189)] -
+					Resolved exception caused by Handler execution: org.springframework.data.rest.webmvc.ResourceNotFoundException: Resource not found!
+[WARN] [2796608 ms] [01-19-2017 10:54:20] [ExceptionHandlerExceptionResolver (logException : 189)] -
+					Resolved exception caused by Handler execution: org.springframework.data.rest.webmvc.ResourceNotFoundException: Resource not found!

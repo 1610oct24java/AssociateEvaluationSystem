@@ -42,7 +42,7 @@ public class FileUpload implements Serializable {
 	@JoinColumn(name="ASSESSMENT_ID")
 	private Assessment assessment;
 
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="QUESTION_ID")
 	private Question question;
 

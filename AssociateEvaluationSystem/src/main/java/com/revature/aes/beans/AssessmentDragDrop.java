@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -30,6 +31,7 @@ public class AssessmentDragDrop implements Serializable {
 			@Parameter(name="initial_value",value="1"),
 			@Parameter(name="increment_size",value="1")
 	})
+	@JsonIgnore
 	private int assessmentDragDropId;
 	
 	@Column(name = "user_order")
