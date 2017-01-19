@@ -289,9 +289,15 @@ app.controller('QuestionCtrl', function($http, $scope) {
 		})
 	};
 	
+	$scope.getQuestion = function(question){
+		console.log(question);
+		$scope.currentQuestion = question;
+	}
+	
 	angular.element(document).ready(function() {
 		$scope.getQuestionList();
 		$scope.loadCategories();
 		$scope.loadTags();
 	}); // angular.element end
+	
 }); // QuestionController end

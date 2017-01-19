@@ -66,6 +66,7 @@ public class QuestionRestController
 	{ MediaType.APPLICATION_JSON_VALUE })
 	public List<Question> getAllQuestions()
 	{
+		System.out.println(questionService.getAllQuestions());
 		return questionService.getAllQuestions();
 	}
 	
