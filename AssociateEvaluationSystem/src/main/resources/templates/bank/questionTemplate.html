@@ -45,12 +45,23 @@
 		</div>
 	
 		<div class="col-md-9">
-			<div>
-				<textarea ng-model="currentQuestion.questionText"></textarea>
+			Question: <div>
+				<input type="text" size="60" ng-model="currentQuestion.questionText"></input>
 			</div>
+		Options: <div ng-repeat="option in currentQuestion.option">
 			<div>
-				<textarea ng-model="currentQuestion"></textarea>
+				<input type="text" size="60"  ng-model="option.optionText"></input>
 			</div>
+		</div>
+		<div ng-repeat="dragdrop in currentQuestion.dragdrop">	
+			<div>
+				<input type="text" size="60" ng-model="dragdrop.dragDropText"></input>
+				<button ng-click=""
+			</div>
+		</div>	
+		
+		<button ng-click="updateQuestion()">shwoop</button>
+			
 		</div>
 	</div>
 

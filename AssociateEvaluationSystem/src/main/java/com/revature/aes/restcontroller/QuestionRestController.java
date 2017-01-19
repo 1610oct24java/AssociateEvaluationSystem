@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.aes.beans.DragDrop;
 import com.revature.aes.beans.Format;
+import com.revature.aes.beans.Option;
 import com.revature.aes.beans.Question;
 import com.revature.aes.beans.QuestionOptionsJSONHandler;
 import com.revature.aes.service.QuestionService;
@@ -93,6 +95,14 @@ public class QuestionRestController
 	{ MediaType.APPLICATION_JSON_VALUE })
 	public Question updateQuestionById(@RequestBody Question question)
 	{
+		for (Option o : question.getOption())
+		{
+			o.setQuestion(question);
+		}
+		for (DragDrop d : question.getDragdrop())
+		{
+			d.setQuestion(question);
+		}
 		return questionService.updateQuestion(question);		
 	}
 	

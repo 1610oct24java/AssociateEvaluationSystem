@@ -187,7 +187,7 @@ app.controller('QuestionCtrl', function($http, $scope) {
 	}; // addQuestion() end
 
 	$scope.deleteQuestion = function() {
-		$http.delete(url + "question/" + $scope.deleteme)
+		$http.delete("/question/" + $scope.deleteme)
 			.success(function() {
 				$scope.getQuestionList();
 			})
@@ -209,10 +209,11 @@ app.controller('QuestionCtrl', function($http, $scope) {
 		if ($scope.format.formatId === 0) {
 			
 		} else {
-			$http.put(url + "question", $scope.question)
+			console.log($scope.currentQuestion);
+			$http.put("question", $scope.currentQuestion)
 				.success(function(response) {
 					$scope.question = response.data;
-					if ($scope.question == null) {
+					if ($scope.currentQuestion == null) {
 						
 					} else {
 						$scope.getQuestionList();	
