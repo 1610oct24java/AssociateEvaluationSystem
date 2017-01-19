@@ -57,6 +57,7 @@ public class AssessmentRestController {
 		Set<TemplateQuestion> finalQuestion = systemp.getRandomSelectionFromCategory(assReq);
 
 		for (TemplateQuestion tq : finalQuestion) {
+			tq.setWeight(1);
 			tq.setTemplate(tmpl);
 		}
 

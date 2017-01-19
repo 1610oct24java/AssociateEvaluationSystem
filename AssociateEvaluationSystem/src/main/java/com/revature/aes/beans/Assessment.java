@@ -54,7 +54,7 @@ public class Assessment implements Serializable
 	@Column(name = "finished_timestamp")
 	private Timestamp finishedTimeStamp;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "template_id")
 	private Template template;
 	
@@ -70,20 +70,9 @@ public class Assessment implements Serializable
 	@OneToMany(fetch = FetchType.EAGER, mappedBy ="assessment")
 	private Set<FileUpload> fileUpload;
 
-	public Assessment(User user, int grade, int timeLimit, Timestamp createdTimeStamp, Timestamp finishedTimeStamp, Template template)
-	{
-		super();
-		this.user = user;
-		this.grade = grade;
-		this.timeLimit = timeLimit;
-		this.createdTimeStamp = createdTimeStamp;
-		this.finishedTimeStamp = finishedTimeStamp;
-		this.template = template;
-	}
-
 	public Assessment(int assessmentId, User user, int grade, int timeLimit, Timestamp createdTimeStamp,
-			Timestamp finishedTimeStamp, Template template, Set<Option> options,
-			Set<AssessmentDragDrop> assessmentDragDrop, Set<FileUpload> fileUpload) {
+					  Timestamp finishedTimeStamp, Template template, Set<Option> options,
+					  Set<AssessmentDragDrop> assessmentDragDrop, Set<FileUpload> fileUpload) {
 		super();
 		this.assessmentId = assessmentId;
 		this.user = user;
@@ -96,8 +85,16 @@ public class Assessment implements Serializable
 		this.assessmentDragDrop = assessmentDragDrop;
 		this.fileUpload = fileUpload;
 	}
-
-
+	public Assessment(User user, int grade, int timeLimit, Timestamp createdTimeStamp, Timestamp finishedTimeStamp, Template template)
+	{
+		super();
+		this.user = user;
+		this.grade = grade;
+		this.timeLimit = timeLimit;
+		this.createdTimeStamp = createdTimeStamp;
+		this.finishedTimeStamp = finishedTimeStamp;
+		this.template = template;
+	}
 
 	public Assessment() {
 		super();
@@ -184,5 +181,21 @@ public class Assessment implements Serializable
 
 	public void setFileUpload(Set<FileUpload> fileUpload) {
 		this.fileUpload = fileUpload;
+	}
+
+	@Override
+	public String toString() {
+		return "Assessment{" +
+				"assessmentId=" + assessmentId +
+				", user=" + user +
+				", grade=" + grade +
+				", timeLimit=" + timeLimit +
+				", createdTimeStamp=" + createdTimeStamp +
+				", finishedTimeStamp=" + finishedTimeStamp +
+				", template=" + template +
+				", options=" + options +
+				", assessmentDragDrop=" + assessmentDragDrop +
+				", fileUpload=" + fileUpload +
+				'}';
 	}
 }

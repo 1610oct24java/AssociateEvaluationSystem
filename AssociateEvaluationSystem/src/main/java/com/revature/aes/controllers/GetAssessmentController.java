@@ -3,7 +3,9 @@ package com.revature.aes.controllers;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -15,7 +17,10 @@ import javax.ws.rs.core.MediaType;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.introspect.VisibilityChecker;
+import com.revature.aes.beans.*;
 import com.revature.aes.logging.Logging;
+import com.revature.aes.service.DragDropService;
+import com.revature.aes.service.OptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,9 +32,6 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.aes.beans.Assessment;
-import com.revature.aes.beans.Packet;
-import com.revature.aes.beans.SnippetUpload;
 import com.revature.aes.dao.UsersDao;
 import com.revature.aes.grading.CoreEmailClient;
 import com.revature.aes.service.AssessmentServiceImpl;
@@ -48,6 +50,12 @@ public class GetAssessmentController {
 	
 	@Autowired
 	S3Service s3;
+
+	@Autowired
+	DragDropService ddService;
+
+	@Autowired
+	OptionService optService;
 
 	@Inject
 	private org.springframework.boot.autoconfigure.web.ServerProperties serverProperties;
@@ -94,20 +102,25 @@ public class GetAssessmentController {
 	}
 	
 	@RequestMapping(value = "/submitAssessment", method = RequestMethod.POST)
-	public String saveAssessmentAnswers(@RequestBody String JsonUserAnswers,
+	public String saveAssessmentAnswers(@RequestBody AnswerData answerData,
 			HttpServletResponse response)
 			throws JsonParseException, JsonMappingException, IOException {
 		System.out.println("I'm gonna save the thing!");
-		ObjectMapper om = new ObjectMapper();
+/*		ObjectMapper om = new ObjectMapper();
 		om.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-		om.setVisibilityChecker(VisibilityChecker.Std.defaultInstance().withFieldVisibility(JsonAutoDetect.Visibility.ANY));
-		System.out.println("Info sent: " + JsonUserAnswers);
+		om.setVisibilityChecker(VisibilityChecker.Std.defaultInstance().withFieldVisibility(JsonAutoDetect.Visibility.ANY));*/
+		//System.out.println("Info sent: " + answerData);
 
 		//Separate the incoming data
-		Packet incoming = om.readValue(JsonUserAnswers, Packet.class);
+		/*Packet incoming = om.readValue(JsonUserAnswers, Packet.class);
 		Assessment assessment = incoming.getAssessment();
-		List<SnippetUpload> lstSnippetUploads = incoming.getSnippetUpload();
-		
+		List<SnippetUpload> lstSnippetUploads = incoming.getSnippetUpload();*/
+
+		Assessment assessment = answerData.getAssessment();
+		List<SnippetUpload> lstSnippetUploads = answerData.getSnippetUploads();
+
+		//System.out.println(answerData.getSnippetUploads());
+
 		for (SnippetUpload su : lstSnippetUploads) {
 			// userAnswer_assID_qID
 			String key = "";
@@ -120,7 +133,29 @@ public class GetAssessmentController {
 			System.out.println(su.getCode());
 			s3.uploadToS3(su.getCode(), key);
 		}
-		
+
+		Set<Option> optList = new HashSet<>();
+
+		for (Option opts : answerData.getAssessment().getOptions()){
+
+			optList.add(optService.getOptionById(opts.getOptionId()));
+
+		}
+
+		answerData.getAssessment().setOptions(optList);
+
+		for(Option opt : answerData.getAssessment().getOptions()){
+
+			System.out.println(opt);
+
+		}
+
+		for (AssessmentDragDrop add : answerData.getAssessment().getAssessmentDragDrop()){
+
+			add.setDragDrop(ddService.getDragDropById(add.getDragDrop().getDragDropId()));
+
+		}
+
 		//SAVE the answers into the database
 		service.gradeAssessment(assessment);
 		service.updateAssessment(assessment);

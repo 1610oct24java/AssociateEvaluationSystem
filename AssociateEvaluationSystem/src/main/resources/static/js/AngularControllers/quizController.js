@@ -166,7 +166,7 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 		}
 		
 		var incFileType = q.question.snippetTemplates[0].fileType;
-		var newSnippet = new SnippetUpload(editor.getValue(), id2.substr(6, id2.length), incFileType);
+		var newSnippet = new SnippetUpload(editor.getValue(), +id2.substr(6, id2.length), incFileType);
 		
 		for (i = 0; i < $scope.snippetSubmissions.length; i++){
 			if ($scope.snippetSubmissions[i].questionId = newSnippet.questionId){
@@ -220,9 +220,18 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	}
 	
 	$scope.submitAssessment = function(){
+
+		$rootScope.protoTest.assessmentDragDrop.forEach(function(entry){
+
+			delete entry.assessmentId;
+
+			entry.assessment = {"assessmentId" : $rootScope.protoTest.assessmentId,};
+
+		});
+
 		var answerData = {
 				assessment : $rootScope.protoTest,
-				snippetUpload : $scope.snippetSubmissions
+				snippetUploads : $scope.snippetSubmissions
 		};
 		postAssessment(answerData);
 	}

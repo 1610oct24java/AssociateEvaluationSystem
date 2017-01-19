@@ -47,11 +47,11 @@ public class DragDrop implements Serializable {
 		super();
 	}
 
-	@Override
+	/*@Override
 	public String toString() {
 		return "DragDrop [dragDropId=" + dragDropId + ", dragDropText=" + dragDropText + ", correctOrder="
 				+ correctOrder + ", questionId=" + question.getQuestionId() + "]";
-	}
+	}*/
 
 	public int getDragDropId() {
 		return dragDropId;

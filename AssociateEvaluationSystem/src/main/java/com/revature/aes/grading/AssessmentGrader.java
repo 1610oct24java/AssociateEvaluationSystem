@@ -28,7 +28,7 @@ public class AssessmentGrader {
 		Map<Integer, Set<Option>> userDataMap = new HashMap<Integer, Set<Option>>();
 		
 		for(TemplateQuestion tQuestion: assessment.getTemplate().getTemplateQuestion()){
-			templateDataMap.put(tQuestion.getTemplateQuestionId(), tQuestion);
+			templateDataMap.put(tQuestion.getQuestion().getQuestionId(), tQuestion);
 		}
 		
 		
@@ -71,15 +71,18 @@ public class AssessmentGrader {
 		
 		
 		for(TemplateQuestion tQuestion: assessment.getTemplate().getTemplateQuestion()){
-			templateDataMap.put(tQuestion.getTemplateQuestionId(), tQuestion);
+			System.out.println("Adding to templateDataMap: " + tQuestion);
+			templateDataMap.put(tQuestion.getQuestion().getQuestionId(), tQuestion);
 		}
 		
 		
 		for(AssessmentDragDrop dragDrop: assessment.getAssessmentDragDrop()){
 			if(userDataMap.containsKey(dragDrop.getDragDrop().getQuestion().getQuestionId())){
+				System.out.println("Adding to userDataMap: " + dragDrop);
 				userDataMap.get(dragDrop.getDragDrop().getQuestion().getQuestionId()).add(dragDrop);
 			}
 			else {
+				System.out.println("Creating list of dragDrop statring with: " + dragDrop);
 				Set<AssessmentDragDrop> dragDropSet = new HashSet<AssessmentDragDrop>();
 				dragDropSet.add(dragDrop);
 				userDataMap.put(dragDrop.getDragDrop().getQuestion().getQuestionId(), dragDropSet);
@@ -87,6 +90,9 @@ public class AssessmentGrader {
 		}
 
 		for(int key: userDataMap.keySet()){
+			System.out.println("At key: " + key);
+			System.out.println("TemplateDataMap: " + templateDataMap);
+			System.out.println("TemplateDataMap at key: " + templateDataMap.get(key));
 			itemWeight = templateDataMap.get(key).getWeight();
 			
 			double countCorrect = 0.0;
@@ -118,7 +124,7 @@ public class AssessmentGrader {
 		Map<Integer, TemplateQuestion> templateDataMap = new HashMap<Integer, TemplateQuestion>(); 
 		
 		for(TemplateQuestion tQuestion: assessment.getTemplate().getTemplateQuestion()){
-			templateDataMap.put(tQuestion.getTemplateQuestionId(), tQuestion);
+			templateDataMap.put(tQuestion.getQuestion().getQuestionId(), tQuestion);
 		}
 		
 		for(FileUpload file : assessment.getFileUpload()){	
