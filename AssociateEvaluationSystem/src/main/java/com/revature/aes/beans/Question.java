@@ -41,7 +41,7 @@ public class Question implements Serializable {
 	@JoinColumn(name = "QUESTION_FORMAT_ID")	
 	private Format format;
 	
-	@ManyToMany(fetch=FetchType.EAGER, cascade=CascadeType.MERGE)
+	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name="AES_QUESTION_CATEGORY", joinColumns= @JoinColumn(name="QUESTION_ID"), inverseJoinColumns=@JoinColumn(name="CATEGORY_ID"))
 	private Set<Category> questionCategory = new HashSet<Category>();
 
@@ -52,20 +52,20 @@ public class Question implements Serializable {
 	@JoinTable(name = "AES_QUESTION_TAG", joinColumns = @JoinColumn(name = "QUESTION_ID"), inverseJoinColumns = @JoinColumn(name = "TAG_ID"))
 	private Set<Tag> questionTags = new HashSet<Tag>();
 
-	@OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL, mappedBy="optionId")
+	@OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL, mappedBy="question")
 	private Set<Option> option;
 	
-	@OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.ALL, mappedBy="dragDropId")
+	@OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.ALL, mappedBy="question")
 	private Set<DragDrop> dragdrop;
 	
-	@OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.ALL, mappedBy="fileId")
-	private Set<FileUpload> fileUpload;
+	/*@OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.ALL, mappedBy="question")
+	private Set<FileUpload> fileUpload;*/
 
-	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL, mappedBy="snippetTemplateId")
+	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL, mappedBy="question")
 	private Set<SnippetTemplate> snippetTemplates;
 
 	public Question(int questionId, Format format, Set<Category> questionCategory, String questionText,
-			Set<Tag> questionTags, Set<Option> multiple, Set<DragDrop> dragdrop, Set<FileUpload> fileUpload) {
+			Set<Tag> questionTags, Set<Option> multiple, Set<DragDrop> dragdrop)	{//, Set<FileUpload> fileUpload) {
 		super();
 		this.questionId = questionId;
 		this.format = format;
@@ -74,7 +74,7 @@ public class Question implements Serializable {
 		this.questionTags = questionTags;
 		this.option = multiple;
 		this.dragdrop = dragdrop;
-		this.fileUpload = fileUpload;
+//		this.fileUpload = fileUpload;
 	}
 
 	public Question() {
@@ -147,13 +147,13 @@ public class Question implements Serializable {
 		this.dragdrop = dragdrop;
 	}
 
-	public Set<FileUpload> getFileUpload() {
+/*	public Set<FileUpload> getFileUpload() {
 		return fileUpload;
-	}
+	}*/
 
-	public void setFileUpload(Set<FileUpload> fileUpload) {
+/*	public void setFileUpload(Set<FileUpload> fileUpload) {
 		this.fileUpload = fileUpload;
-	}
+	}*/
 
 	public Set<SnippetTemplate> getSnippetTemplates() {
 		return snippetTemplates;
@@ -168,7 +168,7 @@ public class Question implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((dragdrop == null) ? 0 : dragdrop.hashCode());
-		result = prime * result + ((fileUpload == null) ? 0 : fileUpload.hashCode());
+/*		result = prime * result + ((fileUpload == null) ? 0 : fileUpload.hashCode());*/
 		result = prime * result + ((format == null) ? 0 : format.hashCode());
 		result = prime * result + ((option == null) ? 0 : option.hashCode());
 		result = prime * result + ((questionCategory == null) ? 0 : questionCategory.hashCode());
@@ -192,11 +192,11 @@ public class Question implements Serializable {
 				return false;
 		} else if (!dragdrop.equals(other.dragdrop))
 			return false;
-		if (fileUpload == null) {
+/*		if (fileUpload == null) {
 			if (other.fileUpload != null)
 				return false;
-		} else if (!fileUpload.equals(other.fileUpload))
-			return false;
+		}*/ /*else if (!fileUpload.equals(other.fileUpload))
+			return false;*/
 		if (format == null) {
 			if (other.format != null)
 				return false;
@@ -231,7 +231,7 @@ public class Question implements Serializable {
 	public String toString() {
 		return "Question [questionId=" + questionId + ", format=" + format + ", questionCategory=" + questionCategory
 				+ ", questionText=" + questionText + ", questionTags=" + questionTags + ", multiple=" + option
-				+ ", dragdrop=" + dragdrop + ", fileUpload=" + fileUpload + "]";
+				+ ", dragdrop=" + dragdrop + "]";// ", fileUpload=" + fileUpload + "]";
 	}
 
 }

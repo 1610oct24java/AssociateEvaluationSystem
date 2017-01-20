@@ -3,12 +3,21 @@ package com.revature.aes.controllers;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
+
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.introspect.VisibilityChecker;
+import com.revature.aes.beans.*;
+import com.revature.aes.logging.Logging;
+import com.revature.aes.service.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,15 +30,12 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.aes.beans.Assessment;
-import com.revature.aes.beans.Packet;
-import com.revature.aes.beans.SnippetUpload;
 import com.revature.aes.dao.UsersDao;
 import com.revature.aes.grading.CoreEmailClient;
+
 import com.revature.aes.logging.Logging;
 import com.revature.aes.service.AssessmentServiceImpl;
 import com.revature.aes.service.S3Service;
-
 
 @RestController
 @RequestMapping("/rest")
@@ -43,6 +49,15 @@ public class GetAssessmentController {
 	
 	@Autowired
 	S3Service s3;
+
+	@Autowired
+	DragDropService ddService;
+
+	@Autowired
+	OptionService optService;
+
+	@Autowired
+	QuestionService questService;
 
 	@Inject
 	private org.springframework.boot.autoconfigure.web.ServerProperties serverProperties;
@@ -86,30 +101,73 @@ public class GetAssessmentController {
 	}
 	
 	@RequestMapping(value = "/submitAssessment", method = RequestMethod.POST)
-	public String saveAssessmentAnswers(@RequestBody String JsonUserAnswers,
+	public String saveAssessmentAnswers(@RequestBody AnswerData answerData,
 			HttpServletResponse response)
 			throws JsonParseException, JsonMappingException, IOException {
 		System.out.println("I'm gonna save the thing!");
-		ObjectMapper om = new ObjectMapper();
-		
+/*		ObjectMapper om = new ObjectMapper();
+		om.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+		om.setVisibilityChecker(VisibilityChecker.Std.defaultInstance().withFieldVisibility(JsonAutoDetect.Visibility.ANY));*/
+		//System.out.println("Info sent: " + answerData);
+
 		//Separate the incoming data
-		Packet incoming = om.readValue(JsonUserAnswers, Packet.class);
+		/*Packet incoming = om.readValue(JsonUserAnswers, Packet.class);
 		Assessment assessment = incoming.getAssessment();
-		List<SnippetUpload> lstSnippetUploads = incoming.getSnippetUpload();
-		
-		for (SnippetUpload su : lstSnippetUploads) {
-			// userAnswer_assID_qID
-			String key = "";
-			key += "Take1_userAnswer_";
-			key += assessment.getAssessmentId() + "_";
-			key += su.getQuestionId();
-			key += ".java";		//TODO Not hardcode this?
-			System.out.println(su);
-			System.out.println("Key: " + key);
-			System.out.println(su.getCode());
-			s3.uploadToS3(su.getCode(), key);
+		List<SnippetUpload> lstSnippetUploads = incoming.getSnippetUpload();*/
+
+		Assessment assessment = answerData.getAssessment();
+
+		List<SnippetUpload> lstSnippetUploads = answerData.getSnippetUploads();
+
+		Set<Option> optList = new HashSet<>();
+
+		for (Option opts : assessment.getOptions()){
+
+			optList.add(optService.getOptionById(opts.getOptionId()));
+
 		}
-		
+
+		assessment.setOptions(optList);
+
+		for(Option opt : assessment.getOptions()){
+
+			System.out.println(opt);
+
+		}
+
+		for (AssessmentDragDrop add : assessment.getAssessmentDragDrop()){
+
+			add.setDragDrop(ddService.getDragDropById(add.getDragDrop().getDragDropId()));
+
+		}
+
+
+
+		//System.out.println(answerData.getSnippetUploads());
+
+		assessment.setFileUpload(new HashSet<FileUpload>());
+
+		if(lstSnippetUploads!=null) {
+
+			for (SnippetUpload su : lstSnippetUploads) {
+				// userAnswer_assID_qID
+				String key = "";
+				key += "Take1_userAnswer_";
+				key += assessment.getAssessmentId() + "_";
+				key += su.getQuestionId();
+				key += ".cpp";        //TODO Not hardcode this?
+				System.out.println(su);
+				System.out.println("Key: " + key);
+				System.out.println(su.getCode());
+				s3.uploadToS3(su.getCode(), key);
+				FileUpload fu = new FileUpload();
+				fu.setAssessment(assessment);
+				fu.setFileUrl(key);
+				fu.setQuestion(questService.getQuestionById(su.getQuestionId()));
+				assessment.getFileUpload().add(fu);
+			}
+		}
+
 		//SAVE the answers into the database
 		service.gradeAssessment(assessment);
 		service.updateAssessment(assessment);

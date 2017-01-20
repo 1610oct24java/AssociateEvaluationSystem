@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import com.amazonaws.services.dynamodbv2.xspec.S;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -47,15 +48,24 @@ public class SystemTemplate {
 		
 		List<Question> filteredQuestions = (List<Question>) qDao.findAllByQuestionCategory(cat);
 
+		System.out.println("Questions for category " + cat);
+
+		for(Question q : filteredQuestions){
+
+			System.out.println(q);
+
+		}
+
 		if (multiChoice != 0) {
 
 			formatList = multiChoiceQuestionAdder(formatList, filteredQuestions);
-
-			size = formatList.size() - 1; // subtract 1 so that this can be used
+			System.out.println("Hello, this is Richard.");
+			System.out.println(formatList);
+			size = formatList.size(); // subtract 1 so that this can be used
 											// to get an index for random
 											// question
 
-			for (int i = 0; i <= multiChoice; i++) {
+			for (int i = 0; i < multiChoice; i++) {
 				
 				int num = rando.nextInt(size);
 				assessList.add(formatList.remove(num));
@@ -66,16 +76,17 @@ public class SystemTemplate {
 			}
 
 		}
+		formatList.clear();
 
 		if (multiSelect != 0) {
 
 			formatList = multiSelectQuestionAdder(formatList, filteredQuestions);
 
-			size = formatList.size() - 1; // subtract 1 so that this can be used
+			size = formatList.size(); // subtract 1 so that this can be used
 											// to get an index for random
 											// question
 
-			for (int i = 0; i <= multiSelect; i++) {
+			for (int i = 0; i < multiSelect; i++) {
 				int num = rando.nextInt(size);
 				assessList.add(formatList.remove(num));
 				size--;
@@ -85,16 +96,16 @@ public class SystemTemplate {
 			}
 
 		}
-
+		formatList.clear();
 		if (dragDrop != 0) {
 
 			formatList = dragDropQuestionAdder(formatList, filteredQuestions);
 
-			size = formatList.size() - 1; // subtract 1 so that this can be used
+			size = formatList.size(); // subtract 1 so that this can be used
 											// to get an index for random
 											// question
 
-			for (int i = 0; i <= dragDrop; i++) {
+			for (int i = 0; i < dragDrop; i++) {
 				int num = rando.nextInt(size);
 				assessList.add(formatList.remove(num));
 				size--;
@@ -104,16 +115,16 @@ public class SystemTemplate {
 			}
 
 		}
-
+		formatList.clear();
 		if (codeSnip != 0) {
 
 			formatList = codeSnippetQuestionAdder(formatList, filteredQuestions);
 
-			size = formatList.size() - 1; // subtract 1 so that this can be used
+			size = formatList.size(); // subtract 1 so that this can be used
 											// to get an index for random
 											// question
 
-			for (int i = 0; i <= codeSnip; i++) {
+			for (int i = 0; i < codeSnip; i++) {
 				int num = rando.nextInt(size);
 				assessList.add(formatList.remove(num));
 				size--;
@@ -125,19 +136,28 @@ public class SystemTemplate {
 		}
 		for(Question q : assessList)
 		{
+			System.out.println("Question: " + q);
 			TemplateQuestion tq = new TemplateQuestion();
 			tq.setQuestion(q);
-			
+			System.out.println("Template Question " + q);
 			finalList.add(tq);
 		}
-		
+
+		System.out.println("Final Question List");
+
+		for(TemplateQuestion q : finalList){
+
+			System.out.println(q.getQuestion());
+
+		}
+
 		return finalList;
 	}
 
 	public List<Question> multiChoiceQuestionAdder(List<Question> formatList, List<Question> filteredQuestions) {
 
 		for (Question q : filteredQuestions) {
-
+			System.out.println(q+" "+"Multiple Choice".equals(q.getFormat().getFormatName()));
 			if ("Multiple Choice".equals(q.getFormat().getFormatName())) {
 				formatList.add(q);
 			}
