@@ -148,24 +148,26 @@ public class GetAssessmentController {
 
 		assessment.setFileUpload(new HashSet<FileUpload>());
 
-		for (SnippetUpload su : lstSnippetUploads) {
-			// userAnswer_assID_qID
-			String key = "";
-			key += "Take1_userAnswer_";
-			key += assessment.getAssessmentId() + "_";
-			key += su.getQuestionId();
-			key += ".java";		//TODO Not hardcode this?
-			System.out.println(su);
-			System.out.println("Key: " + key);
-			System.out.println(su.getCode());
-			s3.uploadToS3(su.getCode(), key);
-			FileUpload fu = new FileUpload();
-			fu.setAssessment(assessment);
-			fu.setFileUrl(key);
-			fu.setQuestion(questService.getQuestionById(su.getQuestionId()));
-			assessment.getFileUpload().add(fu);
-		}
+		if(lstSnippetUploads!=null) {
 
+			for (SnippetUpload su : lstSnippetUploads) {
+				// userAnswer_assID_qID
+				String key = "";
+				key += "Take1_userAnswer_";
+				key += assessment.getAssessmentId() + "_";
+				key += su.getQuestionId();
+				key += ".cpp";        //TODO Not hardcode this?
+				System.out.println(su);
+				System.out.println("Key: " + key);
+				System.out.println(su.getCode());
+				s3.uploadToS3(su.getCode(), key);
+				FileUpload fu = new FileUpload();
+				fu.setAssessment(assessment);
+				fu.setFileUrl(key);
+				fu.setQuestion(questService.getQuestionById(su.getQuestionId()));
+				assessment.getFileUpload().add(fu);
+			}
+		}
 
 		//SAVE the answers into the database
 		service.gradeAssessment(assessment);
