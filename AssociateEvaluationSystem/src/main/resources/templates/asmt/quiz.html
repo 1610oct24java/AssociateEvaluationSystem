@@ -71,46 +71,46 @@
 									</uib-accordion-heading>
 
 									<div class="panel-body">
-										{{q.templateQuestion.questionText}} <br>
+										{{q.question.questionText}} <br>
 										<hr>
-										<div ng-show="q.templateQuestion.format.formatId === 4">Choose
+										<div ng-show="q.question.format.formatName === 'Multiple Choice'">Choose
 											one:</div>
-										<div ng-show="q.templateQuestion.format.formatId === 1">Choose
+										<div ng-show="q.question.format.formatName === 'Multiple Select'">Choose
 											as many as applicable:</div>
-										<div ng-show="q.templateQuestion.format.formatId === 2">Drag
+										<div ng-show="q.question.format.formatName === 'Drag and Drop'">Drag
 											and drop:</div>
-										<div ng-show="q.templateQuestion.format.formatId === 3">Write
+										<div ng-show="q.question.format.formatName === 'Code Snippet'">Write
 											your code below:</div>
-										<ul ng-show="q.templateQuestion.format.formatId === 1 || q.templateQuestion.format.formatId === 4"
+										<ul ng-show="q.question.format.formatName === 'Multiple Choice' || q.question.format.formatName === 'Multiple Select'"
 											class="list-group">
 											<li class="list-group-item"
-												ng-repeat="option in q.templateQuestion.multiChoice">
+												ng-repeat="option in q.question.option">
 												<!-- MULTIPLE CHOICE -->
 												<div
 													ng-click="selectOption($index, $parent.$index+numPerPage*(currentPage-1))"
 													class="radio"
-													ng-show="q.templateQuestion.format.formatId === 4">
+													ng-show="q.question.format.formatName === 'Multiple Choice'">
 													<label><input class="radio" type="radio"
-														name="q{{q.templateQuestion.questionId}}"
+														name="q{{q.question.questionId}}"
 														ng-checked="checkChecked($index, $parent.$index+numPerPage*(currentPage-1))">{{option.optionText}}</label>
 												</div> <!-- MULTIPLE SELECT -->
 												<div
 													ng-click="selectOption($index, $parent.$index+numPerPage*(currentPage-1))"
 													class="checkbox"
-													ng-show="q.templateQuestion.format.formatId === 1">
+													ng-show="q.question.format.formatName === 'Multiple Select'">
 													<label><input class="checkbox" type="checkbox"
-														name="q{{q.templateQuestion.format.formatId}}"
+														name="q{{q.question.format.formatId}}"
 														ng-checked="checkChecked($index, $parent.$index+numPerPage*(currentPage-1))">{{option.optionText}}</label>
 												</div>
 											</li>
 										</ul>
 										<!-- DRAG AND DROP -->
-										<div ng-show="q.templateQuestion.format.formatId === 2"
+										<div ng-show="q.question.format.formatName === 'Drag and Drop'"
 											ng-controller="dragController">
 											<ul id="revature" class="list-group"
 												data-as-sortable="board.dragControlListeners"
-												data-ng-model="q.templateQuestion.dragDrops">
-												<li data-ng-repeat="option in q.templateQuestion.dragDrops"
+												data-ng-model="q.question.dragdrop">
+												<li data-ng-repeat="option in q.question.dragdrop"
 													class="list-group-item" data-as-sortable-item>
 													<div data-as-sortable-item-handle>
 														<span class="glyphicon glyphicon-option-vertical"></span>{{option.dragDropText}}
@@ -120,10 +120,10 @@
 										</div>
 										<!-- CODE SNIPPET -->
 										
-										<div ng-show="q.templateQuestion.format.formatId === 3">
+										<div ng-show="q.question.format.formatName === 'Code Snippet'">
 											<!-- <div id="editor{{$index+numPerPage*(currentPage-1)}}"
 												class="editor">public static void main(Strings[] pirateNoises){}</div> -->
-											<div id="editor{{q.templateQuestion.questionId}}" ui-ace = "{theme: 'monokai', mode: '{{getType(q.templateQuestion.snippetTemplate[0].fileType)}}', onChange:aceChanged}">[YOUR CODE HERE]</div>
+											<div id="editor{{q.question.questionId}}" ui-ace = "{theme: 'monokai', mode: '{{getType(q.question.snippetTemplate[0].fileType)}}', onChange:aceChanged}">[YOUR CODE HERE]</div>
 										</div>
 										<div></div>
 									</div>

@@ -150,8 +150,16 @@ public class Option implements Serializable {
 	}
 	@Override
 	public String toString() {
+
+		if(question == null){
+
+			return "Option [optionId=" + optionId + ", optionText=" + optionText + ", correct=" + correct
+					+ ", question=null ]";
+
+		}
+
 		return "Option [optionId=" + optionId + ", optionText=" + optionText + ", correct=" + correct
-				+ "]";
+				+ ", questionId=" + question.getQuestionId() + "]";
 	}
 
 }

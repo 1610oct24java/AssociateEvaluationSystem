@@ -1,0 +1,12 @@
+[WARN] [376569 ms] [01-20-2017 13:14:35] [ExceptionHandlerExceptionResolver (logException : 189)] -
+					Resolved exception caused by Handler execution: org.springframework.data.rest.webmvc.ResourceNotFoundException: Resource not found!
+[WARN] [402109 ms] [01-20-2017 13:15:01] [DefaultHandlerExceptionResolver (logException : 189)] -
+					Resolved exception caused by Handler execution: org.springframework.web.multipart.support.MissingServletRequestPartException: Required request part 'file' is not present
+[WARN] [848265 ms] [01-20-2017 13:22:27] [ExceptionHandlerExceptionResolver (logException : 189)] -
+					Resolved exception caused by Handler execution: org.springframework.data.rest.webmvc.ResourceNotFoundException: Resource not found!
+[WARN] [945972 ms] [01-20-2017 13:24:04] [ExceptionHandlerExceptionResolver (logException : 189)] -
+					Resolved exception caused by Handler execution: org.springframework.data.rest.webmvc.ResourceNotFoundException: Resource not found!
+[WARN] [1030277 ms] [01-20-2017 13:25:29] [ExceptionHandlerExceptionResolver (logException : 189)] -
+					Resolved exception caused by Handler execution: org.springframework.data.rest.webmvc.ResourceNotFoundException: Resource not found!
+[WARN] [56573 ms] [01-20-2017 13:52:42] [ExceptionHandlerExceptionResolver (logException : 189)] -
+					Resolved exception caused by Handler execution: org.springframework.data.rest.webmvc.ResourceNotFoundException: Resource not found!

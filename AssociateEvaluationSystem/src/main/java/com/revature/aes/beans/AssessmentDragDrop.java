@@ -2,22 +2,23 @@ package com.revature.aes.beans;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.revature.aes.service.AssessmentService;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
 @Table(name = "aes_assessment_drag_drop")
 public class AssessmentDragDrop implements Serializable {
+
+//	@Autowired
+//	@Transient
+//	@JsonIgnore
+//	private AssessmentService asmtServ;
 
 	private static final long serialVersionUID = -6980285894791938854L;
 	
@@ -30,6 +31,7 @@ public class AssessmentDragDrop implements Serializable {
 			@Parameter(name="initial_value",value="1"),
 			@Parameter(name="increment_size",value="1")
 	})
+	@JsonIgnore
 	private int assessmentDragDropId;
 	
 	@Column(name = "user_order")
@@ -46,7 +48,9 @@ public class AssessmentDragDrop implements Serializable {
 	public AssessmentDragDrop() {
 		super();
 	}
-	
+
+
+
 	@Override
 	public String toString() {
 		return "AssessmentDragDrop [userOrder=" + userOrder + ", assessmentId=" + assessment + ", dragDrop="
@@ -60,13 +64,23 @@ public class AssessmentDragDrop implements Serializable {
 		this.userOrder = userOrder;
 	}
 
-	public Assessment getAssessmentId() {
+	public Assessment getAssessment() {
 		return assessment;
 	}
 
-	public void setAssessmentId(Assessment assessmentId) {
-		this.assessment = assessmentId;
+	public void setAssessment(Assessment assessment) {
+		this.assessment = assessment;
 	}
+//	public int getAssessmentId() {
+//		return assessment.getAssessmentId();
+//	}
+//
+//	public void setAssessmentId(int assessmentId) {
+//
+//		Assessment tmpAsmt = asmtServ.getAssessmentById(assessmentId);
+//		this.assessment = tmpAsmt;
+//
+//	}
 
 	public DragDrop getDragDrop() {
 		return dragDrop;

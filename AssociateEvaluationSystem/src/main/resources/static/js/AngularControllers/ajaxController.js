@@ -24,7 +24,7 @@ app.controller('AjaxController', function($scope, $http) {
 	    function postAssessmentData(data){
 	        $http({
 	            method: 'POST',
-	            url: 'submitAssessment',
+	            url: 'http://localhost:8090/aes/rest/submitAssessment',
 	            headers: {'Content-Type': 'application/json'},
 	            data: data
 	        });

@@ -22,7 +22,7 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 		$scope.states.push(temp);
 	};
 	var makeAnswers = function(ndx) {
-		if ($scope.questions[ndx].templateQuestion.format.formatId === 1 ) {
+		if ($scope.questions[ndx].question.format.formatName === "Multiple Choice" ) {
 			$scope.answers.push([-1]);
 		}
 		else {
@@ -41,15 +41,16 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	};
 	
 	var saveQuestion = function(index) {
+
 		var q = $scope.questions[index];
 		
-		if(q.templateQuestion.format.formatId === 2) {
-			for (var i = 0; i < q.templateQuestion.dragDrops.length; i++) {
+		if(q.question.format.formatName === "Drag and Drop") {
+			for (var i = 0; i < q.question.dragdrop.length; i++) {
 				var assessmentDragDrop = {
-						assessmentDragDropId : ((q.templateQuestionId) * 100 + i),
+						assessmentDragDropId : 0,//((q.questionId) * 100 + i),
 						userOrder : i+1,
 						assessmentId : $scope.protoTest.assessmentId,
-						dragDrop : q.templateQuestion.dragDrops[i]
+						dragDrop : q.question.dragdrop[i]
 				};
 				$rootScope.protoTest.assessmentDragDrop.push(assessmentDragDrop);
 			}
@@ -73,10 +74,10 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 		// Handles putting the answer into the javascript object when the uesr
 		// selects an option
 		
-		if($scope.questions[ndxQuestion].templateQuestion.format.formatId === 4) {			
+		if($scope.questions[ndxQuestion].question.format.formatName === "Multiple Choice") {
 			// Handles multiple choice questions
 			$scope.answers[ndxQuestion] = ndxOption;
-			var answer = $scope.questions[ndxQuestion].templateQuestion.multiChoice[ndxOption];
+			var answer = $scope.questions[ndxQuestion].question.option[ndxOption];
 			
 			for (var i = 0; i < $scope.protoTest.options.length; i++){
 				if ($rootScope.protoTest.options[i].question === answer.question){
@@ -86,9 +87,9 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 			}
 			// Add to selected options
 			$rootScope.protoTest.options.push(answer);
-		} else if ($scope.questions[ndxQuestion].templateQuestion.format.formatId === 1 ) {
+		} else if ($scope.questions[ndxQuestion].question.format.formatName === "Multiple Select" ) {
 			// Handles multiple select questions
-			answer = $scope.questions[ndxQuestion].templateQuestion.multiChoice[ndxOption];
+			answer = $scope.questions[ndxQuestion].question.option[ndxOption];
 			var foundAt = $rootScope.protoTest.options.indexOf(answer);
 			
 			if (foundAt === -1) {
@@ -105,14 +106,14 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	$scope.checkChecked = function (ndxOption, ndxQuestion) {
 		var output = false;
 		
-		if($scope.questions[ndxQuestion].templateQuestion.format.formatId === 4) {
+		if($scope.questions[ndxQuestion].question.format.formatName === "Multiple Choice") {
 			// Handle multiple choice
 			if ($scope.answers[ndxQuestion] === ndxOption) {
 				output = true;
 			}
-		} else if ($scope.questions[ndxQuestion].templateQuestion.format.formatId == 1) {
+		} else if ($scope.questions[ndxQuestion].question.format.formatName === "Multiple Select") {
 			// Handle multiple select
-			var answer = $scope.questions[ndxQuestion].templateQuestion.multiChoice[ndxOption];
+			var answer = $scope.questions[ndxQuestion].question.option[ndxOption];
 			var foundAt = $rootScope.protoTest.options.indexOf(answer);
 			if (foundAt === -1){
 				// This answer has not been previously selected
@@ -133,7 +134,8 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 			output = "java";
 			break;
 		case "cpp" :
-		case "c" :
+        case "c++" :
+        case "c" :
 			output = "c_cpp";
 			break;
 		case "cs" :
@@ -154,16 +156,17 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 			this.questionId = _questionId;
 			this.fileType = _fileType;
 		};
-		
+		var snippetQuestionIndex;
 		var q = {};
 		for (var i = 0; i < $scope.questions.length; i++ ) {
-			if ($scope.questions[i].templateQuestion.questionId == id2.substr(6, id2.length)){
+			if ($scope.questions[i].question.questionId == id2.substr(6, id2.length)){
 				q = $scope.questions[i];
+				snippetQuestionIndex = i;
 			}
 		}
 		
-		var incFileType = q.templateQuestion.snippetTemplate[0].fileType;
-		var newSnippet = new SnippetUpload(editor.getValue(), id2.substr(6, id2.length), incFileType);
+		var incFileType = q.question.snippetTemplates[0].fileType;
+		var newSnippet = new SnippetUpload(editor.getValue(), +id2.substr(6, id2.length), incFileType);
 		
 		for (i = 0; i < $scope.snippetSubmissions.length; i++){
 			if ($scope.snippetSubmissions[i].questionId = newSnippet.questionId){
@@ -171,7 +174,7 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 			}
 		}
 		$scope.snippetSubmissions.push(newSnippet);
-		saveQuestion(id2.substr(6, id2.length));
+		saveQuestion(snippetQuestionIndex);
 	};
 
 	// PAGINATION
@@ -201,7 +204,7 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	// AJAX
 	function getQuizQuestions() {
 		
-		console.log(QUIZ_REST_URL + $location.search().asmt);
+		//console.log(QUIZ_REST_URL + $location.search().asmt);
 		$http({
 			method: 'GET',
 			url: QUIZ_REST_URL + $location.search().asmt,
@@ -210,16 +213,25 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 		.then(function(response) {
 		    //First function handles success
 		    $rootScope.protoTest = response.data;
-			$scope.questions = $rootScope.protoTest.myTemplate.templateQuestion;
+			$scope.questions = $rootScope.protoTest.template.templateQuestion;
 		    initSetup();
 		    $rootScope.initQuizNav();
 		});
 	}
 	
 	$scope.submitAssessment = function(){
+
+		$rootScope.protoTest.assessmentDragDrop.forEach(function(entry){
+
+			delete entry.assessmentId;
+
+			entry.assessment = {"assessmentId" : $rootScope.protoTest.assessmentId,};
+
+		});
+
 		var answerData = {
 				assessment : $rootScope.protoTest,
-				snippetUpload : $scope.snippetSubmissions
+				snippetUploads : $scope.snippetSubmissions
 		};
 		postAssessment(answerData);
 	}
@@ -227,7 +239,7 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	function postAssessment(answerData){
 		$http({
 			method: 'POST',
-			url: QUIZ_SUBMIT_REST_URL,
+			url: "aes/rest/submitAssessment",
 			headers: {'Content-Type': 'application/json'},
 			data: answerData
 		});

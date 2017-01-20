@@ -2,13 +2,11 @@ package com.revature.aes.beans;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -39,9 +37,11 @@ public class SnippetTemplate implements Serializable
 	
 	@Column(name="SOLUTION_URL")
 	private String solutionUrl;
-	
-	@Column(name="QUESTION_ID")
-	private Question questionId;
+
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="QUESTION_ID")
+	@JsonBackReference
+	private Question question;
 
 	public SnippetTemplate() {
 		super();
@@ -79,17 +79,18 @@ public class SnippetTemplate implements Serializable
 		this.solutionUrl = solutionUrl;
 	}
 
-	public Question getQuestionId() {
-		return questionId;
+	@JsonIgnore
+	public Question getQuestion() {
+		return question;
 	}
 
-	public void setQuestionId(Question questionId) {
-		this.questionId = questionId;
+	public void setQuestion(Question question) {
+		this.question = question;
 	}
 
 	@Override
 	public String toString() {
 		return "SnippetTemplate [snippetTemplateId=" + snippetTemplateId + ", fileType=" + fileType + ", templateUrl="
-				+ templateUrl + ", solutionUrl=" + solutionUrl + ", questionId=" + questionId + "]";
+				+ templateUrl + ", solutionUrl=" + solutionUrl + ", question=" + question + "]";
 	}
 }
