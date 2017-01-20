@@ -12,13 +12,19 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "aes_assessment_drag_drop")
 public class AssessmentDragDrop implements Serializable {
+
+//	@Autowired
+//	@Transient
+//	@JsonIgnore
+//	private AssessmentService asmtServ;
 
 	private static final long serialVersionUID = -6980285894791938854L;
 	
@@ -48,7 +54,9 @@ public class AssessmentDragDrop implements Serializable {
 	public AssessmentDragDrop() {
 		super();
 	}
-	
+
+
+
 	@Override
 	public String toString() {
 		return "AssessmentDragDrop [userOrder=" + userOrder + ", assessmentId=" + assessment + ", dragDrop="
@@ -62,13 +70,23 @@ public class AssessmentDragDrop implements Serializable {
 		this.userOrder = userOrder;
 	}
 
-	public Assessment getAssessmentId() {
+	public Assessment getAssessment() {
 		return assessment;
 	}
 
-	public void setAssessmentId(Assessment assessmentId) {
-		this.assessment = assessmentId;
+	public void setAssessment(Assessment assessment) {
+		this.assessment = assessment;
 	}
+//	public int getAssessmentId() {
+//		return assessment.getAssessmentId();
+//	}
+//
+//	public void setAssessmentId(int assessmentId) {
+//
+//		Assessment tmpAsmt = asmtServ.getAssessmentById(assessmentId);
+//		this.assessment = tmpAsmt;
+//
+//	}
 
 	public DragDrop getDragDrop() {
 		return dragDrop;

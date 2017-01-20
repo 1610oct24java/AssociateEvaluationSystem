@@ -166,13 +166,5 @@ public class QuestionServiceImpl implements QuestionService{
 		
 		return baseQuestion;
 	}
-	
-	@Override
-	public Question deleteOption(Question question) {
-		
-		
-		
-		return null;
-	}
 
 }
