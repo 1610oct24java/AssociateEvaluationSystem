@@ -2,6 +2,7 @@ package com.revature.aes.beans;
 
 import java.io.Serializable;
 
+
 import javax.persistence.*;
 
 
