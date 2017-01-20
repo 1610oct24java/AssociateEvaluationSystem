@@ -29,11 +29,11 @@ public class AssessmentGrader {
 		log.info("Drag and Drop Score: "+dragDrop[0]+"/"+dragDrop[1]);
 		log.info("Multiple Choice/Select Score: "+multChoiceSelect[0]+"/"+multChoiceSelect[1]);
 		log.info("Snippet Score: "+snippet[0]+"/"+snippet[1]);
-		double earnedPoints = 100*(dragDrop[0]+multChoiceSelect[0]+snippet[0]);
-		double availablePoints = 100*(dragDrop[1]+multChoiceSelect[1]+snippet[1]);
+		double earnedPoints = (dragDrop[0]+multChoiceSelect[0]+snippet[0]);
+		double availablePoints = (dragDrop[1]+multChoiceSelect[1]+snippet[1]);
 		log.info("points earned: " + earnedPoints + " points available: " + availablePoints);
 		log.info("Score earned: "+earnedPoints/availablePoints);
-		return earnedPoints/availablePoints;
+		return 100*(earnedPoints/availablePoints);
 	}
 	
 	public double[] gradeMultChoiceSelect(Assessment assessment){

@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a4cbb831-4b5f-45da-9953-ff542680f0f8" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/logs/asmt-trace.log" afterPath="$PROJECT_DIR$/logs/asmt-trace.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/revature/aes/controllers/GetAssessmentController.java" afterPath="$PROJECT_DIR$/src/main/java/com/revature/aes/controllers/GetAssessmentController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/revature/aes/grading/AssessmentGrader.java" afterPath="$PROJECT_DIR$/src/main/java/com/revature/aes/grading/AssessmentGrader.java" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
@@ -45,11 +42,11 @@
       <file leaf-file-name="AssessmentGrader.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/revature/aes/grading/AssessmentGrader.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="527">
-              <caret line="178" column="14" lean-forward="false" selection-start-line="178" selection-start-column="14" selection-end-line="178" selection-end-column="14" />
+            <state relative-caret-position="440">
+              <caret line="35" column="49" lean-forward="false" selection-start-line="35" selection-start-column="49" selection-end-line="35" selection-end-column="49" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#7793#7814#0" expanded="true" />
+                <element signature="e#7791#7812#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1125,7 +1122,7 @@
       <workItem from="1484663475092" duration="15219000" />
       <workItem from="1484748814998" duration="22987000" />
       <workItem from="1484836855400" duration="22259000" />
-      <workItem from="1484921533743" duration="15079000" />
+      <workItem from="1484921533743" duration="15195000" />
     </task>
     <task id="LOCAL-00001" summary="Fixing AssessmentGrader in progress.">
       <created>1484236520355</created>
@@ -1166,7 +1163,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="108983000" />
+    <option name="totallyTimeSpent" value="109099000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1201,7 +1198,7 @@
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20575783" sideWeight="0.49833333" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.38187978" sideWeight="0.49833333" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1371719" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28375" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1709,11 +1706,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/revature/aes/grading/AssessmentGrader.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="178" column="14" lean-forward="false" selection-start-line="178" selection-start-column="14" selection-end-line="178" selection-end-column="14" />
+        <state relative-caret-position="440">
+          <caret line="35" column="49" lean-forward="false" selection-start-line="35" selection-start-column="49" selection-end-line="35" selection-end-column="49" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#7793#7814#0" expanded="true" />
+            <element signature="e#7791#7812#0" expanded="true" />
           </folding>
         </state>
       </provider>
