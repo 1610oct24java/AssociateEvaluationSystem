@@ -101,7 +101,6 @@ public class Assessment implements Serializable
 
 	public Assessment() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 

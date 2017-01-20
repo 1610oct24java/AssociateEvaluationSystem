@@ -1,5 +1,6 @@
 *.class
 .classpath
+.idea/
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
@@ -23,3 +24,9 @@ hs_err_pid*
 /target/
 /RemoteSystemsTempFiles/
 /External Files/
+
+.idea
+*.idea
+AssociateEvaluationSystem/AssociateEvaluationSystem.iml
+
+AssociateEvaluationSystem/logs/*
