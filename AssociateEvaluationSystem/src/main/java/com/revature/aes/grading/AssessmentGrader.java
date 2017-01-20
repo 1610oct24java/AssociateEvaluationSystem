@@ -229,7 +229,7 @@ public class AssessmentGrader {
 			log.info(" code being evaluated to "+codeTestResult);
 			itemWeightedGrade = itemWeight*codeTestResult;//
 			result[0] = result[0]+itemWeightedGrade;
-			result[1] = result[1]+itemWeight;
+			//result[1] = result[1]+itemWeight;
 		}
 
 		return result;
