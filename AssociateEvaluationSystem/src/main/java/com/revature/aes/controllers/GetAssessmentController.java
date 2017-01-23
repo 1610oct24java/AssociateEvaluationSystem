@@ -1,6 +1,8 @@
 package com.revature.aes.controllers;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.HashSet;
@@ -9,6 +11,7 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
 
@@ -93,11 +96,24 @@ public class GetAssessmentController {
 
 	@RequestMapping(value = "/link", method = RequestMethod.POST, consumes = {
 			MediaType.APPLICATION_JSON })
-	public String getAssessmentID(@RequestBody Assessment assessment) {
+	public String getAssessmentID(@RequestBody Assessment assessment, HttpServletRequest request) {
 
 		log.info("Link called " + assessment);
 
-		return ip + ":" + port + "/aes/quiz?asmt=" + assessment.getAssessmentId();
+		ProcessBuilder pb = new ProcessBuilder("curl -s http://169.254.169.254/latest/meta-data/public-hostname");
+
+		String localHostname;
+
+		try {
+			localHostname = new BufferedReader(new InputStreamReader((pb.start().getInputStream()))).readLine();
+		} catch (IOException e) {
+			localHostname = "localhost";
+			log.warn("Could not execute command to get hostname");
+		}
+
+
+
+		return localHostname + ":" + port + "/aes/quiz?asmt=" + assessment.getAssessmentId();
 	}
 	
 	@RequestMapping(value = "/submitAssessment", method = RequestMethod.POST)
