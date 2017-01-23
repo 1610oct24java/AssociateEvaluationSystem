@@ -239,7 +239,7 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 		});
 	}
 	
-	$scope.submitAssessment = function(){
+	$rootScope.submitAssessment = function(){
 
 		$rootScope.protoTest.assessmentDragDrop.forEach(function(entry){
 
