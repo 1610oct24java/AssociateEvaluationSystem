@@ -15,9 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.introspect.VisibilityChecker;
 import com.revature.aes.beans.*;
 import com.revature.aes.logging.Logging;
 import com.revature.aes.service.*;
@@ -33,10 +30,9 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.aes.dao.UsersDao;
+import com.revature.aes.dao.UserDAO;
 import com.revature.aes.grading.CoreEmailClient;
 
-import com.revature.aes.logging.Logging;
 import com.revature.aes.service.AssessmentServiceImpl;
 import com.revature.aes.service.S3Service;
 
@@ -47,8 +43,8 @@ public class GetAssessmentController {
 	@Autowired
 	private AssessmentServiceImpl service;
 	
-	@Autowired 
-	UsersDao UsersService;
+	@Autowired
+	UserDAO UsersService;
 	
 	@Autowired
 	S3Service s3;
