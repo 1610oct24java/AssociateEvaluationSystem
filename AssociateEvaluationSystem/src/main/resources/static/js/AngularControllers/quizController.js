@@ -1,4 +1,5 @@
-app.controller("quizController", function($scope, $rootScope, $http, $location) {
+app.controller("quizController", function($scope, $rootScope, $http, 
+		$location, $window) {
 	$rootScope.states = [];
 	$scope.answers = [];
 	$scope.numEditors = 0;
@@ -240,7 +241,6 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	}
 	
 	$rootScope.submitAssessment = function(){
-
 		$rootScope.protoTest.assessmentDragDrop.forEach(function(entry){
 
 			delete entry.assessmentId;
@@ -257,6 +257,10 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 			url: "aes/rest/submitAssessment",
 			headers: {'Content-Type': 'application/json'},
 			data: answerData
+		}).then(function(response) {
+			console.log(response.data);
+			console.log("after submit");
+			$window.location.href = '/aes/goodbye';
 		});
 	}
 	
