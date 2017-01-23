@@ -1,7 +1,7 @@
 /* COUNTDOWN TIMER LOGIC */
 app.controller('CountdownController', function($scope, $rootScope, $interval) {
 	
-	var startTime = 3600;
+	var startTime = 3600;	// default
 	$scope.seconds = startTime;
 	$scope.timeLeft = "";
 	$scope.barUpdate = getBarUpdate();
@@ -14,7 +14,8 @@ app.controller('CountdownController', function($scope, $rootScope, $interval) {
 		//OPEN THE SUBMIT MODAL
 		if ($scope.seconds < 0)
 		{
-			submitAssessment();
+			$interval.cancel(timer);
+			showSubmitModal();
 		}
 	}, 1000);
 	
@@ -30,15 +31,15 @@ app.controller('CountdownController', function($scope, $rootScope, $interval) {
 			$scope.timeLeft = min + "m " + sec + "s";
 		}
 		
-		if ($scope.seconds < 0) {
-			$interval.cancel(timer);
-			showSubmitModal();
-		}
-		
 		return (($scope.seconds) / startTime) * 100;
 	}
 	
 	function showSubmitModal() {
 		submitModal.style.display = "block";
 	}
+	
+	$rootScope.initTimer = function (timeLimitInMin) {
+		startTime = timeLimitInMin * 60;
+		$scope.seconds = startTime;
+    }
 });

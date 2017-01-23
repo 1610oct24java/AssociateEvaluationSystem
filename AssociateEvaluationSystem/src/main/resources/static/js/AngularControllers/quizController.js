@@ -235,6 +235,7 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 			$rootScope.protoTest.options = [];
 		    initSetup();
 		    $rootScope.initQuizNav();
+		    $rootScope.initTimer($rootScope.protoTest.timeLimit);
 		});
 	}
 	
