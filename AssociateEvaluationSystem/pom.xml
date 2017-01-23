@@ -213,11 +213,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 		</dependency>
-<!-- 		<dependency>
+ 		<dependency>
 			<groupId>com.oracle.ojdbc</groupId>
 			<artifactId>ojdbc</artifactId>
 			<version>12.1.0.1</version>
-		</dependency> -->
+		</dependency>
 	</dependencies>
 
 	<build>
