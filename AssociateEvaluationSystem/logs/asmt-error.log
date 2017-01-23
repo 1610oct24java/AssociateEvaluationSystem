@@ -30,3 +30,23 @@
 					Resolved exception caused by Handler execution: org.springframework.http.converter.HttpMessageNotReadableException: Could not read document: N/A
  at [Source: java.io.PushbackInputStream@2406fb75; line: 1, column: 2701] (through reference chain: com.revature.aes.beans.AnswerData["assessment"]->com.revature.aes.beans.Assessment["assessmentDragDrop"]->java.util.HashSet[0]->com.revature.aes.beans.AssessmentDragDrop["assessmentId"]); nested exception is com.fasterxml.jackson.databind.JsonMappingException: N/A
  at [Source: java.io.PushbackInputStream@2406fb75; line: 1, column: 2701] (through reference chain: com.revature.aes.beans.AnswerData["assessment"]->com.revature.aes.beans.Assessment["assessmentDragDrop"]->java.util.HashSet[0]->com.revature.aes.beans.AssessmentDragDrop["assessmentId"])
+[WARN] [191866 ms] [01-19-2017 16:35:54] [ExceptionHandlerExceptionResolver (logException : 189)] -
+					Resolved exception caused by Handler execution: org.springframework.data.rest.webmvc.ResourceNotFoundException: Resource not found!
+[WARN] [197514 ms] [01-19-2017 16:35:59] [DefaultHandlerExceptionResolver (handleTypeMismatch : 356)] -
+					Failed to bind request element: org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type [java.lang.String] to required type [int]; nested exception is java.lang.NumberFormatException: For input string: "undefined"
+[WARN] [197515 ms] [01-19-2017 16:35:59] [DefaultHandlerExceptionResolver (logException : 189)] -
+					Resolved exception caused by Handler execution: org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type [java.lang.String] to required type [int]; nested exception is java.lang.NumberFormatException: For input string: "undefined"
+[WARN] [255967 ms] [01-19-2017 16:36:58] [ExceptionHandlerExceptionResolver (logException : 189)] -
+					Resolved exception caused by Handler execution: org.springframework.data.rest.webmvc.ResourceNotFoundException: Resource not found!
+[WARN] [273303 ms] [01-19-2017 16:37:15] [DefaultHandlerExceptionResolver (handleTypeMismatch : 356)] -
+					Failed to bind request element: org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type [java.lang.String] to required type [int]; nested exception is java.lang.NumberFormatException: For input string: "undefined"
+[WARN] [273304 ms] [01-19-2017 16:37:15] [DefaultHandlerExceptionResolver (logException : 189)] -
+					Resolved exception caused by Handler execution: org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type [java.lang.String] to required type [int]; nested exception is java.lang.NumberFormatException: For input string: "undefined"
+[WARN] [447628 ms] [01-19-2017 16:40:09] [DefaultHandlerExceptionResolver (handleTypeMismatch : 356)] -
+					Failed to bind request element: org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type [java.lang.String] to required type [int]; nested exception is java.lang.NumberFormatException: For input string: "undefined"
+[WARN] [447628 ms] [01-19-2017 16:40:09] [DefaultHandlerExceptionResolver (logException : 189)] -
+					Resolved exception caused by Handler execution: org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type [java.lang.String] to required type [int]; nested exception is java.lang.NumberFormatException: For input string: "undefined"
+[WARN] [528170 ms] [01-19-2017 16:41:30] [DefaultHandlerExceptionResolver (handleTypeMismatch : 356)] -
+					Failed to bind request element: org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type [java.lang.String] to required type [int]; nested exception is java.lang.NumberFormatException: For input string: "undefined"
+[WARN] [528171 ms] [01-19-2017 16:41:30] [DefaultHandlerExceptionResolver (logException : 189)] -
+					Resolved exception caused by Handler execution: org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type [java.lang.String] to required type [int]; nested exception is java.lang.NumberFormatException: For input string: "undefined"

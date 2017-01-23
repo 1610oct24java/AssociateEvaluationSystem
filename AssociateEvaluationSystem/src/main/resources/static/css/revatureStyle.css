@@ -80,13 +80,17 @@ body {
 }
 
 /* NAVBAR STYLING */
+.progress {
+	margin-bottom: 12px;
+}
+
 .navbar {
 	font-family: 'futura-heavy';
 	background-color: #ffffff;
 	display: inline-block;
 	margin-left: 15px;
 	margin-right: 15px;
-	padding: 15px 20px;
+	padding: 6px 20px 4px 20px;
 	top: 0;
 	left: 0;
 	right: 0;
@@ -98,7 +102,7 @@ body {
 }
 
 .navbar-title {
-	
+	top: 10px;
 }
 
 .navbar-title:link {
@@ -121,9 +125,13 @@ body {
 .navbar-menu-btn {
 	background-color: #ffffff;
 	float: right;
-	border: 3px solid #474C55;
-	padding: 4px 4px 0px 4px;
-	font-size: 30px;
+	font-size: 16px;
+	color: #474C55;
+	transition: 0.3s;
+}
+
+.navbar-menu-btn:hover {
+	color: #F26925;
 }
 
 .navbar-menu-btn:focus {
@@ -131,7 +139,7 @@ body {
 }
 
 .navbar-overlay-spacing {
-	margin-top: 100px;
+	margin-top: 20px;
 }
 
 .rev-grey {
@@ -300,7 +308,7 @@ i {
 /* Position and style the close button (top right corner) */
 .sidenav .closebtn {
     position: absolute;
-    top: 0;
+    top: 15px;
     right: 25px;
     font-size: 36px;
     margin-left: 50px;
@@ -357,6 +365,10 @@ i {
 @media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
+}
+
+@media screen and (max-width: 620px) {
+	.navbar-title {display: none;}
 }
 
 nav-link {
