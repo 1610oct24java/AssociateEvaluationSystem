@@ -54,7 +54,7 @@ public class Assessment implements Serializable
 	@Column(name = "finished_timestamp")
 	private Timestamp finishedTimeStamp;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "template_id")
 	private Template template;
 	

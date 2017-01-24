@@ -1,6 +1,8 @@
 package com.revature.aes.controllers;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.HashSet;
@@ -9,6 +11,7 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
 
@@ -26,6 +29,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.aes.beans.AnswerData;
 import com.revature.aes.beans.Assessment;
 import com.revature.aes.beans.AssessmentDragDrop;
+import com.revature.aes.beans.FileUpload;
 import com.revature.aes.beans.Option;
 import com.revature.aes.beans.SnippetUpload;
 import com.revature.aes.dao.UsersDao;
@@ -34,6 +38,7 @@ import com.revature.aes.logging.Logging;
 import com.revature.aes.service.AssessmentServiceImpl;
 import com.revature.aes.service.DragDropService;
 import com.revature.aes.service.OptionService;
+import com.revature.aes.service.QuestionService;
 import com.revature.aes.service.S3Service;
 
 
@@ -55,6 +60,9 @@ public class GetAssessmentController {
 
 	@Autowired
 	OptionService optService;
+
+	@Autowired
+	QuestionService questService;
 
 	@Inject
 	private org.springframework.boot.autoconfigure.web.ServerProperties serverProperties;
@@ -90,11 +98,24 @@ public class GetAssessmentController {
 
 	@RequestMapping(value = "/link", method = RequestMethod.POST, consumes = {
 			MediaType.APPLICATION_JSON })
-	public String getAssessmentID(@RequestBody Assessment assessment) {
+	public String getAssessmentID(@RequestBody Assessment assessment, HttpServletRequest request) {
 
 		log.info("Link called " + assessment);
 
-		return ip + ":" + port + "/aes/quiz?asmt=" + assessment.getAssessmentId();
+		ProcessBuilder pb = new ProcessBuilder("curl -s http://169.254.169.254/latest/meta-data/public-hostname");
+
+		String localHostname;
+
+		try {
+			localHostname = new BufferedReader(new InputStreamReader((pb.start().getInputStream()))).readLine();
+		} catch (IOException e) {
+			localHostname = "localhost";
+			log.warn("Could not execute command to get hostname");
+		}
+
+
+
+		return localHostname + ":" + port + "/aes/quiz?asmt=" + assessment.getAssessmentId();
 	}
 	
 	@RequestMapping(value = "/submitAssessment", method = RequestMethod.POST)
@@ -113,43 +134,56 @@ public class GetAssessmentController {
 		List<SnippetUpload> lstSnippetUploads = incoming.getSnippetUpload();*/
 
 		Assessment assessment = answerData.getAssessment();
+
 		List<SnippetUpload> lstSnippetUploads = answerData.getSnippetUploads();
-
-		//System.out.println(answerData.getSnippetUploads());
-
-		for (SnippetUpload su : lstSnippetUploads) {
-			// userAnswer_assID_qID
-			String key = "";
-			key += "Take1_userAnswer_";
-			key += assessment.getAssessmentId() + "_";
-			key += su.getQuestionId();
-			key += ".java";		//TODO Not hardcode this?
-			System.out.println(su);
-			System.out.println("Key: " + key);
-			System.out.println(su.getCode());
-			s3.uploadToS3(su.getCode(), key);
-		}
 
 		Set<Option> optList = new HashSet<>();
 
-		for (Option opts : answerData.getAssessment().getOptions()){
+		for (Option opts : assessment.getOptions()){
 
 			optList.add(optService.getOptionById(opts.getOptionId()));
 
 		}
 
-		answerData.getAssessment().setOptions(optList);
+		assessment.setOptions(optList);
 
-		for(Option opt : answerData.getAssessment().getOptions()){
+		for(Option opt : assessment.getOptions()){
 
 			System.out.println(opt);
 
 		}
 
-		for (AssessmentDragDrop add : answerData.getAssessment().getAssessmentDragDrop()){
+		for (AssessmentDragDrop add : assessment.getAssessmentDragDrop()){
 
 			add.setDragDrop(ddService.getDragDropById(add.getDragDrop().getDragDropId()));
 
+		}
+
+
+
+		//System.out.println(answerData.getSnippetUploads());
+
+		assessment.setFileUpload(new HashSet<FileUpload>());
+
+		if(lstSnippetUploads!=null) {
+
+			for (SnippetUpload su : lstSnippetUploads) {
+				// userAnswer_assID_qID
+				String key = "";
+				key += "Take1_userAnswer_";
+				key += assessment.getAssessmentId() + "_";
+				key += su.getQuestionId();
+				key += ".cpp";        //TODO Not hardcode this?
+				System.out.println(su);
+				System.out.println("Key: " + key);
+				System.out.println(su.getCode());
+				s3.uploadToS3(su.getCode(), key);
+				FileUpload fu = new FileUpload();
+				fu.setAssessment(assessment);
+				fu.setFileUrl(key);
+				fu.setQuestion(questService.getQuestionById(su.getQuestionId()));
+				assessment.getFileUpload().add(fu);
+			}
 		}
 
 		//SAVE the answers into the database

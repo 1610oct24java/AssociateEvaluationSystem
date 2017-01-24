@@ -15,7 +15,10 @@ hs_err_pid*
 *.metadata
 .settings
 *.settings
+*.idea/
 .recommenders
+*logs/
+*.iml
 /bin/
 /Servers/
 /target/
