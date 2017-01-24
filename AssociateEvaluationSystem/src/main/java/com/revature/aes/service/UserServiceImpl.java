@@ -1,7 +1,6 @@
 package com.revature.aes.service;
 
 import com.revature.aes.logging.Logging;
-import org.jvnet.hk2.annotations.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.revature.aes.beans.User;
