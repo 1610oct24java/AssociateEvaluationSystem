@@ -44,7 +44,7 @@ public class QuestionServiceImpl implements QuestionService{
 		{
 			return null;
 		}
-		return qdao.saveAndFlush(question);
+		return qdao.save(question);
 	}
 
 	/**

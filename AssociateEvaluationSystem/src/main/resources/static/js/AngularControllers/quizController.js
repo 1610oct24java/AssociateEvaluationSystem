@@ -1,4 +1,5 @@
-app.controller("quizController", function($scope, $rootScope, $http, $location) {
+app.controller("quizController", function($scope, $rootScope, $http, 
+		$location, $window) {
 	$rootScope.states = [];
 	$scope.answers = [];
 	$scope.numEditors = 0;
@@ -6,7 +7,7 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	$scope.editors = [];
 	$rootScope.protoTest;
 	$scope.questions = [];
-	$scope.snippetSubmissions = [];
+	$rootScope.snippetSubmissions = [];
 	$scope.protoTest2 = {};
 	getQuizQuestions();
 	
@@ -73,21 +74,39 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	$scope.selectOption = function (ndxOption, ndxQuestion) {
 		// Handles putting the answer into the javascript object when the uesr
 		// selects an option
+		var answer;
 		
 		if($scope.questions[ndxQuestion].question.format.formatName === "Multiple Choice") {
 			// Handles multiple choice questions
 			$scope.answers[ndxQuestion] = ndxOption;
-			var answer = $scope.questions[ndxQuestion].question.option[ndxOption];
+			answer = $scope.questions[ndxQuestion].question.option[ndxOption]; // Store selected answer
 			
-			for (var i = 0; i < $scope.protoTest.options.length; i++){
-				if ($rootScope.protoTest.options[i].question === answer.question){
-					// This question already has an option selected, need to replace it
-					$rootScope.protoTest.options.splice(i, 1);
+			var questionOptionIdArray = []; // Get options from question
+			
+			// Gets options from current selecting question into an array.
+			for (var z=0; z < $scope.questions[ndxQuestion].question.option.length; z++)
+			{
+				questionOptionIdArray.push($scope.questions[ndxQuestion].question.option[z].optionId);
+			}
+			
+			// Checks the answer selection array for previous multiple choice selections and deletes
+			// them from the array since we only want ONE radial selection kept in the answer array
+			for (var z2=0; z2 < questionOptionIdArray.length; z2++)
+			{
+				for (var z3=0; z3 < $rootScope.protoTest.options.length; z3++)
+				{
+					if ($rootScope.protoTest.options[z3].optionId === questionOptionIdArray[z2])
+					{
+						// Remove previously selected multiple choices from same question
+						$rootScope.protoTest.options.splice(z3,1);
+					}
 				}
 			}
-			// Add to selected options
+			
+			// Finally, add current selected multiple choice option to the answers array
 			$rootScope.protoTest.options.push(answer);
-		} else if ($scope.questions[ndxQuestion].question.format.formatName === "Multiple Select" ) {
+			
+		}else if ($scope.questions[ndxQuestion].question.format.formatName === "Multiple Select" ) {
 			// Handles multiple select questions
 			answer = $scope.questions[ndxQuestion].question.option[ndxOption];
 			var foundAt = $rootScope.protoTest.options.indexOf(answer);
@@ -168,12 +187,12 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 		var incFileType = q.question.snippetTemplates[0].fileType;
 		var newSnippet = new SnippetUpload(editor.getValue(), +id2.substr(6, id2.length), incFileType);
 		
-		for (i = 0; i < $scope.snippetSubmissions.length; i++){
-			if ($scope.snippetSubmissions[i].questionId = newSnippet.questionId){
-				$scope.snippetSubmissions.splice(i, 1);
+		for (i = 0; i < $rootScope.snippetSubmissions.length; i++){
+			if ($rootScope.snippetSubmissions[i].questionId = newSnippet.questionId){
+				$rootScope.snippetSubmissions.splice(i, 1);
 			}
 		}
-		$scope.snippetSubmissions.push(newSnippet);
+		$rootScope.snippetSubmissions.push(newSnippet);
 		saveQuestion(snippetQuestionIndex);
 	};
 
@@ -204,44 +223,51 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	// AJAX
 	function getQuizQuestions() {
 		
-		//console.log(QUIZ_REST_URL + $location.search().asmt);
 		$http({
 			method: 'GET',
 			url: QUIZ_REST_URL + $location.search().asmt,
 			headers: {'Content-Type': 'application/json'}
 		})
 		.then(function(response) {
-		    //First function handles success
-		    $rootScope.protoTest = response.data;
-			$scope.questions = $rootScope.protoTest.template.templateQuestion;
-		    initSetup();
-		    $rootScope.initQuizNav();
+			
+			// Check response for assessment availability
+			if (response.data.msg === "allow"){
+				// Assessment ready to take
+				$rootScope.protoTest = response.data.assessment;
+				$scope.questions = $rootScope.protoTest.template.templateQuestion;
+				$rootScope.protoTest.options = [];
+				initSetup();
+				$rootScope.initQuizNav();
+				$rootScope.initTimer($rootScope.protoTest.timeLimit);
+			}else {
+				// Assessment was taken or time expired, redirecting to expired page
+				$window.location.href = '/aes/expired';
+			}
 		});
 	}
 	
-	$scope.submitAssessment = function(){
-
+	$rootScope.submitAssessment = function(){
 		$rootScope.protoTest.assessmentDragDrop.forEach(function(entry){
 
 			delete entry.assessmentId;
-
 			entry.assessment = {"assessmentId" : $rootScope.protoTest.assessmentId,};
-
 		});
 
 		var answerData = {
 				assessment : $rootScope.protoTest,
-				snippetUploads : $scope.snippetSubmissions
+				snippetUploads : $rootScope.snippetSubmissions
 		};
-		postAssessment(answerData);
-	}
-	
-	function postAssessment(answerData){
+
 		$http({
 			method: 'POST',
 			url: "aes/rest/submitAssessment",
 			headers: {'Content-Type': 'application/json'},
 			data: answerData
+		}).then(function(response) {
+			console.log(response.data);
+			console.log("after submit");
+			$window.location.href = '/aes/goodbye';
 		});
 	}
+	
 });
