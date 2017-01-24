@@ -5,8 +5,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
@@ -14,13 +17,6 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
-
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.introspect.VisibilityChecker;
-import com.revature.aes.beans.*;
-import com.revature.aes.logging.Logging;
-import com.revature.aes.service.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,11 +29,19 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.aes.beans.AnswerData;
+import com.revature.aes.beans.Assessment;
+import com.revature.aes.beans.AssessmentDragDrop;
+import com.revature.aes.beans.FileUpload;
+import com.revature.aes.beans.Option;
+import com.revature.aes.beans.SnippetUpload;
 import com.revature.aes.dao.UsersDao;
 import com.revature.aes.grading.CoreEmailClient;
-
 import com.revature.aes.logging.Logging;
 import com.revature.aes.service.AssessmentServiceImpl;
+import com.revature.aes.service.DragDropService;
+import com.revature.aes.service.OptionService;
+import com.revature.aes.service.QuestionService;
 import com.revature.aes.service.S3Service;
 
 
@@ -118,30 +122,38 @@ public class GetAssessmentController {
 	}
 	
 	@RequestMapping(value = "/submitAssessment", method = RequestMethod.POST)
-	public String saveAssessmentAnswers(@RequestBody AnswerData answerData,
-			HttpServletResponse response)
+	public String saveAssessmentAnswers(@RequestBody AnswerData answerData)
 			throws JsonParseException, JsonMappingException, IOException {
-		System.out.println("I'm gonna save the thing!");
-/*		ObjectMapper om = new ObjectMapper();
-		om.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-		om.setVisibilityChecker(VisibilityChecker.Std.defaultInstance().withFieldVisibility(JsonAutoDetect.Visibility.ANY));*/
-		//System.out.println("Info sent: " + answerData);
-
-		//Separate the incoming data
-		/*Packet incoming = om.readValue(JsonUserAnswers, Packet.class);
-		Assessment assessment = incoming.getAssessment();
-		List<SnippetUpload> lstSnippetUploads = incoming.getSnippetUpload();*/
-
+		
+		System.out.println("GetAssessmentController.saveAssessmentAnswers: Entered, start saving assessment.");
+		
 		Assessment assessment = answerData.getAssessment();
-
+		
+		// Pull out previously saved server start time for quiz and assign
+		// it to the submitted assessment.
+		// Prevents user from tampering with TimeStamp on front-end.
+		Assessment tempAssessment = service.getAssessmentById(assessment.getAssessmentId());
+		assessment.setCreatedTimeStamp(tempAssessment.getCreatedTimeStamp());
+		
+		// Check submitted server time against server retrieved time to make sure time limit not abused.
+		Timestamp quizSubmittedTime = new Timestamp(System.currentTimeMillis());
+		assessment.setFinishedTimeStamp(quizSubmittedTime);
+		
+		System.out.println("Server received assessment submission:"
+				+ "\nStarted: " + assessment.getCreatedTimeStamp()
+				+ "\nFinished: " + assessment.getFinishedTimeStamp()
+				+ "\nTime difference in millis: "
+				+ (assessment.getFinishedTimeStamp().getTime() - assessment.getCreatedTimeStamp().getTime()) );
+		System.out.println("TimeLimit=" + assessment.getTimeLimit());
+		
 		List<SnippetUpload> lstSnippetUploads = answerData.getSnippetUploads();
 
 		Set<Option> optList = new HashSet<>();
 
 		for (Option opts : assessment.getOptions()){
-
+			
 			optList.add(optService.getOptionById(opts.getOptionId()));
-
+			
 		}
 
 		assessment.setOptions(optList);
@@ -157,10 +169,6 @@ public class GetAssessmentController {
 			add.setDragDrop(ddService.getDragDropById(add.getDragDrop().getDragDropId()));
 
 		}
-
-
-
-		//System.out.println(answerData.getSnippetUploads());
 
 		assessment.setFileUpload(new HashSet<FileUpload>());
 
@@ -188,32 +196,52 @@ public class GetAssessmentController {
 		//SAVE the answers into the database
 		service.gradeAssessment(assessment);
 		service.updateAssessment(assessment);
-		System.out.println("Hopefully I saved the thing!");
+		System.out.println("GetAssessmentController.saveAssessmentAnswers: Assessment should now be saved.");
 		
 		int recruiterId = assessment.getUser().getRecruiterId();
 		String recruiterEmail = UsersService.findOne(recruiterId).getEmail();
 		
 		new CoreEmailClient(coreEmailClientEndpointAddress ).sendEmailAfterGrading(recruiterEmail, assessment.getAssessmentId());
 		
-		return "Gucci?";
+		return "{\"success\":\"ok\"}";
 	}
 	
 	@RequestMapping(value = "{id}")
-	public String getAssessment(@PathVariable("id") int AssessmentId)
+	public Map<String, Object> getAssessment(@PathVariable("id") int AssessmentId)
 			throws JsonProcessingException {
 		
-		System.out.println("I'm here!" + AssessmentId);
-		String JSONString;
-		ObjectMapper mapper = new ObjectMapper();
+		System.out.println("Requesting assessment with ID=" + AssessmentId);
+		
 		Assessment assessment = new Assessment();
+		Map<String, Object> responseMap = new HashMap<String, Object>();
+			
 		try {
 			assessment = service.getAssessmentById(AssessmentId);
+			
+			// Check to see if the user has already taken this assessment
+			if (assessment.getGrade() < 0)
+			{	// Assessment not taken yet
+				Timestamp serverQuizStartTime = new Timestamp(System.currentTimeMillis());
+				System.out.println("Server time for quiz start: " + serverQuizStartTime);
+				System.out.println("Timestamp in millis (getTime()): " + serverQuizStartTime.getTime());
+				assessment.setCreatedTimeStamp(serverQuizStartTime);
+				service.updateAssessment(assessment);
+				
+				System.out.println(assessment);
+				responseMap.put("msg", "allow");
+				responseMap.put("assessment", assessment);
+			}else {
+				// Assessment taken, this message will redirect to expired page
+				responseMap.put("msg", "deny");
+			}
+			
 		} catch (NullPointerException e) {
 			System.out.println("error");
 			e.printStackTrace();
 		}
-		System.out.println(assessment);
-		JSONString = mapper.writeValueAsString(assessment);
-		return JSONString;
+
+		// Returns a hashMap object with allow message and assessment object
+		// which is automatically converted into JSON objects
+		return responseMap;
 	}
 }

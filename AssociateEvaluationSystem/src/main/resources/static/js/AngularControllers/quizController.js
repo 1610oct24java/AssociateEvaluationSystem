@@ -1,4 +1,5 @@
-app.controller("quizController", function($scope, $rootScope, $http, $location) {
+app.controller("quizController", function($scope, $rootScope, $http, 
+		$location, $window) {
 	$rootScope.states = [];
 	$scope.answers = [];
 	$scope.numEditors = 0;
@@ -222,25 +223,30 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	// AJAX
 	function getQuizQuestions() {
 		
-		//console.log(QUIZ_REST_URL + $location.search().asmt);
 		$http({
 			method: 'GET',
 			url: QUIZ_REST_URL + $location.search().asmt,
 			headers: {'Content-Type': 'application/json'}
 		})
 		.then(function(response) {
-		    //First function handles success
-		    $rootScope.protoTest = response.data;
-			$scope.questions = $rootScope.protoTest.template.templateQuestion;
-			$rootScope.protoTest.options = [];
-		    initSetup();
-		    $rootScope.initQuizNav();
-		    $rootScope.initTimer($rootScope.protoTest.timeLimit);
+			
+			// Check response for assessment availability
+			if (response.data.msg === "allow"){
+				// Assessment ready to take
+				$rootScope.protoTest = response.data.assessment;
+				$scope.questions = $rootScope.protoTest.template.templateQuestion;
+				$rootScope.protoTest.options = [];
+				initSetup();
+				$rootScope.initQuizNav();
+				$rootScope.initTimer($rootScope.protoTest.timeLimit);
+			}else {
+				// Assessment was taken or time expired, redirecting to expired page
+				$window.location.href = '/aes/expired';
+			}
 		});
 	}
 	
-	$scope.submitAssessment = function(){
-
+	$rootScope.submitAssessment = function(){
 		$rootScope.protoTest.assessmentDragDrop.forEach(function(entry){
 
 			delete entry.assessmentId;
@@ -257,6 +263,10 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 			url: "aes/rest/submitAssessment",
 			headers: {'Content-Type': 'application/json'},
 			data: answerData
+		}).then(function(response) {
+			console.log(response.data);
+			console.log("after submit");
+			$window.location.href = '/aes/goodbye';
 		});
 	}
 	

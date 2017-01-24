@@ -1,5 +1,5 @@
 /* COUNTDOWN TIMER LOGIC */
-app.controller('CountdownController', function($scope, $rootScope, $interval) {
+app.controller('CountdownController', function($scope, $rootScope, $interval, $timeout) {
 	
 	var startTime = 3600;	// default
 	$scope.seconds = startTime;
@@ -15,7 +15,10 @@ app.controller('CountdownController', function($scope, $rootScope, $interval) {
 		if ($scope.seconds < 0)
 		{
 			$interval.cancel(timer);
-			showSubmitModal();
+			
+			$timeout(function () {
+				showSubmitModal();
+		    }, 1000);
 		}
 	}, 1000);
 	
@@ -36,6 +39,10 @@ app.controller('CountdownController', function($scope, $rootScope, $interval) {
 	
 	function showSubmitModal() {
 		submitModal.style.display = "block";
+		
+		$timeout(function () {
+			$rootScope.submitAssessment();
+	    }, 3000);
 	}
 	
 	$rootScope.initTimer = function (timeLimitInMin) {
