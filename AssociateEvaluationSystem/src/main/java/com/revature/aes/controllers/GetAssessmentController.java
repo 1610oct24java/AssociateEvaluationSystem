@@ -6,8 +6,10 @@ import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
@@ -124,16 +126,6 @@ public class GetAssessmentController {
 			throws JsonParseException, JsonMappingException, IOException {
 		
 		System.out.println("GetAssessmentController.saveAssessmentAnswers: Entered, start saving assessment.");
-/*		ObjectMapper om = new ObjectMapper();
-		om.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-		om.setVisibilityChecker(VisibilityChecker.Std.defaultInstance().withFieldVisibility(JsonAutoDetect.Visibility.ANY));*/
-		//System.out.println("Info sent: " + answerData);
-
-		//Separate the incoming data
-		/*Packet incoming = om.readValue(JsonUserAnswers, Packet.class);
-		Assessment assessment = incoming.getAssessment();
-		List<SnippetUpload> lstSnippetUploads = incoming.getSnippetUpload();*/
-
 		
 		Assessment assessment = answerData.getAssessment();
 		
@@ -178,8 +170,6 @@ public class GetAssessmentController {
 
 		}
 
-		//System.out.println(answerData.getSnippetUploads());
-
 		assessment.setFileUpload(new HashSet<FileUpload>());
 
 		if(lstSnippetUploads!=null) {
@@ -217,29 +207,41 @@ public class GetAssessmentController {
 	}
 	
 	@RequestMapping(value = "{id}")
-	public String getAssessment(@PathVariable("id") int AssessmentId)
+	public Map<String, Object> getAssessment(@PathVariable("id") int AssessmentId)
 			throws JsonProcessingException {
 		
 		System.out.println("Requesting assessment with ID=" + AssessmentId);
-		String JSONString;
-		ObjectMapper mapper = new ObjectMapper();
-		Assessment assessment = new Assessment();
 		
+		Assessment assessment = new Assessment();
+		Map<String, Object> responseMap = new HashMap<String, Object>();
+			
 		try {
 			assessment = service.getAssessmentById(AssessmentId);
-			Timestamp serverQuizStartTime = new Timestamp(System.currentTimeMillis());
-			System.out.println("Server time for quiz start: " + serverQuizStartTime);
-			System.out.println("Timestamp in millis (getTime()): " + serverQuizStartTime.getTime());
-			assessment.setCreatedTimeStamp(serverQuizStartTime);
-			service.updateAssessment(assessment);
+			
+			// Check to see if the user has already taken this assessment
+			if (assessment.getGrade() < 0)
+			{	// Assessment not taken yet
+				Timestamp serverQuizStartTime = new Timestamp(System.currentTimeMillis());
+				System.out.println("Server time for quiz start: " + serverQuizStartTime);
+				System.out.println("Timestamp in millis (getTime()): " + serverQuizStartTime.getTime());
+				assessment.setCreatedTimeStamp(serverQuizStartTime);
+				service.updateAssessment(assessment);
+				
+				System.out.println(assessment);
+				responseMap.put("msg", "allow");
+				responseMap.put("assessment", assessment);
+			}else {
+				// Assessment taken, this message will redirect to expired page
+				responseMap.put("msg", "deny");
+			}
 			
 		} catch (NullPointerException e) {
 			System.out.println("error");
 			e.printStackTrace();
 		}
-		
-		System.out.println(assessment);
-		JSONString = mapper.writeValueAsString(assessment);
-		return JSONString;
+
+		// Returns a hashMap object with allow message and assessment object
+		// which is automatically converted into JSON objects
+		return responseMap;
 	}
 }

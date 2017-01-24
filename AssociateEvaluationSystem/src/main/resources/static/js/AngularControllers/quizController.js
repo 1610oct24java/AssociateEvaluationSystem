@@ -223,20 +223,26 @@ app.controller("quizController", function($scope, $rootScope, $http,
 	// AJAX
 	function getQuizQuestions() {
 		
-		//console.log(QUIZ_REST_URL + $location.search().asmt);
 		$http({
 			method: 'GET',
 			url: QUIZ_REST_URL + $location.search().asmt,
 			headers: {'Content-Type': 'application/json'}
 		})
 		.then(function(response) {
-		    //First function handles success
-		    $rootScope.protoTest = response.data;
-			$scope.questions = $rootScope.protoTest.template.templateQuestion;
-			$rootScope.protoTest.options = [];
-		    initSetup();
-		    $rootScope.initQuizNav();
-		    $rootScope.initTimer($rootScope.protoTest.timeLimit);
+			
+			// Check response for assessment availability
+			if (response.data.msg === "allow"){
+				// Assessment ready to take
+				$rootScope.protoTest = response.data.assessment;
+				$scope.questions = $rootScope.protoTest.template.templateQuestion;
+				$rootScope.protoTest.options = [];
+				initSetup();
+				$rootScope.initQuizNav();
+				$rootScope.initTimer($rootScope.protoTest.timeLimit);
+			}else {
+				// Assessment was taken or time expired, redirecting to expired page
+				$window.location.href = '/aes/expired';
+			}
 		});
 	}
 	
