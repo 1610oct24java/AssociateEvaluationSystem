@@ -62,9 +62,27 @@ app.controller("quizController", function($scope, $rootScope, $http,
 
 	$scope.handleSaveClick = function(index) {
 		//If question is not already saved, save it
-		if (!$scope.states[index].saved) {
-			saveQuestion(index);
-		}
+		saveQuestion(index);
+		
+		$rootScope.protoTest.assessmentDragDrop.forEach(function(entry){
+			delete entry.assessmentId;
+			entry.assessment = {"assessmentId" : $rootScope.protoTest.assessmentId,};
+		});
+
+		var answerData = {
+				assessment : $rootScope.protoTest,
+				snippetUploads : $rootScope.snippetSubmissions
+		};
+
+		$http({
+			method: 'POST',
+			url: "aes/rest/quickSaveAssessment",
+			headers: {'Content-Type': 'application/json'},
+			data: answerData
+		}).then(function(response) {
+			console.log(response.data);
+			console.log("after quick save");
+		});
 	}
 
 	$scope.flagQuestion = function(index) {
@@ -119,7 +137,10 @@ app.controller("quizController", function($scope, $rootScope, $http,
 				$rootScope.protoTest.options.splice(foundAt, 1);
 			}
 		}
-		saveQuestion(ndxQuestion);
+		
+		if ($scope.states[ndxQuestion].saved) {
+			$scope.states[ndxQuestion].saved = false;
+		}
 	}
 	
 	$scope.checkChecked = function (ndxOption, ndxQuestion) {
@@ -238,7 +259,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 				$rootScope.protoTest.options = [];
 				initSetup();
 				$rootScope.initQuizNav();
-				$rootScope.initTimer($rootScope.protoTest.timeLimit);
+				$rootScope.initTimer(response.data.timeLimit);
 			}else {
 				// Assessment was taken or time expired, redirecting to expired page
 				$window.location.href = '/aes/expired';

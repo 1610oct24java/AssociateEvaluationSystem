@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -139,13 +140,6 @@ public class GetAssessmentController {
 		Timestamp quizSubmittedTime = new Timestamp(System.currentTimeMillis());
 		assessment.setFinishedTimeStamp(quizSubmittedTime);
 		
-		System.out.println("Server received assessment submission:"
-				+ "\nStarted: " + assessment.getCreatedTimeStamp()
-				+ "\nFinished: " + assessment.getFinishedTimeStamp()
-				+ "\nTime difference in millis: "
-				+ (assessment.getFinishedTimeStamp().getTime() - assessment.getCreatedTimeStamp().getTime()) );
-		System.out.println("TimeLimit=" + assessment.getTimeLimit());
-		
 		List<SnippetUpload> lstSnippetUploads = answerData.getSnippetUploads();
 
 		Set<Option> optList = new HashSet<>();
@@ -218,20 +212,61 @@ public class GetAssessmentController {
 		try {
 			assessment = service.getAssessmentById(AssessmentId);
 			
-			// Check to see if the user has already taken this assessment
-			if (assessment.getGrade() < 0)
-			{	// Assessment not taken yet
-				Timestamp serverQuizStartTime = new Timestamp(System.currentTimeMillis());
-				System.out.println("Server time for quiz start: " + serverQuizStartTime);
-				System.out.println("Timestamp in millis (getTime()): " + serverQuizStartTime.getTime());
-				assessment.setCreatedTimeStamp(serverQuizStartTime);
-				service.updateAssessment(assessment);
+			// Get Date where password issued to user
+			String strPassIssuedTime = assessment.getUser().getDatePassIssued();
+			Timestamp expireDate = Timestamp.valueOf(strPassIssuedTime);
+			
+			// Calculating timestamp to expired date
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(expireDate);
+			cal.add(Calendar.DAY_OF_WEEK, 7); // Add a week to the date to reach expired time
+			expireDate = new Timestamp(cal.getTime().getTime());
+			
+			System.out.println(expireDate.after(new Timestamp(System.currentTimeMillis()))); // if true, allow
+			
+			if (expireDate.after(new Timestamp(System.currentTimeMillis())))
+			{	// Allow assessment (expiration date not yet reached)
+				// Check to see if the user has already taken this assessment
+				if (assessment.getGrade() < 0)
+				{	// Assessment not taken yet
+					System.out.println("Created Timestamp test= " + assessment.getCreatedTimeStamp());
+					if (assessment.getCreatedTimeStamp() == null)
+					{
+						Timestamp serverQuizStartTime = new Timestamp(System.currentTimeMillis());
+						assessment.setCreatedTimeStamp(serverQuizStartTime);
+						service.updateAssessment(assessment);
+						
+						// Add assessment's full time limit to the response
+						responseMap.put("timeLimit", assessment.getTimeLimit());
+						responseMap.put("msg", "allow");
+						responseMap.put("assessment", assessment);
+						
+					}else {
+						Timestamp serverNowTime = new Timestamp(System.currentTimeMillis());
+						long serverNowTimeInMillis = serverNowTime.getTime();
+						long createdTimestampInMillis = assessment.getCreatedTimeStamp().getTime();
+						
+						long modifiedTimelimit = (serverNowTimeInMillis/1000) - (createdTimestampInMillis/1000);
+						modifiedTimelimit = ((assessment.getTimeLimit()*60) - modifiedTimelimit) / 60;
+						
+						if (modifiedTimelimit < 0)
+						{
+							responseMap.put("msg", "deny");
+						}else {
+							// Add modified time limit since assessment is still in progress
+							responseMap.put("timeLimit", modifiedTimelimit);
+							responseMap.put("msg", "allow");
+							responseMap.put("assessment", assessment);
+						}
+					}
+					
+				}else {
+					// Assessment taken, this message will redirect to expired page
+					responseMap.put("msg", "deny");
+				}
 				
-				System.out.println(assessment);
-				responseMap.put("msg", "allow");
-				responseMap.put("assessment", assessment);
 			}else {
-				// Assessment taken, this message will redirect to expired page
+				// Expiration date passed (deny assessment)
 				responseMap.put("msg", "deny");
 			}
 			
@@ -243,5 +278,67 @@ public class GetAssessmentController {
 		// Returns a hashMap object with allow message and assessment object
 		// which is automatically converted into JSON objects
 		return responseMap;
+	}
+	
+	@RequestMapping(value = "/quickSaveAssessment", method = RequestMethod.POST)
+	public String quickSaveAssessment(@RequestBody AnswerData answerData)
+			throws JsonParseException, JsonMappingException, IOException {
+		
+		System.out.println("GetAssessmentController.quickSaveAssessment: Entered, quick saving assessment.");
+		
+		Assessment assessment = answerData.getAssessment();
+		
+		List<SnippetUpload> lstSnippetUploads = answerData.getSnippetUploads();
+
+		Set<Option> optList = new HashSet<>();
+
+		for (Option opts : assessment.getOptions()){
+			
+			optList.add(optService.getOptionById(opts.getOptionId()));
+			
+		}
+
+		assessment.setOptions(optList);
+
+		for(Option opt : assessment.getOptions()){
+
+			System.out.println(opt);
+
+		}
+
+		for (AssessmentDragDrop add : assessment.getAssessmentDragDrop()){
+
+			add.setDragDrop(ddService.getDragDropById(add.getDragDrop().getDragDropId()));
+
+		}
+
+		assessment.setFileUpload(new HashSet<FileUpload>());
+
+		if(lstSnippetUploads!=null) {
+
+			for (SnippetUpload su : lstSnippetUploads) {
+				// userAnswer_assID_qID
+				String key = "";
+				key += "Take1_userAnswer_";
+				key += assessment.getAssessmentId() + "_";
+				key += su.getQuestionId();
+				key += ".cpp";        //TODO Not hardcode this?
+				System.out.println(su);
+				System.out.println("Key: " + key);
+				System.out.println(su.getCode());
+				s3.uploadToS3(su.getCode(), key);
+				FileUpload fu = new FileUpload();
+				fu.setAssessment(assessment);
+				fu.setFileUrl(key);
+				fu.setQuestion(questService.getQuestionById(su.getQuestionId()));
+				assessment.getFileUpload().add(fu);
+			}
+		}
+
+		//SAVE the answers into the database (grader not called yet)
+		service.updateAssessment(assessment);
+		System.out.println("GetAssessmentController.saveAssessmentAnswers: Assessment state should now be saved.");
+		
+		return "{\"success\":\"ok\"}";
 	}
 }
