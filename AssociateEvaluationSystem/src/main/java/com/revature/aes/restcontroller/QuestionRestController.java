@@ -15,6 +15,8 @@ import com.revature.aes.beans.Format;
 import com.revature.aes.beans.Option;
 import com.revature.aes.beans.Question;
 import com.revature.aes.beans.QuestionOptionsJSONHandler;
+import com.revature.aes.service.DragDropService;
+import com.revature.aes.service.OptionService;
 import com.revature.aes.service.QuestionService;
 
 /**
@@ -30,6 +32,20 @@ public class QuestionRestController
 	 */
 	@Autowired
 	private QuestionService questionService;
+	
+	/**
+	 * @questionService The service used to handle HTTPs Requests and Responses
+	 * 					for the Question's Options.
+	 */
+	@Autowired
+	private OptionService optionService;
+	
+	/**
+	 * @ddService 		The service used to handle HTTPs Requests and Responses
+	 * 					for the Drag and Drop Options
+	 */
+	@Autowired
+	private DragDropService ddService;
 
 	/**
 	 * Stores a Question into a database
@@ -118,9 +134,35 @@ public class QuestionRestController
 		questionService.deleteQuestionById(id);
 	}
 	
+	/**
+	 * 
+	 * @param question This is a method that Ed did to add questions.
+	 * 					I think it is done this way to add the options, category, and 
+	 * 					format of the question correctly.
+	 * @return
+	 */
 	@RequestMapping(value ="fullQuestion", method = RequestMethod.POST, produces = 
 		{ MediaType.APPLICATION_JSON_VALUE })
 	public Question addFullQuestion(@RequestBody QuestionOptionsJSONHandler question ){
 		return questionService.addFullQuestion(question);
+	}
+	
+	/**
+	 * 
+	 * @param id	The id of the option on a specific question to be deleted.
+	 */
+	@RequestMapping(value="question/deleteOption/{id}", method = RequestMethod.DELETE)
+	public void deleteOption(@PathVariable Integer id){
+		optionService.removeOptionById(id);
+	}
+	
+	/**
+	 * 
+	 * @param id	The id of the option for a drag and drop question to be 
+	 * 				deleted.
+	 */
+	@RequestMapping(value="question/deleteDragDrop/{id}", method = RequestMethod.DELETE)
+	public void deleteDragDropById(@PathVariable Integer id){
+		ddService.removeDragDropById(id);
 	}
 }

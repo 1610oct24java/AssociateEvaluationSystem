@@ -17,7 +17,7 @@ import com.revature.aes.beans.Option;
 import com.revature.aes.beans.Question;
 import com.revature.aes.beans.QuestionOptionsJSONHandler;
 import com.revature.aes.beans.Tag;
-import com.revature.aes.dao.OptionsDAO;
+import com.revature.aes.dao.OptionDAO;
 import com.revature.aes.dao.QuestionDAO;
 
 @Service("QuestionServiceImpl")
@@ -29,7 +29,7 @@ public class QuestionServiceImpl implements QuestionService{
 	private QuestionDAO qdao;
 
 	@Autowired
-	private OptionsDAO odao;
+	private OptionDAO odao;
 	/**
 	 * Adds a Question to the Database
 	 * @param The Question to be persisted to the database 
@@ -44,7 +44,7 @@ public class QuestionServiceImpl implements QuestionService{
 		{
 			return null;
 		}
-		return qdao.saveAndFlush(question);
+		return qdao.save(question);
 	}
 
 	/**
@@ -142,7 +142,7 @@ public class QuestionServiceImpl implements QuestionService{
 		if(multiChoice != null){
 			for(Option option : multiChoice){
 				option.setQuestion(baseQuestion);
-				odao.saveAndFlush(option);
+				odao.save(option);
 			}
 		}
 		

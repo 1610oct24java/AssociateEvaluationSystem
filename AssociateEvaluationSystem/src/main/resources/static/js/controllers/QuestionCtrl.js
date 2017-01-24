@@ -295,10 +295,30 @@ app.controller('QuestionCtrl', function($http, $scope) {
 		$scope.currentQuestion = question;
 	}
 	
+	$scope.removeOption = function(option){
+		$http.delete("question/deleteOption/" + option.optionId)
+		.then(function(response){
+			$scope.getQuestionList();
+			console.log("Should have updated question list.")
+		})
+	}
+	
+	$scope.removeDDOption = function(option){
+		$http.delete("question/deleteDDOption/" + option.optionId)
+		.then(function(response){
+			$scope.getQuestionList();
+			console.log("Should have updated question list.")
+		})
+	}
+	
+	$scope.addOption = function(option){
+		
+	}
+	
 	angular.element(document).ready(function() {
 		$scope.getQuestionList();
 		$scope.loadCategories();
 		$scope.loadTags();
 	}); // angular.element end
-	
+
 }); // QuestionController end

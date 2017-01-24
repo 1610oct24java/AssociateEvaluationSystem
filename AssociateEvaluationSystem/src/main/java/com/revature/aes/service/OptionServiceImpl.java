@@ -20,4 +20,11 @@ public class OptionServiceImpl implements OptionService {
 
     }
 
+	@Override
+	public void removeOptionById(int id) {
+
+		optDao.delete(id);
+		
+	}
+
 }

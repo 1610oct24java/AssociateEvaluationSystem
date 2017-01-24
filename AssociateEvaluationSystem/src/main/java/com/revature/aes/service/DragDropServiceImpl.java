@@ -21,4 +21,9 @@ public class DragDropServiceImpl implements DragDropService {
 
     }
 
+	@Override
+	public void removeDragDropById(int id) {
+		ddDao.delete(id);		
+	}
+
 }
