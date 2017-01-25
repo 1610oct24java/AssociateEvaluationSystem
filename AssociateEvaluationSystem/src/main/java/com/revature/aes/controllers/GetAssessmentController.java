@@ -114,7 +114,7 @@ public class GetAssessmentController {
 
 
 
-		return localHostname + ":" + port + "/aes/quiz?asmt=" + assessment.getAssessmentId();
+		return "http://" + ip + ":" + port + "/aes/quiz?asmt=" + assessment.getAssessmentId();
 	}
 	
 	@RequestMapping(value = "/submitAssessment", method = RequestMethod.POST)

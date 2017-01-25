@@ -6,9 +6,9 @@ app.constant("SITE_URL", {
 	"BASE" : "",
 	"PORT" : ":8080",
 	
-	"LOGIN": "index.html",
-	"VIEW_CANDIDATES" : "viewCandidates.html",
-	"REGISTER_CANDIDATE" : "",
+	"LOGIN": "index",
+	"VIEW_CANDIDATES" : "view",
+	"REGISTER_CANDIDATE" : "recruit",
 	
 	"TRAINER_HOME" : "http://sports.cbsimg.net/images/nhl/blog/Ryan_Reaves_Kiss.JPG"
 	

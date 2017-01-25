@@ -8,6 +8,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 /**
  * 
  * This is a Service Locator meant to send an email through a rest
@@ -20,15 +25,49 @@ import org.springframework.web.client.RestTemplate;
  */
 @Service
 public class MailServiceLocatorImpl implements MailServiceLocator {
+
 	@Autowired
 	Logging log;
 	RestTemplate restTemplate = new RestTemplate();
 
+	@Inject
+	private org.springframework.boot.autoconfigure.web.ServerProperties serverProperties;
+
+	private static int port;
+
+	private static String ip;
+
+	private static String URL;
+
+	@PostConstruct
+	protected void postConstruct(){
+
+		configureRestService();
+
+	}
+
+	private void configureRestService(){
+
+		port = serverProperties.getPort();
+
+		try{
+
+			ip = InetAddress.getLocalHost().getHostAddress();
+
+		} catch (UnknownHostException e) {
+			log.error("UnknownHostException; setting ip to localhost");
+			ip = "localhost";
+		}
+
+		URL = "http://" + ip + ":" + port + "/aes";
+
+	}
+
 //	static AssessmentRequestLoader loader = new AssessmentRequestLoader();
 //	private static final String URL = loader.loadAddress() + "/core";
 
-	private static final String URL = "http://localhost:8080/core";
-	
+
+
 	@Override
 	/**
 	 * 

@@ -2,11 +2,14 @@ package com.revature.aes.locator;
 
 import com.revature.aes.beans.AssessmentRequest;
 import com.revature.aes.logging.Logging;
+import com.revature.aes.util.PropertyReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import javax.annotation.PostConstruct;
 
 /**
  * 
@@ -19,9 +22,21 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class AssessmentServiceLocatorImpl implements AssessmentServiceLocator {
-	private static final String URL = "http://192.168.60.64:8080/TestBank";
+
+	@Autowired
+	PropertyReader propertyReader;
+
+	private static String URI = "http://localhost:8090";
+	private static final String URIExt = "/aes";
 	private RestTemplate restTemplate = new RestTemplate();
 
+	/*@PostConstruct
+	protected void postConstruct(){
+
+		URI = propertyReader.propertyRead().getProperty("home")+URIExt;
+
+	}
+*/
 	@Autowired
 	Logging log;
 	
@@ -44,7 +59,7 @@ public class AssessmentServiceLocatorImpl implements AssessmentServiceLocator {
 		
 		System.out.println("CALLING MATTHEWS SERVICE!");
 		System.out.println(request);
-		ResponseEntity<AssessmentRequest> responseEntity = restTemplate.postForEntity("http://192.168.60.64:8080/TestBank/user/RandomAssessment", request, AssessmentRequest.class);
+		ResponseEntity<AssessmentRequest> responseEntity = restTemplate.postForEntity(URI+URIExt+"/user/RandomAssessment", request, AssessmentRequest.class);
 		AssessmentRequest response = responseEntity.getBody();
 		log.debug(lines);
 		log.debug(response.toString());
