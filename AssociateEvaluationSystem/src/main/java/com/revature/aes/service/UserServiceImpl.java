@@ -140,14 +140,14 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void createRecruiter(String email) {
 
-		createAdmin(email, "Trainer");
+		createAdmin(email, "recruiter");
 
 	}
 
 	@Override
 	public void createTrainer(String email) {
 
-		createAdmin(email, "Trainer");
+		createAdmin(email, "trainer");
 
 	}
 

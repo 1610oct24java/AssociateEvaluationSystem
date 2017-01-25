@@ -20,6 +20,6 @@ public class LoginController {
 	
 	@RequestMapping(value="/",method = RequestMethod.GET)
 	public String login() {
-		return "index";
+		return "redirect:index";
 	}
 }
