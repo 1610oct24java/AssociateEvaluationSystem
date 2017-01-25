@@ -112,14 +112,8 @@
 													ng-click="selectOption($index, $parent.$index+numPerPage*(currentPage-1))"
 													class="checkbox"
 													ng-show="q.question.format.formatName === 'Multiple Select'">
-													<label><input class="checkbox" type="checkbox"
-														
-												
-														name="q{{q.question.questionId}}"
-														
-														
+													<label><input class="checkbox" type="checkbox" name="q{{q.question.questionId}}"
 														ng-checked="checkChecked($index, $parent.$index+numPerPage*(currentPage-1))">{{option.optionText}}</label>
-														<!-- name="q{{q.question.format.formatId}}" -->
 												</div>
 											</li>
 										</ul>
@@ -127,7 +121,7 @@
 										<div ng-show="q.question.format.formatName === 'Drag and Drop'"
 											ng-controller="dragController">
 											<ul id="revature" class="list-group"
-												data-as-sortable="board.dragControlListeners"
+												data-as-sortable="dragControlListeners"
 												data-ng-model="q.question.dragdrop">
 												<li data-ng-repeat="option in q.question.dragdrop"
 													class="list-group-item" data-as-sortable-item>
