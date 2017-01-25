@@ -1,13 +1,13 @@
 package com.revature.aes.loader;
 
-import com.revature.aes.beans.AssessmentRequest;
-import com.revature.aes.logging.Logging;
+import java.util.Properties;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
+import com.revature.aes.beans.AssessmentRequest;
+import com.revature.aes.logging.Logging;
+import com.revature.aes.util.PropertyReader;
 
 @Component
 public class AssessmentRequestLoader {
@@ -16,16 +16,10 @@ public class AssessmentRequestLoader {
 	private Logging log;
 
 	public AssessmentRequest loadRequest(String category){
-		AssessmentRequest ar = new AssessmentRequest();
-		Properties prop = new Properties();
 		
-		try(InputStream input = this.getClass().getClassLoader().getResourceAsStream("assessmentRequest.properties")){
-			prop.load(input);
-		} catch (IOException e) {
-			// Close the inputStream
-			log.error(e.toString());
-			return null;
-		}
+		AssessmentRequest ar = new AssessmentRequest();
+		
+		Properties prop = new PropertyReader().propertyRead("assessmentRequest.properties");
 		
 		ar.setCategory(category);
 		ar.setMcQuestions(Integer.parseInt(prop.getProperty("mcQuestions")));
@@ -38,15 +32,8 @@ public class AssessmentRequestLoader {
 	}
 
 	public String loadAddress(){
-		Properties prop = new Properties();
 		
-		try(InputStream input = this.getClass().getClassLoader().getResourceAsStream("ipConfig.properties")){
-			prop.load(input);
-		} catch (IOException e) {
-			// Close the inputStream
-			log.error(e.toString());
-			return null;
-		}
+		Properties prop = new PropertyReader().propertyRead("ipConfig.properties");
 		
 		return prop.getProperty("home");
 	}

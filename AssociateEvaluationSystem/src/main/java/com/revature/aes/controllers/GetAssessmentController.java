@@ -6,10 +6,7 @@ import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.Timestamp;
-<<<<<<< HEAD
 import java.util.Calendar;
-=======
->>>>>>> 595e71de62536bc6e34ff2836ccd4e4ae91e1cd1
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -20,41 +17,26 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.MediaType;
-<<<<<<< HEAD
 
-=======
-import com.revature.aes.logging.Logging;
->>>>>>> 595e71de62536bc6e34ff2836ccd4e4ae91e1cd1
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-<<<<<<< HEAD
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.aes.beans.AnswerData;
 import com.revature.aes.beans.Assessment;
 import com.revature.aes.beans.AssessmentDragDrop;
 import com.revature.aes.beans.FileUpload;
 import com.revature.aes.beans.Option;
 import com.revature.aes.beans.SnippetUpload;
-import com.revature.aes.dao.UsersDao;
-import com.revature.aes.grading.CoreEmailClient;
-import com.revature.aes.logging.Logging;
-=======
 import com.revature.aes.dao.UserDAO;
 import com.revature.aes.grading.CoreEmailClient;
-import com.revature.aes.beans.AnswerData;
-import com.revature.aes.beans.Assessment;
-import com.revature.aes.beans.AssessmentDragDrop;
-import com.revature.aes.beans.FileUpload;
-import com.revature.aes.beans.Option;
-import com.revature.aes.beans.SnippetUpload;
->>>>>>> 595e71de62536bc6e34ff2836ccd4e4ae91e1cd1
+import com.revature.aes.logging.Logging;
 import com.revature.aes.service.AssessmentServiceImpl;
 import com.revature.aes.service.DragDropService;
 import com.revature.aes.service.OptionService;
@@ -156,16 +138,6 @@ public class GetAssessmentController {
 		Timestamp quizSubmittedTime = new Timestamp(System.currentTimeMillis());
 		assessment.setFinishedTimeStamp(quizSubmittedTime);
 		
-<<<<<<< HEAD
-=======
-		System.out.println("Server received assessment submission:"
-				+ "\nStarted: " + assessment.getCreatedTimeStamp()
-				+ "\nFinished: " + assessment.getFinishedTimeStamp()
-				+ "\nTime difference in millis: "
-				+ (assessment.getFinishedTimeStamp().getTime() - assessment.getCreatedTimeStamp().getTime()) );
-		System.out.println("TimeLimit=" + assessment.getTimeLimit());
-		
->>>>>>> 595e71de62536bc6e34ff2836ccd4e4ae91e1cd1
 		List<SnippetUpload> lstSnippetUploads = answerData.getSnippetUploads();
 
 		Set<Option> optList = new HashSet<>();
@@ -238,7 +210,6 @@ public class GetAssessmentController {
 		try {
 			assessment = service.getAssessmentById(AssessmentId);
 			
-<<<<<<< HEAD
 			// Get Date where password issued to user
 			String strPassIssuedTime = assessment.getUser().getDatePassIssued();
 			Timestamp expireDate = Timestamp.valueOf(strPassIssuedTime);
@@ -294,22 +265,6 @@ public class GetAssessmentController {
 				
 			}else {
 				// Expiration date passed (deny assessment)
-=======
-			// Check to see if the user has already taken this assessment
-			if (assessment.getGrade() < 0)
-			{	// Assessment not taken yet
-				Timestamp serverQuizStartTime = new Timestamp(System.currentTimeMillis());
-				System.out.println("Server time for quiz start: " + serverQuizStartTime);
-				System.out.println("Timestamp in millis (getTime()): " + serverQuizStartTime.getTime());
-				assessment.setCreatedTimeStamp(serverQuizStartTime);
-				service.updateAssessment(assessment);
-				
-				System.out.println(assessment);
-				responseMap.put("msg", "allow");
-				responseMap.put("assessment", assessment);
-			}else {
-				// Assessment taken, this message will redirect to expired page
->>>>>>> 595e71de62536bc6e34ff2836ccd4e4ae91e1cd1
 				responseMap.put("msg", "deny");
 			}
 			
@@ -321,7 +276,6 @@ public class GetAssessmentController {
 		// Returns a hashMap object with allow message and assessment object
 		// which is automatically converted into JSON objects
 		return responseMap;
-<<<<<<< HEAD
 	}
 	
 	@RequestMapping(value = "/quickSaveAssessment", method = RequestMethod.POST)
@@ -381,10 +335,8 @@ public class GetAssessmentController {
 
 		//SAVE the answers into the database (grader not called yet)
 		service.updateAssessment(assessment);
-		System.out.println("GetAssessmentController.saveAssessmentAnswers: Assessment state should now be saved.");
+		System.out.println("GetAssessmentController.saveAssessmentAnswers: Assessment state should now be quick saved.");
 		
 		return "{\"success\":\"ok\"}";
-=======
->>>>>>> 595e71de62536bc6e34ff2836ccd4e4ae91e1cd1
 	}
 }

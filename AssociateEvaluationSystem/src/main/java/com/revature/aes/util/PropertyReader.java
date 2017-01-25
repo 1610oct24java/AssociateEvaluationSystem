@@ -6,10 +6,10 @@ import java.util.Properties;
 
 public class PropertyReader {
 	
-	public Properties propertyRead() {
+	public Properties propertyRead(String propertiesFilename) {
 		
 		InputStream inputStream = this.getClass().getClassLoader()
-				.getResourceAsStream("resources/ipconfig.properties");
+				.getResourceAsStream(propertiesFilename);
 		
 		System.out.println("Input stream: " + inputStream);
 		Properties prop = new Properties();
