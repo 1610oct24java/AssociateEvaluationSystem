@@ -19,6 +19,10 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.MediaType;
 
+<<<<<<< HEAD
+=======
+import com.revature.aes.logging.Logging;
+>>>>>>> 6eae58f6fce42b03d218d69b8954360048ab7306
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,15 +33,31 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+<<<<<<< HEAD
+=======
+import com.fasterxml.jackson.databind.ObjectMapper;
+>>>>>>> 6eae58f6fce42b03d218d69b8954360048ab7306
 import com.revature.aes.beans.AnswerData;
 import com.revature.aes.beans.Assessment;
 import com.revature.aes.beans.AssessmentDragDrop;
 import com.revature.aes.beans.FileUpload;
 import com.revature.aes.beans.Option;
 import com.revature.aes.beans.SnippetUpload;
+<<<<<<< HEAD
 import com.revature.aes.dao.UserDAO;
 import com.revature.aes.grading.CoreEmailClient;
 import com.revature.aes.logging.Logging;
+=======
+import com.revature.aes.grading.CoreEmailClient;
+import com.revature.aes.logging.Logging;
+import com.revature.aes.dao.UserDAO;
+import com.revature.aes.grading.CoreEmailClient;
+import com.revature.aes.beans.AnswerData;
+import com.revature.aes.beans.Assessment;
+import com.revature.aes.beans.AssessmentDragDrop;
+import com.revature.aes.beans.FileUpload;
+import com.revature.aes.beans.Option;
+>>>>>>> 6eae58f6fce42b03d218d69b8954360048ab7306
 import com.revature.aes.service.AssessmentServiceImpl;
 import com.revature.aes.service.DragDropService;
 import com.revature.aes.service.OptionService;
@@ -67,6 +87,9 @@ public class GetAssessmentController {
 	@Autowired
 	QuestionService questService;
 
+	@Autowired
+	CoreEmailClient coreEmailClient;
+
 	@Inject
 	private org.springframework.boot.autoconfigure.web.ServerProperties serverProperties;
 
@@ -81,6 +104,8 @@ public class GetAssessmentController {
 
 	}
 
+	private String coreEmailClientEndpointAddress = "http://localhost/aes/";
+
 	private void configureRestService(){
 
 		port = serverProperties.getPort();
@@ -90,14 +115,17 @@ public class GetAssessmentController {
 			ip = InetAddress.getLocalHost().getHostAddress();
 
 		} catch (UnknownHostException e) {
+			log.error("Failed to set localhost address to ip const");
 			ip = "localhost";
 		}
+
+		coreEmailClientEndpointAddress = "http://"+ip+":"+port+"/aes/";
 
 	}
 
 	private Logging log = new Logging();
 
-	private String coreEmailClientEndpointAddress = "http://localhost/aes/";
+
 
 	@RequestMapping(value = "/link", method = RequestMethod.POST, consumes = {
 			MediaType.APPLICATION_JSON })
@@ -138,7 +166,18 @@ public class GetAssessmentController {
 		// Check submitted server time against server retrieved time to make sure time limit not abused.
 		Timestamp quizSubmittedTime = new Timestamp(System.currentTimeMillis());
 		assessment.setFinishedTimeStamp(quizSubmittedTime);
+<<<<<<< HEAD
 		
+=======
+
+		System.out.println("Server received assessment submission:"
+				+ "\nStarted: " + assessment.getCreatedTimeStamp()
+				+ "\nFinished: " + assessment.getFinishedTimeStamp()
+				+ "\nTime difference in millis: "
+				+ (assessment.getFinishedTimeStamp().getTime() - assessment.getCreatedTimeStamp().getTime()) );
+		System.out.println("TimeLimit=" + assessment.getTimeLimit());
+
+>>>>>>> 6eae58f6fce42b03d218d69b8954360048ab7306
 		List<SnippetUpload> lstSnippetUploads = answerData.getSnippetUploads();
 
 		Set<Option> optList = new HashSet<>();
@@ -191,10 +230,11 @@ public class GetAssessmentController {
 		service.updateAssessment(assessment);
 		System.out.println("GetAssessmentController.saveAssessmentAnswers: Assessment should now be saved.");
 		
-		int recruiterId = assessment.getUser().getRecruiterId();
-		String recruiterEmail = UsersService.findOne(recruiterId).getEmail();
-		
-		new CoreEmailClient(coreEmailClientEndpointAddress ).sendEmailAfterGrading(recruiterEmail, assessment.getAssessmentId());
+		/*int recruiterId = assessment.getUser().getRecruiterId();
+		String recruiterEmail = UsersService.findOne(recruiterId).getEmail();*/
+
+		coreEmailClient.setServiceHost(coreEmailClientEndpointAddress);
+		log.info("Email sent? " + coreEmailClient.sendEmailAfterGrading(assessment.getUser().getEmail(), assessment.getAssessmentId()));
 		
 		return "{\"success\":\"ok\"}";
 	}
@@ -210,7 +250,11 @@ public class GetAssessmentController {
 			
 		try {
 			assessment = service.getAssessmentById(AssessmentId);
+<<<<<<< HEAD
 			
+=======
+
+>>>>>>> 6eae58f6fce42b03d218d69b8954360048ab7306
 			// Get Date where password issued to user
 			String strPassIssuedTime = assessment.getUser().getDatePassIssued();
 			Timestamp expireDate = Timestamp.valueOf(strPassIssuedTime);
@@ -267,6 +311,10 @@ public class GetAssessmentController {
 				
 			}else {
 				// Expiration date passed (deny assessment)
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6eae58f6fce42b03d218d69b8954360048ab7306
 				responseMap.put("msg", "deny");
 			}
 			
@@ -340,5 +388,9 @@ public class GetAssessmentController {
 		System.out.println("GetAssessmentController.saveAssessmentAnswers: Assessment state should now be quick saved.");
 		
 		return "{\"success\":\"ok\"}";
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6eae58f6fce42b03d218d69b8954360048ab7306
 	}
 }

@@ -19,24 +19,21 @@ public class MailObject {
 		super();
 	}
 	
-	public MailObject(String link, String tempPass, String type, int assesmentId) {
+	public MailObject(String link, String tempPass, String type, int assessmentId) {
 		super();
-		try{
+
 			this.link = link;
 			this.tempPass = tempPass;
 			this.type = type;
-			this.assessmentId = assesmentId;
-		}catch(NullPointerException npe){
-			log.info("Setting assesmentId to 0." + npe);
-			this.assessmentId = 0;
-		}
+			this.assessmentId = assessmentId;
+
 	}
 	
-	public void setAssesmentId(int assesmentId){
-		this.assessmentId=assesmentId;
+	public void setAssessmentId(int assessmentId){
+		this.assessmentId=assessmentId;
 	}
 	
-	public int getAssesmentId(){
+	public int getAssessmentId(){
 		return assessmentId;
 	}
 
@@ -66,6 +63,6 @@ public class MailObject {
 
 	@Override
 	public String toString() {
-		return "MailObject [link=" + link + ", tempPass=" + tempPass + ", type=" + type + "]";
+		return "MailObject [link=" + link + ", tempPass=" + tempPass + ", type=" + type + ", assessmentId=" + assessmentId + "]";
 	}
 }

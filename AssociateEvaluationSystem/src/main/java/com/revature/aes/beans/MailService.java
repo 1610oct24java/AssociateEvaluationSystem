@@ -1,7 +1,6 @@
 package com.revature.aes.beans;
 
-import java.util.logging.Logger;
-
+import com.revature.aes.logging.Logging;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
@@ -13,6 +12,9 @@ public class MailService {
 	
 	@Autowired
 	private MailSender mailSender;
+
+	@Autowired
+	Logging logger;
 	
 	public SimpleMailMessage setupMessage(String recipient, String sub, String body){
         SimpleMailMessage msg = new SimpleMailMessage();
@@ -24,7 +26,6 @@ public class MailService {
 	}
 	
     public Boolean sendEmail(SimpleMailMessage msg) {	
-    	Logger logger = Logger.getAnonymousLogger();
 
         try{
         	mailSender.send(msg); 

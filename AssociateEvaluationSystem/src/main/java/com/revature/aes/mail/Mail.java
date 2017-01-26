@@ -1,5 +1,6 @@
 package com.revature.aes.mail;
 
+import com.revature.aes.beans.Assessment;
 import com.revature.aes.beans.MailService;
 import com.revature.aes.beans.User;
 import com.revature.aes.dao.AssessmentDAO;
@@ -7,6 +8,9 @@ import com.revature.aes.dao.UserDAO;
 import com.revature.aes.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.sql.Timestamp;
+import java.util.List;
 
 @Component
 public class Mail {
@@ -51,7 +55,19 @@ public class Mail {
 				break;
 			
 			case "candidateCompleted":
-				int grade = ad.findByUser(candidate).getGrade(); 
+				int grade = ad.findAssessmentByAssessmentId(m.getAssessmentId()).getGrade();
+				/*int grade = 0;
+				List<Assessment> assList = ad.findAssessmentsByUser(candidate);
+				Timestamp mostRecent = new Timestamp(0);
+				for(Assessment a: assList){
+
+					if (a.getFinishedTimeStamp().after(mostRecent)){
+
+						grade = a.getGrade();
+
+					}
+
+				}*/
 				ms.sendEmail(ms.setupMessage(recruiterEmail, candidateName + " has completed quiz", candidateName
 						+RECRUITER_COMPLETED_BODY+String.valueOf(grade)));
 				break;

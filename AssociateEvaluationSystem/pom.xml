@@ -54,10 +54,16 @@
 		</dependency>
 		
 		<dependency>
+<<<<<<< HEAD
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-taglibs</artifactId>
 		</dependency>
 		
+=======
+		<groupId>org.springframework.security</groupId>
+		<artifactId>spring-security-taglibs</artifactId>
+		</dependency>
+>>>>>>> 6eae58f6fce42b03d218d69b8954360048ab7306
 		<dependency>
 			<groupId>javax.xml.ws</groupId>
 			<artifactId>jaxws-api</artifactId>
