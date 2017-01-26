@@ -1,9 +1,12 @@
 package com.revature.aes.util;
 
+import org.springframework.stereotype.Component;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+@Component
 public class PropertyReader {
 	
 	public Properties propertyRead(String propertiesFilename) {
