@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 /**
  * 
@@ -26,8 +29,40 @@ public class AssessmentServiceLocatorImpl implements AssessmentServiceLocator {
 	@Autowired
 	PropertyReader propertyReader;
 
-	private static String URI = "http://localhost:8090";
+	private static String URI;
 	private static final String URIExt = "/aes";
+
+	@Inject
+	private org.springframework.boot.autoconfigure.web.ServerProperties serverProperties;
+
+	private static int port;
+
+	private static String ip;
+
+	@PostConstruct
+	protected void postConstruct(){
+
+		configureRestService();
+
+	}
+
+	private void configureRestService(){
+
+		port = serverProperties.getPort();
+
+		try{
+
+			ip = InetAddress.getLocalHost().getHostAddress();
+
+		} catch (UnknownHostException e) {
+			log.error("Failed to set localhost address to ip const");
+			ip = "localhost";
+		}
+
+		URI = ip + ":" + port;
+
+	}
+
 	private RestTemplate restTemplate = new RestTemplate();
 
 	/*@PostConstruct
@@ -59,7 +94,7 @@ public class AssessmentServiceLocatorImpl implements AssessmentServiceLocator {
 		
 		System.out.println("CALLING MATTHEWS SERVICE!");
 		System.out.println(request);
-		ResponseEntity<AssessmentRequest> responseEntity = restTemplate.postForEntity(URI+URIExt+"/user/RandomAssessment", request, AssessmentRequest.class);
+		ResponseEntity<AssessmentRequest> responseEntity = restTemplate.postForEntity("http://"+URI+URIExt+"/user/RandomAssessment", request, AssessmentRequest.class);
 		AssessmentRequest response = responseEntity.getBody();
 		log.debug(lines);
 		log.debug(response.toString());

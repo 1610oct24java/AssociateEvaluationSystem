@@ -96,6 +96,7 @@ public class GetAssessmentController {
 			ip = InetAddress.getLocalHost().getHostAddress();
 
 		} catch (UnknownHostException e) {
+			log.error("Failed to set localhost address to ip const");
 			ip = "localhost";
 		}
 
