@@ -43,8 +43,9 @@ public class IpConf {
     public String getEc2HostName(){
 
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.exchange("http://169.254.169.254/latest/meta-data/public-hostname", HttpMethod.GET, null, String.class);
-        return response.getBody()+":"+getPort();
+        //ResponseEntity<String> response = restTemplate.exchange("http://169.254.169.254/latest/meta-data/public-hostname", HttpMethod.GET, null, String.class);
+        //return response.getBody()+":"+getPort();
+        return restTemplate.getForObject("http://169.254.169.254/latest/meta-data/public-hostname", String.class) + ":" + getPort();
 
     }
 
