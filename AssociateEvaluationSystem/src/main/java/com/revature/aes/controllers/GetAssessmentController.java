@@ -18,6 +18,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.MediaType;
 
+import com.revature.aes.config.IpConf;
 import com.revature.aes.logging.Logging;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -76,12 +77,8 @@ public class GetAssessmentController {
 	@Autowired
 	CoreEmailClient coreEmailClient;
 
-	@Inject
-	private org.springframework.boot.autoconfigure.web.ServerProperties serverProperties;
-
-	private static int port;
-
-	private static String ip;
+	@Autowired
+	IpConf ipConf;
 
 	@PostConstruct
 	protected void postConstruct(){
@@ -94,18 +91,7 @@ public class GetAssessmentController {
 
 	private void configureRestService(){
 
-		port = serverProperties.getPort();
-
-		try{
-
-			ip = InetAddress.getLocalHost().getHostAddress();
-
-		} catch (UnknownHostException e) {
-			log.error("Failed to set localhost address to ip const");
-			ip = "localhost";
-		}
-
-		coreEmailClientEndpointAddress = "http://"+ip+":"+port+"/aes/";
+		coreEmailClientEndpointAddress = "http://"+ipConf.getHostName()+"/aes/";
 
 	}
 
@@ -119,20 +105,7 @@ public class GetAssessmentController {
 
 		log.info("Link called " + assessment);
 
-		ProcessBuilder pb = new ProcessBuilder("curl -s http://169.254.169.254/latest/meta-data/public-hostname");
-
-		String localHostname;
-
-		try {
-			localHostname = new BufferedReader(new InputStreamReader((pb.start().getInputStream()))).readLine();
-		} catch (IOException e) {
-			localHostname = "localhost";
-			log.warn("Could not execute command to get hostname");
-		}
-
-
-
-		return "http://" + ip + ":" + port + "/aes/quiz?asmt=" + assessment.getAssessmentId();
+		return coreEmailClientEndpointAddress + "quiz?asmt=" + assessment.getAssessmentId();
 	}
 	
 	@RequestMapping(value = "/submitAssessment", method = RequestMethod.POST)
