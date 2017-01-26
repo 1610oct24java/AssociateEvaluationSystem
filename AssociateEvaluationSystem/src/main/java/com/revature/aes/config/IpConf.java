@@ -44,7 +44,7 @@ public class IpConf {
 
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.exchange("http://169.254.169.254/latest/meta-data/public-hostname", HttpMethod.GET, null, String.class);
-        return response.getBody().split("[")[0]+":"+getPort();
+        return response.getBody()+":"+getPort();
 
     }
 
