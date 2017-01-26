@@ -44,4 +44,6 @@ public interface AssessmentDAO extends JpaRepository<Assessment, Integer> {
 	 * 		The grade you're looking for
 	 */
 	public Integer findGradeByUser(User user);
+
+	public List<Assessment> findAssessmentsByUser(User usr);
 }

@@ -73,6 +73,9 @@ public class GetAssessmentController {
 	@Autowired
 	QuestionService questService;
 
+	@Autowired
+	CoreEmailClient coreEmailClient;
+
 	@Inject
 	private org.springframework.boot.autoconfigure.web.ServerProperties serverProperties;
 
@@ -87,6 +90,8 @@ public class GetAssessmentController {
 
 	}
 
+	private String coreEmailClientEndpointAddress = "http://localhost/aes/";
+
 	private void configureRestService(){
 
 		port = serverProperties.getPort();
@@ -100,11 +105,13 @@ public class GetAssessmentController {
 			ip = "localhost";
 		}
 
+		coreEmailClientEndpointAddress = "http://"+ip+":"+port+"/aes/";
+
 	}
 
 	private Logging log = new Logging();
 
-	private String coreEmailClientEndpointAddress = "http://localhost/aes/";
+
 
 	@RequestMapping(value = "/link", method = RequestMethod.POST, consumes = {
 			MediaType.APPLICATION_JSON })
@@ -205,10 +212,11 @@ public class GetAssessmentController {
 		service.updateAssessment(assessment);
 		System.out.println("GetAssessmentController.saveAssessmentAnswers: Assessment should now be saved.");
 		
-		int recruiterId = assessment.getUser().getRecruiterId();
-		String recruiterEmail = UsersService.findOne(recruiterId).getEmail();
-		
-		new CoreEmailClient(coreEmailClientEndpointAddress ).sendEmailAfterGrading(recruiterEmail, assessment.getAssessmentId());
+		/*int recruiterId = assessment.getUser().getRecruiterId();
+		String recruiterEmail = UsersService.findOne(recruiterId).getEmail();*/
+
+		coreEmailClient.setServiceHost(coreEmailClientEndpointAddress);
+		log.info("Email sent? " + coreEmailClient.sendEmailAfterGrading(assessment.getUser().getEmail(), assessment.getAssessmentId()));
 		
 		return "{\"success\":\"ok\"}";
 	}
