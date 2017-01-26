@@ -29,7 +29,7 @@
 					<div class="progress-bar" role="progressbar"
 						ng-class="{'progress-bar-danger': seconds <= 300, 'progress-bar-warning': seconds <= 900, 'progress-bar-success': seconds > 900}"
 						aria-valuenow="barUpdate" aria-valuemin="0" aria-valuemax="100"
-						ng-style="barUpdate"><span ng-class="timerTextColor">{{timeLeft}}</span>
+						ng-style="barUpdate"><span ng-style="timerTextColor">{{timeLeft}}</span>
 					</div>
 				</div>
 				

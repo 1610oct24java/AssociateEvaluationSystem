@@ -11,6 +11,8 @@ app.controller('CountdownController', function($scope, $rootScope, $interval, $t
 	var timer = $interval(function(){
 		$scope.barUpdate = {width:getBarUpdate()+'%'};
 		
+		// Change timer text colors once the color has decreased by 50%
+		// to a darker grey color to keep readability
 		if ($scope.seconds != -111 && ($scope.seconds < startTime/2))
 		{
 			$scope.timerTextColor = {color:'#474C55'};
