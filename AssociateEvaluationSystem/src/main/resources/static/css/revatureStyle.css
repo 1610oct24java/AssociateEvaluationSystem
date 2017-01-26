@@ -138,7 +138,7 @@ body {
 	text-decoration: none;
 }
 
-.navbar-link {
+.navbar-link-notyou {
 	font-size: 14px;
 	text-decoration: underline;
 	font-family: 'futura-book';
@@ -272,7 +272,7 @@ body {
 }
 
 .glyph-dark-grey {
-	color: #434851
+	color: #434851;
 }
 
 .glyph-noBorder {
@@ -295,6 +295,10 @@ i {
 	background-color: #f26925;
 }
 
+hr {
+	width: 90%;
+}
+
 /* The side navigation menu */
 .sidenav {
     height: 100%; /* 100% Full-height */
@@ -308,6 +312,10 @@ i {
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 60px; /* Place content 60px from the top */
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+span.badge a {
+	color: #ffffff;
 }
 
 /* The navigation menu links */
@@ -356,6 +364,7 @@ i {
     left:25%; /** you can make changes here to change position **/
     top:25%;
     font-size:12px;
+    color: #ffffff;
     z-index: 3;
 }
 
@@ -415,7 +424,7 @@ nav-link {
 	background-color: #fefefe;
 	font-family: 'futura-book';
 	margin: 15% auto;
-	padding: 20px;
+	padding: 24px;
 	border: 1px solid #888;
 	width: 70%;
 	text-align: center;
