@@ -48,7 +48,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 		if(q.question.format.formatName === "Drag and Drop") {
 			for (var i = 0; i < q.question.dragdrop.length; i++) {
 				var assessmentDragDrop = {
-						assessmentDragDropId : 0,//((q.questionId) * 100 + i),
+						assessmentDragDropId : 0, //q.question.questionId,
 						userOrder : i+1,
 						assessmentId : $scope.protoTest.assessmentId,
 						dragDrop : q.question.dragdrop[i]

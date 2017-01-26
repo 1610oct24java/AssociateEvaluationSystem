@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -251,6 +252,7 @@ public class GetAssessmentController {
 						{
 							responseMap.put("msg", "deny");
 						}else {
+							
 							// Add modified time limit since assessment is still in progress
 							responseMap.put("timeLimit", modifiedTimelimit);
 							responseMap.put("msg", "allow");
