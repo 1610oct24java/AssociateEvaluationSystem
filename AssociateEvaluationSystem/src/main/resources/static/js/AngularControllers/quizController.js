@@ -9,6 +9,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 	$scope.questions = [];
 	$rootScope.snippetSubmissions = [];
 	$scope.protoTest2 = {};
+	$scope.testtaker = "loading...";
 	getQuizQuestions();
 	
 	//console.log(window.location.href);
@@ -35,6 +36,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 			makeState(i);
 			makeAnswers(i);
 		}
+		$scope.testtaker = $rootScope.protoTest.user.firstName + " " + $rootScope.protoTest.user.lastName;
 	};
 
 	$scope.collapseQuestion = function(index) {

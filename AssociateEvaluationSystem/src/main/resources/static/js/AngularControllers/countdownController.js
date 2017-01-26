@@ -1,18 +1,24 @@
 /* COUNTDOWN TIMER LOGIC */
 app.controller('CountdownController', function($scope, $rootScope, $interval, $timeout) {
 	
-	var startTime = 3600;	// default
+	var startTime = -111;	// default to show loading message
 	$scope.seconds = startTime;
 	$scope.timeLeft = "";
 	$scope.barUpdate = getBarUpdate();
 	$scope.submitModal = document.getElementById("submitModal");
+	$scope.timerTextColor = {color:'#ffffff'};
     
 	var timer = $interval(function(){
 		$scope.barUpdate = {width:getBarUpdate()+'%'};
 		
+		if ($scope.seconds != -111 && ($scope.seconds < startTime/2))
+		{
+			$scope.timerTextColor = {color:'#474C55'};
+		}
+		
 		//WHEN THE TIMER REACHES ZERO,
 		//OPEN THE SUBMIT MODAL
-		if ($scope.seconds < 0)
+		if ($scope.seconds < 0 && $scope.seconds != -111)
 		{
 			$interval.cancel(timer);
 			
@@ -23,18 +29,26 @@ app.controller('CountdownController', function($scope, $rootScope, $interval, $t
 	}, 1000);
 	
 	function getBarUpdate() {
-		$scope.seconds = $scope.seconds - 1;
-		
-		var min = Math.floor($scope.seconds / 60);
-		var sec = $scope.seconds % 60;
-		
-		if (min < 1) { 
-			$scope.timeLeft = sec + "s";
+		// Until the time limit is loaded, display loading message
+		if ($scope.seconds == -111)
+		{
+			$scope.timeLeft = "Loading...";
+			return -111;
+			
 		}else {
-			$scope.timeLeft = min + "m " + sec + "s";
+			$scope.seconds = $scope.seconds - 1;
+			
+			var min = Math.floor($scope.seconds / 60);
+			var sec = $scope.seconds % 60;
+			
+			if (min < 1) { 
+				$scope.timeLeft = sec + "s";
+			}else {
+				$scope.timeLeft = min + "m " + sec + "s";
+			}
+			
+			return (($scope.seconds) / startTime) * 100;
 		}
-		
-		return (($scope.seconds) / startTime) * 100;
 	}
 	
 	function showSubmitModal() {
