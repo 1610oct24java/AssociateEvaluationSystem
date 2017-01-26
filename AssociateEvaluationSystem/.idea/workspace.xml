@@ -3,11 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="a4cbb831-4b5f-45da-9953-ff542680f0f8" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../.gitignore" afterPath="$PROJECT_DIR$/../.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/revature/aes/controllers/GetAssessmentController.java" afterPath="$PROJECT_DIR$/src/main/java/com/revature/aes/controllers/GetAssessmentController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/revature/aes/dao/AssessmentDAO.java" afterPath="$PROJECT_DIR$/src/main/java/com/revature/aes/dao/AssessmentDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/revature/aes/grading/CoreEmailClient.java" afterPath="$PROJECT_DIR$/src/main/java/com/revature/aes/grading/CoreEmailClient.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/revature/aes/mail/Mail.java" afterPath="$PROJECT_DIR$/src/main/java/com/revature/aes/mail/Mail.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/revature/aes/mail/MailObject.java" afterPath="$PROJECT_DIR$/src/main/java/com/revature/aes/mail/MailObject.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -36,10 +33,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="GetAssessmentController.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="GetAssessmentController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/revature/aes/controllers/GetAssessmentController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
+            <state relative-caret-position="666">
               <caret line="218" column="103" lean-forward="false" selection-start-line="218" selection-start-column="103" selection-end-line="218" selection-end-column="103" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -47,6 +44,16 @@
                 <element signature="method#getAssessment#0;class#GetAssessmentController#0" expanded="false" />
                 <element signature="method#quickSaveAssessment#0;class#GetAssessmentController#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="814">
+              <caret line="55" column="21" lean-forward="false" selection-start-line="55" selection-start-column="21" selection-end-line="55" selection-end-column="21" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -163,7 +170,6 @@
         <option value="$PROJECT_DIR$/src/main/java/com/revature/aes/restcontroller/AssessmentRestController.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/revature/aes/loader/AssessmentRequestLoader.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/revature/aes/logging/Logging.java" />
-        <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/com/revature/aes/Application.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/revature/aes/beans/AssessmentAuth.java" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/core/index.html" />
@@ -190,6 +196,7 @@
         <option value="$PROJECT_DIR$/src/main/java/com/revature/aes/grading/CoreEmailClient.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/revature/aes/mail/MailObject.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/revature/aes/controllers/GetAssessmentController.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>
   </component>
@@ -278,11 +285,33 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AssociateEvaluationSystem" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="AssociateEvaluationSystem" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="aes" />
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="static" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -309,70 +338,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="aes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mail" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="AssociateEvaluationSystem" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="AssociateEvaluationSystem" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="aes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="grading" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="AssociateEvaluationSystem" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="AssociateEvaluationSystem" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="aes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="beans" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -405,23 +370,23 @@
     <property name="project.structure.side.proportion" value="0.0" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Revature\repos\AssociateEvaluationSystem\AssociateEvaluationSystem\src\main\resources\static" />
-      <recent name="C:\Revature\repos\AssociateEvaluationSystem\AssociateEvaluationSystem\src\main\resources\static\js" />
-      <recent name="C:\Revature\repos\AssociateEvaluationSystem\AssociateEvaluationSystem\src\main\resources\static\css" />
-      <recent name="C:\Revature\repos\AssociateEvaluationSystem\AssociateEvaluationSystem\src\main" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.revature.aes.loader" />
-      <recent name="com.revature.aes.encoder" />
-      <recent name="com.revature.aes.beans" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Revature\repos\AssociateEvaluationSystem\AssociateEvaluationSystem\src\main\java\com\revature\aes\config" />
       <recent name="C:\Revature\repos\AssociateEvaluationSystem\AssociateEvaluationSystem\src\main\webapp\js" />
       <recent name="C:\Revature\repos\AssociateEvaluationSystem\AssociateEvaluationSystem\src\main\webapp\WEB-INF\css" />
       <recent name="C:\Revature\repos\AssociateEvaluationSystem\AssociateEvaluationSystem\src\main\resources\templates\core" />
       <recent name="C:\Revature\repos\AssociateEvaluationSystem\AssociateEvaluationSystem\src\main\resources\static\core" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.revature.aes.loader" />
+      <recent name="com.revature.aes.encoder" />
+      <recent name="com.revature.aes.beans" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Revature\repos\AssociateEvaluationSystem\AssociateEvaluationSystem\src\main\resources\static" />
+      <recent name="C:\Revature\repos\AssociateEvaluationSystem\AssociateEvaluationSystem\src\main\resources\static\js" />
+      <recent name="C:\Revature\repos\AssociateEvaluationSystem\AssociateEvaluationSystem\src\main\resources\static\css" />
+      <recent name="C:\Revature\repos\AssociateEvaluationSystem\AssociateEvaluationSystem\src\main" />
     </key>
   </component>
   <component name="RunManager" selected="Spring Boot.Application">
@@ -863,12 +828,12 @@
       <workItem from="1485282418045" duration="496000" />
       <workItem from="1485282951617" duration="9810000" />
       <workItem from="1485353654940" duration="15750000" />
-      <workItem from="1485440068238" duration="16427000" />
+      <workItem from="1485440068238" duration="17634000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="70373000" />
+    <option name="totallyTimeSpent" value="71580000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -903,7 +868,7 @@
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.40897545" sideWeight="0.49666667" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.048264183" sideWeight="0.49666667" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1371719" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23583333" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -986,13 +951,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/core/bigwilliestyle.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/css/bigwilliestyle.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1394,7 +1352,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/revature/aes/controllers/GetAssessmentController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
+        <state relative-caret-position="666">
           <caret line="218" column="103" lean-forward="false" selection-start-line="218" selection-start-column="103" selection-end-line="218" selection-end-column="103" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -1402,6 +1360,14 @@
             <element signature="method#getAssessment#0;class#GetAssessmentController#0" expanded="false" />
             <element signature="method#quickSaveAssessment#0;class#GetAssessmentController#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="814">
+          <caret line="55" column="21" lean-forward="false" selection-start-line="55" selection-start-column="21" selection-end-line="55" selection-end-column="21" />
+          <folding />
         </state>
       </provider>
     </entry>
