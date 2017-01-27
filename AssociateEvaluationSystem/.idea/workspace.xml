@@ -5,9 +5,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../.gitignore" afterPath="$PROJECT_DIR$/../.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/revature/aes/config/IpConf.java" afterPath="$PROJECT_DIR$/src/main/java/com/revature/aes/config/IpConf.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/revature/aes/mail/Mail.java" afterPath="$PROJECT_DIR$/src/main/java/com/revature/aes/mail/Mail.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/application.properties" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/templates/asmt/expired.html" afterPath="$PROJECT_DIR$/src/main/resources/templates/asmt/expired.html" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -46,11 +43,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="IpConf.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="IpConf.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/revature/aes/config/IpConf.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="155">
-              <caret line="26" column="45" lean-forward="false" selection-start-line="26" selection-start-column="45" selection-end-line="26" selection-end-column="45" />
+              <caret line="26" column="44" lean-forward="false" selection-start-line="26" selection-start-column="44" selection-end-line="26" selection-end-column="44" />
               <folding />
             </state>
           </provider>
@@ -59,8 +56,8 @@
       <file leaf-file-name="Mail.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/revature/aes/mail/Mail.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="226">
-              <caret line="50" column="66" lean-forward="false" selection-start-line="50" selection-start-column="66" selection-end-line="50" selection-end-column="66" />
+            <state relative-caret-position="1254">
+              <caret line="57" column="52" lean-forward="false" selection-start-line="57" selection-start-column="45" selection-end-line="57" selection-end-column="52" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -68,7 +65,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="expired.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="expired.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/templates/asmt/expired.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="594">
@@ -158,10 +155,10 @@
         <option value="$PROJECT_DIR$/src/main/java/com/revature/aes/config/ipConf.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/revature/aes/service/RestServicesImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/revature/aes/controllers/GetAssessmentController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/revature/aes/config/IpConf.java" />
         <option value="$PROJECT_DIR$/src/main/resources/application.properties" />
         <option value="$PROJECT_DIR$/src/main/java/com/revature/aes/mail/Mail.java" />
         <option value="$PROJECT_DIR$/src/main/resources/templates/asmt/expired.html" />
+        <option value="$PROJECT_DIR$/src/main/java/com/revature/aes/config/IpConf.java" />
       </list>
     </option>
   </component>
@@ -911,12 +908,12 @@
       <workItem from="1485282951617" duration="9810000" />
       <workItem from="1485353654940" duration="15750000" />
       <workItem from="1485440068238" duration="23947000" />
-      <workItem from="1485527558891" duration="5253000" />
+      <workItem from="1485527558891" duration="5439000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="83146000" />
+    <option name="totallyTimeSpent" value="83332000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1378,14 +1375,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/revature/aes/config/IpConf.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="155">
-          <caret line="26" column="45" lean-forward="false" selection-start-line="26" selection-start-column="45" selection-end-line="26" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="578">
@@ -1394,20 +1383,28 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/asmt/expired.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="594">
+          <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/revature/aes/mail/Mail.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="226">
-          <caret line="50" column="66" lean-forward="false" selection-start-line="50" selection-start-column="66" selection-end-line="50" selection-end-column="66" />
+        <state relative-caret-position="1254">
+          <caret line="57" column="52" lean-forward="false" selection-start-line="57" selection-start-column="45" selection-end-line="57" selection-end-column="52" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/templates/asmt/expired.html">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/revature/aes/config/IpConf.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="594">
-          <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+        <state relative-caret-position="155">
+          <caret line="26" column="44" lean-forward="false" selection-start-line="26" selection-start-column="44" selection-end-line="26" selection-end-column="44" />
           <folding />
         </state>
       </provider>
