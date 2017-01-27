@@ -1,0 +1,27 @@
+<div ng-app='multipleSelectApp'>		
+	<br>			
+	<table class="table table-hover">  
+		<thead>
+		    <tr>
+			    <th>Answer</th>
+			    <th>Text</th>
+			    <th>Remove</th>
+		    </tr>
+	    </thead> 
+		<tbody>
+			<tr ng-model='option' ng-repeat='each in answerList'>	
+				<td>
+					<span class='theList-{{each.answer}}'>
+						<input type='checkbox' ng-model='answer' value={{each.option}} ng-change='selectedAnswer($index,answer)'>
+					</span>
+				</td>			
+				<td>
+					<span class='theList-{{each.option}}'>{{each.option}}</span>
+				</td>					
+				<td>
+					<button type ='button' ng-click="removeOption($index)" ng-model='option' class="btn ">X</button>
+				</td>								
+			</tr>
+		</tbody>
+	</table>													
+</div>

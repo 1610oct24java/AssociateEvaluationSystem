@@ -1,0 +1,25 @@
+<div ng-app='multipleChoiceApp'>				
+	<br>	
+	<table class="table table-hover">
+		<thead>
+		    <tr>
+			    <th>Answer</th>
+			    <th>Text</th>
+			    <th>Remove</th>
+		    </tr>
+		</thead> 
+		<tbody>				
+			<tr ng-model='option' ng-repeat='each in answerList'>
+				<td>
+					<input type='radio' ng-model='answer' name="response" value="true" ng-click='setChoiceForQuestion(answerList,each)'>	
+				</td>
+				<td>
+					<span class='theList-{{each.option}}'>{{each.option}}</span>
+				</td>
+				<td>
+					<button type ='button' ng-click="removeOption($index)" ng-model='option' class="btn ">X</button>
+				</td>
+			</tr>				
+		</tbody>
+	</table>	
+</div>

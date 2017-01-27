@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Questions</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">       
+</head>
+	<body ng-app="putInQuestion" ng-controller="QuestionCtrl">		
+		<div class="well">
+			<div class="well"> 
+				<div class="row ">
+					<div class="col-md-4">
+						<label >Select Format:</label>
+						<br>
+			  			<select ng-model='format' ng-change="go(format)"> 			
+				    		<option disabled="disabled" selected="selected">Select a Format</option>
+					  		<option ng-repeat= "format in formats" value={{format.formatName}}>{{format.formatType}}</option>					    		
+			  			</select>	
+			  		</div>
+			  		<div class="col-md-4">
+			  			<label for="Question">Question Text:</label>
+			  			
+	  						<textarea class="form-control" rows="5" id="Question" ng-model="questionText" required></textarea>
+	  					
+			  		</div>
+		  		</div>
+			</div>
+
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<label for="category/tags">Add Category and/or Tags</label>	
+				</div>			
+				<div class ="panel-body">	
+					<div class="row">					
+						<div class="col-md-3">
+							<label for="Category">Select Categor(y/ies):</label>
+							<div>
+					  			<select ng-model='category'> 
+						  			<option disabled="disabled" selected="selected">Select a Category</option>
+						  			<option ng-repeat= "category in categories">{{category}}</option>					  		
+					  			</select>
+					  			<button type="button" ng-click = 'addCategory()'>Add</button>
+			  				</div>
+			  			</div>
+			  			<div class="col-md-3">
+				  			<table class = "table table-hover">
+					  			<tbody>
+					  				<tr ng-model='category' ng-repeat='ones in categoryList'>
+						  				<td>
+					  						<span class='theList-{{ones.category}}'>{{ones}}</span>
+					  					</td>
+					  					<td>
+					  						<button type ='button' ng-click="removeCategory($index)" ng-model='category' class="btn ">X</button>
+					  					</td>	  					
+					  				</tr>	
+					  			</tbody>
+				  			</table>			  		
+						</div>						
+						<div class=" col-md-3">
+							<label for="Tag">Select Tag(s):</label>
+							<!-- Remove hard coding later change to pull from DB-->
+							<div>
+					  			<select ng-model='tag'> 
+					  				<option disabled="disabled" selected="selected">Select a Tag</option>
+						  			<option ng-repeat= "tag in tags">{{tag}}</option>
+					  			</select>
+					  			<button type="button" ng-click = 'addTag()'>Add</button>
+				  			</div>
+			  			</div>
+			  			<div class=" col-md-3">
+				  			<table class="table table-hover">
+					  			<tbody>
+						  			<tr ng-model='tag' ng-repeat='ones in tagList'>
+							  			<td>
+					  						<span class='theList-{{ones.tag}}'>{{ones}}</span>
+					  					</td>
+					  					<td>
+					  						<button type ='button' ng-click="removeTag($index)" ng-model='tag' class="btn">X</button>
+					  					</td>
+				  					</tr>
+				  				</tbody>
+			  				</table>
+	  					</div>		  			
+					</div>				
+				</div>
+			</div>	
+
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<div class = "row">
+						<div class = "col-md-6">
+							<label for="Tag">Add Choices</label>
+						</div>
+						<div class = "col-md-6">													
+							
+							<form ng-submit="addOption()">
+								<label>
+								Type Choice:
+								</label>
+								<input type="text" ng-model="option" placeholder='put it here' required />
+								<input type ='submit' value="Add Choice">
+							</form>	
+							
+						</div>
+					</div>	
+				</div>
+				<div class ="panel-body">
+					<div ui-view>
+					</div>				
+				</div>
+			</div>
+			<div class = "row">
+				<div class= "col-md-offset-5 col-md-4">
+					<button type="button" ng-click="saveQuestion()">Add Question</button>
+
+				</div>
+				<div class= " col-md-3">
+					<button type="button" ng-click="clearQuestion()">Clear Question</button>
+				</div>
+			</div>
+
+		</div>
+	
+	 	<script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="https://code.angularjs.org/1.5.8/angular.js"></script>
+		<script src="https://code.angularjs.org/1.5.8/angular-route.js"></script>
+		<script src ="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.js"></script>
+		
+  		<script src="app.js"></script>
+  		<script src="QuestionCtrl.js"></script> 		
+  		<script src="MultipleSelectCtrl.js"></script>
+  		<script src="MultipleChoiceCtrl.js"></script>
+  		<script src="QuestionFactory.js"></script>
+
+	</body>
+</html>
