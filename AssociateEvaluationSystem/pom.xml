@@ -257,7 +257,17 @@
 			<artifactId>aws-java-sdk</artifactId>
 			<version>1.11.22</version>
 		</dependency>
+<<<<<<< HEAD
 		
+=======
+		<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-ec2 -->
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-ec2</artifactId>
+			<version>1.9.0</version>
+		</dependency>
+
+>>>>>>> b6d61952ae7f1ee2930f1316a2a582b37d18a91c
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>

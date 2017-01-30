@@ -3,6 +3,7 @@ package com.revature.aes.service;
 import com.revature.aes.beans.AssessmentAuth;
 import com.revature.aes.beans.AssessmentRequest;
 import com.revature.aes.beans.User;
+import com.revature.aes.config.IpConf;
 import com.revature.aes.loader.AssessmentRequestLoader;
 import com.revature.aes.locator.AssessmentServiceLocator;
 import com.revature.aes.logging.Logging;
@@ -24,10 +25,8 @@ public class RestServicesImpl implements RestServices {
 	@Autowired
 	private AssessmentAuthService authService;
 
-	@Inject
-	private org.springframework.boot.autoconfigure.web.ServerProperties serverProperties;
-
-	private static int port;
+	@Autowired
+	private IpConf ipConf;
 
 	private static String ip;
 
@@ -40,16 +39,7 @@ public class RestServicesImpl implements RestServices {
 
 	private void configureRestService(){
 
-		port = serverProperties.getPort();
-
-		try{
-
-			ip = InetAddress.getLocalHost().getHostAddress();
-
-		} catch (UnknownHostException e) {
-			log.error("Failed to set localhost address to ip const");
-			ip = "localhost";
-		}
+		ip = ipConf.getHostName();
 
 	}
 
@@ -71,7 +61,7 @@ public class RestServicesImpl implements RestServices {
 		
 		AssessmentAuth auth = new AssessmentAuth();
 		auth.setUrlAssessment(link);
-		auth.setUrlAuth("http://" + ip + ":" + port + "/aes");
+		auth.setUrlAuth("http://" + ip + "/aes");
 		auth.setUserId(userId);
 		
 		authService.save(auth);

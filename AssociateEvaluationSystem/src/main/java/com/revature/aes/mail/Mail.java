@@ -7,6 +7,7 @@ import com.revature.aes.dao.AssessmentDAO;
 import com.revature.aes.dao.UserDAO;
 import com.revature.aes.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
@@ -45,31 +46,29 @@ public class Mail {
 			switch (m.getType()){
 			
 			case "candidateNeedsQuiz":
-				ms.sendEmail(ms.setupMessage(email, "Revature Quiz", CANIDATE_COMPLETED_BODY + "Link: " + m.getLink() 
-						+ "\nTemporary Pass: " + m.getTempPass()));
+
+				SimpleMailMessage needQuizMessage = ms.setupMessage(email, "Revature Quiz", CANIDATE_COMPLETED_BODY + "Link: " + m.getLink()
+						+ "\nTemporary Pass: " + m.getTempPass());
+						needQuizMessage.setFrom("rev.thompson.noreply@gmail.com");
+				ms.sendEmail(needQuizMessage);
 				break;
 				
 			case "candidateNotCompleted":
-				ms.sendEmail(ms.setupMessage(email, "Quiz Timer Expired", CANDIDATE_NOT_COMPLETE_BODY));
-				ms.sendEmail(ms.setupMessage(recruiterEmail, candidateName + " did not complete their quiz", "The timer for: " + candidateName + " has expired and their temporary password is no longer invalid."));
+				SimpleMailMessage notCompletedCandidateMessage = ms.setupMessage(email, "Quiz Timer Expired", CANDIDATE_NOT_COMPLETE_BODY);
+				notCompletedCandidateMessage.setFrom("rev.thompson.noreply@gmail.com");
+				ms.sendEmail(notCompletedCandidateMessage);
+				SimpleMailMessage notCompletedRecruiterMessage = ms.setupMessage(recruiterEmail, candidateName + " did not complete their quiz", "The timer for: " + candidateName + " has expired and their temporary password is no longer invalid.");
+				notCompletedCandidateMessage.setFrom("rev.thompson.noreply@gmail.com");
+				ms.sendEmail(notCompletedCandidateMessage);
 				break;
 			
 			case "candidateCompleted":
 				int grade = ad.findAssessmentByAssessmentId(m.getAssessmentId()).getGrade();
-				/*int grade = 0;
-				List<Assessment> assList = ad.findAssessmentsByUser(candidate);
-				Timestamp mostRecent = new Timestamp(0);
-				for(Assessment a: assList){
 
-					if (a.getFinishedTimeStamp().after(mostRecent)){
-
-						grade = a.getGrade();
-
-					}
-
-				}*/
-				ms.sendEmail(ms.setupMessage(recruiterEmail, candidateName + " has completed quiz", candidateName
-						+RECRUITER_COMPLETED_BODY+String.valueOf(grade)));
+				SimpleMailMessage completedMessage = ms.setupMessage(recruiterEmail, candidateName + " has completed quiz", candidateName
+						+RECRUITER_COMPLETED_BODY+String.valueOf(grade));
+				completedMessage.setFrom("rev.thompson.noreply@gmail.com");
+				ms.sendEmail(completedMessage);
 				break;
 			default:
 				break;
