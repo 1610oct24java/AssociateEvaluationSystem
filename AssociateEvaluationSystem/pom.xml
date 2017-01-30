@@ -54,16 +54,10 @@
 		</dependency>
 		
 		<dependency>
-<<<<<<< HEAD
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-taglibs</artifactId>
 		</dependency>
 		
-=======
-		<groupId>org.springframework.security</groupId>
-		<artifactId>spring-security-taglibs</artifactId>
-		</dependency>
->>>>>>> 6eae58f6fce42b03d218d69b8954360048ab7306
 		<dependency>
 			<groupId>javax.xml.ws</groupId>
 			<artifactId>jaxws-api</artifactId>
@@ -257,9 +251,7 @@
 			<artifactId>aws-java-sdk</artifactId>
 			<version>1.11.22</version>
 		</dependency>
-<<<<<<< HEAD
 		
-=======
 		<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-ec2 -->
 		<dependency>
 			<groupId>com.amazonaws</groupId>
@@ -267,7 +259,6 @@
 			<version>1.9.0</version>
 		</dependency>
 
->>>>>>> b6d61952ae7f1ee2930f1316a2a582b37d18a91c
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
