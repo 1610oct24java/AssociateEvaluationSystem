@@ -21,10 +21,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-				.antMatchers("/css/**", "/js/**", "/images/**", "/rest/**")
+				.antMatchers("/css/**", "/js/**", "/images/**", "/rest/**", "/images/**", "/site-images/**", "/user/**")
 				.permitAll();
 		
-		http.authorizeRequests().antMatchers("/**").permitAll().and().authorizeRequests().and().csrf().disable();
+		http.authorizeRequests().antMatchers("/*/recruit").hasRole("RECRUITER").and().authorizeRequests().and().csrf().disable();//.permitAll().and().authorizeRequests().and().csrf().disable();
 		
 		http.authorizeRequests().antMatchers("/").permitAll().anyRequest()
 		.authenticated()

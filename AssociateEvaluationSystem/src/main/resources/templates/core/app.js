@@ -37,7 +37,7 @@ app.controller('LoginCtrl', function($scope, $http, SITE_URL, API_URL, ROLE) {
 		console.log('LOGIN CALLLED');
 		makeUser($scope);
 		console.log('MAKE USER CALLED');
-		$http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGIN,'', $scope.user)
+		$http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGIN,$scope.user, {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8;'})
 		.then(function(response) {
 			console.log('INSIDE POST TO LOGIN');
 			$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
@@ -204,11 +204,11 @@ app.controller('CandidateViewCtrl', function($scope,$http, SITE_URL, API_URL, RO
 
 function makeUser($scope) {
 	var user = {
-			params: {
+/*//			params:*/ {
 				username: $scope.username,
 				password: $scope.password
 			}
-	};
+//	};
 
 	$scope.user = user;
 }
