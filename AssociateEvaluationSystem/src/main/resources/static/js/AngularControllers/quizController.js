@@ -1,5 +1,5 @@
 app.controller("quizController", function($scope, $rootScope, $http, 
-		$location, $window) {
+		$location, $window, $timeout) {
 	$rootScope.states = [];
 	$scope.answers = [];
 	$scope.numEditors = 0;
@@ -208,7 +208,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 		}
 		
 		var incFileType = q.question.snippetTemplates[0].fileType;
-		var newSnippet = new SnippetUpload(editor.getValue(), +id2.substr(6, id2.length), incFileType);
+		var newSnippet = new SnippetUpload(editor.getValue(), id2.substr(6, id2.length), incFileType);
 		
 		for (i = 0; i < $rootScope.snippetSubmissions.length; i++){
 			if ($rootScope.snippetSubmissions[i].questionId = newSnippet.questionId){
@@ -234,6 +234,19 @@ app.controller("quizController", function($scope, $rootScope, $http,
 				+ $scope.numPerPage;
 
 		$scope.filteredQuestions = $scope.questions.slice(begin, end);
+
+		$timeout(function () {
+			for (var i=0; i < $scope.filteredQuestions.length; i++)
+			{
+				if ($scope.filteredQuestions[i].question.format.formatName === "Code Snippet")
+				{
+					var editorId = "editor"+$scope.filteredQuestions[i].question.questionId;
+					var aceEditor = ace.edit(editorId);
+					aceEditor.getSession().setValue($rootScope.snippetSubmissions[0].code, -1);
+				}
+			}
+	    }, 2000);
+		
 	});
 	
 	$scope.$watch('questions', function() {
