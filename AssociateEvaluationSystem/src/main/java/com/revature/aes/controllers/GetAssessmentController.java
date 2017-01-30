@@ -147,10 +147,29 @@ public class GetAssessmentController {
 				key += "Take1_userAnswer_";
 				key += assessment.getAssessmentId() + "_";
 				key += su.getQuestionId();
-				key += ".cpp";        //TODO Not hardcode this?
-				System.out.println(su);
-				System.out.println("Key: " + key);
-				System.out.println(su.getCode());
+				
+				switch(su.getFileType())
+				{
+				case "java": 
+					key += ".java"; 
+					break;
+				case "cpp": 
+					key += ".cpp"; 
+					break;
+		        case "c++":
+		        	key += ".cpp"; 
+					break;
+		        case "c":
+		        	key += ".c";
+		        	break;
+				case "cs":
+					key += ".cs";
+					break;
+				default: 
+					key += ".java"; 
+					break;
+				}
+				
 				s3.uploadToS3(su.getCode(), key);
 				FileUpload fu = new FileUpload();
 				fu.setAssessment(assessment);
