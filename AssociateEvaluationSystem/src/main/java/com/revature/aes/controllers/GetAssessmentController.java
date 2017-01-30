@@ -1,10 +1,6 @@
 package com.revature.aes.controllers;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -14,37 +10,29 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.MediaType;
 
-import com.revature.aes.config.IpConf;
-import com.revature.aes.logging.Logging;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.aes.beans.AnswerData;
 import com.revature.aes.beans.Assessment;
 import com.revature.aes.beans.AssessmentDragDrop;
 import com.revature.aes.beans.FileUpload;
 import com.revature.aes.beans.Option;
 import com.revature.aes.beans.SnippetUpload;
-import com.revature.aes.grading.CoreEmailClient;
-import com.revature.aes.logging.Logging;
+import com.revature.aes.config.IpConf;
 import com.revature.aes.dao.UserDAO;
 import com.revature.aes.grading.CoreEmailClient;
-import com.revature.aes.beans.AnswerData;
-import com.revature.aes.beans.Assessment;
-import com.revature.aes.beans.AssessmentDragDrop;
-import com.revature.aes.beans.FileUpload;
-import com.revature.aes.beans.Option;
+import com.revature.aes.logging.Logging;
 import com.revature.aes.service.AssessmentServiceImpl;
 import com.revature.aes.service.DragDropService;
 import com.revature.aes.service.OptionService;
@@ -125,14 +113,6 @@ public class GetAssessmentController {
 		// Check submitted server time against server retrieved time to make sure time limit not abused.
 		Timestamp quizSubmittedTime = new Timestamp(System.currentTimeMillis());
 		assessment.setFinishedTimeStamp(quizSubmittedTime);
-
-		System.out.println("Server received assessment submission:"
-				+ "\nStarted: " + assessment.getCreatedTimeStamp()
-				+ "\nFinished: " + assessment.getFinishedTimeStamp()
-				+ "\nTime difference in millis: "
-				+ (assessment.getFinishedTimeStamp().getTime() - assessment.getCreatedTimeStamp().getTime()) );
-		System.out.println("TimeLimit=" + assessment.getTimeLimit());
-
 		List<SnippetUpload> lstSnippetUploads = answerData.getSnippetUploads();
 
 		Set<Option> optList = new HashSet<>();
@@ -205,7 +185,7 @@ public class GetAssessmentController {
 			
 		try {
 			assessment = service.getAssessmentById(AssessmentId);
-
+			
 			// Get Date where password issued to user
 			String strPassIssuedTime = assessment.getUser().getDatePassIssued();
 			Timestamp expireDate = Timestamp.valueOf(strPassIssuedTime);
@@ -247,6 +227,7 @@ public class GetAssessmentController {
 						{
 							responseMap.put("msg", "deny");
 						}else {
+							
 							// Add modified time limit since assessment is still in progress
 							responseMap.put("timeLimit", modifiedTimelimit);
 							responseMap.put("msg", "allow");
@@ -261,7 +242,6 @@ public class GetAssessmentController {
 				
 			}else {
 				// Expiration date passed (deny assessment)
-
 				responseMap.put("msg", "deny");
 			}
 			
@@ -332,9 +312,8 @@ public class GetAssessmentController {
 
 		//SAVE the answers into the database (grader not called yet)
 		service.updateAssessment(assessment);
-		System.out.println("GetAssessmentController.saveAssessmentAnswers: Assessment state should now be saved.");
+		System.out.println("GetAssessmentController.saveAssessmentAnswers: Assessment state should now be quick saved.");
 		
 		return "{\"success\":\"ok\"}";
-
 	}
 }

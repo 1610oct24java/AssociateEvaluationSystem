@@ -4,7 +4,7 @@
 <meta charset="ISO-8859-1" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-<title>Revature</title>
+<title>Revature AES</title>
 
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"
@@ -18,9 +18,7 @@
 </head>
 <body>
 
-	<div class="bar-top"></div>
-
-	<div class="text-center">
+	<div class="text-center message-content">
 		<img th:src="@{/images/checkmark.png}"
 			src="../static/images/checkmark.png" alt="Complete!"
 			style="width: 200px;">
@@ -28,12 +26,14 @@
 		<h3>Your assessment has been submitted for grading.</h3>
 	</div>
 
-	<div class="bar-bot text-center">
+	<footer class="text-center">
+		<div>
 		<span class="horizon-line"></span> &copy; Copyright 2017, Revature
 		LLC., All Rights Reserved. Sharing or distribution of the contents of
 		this portal without explicit permission from Revature management is a
 		violation of employment terms with Revature.
-	</div>
+		</div>
+	</footer>
 
 </body>
 </html>

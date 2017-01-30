@@ -9,6 +9,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 	$scope.questions = [];
 	$rootScope.snippetSubmissions = [];
 	$scope.protoTest2 = {};
+	$scope.testtaker = "loading...";
 	getQuizQuestions();
 	
 	//console.log(window.location.href);
@@ -35,6 +36,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 			makeState(i);
 			makeAnswers(i);
 		}
+		$scope.testtaker = $rootScope.protoTest.user.firstName + " " + $rootScope.protoTest.user.lastName;
 	};
 
 	$scope.collapseQuestion = function(index) {
@@ -48,7 +50,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 		if(q.question.format.formatName === "Drag and Drop") {
 			for (var i = 0; i < q.question.dragdrop.length; i++) {
 				var assessmentDragDrop = {
-						assessmentDragDropId : 0,//((q.questionId) * 100 + i),
+						assessmentDragDropId : 0, //q.question.questionId,
 						userOrder : i+1,
 						assessmentId : $scope.protoTest.assessmentId,
 						dragDrop : q.question.dragdrop[i]
@@ -260,7 +262,6 @@ app.controller("quizController", function($scope, $rootScope, $http,
 				initSetup();
 				$rootScope.initQuizNav();
 				$rootScope.initTimer(response.data.timeLimit);
-
 			}else {
 				// Assessment was taken or time expired, redirecting to expired page
 				$window.location.href = '/aes/expired';

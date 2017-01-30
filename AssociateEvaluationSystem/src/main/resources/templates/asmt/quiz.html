@@ -27,16 +27,19 @@
 				<!-- COUNTDOWN -->
 				<div class="progress text-center" ng-controller="CountdownController">
 					<div class="progress-bar" role="progressbar"
-						ng-class="{'progress-bar-danger': seconds < 600, 'progress-bar-warning': seconds >=600}"
+						ng-class="{'progress-bar-danger': seconds <= 300, 'progress-bar-warning': seconds <= 900, 'progress-bar-success': seconds > 900}"
 						aria-valuenow="barUpdate" aria-valuemin="0" aria-valuemax="100"
-						ng-style="barUpdate">{{timeLeft}}
+						ng-style="barUpdate"><span ng-style="timerTextColor">{{timeLeft}}</span>
 					</div>
 				</div>
+				
 				<img th:src="@{/images/revature_logo.png}"
-					src="../static/images/revature_logo.png" alt="Revature"
-					style="width: 150px;"> 
-					
-				<a class="navbar-title" href="http://revature.com">Associate Evaluation System</a>
+					src="../static/images/revature_logo.png" alt="Revature"> 
+				
+				<div class="navbar-title">
+					<a href="http://revature.com">Associate Evaluation System</a>
+					<br>{{testtaker}}, <a class="navbar-link-notyou" href="http://revature.com">(not you?)</a>
+				</div>
 				
 				<button type="button" id="navbarMenuBtn" data-toggle="dropdown"
 					class="btn text-center navbar-menu-btn" onclick="openSideNav()">
@@ -173,6 +176,8 @@
 				<a href="#">Contact</a>
 			</div>
 
+			<hr>
+			
 			<div ng-controller="QuizNavController">
 				<h3>Quiz Navigation</h3>
 				<div id="sideNavTable">
@@ -199,6 +204,11 @@
 		<!-- ------------ -->
 		<div id="submitModal" class="modal">
 			<div class="modal-content">
+				<div class="text-center">
+					<i class="fa fa-cog fa-spin" style="font-size:24px;color:#ef5c1e;vertical-align:top;"></i>
+					<i class="fa fa-cog fa-spin" style="font-size:48px;color:#f26925;"></i>
+					<i class="fa fa-cog fa-spin" style="font-size:36px;color:#ef5c1e;vertical-align:top;"></i>
+    			</div>
 				<p>Thank you for completing the assessment. Your time has
 					expired. Please wait while your assessment is being uploaded.</p>
 				
