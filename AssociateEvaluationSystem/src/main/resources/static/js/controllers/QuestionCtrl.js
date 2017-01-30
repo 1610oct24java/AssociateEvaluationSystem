@@ -30,6 +30,9 @@ app.controller('QuestionCtrl', function($http, $scope) {
 	$scope.selected = {};
 	$scope.tagList = '';
 	$scope.catList = '';
+	$scope.isMultiChoiceOption = false;
+	$scope.isMultiSelectOption = false;
+	$scope.isDragDrop = false;
 	$scope.questionBeingUpdated = '';
 	$scope.format = {
 		format : 0,
@@ -68,6 +71,28 @@ app.controller('QuestionCtrl', function($http, $scope) {
 				$scope.qList = response.data;
 			}); // $http end
 	}; // getQuestionList() end
+	
+	$scope.getQuestion = function(question){
+		console.log(question)
+		$scope.isOption = false;
+		$scope.isDragDrop = false;
+		if(question.format.formatName == "Drag and Drop"){
+			$scope.isDragDrop = true;
+			$scope.isMultiSelectOption = false;
+			$scope.isMultiChoiceOption = false;
+		}
+		else if(question.format.formatName == "Multiple Select"){
+			$scope.isDragDrop = false;
+			$scope.isMultiSelectOption = true;
+			$scope.isMultiChoiceOption = false;
+		}
+		else{
+			$scope.isDragDrop = false;
+			$scope.isMultiSelectOption = false;
+			$scope.isMultiChoiceOption = true;
+		}
+		$scope.currentQuestion = question;
+	}
 	
 	// Adds a option to a Question being created
 	$scope.addOption = function() {
@@ -290,28 +315,89 @@ app.controller('QuestionCtrl', function($http, $scope) {
 		})
 	};
 	
-	$scope.getQuestion = function(question){
-		console.log(question);
-		$scope.currentQuestion = question;
-	}
-	
 	$scope.removeOption = function(option){
-		$http.delete("question/deleteOption/" + option.optionId)
+		$http.post("question/refresh/" + option.optionId, $scope.currentQuestion.questionId)
 		.then(function(response){
-			$scope.getQuestionList();
-			console.log("Should have updated question list.")
+			$scope.currentQuestion = response.data;
+			$scope.getQuestion($scope.currentQuestion);
+			var length = $scope.qList.length;
+			console.log(length);
+			for(let i=0;i<length;i++){
+				if($scope.currentQuestion.questionId == $scope.qList[i].questionId){
+					console.log("Inside if statement.")
+					console.log("curretnQustion: " + $scope.currentQuestion)
+					$scope.qList[i]=$scope.currentQuestion;
+					console.log($scope.qList[i]);
+					break;
+				}				
+			}
+		})	
+	}
+	
+	$scope.removeDDOption = function(dragdrop){
+		$http.post("question/deleteDragDrop/" + dragdrop.dragDropId, $scope.currentQuestion.questionId)
+		.then(function(response){
+			$scope.currentQuestion = response.data;
+			$scope.getQuestion($scope.currentQuestion)
+			var length = $scope.qList.length;
+			console.log(length);
+			for(let i=0;i<length;i++){
+				console.log($scope.qList[i])
+				if($scope.currentQuestion.questionId == $scope.qList[i].questionId){
+					console.log("Inside if statement.")
+					console.log($scope.currentQuestion)
+					$scope.qList[i]=$scope.currentQuestion;
+					console.log($scope.qList[i]);
+					break;
+				}				
+			}
 		})
 	}
 	
-	$scope.removeDDOption = function(option){
-		$http.delete("question/deleteDDOption/" + option.optionId)
+	$scope.addOption = function(newOption){
+		if(newOption != null && newOption != ""){
+		$http.post("question/addOption/" + $scope.currentQuestion.questionId,newOption)
 		.then(function(response){
-			$scope.getQuestionList();
-			console.log("Should have updated question list.")
+			$scope.currentQuestion = response.data;
+			$scope.getQuestion($scope.currentQuestion)
+			var length = $scope.qList.length;
+			for(let i=0;i<length;i++){
+				if($scope.currentQuestion.questionId == $scope.qList[i].questionId){
+					$scope.qList[i]=$scope.currentQuestion;
+					$scope.newOption = "";
+					break;
+				}				
+			}
 		})
+		}
 	}
 	
-	$scope.addOption = function(option){
+	$scope.addDragDrop = function(newDragDrop){
+		console.log("inside method addDragDrop")
+		console.log(newDragDrop)
+		if(newDragDrop != null && newDragDrop != ""){
+			console.log("Inside if")
+		$http.post("question/addDragDrop/" + $scope.currentQuestion.questionId, newDragDrop)
+		.then(function(response){
+			$scope.currentQuestion = response.data;
+			$scope.getQuestion($scope.currentQuestion)
+			var length = $scope.qList.length;
+			for(let i=0;i<length;i++){
+				if($scope.currentQuestion.questionId == $scope.qList[i].questionId){
+					$scope.qList[i]=$scope.currentQuestion;
+					$scope.newDragDrop = "";
+					break;
+				}				
+			}
+		})
+		}
+	}
+	
+	$scope.multiSelectCorrect = function(option){
+		$http.post("question/changeCorrect", option)
+		.then(function(response){
+			$scope.
+		})
 		
 	}
 	

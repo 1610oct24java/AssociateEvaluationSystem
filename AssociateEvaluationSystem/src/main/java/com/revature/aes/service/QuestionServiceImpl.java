@@ -167,4 +167,14 @@ public class QuestionServiceImpl implements QuestionService{
 		return baseQuestion;
 	}
 
+	@Override
+	public Question getQuestionByOption(Option opt) {
+		return qdao.findQuestionByOption(opt);
+	}
+	
+//	@Override
+//	public Question getQuestionByOptionId(Integer id){
+//		return qdao.findQuestionByOptionId(id);
+//	}
+
 }

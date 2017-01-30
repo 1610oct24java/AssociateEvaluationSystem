@@ -1,5 +1,7 @@
 package com.revature.aes.restcontroller;
 
+import static org.mockito.Matchers.anySetOf;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,11 +70,26 @@ public class QuestionRestController
 	 * @return a Question
 	 * a Integer
 	 */
-	@RequestMapping(value = "question/{questionId}", method = RequestMethod.GET, produces =
+	@RequestMapping(value = "question/refresh/{optionId}", method = RequestMethod.POST, produces =
 	{ MediaType.APPLICATION_JSON_VALUE })
-	public Question getQuestionById(@PathVariable Integer questionId)
+	public Question getQuestionByOptionId(@PathVariable Integer optionId, @RequestBody Integer questionId)
 	{
-		return questionService.getQuestionById(questionId);
+		optionService.removeOptionById(optionId);
+		Question question = questionService.getQuestionById(questionId);
+		return question;
+	}
+	
+	/**
+	 * 
+	 * @param id	The id of the option for a drag and drop question to be 
+	 * 				deleted.
+	 */
+	@RequestMapping(value="question/deleteDragDrop/{dragDropId}", method = RequestMethod.POST, produces = 
+			{MediaType.APPLICATION_JSON_VALUE})
+	public Question deleteDragDropById(@PathVariable Integer dragDropId, @RequestBody Integer questionId){
+		ddService.removeDragDropById(dragDropId);
+		Question question = questionService.getQuestionById(questionId);
+		return question;
 	}
 
 	/**
@@ -84,7 +101,6 @@ public class QuestionRestController
 	{ MediaType.APPLICATION_JSON_VALUE })
 	public List<Question> getAllQuestions()
 	{
-		System.out.println(questionService.getAllQuestions());
 		return questionService.getAllQuestions();
 	}
 	
@@ -147,22 +163,42 @@ public class QuestionRestController
 		return questionService.addFullQuestion(question);
 	}
 	
-	/**
-	 * 
-	 * @param id	The id of the option on a specific question to be deleted.
-	 */
-	@RequestMapping(value="question/deleteOption/{id}", method = RequestMethod.DELETE)
-	public void deleteOption(@PathVariable Integer id){
-		optionService.removeOptionById(id);
+	
+	@RequestMapping(value="question/addOption/{questionId}", method = RequestMethod.POST, produces = 
+			{ MediaType.APPLICATION_JSON_VALUE })
+	public Question addOption(@RequestBody String optionText, @PathVariable Integer questionId){
+		
+		Question question = questionService.getQuestionById(questionId);
+		Option option = new Option();
+		option.setOptionText(optionText);
+		option.setQuestion(question);
+		optionService.addOption(option);
+		question.getOption().add(option);
+		return question;
 	}
 	
-	/**
-	 * 
-	 * @param id	The id of the option for a drag and drop question to be 
-	 * 				deleted.
-	 */
-	@RequestMapping(value="question/deleteDragDrop/{id}", method = RequestMethod.DELETE)
-	public void deleteDragDropById(@PathVariable Integer id){
-		ddService.removeDragDropById(id);
+	@RequestMapping(value="question/addDragDrop/{questionId}", method = RequestMethod.POST, produces = 
+		{ MediaType.APPLICATION_JSON_VALUE })
+	public Question addDragDrop(@RequestBody String dragDropText, @PathVariable Integer questionId){
+		Question question = questionService.getQuestionById(questionId);
+		DragDrop dragdrop = new DragDrop();
+		dragdrop.setDragDropText(dragDropText);
+		dragdrop.setQuestion(question);
+		ddService.addDragDrop(dragdrop);
+		question.getDragdrop().add(dragdrop);
+		return question;
+}
+	
+	@RequestMapping(value="question/changeCorrect", method = RequestMethod.POST, produces=
+			{MediaType.APPLICATION_JSON_VALUE})
+	public Option changeCorrect(@RequestBody Option option){
+		if(option.getCorrect()==1){
+			option.setCorrect(0);
+		}
+		else{
+			option.setCorrect(1);
+		}
+		return option;
 	}
+	
 }

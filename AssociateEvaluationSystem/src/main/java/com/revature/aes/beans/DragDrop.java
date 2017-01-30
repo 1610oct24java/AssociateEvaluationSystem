@@ -13,11 +13,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 @Entity
 @Table(name = "AES_DRAG_DROP")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class DragDrop implements Serializable {
 
 	private static final long serialVersionUID = 7681552840411022561L;

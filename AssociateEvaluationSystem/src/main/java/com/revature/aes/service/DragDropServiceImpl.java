@@ -26,4 +26,9 @@ public class DragDropServiceImpl implements DragDropService {
 		ddDao.delete(id);		
 	}
 
+	@Override
+	public DragDrop addDragDrop(DragDrop dragdrop) {
+		return ddDao.save(dragdrop);
+	}
+
 }

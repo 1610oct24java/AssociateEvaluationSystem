@@ -29,85 +29,73 @@
 	<div class="row">
 		<div class="col-md-3">
 			<table class="table table-bordered">
-			<thead>
-				<tr>
-					<th>Question</th>
-					<th>Format</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr ng-repeat="question in qList" ng-click="getQuestion(question)">
-					<td>{{question.questionText}}</td>
-					<td>{{question.format.formatName}}</td>
-				</tr>
-			</tbody>
+				<thead>
+					<tr>
+						<th>Question</th>
+						<th>Format</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="question in qList" ng-click="getQuestion(question)">
+						<td>{{question.questionText}}</td>
+						<td>{{question.format.formatName}}</td>
+					</tr>
+				</tbody>
 			</table>
 		</div>
-	
+
 		<div class="col-md-9">
-			Question: <div>
+			Question:
+			<div>
 				<input type="text" size="60" ng-model="currentQuestion.questionText"></input>
 			</div>
-		Options: <div ng-repeat="option in currentQuestion.option">
-			<div>
-				<input type="text" size="60"  ng-model="option.optionText"></input>
-				<button ng-click="removeOption(option)">shweep</button>
+			<pre>Correct:     Options:</pre>
+			<div ng-show="isMultiChoiceOption">
+				<form>
+				<div ng-repeat="option in currentQuestion.option">
+					<div>
+						<input type="radio" name="correctColors" ng-model="option.correct" ng-click="multiChoiceCorrect(option.correct)">
+						<input type="text" size="60" ng-model="option.optionText"></input>
+						<button ng-click="removeOption(option)">shweep</button>
+					</div>
+				</div>
+				</form>
+				<input type="text" size="60" ng-model="newOption"></input><br>
+				<button ng-click="updateQuestion()">shwoop</button>
+				<button ng-click="addOption(newOption)">shwip</button>
 			</div>
-		</div>
-		<div ng-repeat="dragdrop in currentQuestion.dragdrop">	
-			<div>
-				<input type="text" size="60" ng-model="dragdrop.dragDropText"></input>
-				<button ng-click="removeDDOption(option)">shweep</button>
+			<div ng-show="isMultiSelectOption">
+				<form>
+				<div ng-repeat="option in currentQuestion.option">
+					<div>
+						<input type="checkbox" ng-model="option.correct" ng-true-value="1" ng-click="multiSelectCorrect(option)">
+						<input type="text" size="60" ng-model="option.optionText"></input>
+						<button ng-click="removeOption(option)">shweep</button>
+					</div>
+				</div>
+				</form>
+				<input type="text" size="60" ng-model="newOption"></input><br>
+				<button ng-click="updateQuestion()">shwoop</button>
+				<button ng-click="addOption(newOption)">shwip</button>
 			</div>
-		</div>	
-		<div>
-			<input type="text" size="60" ng-model="newOption"></input>
-		</div>
-		<button ng-click="updateQuestion()">shwoop</button>
-		<button ng-click="addOption()">shwip</button>
+			<div ng-show="isDragDrop">
+				<div ng-repeat="dragdrop in currentQuestion.dragdrop">
+					<div>
+						<input type="text" size="60" ng-model="dragdrop.dragDropText"></input>
+						<button ng-click="removeDDOption(dragdrop)">shweep</button>
+					</div>
+				</div>
+				<input type="text" size="60" ng-model="newDragDrop"></input><br>
+				<button ng-click="updateQuestion()">shwoop</button>
+				<button ng-click="addDragDrop(newDragDrop)">shwip</button>
+			</div>
+			<div>
+				<!-- <input type="text" size="60" ng-model="newOption"></input> -->
+			</div>
+			<!-- <button ng-click="updateQuestion()">shwoop</button>
+		<button ng-click="addOption(newOption)">shwip</button> -->
 		</div>
 	</div>
 
-	<!-- <select ng-model="question"
-			ng-options="question.questionText for question in qList"
-			name="questionUpdate" id="questionUpdate"
-			ng-change="showUpdateQuestion(question)">
-			<option value="" />
-		</select> --> <!-- <div ng-show=show>
-		
-				<label for="format">Question Format</label> <select
-					ng-model="format"
-					ng-options="format.formatName for format in fList" name="format"
-					id="format" ng-change="setFormat()"></select>
-			
-			<label for="questionText">Question</label> <input type="text"
-				ng-model="updatedQuestion.questionText"
-				placeholder="enter question"></input> <input type="sumbit"
-				ng-click="updateQuestion()" class="btn btn-info"
-				value="Update Question"></input>
-		</div>
-		<label for="deleteQuestion">Enter Question ID to delete</label> <input
-			type="number" ng-model="deleteme"></input> <input type="submit"
-			ng-click="deleteQuestion()" class="btn btn-danger"
-			value="Delete Question"></input>
-	</main>
-</div>
-<div>
-	<main class="container">
-		<div>
-			<h3>Edit Questions</h3>
-			<ol>
-				<li ng-repeat="q in ctrl.qList">
-					{{q.questionText}}
-				</li>
-			</ol>
-		</div>
-		<div>
-			<form>
-				<input type="number" ng-model="ctrl.questionBeingUpdated" placeholder="Question #">
-				<input type="text" ng-model="ctrl.catList" placeholder="Add Categories">
-				<input type="text" ng-model="ctrl.tagList" placeholder="Add Tags">
-				<input type="submit" ng-click="ctrl.addCategoriesAndTags()">
-			</form>
-		</div> --> </main>
+ </main>
 </div>
