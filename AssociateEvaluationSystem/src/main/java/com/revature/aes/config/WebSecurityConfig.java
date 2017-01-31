@@ -13,6 +13,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -24,11 +26,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/css/**", "/js/**", "/images/**", "/rest/**", "/images/**", "/site-images/**", "/user/**")
 				.permitAll();
 		
-		http.authorizeRequests().antMatchers("/*/recruit").hasRole("RECRUITER").and().authorizeRequests().and().csrf().disable();//.permitAll().and().authorizeRequests().and().csrf().disable();
+		http.authorizeRequests().antMatchers("/*/recruit", "/*/view").hasRole("RECRUITER").and().authorizeRequests().and().csrf().csrfTokenRepository(csrfTokenRepository());//.permitAll().and().authorizeRequests().and().csrf().disable();
 		
 		http.authorizeRequests().antMatchers("/").permitAll().anyRequest()
 		.authenticated()
-				.and().formLogin().loginPage("/login").permitAll()
+				.and().formLogin().loginPage("/login").usernameParameter("username").passwordParameter("password").permitAll()
+				.and().httpBasic()
 		.and().logout().logoutUrl("/logout").invalidateHttpSession(true)
 		.deleteCookies("remember-me").permitAll()
 		.and().rememberMe().and().exceptionHandling()
@@ -51,5 +54,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
 		// auth.inMemoryAuthentication().withUser("user").password("password")
 		// .roles("USER");
+	}
+
+	private CsrfTokenRepository csrfTokenRepository(){
+
+		HttpSessionCsrfTokenRepository repository = new HttpSessionCsrfTokenRepository();
+		repository.setHeaderName("X-XSRF-TOKEN");
+		return repository;
+
 	}
 }
