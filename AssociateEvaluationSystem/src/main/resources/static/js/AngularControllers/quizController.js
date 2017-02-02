@@ -7,6 +7,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 	$scope.editors = [];
 	$rootScope.protoTest;
 	$scope.questions = [];
+	$rootScope.snippetStarters = [];
 	$rootScope.snippetSubmissions = [];
 	$scope.protoTest2 = {};
 	$scope.testtaker = "loading...";
@@ -37,6 +38,18 @@ app.controller("quizController", function($scope, $rootScope, $http,
 			makeAnswers(i);
 		}
 		$scope.testtaker = $rootScope.protoTest.user.firstName + " " + $rootScope.protoTest.user.lastName;
+	
+		$timeout(function () {
+			for (var i=0; i < $scope.filteredQuestions.length; i++)
+			{
+				if ($scope.filteredQuestions[i].question.format.formatName === "Code Snippet")
+				{
+					var editorId = "editor"+$scope.filteredQuestions[i].question.questionId;
+					var aceEditor = ace.edit(editorId);
+					aceEditor.getSession().setValue($rootScope.snippetStarters[0], -1);
+				}
+			}
+	    }, 5000);
 	};
 
 	$scope.collapseQuestion = function(index) {
@@ -272,9 +285,13 @@ app.controller("quizController", function($scope, $rootScope, $http,
 				$rootScope.protoTest = response.data.assessment;
 				$scope.questions = $rootScope.protoTest.template.templateQuestion;
 				$rootScope.protoTest.options = [];
+				$rootScope.snippetStarters = response.data.snippets;
 				initSetup();
 				$rootScope.initQuizNav();
 				$rootScope.initTimer(response.data.timeLimit);
+				
+				console.log("SNIPPET_DATA: "+response.data.snippets);
+				
 			}else {
 				// Assessment was taken or time expired, redirecting to expired page
 				$window.location.href = '/aes/expired';

@@ -2,6 +2,7 @@ package com.revature.aes.controllers;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -27,8 +28,13 @@ import com.revature.aes.beans.AnswerData;
 import com.revature.aes.beans.Assessment;
 import com.revature.aes.beans.AssessmentDragDrop;
 import com.revature.aes.beans.FileUpload;
+import com.revature.aes.beans.Format;
 import com.revature.aes.beans.Option;
+import com.revature.aes.beans.Question;
+import com.revature.aes.beans.SnippetTemplate;
 import com.revature.aes.beans.SnippetUpload;
+import com.revature.aes.beans.Template;
+import com.revature.aes.beans.TemplateQuestion;
 import com.revature.aes.config.IpConf;
 import com.revature.aes.dao.UserDAO;
 import com.revature.aes.grading.CoreEmailClient;
@@ -204,6 +210,40 @@ public class GetAssessmentController {
 			
 		try {
 			assessment = service.getAssessmentById(AssessmentId);
+			
+			// --- This portion of code pulls a snippet template from the S3 bucket --- -RicSmith
+			// This list of snippet templates will be added to the response map.
+			List<String> codeStarters = new ArrayList<String>();
+			// Pull out the TemplateQuestion set from the assessment.
+			Set<TemplateQuestion> templateQuestions = assessment.getTemplate().getTemplateQuestion();
+			
+			for (TemplateQuestion tq : templateQuestions)
+			{
+				Question question = tq.getQuestion();						// Get each question.
+				Format questionFormat = question.getFormat();				// Get each question format.
+				
+				// Check to see if this question format is a code snippet.
+				if (questionFormat.getFormatName().equals("Code Snippet"))	
+				{
+					// Pull out the SnippetTemplates from the question.
+					Set<SnippetTemplate> snippetTemplates = question.getSnippetTemplates();
+					
+					// Loop through the snippetTemplates to get their url locations in S3 bucket.
+					for (SnippetTemplate st : snippetTemplates)
+					{
+						String snippetTemplateUrl = st.getTemplateUrl();		// SnippetTemplate URL.
+						String starterCode = s3.readFromS3(snippetTemplateUrl);	// Read snippet starter from S3 bucket.
+						codeStarters.add(starterCode);							// Add snippetTemplate to list.
+					}
+				}
+			}
+			
+			// If code snippet questions exist in the assessment, this array won't be empty.
+			if (!codeStarters.isEmpty())
+			{
+				// Add code starters for snippets to the responseMap that will be sent with the assessment to AngularJS for parsing.
+				responseMap.put("snippets", codeStarters);
+			}
 			
 			// Get Date where password issued to user
 			String strPassIssuedTime = assessment.getUser().getDatePassIssued();
