@@ -37,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.and().rememberMe().and().exceptionHandling()
 		.accessDeniedPage("/error")
 				.and().authorizeRequests().and().csrf().disable();
-		
+
 	}
 
 	@Autowired
