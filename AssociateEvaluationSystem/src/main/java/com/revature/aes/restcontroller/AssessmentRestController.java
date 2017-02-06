@@ -67,7 +67,7 @@ public class AssessmentRestController {
 		// The user id needs to be set to whatever system user is in the AES_USERS table.
 		tmpl.setCreator(userService.getUserById(1));
 
-		User user = userService.getUserByEmail(assReq.getUserEmail());
+		User user = userService.findUserByEmail(assReq.getUserEmail());
 
 		Assessment assessment = new Assessment(user, -1, 30, null, null, tmpl);
 		assServ.saveAssessment(assessment);

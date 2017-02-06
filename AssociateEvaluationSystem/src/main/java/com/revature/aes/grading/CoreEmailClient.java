@@ -1,11 +1,19 @@
 package com.revature.aes.grading;
 
+import com.revature.aes.logging.Logging;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CoreEmailClient {
+
+	@Autowired
+	Logging log;
 
 	// does 
 	private String serviceHost;
@@ -15,14 +23,26 @@ public class CoreEmailClient {
 		this.serviceHost = serviceHost;
 	}
 
+	public void setServiceHost(String serviceHost) {
+		this.serviceHost = serviceHost;
+	}
+
+	public CoreEmailClient() {
+	}
+
 	public boolean sendEmailAfterGrading(String emailAddress, int assessmentId) {
 		HttpClient httpClient = HttpClientBuilder.create().build();
 		try {
 			HttpPost request = new HttpPost(serviceHost + "/user/" + emailAddress + "/mail");
+			log.info("Posting to email service at: " + serviceHost + "user/" + emailAddress + "/mail");
 			StringEntity params = new StringEntity(
 					"{\"link\":\"" 
 					+ "\",\"tempPass\":\"" 
 					+ "\",\"type\":\"" + "candidateCompleted" 
+					+ "\",\"assessmentId\":\"" + assessmentId + "\"} ");
+			log.info("Sending message body: " + "{\"link\":\""
+					+ "\",\"tempPass\":\""
+					+ "\",\"type\":\"" + "candidateCompleted"
 					+ "\",\"assessmentId\":\"" + assessmentId + "\"} ");
 			request.addHeader("content-type", "application/json");
 			request.setEntity(params);

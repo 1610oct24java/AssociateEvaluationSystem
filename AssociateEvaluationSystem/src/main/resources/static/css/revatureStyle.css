@@ -82,8 +82,16 @@ body {
 /* NAVBAR STYLING */
 .progress {
 	margin-bottom: 12px;
+	position: relative;
 }
 
+.progress span {
+    position: absolute;
+    display: block;
+    width: 100%;
+    color:#ffffff;
+ }
+ 
 .navbar {
 	font-family: 'futura-heavy';
 	background-color: #ffffff;
@@ -101,25 +109,39 @@ body {
 	box-shadow: 5px 5px 5px #434851;
 }
 
+.navbar img {
+	display:inline-block;
+	width: 150px;
+	vertical-align: top;
+	margin-left: 8px;
+	margin-right: 14px;
+}
+
 .navbar-title {
-	top: 10px;
-}
-
-.navbar-title:link {
-	color: #474C55;
-	text-decoration: none;
-	margin: 15px 25px;
 	font-size: 25px;
+	display: inline-block;
+	color: #474C55;
 }
 
-.navbar-title:visited {
+.navbar-title a:link {
 	color: #474C55;
 	text-decoration: none;
 }
 
-.navbar-title:hover {
+.navbar-title a:visited {
+	color: #474C55;
+	text-decoration: none;
+}
+
+.navbar-title a:hover {
 	color: #F26925;
 	text-decoration: none;
+}
+
+.navbar-link-notyou {
+	font-size: 14px;
+	text-decoration: underline;
+	font-family: 'futura-book';
 }
 
 .navbar-menu-btn {
@@ -128,6 +150,7 @@ body {
 	font-size: 16px;
 	color: #474C55;
 	transition: 0.3s;
+	display: inline-block;
 }
 
 .navbar-menu-btn:hover {
@@ -139,7 +162,7 @@ body {
 }
 
 .navbar-overlay-spacing {
-	margin-top: 20px;
+	margin-top: 30px;
 }
 
 .rev-grey {
@@ -249,7 +272,7 @@ body {
 }
 
 .glyph-dark-grey {
-	color: #434851
+	color: #434851;
 }
 
 .glyph-noBorder {
@@ -272,6 +295,10 @@ i {
 	background-color: #f26925;
 }
 
+hr {
+	width: 90%;
+}
+
 /* The side navigation menu */
 .sidenav {
     height: 100%; /* 100% Full-height */
@@ -285,6 +312,10 @@ i {
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 60px; /* Place content 60px from the top */
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+span.badge a {
+	color: #ffffff;
 }
 
 /* The navigation menu links */
@@ -333,6 +364,7 @@ i {
     left:25%; /** you can make changes here to change position **/
     top:25%;
     font-size:12px;
+    color: #ffffff;
     z-index: 3;
 }
 
@@ -392,7 +424,7 @@ nav-link {
 	background-color: #fefefe;
 	font-family: 'futura-book';
 	margin: 15% auto;
-	padding: 20px;
+	padding: 24px;
 	border: 1px solid #888;
 	width: 70%;
 	text-align: center;

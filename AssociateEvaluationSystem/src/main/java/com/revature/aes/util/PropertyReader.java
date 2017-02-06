@@ -1,15 +1,18 @@
 package com.revature.aes.util;
 
+import org.springframework.stereotype.Component;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+@Component
 public class PropertyReader {
 	
-	public Properties propertyRead() {
+	public Properties propertyRead(String propertiesFilename) {
 		
 		InputStream inputStream = this.getClass().getClassLoader()
-				.getResourceAsStream("resources/ipconfig.properties");
+				.getResourceAsStream(propertiesFilename);
 		
 		System.out.println("Input stream: " + inputStream);
 		Properties prop = new Properties();

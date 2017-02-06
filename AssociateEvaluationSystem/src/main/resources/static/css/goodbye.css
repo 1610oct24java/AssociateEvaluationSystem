@@ -12,35 +12,50 @@
 
 html, body {
 	height: 100%;
+	background-image: url("../static/images/gray.png");
+	background-color: #f26925;
+	color: #ffffff;
 }
 
 h1 {
 	font-family: 'futura-heavy';
-	color: #474c55;
 }
 
-p {
+h3 {
 	font-family: 'futura-book';
-	color: #474c55;
 }
 
-.bar-top {
-	background-color: #474c55;
-	height: 15%;
-	top: 0;
-	left: 0;
-	width: 100%;
-	margin-bottom: 30px;
+.message-content {
+	background-color: #f26925;
+	margin-top: 10%;
+	padding-top: 80px;
+	padding-bottom: 50px;
 }
 
-.bar-bot {
+footer {
 	position: absolute;
-	background-color: #474c55;
-	color: #ffffff;
+	background: rgba(0,0,0,0);
 	height: 15%;
 	bottom: 0;
 	left: 0;
 	right: 0;
 	width: 100%;
-	padding-top: 20px;
+	padding: 20px 20px;
+}
+
+.horizon-line {
+	display: block;
+	border: none;
+	color: #474C55;
+	height: 1px;
+	margin-bottom: 10px;
+	background: #ffffff; /* for unsupported browsers */
+	background: -webkit-linear-gradient(left, #474C55, #ffffff, #474C55);
+	/* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(right, #474C55, #ffffff, #474C55);
+	/* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(right, #474C55, #ffffff, #474C55);
+	/* For Firefox 3.6 to 15 */
+	background: linear-gradient(to right, #474C55, #ffffff, #474C55);
+	/* Standard syntax */
 }
