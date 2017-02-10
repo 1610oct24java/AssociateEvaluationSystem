@@ -289,9 +289,13 @@ app.controller("quizController", function($scope, $rootScope, $http,
 				initSetup();
 				$rootScope.initQuizNav();
 				$rootScope.initTimer(response.data.timeLimit);
+<<<<<<< HEAD
 				
 				console.log("SNIPPET_DATA: "+response.data.snippets);
 				
+=======
+        
+>>>>>>> ac983401c6893402c77bed4e256360c5e13e28e8
 			}else {
 				// Assessment was taken or time expired, redirecting to expired page
 				$window.location.href = '/aes/expired';

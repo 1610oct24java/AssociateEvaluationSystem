@@ -31,24 +31,31 @@ app.constant("ROLE", {
 	"CANDIDATE" : "ROLE_CANDIDATE"
 });
 
-app.controller('LoginCtrl', function($scope, $http, SITE_URL, API_URL, ROLE) {
+app.controller('LoginCtrl', function($scope, $httpParamSerializerJQLike, $http, SITE_URL, API_URL, ROLE) {
 	
 	$scope.login = function() {
 		console.log('LOGIN CALLLED');
 		makeUser($scope);
 		console.log('MAKE USER CALLED');
-		$http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGIN,'', $scope.user)
+		$http({
+			method : "POST",
+			url : SITE_URL.BASE + API_URL.BASE + API_URL.LOGIN,
+			headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8;'},
+			data: $httpParamSerializerJQLike($scope.user)
+		})//.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGIN, $httpParamSerializerJQLike($scope.user), {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8;'})
 		.then(function(response) {
 			console.log('INSIDE POST TO LOGIN');
 			$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 			.then(function(response) {
+				console.log("Response data");
 				console.log(response.data);
 				if (response.data.authenticated) {
 					var authUser = {
 						username : response.data.principal.username,
 						authority: response.data.principal.authorities[0].authority
 					}
-					console.log(authUser);
+					//console.log(authUser);
+					//console.log(response.data.principal);
 					$scope.authUser = authUser;
 					switch ($scope.authUser.authority) {
 					case ROLE.RECRUITER:
@@ -205,10 +212,8 @@ app.controller('CandidateViewCtrl', function($scope,$http, SITE_URL, API_URL, RO
 
 function makeUser($scope) {
 	var user = {
-			params: {
 				username: $scope.username,
 				password: $scope.password
-			}
 	};
 
 	$scope.user = user;

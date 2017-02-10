@@ -244,7 +244,11 @@ public class GetAssessmentController {
 				// Add code starters for snippets to the responseMap that will be sent with the assessment to AngularJS for parsing.
 				responseMap.put("snippets", codeStarters);
 			}
+<<<<<<< HEAD
 			
+=======
+      
+>>>>>>> ac983401c6893402c77bed4e256360c5e13e28e8
 			// Get Date where password issued to user
 			String strPassIssuedTime = assessment.getUser().getDatePassIssued();
 			Timestamp expireDate = Timestamp.valueOf(strPassIssuedTime);
