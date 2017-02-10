@@ -33,7 +33,6 @@ import com.revature.aes.beans.Option;
 import com.revature.aes.beans.Question;
 import com.revature.aes.beans.SnippetTemplate;
 import com.revature.aes.beans.SnippetUpload;
-import com.revature.aes.beans.Template;
 import com.revature.aes.beans.TemplateQuestion;
 import com.revature.aes.config.IpConf;
 import com.revature.aes.dao.UserDAO;
@@ -244,11 +243,7 @@ public class GetAssessmentController {
 				// Add code starters for snippets to the responseMap that will be sent with the assessment to AngularJS for parsing.
 				responseMap.put("snippets", codeStarters);
 			}
-<<<<<<< HEAD
-			
-=======
-      
->>>>>>> ac983401c6893402c77bed4e256360c5e13e28e8
+
 			// Get Date where password issued to user
 			String strPassIssuedTime = assessment.getUser().getDatePassIssued();
 			Timestamp expireDate = Timestamp.valueOf(strPassIssuedTime);
@@ -360,10 +355,29 @@ public class GetAssessmentController {
 				key += "Take1_userAnswer_";
 				key += assessment.getAssessmentId() + "_";
 				key += su.getQuestionId();
-				key += ".cpp";        //TODO Not hardcode this?
-				System.out.println(su);
-				System.out.println("Key: " + key);
-				System.out.println(su.getCode());
+				
+				switch(su.getFileType())
+				{
+				case "java": 
+					key += ".java"; 
+					break;
+				case "cpp": 
+					key += ".cpp"; 
+					break;
+		        case "c++":
+		        	key += ".cpp"; 
+					break;
+		        case "c":
+		        	key += ".c";
+		        	break;
+				case "cs":
+					key += ".cs";
+					break;
+				default: 
+					key += ".java"; 
+					break;
+				}
+				
 				s3.uploadToS3(su.getCode(), key);
 				FileUpload fu = new FileUpload();
 				fu.setAssessment(assessment);
