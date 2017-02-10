@@ -1,8 +1,7 @@
 package com.revature.aes.restcontroller;
 
-import static org.mockito.Matchers.anySetOf;
-
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -188,17 +187,46 @@ public class QuestionRestController
 		question.getDragdrop().add(dragdrop);
 		return question;
 }
+	/*
+	 * I was trying to fix the issue where the new correct answer in multiple choice questions would get selected and changed in the database, but the
+	 * 	old answer wouldn't be changed to incorrect. I was trying to make a method where all the options would be changed to incorrect, then the new one would be 
+	 * 	updated to correct, but I was having an issue with iterating through the set of options.
+	 */
 	
-	@RequestMapping(value="question/changeCorrect", method = RequestMethod.POST, produces=
+	
+	@RequestMapping(value="question/markAllIncorrect/{questionId}", method = RequestMethod.POST, produces = 
 			{MediaType.APPLICATION_JSON_VALUE})
-	public Option changeCorrect(@RequestBody Option option){
-		if(option.getCorrect()==1){
+	public void mcReset(@PathVariable Integer questionId){
+		System.out.println("*******************************************************************************************************************");
+		System.out.println("Inside eraser method.");
+		System.out.println("*******************************************************************************************************************");
+		Question question = questionService.getQuestionById(questionId);
+		Set<Option> options = question.getOption();
+		for(int i=0;i<options.size();i++){
+/*			Option opt = options.;
+			System.out.println("Option: " + opt);
+			optionService.addOption(opt);*/
+		}
+		questionService.updateQuestion(question);
+	}
+	
+	@RequestMapping(value="question/changeCorrect/{optionId}", method = RequestMethod.POST, produces=
+			{MediaType.APPLICATION_JSON_VALUE})
+	public Question changeCorrect(@PathVariable Integer optionId){
+		Option option = optionService.getOptionById(optionId);
+		if(option.getCorrect() == 1){
 			option.setCorrect(0);
+			optionService.addOption(option);
 		}
 		else{
 			option.setCorrect(1);
+			optionService.addOption(option);
 		}
-		return option;
+		return option.getQuestion();
 	}
+	
+//	@RequestMapping(value="question/changeCorrectDragDrop", method = RequestMethod.POST, produces=
+//			{MediaType.APPLICATION_JSON_VALUE})
+//	public DragDrop changeCorrectDragDrop(@RequestBody DragDrop dragDrop)
 	
 }

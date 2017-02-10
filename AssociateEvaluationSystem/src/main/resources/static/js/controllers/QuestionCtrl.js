@@ -321,11 +321,8 @@ app.controller('QuestionCtrl', function($http, $scope) {
 			$scope.currentQuestion = response.data;
 			$scope.getQuestion($scope.currentQuestion);
 			var length = $scope.qList.length;
-			console.log(length);
 			for(let i=0;i<length;i++){
 				if($scope.currentQuestion.questionId == $scope.qList[i].questionId){
-					console.log("Inside if statement.")
-					console.log("curretnQustion: " + $scope.currentQuestion)
 					$scope.qList[i]=$scope.currentQuestion;
 					console.log($scope.qList[i]);
 					break;
@@ -373,10 +370,7 @@ app.controller('QuestionCtrl', function($http, $scope) {
 	}
 	
 	$scope.addDragDrop = function(newDragDrop){
-		console.log("inside method addDragDrop")
-		console.log(newDragDrop)
 		if(newDragDrop != null && newDragDrop != ""){
-			console.log("Inside if")
 		$http.post("question/addDragDrop/" + $scope.currentQuestion.questionId, newDragDrop)
 		.then(function(response){
 			$scope.currentQuestion = response.data;
@@ -393,12 +387,44 @@ app.controller('QuestionCtrl', function($http, $scope) {
 		}
 	}
 	
+	$scope.checkButton = function(option){
+		if (option.correct == 1) {
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	/*
+	 * Here I am attempting to call the rest controller where I update the options with the new correct answer.
+	 */
+	$scope.multiCorrect = function(option){
+		if(document.getElementById("msrad").checked == false){
+	    	$http.post("question/markAllIncorrect/" + $scope.currentQuestion.questionId)
+	    	$scope.optionCorrectChanger(option)
+	    	document.getElementById("msrad").checked == true;
+	    }
+	}
+	
 	$scope.multiSelectCorrect = function(option){
-		$http.post("question/changeCorrect", option)
-		.then(function(response){
-			$scope.
-		})
+		console.log(option)
+		$scope.optionCorrectChanger(option)
 		
+	}
+	
+	$scope.optionCorrectChanger = function(option){
+		$http.post("question/changeCorrect/" + option.optionId)
+		.then(function(response){
+			$scope.currentQuestion = response.data;
+			$scope.getQuestion($scope.currentQuestion)
+			var length = $scope.qList.length;
+			for(let i=0;i<length;i++){
+				if($scope.currentQuestion.questionId == $scope.qList[i].questionId){
+					$scope.qList[i]=$scope.currentQuestion;
+					break;
+				}
+			}
+		})
 	}
 	
 	angular.element(document).ready(function() {

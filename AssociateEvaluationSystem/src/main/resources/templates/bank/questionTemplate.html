@@ -1,31 +1,5 @@
 <div>
-	<main class="container"> <!-- <label for="format">Question Format</label> 
-			<select ng-model="format" ng-options="format.formatName for format in fList" name="format"
-				id="format" ng-change="addAddQuestionButton(1)"></select> --> <!-- <label for="questionText">Question</label> <input type="text"
-			ng-model="question.question.questionText" name="questionText"
-			id="questionText" placeholder="enter question"
-			ng-change="addAddQuestionButton(2)"></input> <label
-			for="enterOption">Enter Option</label> <input type="text"
-			id="option" name="enterOption" id="enterOption"
-			placeholder="Enter Option" ng-model="option.optionText"
-			ng-change="addAddQuestionButton(3)"></input> <label
-			for="correctAnswer">Correct Answer:</label> <select
-			ng-model="option.correct" name="correctAnswer" id="correctAnswer"
-			ng-change="addAddQuestionButton(4)">
-			<option value=1>"Yes"</option>
-			<option value=0>"No"</option>
-		</select>
-		add option button
-		<input type="submit" ng-click="addOption()" class="btn btn-info"
-			value="Add Option"></input> <label for="addQuestion">Review
-			Question: {{qc.question.questionText}} <span ng-repeat="option in question.multiChoice track by $index"><br>{{option.optionText}}
-				Correct: {{option.correct == 1 && "Yes" || "No" }}</span>
-		</label> <input type="submit" ng-click="addQuestion()" name="addQuestion"
-			id="addQuestion" class="btn btn-info" value="Add Question"
-			ng-show="addButton"></input> --> <!-- <ul style="width: 300px; height: 200px; overflow: auto">
-			<li ng-repeat="question in qList"><br />{{question.format.formatName}}
-				:: {{question.questionText}}</li>
-		</ul> -->
+	<main class="container"> 
 	<div class="row">
 		<div class="col-md-3">
 			<table class="table table-bordered">
@@ -54,7 +28,7 @@
 				<form>
 				<div ng-repeat="option in currentQuestion.option">
 					<div>
-						<input type="radio" name="correctColors" ng-model="option.correct" ng-click="multiChoiceCorrect(option.correct)">
+						<input type="radio" id="msrad" name="correctChoice" ng-model="option.correct" ng-click="multiCorrect(option)" ng-checked="checkButton(option)">
 						<input type="text" size="60" ng-model="option.optionText"></input>
 						<button ng-click="removeOption(option)">shweep</button>
 					</div>
