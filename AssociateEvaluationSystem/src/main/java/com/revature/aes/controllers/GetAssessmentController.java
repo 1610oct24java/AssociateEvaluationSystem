@@ -33,10 +33,6 @@ import com.revature.aes.beans.Option;
 import com.revature.aes.beans.Question;
 import com.revature.aes.beans.SnippetTemplate;
 import com.revature.aes.beans.SnippetUpload;
-<<<<<<< HEAD
-=======
-import com.revature.aes.beans.Template;
->>>>>>> c49e7a181216c7113e128392e061a617520befa4
 import com.revature.aes.beans.TemplateQuestion;
 import com.revature.aes.config.IpConf;
 import com.revature.aes.dao.UserDAO;
