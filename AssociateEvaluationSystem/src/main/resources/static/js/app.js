@@ -42,7 +42,9 @@ app.controller('LoginCtrl', function($scope, $http, SITE_URL, API_URL, ROLE) {
 			console.log('INSIDE POST TO LOGIN');
 			$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 			.then(function(response) {
-				console.log(response.data);
+				console.log("RESPONSE DATA BELOW");
+				console.log(response);
+				console.log("RESPONSE DATA ABOVE");
 				if (response.data.authenticated) {
 					var authUser = {
 						username : response.data.principal.username,
