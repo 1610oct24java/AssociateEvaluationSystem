@@ -24,7 +24,7 @@ public class IpConf {
     @Inject
     private org.springframework.boot.autoconfigure.web.ServerProperties serverProperties;
 
-    public static final boolean onEc2 = false;
+    public static final boolean onEc2 = true;
 
     public String getHostName(){
 
