@@ -8,5 +8,7 @@ import com.revature.aes.beans.Option;
 public interface OptionService {
 
     public Option getOptionById(int id);
+    public void removeOptionById(int id);
+    public Option addOption(Option opt);
 
 }
