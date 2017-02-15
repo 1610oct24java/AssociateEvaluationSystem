@@ -7,6 +7,6 @@ import com.revature.aes.beans.Token;
 import com.revature.aes.beans.User;
 
 @Repository
-public interface TokenDAO extends JpaRepository<User, Integer>{
+public interface TokenDAO extends JpaRepository<Token, Integer>{
 	public Token findTokenByToken(String token);
 }
