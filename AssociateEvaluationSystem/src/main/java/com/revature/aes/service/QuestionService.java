@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.revature.aes.beans.Category;
 import com.revature.aes.beans.Format;
+import com.revature.aes.beans.Option;
 import com.revature.aes.beans.Question;
 import com.revature.aes.beans.QuestionOptionsJSONHandler;
 
@@ -23,5 +24,9 @@ public interface QuestionService {
 	public void deleteQuestionById(Integer id);
 
 	public Question addFullQuestion(QuestionOptionsJSONHandler question);
+	
+	public Question getQuestionByOption(Option opt);
+	
+//	public Question getQuestionByOptionId(Integer id);
 
 }

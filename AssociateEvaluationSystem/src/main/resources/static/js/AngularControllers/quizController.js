@@ -1,4 +1,5 @@
-app.controller("quizController", function($scope, $rootScope, $http, $location) {
+app.controller("quizController", function($scope, $rootScope, $http, 
+		$location, $window, $timeout) {
 	$rootScope.states = [];
 	$scope.answers = [];
 	$scope.numEditors = 0;
@@ -6,8 +7,10 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	$scope.editors = [];
 	$rootScope.protoTest;
 	$scope.questions = [];
+	$rootScope.snippetStarters = [];
 	$rootScope.snippetSubmissions = [];
 	$scope.protoTest2 = {};
+	$scope.testtaker = "loading...";
 	getQuizQuestions();
 	
 	//console.log(window.location.href);
@@ -34,6 +37,19 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 			makeState(i);
 			makeAnswers(i);
 		}
+		$scope.testtaker = $rootScope.protoTest.user.firstName + " " + $rootScope.protoTest.user.lastName;
+	
+		$timeout(function () {
+			for (var i=0; i < $scope.filteredQuestions.length; i++)
+			{
+				if ($scope.filteredQuestions[i].question.format.formatName === "Code Snippet")
+				{
+					var editorId = "editor"+$scope.filteredQuestions[i].question.questionId;
+					var aceEditor = ace.edit(editorId);
+					aceEditor.getSession().setValue($rootScope.snippetStarters[0], -1);
+				}
+			}
+	    }, 5000);
 	};
 
 	$scope.collapseQuestion = function(index) {
@@ -47,7 +63,7 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 		if(q.question.format.formatName === "Drag and Drop") {
 			for (var i = 0; i < q.question.dragdrop.length; i++) {
 				var assessmentDragDrop = {
-						assessmentDragDropId : 0,//((q.questionId) * 100 + i),
+						assessmentDragDropId : 0, //q.question.questionId,
 						userOrder : i+1,
 						assessmentId : $scope.protoTest.assessmentId,
 						dragDrop : q.question.dragdrop[i]
@@ -61,9 +77,27 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 
 	$scope.handleSaveClick = function(index) {
 		//If question is not already saved, save it
-		if (!$scope.states[index].saved) {
-			saveQuestion(index);
-		}
+		saveQuestion(index);
+		
+		$rootScope.protoTest.assessmentDragDrop.forEach(function(entry){
+			delete entry.assessmentId;
+			entry.assessment = {"assessmentId" : $rootScope.protoTest.assessmentId,};
+		});
+
+		var answerData = {
+				assessment : $rootScope.protoTest,
+				snippetUploads : $rootScope.snippetSubmissions
+		};
+
+		$http({
+			method: 'POST',
+			url: "aes/rest/quickSaveAssessment",
+			headers: {'Content-Type': 'application/json'},
+			data: answerData
+		}).then(function(response) {
+			console.log(response.data);
+			console.log("after quick save");
+		});
 	}
 
 	$scope.flagQuestion = function(index) {
@@ -118,7 +152,10 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 				$rootScope.protoTest.options.splice(foundAt, 1);
 			}
 		}
-		saveQuestion(ndxQuestion);
+		
+		if ($scope.states[ndxQuestion].saved) {
+			$scope.states[ndxQuestion].saved = false;
+		}
 	}
 	
 	$scope.checkChecked = function (ndxOption, ndxQuestion) {
@@ -184,7 +221,7 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 		}
 		
 		var incFileType = q.question.snippetTemplates[0].fileType;
-		var newSnippet = new SnippetUpload(editor.getValue(), +id2.substr(6, id2.length), incFileType);
+		var newSnippet = new SnippetUpload(editor.getValue(), id2.substr(6, id2.length), incFileType);
 		
 		for (i = 0; i < $rootScope.snippetSubmissions.length; i++){
 			if ($rootScope.snippetSubmissions[i].questionId = newSnippet.questionId){
@@ -210,6 +247,19 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 				+ $scope.numPerPage;
 
 		$scope.filteredQuestions = $scope.questions.slice(begin, end);
+
+		$timeout(function () {
+			for (var i=0; i < $scope.filteredQuestions.length; i++)
+			{
+				if ($scope.filteredQuestions[i].question.format.formatName === "Code Snippet")
+				{
+					var editorId = "editor"+$scope.filteredQuestions[i].question.questionId;
+					var aceEditor = ace.edit(editorId);
+					aceEditor.getSession().setValue($rootScope.snippetSubmissions[0].code, -1);
+				}
+			}
+	    }, 2000);
+		
 	});
 	
 	$scope.$watch('questions', function() {
@@ -222,25 +272,32 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 	// AJAX
 	function getQuizQuestions() {
 		
-		//console.log(QUIZ_REST_URL + $location.search().asmt);
 		$http({
 			method: 'GET',
 			url: QUIZ_REST_URL + $location.search().asmt,
 			headers: {'Content-Type': 'application/json'}
 		})
 		.then(function(response) {
-		    //First function handles success
-		    $rootScope.protoTest = response.data;
-			$scope.questions = $rootScope.protoTest.template.templateQuestion;
-			$rootScope.protoTest.options = [];
-		    initSetup();
-		    $rootScope.initQuizNav();
-		    $rootScope.initTimer($rootScope.protoTest.timeLimit);
+			
+			// Check response for assessment availability
+			if (response.data.msg === "allow"){
+				// Assessment ready to take
+				$rootScope.protoTest = response.data.assessment;
+				$scope.questions = $rootScope.protoTest.template.templateQuestion;
+				$rootScope.protoTest.options = [];
+				$rootScope.snippetStarters = response.data.snippets;
+				initSetup();
+				$rootScope.initQuizNav();
+				$rootScope.initTimer(response.data.timeLimit);
+
+			}else {
+				// Assessment was taken or time expired, redirecting to expired page
+				$window.location.href = '/aes/expired';
+			}
 		});
 	}
 	
-	$scope.submitAssessment = function(){
-
+	$rootScope.submitAssessment = function(){
 		$rootScope.protoTest.assessmentDragDrop.forEach(function(entry){
 
 			delete entry.assessmentId;
@@ -257,6 +314,10 @@ app.controller("quizController", function($scope, $rootScope, $http, $location) 
 			url: "aes/rest/submitAssessment",
 			headers: {'Content-Type': 'application/json'},
 			data: answerData
+		}).then(function(response) {
+			console.log(response.data);
+			console.log("after submit");
+			$window.location.href = '/aes/goodbye';
 		});
 	}
 	

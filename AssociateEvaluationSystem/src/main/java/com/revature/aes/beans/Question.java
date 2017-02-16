@@ -20,8 +20,11 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "AES_QUESTION")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Question implements Serializable {
 
 	private static final long serialVersionUID = 4510024807505207528L;
@@ -109,6 +112,11 @@ public class Question implements Serializable {
 	public void removeQuestionCategory(Category cat)
 	{
 		this.questionCategory.remove(cat);
+	}
+	
+//-----------------------------------------------------------------------------------------------------------------------blah	
+	public void removeQuestionOption(Option opt){
+		this.option.remove(opt);
 	}
 
 	public String getQuestionText() {

@@ -100,8 +100,6 @@ public class Assessment implements Serializable
 		super();
 	}
 
-
-
 	public int getAssessmentId() {
 		return assessmentId;
 	}

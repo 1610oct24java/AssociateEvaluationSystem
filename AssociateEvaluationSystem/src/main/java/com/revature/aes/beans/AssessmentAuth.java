@@ -1,33 +1,34 @@
 package com.revature.aes.beans;
 
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
+@Component
+@Entity
+@Table(name = "aes_assessment_auth")
 public class AssessmentAuth implements Serializable {
-	
 	private static final long serialVersionUID = -2732479042247683247L;
 
+	@Id
 	@Column(name = "assessment_auth_id")
+	@SequenceGenerator(sequenceName = "aes_assessment_auth_seq", name = "aes_assessment_auth_seq")
+	@GeneratedValue(generator = "aes_assessment_auth_seq", strategy = GenerationType.SEQUENCE)
 	private int assessmentAuthId;
-
-	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "user_id")
+	@Column(name = "user_id")
 	private int userId;
-
 	@Column(name = "url_auth")
 	private String urlAuth;
-
 	@Column(name = "url_assessment")
 	private String urlAssessment;
-	
+
 	public AssessmentAuth(){
 		super();
 	}
-	
+
 	public AssessmentAuth(int assessmentAuthId, int userId, String urlAuth, String urlAssessment) {
 		super();
 		this.assessmentAuthId = assessmentAuthId;
@@ -35,7 +36,7 @@ public class AssessmentAuth implements Serializable {
 		this.urlAuth = urlAuth;
 		this.urlAssessment = urlAssessment;
 	}
-	
+
 	public int getAssessmentAuthId() {
 		return assessmentAuthId;
 	}
@@ -73,5 +74,5 @@ public class AssessmentAuth implements Serializable {
 		return "AssessmentAuth [assessmentAuthId=" + assessmentAuthId + ", userId=" + userId + ", urlAuth=" + urlAuth
 				+ ", urlAssessment=" + urlAssessment + "]";
 	}
-
 }
+

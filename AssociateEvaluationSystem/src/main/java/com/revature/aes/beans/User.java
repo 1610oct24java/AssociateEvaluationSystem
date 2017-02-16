@@ -57,11 +57,18 @@ public class User implements Serializable{
 	
 	@Transient
     private String format;
+
+	@Transient
+	private Integer grade;
 	
 	public User() {
 		super();
 	}
-	
+
+	public String getFormat() { return format; }
+	public void setFormat(String format) { this.format = format; }
+	public Integer getGrade() { return grade; }
+	public void setGrade(Integer grade) { this.grade = grade; }
 	public int getUserId() {
 		return userId;
 	}

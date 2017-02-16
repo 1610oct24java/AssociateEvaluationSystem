@@ -8,5 +8,7 @@ import com.revature.aes.beans.DragDrop;
 public interface DragDropService {
 
     public DragDrop getDragDropById(int id);
+    public void removeDragDropById(int id);
+    public DragDrop addDragDrop(DragDrop dragdrop);
 
 }

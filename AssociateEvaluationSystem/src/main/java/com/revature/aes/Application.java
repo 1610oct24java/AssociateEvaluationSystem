@@ -6,13 +6,16 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
 
 /**
  * The Class Application, starting point for SpringBoot.
  */
 @SpringBootApplication
+@EnableScheduling
 @EnableJpaRepositories("com.revature.aes.dao")
 public class Application extends SpringBootServletInitializer
 {
@@ -25,7 +28,7 @@ public class Application extends SpringBootServletInitializer
 	 *             the throwable
 	 */
 	public static void main(String[] args) throws Throwable
-	{
+	{		
 		SpringApplication.run(Application.class, args);
 	}
 	
