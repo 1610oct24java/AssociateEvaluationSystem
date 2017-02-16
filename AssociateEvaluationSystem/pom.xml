@@ -266,8 +266,8 @@
 		
  		<dependency>
 			<groupId>com.oracle.ojdbc</groupId>
-			<artifactId>ojdbc</artifactId>
-			<version>12.1.0.1</version>
+			<artifactId>ojdbc7</artifactId>
+			<version>7</version>
 		</dependency>
 		
 		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
