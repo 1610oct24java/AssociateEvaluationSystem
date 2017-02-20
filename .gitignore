@@ -31,3 +31,9 @@ hs_err_pid*
 AssociateEvaluationSystem/AssociateEvaluationSystem.iml
 
 AssociateEvaluationSystem/logs/*
+
+# OS X
+*.DS_Store
+
+# Nightwatch
+/automation-tests/nightwatch/node_modules/
