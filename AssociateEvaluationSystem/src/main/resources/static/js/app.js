@@ -9,6 +9,7 @@ app.constant("SITE_URL", {
 	"LOGIN": "index",
 	"VIEW_CANDIDATES" : "view",
 	"REGISTER_CANDIDATE" : "",
+	"ADMIN_HOME" : "admin_home",
 	
 	"TRAINER_HOME" : "http://sports.cbsimg.net/images/nhl/blog/Ryan_Reaves_Kiss.JPG"
 	
@@ -28,7 +29,8 @@ app.constant("API_URL", {
 app.constant("ROLE", {
 	"RECRUITER" : "ROLE_RECRUITER",
 	"TRAINER"   : "ROLE_TRAINER",
-	"CANDIDATE" : "ROLE_CANDIDATE"
+	"CANDIDATE" : "ROLE_CANDIDATE",
+	"ADMIN"		: "ROLE_ADMIN"
 });
 
 app.controller('LoginCtrl', function($scope, $httpParamSerializerJQLike, $http, SITE_URL, API_URL, ROLE) {
@@ -72,6 +74,9 @@ app.controller('LoginCtrl', function($scope, $httpParamSerializerJQLike, $http, 
 						break;
 					case ROLE.TRAINER:
 						window.location = SITE_URL.TRAINER_HOME;
+						break;
+					case ROLE.ADMIN:
+						window.location = SITE_URL.ADMIN_HOME;
 						break;
 					default:
 						console.log('INVALID LOGIN?');

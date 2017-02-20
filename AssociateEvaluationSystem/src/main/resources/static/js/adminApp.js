@@ -1,0 +1,153 @@
+var adminApp = angular.module('adminApp',[]);
+
+adminApp.constant("SITE_URL", {
+	"HTTP" : "http://",
+	"HTTPS": "https://",
+	"BASE" : "",
+	"PORT" : ":8080",
+	
+	"LOGIN": "index",
+	"VIEW_EMPLOYEES" : "adminView",
+	"REGISTER_EMPLOYEE" : "",
+	
+	"TRAINER_HOME" : "http://sports.cbsimg.net/images/nhl/blog/Ryan_Reaves_Kiss.JPG"
+	
+});
+
+adminApp.constant("API_URL", {
+	"BASE"      : "/aes",
+	"LOGIN"     : "/login",
+	"LOGOUT"    : "/logout",
+	"AUTH"      : "/security/auth",
+	"CANDIDATE" : "/candidate/",
+	"RECRUITER" : "/recruiter/",
+	"LINK"      : "/link",
+	"EMPLOYEES" : "/employees",
+	"ADMIN"		: "/admin"
+});
+
+adminApp.constant("ROLE", {
+	"RECRUITER" : "ROLE_RECRUITER",
+	"TRAINER"   : "ROLE_TRAINER",
+	"CANDIDATE" : "ROLE_CANDIDATE",
+	"ADMIN"		: "ROLE_ADMIN"
+});
+
+app.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE_URL, API_URL, ROLE) {
+
+	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
+	.then(function(response) {
+		console.log(response.data);
+		if (response.data.authenticated) {
+			var authUser = {
+				username : response.data.principal.username,
+				authority: response.data.principal.authorities[0].authority
+			}
+			console.log(authUser);
+			$scope.authUser = authUser;
+			if($scope.authUser.authority != ROLE.ADMIN) {
+				window.location = SITE_URL.LOGIN;
+			}
+		} else {
+			window.location = SITE_URL.LOGIN;
+		}
+	})
+	
+	$scope.register = function() {
+
+		var employeeInfo = {
+			userId        : null,
+			email         : $scope.email,
+			firstName     : $scope.firstName,
+			lastName      : $scope.lastName,
+			salesforce    : null,
+			recruiterId   : null,
+			role          : null,
+			datePassIssued: null,
+			format		  : $scope.program.value
+		};
+
+		console.log(employeeInfo);
+		$scope.postRegister(employeeInfo);
+		
+		$scope.firstName = '';
+		$scope.lastName = '';
+		$scope.email = '';
+		$scope.program = '';
+	};
+
+	$scope.postRegister = function(employeeInfo) {
+		console.log("POSTREGISTER")
+		$http({
+			method  : 'POST',
+			url: SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + $scope.authUser.username + API_URL.CANDIDATES,
+			headers : {'Content-Type' : 'application/json'},
+			data    : employeeInfo
+		}).success( function(res) {
+			console.log('success');
+		}).error( function(res) {
+			console.log('error');
+		});
+	};
+
+	$scope.options = [{
+		name: 'Recruiter',
+		value: 'Recruiter'
+	}, {
+		name: 'Trainer',
+		value: 'Trainer'
+	}];
+	
+	$scope.logout = function() {
+		$http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
+		.then(function(response) {
+			window.location = SITE_URL.LOGIN;
+		})
+	}
+
+}); //end register candidate controller
+
+app.controller('EmployeeViewCtrl', function($scope,$http, SITE_URL, API_URL, ROLE) {
+
+	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
+	.then(function(response) {
+		if (response.data.authenticated) {
+			var authUser = {
+				username : response.data.principal.username,
+				authority: response.data.principal.authorities[0].authority
+			}
+			console.log(authUser);
+			$scope.authUser = authUser;
+			if($scope.authUser.authority != ROLE.ADMIN) {
+				window.location = SITE_URL.LOGIN;
+			}
+			
+			//TODO NEED REST CALL TO RETRIEVE LIST OF TRAINERS AND RECRUITERS: NAME, EMAIL, ROLE
+			$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + $scope.authUser.username + API_URL.EMPLOYEES)
+			.then(function(response) {
+				console.log(response.data);
+				$scope.employees = response.data;
+			})
+		} else {
+			window.location = SITE_URL.LOGIN;
+		}
+	})
+	
+	$scope.logout = function() {
+		$http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
+		.then(function(response) {
+			window.location = SITE_URL.LOGIN;
+		})
+	}
+	
+});
+
+function makeUser($scope) {
+	var user = {
+				username: $scope.username,
+				password: $scope.password
+	};
+
+	$scope.user = user;
+}
+
