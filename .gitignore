@@ -5,7 +5,7 @@
 .mtj.tmp/
 
 # Package Files #
-*.jar
+/AssociateEvaluationSystem/*.jar
 *.war
 *.ear
 
