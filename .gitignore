@@ -37,3 +37,4 @@ AssociateEvaluationSystem/logs/*
 
 # Nightwatch
 /automation-tests/nightwatch/node_modules/
+/automation-tests/nightwatch/reports/
