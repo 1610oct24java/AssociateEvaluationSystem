@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Implementation-Title: gs-rest-service
 Implementation-Version: 0.1.0
-Built-By: michael
+Built-By: Monta
 Implementation-Vendor-Id: org.springframework
-Build-Jdk: 1.8.0_111
+Build-Jdk: 1.8.0_101
 Implementation-URL: http://projects.spring.io/spring-boot/gs-rest-serv
  ice/
 Created-By: Maven Integration for Eclipse
