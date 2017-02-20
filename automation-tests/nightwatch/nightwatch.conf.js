@@ -12,7 +12,7 @@ module.exports = {
     "port": 4444, // standard selenium port
     "cli_args": {
       "webdriver.chrome.driver" : "/usr/local/bin/chromedriver", /*"./node_modules/nightwatch/bin/chromedriver",*/
-      "webdriver.gecko.driver" : "/usr/local/bin/geckodriver"
+      "webdriver.gecko.driver" : "node_modules/.bin/geckodriver"
     }
   },
   "test_settings": {
