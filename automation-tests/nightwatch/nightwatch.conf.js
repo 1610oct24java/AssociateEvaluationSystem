@@ -4,7 +4,7 @@ module.exports = {
     "tests"    // location of e2e tests
   ],
   "output_folder": "./reports", // reports (test outcome) output by nightwatch
-  //'globals_path': "./data/dev.js",
+  'globals_path': "./data/global_funcs.js",
   //'page_objects_path': 'page-objects',
   "selenium": {
     "start_process": true,
