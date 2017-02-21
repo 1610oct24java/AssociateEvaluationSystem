@@ -1,6 +1,7 @@
 package com.revature.aes.controllers;
 
 import com.revature.aes.beans.AssessmentAuth;
+import com.revature.aes.logging.Logging;
 import com.revature.aes.service.AssessmentAuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,6 +37,5 @@ public class CandidateController {
 	@RequestMapping(value="/candidate/{email}/link",method= RequestMethod.GET)
 	public AssessmentAuth getLink(@PathVariable String email){
 		return authService.getLink(email);
-		
 	}
 }

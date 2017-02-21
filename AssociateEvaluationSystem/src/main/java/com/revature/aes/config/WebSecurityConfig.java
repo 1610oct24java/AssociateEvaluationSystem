@@ -1,5 +1,7 @@
 package com.revature.aes.config;
 
+import com.revature.aes.beans.AesApiFilter;
+import com.revature.aes.service.ApiTokenService;
 import com.revature.aes.service.CustomUserDetailsService;
 import com.revature.aes.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,19 +15,28 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 //@ImportResource("classpath*:com/revature/aes/config/security-context.xml")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+//	@Autowired
+//	AesApiFilter aesApiFilter;
+
+	@Autowired
+	ApiTokenService apiTokenService;
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 				.antMatchers("/css/**", "/js/**", "/images/**", "/rest/**", "/images/**", "/site-images/**", "/user/**")
-				.permitAll();
-		
+				.permitAll().and().addFilterBefore(new AesApiFilter(apiTokenService), BasicAuthenticationFilter.class);
+
 		http.authorizeRequests().antMatchers("/*/recruit", "/*/view").hasRole("RECRUITER").and().authorizeRequests().and().csrf().csrfTokenRepository(csrfTokenRepository());//.permitAll().and().authorizeRequests().and().csrf().disable();
 		
 		http.authorizeRequests().antMatchers("/").permitAll().anyRequest()

@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -197,7 +198,7 @@ public class GetAssessmentController {
 		
 		return "{\"success\":\"ok\"}";
 	}
-	
+
 	@RequestMapping(value = "{id}")
 	public Map<String, Object> getAssessment(@PathVariable("id") int AssessmentId)
 			throws JsonProcessingException {

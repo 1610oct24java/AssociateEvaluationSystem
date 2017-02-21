@@ -83,7 +83,9 @@ public class CustomUserDetailsService implements UserDetailsService {
             roles.add("ROLE_CANDIDATE");
         } else if ("Trainer".equalsIgnoreCase(role)) {
             roles.add("ROLE_TRAINER");
-        }
+        } else if ("admin".equalsIgnoreCase(role)) {
+        	roles.add("ROLE_ADMIN");
+		}
         return roles;
     }
 
