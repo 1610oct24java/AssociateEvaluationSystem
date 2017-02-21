@@ -16,9 +16,7 @@ public class DragDropServiceImpl implements DragDropService {
     DragDropDAO ddDao;
 
     public DragDrop getDragDropById(int id){
-
         return ddDao.findDragDropByDragDropId(id);
-
     }
 
 	@Override

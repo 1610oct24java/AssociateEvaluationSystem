@@ -1,54 +1,57 @@
-app.controller('QuestionCtrl', function($http, $scope) {
-	$scope.fList;
+app.module().controller('QuestionCtrl', qCtrl);
+function qCtrl($http, $scope) {
+	var qCtrl = this;
 	/*
 	 * var getFormatList = function() { $http.get(url + "format") .then(
-	 * function(response { formatList = response.data; $scope.fList =
+	 * function(response { formatList = response.data; qCtrl.fList =
 	 * formatList; });}
 	 */
-	$scope.getFormatList = function() {
-		$http.get("format")
-		.then(function(response) {
-			$scope.fList = response.data;
-			
-		}); // $http end;
-	} // getFormatList() end
 	
 	angular.element(document).ready(function() {
-		$scope.getFormatList();
+		qCtrl.getFormatList();
 	}); // angular element end
 	//////////////////////////////////////////////////
 	
-	$scope.formatSet = false;
-	$scope.questionTextChanged = false;
-	$scope.optionTextChanged = false;
-	$scope.correctValue = false;
-	$scope.addButton = false;
-	$scope.updatedQuestion;
-	$scope.show = false;
-	$scope.qList;
-	$scope.deleteme = 0;
-	$scope.selected = {};
-	$scope.tagList = '';
-	$scope.catList = '';
-	$scope.isMultiChoiceOption = false;
-	$scope.isMultiSelectOption = false;
-	$scope.isDragDrop = false;
-	$scope.questionBeingUpdated = '';
-	$scope.format = {
+	qCtrl.fList;
+	qCtrl.formatSet = false;
+	qCtrl.questionTextChanged = false;
+	qCtrl.optionTextChanged = false;
+	qCtrl.correctValue = false;
+	qCtrl.addButton = false;
+	qCtrl.updatedQuestion;
+	qCtrl.show = false;
+	qCtrl.qList;
+	qCtrl.deleteme = 0;
+	qCtrl.selected = {};
+	qCtrl.tagList = '';
+	qCtrl.catList = '';
+	qCtrl.isMultiChoiceOption = false;
+	qCtrl.isMultiSelectOption = false;
+	qCtrl.isDragDrop = false;
+	qCtrl.questionBeingUpdated = '';
+	qCtrl.format = {
 		format : 0,
 		formatName : ''
 	};
 	
-	$scope.option = {
+	qCtrl.option = {
 			optionId: 0,
 			optionText: '',
 			correct: -1
 	};
+
+	qCtrl.getFormatList = function() {
+		$http.get("format")
+		.then(function(response) {
+			qCtrl.fList = response.data;
+			
+		}); // $http end;
+	} // getFormatList() end
 	
-	$scope.categoriesInDatabase = null;
-	$scope.tagsInDatabase = null;
+	qCtrl.categoriesInDatabase = null;
+	qCtrl.tagsInDatabase = null;
 	
-	$scope.question = {
+	qCtrl.question = {
 		question: {
 			questionId : 0,
 			questionText : '',
@@ -65,45 +68,45 @@ app.controller('QuestionCtrl', function($http, $scope) {
 	};
 	
 	// Retrieves the List of Questions from the Database
-	$scope.getQuestionList = function() {
+	qCtrl.getQuestionList = function() {
 		$http.get("question")
 			.then(function(response) {	
-				$scope.qList = response.data;
+				qCtrl.qList = response.data;
 			}); // $http end
 	}; // getQuestionList() end
 	
-	$scope.getQuestion = function(question){
+	qCtrl.getQuestion = function(question){
 		console.log(question)
-		$scope.isOption = false;
-		$scope.isDragDrop = false;
+		qCtrl.isOption = false;
+		qCtrl.isDragDrop = false;
 		if(question.format.formatName == "Drag and Drop"){
-			$scope.isDragDrop = true;
-			$scope.isMultiSelectOption = false;
-			$scope.isMultiChoiceOption = false;
+			qCtrl.isDragDrop = true;
+			qCtrl.isMultiSelectOption = false;
+			qCtrl.isMultiChoiceOption = false;
 		}
 		else if(question.format.formatName == "Multiple Select"){
-			$scope.isDragDrop = false;
-			$scope.isMultiSelectOption = true;
-			$scope.isMultiChoiceOption = false;
+			qCtrl.isDragDrop = false;
+			qCtrl.isMultiSelectOption = true;
+			qCtrl.isMultiChoiceOption = false;
 		}
 		else{
-			$scope.isDragDrop = false;
-			$scope.isMultiSelectOption = false;
-			$scope.isMultiChoiceOption = true;
+			qCtrl.isDragDrop = false;
+			qCtrl.isMultiSelectOption = false;
+			qCtrl.isMultiChoiceOption = true;
 		}
-		$scope.currentQuestion = question;
+		qCtrl.currentQuestion = question;
 	}
 	
 	// Adds a option to a Question being created
-	$scope.addOption = function() {
-		if($scope.question.multiChoice == null){
-			$scope.question.multiChoice = [];
+	qCtrl.addOption = function() {
+		if(qCtrl.question.multiChoice == null){
+			qCtrl.question.multiChoice = [];
 		}// end if
-		if($scope.option.optionText == '' || $scope.option.correct == -1){
+		if(qCtrl.option.optionText == '' || qCtrl.option.correct == -1){
 			
 		} else {
-			$scope.question.multiChoice.push($scope.option);
-			$scope.option = {
+			qCtrl.question.multiChoice.push(qCtrl.option);
+			qCtrl.option = {
 					optionId: 0,
 					optionText: '',
 					correct: -1
@@ -112,69 +115,69 @@ app.controller('QuestionCtrl', function($http, $scope) {
 	};
 	
 	// Adds a tag to the Question being updated
-	$scope.addTag = function(tagName) {
-		if($scope.question.tags == null){
-			$scope.question.tags = [];
+	qCtrl.addTag = function(tagName) {
+		if(qCtrl.question.tags == null){
+			qCtrl.question.tags = [];
 		}
 		// search for tag in tagsInDatabase
-		for(var i=0;i<$scope.tagsInDatabase.length;i++){
-			if(tagName==$scope.tagsInDatabase[i].tagName){
-				$scope.question.tags.push($scope.tagsInDatabase[i]);
+		for(var i=0;i<qCtrl.tagsInDatabase.length;i++){
+			if(tagName==qCtrl.tagsInDatabase[i].tagName){
+				qCtrl.question.tags.push(qCtrl.tagsInDatabase[i]);
 				return true;
 			}
 		}
 		// tag not found
-		$scope.question.tags=null;
+		qCtrl.question.tags=null;
 		return false;
 	};
 	
 	// Adds a category to the Question being updated
-	$scope.addCategory = function(categoryName) {
-		if($scope.question.category == null){
-			$scope.question.category = [];
+	qCtrl.addCategory = function(categoryName) {
+		if(qCtrl.question.category == null){
+			qCtrl.question.category = [];
 		}
 		// search for category in categoriesInDatabase
-		for(var i=0;i<$scope.categoriesInDatabase.length;i++){
-			if(categoryName==$scope.categoriesInDatabase[i].name){
-				$scope.question.category.push($scope.categoriesInDatabase[i]);
+		for(var i=0;i<qCtrl.categoriesInDatabase.length;i++){
+			if(categoryName==qCtrl.categoriesInDatabase[i].name){
+				qCtrl.question.category.push(qCtrl.categoriesInDatabase[i]);
 				return true;
 			}
 		}
 		// category not found
-		$scope.question.category=null;
+		qCtrl.question.category=null;
 		return false;
 	};
 	
 	// This functions ensures a user populates all the necessary fields for
 	// a question.
-	$scope.addAddQuestionButton = function(x) {
+	qCtrl.addAddQuestionButton = function(x) {
 		
 		switch(x) {
 		case 1:
-			$scope.formatSet = true;
+			qCtrl.formatSet = true;
 			break;
 		case 2:
-			$scope.questionTextChanged = true;
+			qCtrl.questionTextChanged = true;
 			break;
 		case 3:
-			$scope.optionTextChanged = true;
+			qCtrl.optionTextChanged = true;
 			break;
 		case 4:
-			$scope.correctValue = true;
+			qCtrl.correctValue = true;
 			break;
 		default:
 		} // switch end
 		
-		if($scope.formatSet === true 
-				&& $scope.questionTextChanged === true 
-				&& $scope.optionTextChanged === true 
-				&& $scope.correctValue === true){
-			$scope.addButton = true;
+		if(qCtrl.formatSet === true 
+				&& qCtrl.questionTextChanged === true 
+				&& qCtrl.optionTextChanged === true 
+				&& qCtrl.correctValue === true){
+			qCtrl.addButton = true;
 		}
 	}; // addAddQuestionButton end
 	
-	$scope.resetQuestion = function() {
-		$scope.question = {
+	qCtrl.resetQuestion = function() {
+		qCtrl.question = {
 				question : {	
 					questionId : 0,
 					questionText : '',
@@ -188,22 +191,22 @@ app.controller('QuestionCtrl', function($http, $scope) {
 					multiChoice:null,
 					dragDrops:null,
 					snippetTemplate:null
-				}; // $scope.question end
-	}; //$scope.requeQuestion() end
+				}; // qCtrl.question end
+	}; //qCtrl.requeQuestion() end
 	
-	$scope.addQuestion = function() {
-		$scope.question.question.format = $scope.format;
-		if ($scope.question.question.format.formatId === 0) {
+	qCtrl.addQuestion = function() {
+		qCtrl.question.question.format = qCtrl.format;
+		if (qCtrl.question.question.format.formatId === 0) {
 		} else {
-			if($scope.question.questionText != ''){
-			$http.post("fullQuestion", $scope.question)
+			if(qCtrl.question.questionText != ''){
+			$http.post("fullQuestion", qCtrl.question)
 				.success(function(response) {
-					$scope.question.question = response;
-					if ($scope.question.question == null) {
-						$scope.resetQuestion();
+					qCtrl.question.question = response;
+					if (qCtrl.question.question == null) {
+						qCtrl.resetQuestion();
 					} else {
-						$scope.getQuestionList();
-						$scope.resetQuestion();
+						qCtrl.getQuestionList();
+						qCtrl.resetQuestion();
 						}// inner most if end
 					}); // $http end
 				} else {
@@ -211,157 +214,157 @@ app.controller('QuestionCtrl', function($http, $scope) {
 		}	// outer if end
 	}; // addQuestion() end
 
-	$scope.deleteQuestion = function() {
-		$http.delete("/question/" + $scope.deleteme)
+	qCtrl.deleteQuestion = function() {
+		$http.delete("/question/" + qCtrl.deleteme)
 			.success(function() {
-				$scope.getQuestionList();
+				qCtrl.getQuestionList();
 			})
 			.error(function() {
 			}); // $http end
 	}; // deleteQuestion end
 	
-	$scope.showUpdateQuestion = function(aQuestion) {
-		if($scope.question == null){
-			$scope.show=false;
+	qCtrl.showUpdateQuestion = function(aQuestion) {
+		if(qCtrl.question == null){
+			qCtrl.show=false;
 		} else {
-			$scope.updatedQuestion = aQuestion;
-			$scope.show = true;
+			qCtrl.updatedQuestion = aQuestion;
+			qCtrl.show = true;
 		}	// if end
 	}; // showUpdateQuestion end
 
-	$scope.updateQuestion = function() {
-		$scope.question.question.format = $scope.format;
-		if ($scope.format.formatId === 0) {
+	qCtrl.updateQuestion = function() {
+		qCtrl.question.question.format = qCtrl.format;
+		if (qCtrl.format.formatId === 0) {
 			
 		} else {
-			console.log($scope.currentQuestion);
-			$http.put("question", $scope.currentQuestion)
+			console.log(qCtrl.currentQuestion);
+			$http.put("question", qCtrl.currentQuestion)
 				.success(function(response) {
-					$scope.question = response.data;
-					if ($scope.currentQuestion == null) {
+					qCtrl.question = response.data;
+					if (qCtrl.currentQuestion == null) {
 						
 					} else {
-						$scope.getQuestionList();	
-						$scope.resetQuestion();
-						$scope.show = false;
+						qCtrl.getQuestionList();	
+						qCtrl.resetQuestion();
+						qCtrl.show = false;
 					} // inner if end
 				}); // $http end
 		} // outer if end	
 	}; // updateQuestion() end
 	
-	$scope.addCategories = function() {
+	qCtrl.addCategories = function() {
 		// get categories into an array
-		if($scope.catList != null && $scope.catList != ''){	
-			var selectedCategories = $scope.catList.split(',');
+		if(qCtrl.catList != null && qCtrl.catList != ''){	
+			var selectedCategories = qCtrl.catList.split(',');
 			for (var i=0;i<selectedCategories.length;i++){
-				if(!$scope.addCategory(selectedCategories[i])){
+				if(!qCtrl.addCategory(selectedCategories[i])){
 					return;
 				}
 			}
 		}
 	};
 	
-	$scope.addTags = function() {
+	qCtrl.addTags = function() {
 		// get tags into an array
-		if($scope.tagList != null && $scope.tagList != ''){
-			var selectedTags = $scope.tagList.split(',');
+		if(qCtrl.tagList != null && qCtrl.tagList != ''){
+			var selectedTags = qCtrl.tagList.split(',');
 			for (var j=0;j<selectedTags.length;j++){
-				if(!$scope.addTag(selectedTags[j])){
+				if(!qCtrl.addTag(selectedTags[j])){
 					return;
 				}
 			}
 		}
 	};
 	
-	$scope.addCategoriesAndTags = function() {
+	qCtrl.addCategoriesAndTags = function() {
 		// question must be selected
-		if($scope.questionBeingUpdated ===''){
+		if(qCtrl.questionBeingUpdated ===''){
 			return;
 		}
 		// a tag or category must be provided
-		if($scope.tagList ==='' && $scope.catList ===''){
+		if(qCtrl.tagList ==='' && qCtrl.catList ===''){
 			return;
 		}
 		// initialize question
-		$scope.question = $scope.qList[$scope.questionBeingUpdated-1];
+		qCtrl.question = qCtrl.qList[qCtrl.questionBeingUpdated-1];
 		
-		$scope.addCategories();
-		$scope.addTags();
+		qCtrl.addCategories();
+		qCtrl.addTags();
 
 		// save the question
-		$http.put(url + "question", $scope.question)
+		$http.put(url + "question", qCtrl.question)
 		.success(function(response) {
 			if (response == null) {
 			} else {
-				$scope.getQuestionList();	
-				$scope.resetQuestion();
-				$scope.show = false;
+				qCtrl.getQuestionList();	
+				qCtrl.resetQuestion();
+				qCtrl.show = false;
 			} // inner if end
 		}); // $http end
 	}; // addCategoriesAndTags() end
 	
 	// Load categories from database so that they can be added to questions
-	$scope.loadCategories = function() {
+	qCtrl.loadCategories = function() {
 		$http.get("category")
 		.then(function(response) {	
-			$scope.categoriesInDatabase = response.data;
+			qCtrl.categoriesInDatabase = response.data;
 		});
 	};
 	
-	$scope.loadTags = function() {
+	qCtrl.loadTags = function() {
 		$http.get("tag")
 		.then(function(response) {
-			$scope.tagsInDatabase = response.data;
+			qCtrl.tagsInDatabase = response.data;
 		})
 	};
 	
-	$scope.removeOption = function(option){
-		$http.post("question/refresh/" + option.optionId, $scope.currentQuestion.questionId)
+	qCtrl.removeOption = function(option){
+		$http.post("question/refresh/" + option.optionId, qCtrl.currentQuestion.questionId)
 		.then(function(response){
-			$scope.currentQuestion = response.data;
-			$scope.getQuestion($scope.currentQuestion);
-			var length = $scope.qList.length;
+			qCtrl.currentQuestion = response.data;
+			qCtrl.getQuestion(qCtrl.currentQuestion);
+			var length = qCtrl.qList.length;
 			for(let i=0;i<length;i++){
-				if($scope.currentQuestion.questionId == $scope.qList[i].questionId){
-					$scope.qList[i]=$scope.currentQuestion;
-					console.log($scope.qList[i]);
+				if(qCtrl.currentQuestion.questionId == qCtrl.qList[i].questionId){
+					qCtrl.qList[i]=qCtrl.currentQuestion;
+					console.log(qCtrl.qList[i]);
 					break;
 				}				
 			}
 		})	
 	}
 	
-	$scope.removeDDOption = function(dragdrop){
-		$http.post("question/deleteDragDrop/" + dragdrop.dragDropId, $scope.currentQuestion.questionId)
+	qCtrl.removeDDOption = function(dragdrop){
+		$http.post("question/deleteDragDrop/" + dragdrop.dragDropId, qCtrl.currentQuestion.questionId)
 		.then(function(response){
-			$scope.currentQuestion = response.data;
-			$scope.getQuestion($scope.currentQuestion)
-			var length = $scope.qList.length;
+			qCtrl.currentQuestion = response.data;
+			qCtrl.getQuestion(qCtrl.currentQuestion)
+			var length = qCtrl.qList.length;
 			console.log(length);
 			for(let i=0;i<length;i++){
-				console.log($scope.qList[i])
-				if($scope.currentQuestion.questionId == $scope.qList[i].questionId){
+				console.log(qCtrl.qList[i])
+				if(qCtrl.currentQuestion.questionId == qCtrl.qList[i].questionId){
 					console.log("Inside if statement.")
-					console.log($scope.currentQuestion)
-					$scope.qList[i]=$scope.currentQuestion;
-					console.log($scope.qList[i]);
+					console.log(qCtrl.currentQuestion)
+					qCtrl.qList[i]=qCtrl.currentQuestion;
+					console.log(qCtrl.qList[i]);
 					break;
 				}				
 			}
 		})
 	}
 	
-	$scope.addOption = function(newOption){
+	qCtrl.addOption = function(newOption){
 		if(newOption != null && newOption != ""){
-		$http.post("question/addOption/" + $scope.currentQuestion.questionId,newOption)
+		$http.post("question/addOption/" + qCtrl.currentQuestion.questionId,newOption)
 		.then(function(response){
-			$scope.currentQuestion = response.data;
-			$scope.getQuestion($scope.currentQuestion)
-			var length = $scope.qList.length;
+			qCtrl.currentQuestion = response.data;
+			qCtrl.getQuestion(qCtrl.currentQuestion)
+			var length = qCtrl.qList.length;
 			for(let i=0;i<length;i++){
-				if($scope.currentQuestion.questionId == $scope.qList[i].questionId){
-					$scope.qList[i]=$scope.currentQuestion;
-					$scope.newOption = "";
+				if(qCtrl.currentQuestion.questionId == qCtrl.qList[i].questionId){
+					qCtrl.qList[i]=qCtrl.currentQuestion;
+					qCtrl.newOption = "";
 					break;
 				}				
 			}
@@ -369,17 +372,17 @@ app.controller('QuestionCtrl', function($http, $scope) {
 		}
 	}
 	
-	$scope.addDragDrop = function(newDragDrop){
+	qCtrl.addDragDrop = function(newDragDrop){
 		if(newDragDrop != null && newDragDrop != ""){
-		$http.post("question/addDragDrop/" + $scope.currentQuestion.questionId, newDragDrop)
+		$http.post("question/addDragDrop/" + qCtrl.currentQuestion.questionId, newDragDrop)
 		.then(function(response){
-			$scope.currentQuestion = response.data;
-			$scope.getQuestion($scope.currentQuestion)
-			var length = $scope.qList.length;
+			qCtrl.currentQuestion = response.data;
+			qCtrl.getQuestion(qCtrl.currentQuestion)
+			var length = qCtrl.qList.length;
 			for(let i=0;i<length;i++){
-				if($scope.currentQuestion.questionId == $scope.qList[i].questionId){
-					$scope.qList[i]=$scope.currentQuestion;
-					$scope.newDragDrop = "";
+				if(qCtrl.currentQuestion.questionId == qCtrl.qList[i].questionId){
+					qCtrl.qList[i]=qCtrl.currentQuestion;
+					qCtrl.newDragDrop = "";
 					break;
 				}				
 			}
@@ -387,7 +390,7 @@ app.controller('QuestionCtrl', function($http, $scope) {
 		}
 	}
 	
-	$scope.checkButton = function(option){
+	qCtrl.checkButton = function(option){
 		if (option.correct == 1) {
 			return true;
 		}else{
@@ -398,29 +401,29 @@ app.controller('QuestionCtrl', function($http, $scope) {
 	/*
 	 * Here I am attempting to call the rest controller where I update the options with the new correct answer.
 	 */
-	$scope.multiCorrect = function(option){
+	qCtrl.multiCorrect = function(option){
 		if(document.getElementById("msrad").checked == false){
-	    	$http.post("question/markAllIncorrect/" + $scope.currentQuestion.questionId)
-	    	$scope.optionCorrectChanger(option)
+	    	$http.post("question/markAllIncorrect/" + qCtrl.currentQuestion.questionId)
+	    	qCtrl.optionCorrectChanger(option)
 	    	document.getElementById("msrad").checked == true;
 	    }
 	}
 	
-	$scope.multiSelectCorrect = function(option){
+	qCtrl.multiSelectCorrect = function(option){
 		console.log(option)
-		$scope.optionCorrectChanger(option)
+		qCtrl.optionCorrectChanger(option)
 		
 	}
 	
-	$scope.optionCorrectChanger = function(option){
+	qCtrl.optionCorrectChanger = function(option){
 		$http.post("question/changeCorrect/" + option.optionId)
 		.then(function(response){
-			$scope.currentQuestion = response.data;
-			$scope.getQuestion($scope.currentQuestion)
-			var length = $scope.qList.length;
+			qCtrl.currentQuestion = response.data;
+			qCtrl.getQuestion(qCtrl.currentQuestion)
+			var length = qCtrl.qList.length;
 			for(let i=0;i<length;i++){
-				if($scope.currentQuestion.questionId == $scope.qList[i].questionId){
-					$scope.qList[i]=$scope.currentQuestion;
+				if(qCtrl.currentQuestion.questionId == qCtrl.qList[i].questionId){
+					qCtrl.qList[i]=qCtrl.currentQuestion;
 					break;
 				}
 			}
@@ -428,9 +431,9 @@ app.controller('QuestionCtrl', function($http, $scope) {
 	}
 	
 	angular.element(document).ready(function() {
-		$scope.getQuestionList();
-		$scope.loadCategories();
-		$scope.loadTags();
+		qCtrl.getQuestionList();
+		qCtrl.loadCategories();
+		qCtrl.loadTags();
 	}); // angular.element end
 
 }); // QuestionController end

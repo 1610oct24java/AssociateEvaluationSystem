@@ -1,5 +1,9 @@
 package com.revature.aes.beans;
 
+/*
+ * This class represents the answer options for a Question of type DragDrop. It does NOT contain the Question itself!
+ */
+
 import java.io.Serializable;
 
 import javax.persistence.Column;
