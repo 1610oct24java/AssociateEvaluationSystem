@@ -5,5 +5,6 @@ module.exports = {
 	var data	= browser.globals;
   	data.recruiterLogin(browser, 'lsdkjfhwelkfhewlk', 'lsdkjfhwelkfhewlk');
 
+  	browser.end();
   }
 };
