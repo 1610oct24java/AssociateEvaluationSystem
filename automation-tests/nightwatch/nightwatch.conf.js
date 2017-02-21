@@ -11,7 +11,7 @@ module.exports = {
 	"server_path": "./selenium-server-standalone-3.0.1.jar",
     "port": 4444, // standard selenium port
     "cli_args": {
-      "webdriver.chrome.driver" : "/usr/local/bin/chromedriver", /*"./node_modules/nightwatch/bin/chromedriver",*/
+      "webdriver.chrome.driver" : "node_modules/.bin/chromedriver", 
       "webdriver.gecko.driver" : "node_modules/.bin/geckodriver"
     }
   },
@@ -37,15 +37,21 @@ module.exports = {
         "javascriptEnabled": true // turn off to test progressive enhancement
       }
     },
-	"firefox-windows": {
+	  "firefox-windows": {
       "desiredCapabilities": {
         "browserName": "firefox",
         "javascriptEnabled": true // turn off to test progressive enhancement
+      }
 	  },
+    "chrome": {
+      "desiredCapabilities": {
+        "browserName": "chrome",
+        "javascriptEnabled": true // turn off to test progressive enhancement
+      }
+    },
 	  "cli_args": {
         "webdriver.chrome.driver" : "chromedriver.exe", /*"./node_modules/nightwatch/bin/chromedriver",*/
         "webdriver.gecko.driver" : "node_modules/geckodriver/geckodriver.exe"
-      }
     },
     "ci-server-firefox" : {   // custom test environment that overwrites default settings when used as either '-e ci-server-firefox' or '--env ci-server-firefox'
       "integration" : true,
