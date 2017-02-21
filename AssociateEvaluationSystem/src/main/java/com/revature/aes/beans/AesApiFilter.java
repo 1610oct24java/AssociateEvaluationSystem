@@ -50,16 +50,16 @@ public class AesApiFilter extends GenericFilterBean {
 
         //Principal user = (Principal) ((SecurityContextImpl)req.getSession().getAttribute("SPRING_SECURITY_CONTEXT")).getAuthentication().getPrincipal();
 
-        Authentication restUser = SecurityContextHolder.getContext().s
+        //Authentication restUser = SecurityContextHolder.getContext().s
 
-        restUser.setAuthenticated(true);
+        //restUser.setAuthenticated(true);
 
         //Collection<GrantedAuthority> authorities = CustomUserDetailsService.getGrantedAuthorities();
 
-        System.out.println("PRINCIPAL  : " + restUser.getPrincipal());
-        System.out.println("AUTHORITIES: " + restUser.getAuthorities());
-        System.out.println("CREDENTIALS: " + restUser.getCredentials());
-        System.out.println("DETAILS    : " + restUser.getDetails());
+//        System.out.println("PRINCIPAL  : " + restUser.getPrincipal());
+//        System.out.println("AUTHORITIES: " + restUser.getAuthorities());
+//        System.out.println("CREDENTIALS: " + restUser.getCredentials());
+//        System.out.println("DETAILS    : " + restUser.getDetails());
 
         //AuthorityUtils.createAuthorityList("TRUSTED_REST_USER");
 
