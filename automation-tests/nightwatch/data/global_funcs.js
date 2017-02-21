@@ -8,5 +8,10 @@ module.exports = {
         .waitForElementVisible('input[value=login]', 1000)
         .click('input[value=login]')
         .pause(3000);
-    }
+  },
+  logout: function (browser) {
+    browser
+      .click('button[class=\'btn-revature\']')
+      .pause(3000);
+  }
 };
