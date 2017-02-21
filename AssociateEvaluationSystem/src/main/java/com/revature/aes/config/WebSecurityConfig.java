@@ -1,5 +1,6 @@
 package com.revature.aes.config;
 
+import com.revature.aes.filter.BeforeFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,8 +11,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -21,7 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 				.antMatchers("/css/**", "/js/**", "/images/**", "/rest/**", "/images/**", "/site-images/**", "/user/**")
-				.permitAll();
+				.permitAll().and().addFilterBefore(new BeforeFilter(), BasicAuthenticationFilter.class);
 		
 		http.authorizeRequests().antMatchers("/*/recruit", "/*/view").hasRole("RECRUITER").and().authorizeRequests().and().csrf().csrfTokenRepository(csrfTokenRepository());//.permitAll().and().authorizeRequests().and().csrf().disable();
 		
@@ -35,7 +39,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.accessDeniedPage("/error")
 				.and().authorizeRequests().and().csrf().disable();
 
+
+		//http.authorizeRequests().antMatchers("/rest/**").permitAll().and().addFilterBefore(new BeforeFilter(), BasicAuthenticationFilter.class);
+
 	}
+
+/*	@Bean
+	public CORSRESTFilter getFilter(){ return new CORSRESTFilter();}*/
+
+/*	@Bean
+	public CORSRESTFilter authenticationFilter(){
+
+		CORSRESTFilter crFilter = new CORSRESTFilter();
+		//crFilter.
+
+	}*/
 
 	@Autowired
 	private UserDetailsService customUserDetailsService;

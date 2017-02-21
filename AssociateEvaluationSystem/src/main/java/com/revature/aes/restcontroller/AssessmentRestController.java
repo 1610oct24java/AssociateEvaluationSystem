@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -51,6 +52,7 @@ public class AssessmentRestController {
 	 */
 	@RequestMapping(value = "user/RandomAssessment", method = RequestMethod.POST, consumes = {
 			MediaType.APPLICATION_JSON_VALUE })
+	//@PreAuthorize("hasAnyRole('ADMIN', 'RECRUITER', 'TRAINER', 'RESTUSER')")
 	public AssessmentRequest createAssessment(@RequestBody AssessmentRequest assReq) throws URISyntaxException {
 		Template tmpl = new Template();
 
