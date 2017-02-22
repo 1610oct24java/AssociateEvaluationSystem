@@ -1,5 +1,6 @@
 package com.revature.aes.controllers;
 
+import com.revature.aes.beans.User;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,9 +13,10 @@ import java.util.Map;
 @RestController
 public class Chunt {
 
-    @RequestMapping
+    @RequestMapping("/rest/slut")
     public Map<String, Object> cligorus() {
-
+        User coldFarts = new User();
+        return null;
     }
 
 }
