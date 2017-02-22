@@ -7,11 +7,8 @@ adminApp.constant("SITE_URL", {
 	"PORT" : ":8080",
 	
 	"LOGIN": "index",
-	"VIEW_EMPLOYEES" : "adminView",
-	"REGISTER_EMPLOYEE" : "",
-	
-	"TRAINER_HOME" : "http://sports.cbsimg.net/images/nhl/blog/Ryan_Reaves_Kiss.JPG"
-	
+	"VIEW_EMPLOYEES" : "viewEmployees",
+	"REGISTER_EMPLOYEE" : ""
 });
 
 adminApp.constant("API_URL", {
@@ -21,6 +18,7 @@ adminApp.constant("API_URL", {
 	"AUTH"      : "/security/auth",
 	"CANDIDATE" : "/candidate/",
 	"RECRUITER" : "/recruiter/",
+	"TRAINER"	: "/trainer/",
 	"LINK"      : "/link",
 	"EMPLOYEES" : "/employees",
 	"ADMIN"		: "/admin"
@@ -62,13 +60,26 @@ app.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE_URL,
 			lastName      : $scope.lastName,
 			salesforce    : null,
 			recruiterId   : null,
-			role          : null,
+			role          : $scope.employeeType.value,
 			datePassIssued: null,
-			format		  : $scope.program.value
+			format		  : null
 		};
 
+		var urlSpecific = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN;
+		
+		if (employeeInfo.role === "Recruiter")
+		{
+			urlSpecific = urlSpecific + API_URL.RECRUITER;
+		}else if (employeeInfo.role === "Trainer")
+		{
+			urlSpecific = urlSpecific + API_URL.TRAINER;
+		}
+		
+		urlSpecific = urlSpecific + employeeInfo.email 
+		+ "/" + employeeInfo.lastName + "/" + employeeInfo.firstName
+		
 		console.log(employeeInfo);
-		$scope.postRegister(employeeInfo);
+		$scope.postRegister(urlSpecific, employeeInfo);
 		
 		$scope.firstName = '';
 		$scope.lastName = '';
@@ -76,17 +87,18 @@ app.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE_URL,
 		$scope.program = '';
 	};
 
-	$scope.postRegister = function(employeeInfo) {
-		console.log("POSTREGISTER")
+	$scope.postRegister = function(urlSpecific, employeeInfo) {
+		console.log("adminApp.js: POST REGISTER EMPLOYEE")
+		
 		$http({
 			method  : 'POST',
-			url: SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + $scope.authUser.username + API_URL.CANDIDATES,
+			url: urlSpecific,
 			headers : {'Content-Type' : 'application/json'},
 			data    : employeeInfo
 		}).success( function(res) {
-			console.log('success');
+			console.log('adminApp.js: register employee success');
 		}).error( function(res) {
-			console.log('error');
+			console.log('adminApp.js: register employee error');
 		});
 	};
 
@@ -107,7 +119,7 @@ app.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE_URL,
 
 }); //end register candidate controller
 
-app.controller('EmployeeViewCtrl', function($scope,$http, SITE_URL, API_URL, ROLE) {
+app.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_URL, ROLE) {
 
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
@@ -122,8 +134,7 @@ app.controller('EmployeeViewCtrl', function($scope,$http, SITE_URL, API_URL, ROL
 				window.location = SITE_URL.LOGIN;
 			}
 			
-			//TODO NEED REST CALL TO RETRIEVE LIST OF TRAINERS AND RECRUITERS: NAME, EMAIL, ROLE
-			$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + $scope.authUser.username + API_URL.EMPLOYEES)
+			$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEES)
 			.then(function(response) {
 				console.log(response.data);
 				$scope.employees = response.data;

@@ -1,7 +1,13 @@
 package com.revature.aes.service;
 
-import com.revature.aes.beans.Security;
-import com.revature.aes.logging.Logging;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,13 +17,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
+import com.revature.aes.beans.Security;
+import com.revature.aes.logging.Logging;
+
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -83,6 +85,8 @@ public class CustomUserDetailsService implements UserDetailsService {
             roles.add("ROLE_CANDIDATE");
         } else if ("Trainer".equalsIgnoreCase(role)) {
             roles.add("ROLE_TRAINER");
+        } else if ("Admin".equalsIgnoreCase(role)) {
+        	roles.add("ROLE_ADMIN");
         }
         return roles;
     }

@@ -1,11 +1,8 @@
 package com.revature.aes.config;
 
-import com.revature.aes.service.CustomUserDetailsService;
-import com.revature.aes.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportResource;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -23,10 +20,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-				.antMatchers("/css/**", "/js/**", "/images/**", "/rest/**", "/images/**", "/site-images/**", "/user/**")
+				.antMatchers("/css/**", "/js/**", "/images/**", "/rest/**", "/images/**", "/site-images/**", "/user/**", "/admin/**")
 				.permitAll();
 		
 		http.authorizeRequests().antMatchers("/*/recruit", "/*/view").hasRole("RECRUITER").and().authorizeRequests().and().csrf().csrfTokenRepository(csrfTokenRepository());//.permitAll().and().authorizeRequests().and().csrf().disable();
+		http.authorizeRequests().antMatchers("/*/registerEmployee", "/*/viewEmployees").hasRole("ADMIN").and().authorizeRequests().and().csrf().csrfTokenRepository(csrfTokenRepository());
 		
 		http.authorizeRequests().antMatchers("/").permitAll().anyRequest()
 		.authenticated()

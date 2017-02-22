@@ -26,10 +26,10 @@
 
 	<div class="row stylePro">
 		<span class="col-xs-6 col-md-6">
-			<a href="view">View Employees</a>
+			<a href="viewEmployees">View Employees</a>
 		</span>
 		<span class="col-xs-6 col-md-6">
-			<button class="btn-revature" ng-click="logout()">logout</button>
+			<button id="logout" class="btn-revature" ng-click="logout()">logout</button>
 		</span>
 	</div>
 
@@ -48,8 +48,8 @@
             <input class="col-xs-12 col-md-12" id="inputEmail" type="email" placeholder="email address" ng-model="email" required>
         </div>
         <div class="row">
-            <select class="col-xs-8 col-md-6"
-                    ng-model="Type" 
+            <select id="roleSelect" class="col-xs-8 col-md-6"
+                    ng-model="employeeType" 
                     ng-options="option.name for option in options"
                     required>
                 <option value="" hidden>

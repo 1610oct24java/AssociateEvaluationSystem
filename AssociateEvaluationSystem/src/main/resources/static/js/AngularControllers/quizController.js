@@ -235,8 +235,8 @@ app.controller("quizController", function($scope, $rootScope, $http,
 	// PAGINATION
  	$scope.filteredQuestions = [];
 	$scope.currentPage = 1;
-	$scope.numPerPage = 3;
-	$scope.maxSize = 5;
+	$scope.numPerPage = 25;
+	$scope.maxSize = 100;
 	
 	$scope.jumpPage = function (numPage) {
 		$scope.currentPage = numPage;
