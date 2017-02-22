@@ -37,29 +37,40 @@ module.exports = {
         "javascriptEnabled": true // turn off to test progressive enhancement
       }
     },
-	"firefox-windows": {
+    "firefox-windows": {
       "desiredCapabilities": {
         "browserName": "firefox",
         "javascriptEnabled": true // turn off to test progressive enhancement
-	  },
-	  "cli_args": {
-	    "webdriver.chrome.driver" : "chromedriver.exe", /*"./node_modules/nightwatch/bin/chromedriver",*/
-	    "webdriver.gecko.driver" : "node_modules/geckodriver/geckodriver.exe"
+	    },
+	    "cli_args": {
+	      "webdriver.gecko.driver": "node_modules/geckodriver/geckodriver.exe"
       }
-	},
+	  },
     "chrome": {
       "desiredCapabilities": {
         "browserName": "chrome",
         "javascriptEnabled": true // turn off to test progressive enhancement
+      },
+      "cli_args": {
+        "webdriver.chrome.driver": "node_modules/chromedriver/lib/chromedriver/chromedriver.exe", /*"./node_modules/nightwatch/bin/chromedriver",*/
       }
     },
+    //"internet-explorer": {
+    //  "desiredCapabilities": {
+    //    "browserName": "ie",
+    //    "javascriptEnabled": true // turn off to test progressive enhancement
+    //  },
+    //  "cli_args": {
+    //    "webdriver.chrome.driver": "node_modules/iedriver/lib/iedriver/IEDriverServer.exe", /*"./node_modules/nightwatch/bin/chromedriver",*/
+    //  }
+    //},
     "ci-server-firefox" : {   // custom test environment that overwrites default settings when used as either '-e ci-server-firefox' or '--env ci-server-firefox'
       "integration" : true,
       "desiredCapabilities": {
         "browserName": "firefox",
         "marionette": true
-	  },
-	  "cli_args": {
+	    },
+	    "cli_args": {
         "webdriver.gecko.driver" : "geckodriver"
       }
     },
