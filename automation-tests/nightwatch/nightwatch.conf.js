@@ -11,7 +11,6 @@ module.exports = {
 	  "server_path": "./selenium-server-standalone-3.1.0.jar",
     "port": 4444, // standard selenium port
     "cli_args": {
-      "webdriver.chrome.driver" : "node_modules/.bin/chromedriver",
       "webdriver.gecko.driver" : "node_modules/.bin/geckodriver"
     }
   },
@@ -49,21 +48,22 @@ module.exports = {
     "chrome": {
       "desiredCapabilities": {
         "browserName": "chrome",
-        "javascriptEnabled": true // turn off to test progressive enhancement
+        "javascriptEnabled": true
       },
       "cli_args": {
-        "webdriver.chrome.driver": "node_modules/chromedriver/lib/chromedriver/chromedriver.exe", /*"./node_modules/nightwatch/bin/chromedriver",*/
+        "webdriver.chrome.driver": "node_modules/chromedriver/lib/chromedriver/chromedriver.exe"  //Run "npm install chromedriver" for this to work 
       }
     },
-    //"internet-explorer": {
-    //  "desiredCapabilities": {
-    //    "browserName": "ie",
-    //    "javascriptEnabled": true // turn off to test progressive enhancement
-    //  },
-    //  "cli_args": {
-    //    "webdriver.chrome.driver": "node_modules/iedriver/lib/iedriver/IEDriverServer.exe", /*"./node_modules/nightwatch/bin/chromedriver",*/
-    //  }
-    //},
+    "edge": {
+      "desiredCapabilities": {
+        "browserName": "MicrosoftEdge",
+        "javascriptEnabled": true
+      },
+      "cli_args": {
+        //Download the driver at "https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/" and insert the path below
+        "webdriver.edge.driver": "C:/Users/User/Documents/MicrosoftWebDriver.exe"  
+      }
+    },
     "ci-server-firefox" : {   // custom test environment that overwrites default settings when used as either '-e ci-server-firefox' or '--env ci-server-firefox'
       "integration" : true,
       "desiredCapabilities": {
