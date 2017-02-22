@@ -121,16 +121,16 @@ public class RecruiterController {
 		userService.removeCandidate(email, index);
 	}
 
-	
-	@RequestMapping(value="recruiter/{email}/init",method = RequestMethod.POST)
-	public void initRecruiter(@PathVariable String email) {
-		userService.createRecruiter(email);
-	}
-	
-	@RequestMapping(value="trainer/{email}/init",method = RequestMethod.POST)
-	public void initTrainer(@PathVariable String email) {
-		userService.createTrainer(email);
-	}
+//	THESE ARE NOW IMPLEMENTED IN com.revature.aes.controllers.AdminController.java
+//	@RequestMapping(value="recruiter/{email}/init",method = RequestMethod.POST)
+//	public void initRecruiter(@PathVariable String email) {
+//		userService.createRecruiter(email);
+//	}
+//	
+//	@RequestMapping(value="trainer/{email}/init",method = RequestMethod.POST)
+//	public void initTrainer(@PathVariable String email) {
+//		userService.createTrainer(email);
+//	}
 	
 	@RequestMapping(value="roles/init",method = RequestMethod.GET)
 	public void initRoles() {

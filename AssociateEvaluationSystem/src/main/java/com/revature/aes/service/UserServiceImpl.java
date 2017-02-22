@@ -1,17 +1,18 @@
 package com.revature.aes.service;
 
-import com.revature.aes.logging.Logging;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.revature.aes.beans.User;
-import com.revature.aes.dao.UserDAO;
-import org.springframework.transaction.annotation.Propagation;
-
-import javax.transaction.Transactional;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Propagation;
+
+import com.revature.aes.beans.User;
+import com.revature.aes.dao.UserDAO;
+import com.revature.aes.logging.Logging;
 
 @org.springframework.stereotype.Service
 @Transactional
@@ -138,30 +139,65 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void createRecruiter(String email) {
+	public void createRecruiter(String email, String lastname, String firstname) {
 
-		createAdmin(email, "recruiter");
+		createEmployee(email, lastname, firstname, "recruiter");
 
 	}
 
 	@Override
-	public void createTrainer(String email) {
+	public void createTrainer(String email, String lastname, String firstname) {
 
-		createAdmin(email, "trainer");
+		createEmployee(email, lastname, firstname, "trainer");
 
 	}
 
-	private void createAdmin(String email, String adminRole){
+	private void createEmployee(String email, String lastname, String firstname, String adminRole){
+		
 		SimpleDateFormat fmt = new SimpleDateFormat(PATTERN);
-		User recruiter = new User();
-		recruiter.setEmail(email);
-		recruiter.setFirstName("John");
-		recruiter.setLastName(adminRole);
+		User user = new User();
+		user.setEmail(email);
+		user.setFirstName(firstname);
+		user.setLastName(lastname);
+		user.setRole(role.findRoleByRoleTitle(adminRole));
+		user.setDatePassIssued(fmt.format(new Date()));
+		
+		dao.save(user);
+		security.createKnownSecurity(user);
+	}
 
-		recruiter.setRole(role.findRoleByRoleTitle(adminRole));
-		recruiter.setDatePassIssued(fmt.format(new Date()));
-		dao.save(recruiter);
+	@Override
+	public List<User> findUsersByRole(String role) {
+		
+		List<User> users = dao.findUsersByRole(role);
+		
+		return users;
+	}
 
-		security.createKnownSecurity(recruiter);
+	@Override
+	public void createAdmin(String email, String lastname, String firstname) {
+		
+		SimpleDateFormat fmt = new SimpleDateFormat(PATTERN);
+		User user = new User();
+		user.setEmail(email);
+		user.setFirstName(firstname);
+		user.setLastName(lastname);
+		user.setRole(role.findRoleByRoleTitle("admin"));
+		user.setDatePassIssued(fmt.format(new Date()));
+		
+		dao.save(user);
+		security.createKnownSecurity(user);
+	}
+
+	@Override
+	public User updateEmployee(User user, String email, int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void removeEmployee(String email, int index) {
+		// TODO Auto-generated method stub
+		
 	}
 }
