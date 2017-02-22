@@ -108,9 +108,12 @@ public class AdminController {
 		userService.createTrainer(email, lastname, firstname);
 	}
 	
-	@RequestMapping(value="admin/registerSuperuser/{email}/{lastname}/{firstname}", method = RequestMethod.POST)
-	public void initSuperuser(@PathVariable String email, @PathVariable String lastname, @PathVariable String firstname) {
-		userService.createAdmin(email, lastname, firstname);
-	}
+	/**
+	 * 
+	 */
+//	@RequestMapping(value="admin/registerSuperuser/{email}/{lastname}/{firstname}", method = RequestMethod.POST)
+//	public void initSuperuser(@PathVariable String email, @PathVariable String lastname, @PathVariable String firstname) {
+//		userService.createAdmin(email, lastname, firstname);
+//	}
 	
 }
