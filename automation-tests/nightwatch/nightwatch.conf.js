@@ -8,7 +8,7 @@ module.exports = {
   //'page_objects_path': 'page-objects',
   "selenium": {
     "start_process": true,
-	"server_path": "./selenium-server-standalone-3.1.0.jar",
+	  "server_path": "./selenium-server-standalone-3.1.0.jar",
     "port": 4444, // standard selenium port
     "cli_args": {
       "webdriver.chrome.driver" : "node_modules/.bin/chromedriver", 
