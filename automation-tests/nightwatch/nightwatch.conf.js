@@ -58,6 +58,9 @@ module.exports = {
       "desiredCapabilities": {
         "browserName": "firefox",
         "marionette": true
+	  },
+	  "cli_args": {
+        "webdriver.gecko.driver" : "geckodriver"
       }
     },
     'ci-server-chrome' : {
