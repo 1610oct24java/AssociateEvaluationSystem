@@ -109,7 +109,17 @@ public class AdminController {
 	}
 	
 	/**
+	 * This method creates a superuser for the system that can 
+	 *   create recruiter and trainer accounts.
+	 * This endpoint is currently disabled after creating the superuser
+	 *   account so that no one else can create another superuser.
 	 * 
+	 * @param email
+	 * 		The email of the superuser
+	 * @param lastname
+	 * 		lastname of the superuser
+	 * @param firstname
+	 * 		firstname of the superuser
 	 */
 //	@RequestMapping(value="admin/registerSuperuser/{email}/{lastname}/{firstname}", method = RequestMethod.POST)
 //	public void initSuperuser(@PathVariable String email, @PathVariable String lastname, @PathVariable String firstname) {
