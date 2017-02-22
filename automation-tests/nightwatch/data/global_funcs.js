@@ -21,10 +21,10 @@ module.exports = {
           //.waitForElementVisible('option[value=option:3]', 1000)
 		  //.click('option[value=option:3]')
 		  //.click('input[id=btn-register-recruit]');
-  },
-  logout: function (browser) {
-    browser
-      .click('button[class=btn-revature]')
-      .pause(3000);
-  }
+	},
+	logout: function (browser) {
+	browser
+	  .click('button[class=btn-revature]')
+	  .pause(3000);
+	}
 };
