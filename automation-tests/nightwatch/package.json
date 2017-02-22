@@ -1,0 +1,16 @@
+{
+  "name": "associate-evaluation-system-automation-framework",
+  "description": "Automated tests for AES",
+  "version": "0.0.1",
+  "author": {
+    "name": "Matthew Ecker",
+    "email": "eckermd@gmail.com"
+  },
+  "devDependencies": {
+    "geckodriver": "^1.4.0",
+    "nightwatch": "^0.9.12"
+  },
+  "dependencies": {
+    "nightwatch": "^0.9.12"
+  }
+}
