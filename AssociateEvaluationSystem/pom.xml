@@ -265,10 +265,10 @@
 		</dependency>
 		
 		<dependency>
--			<groupId>com.oracle.ojdbc</groupId>
--			<artifactId>ojdbc</artifactId>
--			<version>12.1.0.1</version>
--		</dependency>
+			<groupId>com.oracle.ojdbc</groupId>
+			<artifactId>ojdbc</artifactId>
+			<version>12.1.0.1</version>
+		</dependency>
 		
 		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
 		<dependency>
