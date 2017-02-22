@@ -30,13 +30,13 @@
 					<div>
 						<input type="radio" id="msrad" name="correctChoice" ng-model="option.correct" ng-click="multiCorrect(option)" ng-checked="checkButton(option)">
 						<input type="text" size="60" ng-model="option.optionText"></input>
-						<button ng-click="removeOption(option)">shweep</button>
+						<button ng-click="removeOption(option)">Remove Answer Option</button>
 					</div>
 				</div>
 				</form>
 				<input type="text" size="60" ng-model="newOption"></input><br>
 				<button ng-click="updateQuestion()">Update</button>
-				<button ng-click="addOption(newOption)">shwip</button>
+				<button ng-click="addOption(newOption)">Add Answer Option</button>
 			</div>
 			<div ng-show="isMultiSelectOption">
 				<form>
@@ -56,12 +56,12 @@
 				<div ng-repeat="dragdrop in currentQuestion.dragdrop">
 					<div>
 						<input type="text" size="60" ng-model="dragdrop.dragDropText"></input>
-						<button ng-click="removeDDOption(dragdrop)">shweep</button>
+						<button ng-click="removeDDOption(dragdrop)">Remove Answer Option</button>
 					</div>
 				</div>
 				<input type="text" size="60" ng-model="newDragDrop"></input><br>
-				<button ng-click="updateQuestion()">shwoop</button>
-				<button ng-click="addDragDrop(newDragDrop)">shwip</button>
+				<button ng-click="updateQuestion()">Update Question</button>
+				<button ng-click="addDragDrop(newDragDrop)">Add Answer Option</button>
 			</div>
 			<div>
 				<!-- <input type="text" size="60" ng-model="newOption"></input> -->

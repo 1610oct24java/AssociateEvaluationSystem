@@ -1,4 +1,4 @@
-var app = angular.module("bankApp", [ 'ui.router', 'ngFileUpload','ngProgress']);
+var app = angular.module("bankApp", [ 'ui.router', 'ngFileUpload','ngProgress','ngResource']);
 
 app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider) { 
     
@@ -25,6 +25,17 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider) {
             url:'upload',
             templateUrl: 'templates/bank/uploadTemplate.html',
             controller: 'MasterCtrl'
+        })
+        .state('addQuestion', {
+        	url:'',
+        	views: {
+        		"mainView":{
+        			templateUrl:'templates/bank/questionAddTemplate.html',
+        			controller:'questionAddController',
+        			controllerAs:'qAddCtrl'
+        		}
+        	}
+        	
         })
  
 }]);
