@@ -7,13 +7,10 @@ import java.util.Random;
 import java.util.Set;
 
 import com.amazonaws.services.dynamodbv2.xspec.S;
+import com.revature.aes.beans.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.revature.aes.beans.AssessmentRequest;
-import com.revature.aes.beans.Category;
-import com.revature.aes.beans.Question;
-import com.revature.aes.beans.TemplateQuestion;
 import com.revature.aes.dao.CategoryDAO;
 import com.revature.aes.dao.QuestionDAO;
 
@@ -30,7 +27,7 @@ public class SystemTemplate {
 	 * @param assReq: The AssessmentRequest object being sent from Core team. See bean for content.
 	 * @return	Returns the same object with the link to the assessment that Assessment team generates.
 	 */
-	public Set<TemplateQuestion> getRandomSelectionFromCategory(AssessmentRequest assReq) {
+	public Set<TemplateQuestion> getRandomSelectionFromCategory(CategoryRequest assReq) {
 
 		String catName = assReq.getCategory();
 		int multiChoice = assReq.getMcQuestions();
