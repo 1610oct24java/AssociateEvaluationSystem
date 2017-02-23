@@ -28,7 +28,7 @@ public class Application extends SpringBootServletInitializer
 	 *             the throwable
 	 */
 	public static void main(String[] args) throws Throwable
-	{
+	{		
 		SpringApplication.run(Application.class, args);
 	}
 	

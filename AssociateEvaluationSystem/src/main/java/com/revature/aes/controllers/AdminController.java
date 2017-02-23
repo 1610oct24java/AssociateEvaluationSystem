@@ -109,6 +109,7 @@ public class AdminController {
 	}
 	
 	/**
+
 	 * This method creates a superuser for the system that can 
 	 *   create recruiter and trainer accounts.
 	 * This endpoint is currently disabled after creating the superuser

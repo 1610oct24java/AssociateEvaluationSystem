@@ -19,9 +19,11 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "AES_OPTIONS")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Option implements Serializable {
 
 	/**

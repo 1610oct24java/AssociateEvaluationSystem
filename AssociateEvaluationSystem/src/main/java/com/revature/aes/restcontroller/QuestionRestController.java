@@ -1,6 +1,7 @@
 package com.revature.aes.restcontroller;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -10,9 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.aes.beans.DragDrop;
 import com.revature.aes.beans.Format;
+import com.revature.aes.beans.Option;
 import com.revature.aes.beans.Question;
 import com.revature.aes.beans.QuestionOptionsJSONHandler;
+import com.revature.aes.service.DragDropService;
+import com.revature.aes.service.OptionService;
 import com.revature.aes.service.QuestionService;
 
 /**
@@ -28,6 +33,20 @@ public class QuestionRestController
 	 */
 	@Autowired
 	private QuestionService questionService;
+	
+	/**
+	 * @questionService The service used to handle HTTPs Requests and Responses
+	 * 					for the Question's Options.
+	 */
+	@Autowired
+	private OptionService optionService;
+	
+	/**
+	 * @ddService 		The service used to handle HTTPs Requests and Responses
+	 * 					for the Drag and Drop Options
+	 */
+	@Autowired
+	private DragDropService ddService;
 
 	/**
 	 * Stores a Question into a database
@@ -50,11 +69,26 @@ public class QuestionRestController
 	 * @return a Question
 	 * a Integer
 	 */
-	@RequestMapping(value = "question/{questionId}", method = RequestMethod.GET, produces =
+	@RequestMapping(value = "question/refresh/{optionId}", method = RequestMethod.POST, produces =
 	{ MediaType.APPLICATION_JSON_VALUE })
-	public Question getQuestionById(@PathVariable Integer questionId)
+	public Question getQuestionByOptionId(@PathVariable Integer optionId, @RequestBody Integer questionId)
 	{
-		return questionService.getQuestionById(questionId);
+		optionService.removeOptionById(optionId);
+		Question question = questionService.getQuestionById(questionId);
+		return question;
+	}
+	
+	/**
+	 * 
+	 * @param id	The id of the option for a drag and drop question to be 
+	 * 				deleted.
+	 */
+	@RequestMapping(value="question/deleteDragDrop/{dragDropId}", method = RequestMethod.POST, produces = 
+			{MediaType.APPLICATION_JSON_VALUE})
+	public Question deleteDragDropById(@PathVariable Integer dragDropId, @RequestBody Integer questionId){
+		ddService.removeDragDropById(dragDropId);
+		Question question = questionService.getQuestionById(questionId);
+		return question;
 	}
 
 	/**
@@ -92,6 +126,14 @@ public class QuestionRestController
 	{ MediaType.APPLICATION_JSON_VALUE })
 	public Question updateQuestionById(@RequestBody Question question)
 	{
+		for (Option o : question.getOption())
+		{
+			o.setQuestion(question);
+		}
+		for (DragDrop d : question.getDragdrop())
+		{
+			d.setQuestion(question);
+		}
 		return questionService.updateQuestion(question);		
 	}
 	
@@ -107,9 +149,84 @@ public class QuestionRestController
 		questionService.deleteQuestionById(id);
 	}
 	
+	/**
+	 * 
+	 * @param question This is a method that Ed did to add questions.
+	 * 					I think it is done this way to add the options, category, and 
+	 * 					format of the question correctly.
+	 * @return
+	 */
 	@RequestMapping(value ="fullQuestion", method = RequestMethod.POST, produces = 
 		{ MediaType.APPLICATION_JSON_VALUE })
 	public Question addFullQuestion(@RequestBody QuestionOptionsJSONHandler question ){
 		return questionService.addFullQuestion(question);
 	}
+	
+	
+	@RequestMapping(value="question/addOption/{questionId}", method = RequestMethod.POST, produces = 
+			{ MediaType.APPLICATION_JSON_VALUE })
+	public Question addOption(@RequestBody String optionText, @PathVariable Integer questionId){
+		
+		Question question = questionService.getQuestionById(questionId);
+		Option option = new Option();
+		option.setOptionText(optionText);
+		option.setQuestion(question);
+		optionService.addOption(option);
+		question.getOption().add(option);
+		return question;
+	}
+	
+	@RequestMapping(value="question/addDragDrop/{questionId}", method = RequestMethod.POST, produces = 
+		{ MediaType.APPLICATION_JSON_VALUE })
+	public Question addDragDrop(@RequestBody String dragDropText, @PathVariable Integer questionId){
+		Question question = questionService.getQuestionById(questionId);
+		DragDrop dragdrop = new DragDrop();
+		dragdrop.setDragDropText(dragDropText);
+		dragdrop.setQuestion(question);
+		ddService.addDragDrop(dragdrop);
+		question.getDragdrop().add(dragdrop);
+		return question;
+}
+	/*
+	 * I was trying to fix the issue where the new correct answer in multiple choice questions would get selected and changed in the database, but the
+	 * 	old answer wouldn't be changed to incorrect. I was trying to make a method where all the options would be changed to incorrect, then the new one would be 
+	 * 	updated to correct, but I was having an issue with iterating through the set of options.
+	 */
+	
+	
+	@RequestMapping(value="question/markAllIncorrect/{questionId}", method = RequestMethod.POST, produces = 
+			{MediaType.APPLICATION_JSON_VALUE})
+	public void mcReset(@PathVariable Integer questionId){
+		System.out.println("*******************************************************************************************************************");
+		System.out.println("Inside eraser method.");
+		System.out.println("*******************************************************************************************************************");
+		Question question = questionService.getQuestionById(questionId);
+		Set<Option> options = question.getOption();
+		for(int i=0;i<options.size();i++){
+/*			Option opt = options.;
+			System.out.println("Option: " + opt);
+			optionService.addOption(opt);*/
+		}
+		questionService.updateQuestion(question);
+	}
+	
+	@RequestMapping(value="question/changeCorrect/{optionId}", method = RequestMethod.POST, produces=
+			{MediaType.APPLICATION_JSON_VALUE})
+	public Question changeCorrect(@PathVariable Integer optionId){
+		Option option = optionService.getOptionById(optionId);
+		if(option.getCorrect() == 1){
+			option.setCorrect(0);
+			optionService.addOption(option);
+		}
+		else{
+			option.setCorrect(1);
+			optionService.addOption(option);
+		}
+		return option.getQuestion();
+	}
+	
+//	@RequestMapping(value="question/changeCorrectDragDrop", method = RequestMethod.POST, produces=
+//			{MediaType.APPLICATION_JSON_VALUE})
+//	public DragDrop changeCorrectDragDrop(@RequestBody DragDrop dragDrop)
+	
 }

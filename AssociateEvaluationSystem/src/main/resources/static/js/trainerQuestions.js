@@ -1,14 +1,14 @@
-'use strict';
+/*'use strict';
 
 var app; // the base application for angular.
 var baseDirectory = "TestBank";
 var url = "/" + baseDirectory + "/"; 
 
-/*
+
  * A JavaScript closure of a function using ES2015 concise syntax. Using concise
  * syntax of (()=> {})(); is equivalent of window.onload = function() {}; This
  * function uses Angular to control the overall functionality of the HTML page.
- */
+ 
 (() => {
 	
 	// creating the module for the base application whose name is 'app'
@@ -16,11 +16,11 @@ var url = "/" + baseDirectory + "/";
 
 	app.controller('FormatController', function($http) {
 		this.fList;
-		/*
+		
 		 * var getFormatList = function() { $http.get(url + "format") .then(
 		 * function(response { formatList = response.data; this.fList =
 		 * formatList; });}
-		 */
+		 
 		this.getFormatList = () => {
 			$http.get(url + "format")
 			.then(response => {
@@ -324,5 +324,15 @@ var url = "/" + baseDirectory + "/";
 			this.loadCategories();
 			this.loadTags();
 		}); // angular.element end
+		
+		
+		//------------------------------------------------------------------------------------------------------------------------------------------------------------------
+		
+		$scope.loadCurrentQuestion = function(){
+			console.log("Inside function");
+			$scope.currentQuestion= this.question;
+			console.log($scope.question);
+		}
 	}); // QuestionController end
 })();// the end of the closure invoking the function within the closure.
+*/

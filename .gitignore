@@ -5,7 +5,7 @@
 .mtj.tmp/
 
 # Package Files #
-*.jar
+/AssociateEvaluationSystem/*.jar
 *.war
 *.ear
 
@@ -31,3 +31,11 @@ hs_err_pid*
 AssociateEvaluationSystem/AssociateEvaluationSystem.iml
 
 AssociateEvaluationSystem/logs/*
+
+# OS X
+*.DS_Store
+
+# Nightwatch
+/automation-tests/nightwatch/node_modules/
+/automation-tests/nightwatch/reports/
+/automation-tests/nightwatch/selenium-debug.log
