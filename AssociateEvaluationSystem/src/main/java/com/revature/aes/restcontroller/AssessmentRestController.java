@@ -52,9 +52,9 @@ public class AssessmentRestController {
 		Template tmpl = new Template();
 
 		Set<TemplateQuestion> finalQuestion = new HashSet<>();
-		//TODO replace assReq with category request
+
 		for (CategoryRequest catReq : assReq.getCategoryRequestList()){
-			finalQuestion.addAll(systemp.getRandomSelectionFromCategory(catReq))
+			finalQuestion.addAll(systemp.getRandomSelectionFromCategory(catReq));
 		}
 
 		for (TemplateQuestion tq : finalQuestion) {
