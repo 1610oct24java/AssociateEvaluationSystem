@@ -24,15 +24,15 @@ public class IpConf {
     @Inject
     private org.springframework.boot.autoconfigure.web.ServerProperties serverProperties;
 
-    public static final boolean onEc2 = true;
+    public static final boolean onEc2 = false;
 
     public String getHostName(){
 
         if(onEc2){
-            return getEc2HostName();
-        }
 
-        else{
+            return getEc2HostName();
+
+        } else{
 
             return getLocalMachineName();
 

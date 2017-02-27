@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
+import com.revature.aes.logging.Logging;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.amazonaws.services.s3.AmazonS3;
@@ -18,7 +20,9 @@ import com.revature.aes.io.SnippetIO;
 @Service
 public class S3Service {
 	
-	static String S3LOCATION = "aes.revature/";;
+	static String S3LOCATION = "aes.revature/";
+    @Autowired
+    Logging log;
 
 	public boolean uploadToS3(String snippetContents, String key) {
 		File file = new File("tempFile");
@@ -27,10 +31,10 @@ public class S3Service {
 		    writer.write(snippetContents);
 		    writer.close();
 			new SnippetIO().upload(file, key);
-			file.delete();
+//			file delete()
 			return true;
 		} catch (IOException e) {
-			e.printStackTrace();
+		    log.error(e.getMessage());
 			return false;
 		}
 	}
@@ -47,7 +51,7 @@ public class S3Service {
               fileContent = fileContent + line + "\n";
             }
         } catch (IOException e) {
-            e.printStackTrace();
+        	log.error(e.getMessage());
         }
         return fileContent;
     }

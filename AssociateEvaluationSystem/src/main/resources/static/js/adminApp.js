@@ -1,4 +1,4 @@
-var adminApp = angular.module('adminApp',[]);
+var adminApp = angular.module('adminApp', []);
 
 adminApp.constant("SITE_URL", {
 	"HTTP" : "http://",
@@ -35,13 +35,12 @@ app.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE_URL,
 
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
-		console.log(response.data);
 		if (response.data.authenticated) {
 			var authUser = {
 				username : response.data.principal.username,
 				authority: response.data.principal.authorities[0].authority
-			}
-			console.log(authUser);
+			};
+
 			$scope.authUser = authUser;
 			if($scope.authUser.authority != ROLE.ADMIN) {
 				window.location = SITE_URL.LOGIN;
@@ -78,7 +77,6 @@ app.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE_URL,
 		urlSpecific = urlSpecific + employeeInfo.email 
 		+ "/" + employeeInfo.lastName + "/" + employeeInfo.firstName
 		
-		console.log(employeeInfo);
 		$scope.postRegister(urlSpecific, employeeInfo);
 		
 		$scope.firstName = '';
@@ -88,17 +86,12 @@ app.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE_URL,
 	};
 
 	$scope.postRegister = function(urlSpecific, employeeInfo) {
-		console.log("adminApp.js: POST REGISTER EMPLOYEE")
-		
+
 		$http({
 			method  : 'POST',
 			url: urlSpecific,
 			headers : {'Content-Type' : 'application/json'},
 			data    : employeeInfo
-		}).success( function(res) {
-			console.log('adminApp.js: register employee success');
-		}).error( function(res) {
-			console.log('adminApp.js: register employee error');
 		});
 	};
 
@@ -127,22 +120,22 @@ app.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_URL, RO
 			var authUser = {
 				username : response.data.principal.username,
 				authority: response.data.principal.authorities[0].authority
-			}
-			console.log(authUser);
+			};
+
 			$scope.authUser = authUser;
+
 			if($scope.authUser.authority != ROLE.ADMIN) {
 				window.location = SITE_URL.LOGIN;
 			}
 			
 			$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEES)
 			.then(function(response) {
-				console.log(response.data);
 				$scope.employees = response.data;
 			})
 		} else {
 			window.location = SITE_URL.LOGIN;
 		}
-	})
+	});
 	
 	$scope.logout = function() {
 		$http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
@@ -166,13 +159,12 @@ app.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_URL, A
 
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
-		console.log(response.data);
 		if (response.data.authenticated) {
 			var authUser = {
 				username : response.data.principal.username,
 				authority: response.data.principal.authorities[0].authority
-			}
-			console.log(authUser);
+			};
+
 			$scope.authUser = authUser;
 			if($scope.authUser.authority != ROLE.ADMIN) {
 				window.location = SITE_URL.LOGIN;
@@ -180,7 +172,7 @@ app.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_URL, A
 		} else {
 			window.location = SITE_URL.LOGIN;
 		}
-	})
+	});
 	
 	$scope.register = function() {
 
@@ -209,7 +201,6 @@ app.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_URL, A
 		urlSpecific = urlSpecific + employeeInfo.email 
 		+ "/" + employeeInfo.lastName + "/" + employeeInfo.firstName
 		
-		console.log(employeeInfo);
 		$scope.postRegister(urlSpecific, employeeInfo);
 		
 		$scope.firstName = '';
@@ -219,17 +210,12 @@ app.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_URL, A
 	};
 
 	$scope.postRegister = function(urlSpecific, employeeInfo) {
-		console.log("adminApp.js: POST REGISTER EMPLOYEE")
-		
+
 		$http({
 			method  : 'POST',
 			url: urlSpecific,
 			headers : {'Content-Type' : 'application/json'},
 			data    : employeeInfo
-		}).success( function(res) {
-			console.log('adminApp.js: register employee success');
-		}).error( function(res) {
-			console.log('adminApp.js: register employee error');
 		});
 	};
 

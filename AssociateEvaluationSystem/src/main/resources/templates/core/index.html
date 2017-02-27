@@ -1,56 +1,53 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Revature | AES</title>
-    <meta charset="UTF-8">
+    <head>
+        <title>Revature | AES</title>
+        <meta charset="UTF-8">
 
-    <link rel="icon" type="img/png" href="site-images/favicon_192.png">
+        <link rel="icon" type="img/png" href="site-images/favicon_192.png">
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-    <!-- included for mobile scaling -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/bigwilliestyle.css">
-</head>
-<body ng-app="AESCoreApp" ng-controller="LoginCtrl">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+        <!-- included for mobile scaling -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="css/bigwilliestyle.css">
+    </head>
+    <body ng-app="AESCoreApp" ng-controller="LoginCtrl">
 
-<center>
-
-
-    <div class="container logo">
-        <a href="index.html">
-            <img src="site-images/Revature-Logo.png" alt="Revature" height="75px">
-        </a>
-    </div>
-
-    <h1 class="suh">Associate Evaluation System</h1>
-
-    <div class="container">
-
-        <form class="form-revature" role="form" ng-submit="login()">
-            <div class="row">
-                <label class="sr-only" for="input-email">email address</label>
-                <input id="input-email" class="col-xs-12 col-md-12" type="email" placeholder="email address" ng-model="username" required autofocus>
+        <center>
+            <div class="container logo">
+                <a href="index.html">
+                    <img src="site-images/Revature-Logo.png" alt="Revature" height="75px">
+                </a>
             </div>
-            <div class="row">
-                <label class="sr-only" for="inputLastName">password</label>
-                <input id="input-password" class="col-xs-12 col-md-12" type="password" placeholder="password" ng-model="password" required>
+
+            <h1 class="suh">Associate Evaluation System</h1>
+
+            <div class="container">
+
+                <form class="form-revature" role="form" ng-submit="login()">
+                    <div class="row">
+                        <label class="sr-only" for="input-email">email address</label>
+                        <input id="input-email" class="col-xs-12 col-md-12" type="email" placeholder="email address" ng-model="username" required autofocus>
+                    </div>
+                    <div class="row">
+                        <label class="sr-only" for="input-password">password</label>
+                        <input id="input-password" class="col-xs-12 col-md-12" type="password" placeholder="password" ng-model="password" required>
+                    </div>
+                    <div class="row">
+                        <input class="btn-revature" type="submit" value="login">
+                    </div>
+                </form>
+                <span ng-show="bunkCreds" class="span-creds">
+                !!! invalid username and/or password !!!
+            </span>
             </div>
-            <div class="row">
-                <input class="btn-revature" type="submit" value="login">
-            </div>
-        </form>
-        <span ng-show="bunkCreds" class="span-creds">
-!!! invalid username and/or password !!!
-</span>
+        </center>
 
-    </div>
-
-</center>
-
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.9/angular.js"></script>
-<script type="text/javascript" src="js/app.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-</body>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+        <script type="text/javascript" src="js/app.js"></script>
+        <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    </body>
 </html>

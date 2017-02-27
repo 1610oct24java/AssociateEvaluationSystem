@@ -304,8 +304,7 @@ public class GetAssessmentController {
 			}
 			
 		} catch (NullPointerException e) {
-			System.out.println("error");
-			e.printStackTrace();
+			log.error(e.getMessage());
 		}
 
 		// Returns a hashMap object with allow message and assessment object
@@ -361,10 +360,7 @@ public class GetAssessmentController {
 				case "java": 
 					key += ".java"; 
 					break;
-				case "cpp": 
-					key += ".cpp"; 
-					break;
-		        case "c++":
+				case "cpp": case "c++":
 		        	key += ".cpp"; 
 					break;
 		        case "c":

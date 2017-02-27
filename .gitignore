@@ -1,10 +1,22 @@
-*.class
+#Eclipse
 .classpath
+.settings/
+build
+bin/
+
+#Intellij
 .idea/
+*.iml
+*.iws
+*.ipr
+.idea
+out
+
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
 # Package Files #
+*.class
 /AssociateEvaluationSystem/*.jar
 *.war
 *.ear
@@ -13,22 +25,12 @@
 hs_err_pid*
 .metadata
 *.metadata
-.settings
-*.settings
-*.idea/
-*.idea/workspace*
 .recommenders
 *logs/
-*.iml
-/bin/
 /Servers/
 /target/
 /RemoteSystemsTempFiles/
 /External Files/
-
-.idea
-*.idea
-AssociateEvaluationSystem/AssociateEvaluationSystem.iml
 
 AssociateEvaluationSystem/logs/*
 

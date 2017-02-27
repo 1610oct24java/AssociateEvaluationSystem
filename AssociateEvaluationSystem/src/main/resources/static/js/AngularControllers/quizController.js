@@ -1,19 +1,17 @@
-app.controller("quizController", function($scope, $rootScope, $http, 
-		$location, $window, $timeout) {
+app.controller("quizController", function($scope, $rootScope, $http, $location, $window, $timeout) {
 	$rootScope.states = [];
-	$scope.answers = [];
-	$scope.numEditors = 0;
-	$scope.oneAtATime = false;
-	$scope.editors = [];
-	$rootScope.protoTest;
-	$scope.questions = [];
-	$rootScope.snippetStarters = [];
-	$rootScope.snippetSubmissions = [];
+    $rootScope.protoTest;
+    $rootScope.snippetSubmissions = [];
+    $rootScope.snippetStarters = [];
+    $scope.answers = [];
+    $scope.numEditors = 0;
+    $scope.oneAtATime = false;
+    $scope.editors = [];
+    $scope.questions = [];
 	$scope.protoTest2 = {};
 	$scope.testtaker = "loading...";
+
 	getQuizQuestions();
-	
-	//console.log(window.location.href);
 
 	var makeState = function(input) {
 		var temp = {
@@ -94,9 +92,6 @@ app.controller("quizController", function($scope, $rootScope, $http,
 			url: "aes/rest/quickSaveAssessment",
 			headers: {'Content-Type': 'application/json'},
 			data: answerData
-		}).then(function(response) {
-			console.log(response.data);
-			console.log("after quick save");
 		});
 	}
 
@@ -314,9 +309,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 			url: "aes/rest/submitAssessment",
 			headers: {'Content-Type': 'application/json'},
 			data: answerData
-		}).then(function(response) {
-			console.log(response.data);
-			console.log("after submit");
+		}).then(function() {
 			$window.location.href = '/aes/goodbye';
 		});
 	}
