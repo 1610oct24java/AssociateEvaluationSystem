@@ -33,22 +33,32 @@ public class AssessmentRequestLoader {
 		
 		catReq.setCategory(prop.getProperty("cat1"));
 		catReq.setMcQuestions(Integer.parseInt(prop.getProperty("cat1mcQuestions")));
-		//catReq.setMsQuestions(Integer.parseInt(prop.getProperty("cat1msQuestions")));
-		//catReq.setDdQuestions(Integer.parseInt(prop.getProperty("cat1ddQuestions")));
-		//catReq.setCsQuestions(Integer.parseInt(prop.getProperty("cat1csQuestions")));
+//		catReq.setMsQuestions(0);
+//		catReq.setDdQuestions(0);
+//		catReq.setCsQuestions(0);
+		
+		catReq.setMsQuestions(Integer.parseInt(prop.getProperty("cat1msQuestions")));
+		catReq.setDdQuestions(Integer.parseInt(prop.getProperty("cat1ddQuestions")));
+		catReq.setCsQuestions(Integer.parseInt(prop.getProperty("cat1csQuestions")));
 		
 		catReq2.setCategory(prop.getProperty("cat2"));
 		catReq2.setMcQuestions(Integer.parseInt(prop.getProperty("cat2mcQuestions")));
-		//catReq2.setMsQuestions(Integer.parseInt(prop.getProperty("cat2msQuestions")));
-		//catReq2.setDdQuestions(Integer.parseInt(prop.getProperty("cat2ddQuestions")));
-		//catReq2.setCsQuestions(Integer.parseInt(prop.getProperty("cat2csQuestions")));
+//		catReq2.setMsQuestions(0);
+//		catReq2.setDdQuestions(0);
+//		catReq2.setCsQuestions(0);
+		
+		catReq2.setMsQuestions(Integer.parseInt(prop.getProperty("cat2msQuestions")));
+		catReq2.setDdQuestions(Integer.parseInt(prop.getProperty("cat2ddQuestions")));
+		catReq2.setCsQuestions(Integer.parseInt(prop.getProperty("cat2csQuestions")));
 		
 		//For a future sprint this is where you would set the time limit
 		List<CategoryRequest> list = ar.getCategoryRequestList();
 		list.add(catReq);
-		list.add(catReq);
+		list.add(catReq2);
 		ar.setCategoryRequestList(list);
 		ar.setTimeLimit(Integer.parseInt(prop.getProperty("timelimit")));
+		
+		//System.out.println("ASSESSMENT REQUEST " + ar);
 		
 		return ar;
 	}
