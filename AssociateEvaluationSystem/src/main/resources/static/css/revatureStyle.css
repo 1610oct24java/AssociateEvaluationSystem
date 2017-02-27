@@ -1,0 +1,456 @@
+@CHARSET "ISO-8859-1";
+
+/* Revature Main Orange:           	f26925 */
+/* Revature Accent (Darker) Orange: ef5c1e */
+/* Revature Main Grey:         		474c55 */
+/* Revature Accent (Darker) Grey:   434851 */
+
+/* REVATURE FONT FAMILY */
+.nav, .pagination, .carousel, .panel-title a {
+	cursor: pointer;
+}
+
+.ace_editor {
+	height: 200px;
+	width: 100%
+}
+
+@font-face {
+	font-family: 'futura-heavy';
+	src: url('../fonts/ParaType-FuturaPTHeavy.ttf');
+}
+
+@font-face {
+	font-family: 'futura-heavy-italics';
+	src: url('../fonts/ParaType-FuturaPTHeavyOblique.ttf');
+}
+
+@font-face {
+	font-family: 'futura-book';
+	src: url('../fonts/ParaType-FuturaPTBook.ttf');
+}
+
+@font-face {
+	font-family: 'futura-book-italics';
+	src: url('../fonts/ParaType-FuturaPTBookOblique.ttf');
+}
+
+@font-face {
+	font-family: 'futura-light';
+	src: url('../fonts/ParaType-FuturaPTLight.ttf');
+}
+
+@font-face {
+	font-family: 'futura-light-italics';
+	src: url('../fonts/ParaType-FuturaPTLightOblique.ttf');
+}
+
+@font-face {
+	font-family: 'futura-medium';
+	src: url('../fonts/ParaType-FuturaPTMedium.ttf');
+}
+
+@font-face {
+	font-family: 'futura-medium-italics';
+	src: url('../fonts/ParaType-FuturaPTMediumOblique.ttf');
+}
+
+@font-face {
+	font-family: 'futura-bold';
+	src: url('../fonts/ParaType-FuturaPTBold.ttf');
+}
+
+/* MAIN STYLING */
+html {
+	height: 100%;
+	box-sizing: border-box;
+}
+
+body {
+	position: relative;
+	margin: 0;
+	padding-bottom: 8rem;
+	min-height: 100%;
+	background-color: #474C55;
+	font-family: "Helvetica Neue", Arial, sans-serif;
+}
+
+.h2 {
+	color: white;
+}
+
+/* NAVBAR STYLING */
+.progress {
+	margin-bottom: 12px;
+	position: relative;
+}
+
+.progress span {
+    position: absolute;
+    display: block;
+    width: 100%;
+    color:#ffffff;
+ }
+ 
+.navbar {
+	font-family: 'futura-heavy';
+	background-color: #ffffff;
+	display: inline-block;
+	margin-left: 15px;
+	margin-right: 15px;
+	padding: 6px 20px 4px 20px;
+	top: 0;
+	left: 0;
+	right: 0;
+	border-radius: 0px 0px 6px 6px;
+	overflow: hidden;
+	position: fixed;
+	z-index: 99;
+	box-shadow: 5px 5px 5px #434851;
+}
+
+.navbar img {
+	display:inline-block;
+	width: 150px;
+	vertical-align: top;
+	margin-left: 8px;
+	margin-right: 14px;
+}
+
+.navbar-title {
+	font-size: 25px;
+	display: inline-block;
+	color: #474C55;
+}
+
+.navbar-title a:link {
+	color: #474C55;
+	text-decoration: none;
+}
+
+.navbar-title a:visited {
+	color: #474C55;
+	text-decoration: none;
+}
+
+.navbar-title a:hover {
+	color: #F26925;
+	text-decoration: none;
+}
+
+.navbar-link-notyou {
+	font-size: 14px;
+	text-decoration: underline;
+	font-family: 'futura-book';
+}
+
+.navbar-menu-btn {
+	background-color: #ffffff;
+	float: right;
+	font-size: 16px;
+	color: #474C55;
+	transition: 0.3s;
+	display: inline-block;
+}
+
+.navbar-menu-btn:hover {
+	color: #F26925;
+}
+
+.navbar-menu-btn:focus {
+	outline: none;
+}
+
+.navbar-overlay-spacing {
+	margin-top: 30px;
+}
+
+.rev-grey {
+	color: #474C55;
+}
+
+*, *:before, *:after {
+	box-sizing: inherit;
+}
+
+.footer {
+	position: absolute;
+	height: 85px;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	padding: 2rem;
+	background-color: #474C55;
+	color: #efefef;
+	text-align: center;
+}
+
+.horizon-line {
+	display: block;
+	border: none;
+	color: #474C55;
+	height: 1px;
+	margin-bottom: 10px;
+	background: #ffffff; /* for unsupported browsers */
+	background: -webkit-linear-gradient(left, #474C55, #ffffff, #474C55);
+	/* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(right, #474C55, #ffffff, #474C55);
+	/* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(right, #474C55, #ffffff, #474C55);
+	/* For Firefox 3.6 to 15 */
+	background: linear-gradient(to right, #474C55, #ffffff, #474C55);
+	/* Standard syntax */
+}
+
+
+/* BUTTON STYLING */
+.Orange-read-btn {
+	font-family: 'futura-heavy';
+	background-color: #f26925;
+	-moz-border-radius: 28px;
+	-webkit-border-radius: 28px;
+	border-radius: 28px;
+	border: 3px solid #f26925;
+	display: inline-block;
+	cursor: pointer;
+	color: #fff;
+	font-size: 15px;
+	padding: 12px 30px;
+	text-decoration: none;
+	font-weight: 600;
+}
+
+/* BUTTON STYLING ON HOVER */
+.Orange-read-btn:hover {
+	font-family: 'futura-heavy';
+	background-color: #fff;
+	color: #f26925;
+	text-decoration: none;
+}
+
+.pagination .active a {
+	background-color: #f26925;
+	border-color: #f26925;
+}
+
+.pagination .active a:hover {
+	background-color: #ef5c1e;
+	border-color: #ef5c1e;
+}
+
+.panel-heading-revature {
+	color: #474c55;
+}
+
+/* QUESTION CONTENT STYLING */
+.nav, .pagination, .carousel, .panel-title a {
+	cursor: pointer;
+}
+
+.accordion-toggle:focus {
+	outline: none;
+}
+
+.question-box {
+	/* margin-left: 10%;
+	margin-right: 10%; */
+	font-family: 'futura-book';
+}
+
+.glyph-silver {
+	color: silver;
+}
+
+.glyph-red {
+	/* color: #986161; */
+	color: #9d2323;
+}
+
+.glyph-blue {
+	/* color: #63698f; */
+	color: #4b57a3;
+}
+
+.glyph-dark-grey {
+	color: #434851;
+}
+
+.glyph-noBorder {
+	border: 3px solid #ffffff;
+}
+.glyph-bordered {
+	border: 3px solid red;
+}
+
+i {
+	padding-right: 10px;
+}
+
+#revature li {
+	list-style-type: none;
+}
+
+/* QUIZ NAVIGATION STYLING */
+.pagination-select {
+	background-color: #f26925;
+}
+
+hr {
+	width: 90%;
+}
+
+/* The side navigation menu */
+.sidenav {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 100; /* Stay on top */
+    top: 0;
+    right: 0;
+    background-color: #f8f8f8;
+    border-left: 3px solid #f26925;
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+span.badge a {
+	color: #ffffff;
+}
+
+/* The navigation menu links */
+.sidenav a {
+    text-decoration: none;
+    color: #434851;
+    display: block;
+    transition: 0.3s;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover, .offcanvas a:focus{
+    color: #f26925;
+}
+
+.sidenav .navbar-link {
+	padding: 0px 8px 0px 32px;
+	font-size: 25px;
+}
+
+/* Position and style the close button (top right corner) */
+.sidenav .closebtn {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+.sidenav h3 {
+	color: #434851;
+	text-align: center;
+}
+
+/*Status indicators */
+.status-container {
+    position: relative;
+}
+
+.icon-size {
+    font-size:20px;
+}
+
+.shoppingBadge-custom{
+    position:absolute;
+    left:25%; /** you can make changes here to change position **/
+    top:25%;
+    font-size:12px;
+    color: #ffffff;
+    z-index: 3;
+}
+
+.shoppingBadge-flagged{
+	background-color: #9d2323;	
+}
+
+/* QUIZ NAVIGATION STYLING */
+#sideNavTable {
+	border: 2px solid #434851;
+	width: 87%;
+	margin: 15px;
+}
+.sidenav table {
+	background-color: #ffffff;
+	border-collapse: collapse;
+}
+.sidenav table td {
+	vertical-align: center;
+	text-align: center;
+	padding: 6px;
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#page-container {
+    transition: margin-left .5s;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}
+
+@media screen and (max-width: 620px) {
+	.navbar-title {display: none;}
+}
+
+nav-link {
+	font-size: 12px !important;
+}
+
+/* MODAL SUBMIT STYLING */
+.modal {
+	display: none;
+	position: fixed;
+	z-index: 99;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgb(0,0,0);
+	background-color: rgba(0,0,0,0.5);
+}
+.modal-content {
+	background-color: #fefefe;
+	font-family: 'futura-book';
+	margin: 15% auto;
+	padding: 24px;
+	border: 1px solid #888;
+	width: 70%;
+	text-align: center;
+}
+#submitBtn {
+	font-family: 'futura-heavy';
+	background-color: #f26925;
+	-moz-border-radius: 28px;
+	-webkit-border-radius: 28px;
+	border-radius: 28px;
+	border: 3px solid #f26925;
+	display: inline-block;
+	cursor: pointer;
+	color: #fff;
+	font-size: 15px;
+	padding: 12px 30px;
+	text-decoration: none;
+	font-weight: 600;
+	outline: none;
+}
+
+/* BUTTON STYLING ON HOVER */
+#submitBtn:hover {
+	font-family: 'futura-heavy';
+	background-color: #fff;
+	color: #f26925;
+	text-decoration: none;
+	outline: none;
+}

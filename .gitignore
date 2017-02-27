@@ -1,10 +1,23 @@
-*.class
+#Eclipse
+.classpath
+.settings/
+build
+bin/
+
+#Intellij
+.idea/
+*.iml
+*.iws
+*.ipr
+.idea
+out
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
 # Package Files #
-*.jar
+*.class
+/AssociateEvaluationSystem/*.jar
 *.war
 *.ear
 
@@ -12,9 +25,19 @@
 hs_err_pid*
 .metadata
 *.metadata
-.settings
-*.settings
-/bin/
+.recommenders
+*logs/
 /Servers/
 /target/
 /RemoteSystemsTempFiles/
+/External Files/
+
+AssociateEvaluationSystem/logs/*
+
+# OS X
+*.DS_Store
+
+# Nightwatch
+/automation-tests/nightwatch/node_modules/
+/automation-tests/nightwatch/reports/
+/automation-tests/nightwatch/selenium-debug.log
