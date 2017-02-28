@@ -45,6 +45,11 @@ public class RestServicesImpl implements RestServices {
 
 	@Override
 	public String finalizeCandidate(User candidate, String pass) {
+
+		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		System.out.println("INSIDE FINALIZE CANDIDATE");
+		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		
 		AssessmentRequestLoader loader = new AssessmentRequestLoader();
 //		Map<String,String> map = new HashMap<>();
 		int userId = candidate.getUserId();

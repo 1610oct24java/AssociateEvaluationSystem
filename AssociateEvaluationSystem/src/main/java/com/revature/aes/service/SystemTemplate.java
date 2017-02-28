@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-import com.amazonaws.services.dynamodbv2.xspec.S;
 import com.revature.aes.beans.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.revature.aes.dao.CategoryDAO;
 import com.revature.aes.dao.QuestionDAO;
+import com.revature.aes.logging.Logging;
 
 @Component
 public class SystemTemplate {
@@ -21,6 +21,8 @@ public class SystemTemplate {
 	private QuestionDAO qDao;
 	@Autowired
 	private CategoryDAO cDao;
+	
+	private Logging log = new Logging();
 
 	/**
 	 * 

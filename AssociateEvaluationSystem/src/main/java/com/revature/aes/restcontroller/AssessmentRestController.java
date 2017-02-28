@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.revature.aes.logging.Logging;
 import com.revature.aes.service.AssessmentService;
 import com.revature.aes.service.SystemTemplate;
 import com.revature.aes.service.UserService;
@@ -29,6 +30,9 @@ import com.revature.aes.service.UserService;
 @RestController
 public class AssessmentRestController {
 
+	@Autowired
+	private Logging log;	
+	
 	@Autowired
 	private SystemTemplate systemp;
 	@Autowired
@@ -51,6 +55,10 @@ public class AssessmentRestController {
 	public AssessmentRequest createAssessment(@RequestBody AssessmentRequest assReq) throws URISyntaxException {
 		Template tmpl = new Template();
 
+		log.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		log.info("ASSESSMENT REQUEST " + assReq);
+		log.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		
 		Set<TemplateQuestion> finalQuestion = new HashSet<>();
 
 		for (CategoryRequest catReq : assReq.getCategoryRequestList()){
@@ -77,6 +85,10 @@ public class AssessmentRestController {
 		headers.setContentType(MediaType.APPLICATION_JSON);
 
 		RequestEntity<Assessment> request;
+		
+		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		System.out.println("ASSESSMENT IN ASSESSMENT GENERATION " + assessment);
+		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		
 		request = RequestEntity.post(new URI(URL + "/rest/link")).accept(MediaType.APPLICATION_JSON).body(assessment);
 		ResponseEntity<String> result = restTemplate.exchange(request, String.class);

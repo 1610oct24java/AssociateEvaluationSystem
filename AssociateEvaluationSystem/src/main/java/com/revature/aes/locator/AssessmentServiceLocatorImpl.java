@@ -91,9 +91,10 @@ public class AssessmentServiceLocatorImpl implements AssessmentServiceLocator {
 		log.debug(lines);
 		log.debug(request.toString());
 		log.debug(lines);
-		
+		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		System.out.println("CALLING MATTHEWS SERVICE!");
 		System.out.println(request);
+		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		ResponseEntity<AssessmentRequest> responseEntity = restTemplate.postForEntity("http://"+URI+URIExt+"/user/RandomAssessment", request, AssessmentRequest.class);
 		AssessmentRequest response = responseEntity.getBody();
 		log.debug(lines);
