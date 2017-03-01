@@ -50,6 +50,9 @@ import com.revature.aes.service.S3Service;
 public class GetAssessmentController {
 	
 	@Autowired
+	Logging log;
+	
+	@Autowired
 	private AssessmentServiceImpl service;
 	
 	@Autowired
@@ -87,10 +90,6 @@ public class GetAssessmentController {
 		coreEmailClientEndpointAddress = "http://"+ipConf.getHostName()+"/aes/";
 
 	}
-
-	private Logging log = new Logging();
-
-
 
 	@RequestMapping(value = "/link", method = RequestMethod.POST, consumes = {
 			MediaType.APPLICATION_JSON })
@@ -305,7 +304,7 @@ public class GetAssessmentController {
 			
 		} catch (NullPointerException e) {
 			System.out.println("error");
-			e.printStackTrace();
+			log.stackTraceLogging(e);
 		}
 
 		// Returns a hashMap object with allow message and assessment object

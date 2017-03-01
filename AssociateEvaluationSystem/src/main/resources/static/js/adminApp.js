@@ -35,7 +35,6 @@ app.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE_URL,
 
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
-		console.log(response.data);
 		if (response.data.authenticated) {
 			var authUser = {
 				username : response.data.principal.username,
@@ -125,7 +124,6 @@ app.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_URL, RO
 				username : response.data.principal.username,
 				authority: response.data.principal.authorities[0].authority
 			}
-			console.log(authUser);
 			$scope.authUser = authUser;
 			if($scope.authUser.authority != ROLE.ADMIN) {
 				window.location = SITE_URL.LOGIN;
