@@ -36,9 +36,7 @@ app.constant("ROLE", {
 app.controller('LoginCtrl', function($scope, $httpParamSerializerJQLike, $http, SITE_URL, API_URL, ROLE) {
 	
 	$scope.login = function() {
-		console.log('LOGIN CALLLED');
 		makeUser($scope);
-		console.log('MAKE USER CALLED');
 		$http({
 			method : "POST",
 			url : SITE_URL.BASE + API_URL.BASE + API_URL.LOGIN,
@@ -46,18 +44,15 @@ app.controller('LoginCtrl', function($scope, $httpParamSerializerJQLike, $http, 
 			data: $httpParamSerializerJQLike($scope.user)
 		})//.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGIN, $httpParamSerializerJQLike($scope.user), {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8;'})
 		.then(function(response) {
-			console.log('INSIDE POST TO LOGIN');
 			$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 			.then(function(response) {
-				console.log("Response data");
-				console.log(response.data);
+				//Removed console log for sonar cube.
 				if (response.data.authenticated) {
 					var authUser = {
 						username : response.data.principal.username,
 						authority: response.data.principal.authorities[0].authority
 					}
-					//console.log(authUser);
-					//console.log(response.data.principal);
+					//Removed console log for sonar cube.
 					$scope.authUser = authUser;
 					switch ($scope.authUser.authority) {
 					case ROLE.RECRUITER:
@@ -67,9 +62,8 @@ app.controller('LoginCtrl', function($scope, $httpParamSerializerJQLike, $http, 
 						$scope.candidateEmail = authUser.username;
 						$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.CANDIDATE + $scope.candidateEmail + API_URL.LINK)
 						.then(function(response) {
-							console.log(response.data);
 							window.location = response.data.urlAssessment;
-							console.log('CHOOCKED');
+							//Removed console log for sonar cube.
 						})
 						break;
 					case ROLE.TRAINER:
@@ -79,13 +73,11 @@ app.controller('LoginCtrl', function($scope, $httpParamSerializerJQLike, $http, 
 						window.location = SITE_URL.VIEW_EMPLOYEES;
 						break;
 					default:
-						console.log('INVALID LOGIN?');
 						$scope.username = '';
 						$scope.password = '';
 						window.location = SITE_URL.LOGIN;
 					}
 				} else {
-					console.log('!!! INVALID LOGIN');
 					$scope.username = '';
 					$scope.password = '';
 					$scope.bunkCreds = true;
@@ -99,13 +91,11 @@ app.controller('RegisterCanidateCtrl', function($scope,$location,$http,SITE_URL,
 
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
-		console.log(response.data);
 		if (response.data.authenticated) {
 			var authUser = {
 				username : response.data.principal.username,
 				authority: response.data.principal.authorities[0].authority
 			}
-			console.log(authUser);
 			$scope.authUser = authUser;
 			if($scope.authUser.authority != ROLE.RECRUITER) {
 				window.location = SITE_URL.LOGIN;
@@ -128,8 +118,6 @@ app.controller('RegisterCanidateCtrl', function($scope,$location,$http,SITE_URL,
 			datePassIssued: null,
 			format		  : $scope.program.value
 		};
-
-		console.log(canidateInfo);
 		$scope.postRegister(canidateInfo);
 		
 		$scope.firstName = '';
@@ -139,16 +127,15 @@ app.controller('RegisterCanidateCtrl', function($scope,$location,$http,SITE_URL,
 	};
 
 	$scope.postRegister = function(canidateInfo) {
-		console.log("POSTREGISTER")
 		$http({
 			method  : 'POST',
 			url: SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + $scope.authUser.username + API_URL.CANDIDATES,
 			headers : {'Content-Type' : 'application/json'},
 			data    : canidateInfo
 		}).success( function(res) {
-			console.log('success');
+			//Removed console log for sonar cube.
 		}).error( function(res) {
-			console.log('error');
+			//Removed console log for sonar cube.
 		});
 	};
 
@@ -181,21 +168,16 @@ app.controller('CandidateViewCtrl', function($scope,$http, SITE_URL, API_URL, RO
 				username : response.data.principal.username,
 				authority: response.data.principal.authorities[0].authority
 			}
-			console.log(authUser);
 			$scope.authUser = authUser;
 			if($scope.authUser.authority != ROLE.RECRUITER) {
 				window.location = SITE_URL.LOGIN;
 			}
 			$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + $scope.authUser.username + API_URL.CANDIDATES)
 			.then(function(response) {
-				console.log(response.data);
 				//$scope.candidates = response.data;
 				var c =  response.data;
-				console.log('length: ' + c.length);
 				for (var i=0; i<c.length; i++) {
-					console.log('c[i]: ' + c[i]);
 					if (c[i].grade == -1) {
-						console.log('GKJGKJHJKHJHK');
 						c[i].grade = 'N/A';
 					}
 				}
