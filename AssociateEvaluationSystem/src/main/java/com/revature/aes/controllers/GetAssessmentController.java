@@ -211,7 +211,7 @@ public class GetAssessmentController {
 			
 			// --- This portion of code pulls a snippet template from the S3 bucket --- -RicSmith
 			// This list of snippet templates will be added to the response map.
-			List<String> codeStarters = new ArrayList<String>();
+			List<String> codeStarters = new ArrayList<>();
 			// Pull out the TemplateQuestion set from the assessment.
 			Set<TemplateQuestion> templateQuestions = assessment.getTemplate().getTemplateQuestion();
 			

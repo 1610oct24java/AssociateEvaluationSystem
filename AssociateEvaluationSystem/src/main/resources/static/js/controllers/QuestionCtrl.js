@@ -382,19 +382,19 @@ app.controller('QuestionCtrl', function($http, $scope) {
 	$scope.checkButton = function(option){
 		if (option.correct == 1) {
 			return true;
-		}else{
-			return false;
 		}
+		
+		return false;
 	}
 
 	/*
 	 * Here I am attempting to call the rest controller where I update the options with the new correct answer.
 	 */
 	$scope.multiCorrect = function(option){
-		if(document.getElementById("msrad").checked == false){
+		if(document.getElementById("msrad").checked){
 	    	$http.post("question/markAllIncorrect/" + $scope.currentQuestion.questionId)
 	    	$scope.optionCorrectChanger(option)
-	    	document.getElementById("msrad").checked == true;
+	    	//document.getElementById("msrad").checked == true;
 	    }
 	}
 	
