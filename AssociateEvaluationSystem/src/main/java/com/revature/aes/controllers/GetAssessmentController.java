@@ -154,14 +154,9 @@ public class GetAssessmentController {
 				
 				switch(su.getFileType())
 				{
-				case "java": 
-					key += ".java"; 
-					break;
 				case "cpp": 
+				case "c++":
 					key += ".cpp"; 
-					break;
-		        case "c++":
-		        	key += ".cpp"; 
 					break;
 		        case "c":
 		        	key += ".c";
@@ -169,6 +164,7 @@ public class GetAssessmentController {
 				case "cs":
 					key += ".cs";
 					break;
+				case "java":
 				default: 
 					key += ".java"; 
 					break;
@@ -221,7 +217,7 @@ public class GetAssessmentController {
 				Format questionFormat = question.getFormat();				// Get each question format.
 				
 				// Check to see if this question format is a code snippet.
-				if (questionFormat.getFormatName().equals("Code Snippet"))	
+				if ("Code Snippet".equals(questionFormat.getFormatName()))	
 				{
 					// Pull out the SnippetTemplates from the question.
 					Set<SnippetTemplate> snippetTemplates = question.getSnippetTemplates();
@@ -357,14 +353,9 @@ public class GetAssessmentController {
 				
 				switch(su.getFileType())
 				{
-				case "java": 
-					key += ".java"; 
-					break;
 				case "cpp": 
+				case "c++":
 					key += ".cpp"; 
-					break;
-		        case "c++":
-		        	key += ".cpp"; 
 					break;
 		        case "c":
 		        	key += ".c";
@@ -372,6 +363,7 @@ public class GetAssessmentController {
 				case "cs":
 					key += ".cs";
 					break;
+				case "java":
 				default: 
 					key += ".java"; 
 					break;

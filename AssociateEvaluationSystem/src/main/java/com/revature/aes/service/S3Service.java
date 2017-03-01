@@ -23,22 +23,28 @@ public class S3Service {
 	@Autowired
 	Logging log;
 	
-	static String S3LOCATION = "aes.revature/";;
+	static String S3LOCATION = "aes.revature/";
 
 	public boolean uploadToS3(String snippetContents, String key) {
 		File file = new File("tempFile");
+		PrintWriter printWriter = null;
+		
 		try {
-		    BufferedWriter writer = new BufferedWriter(new PrintWriter(file));
+			printWriter = new PrintWriter(file);
+		    BufferedWriter writer = new BufferedWriter(printWriter);
 		    writer.write(snippetContents);
-		    writer.close();
+		    //writer.close();
 			new SnippetIO().upload(file, key);
 			if(!file.delete()){
 				log.error("File not found! Can not delete file that does not exists!");
 			}
+			writer.close();
 			return true;
 		} catch (IOException e) {
 			log.stackTraceLogging(e);
 			return false;
+		} finally{
+			printWriter.close();
 		}
 	}
 	
@@ -46,16 +52,19 @@ public class S3Service {
         AmazonS3 s3client = new AmazonS3Client();
         S3Object s3object = s3client.getObject(new GetObjectRequest(
                 S3LOCATION, key));
-        String fileContent="";
-        BufferedReader reader = new BufferedReader(new InputStreamReader(s3object.getObjectContent()));
+        InputStreamReader streamreader = new InputStreamReader(s3object.getObjectContent());
+        BufferedReader reader = new BufferedReader(streamreader);
+        StringBuilder bld = new StringBuilder();
         String line;
         try {
             while((line = reader.readLine()) != null) {
-              fileContent = fileContent + line + "\n";
+            	bld.append(line + "\n");
             }
+            streamreader.close();
         } catch (IOException e) {
         	log.stackTraceLogging(e);
         }
-        return fileContent;
+        
+        return bld.toString();
     }
 }

@@ -56,6 +56,7 @@ public class AssessmentServiceLocatorImpl implements AssessmentServiceLocator {
 
 		} catch (UnknownHostException e) {
 			log.error("Failed to set localhost address to ip const");
+			log.stackTraceLogging(e);
 			ip = "localhost";
 		}
 
