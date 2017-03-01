@@ -1,7 +1,6 @@
 package com.revature.aes.grading;
 
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -13,33 +12,38 @@ import com.revature.aes.beans.FileUpload;
 import com.revature.aes.beans.Option;
 import com.revature.aes.beans.TemplateQuestion;
 import com.revature.aes.logging.Logging;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class AssessmentGrader {
 
-	Logging log = new Logging();
+	private Logging log = new Logging();
 
 	public double gradeAssessment(Assessment assessment){
-		log.info("Grading assessmsent#"+assessment.getAssessmentId());
-		double dragDrop[] = gradeDragDrop(assessment);
-		double multChoiceSelect[] = gradeMultChoiceSelect(assessment);
-		double snippet[] = gradeSnippet(assessment);
+
+		Map<Integer, TemplateQuestion> templateDataMap = new HashMap<>();
+		for(TemplateQuestion tQuestion: assessment.getTemplate().getTemplateQuestion()){
+			templateDataMap.put(tQuestion.getQuestion().getQuestionId(), tQuestion);
+		}
+
+		log.info("Grading assessment#"+assessment.getAssessmentId());
+		double dragDrop[] = gradeDragDrop(assessment, templateDataMap);
+		double multipleChoiceSelect[] = gradeMultChoiceSelect(assessment, templateDataMap);
+		double sourceCode[] = gradeSourceCode(assessment, templateDataMap);
 		log.info("Drag and Drop Score: "+dragDrop[0]+"/"+dragDrop[1]);
-		log.info("Multiple Choice/Select Score: "+multChoiceSelect[0]+"/"+multChoiceSelect[1]);
-		log.info("Snippet Score: "+snippet[0]+"/"+snippet[1]);
-		double earnedPoints = (dragDrop[0]+multChoiceSelect[0]+snippet[0]);
-		double availablePoints = (dragDrop[1]+multChoiceSelect[1]+snippet[1]);
+		log.info("Multiple Choice/Select Score: "+multipleChoiceSelect[0]+"/"+multipleChoiceSelect[1]);
+		log.info("Snippet Score: "+sourceCode[0]+"/"+sourceCode[1]);
+		double earnedPoints = (dragDrop[0]+multipleChoiceSelect[0]+sourceCode[0]);
+		double availablePoints = (dragDrop[1]+multipleChoiceSelect[1]+sourceCode[1]);
 		log.info("points earned: " + earnedPoints + " points available: " + availablePoints);
 		log.info("Score earned: "+earnedPoints/availablePoints);
 		return 100*(earnedPoints/availablePoints);
 	}
 	
-	public double[] gradeMultChoiceSelect(Assessment assessment){
+	private double[] gradeMultChoiceSelect(Assessment assessment, Map<Integer, TemplateQuestion> templateDataMap){
 		double[] result = new double[2];
-		double itemWeightedGrade = 0.0;
-		double itemWeight = 0.0;
+		double itemWeightedGrade;
+		double itemWeight;
 		//Getting total weight of MultipleChoice/Select questions from assessment template
 		for(TemplateQuestion tQuestion : assessment.getTemplate().getTemplateQuestion()){
 
@@ -57,14 +61,9 @@ public class AssessmentGrader {
 			return result;
 
 		}
-		Map<Integer, TemplateQuestion> templateDataMap = new HashMap<Integer, TemplateQuestion>();
-		Map<Integer, Set<Option>> userDataMap = new HashMap<Integer, Set<Option>>();
 
-		//Polulate map of all questions from template
-		for(TemplateQuestion tQuestion: assessment.getTemplate().getTemplateQuestion()){
-			templateDataMap.put(tQuestion.getQuestion().getQuestionId(), tQuestion);
-		}
-		
+		Map<Integer, Set<Option>> userDataMap = new HashMap<>();
+
 		//Populate map of all selections from user, grouped by question pushed to set
 		for(Option opt: assessment.getOptions()){
 			if(userDataMap.containsKey(opt.getQuestion().getQuestionId())){
@@ -72,7 +71,7 @@ public class AssessmentGrader {
 				log.info(" adding option to option set: " + opt.getOptionText() + " on question: " +opt.getQuestion().getQuestionId());
 			}
 			else {
-				Set<Option> optSet = new HashSet<Option>();
+				Set<Option> optSet = new HashSet<>();
 				optSet.add(opt);
 				userDataMap.put(opt.getQuestion().getQuestionId(), optSet);
 				log.info(" creating new option set with : " + opt.getOptionText() + " on question: " +opt.getQuestion().getQuestionId());
@@ -106,16 +105,15 @@ public class AssessmentGrader {
 
 			itemWeightedGrade = itemWeight*(countCorrect/countOptions);//
 			result[0] = result[0]+itemWeightedGrade;
-			//result[1] = result[1]+itemWeight;
 			log.info(" out of " + countOptions + " options " + countCorrect +" were correct");
 		}
 		return result;
 	}
 
-	public double[] gradeDragDrop(Assessment assessment){
+	private double[] gradeDragDrop(Assessment assessment, Map<Integer, TemplateQuestion> templateDataMap){
 		double[] result = new double[2];
-		double itemWeightedGrade = 0.0;
-		double itemWeight = 0.0;
+		double itemWeightedGrade;
+		double itemWeight;
 		//Getting total weight of Drag and Drop questions for the assessment template
 		for(TemplateQuestion tQuestion : assessment.getTemplate().getTemplateQuestion()){
 
@@ -132,33 +130,20 @@ public class AssessmentGrader {
 			return result;
 
 		}
-		Map<Integer, TemplateQuestion> templateDataMap = new HashMap<Integer, TemplateQuestion>();
-		Map<Integer, Set<AssessmentDragDrop>> userDataMap = new HashMap<Integer, Set<AssessmentDragDrop>>();
-		
-		
-		for(TemplateQuestion tQuestion: assessment.getTemplate().getTemplateQuestion()){
-			//System.out.println("Adding to templateDataMap: " + tQuestion);
-			templateDataMap.put(tQuestion.getQuestion().getQuestionId(), tQuestion);
-		}
-		
+		Map<Integer, Set<AssessmentDragDrop>> userDataMap = new HashMap<>();
 		
 		for(AssessmentDragDrop dragDrop: assessment.getAssessmentDragDrop()){
 			if(userDataMap.containsKey(dragDrop.getDragDrop().getQuestion().getQuestionId())){
-				//System.out.println("Adding to userDataMap: " + dragDrop);
 				userDataMap.get(dragDrop.getDragDrop().getQuestion().getQuestionId()).add(dragDrop);
 			}
 			else {
-				//System.out.println("Creating list of dragDrop statring with: " + dragDrop);
-				Set<AssessmentDragDrop> dragDropSet = new HashSet<AssessmentDragDrop>();
+				Set<AssessmentDragDrop> dragDropSet = new HashSet<>();
 				dragDropSet.add(dragDrop);
 				userDataMap.put(dragDrop.getDragDrop().getQuestion().getQuestionId(), dragDropSet);
 			}
 		}
 
 		for(int key: userDataMap.keySet()){
-			/*System.out.println("At key: " + key);
-			System.out.println("TemplateDataMap: " + templateDataMap);
-			System.out.println("TemplateDataMap at key: " + templateDataMap.get(key));*/
 			itemWeight = templateDataMap.get(key).getWeight();
 			
 			double countCorrect = 0.0;
@@ -176,7 +161,6 @@ public class AssessmentGrader {
 
 			itemWeightedGrade = itemWeight*(countCorrect/countOptions);//
 			result[0] = result[0]+itemWeightedGrade;
-			//result[1] = result[1]+itemWeight;
 			log.info("out of " + countOptions + " options " + countCorrect +" were correct");
 		}
 
@@ -185,13 +169,13 @@ public class AssessmentGrader {
 
 	
 	
-	// This method should return the aggregate grades for all snippets
-	public double[] gradeSnippet(Assessment assessment){
-		SnippetEvaluationClient sec = new SnippetEvaluationClient();
+	// This method should return the aggregate grades for all source code questions
+	private double[] gradeSourceCode(Assessment assessment, Map<Integer, TemplateQuestion> templateDataMap){
+		SourceCodeEvaluationClient sec = new SourceCodeEvaluationClient();
 		double[] result = new double[2];
-		double itemWeightedGrade = 0.0;
-		double itemWeight = 0.0;
-		//Getting total weight of Drag and Drop questions for the assessment template
+		double itemWeightedGrade;
+		double itemWeight;
+
 		for(TemplateQuestion tQuestion : assessment.getTemplate().getTemplateQuestion()){
 
 			if(tQuestion.getQuestion().getFormat().getFormatName().equals("Code Snippet")){
@@ -207,17 +191,14 @@ public class AssessmentGrader {
 			return result;
 
 		}
-		Map<Integer, FileUpload> userDataMap = new HashMap<Integer, FileUpload>();
-		Map<Integer, TemplateQuestion> templateDataMap = new HashMap<Integer, TemplateQuestion>(); 
-		
-		for(TemplateQuestion tQuestion: assessment.getTemplate().getTemplateQuestion()){
-			templateDataMap.put(tQuestion.getQuestion().getQuestionId(), tQuestion);
-		}
-		
+		Map<Integer, FileUpload> userDataMap = new HashMap<>();
+
 		for(FileUpload file : assessment.getFileUpload()){	
 			userDataMap.put(file.getQuestion().getQuestionId(), file);
 		}
-						
+
+		double codeTestResult;
+
 		for(int key: userDataMap.keySet()){
 			String userFileName = userDataMap.get(key).getFileUrl();
 			log.info(" userFileName: " + userFileName);
@@ -225,11 +206,10 @@ public class AssessmentGrader {
 			log.info(" keyFileName: " + keyFileName);
 			itemWeight = templateDataMap.get(key).getWeight();
 			log.info(" weight: "+itemWeight);
-			int codeTestResult = sec.evaluateSnippet(userFileName, keyFileName);
+			codeTestResult = sec.evaluateSourceCode(userFileName, keyFileName);
 			log.info(" code being evaluated to "+codeTestResult);
 			itemWeightedGrade = itemWeight*codeTestResult;//
 			result[0] = result[0]+itemWeightedGrade;
-			//result[1] = result[1]+itemWeight;
 		}
 
 		return result;
