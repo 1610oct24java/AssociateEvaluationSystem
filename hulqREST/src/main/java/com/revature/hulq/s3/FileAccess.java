@@ -15,7 +15,7 @@ import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 
-@Component
+
 public class FileAccess {
 	
 	static String S3LOCATION = "aes.revature/";

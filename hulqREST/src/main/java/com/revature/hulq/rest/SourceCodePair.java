@@ -11,8 +11,7 @@ public class SourceCodePair
 	public SourceCodePair(@JsonProperty("submission")String testFileName, @JsonProperty("solution")String keyFileName) {
 		super();
 		this.testFileName = testFileName;
-		this.keyFileName = keyFileName
-		;
+		this.keyFileName = keyFileName;
 	}
 
 
