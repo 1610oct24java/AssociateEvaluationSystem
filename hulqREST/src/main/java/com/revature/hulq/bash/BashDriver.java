@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import com.revature.hulq.logging.Logging;
 import com.revature.hulq.util.TestProfile;
 import com.revature.hulq.exceptions.*;
+
 @Component	
 public class BashDriver {
 	@Autowired
@@ -37,6 +38,7 @@ public class BashDriver {
 			// there was a fault with the script itself 
 			result = 100.0;
 			
+
 		}
 
 		return result;
@@ -69,10 +71,11 @@ public class BashDriver {
 					throw new UnsupportedFileTypeException("file type exception: the files are not currently supported by hulqBASH");
 				}
 				if (inputLine.startsWith("ERROR(c:k)")) {
-					throw new KeyCompilationException("key compilation exception: ");
+					throw new KeyCompilationException("key compilation exception: the key code failed to compile");
 				}
-				if (inputLine.startsWith("ERROR(c:t)")) {
-					throw new TestCompilationException("");
+				if (inputLine.startsWith("ERROR(c:t)")) { 
+					throw new TestCompilationException("test compilation exception: the test failed to compile");
+
 				}
 				
 				String[] dataPair = inputLine.split(":");
