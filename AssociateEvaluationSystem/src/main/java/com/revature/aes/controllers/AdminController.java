@@ -55,16 +55,22 @@ public class AdminController {
 	 * @return 
 	 * 		the list of users this recruiter added
 	 */
+	
+	
 	@RequestMapping(value="/admin/employees", method= RequestMethod.GET)
 	public List<User> getEmployees(){
 		
 		List<User> users = new ArrayList<User>();
 		
-		users = userService.findUsersByRole("recruiter");
-		users.addAll(userService.findUsersByRole("trainer"));
+		users = userService.findAllUsers();
+		
+		
+		
 		
 		return users;
 	}
+	
+	
 	
 	/**
 	 * This method changes details about a user in the database.

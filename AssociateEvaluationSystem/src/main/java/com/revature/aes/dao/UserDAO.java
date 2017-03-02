@@ -15,5 +15,8 @@ public interface UserDAO extends JpaRepository<User, Integer>{
 	public User findByUserId(int userId);
 	public List<User> findUsersByRecruiterId(int recruiterId);
 	public List<User> findUsersByRole(String role);
+	// Kevin Langhoff added code
+	public List<User> findAll();
+	
 
 }
