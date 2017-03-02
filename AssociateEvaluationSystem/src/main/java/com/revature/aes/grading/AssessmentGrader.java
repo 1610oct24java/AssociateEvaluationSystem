@@ -225,7 +225,7 @@ public class AssessmentGrader {
 			log.info(" keyFileName: " + keyFileName);
 			itemWeight = templateDataMap.get(key).getWeight();
 			log.info(" weight: "+itemWeight);
-			int codeTestResult = sec.evaluateSnippet(userFileName, keyFileName);
+			double codeTestResult = sec.evaluateSnippet(userFileName, keyFileName);
 			log.info(" code being evaluated to "+codeTestResult);
 			itemWeightedGrade = itemWeight*codeTestResult;//
 			result[0] = result[0]+itemWeightedGrade;
