@@ -44,7 +44,9 @@ public class S3Service {
 			log.stackTraceLogging(e);
 			return false;
 		} finally{
-			printWriter.close();
+			if(printWriter != null){
+				printWriter.close();				
+			}
 		}
 	}
 	
