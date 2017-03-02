@@ -89,14 +89,12 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		}
 		
 		// =============================================================================
-		User[] user = null;
 		
 		restTemplate = new RestTemplate();
-		
+		User[] user = restTemplate.getForObject("rest/users", User[].class);
 		// user = restTemplate.getForObject(
 		// "http://localhost:1993/core/security/auth", User[].class);
-		
-		user = restTemplate.getForObject("rest/users", User[].class);
+		//user = restTemplate.getForObject("rest/users", User[].class);
 		
 		if (user != null) {
 			
