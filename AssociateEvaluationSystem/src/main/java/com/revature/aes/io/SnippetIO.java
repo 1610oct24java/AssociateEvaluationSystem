@@ -23,9 +23,9 @@ public class SnippetIO {
 	public boolean upload(File file, String key){
         AmazonS3 s3client = new AmazonS3Client();
         try {
-            System.out.println("Uploading a new object to S3 from a file\n");
+            log.debug("Uploading a new object to S3 from a file\n");
             s3client.putObject(new PutObjectRequest(S3LOCATION, key, file));
-            System.out.println("Done.");
+            log.debug("Done.");
             return true;
          } catch (AmazonServiceException ase) {
             log.debug("Caught an AmazonServiceException, which " +
@@ -54,7 +54,7 @@ public class SnippetIO {
 	public boolean download(String key){
         AmazonS3 s3client = new AmazonS3Client();
         try {
-            System.out.println("Downloading an object");
+            log.debug("Downloading an object");
             File file=new File(key);
                       
             s3client.getObject(new GetObjectRequest(S3LOCATION, key),file);

@@ -35,7 +35,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername(String arg0) throws UsernameNotFoundException {
-		System.out.println("Logging: "+log);
+		log.debug("Logging: "+log);
 		log.info("Username: "+arg0);
 		log.info("uService: "+uService);
 		com.revature.aes.beans.User user = uService.findUserByEmail(arg0);

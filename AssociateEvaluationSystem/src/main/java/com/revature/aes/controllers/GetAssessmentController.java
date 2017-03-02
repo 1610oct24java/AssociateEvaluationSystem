@@ -299,7 +299,6 @@ public class GetAssessmentController {
 			}
 			
 		} catch (NullPointerException e) {
-			System.out.println("error");
 			log.stackTraceLogging(e);
 		}
 
