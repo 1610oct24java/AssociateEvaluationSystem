@@ -109,6 +109,7 @@ app.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE_URL,
 	$scope.logout = function() {
 		$http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
 		.then(function(response) {
+			//Removed console log for sonar cube.
 			window.location = SITE_URL.LOGIN;
 		})
 	}
@@ -141,6 +142,7 @@ app.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_URL, RO
 	$scope.logout = function() {
 		$http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
 		.then(function(response) {
+			//Removed console log for sonar cube.
 			window.location = SITE_URL.LOGIN;
 		})
 	}
@@ -234,6 +236,7 @@ app.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_URL, A
 	$scope.logout = function() {
 		$http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
 		.then(function(response) {
+			//Removed console log for sonar cube.
 			window.location = SITE_URL.LOGIN;
 		})
 	}

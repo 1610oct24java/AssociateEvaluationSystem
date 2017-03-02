@@ -8,6 +8,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,10 +17,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import com.revature.aes.beans.User;
+import com.revature.aes.logging.Logging;
 import com.revature.aes.util.Error;
 
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
+	
+	@Autowired
+	Logging log;
 	
 	private RestTemplate restTemplate;
 	
@@ -54,8 +59,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 			
 			HttpResponse response = httpClient.execute(postRequest);
 			
-			System.out.println(
-					"Status code: " + response.getStatusLine().getStatusCode());
+			log.debug("Status code: " + response.getStatusLine().getStatusCode());
 			
 			// =============Make get to /auth===========================
 			
@@ -68,8 +72,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 			
 			HttpResponse responseGet = httpClient.execute(getRequest);
 			
-			System.out.println("Status code: "
-					+ responseGet.getStatusLine().getStatusCode());
+			log.debug("Status code: "+ responseGet.getStatusLine().getStatusCode());
 			
 			// ===============Return user information==================
 			

@@ -382,9 +382,9 @@ app.controller('QuestionCtrl', function($http, $scope) {
 	$scope.checkButton = function(option){
 		if (option.correct == 1) {
 			return true;
-		}else{
-			return false;
 		}
+		
+		return false;
 	}
 
 	/*

@@ -43,8 +43,8 @@ public class AssessmentGrader {
 		//Getting total weight of MultipleChoice/Select questions from assessment template
 		for(TemplateQuestion tQuestion : assessment.getTemplate().getTemplateQuestion()){
 
-			if(tQuestion.getQuestion().getFormat().getFormatName().equals("Multiple Choice") ||
-					tQuestion.getQuestion().getFormat().getFormatName().equals("Multiple Select")){
+			if("Multiple Choice".equals(tQuestion.getQuestion().getFormat().getFormatName()) ||
+					"Multiple Select".equals(tQuestion.getQuestion().getFormat().getFormatName())){
 
 				result[1]+=tQuestion.getWeight();
 
@@ -119,7 +119,7 @@ public class AssessmentGrader {
 		//Getting total weight of Drag and Drop questions for the assessment template
 		for(TemplateQuestion tQuestion : assessment.getTemplate().getTemplateQuestion()){
 
-			if(tQuestion.getQuestion().getFormat().getFormatName().equals("Drag and Drop")){
+			if("Drag and Drop".equals(tQuestion.getQuestion().getFormat().getFormatName())){
 
 				result[1]+=tQuestion.getWeight();
 
@@ -194,7 +194,7 @@ public class AssessmentGrader {
 		//Getting total weight of Drag and Drop questions for the assessment template
 		for(TemplateQuestion tQuestion : assessment.getTemplate().getTemplateQuestion()){
 
-			if(tQuestion.getQuestion().getFormat().getFormatName().equals("Code Snippet")){
+			if("Code Snippet".equals(tQuestion.getQuestion().getFormat().getFormatName())){
 
 				result[1]+=tQuestion.getWeight();
 
