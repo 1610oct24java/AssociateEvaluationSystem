@@ -7,8 +7,15 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.revature.aes.logging.Logging;
 
 public class SnippetEvaluationClient {
+	
+	@Autowired
+	Logging log;
+	
     private static String hulqRESTlocation = "http://ec2-54-203-115-7.us-west-2.compute.amazonaws.com:8080";
 
 	public double evaluateSnippet(String submissionKey, String solutionKey) {
@@ -26,6 +33,7 @@ public class SnippetEvaluationClient {
 			return Double.parseDouble(responseString);
 
 		} catch (Exception e) {
+			log.stackTraceLogging(e);
 			return 1.0;
 		}
 	}
