@@ -92,7 +92,6 @@ public class GetAssessmentController {
 	}
 
 
-
 	@RequestMapping(value = "/link", method = RequestMethod.POST, consumes = {
 			MediaType.APPLICATION_JSON })
 	public String getAssessmentID(@RequestBody Assessment assessment, HttpServletRequest request) {
@@ -106,7 +105,7 @@ public class GetAssessmentController {
 	public String saveAssessmentAnswers(@RequestBody AnswerData answerData)
 			throws JsonParseException, JsonMappingException, IOException {
 		
-		System.out.println("GetAssessmentController.saveAssessmentAnswers: Entered, start saving assessment.");
+		log.debug("GetAssessmentController.saveAssessmentAnswers: Entered, start saving assessment.");
 		
 		Assessment assessment = answerData.getAssessment();
 		
@@ -131,12 +130,12 @@ public class GetAssessmentController {
 
 		assessment.setOptions(optList);
 
-		for(Option opt : assessment.getOptions()){
+/*		for(Option opt : assessment.getOptions()){
 
 			System.out.println(opt);
 
 		}
-
+*/
 		for (AssessmentDragDrop add : assessment.getAssessmentDragDrop()){
 
 			add.setDragDrop(ddService.getDragDropById(add.getDragDrop().getDragDropId()));
@@ -156,14 +155,9 @@ public class GetAssessmentController {
 				
 				switch(su.getFileType())
 				{
-				case "java": 
-					key += ".java"; 
-					break;
 				case "cpp": 
+				case "c++":
 					key += ".cpp"; 
-					break;
-		        case "c++":
-		        	key += ".cpp"; 
 					break;
 		        case "c":
 		        	key += ".c";
@@ -171,6 +165,7 @@ public class GetAssessmentController {
 				case "cs":
 					key += ".cs";
 					break;
+				case "java":
 				default: 
 					key += ".java"; 
 					break;
@@ -188,7 +183,7 @@ public class GetAssessmentController {
 		//SAVE the answers into the database
 		service.gradeAssessment(assessment);
 		service.updateAssessment(assessment);
-		System.out.println("GetAssessmentController.saveAssessmentAnswers: Assessment should now be saved.");
+		log.debug("GetAssessmentController.saveAssessmentAnswers: Assessment should now be saved.");
 		
 		/*int recruiterId = assessment.getUser().getRecruiterId();
 		String recruiterEmail = UsersService.findOne(recruiterId).getEmail();*/
@@ -203,7 +198,7 @@ public class GetAssessmentController {
 	public Map<String, Object> getAssessment(@PathVariable("id") int AssessmentId)
 			throws JsonProcessingException {
 		
-		System.out.println("Requesting assessment with ID=" + AssessmentId);
+		log.debug("Requesting assessment with ID=" + AssessmentId);
 		
 		Assessment assessment = new Assessment();
 		Map<String, Object> responseMap = new HashMap<String, Object>();
@@ -213,7 +208,7 @@ public class GetAssessmentController {
 			
 			// --- This portion of code pulls a snippet template from the S3 bucket --- -RicSmith
 			// This list of snippet templates will be added to the response map.
-			List<String> codeStarters = new ArrayList<String>();
+			List<String> codeStarters = new ArrayList<>();
 			// Pull out the TemplateQuestion set from the assessment.
 			Set<TemplateQuestion> templateQuestions = assessment.getTemplate().getTemplateQuestion();
 			
@@ -223,7 +218,7 @@ public class GetAssessmentController {
 				Format questionFormat = question.getFormat();				// Get each question format.
 				
 				// Check to see if this question format is a code snippet.
-				if (questionFormat.getFormatName().equals("Code Snippet"))	
+				if ("Code Snippet".equals(questionFormat.getFormatName()))	
 				{
 					// Pull out the SnippetTemplates from the question.
 					Set<SnippetTemplate> snippetTemplates = question.getSnippetTemplates();
@@ -255,14 +250,14 @@ public class GetAssessmentController {
 			cal.add(Calendar.DAY_OF_WEEK, 7); // Add a week to the date to reach expired time
 			expireDate = new Timestamp(cal.getTime().getTime());
 			
-			System.out.println(expireDate.after(new Timestamp(System.currentTimeMillis()))); // if true, allow
+			//System.out.println(expireDate.after(new Timestamp(System.currentTimeMillis()))); // if true, allow
 			
 			if (expireDate.after(new Timestamp(System.currentTimeMillis())))
 			{	// Allow assessment (expiration date not yet reached)
 				// Check to see if the user has already taken this assessment
 				if (assessment.getGrade() < 0)
 				{	// Assessment not taken yet
-					System.out.println("Created Timestamp test= " + assessment.getCreatedTimeStamp());
+					//System.out.println("Created Timestamp test= " + assessment.getCreatedTimeStamp());
 					if (assessment.getCreatedTimeStamp() == null)
 					{
 						Timestamp serverQuizStartTime = new Timestamp(System.currentTimeMillis());
@@ -305,8 +300,7 @@ public class GetAssessmentController {
 			}
 			
 		} catch (NullPointerException e) {
-			System.out.println("error");
-			e.printStackTrace();
+			log.stackTraceLogging(e);
 		}
 
 		// Returns a hashMap object with allow message and assessment object
@@ -318,7 +312,7 @@ public class GetAssessmentController {
 	public String quickSaveAssessment(@RequestBody AnswerData answerData)
 			throws JsonParseException, JsonMappingException, IOException {
 		
-		System.out.println("GetAssessmentController.quickSaveAssessment: Entered, quick saving assessment.");
+		log.debug("GetAssessmentController.quickSaveAssessment: Entered, quick saving assessment.");
 		
 		Assessment assessment = answerData.getAssessment();
 		
@@ -334,11 +328,11 @@ public class GetAssessmentController {
 
 		assessment.setOptions(optList);
 
-		for(Option opt : assessment.getOptions()){
+/*		for(Option opt : assessment.getOptions()){
 
 			System.out.println(opt);
 
-		}
+		}*/
 
 		for (AssessmentDragDrop add : assessment.getAssessmentDragDrop()){
 
@@ -359,14 +353,9 @@ public class GetAssessmentController {
 				
 				switch(su.getFileType())
 				{
-				case "java": 
-					key += ".java"; 
-					break;
 				case "cpp": 
+				case "c++":
 					key += ".cpp"; 
-					break;
-		        case "c++":
-		        	key += ".cpp"; 
 					break;
 		        case "c":
 		        	key += ".c";
@@ -374,6 +363,7 @@ public class GetAssessmentController {
 				case "cs":
 					key += ".cs";
 					break;
+				case "java":
 				default: 
 					key += ".java"; 
 					break;
@@ -390,7 +380,7 @@ public class GetAssessmentController {
 
 		//SAVE the answers into the database (grader not called yet)
 		service.updateAssessment(assessment);
-		System.out.println("GetAssessmentController.saveAssessmentAnswers: Assessment state should now be quick saved.");
+		log.debug("GetAssessmentController.saveAssessmentAnswers: Assessment state should now be quick saved.");
 		
 		return "{\"success\":\"ok\"}";
 	}

@@ -7,6 +7,7 @@ import java.util.Random;
 import java.util.Set;
 
 import com.revature.aes.beans.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,11 +19,12 @@ import com.revature.aes.logging.Logging;
 public class SystemTemplate {
 
 	@Autowired
+	Logging log;
+	
+	@Autowired
 	private QuestionDAO qDao;
 	@Autowired
 	private CategoryDAO cDao;
-	
-	private Logging log = new Logging();
 
 	/**
 	 * 
@@ -47,19 +49,18 @@ public class SystemTemplate {
 		
 		List<Question> filteredQuestions = (List<Question>) qDao.findAllByQuestionCategory(cat);
 
-		System.out.println("Questions for category " + cat);
+		log.debug("Questions for category " + cat);
 
-		for(Question q : filteredQuestions){
+/*		for(Question q : filteredQuestions){
 
 			System.out.println(q);
 
 		}
-
+*/
 		if (multiChoice != 0) {
 
 			formatList = multiChoiceQuestionAdder(formatList, filteredQuestions);
-			System.out.println("Hello, this is Richard.");
-			System.out.println(formatList);
+			//System.out.println(formatList);
 			size = formatList.size(); // subtract 1 so that this can be used
 											// to get an index for random
 											// question
@@ -135,20 +136,20 @@ public class SystemTemplate {
 		}
 		for(Question q : assessList)
 		{
-			System.out.println("Question: " + q);
+			log.debug("Question: " + q);
 			TemplateQuestion tq = new TemplateQuestion();
 			tq.setQuestion(q);
-			System.out.println("Template Question " + q);
+			log.debug("Template Question " + q);
 			finalList.add(tq);
 		}
 
-		System.out.println("Final Question List");
+		log.debug("Final Question List");
 
-		for(TemplateQuestion q : finalList){
+/*		for(TemplateQuestion q : finalList){
 
 			System.out.println(q.getQuestion());
 
-		}
+		}*/
 
 		return finalList;
 	}
@@ -156,7 +157,7 @@ public class SystemTemplate {
 	public List<Question> multiChoiceQuestionAdder(List<Question> formatList, List<Question> filteredQuestions) {
 
 		for (Question q : filteredQuestions) {
-			System.out.println(q+" "+"Multiple Choice".equals(q.getFormat().getFormatName()));
+			log.debug(q+" "+"Multiple Choice".equals(q.getFormat().getFormatName()));
 			if ("Multiple Choice".equals(q.getFormat().getFormatName())) {
 				formatList.add(q);
 			}
