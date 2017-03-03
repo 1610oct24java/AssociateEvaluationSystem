@@ -7,10 +7,7 @@ module.exports = {
 
     browser
       .assert.title('AES | Recruiter Home');
-
-	//data.recruiterLogin(browser, 'willie.c.jensen@gmail.com', 'b51p5mdo');
-	data.registerCandidate(browser, 'Billy', 'Bob', 'aes.candidate@gmail.com');
-
+      
 	browser.end();
   }
 };
