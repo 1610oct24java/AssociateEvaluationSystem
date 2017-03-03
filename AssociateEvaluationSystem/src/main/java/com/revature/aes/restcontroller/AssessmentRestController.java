@@ -54,10 +54,6 @@ public class AssessmentRestController {
 			MediaType.APPLICATION_JSON_VALUE })
 	public AssessmentRequest createAssessment(@RequestBody AssessmentRequest assReq) throws URISyntaxException {
 		Template tmpl = new Template();
-
-		log.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		log.info("ASSESSMENT REQUEST " + assReq);
-		log.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		
 		Set<TemplateQuestion> finalQuestion = new HashSet<>();
 
@@ -85,10 +81,6 @@ public class AssessmentRestController {
 		headers.setContentType(MediaType.APPLICATION_JSON);
 
 		RequestEntity<Assessment> request;
-		
-		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		System.out.println("ASSESSMENT IN ASSESSMENT GENERATION " + assessment);
-		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		
 		request = RequestEntity.post(new URI(URL + "/rest/link")).accept(MediaType.APPLICATION_JSON).body(assessment);
 		ResponseEntity<String> result = restTemplate.exchange(request, String.class);

@@ -2,6 +2,7 @@ package com.revature.aes.locator;
 
 import com.revature.aes.beans.AssessmentRequest;
 import com.revature.aes.logging.Logging;
+import com.revature.aes.service.QuestionServiceImpl;
 import com.revature.aes.util.PropertyReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -91,11 +92,10 @@ public class AssessmentServiceLocatorImpl implements AssessmentServiceLocator {
 		log.debug(lines);
 		log.debug(request.toString());
 		log.debug(lines);
-		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		System.out.println("CALLING MATTHEWS SERVICE!");
-		System.out.println(request);
-		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		ResponseEntity<AssessmentRequest> responseEntity = restTemplate.postForEntity("http://"+URI+URIExt+"/user/RandomAssessment", request, AssessmentRequest.class);
+//		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//		System.out.println("TESTING QUERY! " + new QuestionServiceImpl().findQuestionByQuestionId(86));
+//		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		AssessmentRequest response = responseEntity.getBody();
 		log.debug(lines);
 		log.debug(response.toString());
