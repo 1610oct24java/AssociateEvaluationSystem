@@ -12,8 +12,6 @@ app.controller("quizController", function($scope, $rootScope, $http,
 	$scope.protoTest2 = {};
 	$scope.testtaker = "loading...";
 	getQuizQuestions();
-	
-	//console.log(window.location.href);
 
 	var makeState = function(input) {
 		var temp = {
@@ -95,8 +93,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 			headers: {'Content-Type': 'application/json'},
 			data: answerData
 		}).then(function(response) {
-			console.log(response.data);
-			console.log("after quick save");
+			//Removed console logs for sonar cube.
 		});
 	}
 
@@ -315,8 +312,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 			headers: {'Content-Type': 'application/json'},
 			data: answerData
 		}).then(function(response) {
-			console.log(response.data);
-			console.log("after submit");
+			//Removed console log for sonar cube.
 			$window.location.href = '/aes/goodbye';
 		});
 	}
