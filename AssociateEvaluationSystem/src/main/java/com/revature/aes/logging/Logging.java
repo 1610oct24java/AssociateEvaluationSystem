@@ -41,6 +41,7 @@ public class Logging {
 		try{
 			result = pjp.proceed();
 		} catch(Exception e){
+			log.error(e.toString());
 			log.error("\t" + e.getClass() + " " + e.getMessage());
 			log.info(e.toString());
 
