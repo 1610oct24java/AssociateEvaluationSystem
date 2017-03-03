@@ -52,19 +52,21 @@ public class S3Service {
 	
 	public String readFromS3(String key){
         AmazonS3 s3client = new AmazonS3Client();
-        S3Object s3object = s3client.getObject(new GetObjectRequest(
-                S3LOCATION, key));
+        S3Object s3object = s3client.getObject(new GetObjectRequest(S3LOCATION, key));
         InputStreamReader streamreader = new InputStreamReader(s3object.getObjectContent());
         BufferedReader reader = new BufferedReader(streamreader);
         StringBuilder bld = new StringBuilder();
         String line;
-        try {
-            while((line = reader.readLine()) != null) {
-            	bld.append(line + "\n");
-            }
-            streamreader.close();
-        } catch (IOException e) {
-        	log.stackTraceLogging(e);
+        try{
+        	try {
+        		while((line = reader.readLine()) != null) {
+        			bld.append(line + "\n");
+        		}
+        	} finally{
+        		streamreader.close();
+        	}
+        }catch(IOException f){
+        	log.stackTraceLogging(f);
         }
         
         return bld.toString();
