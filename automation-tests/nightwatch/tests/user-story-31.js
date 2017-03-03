@@ -6,8 +6,7 @@ module.exports = {
 	data.recruiterLogin(browser, 'nickolas.jurczak@revature.com', 'password');
 
     browser
-      .assert.title('AES | Recruiter Home');
-      
-	browser.end();
+      .assert.title('AES | Recruiter Home')
+      .end();
   }
 };
