@@ -50,7 +50,7 @@ import com.revature.aes.service.S3Service;
 public class GetAssessmentController {
 	
 	@Autowired
-	Logging log;
+	private Logging log;
 	
 	@Autowired
 	private AssessmentServiceImpl service;
@@ -91,10 +91,15 @@ public class GetAssessmentController {
 
 	}
 
+
 	@RequestMapping(value = "/link", method = RequestMethod.POST, consumes = {
 			MediaType.APPLICATION_JSON })
 	public String getAssessmentID(@RequestBody Assessment assessment, HttpServletRequest request) {
-
+		
+		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		System.out.println("IN GET LINK " + assessment);
+		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		
 		log.info("Link called " + assessment);
 
 		return coreEmailClientEndpointAddress + "quiz?asmt=" + assessment.getAssessmentId();
