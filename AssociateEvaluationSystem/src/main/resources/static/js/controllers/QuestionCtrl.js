@@ -73,7 +73,6 @@ app.controller('QuestionCtrl', function($http, $scope) {
 	}; // getQuestionList() end
 	
 	$scope.getQuestion = function(question){
-		console.log(question)
 		$scope.isOption = false;
 		$scope.isDragDrop = false;
 		if(question.format.formatName == "Drag and Drop"){
@@ -234,7 +233,6 @@ app.controller('QuestionCtrl', function($http, $scope) {
 		if ($scope.format.formatId === 0) {
 			
 		} else {
-			console.log($scope.currentQuestion);
 			$http.put("question", $scope.currentQuestion)
 				.success(function(response) {
 					$scope.question = response.data;
@@ -324,7 +322,6 @@ app.controller('QuestionCtrl', function($http, $scope) {
 			for(let i=0;i<length;i++){
 				if($scope.currentQuestion.questionId == $scope.qList[i].questionId){
 					$scope.qList[i]=$scope.currentQuestion;
-					console.log($scope.qList[i]);
 					break;
 				}				
 			}
@@ -337,14 +334,9 @@ app.controller('QuestionCtrl', function($http, $scope) {
 			$scope.currentQuestion = response.data;
 			$scope.getQuestion($scope.currentQuestion)
 			var length = $scope.qList.length;
-			console.log(length);
 			for(let i=0;i<length;i++){
-				console.log($scope.qList[i])
 				if($scope.currentQuestion.questionId == $scope.qList[i].questionId){
-					console.log("Inside if statement.")
-					console.log($scope.currentQuestion)
 					$scope.qList[i]=$scope.currentQuestion;
-					console.log($scope.qList[i]);
 					break;
 				}				
 			}
@@ -390,9 +382,9 @@ app.controller('QuestionCtrl', function($http, $scope) {
 	$scope.checkButton = function(option){
 		if (option.correct == 1) {
 			return true;
-		}else{
-			return false;
 		}
+		
+		return false;
 	}
 
 	/*
@@ -407,7 +399,6 @@ app.controller('QuestionCtrl', function($http, $scope) {
 	}
 	
 	$scope.multiSelectCorrect = function(option){
-		console.log(option)
 		$scope.optionCorrectChanger(option)
 		
 	}

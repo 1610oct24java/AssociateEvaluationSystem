@@ -43,8 +43,8 @@ public class AssessmentGrader {
 		//Getting total weight of MultipleChoice/Select questions from assessment template
 		for(TemplateQuestion tQuestion : assessment.getTemplate().getTemplateQuestion()){
 
-			if(tQuestion.getQuestion().getFormat().getFormatName().equals("Multiple Choice") ||
-					tQuestion.getQuestion().getFormat().getFormatName().equals("Multiple Select")){
+			if("Multiple Choice".equals(tQuestion.getQuestion().getFormat().getFormatName()) ||
+					"Multiple Select".equals(tQuestion.getQuestion().getFormat().getFormatName())){
 
 				result[1]+=tQuestion.getWeight();
 
@@ -119,7 +119,7 @@ public class AssessmentGrader {
 		//Getting total weight of Drag and Drop questions for the assessment template
 		for(TemplateQuestion tQuestion : assessment.getTemplate().getTemplateQuestion()){
 
-			if(tQuestion.getQuestion().getFormat().getFormatName().equals("Drag and Drop")){
+			if("Drag and Drop".equals(tQuestion.getQuestion().getFormat().getFormatName())){
 
 				result[1]+=tQuestion.getWeight();
 
@@ -194,7 +194,7 @@ public class AssessmentGrader {
 		//Getting total weight of Drag and Drop questions for the assessment template
 		for(TemplateQuestion tQuestion : assessment.getTemplate().getTemplateQuestion()){
 
-			if(tQuestion.getQuestion().getFormat().getFormatName().equals("Code Snippet")){
+			if("Code Snippet".equals(tQuestion.getQuestion().getFormat().getFormatName())){
 
 				result[1]+=tQuestion.getWeight();
 
@@ -225,7 +225,7 @@ public class AssessmentGrader {
 			log.info(" keyFileName: " + keyFileName);
 			itemWeight = templateDataMap.get(key).getWeight();
 			log.info(" weight: "+itemWeight);
-			int codeTestResult = sec.evaluateSnippet(userFileName, keyFileName);
+			double codeTestResult = sec.evaluateSnippet(userFileName, keyFileName);
 			log.info(" code being evaluated to "+codeTestResult);
 			itemWeightedGrade = itemWeight*codeTestResult;//
 			result[0] = result[0]+itemWeightedGrade;

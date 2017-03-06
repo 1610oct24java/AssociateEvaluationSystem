@@ -56,6 +56,7 @@ public class AssessmentServiceLocatorImpl implements AssessmentServiceLocator {
 
 		} catch (UnknownHostException e) {
 			log.error("Failed to set localhost address to ip const");
+			log.stackTraceLogging(e);
 			ip = "localhost";
 		}
 
@@ -92,8 +93,8 @@ public class AssessmentServiceLocatorImpl implements AssessmentServiceLocator {
 		log.debug(request.toString());
 		log.debug(lines);
 		
-		System.out.println("CALLING MATTHEWS SERVICE!");
-		System.out.println(request);
+		log.debug("CALLING MATTHEWS SERVICE!");
+		//System.out.println(request);
 		ResponseEntity<AssessmentRequest> responseEntity = restTemplate.postForEntity("http://"+URI+URIExt+"/user/RandomAssessment", request, AssessmentRequest.class);
 		AssessmentRequest response = responseEntity.getBody();
 		log.debug(lines);
