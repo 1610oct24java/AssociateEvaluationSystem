@@ -51,12 +51,6 @@ public class SystemTemplate {
 
 		log.debug("Questions for category " + cat);
 
-/*		for(Question q : filteredQuestions){
-
-			System.out.println(q);
-
-		}
-*/
 		if (multiChoice != 0) {
 
 			formatList = multiChoiceQuestionAdder(formatList, filteredQuestions);
