@@ -25,19 +25,24 @@ public class SnippetController {
 	public boolean uploadToS3(String snippetContents, @RequestParam String key){
 		File file;
 		FileWriter fileWriter = null;
-		try {
-			file = File.createTempFile("snippet", ".tmp");
-			fileWriter = new FileWriter(file);
-			BufferedWriter writer = new BufferedWriter(fileWriter);
-			writer.write(snippetContents);
-			new SnippetIO().upload(file, key);
-			writer.close();
-			fileWriter.close();
-			if(!file.delete()){
-				log.error("File not found! Can not delete file that does not exists!");
+		try{
+			try {
+				file = File.createTempFile("snippet", ".tmp");
+				fileWriter = new FileWriter(file);
+				BufferedWriter writer = new BufferedWriter(fileWriter);
+				writer.write(snippetContents);
+				new SnippetIO().upload(file, key);
+				writer.close();
+				fileWriter.close();
+				if(!file.delete()){
+					log.error("File not found! Can not delete file that does not exists!");
+				}
+				return true;
+			}finally{
+				fileWriter.close();
 			}
-			return true;
-		} catch (IOException e) {
+		}
+		 catch (IOException e) {
 			log.stackTraceLogging(e);
 			return false;
 		}
