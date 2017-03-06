@@ -62,9 +62,6 @@ public class AdminController {
 		
 		List<User> users = userService.findUsersByRole("recruiter");
 		
-		
-		
-		
 		return users;
 	}
 	

@@ -33,7 +33,6 @@ public class SnippetController {
 				writer.write(snippetContents);
 				new SnippetIO().upload(file, key);
 				writer.close();
-				fileWriter.close();
 				if(!file.delete()){
 					log.error("File not found! Can not delete file that does not exists!");
 				}
