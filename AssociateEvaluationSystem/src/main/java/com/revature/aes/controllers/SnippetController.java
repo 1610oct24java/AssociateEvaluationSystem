@@ -28,12 +28,12 @@ public class SnippetController {
 		try{
 			try {
 				file = File.createTempFile("snippet", ".tmp");
-			fileWriter = new FileWriter(file);
-			BufferedWriter writer = new BufferedWriter(fileWriter);
+				fileWriter = new FileWriter(file);
+				BufferedWriter writer = new BufferedWriter(fileWriter);
 				writer.write(snippetContents);
 				new SnippetIO().upload(file, key);
 				writer.close();
-			fileWriter.close();
+				fileWriter.close();
 				if(!file.delete()){
 					log.error("File not found! Can not delete file that does not exists!");
 				}
