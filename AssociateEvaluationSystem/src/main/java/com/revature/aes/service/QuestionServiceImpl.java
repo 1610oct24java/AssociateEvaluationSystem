@@ -171,10 +171,11 @@ public class QuestionServiceImpl implements QuestionService{
 	public Question getQuestionByOption(Option opt) {
 		return qdao.findQuestionByOption(opt);
 	}
+
+	@Override
+	public List<Question> findQuestionByQuestionId(int id) {	
+		return qdao.findQuestionById(id);
+	}
 	
-//	@Override
-//	public Question getQuestionByOptionId(Integer id){
-//		return qdao.findQuestionByOptionId(id);
-//	}
 
 }
