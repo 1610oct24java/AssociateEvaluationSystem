@@ -31,7 +31,7 @@ adminApp.constant("ROLE", {
 	"ADMIN"		: "ROLE_ADMIN"
 });
 
-app.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE_URL, API_URL, ROLE) {
+adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE_URL, API_URL, ROLE) {
 
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
@@ -116,8 +116,12 @@ app.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE_URL,
 
 }); //end register candidate controller
 
-app.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_URL, ROLE) {
+adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_URL, ROLE) {
 
+	
+	
+	
+	
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
 		if (response.data.authenticated) {
@@ -128,16 +132,20 @@ app.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_URL, RO
 			$scope.authUser = authUser;
 			if($scope.authUser.authority != ROLE.ADMIN) {
 				window.location = SITE_URL.LOGIN;
+				console.log("Not an Admin");
 			}
 			
 			$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEES)
 			.then(function(response) {
+
 				$scope.employees = response.data;
 			})
 		} else {
 			window.location = SITE_URL.LOGIN;
 		}
 	})
+	
+	
 	
 	$scope.logout = function() {
 		$http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
@@ -149,6 +157,9 @@ app.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_URL, RO
 	
 });
 
+
+		
+
 function makeUser($scope) {
 	var user = {
 				username: $scope.username,
@@ -158,7 +169,9 @@ function makeUser($scope) {
 	$scope.user = user;
 }
 
-app.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_URL, API_URL, ROLE) {
+
+
+adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_URL, API_URL, ROLE) {
 
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
