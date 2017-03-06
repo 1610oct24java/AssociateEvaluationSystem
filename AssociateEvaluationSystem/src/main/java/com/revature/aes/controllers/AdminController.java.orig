@@ -61,8 +61,13 @@ public class AdminController {
 	public List<User> getEmployees(){
 		
 		List<User> users = userService.findUsersByRole("recruiter");
+<<<<<<< HEAD
 		
 		
+		
+=======
+		users.addAll(userService.findUsersByRole("trainer"));
+>>>>>>> 46f5102334dd4c9a08f918a1a141af38d6ac2417
 		
 		return users;
 	}
