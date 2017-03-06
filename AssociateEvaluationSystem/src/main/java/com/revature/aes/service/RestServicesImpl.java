@@ -45,10 +45,6 @@ public class RestServicesImpl implements RestServices {
 
 	@Override
 	public String finalizeCandidate(User candidate, String pass) {
-
-		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		System.out.println("INSIDE FINALIZE CANDIDATE");
-		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		
 		AssessmentRequestLoader loader = new AssessmentRequestLoader();
 //		Map<String,String> map = new HashMap<>();
@@ -56,15 +52,7 @@ public class RestServicesImpl implements RestServices {
 //		String email = candidate.getEmail();
 		String category = candidate.getFormat();
 		
-		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		System.out.println("ATTEMPTING TO LOAD ASSESSMENT REQUEST");
-		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		
 		AssessmentRequest ar = loader.loadRequest(category);
-		
-		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		System.out.println("LOADED ASSESSMENT REQUEST " + ar);
-		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		
 		ar.setUserEmail(candidate.getEmail());
 		
