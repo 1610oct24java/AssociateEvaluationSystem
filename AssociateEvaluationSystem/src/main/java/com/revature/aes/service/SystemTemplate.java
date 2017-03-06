@@ -63,9 +63,7 @@ public class SystemTemplate {
 
 			formatList = multiChoiceQuestionAdder(formatList, filteredQuestions);
 			//System.out.println(formatList);
-			size = formatList.size(); // subtract 1 so that this can be used
-											// to get an index for random
-											// question
+			size = formatList.size();
 
 			for (int i = 0; i < multiChoice; i++) {
 				
