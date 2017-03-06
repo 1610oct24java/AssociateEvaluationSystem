@@ -3,8 +3,10 @@ package com.revature.aes.restcontroller;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.Set;
 
+import com.revature.aes.beans.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -16,11 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import com.revature.aes.beans.Assessment;
-import com.revature.aes.beans.AssessmentRequest;
-import com.revature.aes.beans.Template;
-import com.revature.aes.beans.TemplateQuestion;
-import com.revature.aes.beans.User;
+import com.revature.aes.logging.Logging;
 import com.revature.aes.service.AssessmentService;
 import com.revature.aes.service.SystemTemplate;
 import com.revature.aes.service.UserService;
@@ -32,6 +30,9 @@ import com.revature.aes.service.UserService;
 @RestController
 public class AssessmentRestController {
 
+	@Autowired
+	private Logging log;	
+	
 	@Autowired
 	private SystemTemplate systemp;
 	@Autowired
@@ -53,8 +54,12 @@ public class AssessmentRestController {
 			MediaType.APPLICATION_JSON_VALUE })
 	public AssessmentRequest createAssessment(@RequestBody AssessmentRequest assReq) throws URISyntaxException {
 		Template tmpl = new Template();
+		
+		Set<TemplateQuestion> finalQuestion = new HashSet<>();
 
-		Set<TemplateQuestion> finalQuestion = systemp.getRandomSelectionFromCategory(assReq);
+		for (CategoryRequest catReq : assReq.getCategoryRequestList()){
+			finalQuestion.addAll(systemp.getRandomSelectionFromCategory(catReq));
+		}
 
 		for (TemplateQuestion tq : finalQuestion) {
 			tq.setWeight(1);

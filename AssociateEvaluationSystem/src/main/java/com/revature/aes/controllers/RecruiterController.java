@@ -122,10 +122,10 @@ public class RecruiterController {
 	}
 
 //	THESE ARE NOW IMPLEMENTED IN com.revature.aes.controllers.AdminController.java
-//	@RequestMapping(value="recruiter/{email}/init",method = RequestMethod.POST)
-//	public void initRecruiter(@PathVariable String email) {
-//		userService.createRecruiter(email);
-//	}
+	@RequestMapping(value="recruiter/{email}/init",method = RequestMethod.POST)
+	public void initRecruiter(@PathVariable String email) {
+		userService.createRecruiter(email, "Recruiter", "Tim");
+	}
 //	
 //	@RequestMapping(value="trainer/{email}/init",method = RequestMethod.POST)
 //	public void initTrainer(@PathVariable String email) {

@@ -20,12 +20,13 @@ public class PropertyReader {
 		InputStream inputStream = this.getClass().getClassLoader()
 				.getResourceAsStream(propertiesFilename);
 		
-		log.debug("Input stream: " + inputStream);
+		//log.debug("Input stream: " + inputStream);
 		Properties prop = new Properties();
 		
 		// load the inputStream using the Properties
 		try {
 			prop.load(inputStream);
+
 		} catch (IOException e) {
 			StackTraceElement thing = Thread.currentThread().getStackTrace()[1];
 			Error.error("\nat Line:\t"
