@@ -104,10 +104,15 @@ public class AssessmentGrader {
 
 			if(countCorrect<0){	countCorrect=0;	}
 
-			itemWeightedGrade = itemWeight*(countCorrect/countOptions);//
-			result[0] = result[0]+itemWeightedGrade;
-			//result[1] = result[1]+itemWeight;
-			log.info(" out of " + countOptions + " options " + countCorrect +" were correct");
+			if(countOptions != 0){
+				itemWeightedGrade = itemWeight*(countCorrect/countOptions);
+				result[0] = result[0]+itemWeightedGrade;
+				//result[1] = result[1]+itemWeight;
+				log.info(" out of " + countOptions + " options " + countCorrect +" were correct");
+			}
+			else{
+				log.error("countOptions = 0. Can not divide by zero.");
+			}
 		}
 		return result;
 	}
@@ -174,12 +179,16 @@ public class AssessmentGrader {
 				countOptions += 1.0;
 			}
 
-			itemWeightedGrade = itemWeight*(countCorrect/countOptions);//
-			result[0] = result[0]+itemWeightedGrade;
-			//result[1] = result[1]+itemWeight;
-			log.info("out of " + countOptions + " options " + countCorrect +" were correct");
+			if(countOptions != 0){
+				itemWeightedGrade = itemWeight*(countCorrect/countOptions);
+				result[0] = result[0]+itemWeightedGrade;
+				//result[1] = result[1]+itemWeight;
+				log.info("out of " + countOptions + " options " + countCorrect +" were correct");
+			}
+			else{
+				log.error("countOptions = 0. Can not divide by zero.");
+			}
 		}
-
 		return result;
 	}
 
