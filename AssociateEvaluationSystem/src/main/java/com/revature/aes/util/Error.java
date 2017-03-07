@@ -4,6 +4,8 @@ package com.revature.aes.util;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.revature.aes.logging.Logging;
 
 /**
@@ -12,6 +14,9 @@ import com.revature.aes.logging.Logging;
  * but also provides a method to create a time stamp.
  */
 public class Error {
+	
+	@Autowired
+	Logging log;
 	
 	/**
 	 * Gets the date.<br>
@@ -74,7 +79,7 @@ public class Error {
 					+ "\nMessage:\t"
 					+ t.getMessage();
 			System.err.println(entire + "\nStackTrace:\n");
-			t.printStackTrace();
+			log.stackTraceLogging((Exception) t);
 			System.err.println(border);
 		}
 		

@@ -55,16 +55,22 @@ public class AdminController {
 	 * @return 
 	 * 		the list of users this recruiter added
 	 */
+	
+	
 	@RequestMapping(value="/admin/employees", method= RequestMethod.GET)
 	public List<User> getEmployees(){
 		
-		List<User> users = new ArrayList<User>();
+		List<User> users = new ArrayList<>();
 		
-		users = userService.findUsersByRole("recruiter");
-		users.addAll(userService.findUsersByRole("trainer"));
+		users = userService.findAllUsers();
+		
+		
+		
 		
 		return users;
 	}
+	
+	
 	
 	/**
 	 * This method changes details about a user in the database.
@@ -109,7 +115,18 @@ public class AdminController {
 	}
 	
 	/**
+
+	 * This method creates a superuser for the system that can 
+	 *   create recruiter and trainer accounts.
+	 * This endpoint is currently disabled after creating the superuser
+	 *   account so that no one else can create another superuser.
 	 * 
+	 * @param email
+	 * 		The email of the superuser
+	 * @param lastname
+	 * 		lastname of the superuser
+	 * @param firstname
+	 * 		firstname of the superuser
 	 */
 //	@RequestMapping(value="admin/registerSuperuser/{email}/{lastname}/{firstname}", method = RequestMethod.POST)
 //	public void initSuperuser(@PathVariable String email, @PathVariable String lastname, @PathVariable String firstname) {
