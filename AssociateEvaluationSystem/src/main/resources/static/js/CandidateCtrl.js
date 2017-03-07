@@ -2,7 +2,7 @@
  * Created by SLEDGEHAMMER on 3/6/2017.
  */
 
-app.controller('CandidateCtrl', function($scope,$location,$http,SITE_URL, API_URL, ROLE) {
+angular.module('AESCoreApp').controller('CandidateCtrl', function($scope,$location,$http,SITE_URL, API_URL, ROLE) {
 
     $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
         .then(function(response) {
