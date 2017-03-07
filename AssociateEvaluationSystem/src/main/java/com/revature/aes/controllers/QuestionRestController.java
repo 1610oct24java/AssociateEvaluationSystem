@@ -1,4 +1,4 @@
-package com.revature.aes.restcontroller;
+package com.revature.aes.controllers;
 
 import java.util.List;
 import java.util.Set;
