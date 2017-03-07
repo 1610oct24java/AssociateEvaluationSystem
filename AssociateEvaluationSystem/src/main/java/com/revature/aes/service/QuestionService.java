@@ -27,6 +27,9 @@ public interface QuestionService {
 	
 	public Question getQuestionByOption(Option opt);
 	
+	//////////////////////////////
+	public List<Question> findQuestionByQuestionId(int id);
+	/////////////////////////////////
 //	public Question getQuestionByOptionId(Integer id);
 
 }

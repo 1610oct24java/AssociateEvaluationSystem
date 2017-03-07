@@ -15,6 +15,7 @@ import com.revature.aes.beans.Option;
 import com.revature.aes.beans.Question;
 import com.revature.aes.exception.AikenSyntaxException;
 import com.revature.aes.exception.InvalidFileTypeException;
+import com.revature.aes.logging.Logging;
 import com.revature.aes.service.FormatService;
 
 /**
@@ -45,6 +46,9 @@ public class AikenParser {
 	}
 	
 	@Autowired
+	Logging log;
+	
+	@Autowired
 	public AikenParser(FormatService fs) {
 		this.formatService=fs;
 		questionMap = new HashMap<>();
@@ -56,7 +60,7 @@ public class AikenParser {
 		try(BufferedReader br = new BufferedReader(new InputStreamReader(mpFile.getInputStream()))) {
 			// Read first line of the file
 		    line = br.readLine();
-		    System.out.println("Questions: " + line);
+		    log.debug("Questions: " + line);
 		    // Each loop is a new question being read
 		    while (line != null) {
 		    	Question question = setQuestion();
@@ -73,14 +77,14 @@ public class AikenParser {
 		    	if(line==null){
 		    		break;
 		    	}
-		    	System.out.println("Blank line " + line);
+		    	log.debug("Blank line " + line);
 		    	if(line.length() != 0){
 		    		throw new AikenSyntaxException("Questions must be seperated by a blank line!");
 		    	}
 		    	
 		    	// Sets line to read next Question
 		    	line = br.readLine();
-		    	System.out.println("next question: "+ line );
+		    	log.debug("next question: "+ line );
 		    }
 		}
 	}
@@ -111,7 +115,7 @@ public class AikenParser {
 	private Set<Option> getOptionsList(BufferedReader br, Question optionQuestion) throws IOException{	
     	
 		line = br.readLine();
-		System.out.println("Line 112: " + line);
+		log.debug("Line 112: " + line);
     	
 		// Create new options list for each Question
 		Set<Option> optionsList = new HashSet<Option>();
@@ -125,7 +129,7 @@ public class AikenParser {
     		optionsList.add(option);
     		
     		line = br.readLine();
-    		System.out.println("Options: " + line);
+    		log.debug("Options: " + line);
     	}
     	return  optionsList;
 	}

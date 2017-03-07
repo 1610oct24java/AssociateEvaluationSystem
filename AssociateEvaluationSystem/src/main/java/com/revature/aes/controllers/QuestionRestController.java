@@ -1,4 +1,4 @@
-package com.revature.aes.restcontroller;
+package com.revature.aes.controllers;
 
 import java.util.List;
 import java.util.Set;
@@ -16,6 +16,7 @@ import com.revature.aes.beans.Format;
 import com.revature.aes.beans.Option;
 import com.revature.aes.beans.Question;
 import com.revature.aes.beans.QuestionOptionsJSONHandler;
+import com.revature.aes.logging.Logging;
 import com.revature.aes.service.DragDropService;
 import com.revature.aes.service.OptionService;
 import com.revature.aes.service.QuestionService;
@@ -27,6 +28,10 @@ import com.revature.aes.service.QuestionService;
 @RestController
 public class QuestionRestController
 {
+	
+	@Autowired
+	Logging log;
+	
 	/**
 	 * @questionService The service used to handle HTTPs Requests and Response
 	 *                  for the Question object.
@@ -197,9 +202,7 @@ public class QuestionRestController
 	@RequestMapping(value="question/markAllIncorrect/{questionId}", method = RequestMethod.POST, produces = 
 			{MediaType.APPLICATION_JSON_VALUE})
 	public void mcReset(@PathVariable Integer questionId){
-		System.out.println("*******************************************************************************************************************");
-		System.out.println("Inside eraser method.");
-		System.out.println("*******************************************************************************************************************");
+		log.debug("Inside eraser method.");
 		Question question = questionService.getQuestionById(questionId);
 		Set<Option> options = question.getOption();
 		for(int i=0;i<options.size();i++){

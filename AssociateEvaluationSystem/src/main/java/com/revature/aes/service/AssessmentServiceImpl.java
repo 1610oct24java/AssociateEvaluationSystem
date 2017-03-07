@@ -23,14 +23,12 @@ public class AssessmentServiceImpl implements AssessmentService {
 	
 	@Override
 	public Assessment getAssessmentById(int id) {
-		System.out.println("I'm servicing things! Poorly!");
 		Assessment out = assDAO.findAssessmentByAssessmentId(id);
 		return out;
 	}
 
 	@Override
 	public Assessment saveAssessment(Assessment assessment) {
-		System.out.println("I am saving things!! maybe?");
 		return assDAO.save(assessment);
 	}
 	
