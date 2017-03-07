@@ -1,16 +1,19 @@
 package com.revature.aes.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-import com.revature.aes.beans.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.revature.aes.beans.Category;
+import com.revature.aes.beans.CategoryRequest;
+import com.revature.aes.beans.Question;
+import com.revature.aes.beans.TemplateQuestion;
 import com.revature.aes.dao.CategoryDAO;
 import com.revature.aes.dao.QuestionDAO;
 import com.revature.aes.logging.Logging;
@@ -23,6 +26,8 @@ public class SystemTemplate {
 	
 	@Autowired
 	private QuestionDAO qDao;
+	@Autowired
+	private QuestionService qService;
 	@Autowired
 	private CategoryDAO cDao;
 
@@ -43,111 +48,152 @@ public class SystemTemplate {
 		Set<Question> assessList = new HashSet<>();
 		List<Question> formatList = new ArrayList<>();
 		Set<TemplateQuestion> finalList = new HashSet<>();
-		Random rando = new Random();
 		
 		Category cat = (Category) cDao.getByName(catName);
 		
-		List<Question> filteredQuestions = (List<Question>) qDao.findAllByQuestionCategory(cat);
-
-		log.debug("Questions for category " + cat);
-
-		if (multiChoice != 0) {
-
-			formatList = multiChoiceQuestionAdder(formatList, filteredQuestions);
-			//System.out.println(formatList);
-			size = formatList.size(); // subtract 1 so that this can be used
-											// to get an index for random
-											// question
-
-			for (int i = 0; i < multiChoice; i++) {
-				
-				int num = rando.nextInt(size);
-				assessList.add(formatList.remove(num));
-				size--;
-				if (size == 1) {
-					break;
-				}
-			}
-
+		if(multiChoice != 0) {
+			assessList = addQuestionsToList("Multiple Choice", cat.getName(), multiChoice, assessList);
 		}
-		formatList.clear();
-
-		if (multiSelect != 0) {
-
-			formatList = multiSelectQuestionAdder(formatList, filteredQuestions);
-
-			size = formatList.size(); // subtract 1 so that this can be used
-											// to get an index for random
-											// question
-
-			for (int i = 0; i < multiSelect; i++) {
-				int num = rando.nextInt(size);
-				assessList.add(formatList.remove(num));
-				size--;
-				if (size == 1) {
-					break;
-				}
-			}
-
+		if(multiSelect != 0) {
+			assessList = addQuestionsToList("Multiple Select", cat.getName(), multiSelect, assessList);
 		}
-		formatList.clear();
-		if (dragDrop != 0) {
-
-			formatList = dragDropQuestionAdder(formatList, filteredQuestions);
-
-			size = formatList.size(); // subtract 1 so that this can be used
-											// to get an index for random
-											// question
-
-			for (int i = 0; i < dragDrop; i++) {
-				int num = rando.nextInt(size);
-				assessList.add(formatList.remove(num));
-				size--;
-				if (size == 1) {
-					break;
-				}
-			}
-
+		if(dragDrop != 0) {
+			assessList = addQuestionsToList("Drag and Drop", cat.getName(), dragDrop, assessList);
 		}
-		formatList.clear();
-		if (codeSnip != 0) {
-
-			formatList = codeSnippetQuestionAdder(formatList, filteredQuestions);
-
-			size = formatList.size(); // subtract 1 so that this can be used
-											// to get an index for random
-											// question
-
-			for (int i = 0; i < codeSnip; i++) {
-				int num = rando.nextInt(size);
-				assessList.add(formatList.remove(num));
-				size--;
-				if (size == 1) {
-					break;
-				}
-			}
-
+		if(codeSnip != 0) {
+			assessList = addQuestionsToList("Code Snippet", cat.getName(), codeSnip, assessList);
 		}
-		for(Question q : assessList)
-		{
-			log.debug("Question: " + q);
-			TemplateQuestion tq = new TemplateQuestion();
-			tq.setQuestion(q);
-			log.debug("Template Question " + q);
-			finalList.add(tq);
+		
+		for(Question q : assessList) {
+				log.debug("Question: " + q);
+				TemplateQuestion tq = new TemplateQuestion();
+				tq.setQuestion(q);
+				log.debug("Template Question " + q);
+				finalList.add(tq);
 		}
-
-		log.debug("Final Question List");
-
-/*		for(TemplateQuestion q : finalList){
-
-			System.out.println(q.getQuestion());
-
-		}*/
-
 		return finalList;
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//		List<Question> filteredQuestions = (List<Question>) qDao.findAllByQuestionCategory(cat);
+//
+//		log.debug("Questions for category " + cat);
+//
+//		if (multiChoice != 0) {
+//
+//			formatList = multiChoiceQuestionAdder(formatList, filteredQuestions);
+//			//System.out.println(formatList);
+//			size = formatList.size(); // subtract 1 so that this can be used
+//											// to get an index for random
+//											// question
+//
+//			for (int i = 0; i < multiChoice; i++) {
+//				
+//				int num = rando.nextInt(size);
+//				assessList.add(formatList.remove(num));
+//				size--;
+//				if (size == 1) {
+//					break;
+//				}
+//			}
+//
+//		}
+//		formatList.clear();
+//
+//		if (multiSelect != 0) {
+//
+//			formatList = multiSelectQuestionAdder(formatList, filteredQuestions);
+//
+//			size = formatList.size(); // subtract 1 so that this can be used
+//											// to get an index for random
+//											// question
+//
+//			for (int i = 0; i < multiSelect; i++) {
+//				int num = rando.nextInt(size);
+//				assessList.add(formatList.remove(num));
+//				size--;
+//				if (size == 1) {
+//					break;
+//				}
+//			}
+//
+//		}
+//		formatList.clear();
+//		if (dragDrop != 0) {
+//
+//			formatList = dragDropQuestionAdder(formatList, filteredQuestions);
+//
+//			size = formatList.size(); // subtract 1 so that this can be used
+//											// to get an index for random
+//											// question
+//
+//			for (int i = 0; i < dragDrop; i++) {
+//				int num = rando.nextInt(size);
+//				assessList.add(formatList.remove(num));
+//				size--;
+//				if (size == 1) {
+//					break;
+//				}
+//			}
+//
+//		}
+//		formatList.clear();
+//		if (codeSnip != 0) {
+//
+//			formatList = codeSnippetQuestionAdder(formatList, filteredQuestions);
+//
+//			size = formatList.size(); // subtract 1 so that this can be used
+//											// to get an index for random
+//											// question
+//
+//			for (int i = 0; i < codeSnip; i++) {
+//				int num = rando.nextInt(size);
+//				assessList.add(formatList.remove(num));
+//				size--;
+//				if (size == 1) {
+//					break;
+//				}
+//			}
+//
+//		}
+//		for(Question q : assessList)
+//		{
+//			log.debug("Question: " + q);
+//			TemplateQuestion tq = new TemplateQuestion();
+//			tq.setQuestion(q);
+//			log.debug("Template Question " + q);
+//			finalList.add(tq);
+//		}
+//
+//		log.debug("Final Question List");
+//
+///*		for(TemplateQuestion q : finalList){
+//
+//			System.out.println(q.getQuestion());
+//
+//		}*/
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	}
 
+	private Set<Question> addQuestionsToList(String format, String category, int questionCount, Set<Question> assessmentQuestions) {
+		List<BigDecimal> list = qService.findIdsByFormatAndCategory(category, format);
+		int size = list.size();
+		Random rando = new Random();
+		for (int i = 0; i < questionCount; i++) {
+			int num = rando.nextInt(size);
+			Question q = qService.getQuestionById(list.get(num).intValue());
+			list.remove(num).intValue();
+			assessmentQuestions.add(q);
+			size--;
+			if (size == 1) {
+				break;
+			}
+		}
+		return assessmentQuestions;
+	}
+	
+	
 	public List<Question> multiChoiceQuestionAdder(List<Question> formatList, List<Question> filteredQuestions) {
 
 		for (Question q : filteredQuestions) {

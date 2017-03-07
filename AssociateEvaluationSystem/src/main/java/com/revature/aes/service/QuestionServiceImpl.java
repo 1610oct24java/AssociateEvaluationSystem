@@ -1,5 +1,6 @@
 package com.revature.aes.service;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -175,6 +176,11 @@ public class QuestionServiceImpl implements QuestionService{
 	@Override
 	public List<Question> findQuestionByQuestionId(int id) {	
 		return qdao.findQuestionById(id);
+	}
+
+	@Override
+	public List<BigDecimal> findIdsByFormatAndCategory(String category, String format) {
+		return qdao.findQuestionIdsByFormatandCategory(category, format);
 	}
 	
 

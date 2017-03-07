@@ -6,7 +6,6 @@ import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.revature.aes.beans.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -18,8 +17,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.revature.aes.beans.Assessment;
+import com.revature.aes.beans.AssessmentRequest;
+import com.revature.aes.beans.CategoryRequest;
+import com.revature.aes.beans.Template;
+import com.revature.aes.beans.TemplateQuestion;
+import com.revature.aes.beans.User;
 import com.revature.aes.logging.Logging;
 import com.revature.aes.service.AssessmentService;
+import com.revature.aes.service.QuestionService;
 import com.revature.aes.service.SystemTemplate;
 import com.revature.aes.service.UserService;
 /** Handles the REST requests for making assessments.
@@ -39,6 +45,8 @@ public class AssessmentRestController {
 	private UserService userService;
 	@Autowired
 	private AssessmentService assServ;
+//	@Autowired
+//	private QuestionService qServ;
 	private static final String URL = "http://localhost:8090/aes";
 	private RestTemplate restTemplate = new RestTemplate();
 
@@ -53,6 +61,11 @@ public class AssessmentRestController {
 	@RequestMapping(value = "user/RandomAssessment", method = RequestMethod.POST, consumes = {
 			MediaType.APPLICATION_JSON_VALUE })
 	public AssessmentRequest createAssessment(@RequestBody AssessmentRequest assReq) throws URISyntaxException {
+		
+//		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//		System.out.println(qServ.findIdsByFormatAndCategory("Java", "Drag and Drop"));
+//		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");		
+		
 		Template tmpl = new Template();
 		
 		Set<TemplateQuestion> finalQuestion = new HashSet<>();
@@ -69,6 +82,7 @@ public class AssessmentRestController {
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		tmpl.setTemplateQuestion(finalQuestion);
 		tmpl.setCreateTimeStamp(timestamp);
+		
 		// The user id needs to be set to whatever system user is in the AES_USERS table.
 		tmpl.setCreator(userService.getUserById(1));
 
@@ -88,8 +102,6 @@ public class AssessmentRestController {
 		String link = result.getBody();
 		
 		assReq.setLink(link);
-
 		return assReq;
 	}
-
 }
