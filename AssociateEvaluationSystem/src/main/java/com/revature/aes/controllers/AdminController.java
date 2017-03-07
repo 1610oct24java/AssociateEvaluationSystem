@@ -104,9 +104,11 @@ public class AdminController {
 		userService.removeEmployee(email, index);
 	}
 
-	@RequestMapping(value="admin/recruiter/{email}/{lastname}/{firstname}", method = RequestMethod.POST)
-	public void initRecruiter(@PathVariable String email, @PathVariable String lastname, @PathVariable String firstname) {
-		userService.createRecruiter(email, lastname, firstname);
+	@RequestMapping(value="admin/recruiter/", method = RequestMethod.POST)
+	public String initRecruiter(@PathVariable String email, @PathVariable String lastname, @PathVariable String firstname) {
+		//userService.createRecruiter(email, lastname, firstname);
+		String msg = "creating recruiter";
+		return msg;
 	}
 	
 	@RequestMapping(value="admin/trainer/{email}/{lastname}/{firstname}", method = RequestMethod.POST)

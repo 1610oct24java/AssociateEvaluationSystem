@@ -92,13 +92,13 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 		
 		$http({
 			method  : 'POST',
-			url: urlSpecific,
+			url: "/aes/admin/recruiter/",
 			headers : {'Content-Type' : 'application/json'},
 			data    : employeeInfo
 		}).success( function(res) {
-			console.log('adminApp.js: register employee success');
+			console.log(res);
 		}).error( function(res) {
-			console.log('adminApp.js: register employee error');
+			console.log(res);
 		});
 	};
 
