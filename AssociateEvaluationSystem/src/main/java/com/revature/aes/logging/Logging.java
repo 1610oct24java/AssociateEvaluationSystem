@@ -33,7 +33,7 @@ public class Logging {
 		log.info(methodClass + " ==> " + method);
 		Object[] args = pjp.getArgs();
 		for(int i = 0; i < args.length; i++){
-			log.info("Argumetnt #"+i+": "+args[i]);
+			log.info("Argument #"+i+": "+args[i]);
 		}
 
 		log.info("Executing...");
