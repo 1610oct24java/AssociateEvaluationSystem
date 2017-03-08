@@ -17,8 +17,8 @@ adminApp.constant("API_URL", {
 	"LOGOUT"    : "/logout",
 	"AUTH"      : "/security/auth",
 	"CANDIDATE" : "/candidate/",
-	"RECRUITER" : "/recruiter/",
-	"TRAINER"	: "/trainer/",
+	"RECRUITER" : "/recruiter",
+	"TRAINER"	: "/trainer",
 	"LINK"      : "/link",
 	"EMPLOYEES" : "/employees",
 	"ADMIN"		: "/admin"
@@ -50,7 +50,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 			window.location = SITE_URL.LOGIN;
 		}
 	})
-	$scope.names =["Recruiter","Trainer"];
+	$scope.names =["Recruiter"];
 	
 	$scope.register = function() {
 
@@ -61,20 +61,21 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 			lastName      : $scope.lastName,
 			salesforce    : null,
 			recruiterId   : null,
-			role          : $scope.employeeType.value,
+			role          : "Recruiter",  //$scope.employeeType.value,
 			datePassIssued: null,
 			format		  : null//$scope.program.value
 		};
 
-		var urlSpecific = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN;
+		var urlSpecific = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.RECRUITER;
 		
-		if (employeeInfo.role === "Recruiter")
+		//Maybe used in the future
+		/*if (employeeInfo.role === "Recruiter")
 		{
 			urlSpecific = urlSpecific + API_URL.RECRUITER;
 		}else if (employeeInfo.role === "Trainer")
 		{
 			urlSpecific = urlSpecific + API_URL.TRAINER;
-		}
+		}*/
 		
 		urlSpecific = urlSpecific + "/" + employeeInfo.email 
 		+ "/" + employeeInfo.lastName + "/" + employeeInfo.firstName
@@ -90,7 +91,9 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 	};
 
 	$scope.postRegister = function(urlSpecific, employeeInfo) {
-		console.log("adminApp.js: POST REGISTER EMPLOYEE")
+		console.log("adminApp.js: POST REGISTER EMPLOYEE");
+		console.log("url"+urlSpecific );
+		console.log("employeeinfo"+employeeInfo);
 		
 		$http({
 			method  : 'POST',
@@ -154,7 +157,7 @@ adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_UR
 			window.location = SITE_URL.LOGIN;
 		})
 	};
-	
+	//Delete user
 	 $scope.Delete = function (email) {
 	        url = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEES + "/Delete/" + email + "/";
 	        console.log("THE URL IS " + url);
@@ -165,47 +168,8 @@ adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_UR
 	            console.log(error);
 	        });
 	    }
-	/*$scope.Delete = function(email) {
-		console.log("email test"+email)
-		$http.delete('/admin/employees/delete', {data:{email}})
-		.then(function(response) {
-			console.log("testing delete" +response)
-		})	
-		
-	};
-	//added by Hajira Zahir
-	/*  $scope.delete = function(){
-		  $http.Delete()
-          var newDataList=[];
-          $scope.selectedAll = false;
-          angular.forEach($scope.employees, function(selected){
-              if(!selected.selected){
-                  newDataList.push(selected);
-              }
-          }); 
-          $scope.employees = newDataList;
-      };
-    /*  
-      /* table checkbox functions
-      // toggle all
-emp.toggleAll = function(){
+	
 
-    if ( emp.employeesSelected.length == emp.employees.length ) {
-        emp.employeesSelected = [];
-    } else {
-        emp.employeesSelected = emp.employees;
-    }
-};
-
-check if all are selected
-emp.allSelected = function(){
-    return emp.employeesSelected.length == employees.length;
-};
-
- checks box if batch is in batchesSelected list
-emp.exists = function(employee){
-return bc.employeesSelected.indexOf( employee ) > -1;
-};*/
 
       //added by Hajira Zahir
       $scope.checkAll = function () {

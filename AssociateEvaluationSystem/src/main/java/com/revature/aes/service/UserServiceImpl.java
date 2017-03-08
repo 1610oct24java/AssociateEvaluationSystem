@@ -189,7 +189,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User updateEmployee(User user, String email, int index) {
+	public User updateEmployee(User user, String email) {
+		
 		// TODO Auto-generated method stub
 		return null;
 	}

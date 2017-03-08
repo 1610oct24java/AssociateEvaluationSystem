@@ -95,9 +95,9 @@ public class AdminController {
 	 * @return
 	 * 		The newly saved User object
 	 */
-	@RequestMapping(value="/admin/{email}/employees/{index}", method= RequestMethod.PUT)
-	public User updateEmployee(@PathVariable String email, @PathVariable int index, @RequestBody User user){
-		return userService.updateEmployee(user, email, index);
+	@RequestMapping(value="admin/employees/Update/{email}/", method= RequestMethod.PUT)
+	public User updateEmployee(@PathVariable String email, @RequestBody User user){
+		return userService.updateEmployee(user, email);
 	}
 	
 	/**
@@ -111,19 +111,22 @@ public class AdminController {
 	 */
 	
 
-	@RequestMapping(value="/admin/recruiter/{email}/{lastname}/{firstname}/", method = RequestMethod.POST)
+	@RequestMapping(value="admin/recruiter/{email}/{lastname}/{firstname}", method = RequestMethod.POST)
 	public void initRecruiter(@PathVariable String email, @PathVariable String lastname, @PathVariable String firstname) {
+		System.out.println(" ////////////////////creating Recruiter//////////////////");
 		userService.createRecruiter(email, lastname, firstname);
-		System.out.println(" creating recuiter");
+		System.out.println(" ////////////////////creating Recruiter 2//////////////////");
 	}
 	
-	@RequestMapping(value="/admin/trainer/{email}/{lastname}/{firstname}/", method = RequestMethod.POST)
+	//For future use
+	
+	/*@RequestMapping(value="admin/trainer/{email}/{lastname}/{firstname}", method = RequestMethod.POST)
 	public void initTrainer(@PathVariable String email, @PathVariable String lastname, @PathVariable String firstname) {
-		System.out.println(" creating trainer");
+		System.out.println(" /////////// create the trainer endpoint////////////////");
 		userService.createTrainer(email, lastname, firstname);
-		System.out.println(" creating trainer 2");
+		System.out.println(" ////////////////////creating trainer 2//////////////////");
 		
-	}
+	}*/
 	
 	/**
 
