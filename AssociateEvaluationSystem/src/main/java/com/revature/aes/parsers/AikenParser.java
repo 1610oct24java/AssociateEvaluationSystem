@@ -33,10 +33,13 @@ import com.revature.aes.service.FormatService;
  */
 @Service
 public class AikenParser {
+	
 	private HashMap<Question, Set<Option>> questionMap;
 	private String line;
-	
 	private FormatService formatService;
+	
+	@Autowired
+	Logging log;
 	
 	/**
 	 * Default constructor to please Spring.
@@ -46,15 +49,11 @@ public class AikenParser {
 	}
 	
 	@Autowired
-	Logging log;
-	
-	@Autowired
 	public AikenParser(FormatService fs) {
 		this.formatService=fs;
 		questionMap = new HashMap<>();
 	}
 	
-
 	public void parseFile(MultipartFile mpFile) throws InvalidFileTypeException, AikenSyntaxException, IOException{
 		
 		try(BufferedReader br = new BufferedReader(new InputStreamReader(mpFile.getInputStream()))) {
