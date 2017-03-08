@@ -7,7 +7,6 @@ import java.util.Properties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.amazonaws.services.dynamodbv2.xspec.S;
 import com.revature.aes.beans.AssessmentRequest;
 import com.revature.aes.beans.CategoryRequest;
 import com.revature.aes.logging.Logging;
@@ -19,7 +18,7 @@ public class AssessmentRequestLoader {
 	@Autowired
 	private Logging log;
 
-	public AssessmentRequest loadRequest(String category){
+	public AssessmentRequest loadRequest(){
 		AssessmentRequest ar = new AssessmentRequest();
 		
 		Properties prop = new PropertyReader().propertyRead("assessmentRequest.properties");
@@ -40,7 +39,7 @@ public class AssessmentRequestLoader {
 		catReq2.setCsQuestions(Integer.parseInt(prop.getProperty("cat2csQuestions")));
 
 		//For a future sprint this is where you would set the time limit
-		List<CategoryRequest> list = new ArrayList<CategoryRequest>();
+		List<CategoryRequest> list = new ArrayList<>();
 
 		list.add(catReq);
 		list.add(catReq2);
