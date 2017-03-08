@@ -38,8 +38,8 @@ public class AssessmentGrader {
 	
 	public double[] gradeMultChoiceSelect(Assessment assessment){
 		double[] result = new double[2];
-		double itemWeightedGrade = 0.0;
-		double itemWeight = 0.0;
+		double itemWeightedGrade;
+		double itemWeight;
 		//Getting total weight of MultipleChoice/Select questions from assessment template
 		for(TemplateQuestion tQuestion : assessment.getTemplate().getTemplateQuestion()){
 
