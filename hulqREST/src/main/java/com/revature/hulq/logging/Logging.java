@@ -24,9 +24,7 @@ public class Logging {
 ///*
 	@Around("execution(* com.revature.hulq..*(..))")
 	public Object log(ProceedingJoinPoint pjp){
-		
-		
-		System.out.println("test1 *********");
+	
 		
 		MethodSignature signature = (MethodSignature) pjp.getSignature();
 		String methodClass = signature.getDeclaringTypeName().toString();
@@ -62,7 +60,7 @@ public class Logging {
 		return result;
 	}
 
-	@AfterThrowing(pointcut="execution(* com.revature.hulq..*(..))", throwing="e")
+	@AfterThrowing(pointcut="execution(* com.revature.aes..*(..))", throwing="e")
 	public void stackTraceLogging(Exception e){
 		log.error(dashes);
 		for(StackTraceElement st : e.getStackTrace()){
