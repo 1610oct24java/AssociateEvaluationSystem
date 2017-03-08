@@ -18,5 +18,5 @@ public interface UserService {
 	public List<User> findUsersByRole(String role);
 	public void createAdmin(String email, String lastname, String firstname);
 	public User updateEmployee(User user, String email, int index);
-	public void removeEmployee(String email, int index);
+	void removeEmployee(String email);
 }

@@ -2,6 +2,8 @@ package com.revature.aes.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.revature.aes.beans.User;
 
@@ -15,5 +17,7 @@ public interface UserDAO extends JpaRepository<User, Integer>{
 	public User findByUserId(int userId);
 	public List<User> findUsersByRecruiterId(int recruiterId);
 	public List<User> findUsersByRole(String role);
+	//kevin code
+	public List<User> findAll();
 
 }

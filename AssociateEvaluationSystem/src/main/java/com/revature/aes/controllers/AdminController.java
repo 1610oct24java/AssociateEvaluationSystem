@@ -1,7 +1,9 @@
 package com.revature.aes.controllers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -59,13 +61,27 @@ public class AdminController {
 	public List<User> getEmployees(){
 		
 		List<User> users = new ArrayList<User>();
+		users=userService.findAllUsers();
 		
-		users = userService.findUsersByRole("recruiter");
-		users.addAll(userService.findUsersByRole("trainer"));
+		//users = userService.findUsersByRole("recruiter");
+		//users.addAll(userService.findUsersByRole("trainer"));
 		
 		return users;
 	}
+	//Delete operation by Hajira Zahir
+	@RequestMapping(value="/admin/employees/Delete/{email}/", method= RequestMethod.DELETE)
+	public Map<String,String> deleteEmployee(@PathVariable String email)
+	{
+		 System.out.println("testing " + email);
+		 Map<String, String> map = new HashMap<>();
+		 userService.removeEmployee( email);
+		 String message=email;
+		 map.put(message, email);
+		 return map;
+	}
 	
+	//@RequestMapping(value="/admin/{email}/employees/{index}", method= RequestMethod.DELETE)
+	//public String deleteEmployee(@PathVariable String email, @PathVariable int index)
 	/**
 	 * This method changes details about a user in the database.
 	 * 
@@ -93,19 +109,20 @@ public class AdminController {
 	 * 		The index of this user in the list returned by
 	 * getCandidates
 	 */
-	@RequestMapping(value="/admin/{email}/candidates/{index}", method= RequestMethod.DELETE)
-	public void deleteEmployee(@PathVariable String email, @PathVariable int index){
-		userService.removeEmployee(email, index);
-	}
+	
 
-	@RequestMapping(value="admin/recruiter/{email}/{lastname}/{firstname}", method = RequestMethod.POST)
+	@RequestMapping(value="/admin/recruiter/{email}/{lastname}/{firstname}/", method = RequestMethod.POST)
 	public void initRecruiter(@PathVariable String email, @PathVariable String lastname, @PathVariable String firstname) {
 		userService.createRecruiter(email, lastname, firstname);
+		System.out.println(" creating recuiter");
 	}
 	
-	@RequestMapping(value="admin/trainer/{email}/{lastname}/{firstname}", method = RequestMethod.POST)
+	@RequestMapping(value="/admin/trainer/{email}/{lastname}/{firstname}/", method = RequestMethod.POST)
 	public void initTrainer(@PathVariable String email, @PathVariable String lastname, @PathVariable String firstname) {
+		System.out.println(" creating trainer");
 		userService.createTrainer(email, lastname, firstname);
+		System.out.println(" creating trainer 2");
+		
 	}
 	
 	/**

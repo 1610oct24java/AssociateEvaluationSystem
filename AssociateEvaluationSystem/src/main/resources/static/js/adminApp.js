@@ -31,7 +31,7 @@ adminApp.constant("ROLE", {
 	"ADMIN"		: "ROLE_ADMIN"
 });
 
-app.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE_URL, API_URL, ROLE) {
+adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE_URL, API_URL, ROLE) {
 
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
@@ -50,6 +50,7 @@ app.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE_URL,
 			window.location = SITE_URL.LOGIN;
 		}
 	})
+	$scope.names =["Recruiter","Trainer"];
 	
 	$scope.register = function() {
 
@@ -62,7 +63,7 @@ app.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE_URL,
 			recruiterId   : null,
 			role          : $scope.employeeType.value,
 			datePassIssued: null,
-			format		  : null
+			format		  : null//$scope.program.value
 		};
 
 		var urlSpecific = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN;
@@ -75,10 +76,11 @@ app.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE_URL,
 			urlSpecific = urlSpecific + API_URL.TRAINER;
 		}
 		
-		urlSpecific = urlSpecific + employeeInfo.email 
+		urlSpecific = urlSpecific + "/" + employeeInfo.email 
 		+ "/" + employeeInfo.lastName + "/" + employeeInfo.firstName
 		
-		console.log(employeeInfo);
+		console.log(urlSpecific + " testing url" + employeeInfo.role);
+		
 		$scope.postRegister(urlSpecific, employeeInfo);
 		
 		$scope.firstName = '';
@@ -95,20 +97,21 @@ app.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE_URL,
 			url: urlSpecific,
 			headers : {'Content-Type' : 'application/json'},
 			data    : employeeInfo
-		}).success( function(res) {
+		}).success( function(response) {
 			console.log('adminApp.js: register employee success');
-		}).error( function(res) {
-			console.log('adminApp.js: register employee error');
+		}).error( function(response) {
+			console.log(response.status);
 		});
 	};
 
-	$scope.options = [{
+
+	/*$scope.options = [{
 		name: 'Recruiter',
 		value: 'Recruiter'
 	}, {
 		name: 'Trainer',
 		value: 'Trainer'
-	}];
+	}];*/
 	
 	$scope.logout = function() {
 		$http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
@@ -117,9 +120,9 @@ app.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE_URL,
 		})
 	}
 
-}); //end register candidate controller
+}); //end register Employee controller
 
-app.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_URL, ROLE) {
+adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_URL, ROLE) {
 
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
@@ -143,15 +146,81 @@ app.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_URL, RO
 			window.location = SITE_URL.LOGIN;
 		}
 	})
+	    
 	
 	$scope.logout = function() {
 		$http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
 		.then(function(response) {
 			window.location = SITE_URL.LOGIN;
 		})
-	}
+	};
+	
+	 $scope.Delete = function (email) {
+	        url = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEES + "/Delete/" + email + "/";
+	        console.log("THE URL IS " + url);
+	        $http.delete(url)
+	        .then(function (response) {
+	            console.log(response);
+	        }, function (error) {
+	            console.log(error);
+	        });
+	    }
+	/*$scope.Delete = function(email) {
+		console.log("email test"+email)
+		$http.delete('/admin/employees/delete', {data:{email}})
+		.then(function(response) {
+			console.log("testing delete" +response)
+		})	
+		
+	};
+	//added by Hajira Zahir
+	/*  $scope.delete = function(){
+		  $http.Delete()
+          var newDataList=[];
+          $scope.selectedAll = false;
+          angular.forEach($scope.employees, function(selected){
+              if(!selected.selected){
+                  newDataList.push(selected);
+              }
+          }); 
+          $scope.employees = newDataList;
+      };
+    /*  
+      /* table checkbox functions
+      // toggle all
+emp.toggleAll = function(){
+
+    if ( emp.employeesSelected.length == emp.employees.length ) {
+        emp.employeesSelected = [];
+    } else {
+        emp.employeesSelected = emp.employees;
+    }
+};
+
+check if all are selected
+emp.allSelected = function(){
+    return emp.employeesSelected.length == employees.length;
+};
+
+ checks box if batch is in batchesSelected list
+emp.exists = function(employee){
+return bc.employeesSelected.indexOf( employee ) > -1;
+};*/
+
+      //added by Hajira Zahir
+      $scope.checkAll = function () {
+          if (!$scope.selectedAll) {
+              $scope.selectedAll = true;
+          } else {
+              $scope.selectedAll = false;
+          }
+          angular.forEach($scope.employees, function (employees) {
+        	  employees.selected = $scope.selectedAll;
+          });
+      };   
 	
 });
+
 
 function makeUser($scope) {
 	var user = {
@@ -162,7 +231,7 @@ function makeUser($scope) {
 	$scope.user = user;
 }
 
-app.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_URL, API_URL, ROLE) {
+adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_URL, API_URL, ROLE) {
 
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {

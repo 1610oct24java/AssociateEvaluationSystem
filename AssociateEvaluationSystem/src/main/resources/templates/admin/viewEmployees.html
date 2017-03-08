@@ -25,7 +25,7 @@
 	
 	<div class="row stylePro">
 		<span class="col-xs-6 col-md-6">
-			<a href="recruit">Register Employee</a>
+			<a href="registerEmployee">Register Employee</a>
 		</span>
 		<span class="col-xs-6 col-md-6">
 			<button id="logout" class="btn-revature" ng-click="logout()">logout</button>
@@ -38,16 +38,24 @@
 		<caption>Employee List</caption>
 		<thead>
 			<tr>
+			     <th><input type="checkbox" ng-model="selectedAll" ng-click="checkAll()" /></th>
 				<th>Name</th>
 				<th>Email</th>
 				<th>Role</th>
+				
 			</tr>
 		</thead>
 		<tbody>
 			<tr ng-repeat="employee in employees">
+			<td>
+                <input type="checkbox" ng-model="employee.selected"/></td>
+           
 				<td>{{employee.lastName + ', ' + employee.firstName}}</td>
 				<td>{{employee.email}}</td>
-				<td>{{employee.role}}</td>
+				<td>{{employee.role.roleTitle}}
+				<button type="button" ng-click="Delete(employee.email)" >Delete</button></td>
+				<td>{{employee.userId}}</td>
+				
 			</tr>
 		</tbody>
 	</table>

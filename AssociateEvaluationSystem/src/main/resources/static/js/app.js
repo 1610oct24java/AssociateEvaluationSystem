@@ -163,12 +163,14 @@ app.controller('RegisterCanidateCtrl', function($scope,$location,$http,SITE_URL,
 		value: '.net'
 	}];
 	
+	
 	$scope.logout = function() {
 		$http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
 		.then(function(response) {
 			window.location = SITE_URL.LOGIN;
 		})
 	}
+	//$scope.names = ["Java","SDET",".NET"];
 
 }); //end register candidate controller
 
