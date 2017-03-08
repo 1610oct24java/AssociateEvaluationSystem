@@ -12,7 +12,7 @@ public interface AssessmentService {
 	
 	public void updateAssessment(Assessment assessment);
 
-	public Assessment findByUser(User user);
+	public List<Assessment> findByUser(User user);
 
 	Integer findGradeByUser(User user);
 
