@@ -147,9 +147,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void createTrainer(String email, String lastname, String firstname) {
-
 		createEmployee(email, lastname, firstname, "trainer");
-
+		
 	}
 
 	private void createEmployee(String email, String lastname, String firstname, String adminRole){
@@ -190,14 +189,29 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User updateEmployee(User user, String email, int index) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void removeEmployee(String email, int index) {
-		// TODO Auto-generated method stub
+	public void updateEmployee(String email,String lastname, String firstname) {
+		SimpleDateFormat fmt = new SimpleDateFormat(PATTERN);
+		User u = new User();
+		u.setEmail(email);
+		u.setFirstName(firstname);
+		u.setLastName(lastname);
+		u.setRole(role.findRoleByRoleTitle("Recruiter"));
+		u.setDatePassIssued(fmt.format(new Date()));
+		
+		dao.save(u);
+		security.createKnownSecurity(u);
+		
 		
 	}
+   
+	
+	//added by hajira zahir
+	 
+	@Override
+	public void removeEmployee(String email) {
+		
+	
+		dao.delete(dao.findByEmail(email));
+	}
+
 }
