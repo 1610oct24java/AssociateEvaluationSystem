@@ -201,11 +201,41 @@ public class AssessmentGrader {
 				userDataMap.put(dragDrop.getDragDrop().getQuestion().getQuestionId(), dragDropSet);
 			}
 		}
+		
+		for(Entry<Integer, Set<AssessmentDragDrop>> entry : userDataMap.entrySet()){
+			itemWeight = templateDataMap.get(entry.getKey()).getWeight();
+			
+			double countCorrect = 0.0;
+			double countOptions = 0.0;
+			
+			for(AssessmentDragDrop dragDrop: entry.getValue()){
+				log.info(" grading question: " + dragDrop.getDragDrop().getQuestion().getQuestionText());
+				log.info(" answer selected: " + dragDrop.getDragDrop().getDragDropText());
+				log.info(" user position is " + dragDrop.getUserOrder() + " should be " + dragDrop.getDragDrop().getCorrectOrder());
+				if(dragDrop.getUserOrder() == dragDrop.getDragDrop().getCorrectOrder()){
+					log.info("[Info] "+ new Timestamp(System.currentTimeMillis())+" option evaluted as correct");
+					countCorrect += 1.0;
+				}
+				countOptions += 1.0;
+			}
+			
+			try{
+				if(countOptions != UNINITIALIZED){
+					itemWeightedGrade = itemWeight*(countCorrect/countOptions);
+					result[0] = result[0]+itemWeightedGrade;
+					//result[1] = result[1]+itemWeight;
+					log.info("out of " + countOptions + " options " + countCorrect +" were correct");
+				}
+			}
+			catch(ArithmeticException e){
+				log.stackTraceLogging(e);
+			}
+		}
 
-		for(int key: userDataMap.keySet()){
-			/*System.out.println("At key: " + key);
+		/*for(int key: userDataMap.keySet()){
+			System.out.println("At key: " + key);
 			System.out.println("TemplateDataMap: " + templateDataMap);
-			System.out.println("TemplateDataMap at key: " + templateDataMap.get(key));*/
+			System.out.println("TemplateDataMap at key: " + templateDataMap.get(key));
 			itemWeight = templateDataMap.get(key).getWeight();
 			
 			double countCorrect = 0.0;
@@ -232,7 +262,7 @@ public class AssessmentGrader {
 			catch(ArithmeticException e){
 				log.stackTraceLogging(e);
 			}
-		}
+		}*/
 		return result;
 	}
 
@@ -270,8 +300,23 @@ public class AssessmentGrader {
 		for(FileUpload file : assessment.getFileUpload()){	
 			userDataMap.put(file.getQuestion().getQuestionId(), file);
 		}
-						
-		for(int key: userDataMap.keySet()){
+		
+		
+		for(Entry<Integer, FileUpload> entry : userDataMap.entrySet()){
+			String userFileName = userDataMap.get(entry.getKey()).getFileUrl();
+			log.info(" userFileName: " + userFileName);
+			String keyFileName = templateDataMap.get(entry.getKey()).getQuestion().getSnippetTemplates().iterator().next().getSolutionUrl();
+			log.info(" keyFileName: " + keyFileName);
+			itemWeight = templateDataMap.get(entry.getKey()).getWeight();
+			log.info(" weight: "+itemWeight);
+			double codeTestResult = sec.evaluateSnippet(userFileName, keyFileName);
+			log.info(" code being evaluated to "+codeTestResult);
+			itemWeightedGrade = itemWeight*codeTestResult;//
+			result[0] = result[0]+itemWeightedGrade;
+			//result[1] = result[1]+itemWeight;
+		}
+		
+/*		for(int key: userDataMap.keySet()){
 			String userFileName = userDataMap.get(key).getFileUrl();
 			log.info(" userFileName: " + userFileName);
 			String keyFileName = templateDataMap.get(key).getQuestion().getSnippetTemplates().iterator().next().getSolutionUrl();
@@ -283,7 +328,7 @@ public class AssessmentGrader {
 			itemWeightedGrade = itemWeight*codeTestResult;//
 			result[0] = result[0]+itemWeightedGrade;
 			//result[1] = result[1]+itemWeight;
-		}
+		}*/
 
 		return result;
 	}
