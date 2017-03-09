@@ -29,7 +29,7 @@ public class LoginTest {
 
 	@Before
 	public void setUp() throws Exception {
-		System.setProperty("webdriver.chrome.driver", "C:\\Users\\Zahidul\\Desktop\\chromedriver.exe");
+		System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/src/test/resources/chromedriver.exe");
 		driver = new ChromeDriver();
 		driver.get("http://35.162.177.133:8090/aes/login");
 	}
