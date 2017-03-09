@@ -98,8 +98,8 @@ public class AdminController {
 	 * 		The newly saved User object
 	 */
 	@RequestMapping(value="admin/employees/Update/{email}/", method= RequestMethod.PUT)
-	public void updateEmployee(@PathVariable String email, @RequestBody User user){
-		userService.updateEmployee(email, user.getFirstName(), user.getLastName());
+	public User updateEmployee(@PathVariable String email, @RequestBody User user){
+		return userService.updateEmployee(email, user.getFirstName(), user.getLastName());
 	}
 	
 	/**

@@ -20,5 +20,5 @@ public interface UserService {
 	//public User updateEmployee(User user, String email);
 	void removeEmployee(String email);
 	//void updateEmployee(User user, String email, String lastname, String firstname);
-	public void updateEmployee(String email, String lastname, String firstname);
+	public User updateEmployee(String email, String lastname, String firstname);
 }
