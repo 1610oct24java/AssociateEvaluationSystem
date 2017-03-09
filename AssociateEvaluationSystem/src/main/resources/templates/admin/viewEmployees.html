@@ -58,7 +58,6 @@
 
 			     <th><input type="checkbox" ng-model="selectedAll" ng-click="checkAll()" /></th>
 				<th>Name</th>
-
 				<th>FirstName</th>
 				<th>LastName</th>
 				<th>Email</th>
@@ -68,12 +67,11 @@
 		</thead>
 		<tbody>
 
-			<tr ng-repeat="employee in employees">
-			<td>
-                <input type="checkbox" ng-model="employee.selected"/></td>
-
-
+		
+			
 			<tr ng-repeat="employee in employees | orderBy: sortorder | filter: employeeSearch">
+				<td>
+                <input type="checkbox" ng-model="employee.selected"/></td>
 				<td>{{employee.firstName}}</td>
 				<td>{{employee.lastName}}</td>
 				<td>{{employee.email}}</td>
