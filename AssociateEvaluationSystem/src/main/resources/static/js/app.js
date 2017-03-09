@@ -11,7 +11,9 @@ app.constant("SITE_URL", {
 	"REGISTER_CANDIDATE" : "",
 	"VIEW_EMPLOYEES" : "viewEmployees",
 	
-	"TRAINER_HOME" : ""
+	"TRAINER_HOME" : "",
+
+    "REGISTER_EMPLOYEE" : ""
 	
 });
 
