@@ -18,7 +18,7 @@ public class AssessmentRequestLoader {
 	@Autowired
 	private Logging log;
 
-	public AssessmentRequest loadRequest(){
+	public AssessmentRequest loadRequest(String category){
 		AssessmentRequest ar = new AssessmentRequest();
 		
 		Properties prop = new PropertyReader().propertyRead("assessmentRequest.properties");
