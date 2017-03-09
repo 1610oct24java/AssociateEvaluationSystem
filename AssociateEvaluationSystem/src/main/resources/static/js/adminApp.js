@@ -61,7 +61,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 			recruiterId   : null,
 			role          : "Recruiter",  //$scope.employeeType.value,
 			datePassIssued: null,
-			format		  : null//$scope.program.value
+			format		  : null
 		};
 
 		var urlSpecific = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.RECRUITER;
@@ -166,6 +166,7 @@ adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_UR
 			window.location = SITE_URL.LOGIN;
 		})
 	};
+	//By Hajira Zahir
 	//Delete user
 	 $scope.Delete = function (email) {
 	        url = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEES + "/Delete/" + email + "/";
@@ -230,12 +231,12 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 			lastName      : $scope.lastName,
 			salesforce    : null,
 			recruiterId   : null,
-			role          : $scope.employeeType.value,
+			//role          : "Recruiter",//$scope.employeeType.value,
 			datePassIssued: null,
 			format		  : null
 		};
 
-		var urlSpecific = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN;
+		var urlSpecific = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.RECRUITER;
 		
 		if (employeeInfo.role === "Recruiter")
 		{
@@ -259,7 +260,7 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 	$scope.postRegister = function(urlSpecific, employeeInfo) {
 		
 		$http({
-			method  : 'POST',
+			method  : 'PUT',
 			url: urlSpecific,
 			headers : {'Content-Type' : 'application/json'},
 			data    : employeeInfo

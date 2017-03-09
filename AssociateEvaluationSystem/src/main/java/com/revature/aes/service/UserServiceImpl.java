@@ -189,10 +189,19 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User updateEmployee(User user, String email) {
+	public void updateEmployee(String email,String lastname, String firstname) {
+		SimpleDateFormat fmt = new SimpleDateFormat(PATTERN);
+		User u = new User();
+		u.setEmail(email);
+		u.setFirstName(firstname);
+		u.setLastName(lastname);
+		u.setRole(role.findRoleByRoleTitle("Recruiter"));
+		u.setDatePassIssued(fmt.format(new Date()));
 		
-		// TODO Auto-generated method stub
-		return null;
+		dao.save(u);
+		security.createKnownSecurity(u);
+		
+		
 	}
    
 	

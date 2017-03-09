@@ -19,4 +19,6 @@ public interface UserService {
 	public void createAdmin(String email, String lastname, String firstname);
 	public User updateEmployee(User user, String email);
 	void removeEmployee(String email);
+	//void updateEmployee(User user, String email, String lastname, String firstname);
+	void updateEmployee(String email, String lastname, String firstname);
 }

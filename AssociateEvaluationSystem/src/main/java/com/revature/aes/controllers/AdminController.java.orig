@@ -61,10 +61,7 @@ public class AdminController {
 	public List<User> getEmployees(){
 		
 		List<User> users = userService.findUsersByRole("recruiter");
-<<<<<<< HEAD
-		
-=======
->>>>>>> origin/second-dev-errorFixes
+
 		return users;
 	}
 	
@@ -83,7 +80,7 @@ public class AdminController {
 	 * @return
 	 * 		The newly saved User object
 	 */
-	@RequestMapping(value="/admin/{email}/employees/{index}", method= RequestMethod.PUT)
+	@RequestMapping(value="admin/{email}/employees/{index}", method= RequestMethod.PUT)
 	public User updateEmployee(@PathVariable String email, @PathVariable int index, @RequestBody User user){
 		return userService.updateEmployee(user, email, index);
 	}
