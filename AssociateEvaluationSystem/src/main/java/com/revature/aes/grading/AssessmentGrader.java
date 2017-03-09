@@ -260,6 +260,7 @@ public class AssessmentGrader {
 					log.info("out of " + countOptions + " options " + countCorrect +" were correct");
 				}
 				}
+				}
 			}
 			catch(ArithmeticException e){
 				log.stackTraceLogging(e);
