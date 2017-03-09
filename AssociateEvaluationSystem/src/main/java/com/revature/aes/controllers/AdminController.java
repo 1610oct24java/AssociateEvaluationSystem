@@ -52,8 +52,7 @@ public class AdminController {
 	 * This method gets a list of candidates who reference
 	 * this recruiter.
 	 * 
-	 * @param email
-	 * 		the email of this recruiter
+	 *
 	 * @return 
 	 * 		the list of users this recruiter added
 	 */
@@ -99,8 +98,8 @@ public class AdminController {
 	 * 		The newly saved User object
 	 */
 	@RequestMapping(value="admin/employees/Update/{email}/", method= RequestMethod.PUT)
-	public User updateEmployee(@PathVariable String email, @RequestBody User user){
-		return userService.updateEmployee(user, email);
+	public void updateEmployee(@PathVariable String email, @RequestBody User user){
+		userService.updateEmployee(email, user.getFirstName(), user.getLastName());
 	}
 	
 	/**

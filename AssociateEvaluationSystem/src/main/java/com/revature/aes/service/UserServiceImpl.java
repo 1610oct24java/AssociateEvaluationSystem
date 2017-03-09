@@ -189,7 +189,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void updateEmployee(String email,String lastname, String firstname) {
+	public void updateEmployee(String email, String lastname, String firstname) {
 		SimpleDateFormat fmt = new SimpleDateFormat(PATTERN);
 		User u = new User();
 		u.setEmail(email);
@@ -200,7 +200,6 @@ public class UserServiceImpl implements UserService {
 		
 		dao.save(u);
 		security.createKnownSecurity(u);
-		
 		
 	}
    
