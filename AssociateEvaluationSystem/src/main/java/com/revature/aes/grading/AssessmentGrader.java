@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import com.revature.aes.beans.Assessment;
@@ -79,9 +80,47 @@ public class AssessmentGrader {
 				log.info(" creating new option set with : " + opt.getOptionText() + " on question: " +opt.getQuestion().getQuestionId());
 			}
 		}
+		
+		for(Entry<Integer, Set<Option>> entry : userDataMap.entrySet()){
+			itemWeight = templateDataMap.get(entry.getKey()).getWeight();
+			double countCorrect = 0.0;
+			double countOptions = 0.0;
+			
+			for(Option opt: templateDataMap.get(entry.getKey()).getQuestion().getOption()){
+				countOptions+=opt.getCorrect();
+			}
+			
+			for(Option opt : entry.getValue()){
+				log.info(" grading question: " + opt.getQuestion().getQuestionText());
+				log.info(" answer selected: " + opt.getOptionText());
+				log.info(" answer should be " + opt.getCorrect());
+				if(opt.getCorrect() == 1) {
+					log.info("[Info] " + new Timestamp(System.currentTimeMillis()) + " option evaluted as correct");
+					countCorrect += 1.0;
+				}
+				else{
+					countCorrect-=0.5;
+				}
+			}
+			
+			if(countCorrect<0){	countCorrect=0;	}
+
+			try{
+				if(countOptions != UNINITIALIZED){
+					itemWeightedGrade = itemWeight*(countCorrect/countOptions);
+					result[0] = result[0]+itemWeightedGrade;
+					//result[1] = result[1]+itemWeight;
+					log.info(" out of " + countOptions + " options " + countCorrect +" were correct");
+				}
+			}
+			catch(ArithmeticException e){
+				log.stackTraceLogging(e);
+			}
+		}
+		
 
 		//Grade questions
-		for(int key: userDataMap.keySet()){
+/*		for(int key: userDataMap.keySet()){
 			itemWeight = templateDataMap.get(key).getWeight();
 			double countCorrect = 0.0;
 			double countOptions = 0.0;
@@ -116,7 +155,7 @@ public class AssessmentGrader {
 			catch(ArithmeticException e){
 				log.stackTraceLogging(e);
 			}
-		}
+		}*/
 		return result;
 	}
 
