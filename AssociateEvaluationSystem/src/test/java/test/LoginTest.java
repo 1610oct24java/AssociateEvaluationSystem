@@ -2,6 +2,7 @@ package test;
 
 import static org.junit.Assert.*;
 
+import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -39,9 +40,19 @@ public class LoginTest {
 	}
 
 	@Test
-	public void test() {
+	public void loginTest() {
 		loginPage = new LoginPage(driver);
 		loginPage.loginToAES("nickolas.jurczak@revature.com", "password");
+		
+		try {
+			Thread.sleep(3000);
+			
+			// Make sure login is successful
+			assertEquals("AES | Recruiter Home", loginPage.getTitle());	
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 }
