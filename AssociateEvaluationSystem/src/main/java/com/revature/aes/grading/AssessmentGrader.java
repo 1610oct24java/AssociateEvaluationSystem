@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AssessmentGrader {
 
+	private static final double UNINITIALIZED = 0.0;
 	Logging log = new Logging();
 
 	public double gradeAssessment(Assessment assessment){
@@ -105,10 +106,12 @@ public class AssessmentGrader {
 			if(countCorrect<0){	countCorrect=0;	}
 
 			try{
-				itemWeightedGrade = itemWeight*(countCorrect/countOptions);
-				result[0] = result[0]+itemWeightedGrade;
-				//result[1] = result[1]+itemWeight;
-				log.info(" out of " + countOptions + " options " + countCorrect +" were correct");
+				if(countOptions != UNINITIALIZED){
+					itemWeightedGrade = itemWeight*(countCorrect/countOptions);
+					result[0] = result[0]+itemWeightedGrade;
+					//result[1] = result[1]+itemWeight;
+					log.info(" out of " + countOptions + " options " + countCorrect +" were correct");
+				}
 			}
 			catch(ArithmeticException e){
 				log.stackTraceLogging(e);
@@ -180,10 +183,12 @@ public class AssessmentGrader {
 			}
 
 			try{
-				itemWeightedGrade = itemWeight*(countCorrect/countOptions);
-				result[0] = result[0]+itemWeightedGrade;
-				//result[1] = result[1]+itemWeight;
-				log.info("out of " + countOptions + " options " + countCorrect +" were correct");
+				if(countOptions != UNINITIALIZED){
+					itemWeightedGrade = itemWeight*(countCorrect/countOptions);
+					result[0] = result[0]+itemWeightedGrade;
+					//result[1] = result[1]+itemWeight;
+					log.info("out of " + countOptions + " options " + countCorrect +" were correct");
+				}
 			}
 			catch(ArithmeticException e){
 				log.stackTraceLogging(e);
