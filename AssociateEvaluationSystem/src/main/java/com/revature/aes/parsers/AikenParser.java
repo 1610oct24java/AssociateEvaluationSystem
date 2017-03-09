@@ -38,15 +38,15 @@ public class AikenParser {
 	
 	private FormatService formatService;
 	
+	@Autowired
+	Logging log;
+	
 	/**
 	 * Default constructor to please Spring.
 	 */
 	public AikenParser() {
 		super();
 	}
-	
-	@Autowired
-	Logging log;
 	
 	@Autowired
 	public AikenParser(FormatService fs) {

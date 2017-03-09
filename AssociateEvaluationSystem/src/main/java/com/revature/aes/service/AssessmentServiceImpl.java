@@ -48,9 +48,10 @@ public class AssessmentServiceImpl implements AssessmentService {
 	public Integer findGradeByUser(User user) {
 		Assessment asmt = assDAO.findByUser(user);
 		log.info(asmt.toString());
-		if(asmt != null)
+		if(asmt != null){
 			return assDAO.findByUser(user).getGrade();
-		else return null;
+		}else{ return null;}
+		
 	}
 
 	@Override
