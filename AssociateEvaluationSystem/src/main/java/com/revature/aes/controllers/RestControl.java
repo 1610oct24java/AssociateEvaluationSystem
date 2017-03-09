@@ -16,9 +16,7 @@ public class RestControl {
 	@RequestMapping(value = "/users")
 	public List<User> getUsers() {
 		
-		List<User> listOfUsers = new ArrayList<User>();
-		listOfUsers = createUserList();
-		
+		List<User> listOfUsers = createUserList();
 		return listOfUsers;
 	}
 	
