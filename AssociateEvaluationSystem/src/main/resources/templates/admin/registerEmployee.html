@@ -49,13 +49,12 @@
         </div>
         <div class="row">
             <select id="roleSelect" class="col-xs-8 col-md-6"
-                    ng-model="employeeType" 
-                    ng-options="option.name for option in options"
-                    required>
-                <option value="" hidden>
-                -- select role --
-                </option>
+                    ng-model="employeeType" ng-options="item for item in names">
+            <option >
+            --role--
+            </option>
             </select>
+          
         </div>
         <div class="row">
             <input id="btn-register-recruit" class="btn-revature" type="submit" value="register">

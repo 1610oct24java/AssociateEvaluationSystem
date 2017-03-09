@@ -17,8 +17,8 @@ adminApp.constant("API_URL", {
 	"LOGOUT"    : "/logout",
 	"AUTH"      : "/security/auth",
 	"CANDIDATE" : "/candidate/",
-	"RECRUITER" : "/recruiter/",
-	"TRAINER"	: "/trainer/",
+	"RECRUITER" : "/recruiter",
+	"TRAINER"	: "/trainer",
 	"LINK"      : "/link",
 	"EMPLOYEES" : "/employees",
 	"ADMIN"		: "/admin"
@@ -32,132 +32,162 @@ adminApp.constant("ROLE", {
 });
 
 adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE_URL, API_URL, ROLE) {
+	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
+	.then(function(response) {
+		if (response.data.authenticated) {
+			var authUser = {
+				username : response.data.principal.username,
+				authority: response.data.principal.authorities[0].authority
+			}
+			$scope.authUser = authUser;
+			if($scope.authUser.authority != ROLE.ADMIN) {
+				window.location = SITE_URL.LOGIN;
+			}
+		} else {
+			window.location = SITE_URL.LOGIN;
+		}
+	})
+	$scope.names =["Recruiter"];
+	
+	$scope.register = function() {
 
-    $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
-        .then(function(response) {
-            if (response.data.authenticated) {
-                var authUser = {
-                    username : response.data.principal.username,
-                    authority: response.data.principal.authorities[0].authority
-                }
-                $scope.authUser = authUser;
-                if($scope.authUser.authority != ROLE.ADMIN) {
-                    window.location = SITE_URL.LOGIN;
-                }
-            } else {
-                window.location = SITE_URL.LOGIN;
-            }
-        })
+		var employeeInfo = {
+			userId        : null,
+			email         : $scope.email,
+			firstName     : $scope.firstName,
+			lastName      : $scope.lastName,
+			salesforce    : null,
+			recruiterId   : null,
+			role          : "Recruiter",  //$scope.employeeType.value,
+			datePassIssued: null,
+			format		  : null
+		};
 
-    $scope.register = function() {
+		var urlSpecific = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.RECRUITER;
+		
+		//Maybe used in the future
+		/*if (employeeInfo.role === "Recruiter")
+		{
+			urlSpecific = urlSpecific + API_URL.RECRUITER;
+		}else if (employeeInfo.role === "Trainer")
+		{
+			urlSpecific = urlSpecific + API_URL.TRAINER;
+		}*/
+		
+		urlSpecific = urlSpecific + "/" + employeeInfo.email 
+		+ "/" + employeeInfo.lastName + "/" + employeeInfo.firstName
+		
+		console.log(urlSpecific + " testing url" + employeeInfo.role);
+		
 
-        var employeeInfo = {
-            userId        : null,
-            email         : $scope.email,
-            firstName     : $scope.firstName,
-            lastName      : $scope.lastName,
-            salesforce    : null,
-            recruiterId   : null,
-            role          : $scope.employeeType.value,
-            datePassIssued: null,
-            format		  : null
-        };
+		$scope.postRegister(urlSpecific, employeeInfo);
+		
+		$scope.firstName = '';
+		$scope.lastName = '';
+		$scope.email = '';
+		$scope.program = '';
+	};
 
-        var urlSpecific = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN;
+	$scope.postRegister = function(urlSpecific, employeeInfo) {
+		console.log("adminApp.js: POST REGISTER EMPLOYEE");
+		console.log("url"+urlSpecific );
+		console.log("employeeinfo"+employeeInfo);
 
-        if (employeeInfo.role === "Recruiter")
-        {
-            urlSpecific = urlSpecific + API_URL.RECRUITER;
-        }else if (employeeInfo.role === "Trainer")
-        {
-            urlSpecific = urlSpecific + API_URL.TRAINER;
-        }
+		$http({
+			method  : 'POST',
+			url: urlSpecific,
+			headers : {'Content-Type' : 'application/json'},
+			data    : employeeInfo
 
-        urlSpecific = urlSpecific + employeeInfo.email
-            + "/" + employeeInfo.lastName + "/" + employeeInfo.firstName
+		}).success( function(res) {
+			//Removed console log for sonar cube.
+		}).error( function(res) {
+			//Removed console log for sonar cube.
 
-        $scope.postRegister(urlSpecific, employeeInfo);
+		});
+	};
 
-        $scope.firstName = '';
-        $scope.lastName = '';
-        $scope.email = '';
-        $scope.program = '';
-    };
 
-    $scope.postRegister = function(urlSpecific, employeeInfo) {
+	/*$scope.options = [{
+		name: 'Recruiter',
+		value: 'Recruiter'
+	}, {
+		name: 'Trainer',
+		value: 'Trainer'
+	}];*/
+	
+	$scope.logout = function() {
+		$http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
+		.then(function(response) {
+			//Removed console log for sonar cube.
+			window.location = SITE_URL.LOGIN;
+		})
+	}
 
-        $http({
-            method  : 'POST',
-            url: urlSpecific,
-            headers : {'Content-Type' : 'application/json'},
-            data    : employeeInfo
-        }).success( function(res) {
-            //Removed console log for sonar cube.
-        }).error( function(res) {
-            //Removed console log for sonar cube.
-        });
-    };
 
-    $scope.options = [{
-        name: 'Recruiter',
-        value: 'Recruiter'
-    }, {
-        name: 'Trainer',
-        value: 'Trainer'
-    }];
-
-    $scope.logout = function() {
-        $http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
-            .then(function(response) {
-                //Removed console log for sonar cube.
-                window.location = SITE_URL.LOGIN;
-            })
-    }
-
-}); //end register candidate controller
+}); //end register Employee controller
 
 adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_URL, ROLE) {
+	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
+	.then(function(response) {
+		if (response.data.authenticated) {
+			var authUser = {
+				username : response.data.principal.username,
+				authority: response.data.principal.authorities[0].authority
+			}
+			$scope.authUser = authUser;
+			if($scope.authUser.authority != ROLE.ADMIN) {
+				window.location = SITE_URL.LOGIN;
+			}
+			
+			$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEES)
+			.then(function(response) {
+
+				$scope.employees = response.data;
+			})
+		} else {
+			window.location = SITE_URL.LOGIN;
+		}
+	})
+	    
+	
+	
+	
+	$scope.logout = function() {
+		$http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
+		.then(function(response) {
+			//Removed console log for sonar cube.
+			window.location = SITE_URL.LOGIN;
+		})
+	};
+	//By Hajira Zahir
+	//Delete user
+	 $scope.Delete = function (email) {
+	        url = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEES + "/Delete/" + email + "/";
+	        console.log("THE URL IS " + url);
+	        $http.delete(url)
+	        .then(function (response) {
+	            console.log(response);
+	        }, function (error) {
+	            console.log(error);
+	        });
+	    }
+	
 
 
-
-
-
-    $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
-        .then(function(response) {
-            if (response.data.authenticated) {
-                var authUser = {
-                    username : response.data.principal.username,
-                    authority: response.data.principal.authorities[0].authority
-                }
-                $scope.authUser = authUser;
-                if($scope.authUser.authority != ROLE.ADMIN) {
-                    window.location = SITE_URL.LOGIN;
-                }
-
-                $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEES)
-                    .then(function(response) {
-
-                        $scope.employees = response.data;
-                    })
-            } else {
-                window.location = SITE_URL.LOGIN;
-            }
-        })
-
-
-
-    $scope.logout = function() {
-        $http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
-            .then(function(response) {
-                //Removed console log for sonar cube.
-                window.location = SITE_URL.LOGIN;
-            })
-    }
-
+      //added by Hajira Zahir
+      $scope.checkAll = function () {
+          if (!$scope.selectedAll) {
+              $scope.selectedAll = true;
+          } else {
+              $scope.selectedAll = false;
+          }
+          angular.forEach($scope.employees, function (employees) {
+        	  employees.selected = $scope.selectedAll;
+          });
+      };   
+	
 });
-
-
-
 
 function makeUser($scope) {
     var user = {
@@ -168,89 +198,87 @@ function makeUser($scope) {
     $scope.user = user;
 }
 
-
-
 adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_URL, API_URL, ROLE) {
 
-    $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
-        .then(function(response) {
-            if (response.data.authenticated) {
-                var authUser = {
-                    username : response.data.principal.username,
-                    authority: response.data.principal.authorities[0].authority
-                }
-                $scope.authUser = authUser;
-                if($scope.authUser.authority != ROLE.ADMIN) {
-                    window.location = SITE_URL.LOGIN;
-                }
-            } else {
-                window.location = SITE_URL.LOGIN;
-            }
-        })
+	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
+	.then(function(response) {
+		if (response.data.authenticated) {
+			var authUser = {
+				username : response.data.principal.username,
+				authority: response.data.principal.authorities[0].authority
+			}
+			$scope.authUser = authUser;
+			if($scope.authUser.authority != ROLE.ADMIN) {
+				window.location = SITE_URL.LOGIN;
+			}
+		} else {
+			window.location = SITE_URL.LOGIN;
+		}
+	})
+	
+	$scope.register = function() {
 
-    $scope.register = function() {
+		var employeeInfo = {
+			userId        : null,
+			email         : $scope.email,
+			firstName     : $scope.firstName,
+			lastName      : $scope.lastName,
+			salesforce    : null,
+			recruiterId   : null,
+			//role          : "Recruiter",//$scope.employeeType.value,
+			datePassIssued: null,
+			format		  : null
+		};
 
-        var employeeInfo = {
-            userId        : null,
-            email         : $scope.email,
-            firstName     : $scope.firstName,
-            lastName      : $scope.lastName,
-            salesforce    : null,
-            recruiterId   : null,
-            role          : $scope.employeeType.value,
-            datePassIssued: null,
-            format		  : null
-        };
+		var urlSpecific = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.RECRUITER;
+		
+		if (employeeInfo.role === "Recruiter")
+		{
+			urlSpecific = urlSpecific + API_URL.RECRUITER;
+		}else if (employeeInfo.role === "Trainer")
+		{
+			urlSpecific = urlSpecific + API_URL.TRAINER;
+		}
+		
+		urlSpecific = urlSpecific + employeeInfo.email 
+		+ "/" + employeeInfo.lastName + "/" + employeeInfo.firstName
+		
+		$scope.postRegister(urlSpecific, employeeInfo);
+		
+		$scope.firstName = '';
+		$scope.lastName = '';
+		$scope.email = '';
+		$scope.program = '';
+	};
 
-        var urlSpecific = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN;
+	$scope.postRegister = function(urlSpecific, employeeInfo) {
+		
+		$http({
+			method  : 'PUT',
+			url: urlSpecific,
+			headers : {'Content-Type' : 'application/json'},
+			data    : employeeInfo
+		}).success( function(res) {
+			//Removed console log for sonar cube.
+		}).error( function(res) {
+			//Removed console log for sonar cube.
+		});
+	};
 
-        if (employeeInfo.role === "Recruiter")
-        {
-            urlSpecific = urlSpecific + API_URL.RECRUITER;
-        }else if (employeeInfo.role === "Trainer")
-        {
-            urlSpecific = urlSpecific + API_URL.TRAINER;
-        }
-
-        urlSpecific = urlSpecific + employeeInfo.email
-            + "/" + employeeInfo.lastName + "/" + employeeInfo.firstName
-
-        $scope.postRegister(urlSpecific, employeeInfo);
-
-        $scope.firstName = '';
-        $scope.lastName = '';
-        $scope.email = '';
-        $scope.program = '';
-    };
-
-    $scope.postRegister = function(urlSpecific, employeeInfo) {
-
-        $http({
-            method  : 'POST',
-            url: urlSpecific,
-            headers : {'Content-Type' : 'application/json'},
-            data    : employeeInfo
-        }).success( function(res) {
-            //Removed console log for sonar cube.
-        }).error( function(res) {
-            //Removed console log for sonar cube.
-        });
-    };
-
-    $scope.options = [{
-        name: 'Recruiter',
-        value: 'Recruiter'
-    }, {
-        name: 'Trainer',
-        value: 'Trainer'
-    }];
-
-    $scope.logout = function() {
-        $http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
-            .then(function(response) {
-                //Removed console log for sonar cube.
-                window.location = SITE_URL.LOGIN;
-            })
-    }
+	$scope.options = [{
+		name: 'Recruiter',
+		value: 'Recruiter'
+	}, {
+		name: 'Trainer',
+		value: 'Trainer'
+	}];
+	
+	$scope.logout = function() {
+		$http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
+		.then(function(response) {
+			//Removed console log for sonar cube.
+			window.location = SITE_URL.LOGIN;
+		})
+	}
 
 }); //end update credentials controller
