@@ -38,8 +38,8 @@ public class AssessmentGrader {
 	
 	public double[] gradeMultChoiceSelect(Assessment assessment){
 		double[] result = new double[2];
-		double itemWeightedGrade = 0.0;
-		double itemWeight = 0.0;
+		double itemWeightedGrade;
+		double itemWeight;
 		//Getting total weight of MultipleChoice/Select questions from assessment template
 		for(TemplateQuestion tQuestion : assessment.getTemplate().getTemplateQuestion()){
 
@@ -104,18 +104,23 @@ public class AssessmentGrader {
 
 			if(countCorrect<0){	countCorrect=0;	}
 
-			itemWeightedGrade = itemWeight*(countCorrect/countOptions);//
-			result[0] = result[0]+itemWeightedGrade;
-			//result[1] = result[1]+itemWeight;
-			log.info(" out of " + countOptions + " options " + countCorrect +" were correct");
+			try{
+				itemWeightedGrade = itemWeight*(countCorrect/countOptions);
+				result[0] = result[0]+itemWeightedGrade;
+				//result[1] = result[1]+itemWeight;
+				log.info(" out of " + countOptions + " options " + countCorrect +" were correct");
+			}
+			catch(ArithmeticException e){
+				log.stackTraceLogging(e);
+			}
 		}
 		return result;
 	}
 
 	public double[] gradeDragDrop(Assessment assessment){
 		double[] result = new double[2];
-		double itemWeightedGrade = 0.0;
-		double itemWeight = 0.0;
+		double itemWeightedGrade;
+		double itemWeight;
 		//Getting total weight of Drag and Drop questions for the assessment template
 		for(TemplateQuestion tQuestion : assessment.getTemplate().getTemplateQuestion()){
 
@@ -174,12 +179,16 @@ public class AssessmentGrader {
 				countOptions += 1.0;
 			}
 
-			itemWeightedGrade = itemWeight*(countCorrect/countOptions);//
-			result[0] = result[0]+itemWeightedGrade;
-			//result[1] = result[1]+itemWeight;
-			log.info("out of " + countOptions + " options " + countCorrect +" were correct");
+			try{
+				itemWeightedGrade = itemWeight*(countCorrect/countOptions);
+				result[0] = result[0]+itemWeightedGrade;
+				//result[1] = result[1]+itemWeight;
+				log.info("out of " + countOptions + " options " + countCorrect +" were correct");
+			}
+			catch(ArithmeticException e){
+				log.stackTraceLogging(e);
+			}
 		}
-
 		return result;
 	}
 
@@ -189,8 +198,8 @@ public class AssessmentGrader {
 	public double[] gradeSnippet(Assessment assessment){
 		SnippetEvaluationClient sec = new SnippetEvaluationClient();
 		double[] result = new double[2];
-		double itemWeightedGrade = 0.0;
-		double itemWeight = 0.0;
+		double itemWeightedGrade;
+		double itemWeight;
 		//Getting total weight of Drag and Drop questions for the assessment template
 		for(TemplateQuestion tQuestion : assessment.getTemplate().getTemplateQuestion()){
 
