@@ -182,6 +182,11 @@ public class QuestionServiceImpl implements QuestionService{
 	public List<BigDecimal> findIdsByFormatAndCategory(String category, String format) {
 		return qdao.findQuestionIdsByFormatandCategory(category, format);
 	}
+
+	@Override
+	public BigDecimal findQuestionCountByFormatandCategory(String category, String format) {
+		return qdao.findQuestionCountByFormatandCategory(category, format);
+	}
 	
 
 }

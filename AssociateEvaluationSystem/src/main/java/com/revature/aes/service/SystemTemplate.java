@@ -178,15 +178,14 @@ public class SystemTemplate {
 
 	private Set<Question> addQuestionsToList(String format, String category, int questionCount, Set<Question> assessmentQuestions) {
 		List<BigDecimal> list = qService.findIdsByFormatAndCategory(category, format);
-		int size = list.size();
+		//int size = list.size();
 		Random rando = new Random();
 		for (int i = 0; i < questionCount; i++) {
-			int num = rando.nextInt(size);
+			int num = rando.nextInt(list.size());
 			Question q = qService.getQuestionById(list.get(num).intValue());
 			list.remove(num).intValue();
 			assessmentQuestions.add(q);
-			size--;
-			if (size == 1) {
+			if (list.size() == 0) {
 				break;
 			}
 		}

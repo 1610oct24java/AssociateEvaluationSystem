@@ -45,8 +45,8 @@ public class AssessmentRestController {
 	private UserService userService;
 	@Autowired
 	private AssessmentService assServ;
-//	@Autowired
-//	private QuestionService qServ;
+	@Autowired
+	private QuestionService qServ;
 	private static final String URL = "http://localhost:8090/aes";
 	private RestTemplate restTemplate = new RestTemplate();
 
@@ -62,9 +62,6 @@ public class AssessmentRestController {
 			MediaType.APPLICATION_JSON_VALUE })
 	public AssessmentRequest createAssessment(@RequestBody AssessmentRequest assReq) throws URISyntaxException {
 		
-//		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-//		System.out.println(qServ.findIdsByFormatAndCategory("Java", "Drag and Drop"));
-//		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");		
 		
 		Template tmpl = new Template();
 		
