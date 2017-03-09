@@ -56,6 +56,7 @@ public class MailServiceLocatorImpl implements MailServiceLocator {
 
 		} catch (UnknownHostException e) {
 			log.error("UnknownHostException; setting ip to localhost");
+			log.stackTraceLogging(e);
 			ip = "localhost";
 		}
 

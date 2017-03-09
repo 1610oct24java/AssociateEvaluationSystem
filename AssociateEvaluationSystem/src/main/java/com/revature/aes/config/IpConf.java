@@ -59,6 +59,7 @@ public class IpConf {
 
         } catch (UnknownHostException e) {
             log.error("Failed to set localhost address to ip const");
+            log.stackTraceLogging(e);
             hostName = "localhost";
         }
 

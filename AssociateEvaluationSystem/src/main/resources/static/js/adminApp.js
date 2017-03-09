@@ -35,13 +35,11 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
-		console.log(response.data);
 		if (response.data.authenticated) {
 			var authUser = {
 				username : response.data.principal.username,
 				authority: response.data.principal.authorities[0].authority
 			}
-			console.log(authUser);
 			$scope.authUser = authUser;
 			if($scope.authUser.authority != ROLE.ADMIN) {
 				window.location = SITE_URL.LOGIN;
@@ -82,6 +80,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 		
 		console.log(urlSpecific + " testing url" + employeeInfo.role);
 		
+
 		$scope.postRegister(urlSpecific, employeeInfo);
 		
 		$scope.firstName = '';
@@ -94,16 +93,18 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 		console.log("adminApp.js: POST REGISTER EMPLOYEE");
 		console.log("url"+urlSpecific );
 		console.log("employeeinfo"+employeeInfo);
-		
+
 		$http({
 			method  : 'POST',
 			url: urlSpecific,
 			headers : {'Content-Type' : 'application/json'},
 			data    : employeeInfo
-		}).success( function(response) {
-			console.log('adminApp.js: register employee success');
-		}).error( function(response) {
-			console.log(response.status);
+
+		}).success( function(res) {
+			//Removed console log for sonar cube.
+		}).error( function(res) {
+			//Removed console log for sonar cube.
+
 		});
 	};
 
@@ -119,6 +120,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 	$scope.logout = function() {
 		$http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
 		.then(function(response) {
+			//Removed console log for sonar cube.
 			window.location = SITE_URL.LOGIN;
 		})
 	}
@@ -127,6 +129,10 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 
 adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_URL, ROLE) {
 
+	
+	
+	
+	
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
 		if (response.data.authenticated) {
@@ -134,15 +140,15 @@ adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_UR
 				username : response.data.principal.username,
 				authority: response.data.principal.authorities[0].authority
 			}
-			console.log(authUser);
 			$scope.authUser = authUser;
 			if($scope.authUser.authority != ROLE.ADMIN) {
 				window.location = SITE_URL.LOGIN;
+				console.log("Not an Admin");
 			}
 			
 			$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEES)
 			.then(function(response) {
-				console.log(response.data);
+
 				$scope.employees = response.data;
 			})
 		} else {
@@ -151,9 +157,12 @@ adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_UR
 	})
 	    
 	
+	
+	
 	$scope.logout = function() {
 		$http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
 		.then(function(response) {
+			//Removed console log for sonar cube.
 			window.location = SITE_URL.LOGIN;
 		})
 	};
@@ -185,7 +194,6 @@ adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_UR
 	
 });
 
-
 function makeUser($scope) {
 	var user = {
 				username: $scope.username,
@@ -199,13 +207,11 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
-		console.log(response.data);
 		if (response.data.authenticated) {
 			var authUser = {
 				username : response.data.principal.username,
 				authority: response.data.principal.authorities[0].authority
 			}
-			console.log(authUser);
 			$scope.authUser = authUser;
 			if($scope.authUser.authority != ROLE.ADMIN) {
 				window.location = SITE_URL.LOGIN;
@@ -242,7 +248,6 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 		urlSpecific = urlSpecific + employeeInfo.email 
 		+ "/" + employeeInfo.lastName + "/" + employeeInfo.firstName
 		
-		console.log(employeeInfo);
 		$scope.postRegister(urlSpecific, employeeInfo);
 		
 		$scope.firstName = '';
@@ -252,7 +257,6 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 	};
 
 	$scope.postRegister = function(urlSpecific, employeeInfo) {
-		console.log("adminApp.js: POST REGISTER EMPLOYEE")
 		
 		$http({
 			method  : 'POST',
@@ -260,9 +264,9 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 			headers : {'Content-Type' : 'application/json'},
 			data    : employeeInfo
 		}).success( function(res) {
-			console.log('adminApp.js: register employee success');
+			//Removed console log for sonar cube.
 		}).error( function(res) {
-			console.log('adminApp.js: register employee error');
+			//Removed console log for sonar cube.
 		});
 	};
 
@@ -277,6 +281,7 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 	$scope.logout = function() {
 		$http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
 		.then(function(response) {
+			//Removed console log for sonar cube.
 			window.location = SITE_URL.LOGIN;
 		})
 	}

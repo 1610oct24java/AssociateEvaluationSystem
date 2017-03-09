@@ -1,11 +1,18 @@
 Manifest-Version: 1.0
-Implementation-Title: gs-rest-service
+Implementation-Title: hulqBASH
 Implementation-Version: 0.1.0
+<<<<<<< HEAD
 Built-By: hajira
 Implementation-Vendor-Id: org.springframework
 Build-Jdk: 1.8.0_121
 Implementation-URL: http://projects.spring.io/spring-boot/gs-rest-serv
  ice/
+=======
+Built-By: Michael
+Implementation-Vendor-Id: org.springframework
+Build-Jdk: 1.8.0_121
+Implementation-URL: http://projects.spring.io/spring-boot/hulqBASH/
+>>>>>>> 8affb82dbfba2dc048be305f9f1a61eba4326b40
 Created-By: Maven Integration for Eclipse
 Implementation-Vendor: Pivotal Software, Inc.
 
