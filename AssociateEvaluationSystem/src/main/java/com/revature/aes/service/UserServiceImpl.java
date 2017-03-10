@@ -204,7 +204,6 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void removeEmployee(String email) {
-		User user = dao.findByEmail(email);
-		dao.delete(user);
+		dao.delete(dao.findByEmail(email));
 	}
 }
