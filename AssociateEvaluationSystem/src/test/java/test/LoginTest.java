@@ -2,14 +2,12 @@ package test;
 
 import static org.junit.Assert.*;
 
-import java.util.concurrent.TimeUnit;
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.By;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -45,14 +43,13 @@ public class LoginTest {
 		loginPage.loginToAES("nickolas.jurczak@revature.com", "password");
 		
 		try {
-			Thread.sleep(3000);
-			
 			// Make sure login is successful
+			Thread.sleep(3000);
 			assertEquals("AES | Recruiter Home", loginPage.getTitle());	
 		} catch (InterruptedException e) {
 			e.printStackTrace();
+		} finally {
+			driver.close();
 		}
-		
 	}
-
 }
