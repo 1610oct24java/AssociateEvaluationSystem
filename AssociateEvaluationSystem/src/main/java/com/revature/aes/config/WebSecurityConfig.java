@@ -30,8 +30,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.authenticated()
 					.and().formLogin().loginPage("/login").usernameParameter("username").passwordParameter("password").permitAll()
 					.and().httpBasic()
-					.and().logout().logoutUrl("/logout").invalidateHttpSession(true).deleteCookies("remember-me").permitAll()
-					.and().rememberMe().and().exceptionHandling().accessDeniedPage("/error")
+		.and().logout().logoutUrl("/logout").invalidateHttpSession(true).deleteCookies("remember-me").permitAll()
+		.and().rememberMe().and().exceptionHandling().accessDeniedPage("/error")
 					.and().authorizeRequests().and().csrf().disable();
 	}
 
