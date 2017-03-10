@@ -1,7 +1,9 @@
 package com.revature.aes.controllers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,8 +52,7 @@ public class AdminController {
 	 * This method gets a list of candidates who reference
 	 * this recruiter.
 	 * 
-	 * @param email
-	 * 		the email of this recruiter
+	 *
 	 * @return 
 	 * 		the list of users this recruiter added
 	 */
@@ -60,12 +61,29 @@ public class AdminController {
 	@RequestMapping(value="/admin/employees", method= RequestMethod.GET)
 	public List<User> getEmployees(){
 		
-		List<User> users = userService.findUsersByRole("recruiter");
+
+		List<User> users = new ArrayList<User>();
+		users=userService.findAllUsers();
+		
+		//users = userService.findUsersByRole("recruiter");
+		//users.addAll(userService.findUsersByRole("trainer"));
+		
+
 		return users;
 	}
+	//Delete operation by Hajira Zahir
+	@RequestMapping(value="/admin/employees/Delete/{email}/", method= RequestMethod.DELETE)
+	public Map<String,String> deleteEmployee(@PathVariable String email)
+	{
+		 System.out.println("testing " + email);
+		 Map<String, String> map = new HashMap<>();
+		 userService.removeEmployee( email);
+		 String message=email;
+		 map.put(message, email);
+		 return map;
+	}
 	
-	
-	
+
 	/**
 	 * This method changes details about a user in the database.
 	 * 
@@ -79,9 +97,9 @@ public class AdminController {
 	 * @return
 	 * 		The newly saved User object
 	 */
-	@RequestMapping(value="/admin/{email}/employees/{index}", method= RequestMethod.PUT)
-	public User updateEmployee(@PathVariable String email, @PathVariable int index, @RequestBody User user){
-		return userService.updateEmployee(user, email, index);
+	@RequestMapping(value="admin/employees/Update/{email}/", method= RequestMethod.PUT)
+	public User updateEmployee(@PathVariable String email, @RequestBody User user){
+		return userService.updateEmployee(email, user.getFirstName(), user.getLastName());
 	}
 	
 	/**
@@ -93,20 +111,24 @@ public class AdminController {
 	 * 		The index of this user in the list returned by
 	 * getCandidates
 	 */
-	@RequestMapping(value="/admin/{email}/candidates/{index}", method= RequestMethod.DELETE)
-	public void deleteEmployee(@PathVariable String email, @PathVariable int index){
-		userService.removeEmployee(email, index);
-	}
+	
 
 	@RequestMapping(value="admin/recruiter/{email}/{lastname}/{firstname}", method = RequestMethod.POST)
 	public void initRecruiter(@PathVariable String email, @PathVariable String lastname, @PathVariable String firstname) {
+		System.out.println(" ////////////////////creating Recruiter//////////////////");
 		userService.createRecruiter(email, lastname, firstname);
+		System.out.println(" ////////////////////creating Recruiter 2//////////////////");
 	}
 	
-	@RequestMapping(value="admin/trainer/{email}/{lastname}/{firstname}", method = RequestMethod.POST)
+	//For future use
+	
+	/*@RequestMapping(value="admin/trainer/{email}/{lastname}/{firstname}", method = RequestMethod.POST)
 	public void initTrainer(@PathVariable String email, @PathVariable String lastname, @PathVariable String firstname) {
+		System.out.println(" /////////// create the trainer endpoint////////////////");
 		userService.createTrainer(email, lastname, firstname);
-	}
+		System.out.println(" ////////////////////creating trainer 2//////////////////");
+		
+	}*/
 	
 	/**
 
