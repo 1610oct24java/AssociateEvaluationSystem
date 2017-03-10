@@ -259,7 +259,6 @@ public class AssessmentGrader {
 					//result[1] = result[1]+itemWeight;
 					log.info("out of " + countOptions + " options " + countCorrect +" were correct");
 				}
-				}
 			}
 			catch(ArithmeticException e){
 				log.stackTraceLogging(e);

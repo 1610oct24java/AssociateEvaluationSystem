@@ -232,10 +232,7 @@ public class AssessmentGrader {
 			}
 		}
 
-<<<<<<< 06b618c5773075d04f7007b5d79ee2ce0e88f6c8
 		//Saving for later in case of complications
-=======
->>>>>>> Revert "pushing AssessmentGrader for testing"
 		/*for(int key: userDataMap.keySet()){
 			System.out.println("At key: " + key);
 			System.out.println("TemplateDataMap: " + templateDataMap);
@@ -262,7 +259,10 @@ public class AssessmentGrader {
 					//result[1] = result[1]+itemWeight;
 					log.info("out of " + countOptions + " options " + countCorrect +" were correct");
 				}
+<<<<<<< HEAD
 				}
+=======
+>>>>>>> 12f3e36cfe06c1ae907a611f4cbf44eb1c6ae1a7
 			}
 			catch(ArithmeticException e){
 				log.stackTraceLogging(e);
@@ -321,10 +321,7 @@ public class AssessmentGrader {
 			//result[1] = result[1]+itemWeight;
 		}
 		
-<<<<<<< 06b618c5773075d04f7007b5d79ee2ce0e88f6c8
 		//Saving for later in case of complications
-=======
->>>>>>> Revert "pushing AssessmentGrader for testing"
 /*		for(int key: userDataMap.keySet()){
 			String userFileName = userDataMap.get(key).getFileUrl();
 			log.info(" userFileName: " + userFileName);
