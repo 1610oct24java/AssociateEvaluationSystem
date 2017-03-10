@@ -47,11 +47,16 @@ public class AssessmentServiceImpl implements AssessmentService {
 	}
 
 	@Override
+	public List<Assessment> findAssessmentsByUser(User user) {
+		return (List<Assessment>)assDAO.findAssessmentsByUser(user);
+	}
+
+	@Override
 	public Integer findGradeByUser(User user) {
-		List<Assessment> asmt = assDAO.findByUser(user);
+		List<Assessment> asmt = assDAO.findAssessmentsByUser(user);
 		log.info(asmt.toString());
 		if (!asmt.isEmpty()) {
-			Assessment as = Collections.max(asmt, Comparator.comparing(a -> a.getFinishedTimeStamp()));
+			Assessment as = Collections.max(asmt, Comparator.comparing(a -> a.getFinishedTimeStamp(), Comparator.nullsFirst(Comparator.naturalOrder())));
 			return as.getGrade();
 		}else {
 			return null;
