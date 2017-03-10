@@ -216,30 +216,32 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 		}
 	})
 	
-	$scope.register = function() {
+	$scope.Update= function() {
 
 		var employeeInfo = {
 			userId        : null,
-			email         : $scope.email,
+			newEmail      : $scope.newEmail,
 			firstName     : $scope.firstName,
 			lastName      : $scope.lastName,
+			oldPassword   : $scope.oldPassword,
+			newPassword   : $scope.newPassword,
 			salesforce    : null,
 			recruiterId   : null,
-			//role          : "Recruiter",//$scope.employeeType.value,
+			role          : "Recruiter", //$scope.employeeType.value,
 			datePassIssued: null,
 			format		  : null
 		};
 
 		var urlSpecific = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.RECRUITER;
 		
-		if (employeeInfo.role === "Recruiter")
+		/*if (employeeInfo.role === "Recruiter")
 		{
 			urlSpecific = urlSpecific + API_URL.RECRUITER;
 		}else if (employeeInfo.role === "Trainer")
 		{
 			urlSpecific = urlSpecific + API_URL.TRAINER;
 		}
-		
+		*/
 		urlSpecific = urlSpecific + employeeInfo.email 
 		+ "/" + employeeInfo.lastName + "/" + employeeInfo.firstName
 		
@@ -251,16 +253,17 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 		$scope.program = '';
 	};
 
-	$scope.postRegister = function(urlSpecific, employeeInfo) {
+	$scope.postUpdate= function(urlSpecific, employeeInfo) {
 		
 		$http({
 			method  : 'PUT',
 			url: urlSpecific,
 			headers : {'Content-Type' : 'application/json'},
 			data    : employeeInfo
-		}).success( function(res) {
+		}).success( function(response) {
+			var successMessage=response.data.message;
 			//Removed console log for sonar cube.
-		}).error( function(res) {
+		}).error( function(response) {
 			//Removed console log for sonar cube.
 		});
 	};
@@ -280,5 +283,8 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 			window.location = SITE_URL.LOGIN;
 		})
 	}
+	
+	
+
 
 }); //end update credentials controller

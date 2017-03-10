@@ -181,16 +181,9 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void createAdmin(String email, String lastname, String firstname) {
 		
-		SimpleDateFormat fmt = new SimpleDateFormat(PATTERN);
-		User user = new User();
-		user.setEmail(email);
-		user.setFirstName(firstname);
-		user.setLastName(lastname);
-		user.setRole(role.findRoleByRoleTitle("admin"));
-		user.setDatePassIssued(fmt.format(new Date()));
 		
 		dao.save(user);
-		security.createKnownSecurity(user);
+		
 	}
 
 	@Override
