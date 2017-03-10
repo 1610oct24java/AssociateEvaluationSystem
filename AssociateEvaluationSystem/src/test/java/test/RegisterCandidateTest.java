@@ -35,24 +35,42 @@ public class RegisterCandidateTest {
 	public void setUp() throws Exception {
 		System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/src/test/resources/chromedriver.exe");
 		driver = new ChromeDriver();
-		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-		driver.get("http://35.162.177.133:8090/aes/login");
+		driver.get("http://localhost:8090/aes/login");
 		loginPage = new LoginPage(driver);
 		loginPage.loginToAES("nickolas.jurczak@revature.com", "password");
 		candidateViewPage = new CandidateViewPage(driver);
+		registerCandidatePage = new RegisterCandidatePage(driver);
 	}
 
 	@After
 	public void tearDown() throws Exception {
 		driver.close();
 	}
-
+	
 	@Test
-	public void test()  {
-		candidateViewPage.clickRegisterCandidateLink();
-		//registerCandidatePage.registerCandidate("test", "test", "test@test.com", "SDET");
+	public void registerCandidateDatabaseTest()  {
 		
-		
+		try {
+			Thread.sleep(3000);
+
+			// Remove test candidate before recreating
+			registerCandidatePage.deleteTestCandidate();
+
+			Thread.sleep(3000);
+			registerCandidatePage.registerCandidate("test", "test", "test@test.com", "SDET");
+			
+			// Check if test candidate is in the database
+			assertTrue(registerCandidatePage.testCandidateExist());
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
+	/*
+	@Test
+	public void registerCandidateGUITest()  {
+		candidateViewPage.clickRegisterCandidateLink();
+		registerCandidatePage.registerCandidate("test", "test", "test@test.com", "SDET");
+	}*/
 }

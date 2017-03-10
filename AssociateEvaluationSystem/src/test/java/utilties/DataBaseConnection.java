@@ -15,9 +15,9 @@ public class DataBaseConnection {
 	}
 	
 	public static Connection getConnection() throws SQLException {
-		String url = "jdbc:oracle:thin:@associate-evaluation-system.cgbbs6xdwjwh.us-west-2.rds.amazonaws.com:1521:AES";
-		String username = "aes_user";
-		String password = "r3vatur3!";
+		String url = "jdbc:oracle:thin:@localhost:1521:xe";
+		String username = "aes";
+		String password = "aes";
 		return DriverManager.getConnection(url, username, password);
 	}
 }

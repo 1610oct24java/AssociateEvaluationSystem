@@ -1,8 +1,15 @@
 package pages;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Select;
+
+import utilties.DataBaseConnection;
 
 public class RegisterCandidatePage {
 
@@ -37,6 +44,108 @@ public class RegisterCandidatePage {
 	
 	public void clickRegister() {
 		driver.findElement(register).click();
+	}
+	
+	public void deleteTestCandidate() {
+		
+		Connection conn;
+		PreparedStatement ps;
+		int userId = 0;
+		
+		try {
+			String getUserIdSQL = "SELECT user_id FROM aes_users WHERE email = ?";
+			conn = DataBaseConnection.getConnection();
+			ps = conn.prepareStatement(getUserIdSQL);
+			
+			ps.setString(1, "test@test.com");
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				userId = rs.getInt("USER_ID");
+			}
+			
+		if(userId != 0) {
+			
+			String deleteTestUserSQL = "DELETE FROM aes_users WHERE USER_ID = ? ";
+			ps = conn.prepareStatement(deleteTestUserSQL);
+			ps.setInt(1, userId);
+			ps.executeQuery();
+			
+			String deleteTestUserSQL2 = "DELETE FROM aes_security WHERE USER_ID = ? ";
+			ps = conn.prepareStatement(deleteTestUserSQL2);
+			ps.setInt(1, userId);
+			ps.executeQuery();
+			
+			String deleteTestUserSQL3 = "DELETE FROM aes_assessment WHERE USER_ID = ? ";
+			ps = conn.prepareStatement(deleteTestUserSQL3);
+			ps.setInt(1, userId);
+			ps.executeQuery();
+			
+			String deleteTestUserSQL4 = "DELETE FROM aes_assessment_auth WHERE USER_ID = ? ";
+			ps = conn.prepareStatement(deleteTestUserSQL4);
+			ps.setInt(1, userId);
+			ps.executeQuery();	
+		}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public boolean testCandidateExist() {
+		
+		Connection conn;
+		PreparedStatement ps;
+		int userId = 0;
+		
+		try {
+			String getUserIdSQL = "SELECT user_id FROM aes_users WHERE email = ?";
+			conn = DataBaseConnection.getConnection();
+			ps = conn.prepareStatement(getUserIdSQL);
+			
+			ps.setString(1, "test@test.com");
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				userId = rs.getInt("USER_ID");
+			}
+			
+			if(userId != 0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+	
+	public static boolean getTestCandidate() {
+		
+		Connection conn;
+		PreparedStatement ps;
+		int userId = 0;
+		
+		try {
+			String getUserIdSQL = "SELECT user_id FROM aes_users WHERE email = ?";
+			conn = DataBaseConnection.getConnection();
+			ps = conn.prepareStatement(getUserIdSQL);
+			
+			ps.setString(1, "test@test.com");
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				userId = rs.getInt("USER_ID");
+			}
+			
+			if(userId != 0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return false;
 	}
 	
 	public void registerCandidate(String firstName, String lastName, String email, String program) {
