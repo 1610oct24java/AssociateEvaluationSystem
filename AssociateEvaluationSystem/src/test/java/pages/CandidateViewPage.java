@@ -3,6 +3,9 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+
 public class CandidateViewPage {
 
 	WebDriver driver;
@@ -27,7 +30,7 @@ public class CandidateViewPage {
 		
 		driver.findElement(By.xpath(""));
 		
-		return false;
+		return result;
 	}
-	
+
 }
