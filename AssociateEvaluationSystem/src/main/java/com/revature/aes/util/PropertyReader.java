@@ -20,7 +20,6 @@ public class PropertyReader {
 		InputStream inputStream = this.getClass().getClassLoader()
 				.getResourceAsStream(propertiesFilename);
 		
-		//log.debug("Input stream: " + inputStream);
 		Properties prop = new Properties();
 		
 		// load the inputStream using the Properties

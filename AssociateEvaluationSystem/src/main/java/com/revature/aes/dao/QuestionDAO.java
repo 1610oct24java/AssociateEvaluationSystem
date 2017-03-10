@@ -17,11 +17,7 @@ public interface QuestionDAO extends JpaRepository<Question, Integer> {
 	public List<Question> findAllByFormat(Format format);
 	public List<Question> findAllByQuestionCategory(Category category); 
 	public Question findQuestionByOption(Option opt);
-//	public Question findQuestionByOptionId(Integer id);
 
 	@Query("SELECT questionId FROM Question WHERE questionId = ?1")
 	List<Question> findQuestionById(int id);
-	
-//	@Query("select AES_QUESTION.QUESTION_ID from (AES_QUESTION inner join AES_QUESTION_CATEGORY on AES_QUESTION.QUESTION_ID = AES_QUESTION_CATEGORY.QUESTION_ID) where CATEGORY_ID = (select CATEGORY_ID from AES_CATEGORY where CATEGORY_NAME = ?1) and QUESTION_FORMAT_ID = (Select FORMAT_ID from AES_FORMATS where FORMAT_NAME = ?2)")
-//	Set<Integer> findQuestionIdsByFormatandCategory(String category, String format);
 }

@@ -60,17 +60,9 @@ public class AdminController {
 	
 	@RequestMapping(value="/admin/employees", method= RequestMethod.GET)
 	public List<User> getEmployees(){
-		
-
-		List<User> users = new ArrayList<User>();
-		users=userService.findAllUsers();
-		
-		//users = userService.findUsersByRole("recruiter");
-		//users.addAll(userService.findUsersByRole("trainer"));
-		
-
-		return users;
+		return userService.findAllUsers();
 	}
+	
 	//Delete operation by Hajira Zahir
 	@RequestMapping(value="/admin/employees/Delete/{email}/", method= RequestMethod.DELETE)
 	public Map<String,String> deleteEmployee(@PathVariable String email)
@@ -83,7 +75,6 @@ public class AdminController {
 		 return map;
 	}
 	
-
 	/**
 	 * This method changes details about a user in the database.
 	 * 
