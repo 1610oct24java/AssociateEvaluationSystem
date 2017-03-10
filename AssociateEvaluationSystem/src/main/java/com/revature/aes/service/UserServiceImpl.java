@@ -147,9 +147,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public String createTrainer(String email, String lastname, String firstname) {
-
+  
 		return createEmployee(email, lastname, firstname, "trainer");
-
+		
 	}
 
 	private String createEmployee(String email, String lastname, String firstname, String adminRole){
@@ -201,10 +201,7 @@ public class UserServiceImpl implements UserService {
 		dao.save(currentUser);
 		return null;
 	}
-   
-	
-	//added by hajira zahir
-	 
+
 	@Override
 	public void removeEmployee(String email) {
 		dao.delete(dao.findByEmail(email));

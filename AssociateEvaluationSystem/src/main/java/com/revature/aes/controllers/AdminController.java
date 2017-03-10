@@ -61,15 +61,12 @@ public class AdminController {
 	@RequestMapping(value="/admin/employees", method= RequestMethod.GET)
 	public List<User> getEmployees(){
 		List<User> users = new ArrayList<>();
-		
 		users = userService.findAllUsers();
-		
 		return users;
 	}
 	//Delete operation by Hajira Zahir
 	@RequestMapping(value="/admin/employees/Delete/{email}/", method= RequestMethod.DELETE)
-	public Map<String,String> deleteEmployee(@PathVariable String email)
-	{
+	public Map<String,String> deleteEmployee(@PathVariable String email){
 		 System.out.println("testing " + email);
 		 Map<String, String> map = new HashMap<>();
 		 userService.removeEmployee( email);
@@ -115,7 +112,7 @@ public class AdminController {
 		System.out.println(" \n-------------- AdminController.initRecruiter: reached an endpoint...initRecruiter\n");
 		String pass = userService.createRecruiter(email, lastname, firstname);
 		System.out.println(" \n-------------- AdminController.initRecruiter: userService should have run...\n");
-		System.out.println("Email being sent to: " + email);
+		
 		boolean mailSentSuccess = mailService.sendTempPassword(email, pass);
 		System.out.println(" \n-------------- AdminController.initRecruiter: Email sent? " + mailSentSuccess);
 	}
