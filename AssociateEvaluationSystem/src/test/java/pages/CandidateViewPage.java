@@ -3,9 +3,6 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-
 public class CandidateViewPage {
 
 	WebDriver driver;
@@ -18,7 +15,7 @@ public class CandidateViewPage {
 	}
 	
 	public void clickRegisterCandidateLink() {
-		driver.findElement(registerCandidateLink).click();;
+		driver.findElement(registerCandidateLink).click();
 	}
 	
 	public void clickLogoutButton() {
