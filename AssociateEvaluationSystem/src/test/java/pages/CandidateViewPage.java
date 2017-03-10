@@ -14,6 +14,10 @@ public class CandidateViewPage {
 		this.driver = driver;
 	}
 	
+	public String getTitle() {
+		return driver.getTitle();
+	}
+	
 	public void clickRegisterCandidateLink() {
 		driver.findElement(registerCandidateLink).click();
 	}
