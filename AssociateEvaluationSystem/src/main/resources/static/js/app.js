@@ -12,7 +12,6 @@ app.constant("SITE_URL", {
 	"VIEW_EMPLOYEES" : "viewEmployees",
 	
 	"TRAINER_HOME" : "http://sports.cbsimg.net/images/nhl/blog/Ryan_Reaves_Kiss.JPG"
-	
 });
 
 app.constant("API_URL", {
