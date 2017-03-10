@@ -1,7 +1,7 @@
 package com.revature.aes.beans;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -49,10 +49,10 @@ public class Assessment implements Serializable
 	private int timeLimit;
 
 	@Column(name = "created_timestamp")
-	private Timestamp createdTimeStamp;
+	private Date createdTimeStamp;
 
 	@Column(name = "finished_timestamp")
-	private Timestamp finishedTimeStamp;
+	private Date finishedTimeStamp;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "template_id")
@@ -70,8 +70,8 @@ public class Assessment implements Serializable
 	@OneToMany(fetch = FetchType.EAGER, mappedBy ="assessment")
 	private Set<FileUpload> fileUpload;
 
-	public Assessment(int assessmentId, User user, int grade, int timeLimit, Timestamp createdTimeStamp,
-					  Timestamp finishedTimeStamp, Template template, Set<Option> options,
+	public Assessment(int assessmentId, User user, int grade, int timeLimit, Date createdTimeStamp,
+					  Date finishedTimeStamp, Template template, Set<Option> options,
 					  Set<AssessmentDragDrop> assessmentDragDrop, Set<FileUpload> fileUpload) {
 		super();
 		this.assessmentId = assessmentId;
@@ -85,7 +85,7 @@ public class Assessment implements Serializable
 		this.assessmentDragDrop = assessmentDragDrop;
 		this.fileUpload = fileUpload;
 	}
-	public Assessment(User user, int grade, int timeLimit, Timestamp createdTimeStamp, Timestamp finishedTimeStamp, Template template)
+	public Assessment(User user, int grade, int timeLimit, Date createdTimeStamp, Date finishedTimeStamp, Template template)
 	{
 		super();
 		this.user = user;
@@ -94,6 +94,13 @@ public class Assessment implements Serializable
 		this.createdTimeStamp = createdTimeStamp;
 		this.finishedTimeStamp = finishedTimeStamp;
 		this.template = template;
+	}
+	public Assessment(int grade, int timeLimit, Date createdTimeStamp, Date finishedTimeStamp) {
+		super();
+		this.grade = grade;
+		this.timeLimit = timeLimit;
+		this.createdTimeStamp = createdTimeStamp;
+		this.finishedTimeStamp = finishedTimeStamp;
 	}
 
 	public Assessment() {
@@ -132,19 +139,19 @@ public class Assessment implements Serializable
 		this.timeLimit = timeLimit;
 	}
 
-	public Timestamp getCreatedTimeStamp() {
+	public Date getCreatedTimeStamp() {
 		return createdTimeStamp;
 	}
 
-	public void setCreatedTimeStamp(Timestamp createdTimeStamp) {
+	public void setCreatedTimeStamp(Date createdTimeStamp) {
 		this.createdTimeStamp = createdTimeStamp;
 	}
 
-	public Timestamp getFinishedTimeStamp() {
+	public Date getFinishedTimeStamp() {
 		return finishedTimeStamp;
 	}
 
-	public void setFinishedTimeStamp(Timestamp finishedTimeStamp) {
+	public void setFinishedTimeStamp(Date finishedTimeStamp) {
 		this.finishedTimeStamp = finishedTimeStamp;
 	}
 

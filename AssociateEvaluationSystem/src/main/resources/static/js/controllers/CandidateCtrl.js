@@ -65,14 +65,6 @@ angular.module('AESCoreApp').controller('CandidateCtrl', function($scope,$locati
         value: '.net'
     }];
 
-    $scope.logout = function() {
-        $http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
-            .then(function(response) {
-                window.location = SITE_URL.LOGIN;
-            })
-    }
-
-
     $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
         .then(function(response) {
             if (response.data.authenticated) {
@@ -92,6 +84,7 @@ angular.module('AESCoreApp').controller('CandidateCtrl', function($scope,$locati
                             if (c[i].grade == -1) {
                                 c[i].grade = 'N/A';
                             }
+                            c[i].expanded = false;
                         }
                         $scope.candidates = c;
                     })
@@ -99,6 +92,28 @@ angular.module('AESCoreApp').controller('CandidateCtrl', function($scope,$locati
                 window.location = SITE_URL.LOGIN;
             }
         })
+
+    $scope.expandd = function(candidate) {
+        //Some more spaghetti code
+        $scope.candidates.filter(c => c.email != candidate.email).forEach(c => {c.expanded = false});
+        if (!candidate.expanded){
+            $http
+            .get(SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + candidate.email + "/assessments")
+            .then(function(response) {
+                candidate.expanded = true;
+                var asmt = response.data;
+                if (asmt.length != 0) {
+                    asmt.forEach(a=>{
+                    a.createdTimeStamp = formatDate(a.createdTimeStamp);
+                    a.finishedTimeStamp = formatDate(a.finishedTimeStamp)});
+                }
+                $scope.assessments = asmt;
+            })
+        } else {
+            candidate.expanded = false;
+        }
+        
+    };
 
     $scope.logout = function() {
         $http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
@@ -109,4 +124,11 @@ angular.module('AESCoreApp').controller('CandidateCtrl', function($scope,$locati
 
 });
 
-
+function formatDate(date) {
+    if (date == null) {
+        return "";
+    }
+    var d = new Date(date);
+    var min = d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes();
+    return (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear() + " " + d.getHours() + ":" + min;
+}
