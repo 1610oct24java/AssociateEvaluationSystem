@@ -1,6 +1,5 @@
 package pages;
 
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Select;
@@ -27,20 +26,24 @@ public class RegisterCandidatePage {
 		driver.findElement(lastName).sendKeys(strLastName);
 	}
 	
+	public void setEmail(String strEmail) {
+		driver.findElement(email).sendKeys(strEmail);
+	}
+	
 	public void selectProgram(String strProgram) {
 		Select select = new Select(driver.findElement(program));
-		select.selectByValue(strProgram);
+		select.selectByVisibleText(strProgram);
 	}
 	
 	public void clickRegister() {
 		driver.findElement(register).click();
 	}
 	
-	public void registerCandidate(String firstName, String lastName, String program) {
+	public void registerCandidate(String firstName, String lastName, String email, String program) {
 		this.setFirstName(firstName);
 		this.setLastName(lastName);
+		this.setEmail(email);
 		this.selectProgram(program);
 		this.clickRegister();
 	}
-
 }
