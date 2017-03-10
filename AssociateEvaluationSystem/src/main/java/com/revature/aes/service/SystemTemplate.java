@@ -33,19 +33,32 @@ public class SystemTemplate {
 	 */
 	public Set<TemplateQuestion> getRandomSelectionFromCategory(CategoryRequest assReq) {
 
-		String catName = assReq.getCategory();
-		int multiChoice = assReq.getMcQuestions();
-		int multiSelect = assReq.getMsQuestions();
-		int dragDrop = assReq.getDdQuestions();
-		int codeSnip = assReq.getCsQuestions();
-		int size;
-
 		Set<Question> assessList = new HashSet<>();
 		List<Question> formatList = new ArrayList<>();
 		Set<TemplateQuestion> finalList = new HashSet<>();
 		Random rando = new Random();
 		
-		Category cat = (Category) cDao.getByName(catName);
+		//NOW SUROUNDED BY A MASSIVE IF STATEMENT!!
+		
+		if(assReq.getCategory()!=null){	// <-- this thing
+			
+		String catName = assReq.getCategory();
+		
+		System.out.println(catName);
+		
+		int multiChoice = assReq.getMcQuestions();
+		int multiSelect = assReq.getMsQuestions();
+		int dragDrop = assReq.getDdQuestions();
+		int codeSnip = assReq.getCsQuestions();
+		int size;
+		
+		Category cat = null;
+		
+		try{
+			cat = (Category) cDao.getByName(catName);
+		}catch(NullPointerException npe){
+			log.error(npe.getMessage());
+		}
 		
 		List<Question> filteredQuestions = (List<Question>) qDao.findAllByQuestionCategory(cat);
 
@@ -136,6 +149,7 @@ public class SystemTemplate {
 		}
 
 		log.debug("Final Question List");
+		}
 
 /*		for(TemplateQuestion q : finalList){
 
