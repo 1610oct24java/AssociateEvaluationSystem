@@ -139,20 +139,20 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void createRecruiter(String email, String lastname, String firstname) {
+	public String createRecruiter(String email, String lastname, String firstname) {
 
-		createEmployee(email, lastname, firstname, "recruiter");
+		return createEmployee(email, lastname, firstname, "recruiter");
 
 	}
 
 	@Override
-	public void createTrainer(String email, String lastname, String firstname) {
+	public String createTrainer(String email, String lastname, String firstname) {
 
-		createEmployee(email, lastname, firstname, "trainer");
+		return createEmployee(email, lastname, firstname, "trainer");
 
 	}
 
-	private void createEmployee(String email, String lastname, String firstname, String adminRole){
+	private String createEmployee(String email, String lastname, String firstname, String adminRole){
 		
 		SimpleDateFormat fmt = new SimpleDateFormat(PATTERN);
 		User user = new User();
@@ -163,7 +163,9 @@ public class UserServiceImpl implements UserService {
 		user.setDatePassIssued(fmt.format(new Date()));
 		
 		dao.save(user);
-		security.createKnownSecurity(user);
+		
+		String pass = security.createAdminRoleSecurity(user);
+		return pass;
 	}
 
 	@Override
@@ -190,14 +192,19 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User updateEmployee(User user, String email, int index) {
-		// TODO Auto-generated method stub
+	public User updateEmployee(User updatedUser, String email) {
+		
+		User currentUser = dao.findByEmail(email);
+		currentUser.setEmail(updatedUser.getEmail());
+		currentUser.setFirstName(updatedUser.getFirstName());
+		currentUser.setLastName(updatedUser.getLastName());
+		dao.save(currentUser);
 		return null;
 	}
 
 	@Override
-	public void removeEmployee(String email, int index) {
-		// TODO Auto-generated method stub
-		
+	public void removeEmployee(String email) {
+		User user = dao.findByEmail(email);
+		dao.delete(user);
 	}
 }

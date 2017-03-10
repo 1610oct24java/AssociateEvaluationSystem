@@ -64,9 +64,6 @@ public class AdminController {
 		
 		users = userService.findAllUsers();
 		
-		
-		
-		
 		return users;
 	}
 	
@@ -76,18 +73,15 @@ public class AdminController {
 	 * This method changes details about a user in the database.
 	 * 
 	 * @param email
-	 * 		The email of this recruiter
-	 * @param index
-	 * 		The candidate at the index of the list returned
-	 * 		by getCandidates that needs updating 
+	 * 		The current email of this recruiter
 	 * @param candidate
 	 * 		The updated user object
-	 * @return
-	 * 		The newly saved User object
 	 */
-	@RequestMapping(value="/admin/{email}/employees/{index}", method= RequestMethod.PUT)
-	public User updateEmployee(@PathVariable String email, @PathVariable int index, @RequestBody User user){
-		return userService.updateEmployee(user, email, index);
+	@RequestMapping(value="admin/employees/Update/{email}/", method= RequestMethod.PUT)
+	public void updateEmployee(@PathVariable String email, @RequestBody User user){
+		System.out.println(" \n====== AdminCtrl.updateEmployee: update employee by email: " + email);
+		userService.updateEmployee(user, email);
+		System.out.println(" \n====== AdminCtrl.updateEmployee: userService ran update");
 	}
 	
 	/**
@@ -99,23 +93,34 @@ public class AdminController {
 	 * 		The index of this user in the list returned by
 	 * getCandidates
 	 */
-	@RequestMapping(value="/admin/{email}/candidates/{index}", method= RequestMethod.DELETE)
-	public void deleteEmployee(@PathVariable String email, @PathVariable int index){
-		userService.removeEmployee(email, index);
+	@RequestMapping(value="admin/employees/Delete/{email}/", method= RequestMethod.DELETE)
+	public void deleteEmployee(@PathVariable String email){
+		System.out.println(" \n====== AdminCtrl.deleteEmployee: deleting employee by email: " + email);
+		userService.removeEmployee(email);
+		System.out.println(" \n====== AdminCtrl.deleteEmployee: userService ran");
 	}
 
 	@RequestMapping(value="admin/recruiter/{email}/{lastname}/{firstname}", method = RequestMethod.POST)
 	public void initRecruiter(@PathVariable String email, @PathVariable String lastname, @PathVariable String firstname) {
-		userService.createRecruiter(email, lastname, firstname);
+		System.out.println(" \n-------------- AdminController.initRecruiter: reached an endpoint...initRecruiter\n");
+		String pass = userService.createRecruiter(email, lastname, firstname);
+		System.out.println(" \n-------------- AdminController.initRecruiter: userService should have run...\n");
+		System.out.println("Email being sent to: " + email);
+		boolean mailSentSuccess = mailService.sendTempPassword(email, pass);
+		System.out.println(" \n-------------- AdminController.initRecruiter: Email sent? " + mailSentSuccess);
 	}
 	
 	@RequestMapping(value="admin/trainer/{email}/{lastname}/{firstname}", method = RequestMethod.POST)
 	public void initTrainer(@PathVariable String email, @PathVariable String lastname, @PathVariable String firstname) {
-		userService.createTrainer(email, lastname, firstname);
+		System.out.println(" \n-------------- AdminController.initTrainer: reached an endpoint...");
+		String pass = userService.createTrainer(email, lastname, firstname);
+		System.out.println(" \n-------------- AdminController.initTrainer: userService should have run...");
+	
+		boolean mailSentSuccess = mailService.sendTempPassword(email, pass);
+		System.out.println(" \n-------------- AdminController.initTrainer: Email sent? " + mailSentSuccess);
 	}
 	
 	/**
-
 	 * This method creates a superuser for the system that can 
 	 *   create recruiter and trainer accounts.
 	 * This endpoint is currently disabled after creating the superuser
