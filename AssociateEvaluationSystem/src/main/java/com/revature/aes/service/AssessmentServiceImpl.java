@@ -10,6 +10,8 @@ import com.revature.aes.dao.AssessmentDAO;
 import com.revature.aes.grading.AssessmentGrader;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -40,17 +42,20 @@ public class AssessmentServiceImpl implements AssessmentService {
 	}
 
 	@Override
-	public Assessment findByUser(User user) {
-		return assDAO.findByUser(user);
+	public List<Assessment> findByUser(User user) {
+		return (List<Assessment>)assDAO.findByUser(user);
 	}
 
 	@Override
 	public Integer findGradeByUser(User user) {
-		Assessment asmt = assDAO.findByUser(user);
+		List<Assessment> asmt = assDAO.findByUser(user);
 		log.info(asmt.toString());
-		if(asmt != null)
-			return assDAO.findByUser(user).getGrade();
-		else return null;
+		if (!asmt.isEmpty()) {
+			Assessment as = Collections.max(asmt, Comparator.comparing(a -> a.getFinishedTimeStamp()));
+			return as.getGrade();
+		}else {
+			return null;
+		}
 	}
 
 	@Override

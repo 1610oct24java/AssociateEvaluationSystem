@@ -319,7 +319,7 @@ app.controller('QuestionCtrl', function($http, $scope) {
 			$scope.currentQuestion = response.data;
 			$scope.getQuestion($scope.currentQuestion);
 			var length = $scope.qList.length;
-			for(let i=0;i<length;i++){
+			for(var i=0;i<length;i++){
 				if($scope.currentQuestion.questionId == $scope.qList[i].questionId){
 					$scope.qList[i]=$scope.currentQuestion;
 					break;
@@ -334,7 +334,7 @@ app.controller('QuestionCtrl', function($http, $scope) {
 			$scope.currentQuestion = response.data;
 			$scope.getQuestion($scope.currentQuestion)
 			var length = $scope.qList.length;
-			for(let i=0;i<length;i++){
+			for(var i=0;i<length;i++){
 				if($scope.currentQuestion.questionId == $scope.qList[i].questionId){
 					$scope.qList[i]=$scope.currentQuestion;
 					break;
@@ -350,7 +350,7 @@ app.controller('QuestionCtrl', function($http, $scope) {
 			$scope.currentQuestion = response.data;
 			$scope.getQuestion($scope.currentQuestion)
 			var length = $scope.qList.length;
-			for(let i=0;i<length;i++){
+			for(var i=0;i<length;i++){
 				if($scope.currentQuestion.questionId == $scope.qList[i].questionId){
 					$scope.qList[i]=$scope.currentQuestion;
 					$scope.newOption = "";
@@ -368,7 +368,7 @@ app.controller('QuestionCtrl', function($http, $scope) {
 			$scope.currentQuestion = response.data;
 			$scope.getQuestion($scope.currentQuestion)
 			var length = $scope.qList.length;
-			for(let i=0;i<length;i++){
+			for(var i=0;i<length;i++){
 				if($scope.currentQuestion.questionId == $scope.qList[i].questionId){
 					$scope.qList[i]=$scope.currentQuestion;
 					$scope.newDragDrop = "";
@@ -409,7 +409,7 @@ app.controller('QuestionCtrl', function($http, $scope) {
 			$scope.currentQuestion = response.data;
 			$scope.getQuestion($scope.currentQuestion)
 			var length = $scope.qList.length;
-			for(let i=0;i<length;i++){
+			for(var i=0;i<length;i++){
 				if($scope.currentQuestion.questionId == $scope.qList[i].questionId){
 					$scope.qList[i]=$scope.currentQuestion;
 					break;

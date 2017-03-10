@@ -2,6 +2,8 @@ package test;
 
 import static org.junit.Assert.*;
 
+import java.util.concurrent.TimeUnit;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -11,6 +13,8 @@ import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import pages.AdminEmployeeViewPage;
+import pages.CandidateViewPage;
 import pages.LoginPage;
 
 public class LoginTest {
@@ -35,21 +39,37 @@ public class LoginTest {
 
 	@After
 	public void tearDown() throws Exception {
+		driver.close();
 	}
 
 	@Test
-	public void loginTest() {
+	public void recruiterLoginTest() {
 		loginPage = new LoginPage(driver);
 		loginPage.loginToAES("nickolas.jurczak@revature.com", "password");
+		CandidateViewPage cvp = new CandidateViewPage(driver);
+		explicitWait(5);
+		assertEquals("AES | Recruiter Home", cvp.getTitle());
+	}
+	
+	@Test
+	public void adminLoginTest() {
+		loginPage = new LoginPage(driver);
+		loginPage.setEmail("trainers@revature.com");
+		loginPage.setPassword("password");
+		loginPage.clickLogin();
+		AdminEmployeeViewPage aevp = new AdminEmployeeViewPage(driver);
+		explicitWait(5);
+		assertEquals("AES | Admin Home", aevp.getTitle());
 		
+	}
+	
+	private void explicitWait(int seconds) {
 		try {
-			// Make sure login is successful
-			Thread.sleep(1000);
-			assertEquals("AES | Recruiter Home", loginPage.getTitle());	
+			Thread.sleep(seconds * 1000);	
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} finally {
-			driver.close();
+			
 		}
 	}
 }
