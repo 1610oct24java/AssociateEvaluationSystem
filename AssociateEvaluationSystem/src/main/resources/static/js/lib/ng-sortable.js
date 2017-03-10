@@ -120,12 +120,10 @@
         isTouchInvalid: function (event) {
 
           var touchInvalid = false;
-          if (event.touches !== undefined && event.touches.length > 1) {
-            touchInvalid = true;
-          } else if (event.originalEvent !== undefined &&
-            event.originalEvent.touches !== undefined && event.originalEvent.touches.length > 1) {
-            touchInvalid = true;
-          }
+          if (event.touches !== undefined && event.touches.length > 1 || event.originalEvent !== undefined &&
+              event.originalEvent.touches !== undefined && event.originalEvent.touches.length > 1) {
+        	  touchInvalid = true;
+          } 
           return touchInvalid;
         },
 
