@@ -213,4 +213,10 @@ public class UserServiceImpl implements UserService {
 		dao.delete(dao.findByEmail(email));
 	}
 
+	@Override
+	public User updateEmployee(User user, String email) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
