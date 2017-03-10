@@ -77,9 +77,6 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 		urlSpecific = urlSpecific + "/" + employeeInfo.email 
 		+ "/" + employeeInfo.lastName + "/" + employeeInfo.firstName
 		
-		console.log(urlSpecific + " testing url" + employeeInfo.role);
-		
-
 		$scope.postRegister(urlSpecific, employeeInfo);
 		
 		$scope.firstName = '';
@@ -89,10 +86,6 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 	};
 
 	$scope.postRegister = function(urlSpecific, employeeInfo) {
-		console.log("adminApp.js: POST REGISTER EMPLOYEE");
-		console.log("url"+urlSpecific );
-		console.log("employeeinfo"+employeeInfo);
-
 		$http({
 			method  : 'POST',
 			url: urlSpecific,
@@ -164,12 +157,11 @@ adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_UR
 	//Delete user
 	 $scope.Delete = function (email) {
 	        url = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEES + "/Delete/" + email + "/";
-	        console.log("THE URL IS " + url);
 	        $http.delete(url)
 	        .then(function (response) {
-	            console.log(response);
+	        	//Removed console log for sonar cube.
 	        }, function (error) {
-	            console.log(error);
+	        	//Removed console log for sonar cube.
 	        });
 	    }
 	
