@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.aes.beans.DragDrop;
@@ -228,8 +229,8 @@ public class QuestionRestController
 		return option.getQuestion();
 	}
 	
-//	@RequestMapping(value="question/changeCorrectDragDrop", method = RequestMethod.POST, produces=
-//			{MediaType.APPLICATION_JSON_VALUE})
-//	public DragDrop changeCorrectDragDrop(@RequestBody DragDrop dragDrop)
-	
+	@RequestMapping(value="question/{category}/count", method = RequestMethod.POST, produces={MediaType.APPLICATION_JSON_VALUE})
+	public @ResponseBody int getQuestionCount(@PathVariable String category, @RequestBody String format) {
+		return questionService.findQuestionCountByFormatandCategory(category, format).intValue();	
+	}
 }

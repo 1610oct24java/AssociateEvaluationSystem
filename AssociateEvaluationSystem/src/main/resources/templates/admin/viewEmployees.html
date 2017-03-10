@@ -6,6 +6,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 
 <link rel="icon" type="img/png" href="site-images/favicon_192.png">	
+<!-- Google icon for trash can -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <!-- Optional theme -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
@@ -20,13 +22,18 @@
 <div class="container">
 	<div class="container logo">
 		<a href="index.html">
-			<img src="site-images/Revature-Logo.png" alt="Revature" height="75px">
+			<img src="images/Revature-Logo.png" alt="Revature" height="75px">
 		</a>
 	</div>
 	
 	<div class="row stylePro">
 		<span class="col-xs-6 col-md-6">
-			<a href="recruit">Register Employee</a>
+			<a href="registerEmployee">Register Employee</a>
+
+		</span>
+		<span class="col-xs-6 col-md-6">
+			<a href="updateCredentials">Update Employee</a>
+
 		</span>
 		<span class="col-xs-6 col-md-6">
 			<button id="logout" class="btn-revature" ng-click="logout()">logout</button>
@@ -52,18 +59,30 @@
 		<caption>Employee List</caption>
 		<thead>
 			<tr>
+
+			     <th><input type="checkbox" ng-model="selectedAll" ng-click="checkAll()" /></th>
 				<th>FirstName</th>
 				<th>LastName</th>
 				<th>Email</th>
 				<th>Role</th>
+				
 			</tr>
 		</thead>
 		<tbody>
+
+		
+			
 			<tr ng-repeat="employee in employees | orderBy: sortorder | filter: employeeSearch">
+				<td>
+                <input type="checkbox" ng-model="employee.selected"/></td>
 				<td>{{employee.firstName}}</td>
 				<td>{{employee.lastName}}</td>
 				<td>{{employee.email}}</td>
-				<td>{{employee.role.roleTitle}}</td>
+				<td>{{employee.role.roleTitle}}
+				<button style="font-size:24px" ng-click="Delete(employee.email)" margin-left:auto;> <i class="fa fa-trash"></i></button>
+	<button type="button" ng-click=" " >Update</button>
+	</td>
+
 			</tr>
 		</tbody>
 	</table>

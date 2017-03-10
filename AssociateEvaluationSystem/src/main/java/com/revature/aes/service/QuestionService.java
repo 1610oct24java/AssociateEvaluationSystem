@@ -1,5 +1,6 @@
 package com.revature.aes.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.revature.aes.beans.Category;
@@ -27,9 +28,9 @@ public interface QuestionService {
 	
 	public Question getQuestionByOption(Option opt);
 	
-	//////////////////////////////
 	public List<Question> findQuestionByQuestionId(int id);
-	/////////////////////////////////
-//	public Question getQuestionByOptionId(Integer id);
 
+	public List<BigDecimal> findIdsByFormatAndCategory(String category, String format);
+
+	public BigDecimal findQuestionCountByFormatandCategory(String category, String format);
 }
