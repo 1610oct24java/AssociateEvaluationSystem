@@ -62,8 +62,7 @@ public class AdminController {
 	public List<User> getEmployees(){
 		
 
-		List<User> users = new ArrayList<User>();
-		users=userService.findAllUsers();
+		List<User> users = userService.findAllUsers();
 		
 		//users = userService.findUsersByRole("recruiter");
 		//users.addAll(userService.findUsersByRole("trainer"));
