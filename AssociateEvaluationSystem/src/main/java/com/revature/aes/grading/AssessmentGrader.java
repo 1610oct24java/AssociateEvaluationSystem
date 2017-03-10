@@ -118,7 +118,7 @@ public class AssessmentGrader {
 			}
 		}
 		
-
+		//Saving for later in case of complications
 		//Grade questions
 /*		for(int key: userDataMap.keySet()){
 			itemWeight = templateDataMap.get(key).getWeight();
@@ -232,6 +232,7 @@ public class AssessmentGrader {
 			}
 		}
 
+		//Saving for later in case of complications
 		/*for(int key: userDataMap.keySet()){
 			System.out.println("At key: " + key);
 			System.out.println("TemplateDataMap: " + templateDataMap);
@@ -316,6 +317,7 @@ public class AssessmentGrader {
 			//result[1] = result[1]+itemWeight;
 		}
 		
+		//Saving for later in case of complications
 /*		for(int key: userDataMap.keySet()){
 			String userFileName = userDataMap.get(key).getFileUrl();
 			log.info(" userFileName: " + userFileName);
