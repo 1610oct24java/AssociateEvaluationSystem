@@ -226,9 +226,11 @@ public class AssessmentGrader {
 					//result[1] = result[1]+itemWeight;
 					log.info("out of " + countOptions + " options " + countCorrect +" were correct");
 				}
-				
+<<<<<<< HEAD
+				}
+=======
+>>>>>>> b625c506f001f57c716ba37798baae032d4183af
 			}
-			
 			catch(ArithmeticException e){
 				log.stackTraceLogging(e);
 			}
@@ -261,7 +263,11 @@ public class AssessmentGrader {
 					//result[1] = result[1]+itemWeight;
 					log.info("out of " + countOptions + " options " + countCorrect +" were correct");
 				}
+<<<<<<< HEAD
 				}
+				}
+=======
+>>>>>>> b625c506f001f57c716ba37798baae032d4183af
 			}
 			catch(ArithmeticException e){
 				log.stackTraceLogging(e);

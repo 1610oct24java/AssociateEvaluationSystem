@@ -2,6 +2,7 @@ package com.revature.aes.dao;
 
 import com.revature.aes.beans.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.revature.aes.beans.Assessment;
@@ -45,5 +46,7 @@ public interface AssessmentDAO extends JpaRepository<Assessment, Integer> {
 	 */
 	public Integer findGradeByUser(User user);
 
+	@Query("Select new Assessment(a.grade, a.timeLimit, a.createdTimeStamp, a.finishedTimeStamp) From Assessment a "
+			+ "Where a.user = ?1")
 	public List<Assessment> findAssessmentsByUser(User usr);
 }
