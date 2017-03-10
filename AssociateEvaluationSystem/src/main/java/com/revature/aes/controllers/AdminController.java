@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.revature.aes.beans.User;
+import com.revature.aes.beans.UserUpdateHolder;
 import com.revature.aes.locator.MailServiceLocator;
 import com.revature.aes.logging.Logging;
 import com.revature.aes.service.RestServices;
@@ -64,15 +66,24 @@ public class AdminController {
 		users = userService.findAllUsers();
 		return users;
 	}
+	
+	/**
+	 * This method removes the indexed user from the database
+	 * 
+	 * @author Delete operation by Hajira Zahir
+	 * 
+	 * @param email
+	 * 		The email of this recruiter
+	 * @param index
+	 * 		The index of this user in the list returned by
+	 * getCandidates
+	 */
 	//Delete operation by Hajira Zahir
 	@RequestMapping(value="/admin/employees/Delete/{email}/", method= RequestMethod.DELETE)
-	public Map<String,String> deleteEmployee(@PathVariable String email){
-		 System.out.println("testing " + email);
-		 Map<String, String> map = new HashMap<>();
-		 userService.removeEmployee( email);
-		 String message=email;
-		 map.put(message, email);
-		 return map;
+	public void deleteEmployee(@PathVariable String email){
+		System.out.println(" \n====== AdminCtrl.updateEmployee: update employee by email: " + email);
+		userService.removeEmployee(email);
+		System.out.println(" \n====== AdminCtrl.updateEmployee: userService ran update");
 	}
 	
 
@@ -85,26 +96,27 @@ public class AdminController {
 	 * 		The updated user object
 	 */
 	@RequestMapping(value="admin/employees/Update/{email}/", method= RequestMethod.PUT)
-	public void updateEmployee(@PathVariable String email, @RequestBody User user){
+	public Map<String, Object> updateEmployee(@PathVariable String email, @RequestBody UserUpdateHolder userUpdate)
+			throws JsonProcessingException{
 		System.out.println(" \n====== AdminCtrl.updateEmployee: update employee by email: " + email);
-		userService.updateEmployee(user, email);
+		User currentUser = userService.findUserByEmail(email);
+		boolean success = userService.updateEmployee(currentUser, userUpdate);
 		System.out.println(" \n====== AdminCtrl.updateEmployee: userService ran update");
-	}
-	
-	/**
-	 * This method removes the indexed user from the database
-	 * 
-	 * @param email
-	 * 		The email of this recruiter
-	 * @param index
-	 * 		The index of this user in the list returned by
-	 * getCandidates
-	 */
-	@RequestMapping(value="admin/employees/Delete/{email}/", method= RequestMethod.DELETE)
-	public void deleteEmployee(@PathVariable String email){
-		System.out.println(" \n====== AdminCtrl.deleteEmployee: deleting employee by email: " + email);
-		userService.removeEmployee(email);
-		System.out.println(" \n====== AdminCtrl.deleteEmployee: userService ran");
+		
+		Map<String, Object> responseMap = new HashMap<String, Object>();
+		String responseMessage = "default";
+		
+		if (success)
+		{
+			responseMessage = "Credentials Successfully Updated! :)";
+		
+		}else {
+			responseMessage = "Credentials Failed to Update! :(";
+		}
+		
+		responseMap.put("message", responseMessage);
+		
+		return responseMap;
 	}
 
 	@RequestMapping(value="admin/recruiter/{email}/{lastname}/{firstname}", method = RequestMethod.POST)

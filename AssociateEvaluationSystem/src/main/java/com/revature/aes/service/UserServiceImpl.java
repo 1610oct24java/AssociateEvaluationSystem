@@ -10,7 +10,9 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 
+import com.revature.aes.beans.Security;
 import com.revature.aes.beans.User;
+import com.revature.aes.beans.UserUpdateHolder;
 import com.revature.aes.dao.UserDAO;
 import com.revature.aes.logging.Logging;
 
@@ -192,14 +194,51 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User updateEmployee(User updatedUser, String email) {
+	public boolean updateEmployee(User currentUser, UserUpdateHolder updatedUser) {
 		
-		User currentUser = dao.findByEmail(email);
-		currentUser.setEmail(updatedUser.getEmail());
-		currentUser.setFirstName(updatedUser.getFirstName());
-		currentUser.setLastName(updatedUser.getLastName());
-		dao.save(currentUser);
-		return null;
+		SimpleDateFormat fmt = new SimpleDateFormat(PATTERN);
+		Security userSecure = security.findSecurityByUserId(currentUser.getUserId());
+		boolean correctPassword = security.checkCorrectPassword(updatedUser.getOldPassword(), userSecure);
+		boolean success = false;
+		
+		if (correctPassword)
+		{
+			if (!updatedUser.getNewEmail().isEmpty() && updatedUser.getNewEmail() != null)
+				currentUser.setEmail(updatedUser.getNewEmail());
+			
+			if (!updatedUser.getFirstName().isEmpty() && updatedUser.getFirstName() != null)
+				currentUser.setFirstName(updatedUser.getFirstName());
+			
+			if (!updatedUser.getLastName().isEmpty() && updatedUser.getLastName() != null)
+				currentUser.setLastName(updatedUser.getLastName());
+			
+			if (!updatedUser.getNewPassword().isEmpty() && updatedUser.getNewPassword() != null)
+			{
+				currentUser.setDatePassIssued(fmt.format(new Date()));
+				
+				userSecure.setPassword(updatedUser.getNewPassword());
+				security.updateSecurity(userSecure);
+			
+			}else {
+				try {
+					Date oldPassDate = fmt.parse(currentUser.getDatePassIssued());
+					currentUser.setDatePassIssued(fmt.format(oldPassDate));
+				}catch (ParseException e) {
+					System.out.println("UserServiceImpl.updateEmployee: ERROR IN PARSING DATE-PASS-ISSUED");
+					e.printStackTrace();
+				}finally {
+					currentUser.setDatePassIssued(fmt.format(new Date()));
+				}
+			}
+				
+			dao.save(currentUser);
+			success = true;
+		
+		}else {
+			success = false;
+		}
+		
+		return success;
 	}
 
 	@Override

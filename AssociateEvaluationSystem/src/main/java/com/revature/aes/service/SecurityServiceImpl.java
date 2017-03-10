@@ -5,6 +5,7 @@ import com.revature.aes.beans.User;
 import com.revature.aes.dao.SecurityDao;
 import com.revature.aes.encoder.MyEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -75,6 +76,7 @@ public class SecurityServiceImpl implements SecurityService {
 
 	@Override
 	public void updateSecurity(Security security) {
+		security.setPassword(MyEncoder.encodePassword(security.getPassword()));
 		dao.save(security);
 	}
 
@@ -124,4 +126,16 @@ public class SecurityServiceImpl implements SecurityService {
 		
 		return pass;
 	}
+	
+	public boolean checkCorrectPassword(String enteredPass, Security security){
+    	
+    	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    	String dbPassword = security.getPassword();
+
+    	if (passwordEncoder.matches(enteredPass, dbPassword)) {
+    	    return true;
+    	} else {
+    	    return false;
+    	}
+    }
 }
