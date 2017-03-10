@@ -62,8 +62,9 @@ public class AdminController {
 	
 	@RequestMapping(value="/admin/employees", method= RequestMethod.GET)
 	public List<User> getEmployees(){
-		List<User> users = new ArrayList<>();
-		users = userService.findAllUsers();
+
+		List<User> users = userService.findAllUsers();
+
 		return users;
 	}
 	
