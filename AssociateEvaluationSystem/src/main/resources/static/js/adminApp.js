@@ -7,8 +7,8 @@ adminApp.constant("SITE_URL", {
 	"PORT" : ":8080",
 	
 	"LOGIN": "index",
-	"VIEW_EMPLOYEES" : "viewEmployees",
-	"REGISTER_EMPLOYEE" : ""
+    "VIEW_EMPLOYEES" : "viewEmployees",
+    "REGISTER_EMPLOYEE" : ""
 });
 
 adminApp.constant("API_URL", {
@@ -32,7 +32,6 @@ adminApp.constant("ROLE", {
 });
 
 adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE_URL, API_URL, ROLE) {
-
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
 		if (response.data.authenticated) {
@@ -125,14 +124,10 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 		})
 	}
 
+
 }); //end register Employee controller
 
 adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_URL, ROLE) {
-
-	
-	
-	
-	
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
 		if (response.data.authenticated) {
@@ -195,12 +190,12 @@ adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_UR
 });
 
 function makeUser($scope) {
-	var user = {
-				username: $scope.username,
-				password: $scope.password
-	};
+    var user = {
+        username: $scope.username,
+        password: $scope.password
+    };
 
-	$scope.user = user;
+    $scope.user = user;
 }
 
 adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_URL, API_URL, ROLE) {
