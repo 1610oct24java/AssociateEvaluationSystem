@@ -32,7 +32,7 @@ public interface AssessmentDAO extends JpaRepository<Assessment, Integer> {
 	 * @return
 	 * The assessment associated with that user
 	 */
-	public Assessment findByUser(User usr);
+	public List<Assessment> findByUser(User usr);
 	/**
 	 * This method finds the grade that a particular
 	 * user got on a given assessment.

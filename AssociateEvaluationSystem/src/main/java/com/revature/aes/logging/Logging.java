@@ -33,7 +33,7 @@ public class Logging {
 		log.info(methodClass + " ==> " + method);
 		Object[] args = pjp.getArgs();
 		for(int i = 0; i < args.length; i++){
-			log.info("Argumetnt #"+i+": "+args[i]);
+			log.info("Argument #"+i+": "+args[i]);
 		}
 
 		log.info("Executing...");
@@ -41,8 +41,8 @@ public class Logging {
 		try{
 			result = pjp.proceed();
 		} catch(Exception e){
+			log.error(e.toString());
 			log.error("\t" + e.getClass() + " " + e.getMessage());
-			log.info(e.toString());
 
 			for(StackTraceElement st : e.getStackTrace()){
 				log.error("\t\t" + st.getMethodName());

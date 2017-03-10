@@ -7,8 +7,8 @@ adminApp.constant("SITE_URL", {
 	"PORT" : ":8080",
 	
 	"LOGIN": "index",
-	"VIEW_EMPLOYEES" : "viewEmployees",
-	"REGISTER_EMPLOYEE" : ""
+    "VIEW_EMPLOYEES" : "viewEmployees",
+    "REGISTER_EMPLOYEE" : ""
 });
 
 adminApp.constant("API_URL", {
@@ -17,8 +17,8 @@ adminApp.constant("API_URL", {
 	"LOGOUT"    : "/logout",
 	"AUTH"      : "/security/auth",
 	"CANDIDATE" : "/candidate/",
-	"RECRUITER" : "/recruiter/",
-	"TRAINER"	: "/trainer/",
+	"RECRUITER" : "/recruiter",
+	"TRAINER"	: "/trainer",
 	"LINK"      : "/link",
 	"EMPLOYEES" : "/employees",
 	"ADMIN"		: "/admin"
@@ -32,7 +32,6 @@ adminApp.constant("ROLE", {
 });
 
 adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE_URL, API_URL, ROLE) {
-
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
 		if (response.data.authenticated) {
@@ -48,6 +47,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 			window.location = SITE_URL.LOGIN;
 		}
 	})
+	$scope.names =["Recruiter"];
 	
 	$scope.register = function() {
 
@@ -58,23 +58,27 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 			lastName      : $scope.lastName,
 			salesforce    : null,
 			recruiterId   : null,
-			role          : $scope.employeeType.value,
+			role          : "Recruiter",  //$scope.employeeType.value,
 			datePassIssued: null,
 			format		  : null
 		};
 
-		var urlSpecific = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN;
+		var urlSpecific = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.RECRUITER;
 		
-		if (employeeInfo.role === "Recruiter")
+		//Maybe used in the future
+		/*if (employeeInfo.role === "Recruiter")
 		{
 			urlSpecific = urlSpecific + API_URL.RECRUITER;
 		}else if (employeeInfo.role === "Trainer")
 		{
 			urlSpecific = urlSpecific + API_URL.TRAINER;
-		}
+		}*/
 		
-		urlSpecific = urlSpecific + employeeInfo.email 
+		urlSpecific = urlSpecific + "/" + employeeInfo.email 
 		+ "/" + employeeInfo.lastName + "/" + employeeInfo.firstName
+		
+		console.log(urlSpecific + " testing url" + employeeInfo.role);
+		
 
 		$scope.postRegister(urlSpecific, employeeInfo);
 		
@@ -85,26 +89,32 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 	};
 
 	$scope.postRegister = function(urlSpecific, employeeInfo) {
-		
+		console.log("adminApp.js: POST REGISTER EMPLOYEE");
+		console.log("url"+urlSpecific );
+		console.log("employeeinfo"+employeeInfo);
+
 		$http({
 			method  : 'POST',
 			url: urlSpecific,
 			headers : {'Content-Type' : 'application/json'},
 			data    : employeeInfo
+
 		}).success( function(res) {
 			//Removed console log for sonar cube.
 		}).error( function(res) {
 			//Removed console log for sonar cube.
+
 		});
 	};
 
-	$scope.options = [{
+
+	/*$scope.options = [{
 		name: 'Recruiter',
 		value: 'Recruiter'
 	}, {
 		name: 'Trainer',
 		value: 'Trainer'
-	}];
+	}];*/
 	
 	$scope.logout = function() {
 		$http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
@@ -114,14 +124,10 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 		})
 	}
 
-}); //end register candidate controller
+
+}); //end register Employee controller
 
 adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_URL, ROLE) {
-
-	
-	
-	
-	
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
 		if (response.data.authenticated) {
@@ -132,7 +138,6 @@ adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_UR
 			$scope.authUser = authUser;
 			if($scope.authUser.authority != ROLE.ADMIN) {
 				window.location = SITE_URL.LOGIN;
-				console.log("Not an Admin");
 			}
 			
 			$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEES)
@@ -144,6 +149,7 @@ adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_UR
 			window.location = SITE_URL.LOGIN;
 		}
 	})
+	    
 	
 	
 	
@@ -153,23 +159,44 @@ adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_UR
 			//Removed console log for sonar cube.
 			window.location = SITE_URL.LOGIN;
 		})
-	}
+	};
+	//By Hajira Zahir
+	//Delete user
+	 $scope.Delete = function (email) {
+	        url = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEES + "/Delete/" + email + "/";
+	        console.log("THE URL IS " + url);
+	        $http.delete(url)
+	        .then(function (response) {
+	            console.log(response);
+	        }, function (error) {
+	            console.log(error);
+	        });
+	    }
+	
+
+
+      //added by Hajira Zahir
+      $scope.checkAll = function () {
+          if (!$scope.selectedAll) {
+              $scope.selectedAll = true;
+          } else {
+              $scope.selectedAll = false;
+          }
+          angular.forEach($scope.employees, function (employees) {
+        	  employees.selected = $scope.selectedAll;
+          });
+      };   
 	
 });
 
-
-		
-
 function makeUser($scope) {
-	var user = {
-				username: $scope.username,
-				password: $scope.password
-	};
+    var user = {
+        username: $scope.username,
+        password: $scope.password
+    };
 
-	$scope.user = user;
+    $scope.user = user;
 }
-
-
 
 adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_URL, API_URL, ROLE) {
 
@@ -198,12 +225,12 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 			lastName      : $scope.lastName,
 			salesforce    : null,
 			recruiterId   : null,
-			role          : $scope.employeeType.value,
+			//role          : "Recruiter",//$scope.employeeType.value,
 			datePassIssued: null,
 			format		  : null
 		};
 
-		var urlSpecific = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN;
+		var urlSpecific = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.RECRUITER;
 		
 		if (employeeInfo.role === "Recruiter")
 		{
@@ -227,7 +254,7 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 	$scope.postRegister = function(urlSpecific, employeeInfo) {
 		
 		$http({
-			method  : 'POST',
+			method  : 'PUT',
 			url: urlSpecific,
 			headers : {'Content-Type' : 'application/json'},
 			data    : employeeInfo
