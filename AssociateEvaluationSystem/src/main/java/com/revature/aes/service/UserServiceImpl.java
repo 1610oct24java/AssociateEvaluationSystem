@@ -201,9 +201,13 @@ public class UserServiceImpl implements UserService {
 		dao.save(currentUser);
 		return null;
 	}
-
+   
+	
+	//added by hajira zahir
+	 
 	@Override
 	public void removeEmployee(String email) {
 		dao.delete(dao.findByEmail(email));
 	}
+
 }
