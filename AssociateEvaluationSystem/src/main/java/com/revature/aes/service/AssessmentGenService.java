@@ -12,12 +12,16 @@ import com.revature.aes.beans.Option;
 import com.revature.aes.beans.Question;
 import com.revature.aes.exception.AikenSyntaxException;
 import com.revature.aes.exception.InvalidFileTypeException;
+import com.revature.aes.logging.Logging;
 import com.revature.aes.parsers.AikenParser;
 import com.revature.aes.parsers.CSVParser;
 
 @Component
 public class AssessmentGenService {
 	private MultipartFile file;
+	
+	@Autowired
+	Logging log;
 	
 	@Autowired
 	private QuestionService service;
@@ -57,7 +61,7 @@ public class AssessmentGenService {
 		
 		for(Question q : questionsMap.keySet()){
 			// These two lines actually persist the question to the database...
-			System.out.println("Ass Question: " + q);
+			log.debug("Ass Question: " + q);
 			q.setOption(questionsMap.get(q));
 	    	
 	    	service.addQuestion(q);

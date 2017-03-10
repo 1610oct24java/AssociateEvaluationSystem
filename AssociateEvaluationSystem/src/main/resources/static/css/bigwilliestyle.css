@@ -67,6 +67,11 @@ input {
 	color: #474C55;
 }
 
+.clicked {
+    -ms-transform: rotate(180deg); /* IE 9 */
+    -webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
+    transform: rotate(180deg);
+}
 /*------------------------------------------------------------------------------
 COLOR GUIDE
 

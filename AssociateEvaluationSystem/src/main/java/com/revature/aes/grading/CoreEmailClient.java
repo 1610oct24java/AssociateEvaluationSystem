@@ -50,6 +50,7 @@ public class CoreEmailClient {
 			return true;
 
 		} catch (Exception e) {
+			log.stackTraceLogging(e);
 			return false;
 		}
 	}

@@ -11,7 +11,9 @@ app.constant("SITE_URL", {
 	"REGISTER_CANDIDATE" : "",
 	"VIEW_EMPLOYEES" : "viewEmployees",
 	
-	"TRAINER_HOME" : "http://sports.cbsimg.net/images/nhl/blog/Ryan_Reaves_Kiss.JPG"
+	"TRAINER_HOME" : "",
+
+    "REGISTER_EMPLOYEE" : ""
 	
 });
 
@@ -328,4 +330,5 @@ function makeUser($scope) {
 
 	$scope.user = user;
 }
+
 
