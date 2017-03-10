@@ -12,6 +12,16 @@ body {
     border-radius: 10px;
 }
 
+.form-revatureAssessment {
+    max-width: 1000px;
+    padding: 30px;
+    margin: auto;
+    background: #B9B9BA;
+    color: #474C55;
+    border: none;
+    border-radius: 10px;
+}
+
 .form-revature, div {
     margin: 10px;
 }
