@@ -27,6 +27,7 @@ public class MailService {
 	
     public Boolean sendEmail(SimpleMailMessage msg) {	
 
+    	
         try{
         	mailSender.send(msg); 
         	return true;

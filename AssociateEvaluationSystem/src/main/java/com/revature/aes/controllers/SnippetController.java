@@ -38,7 +38,9 @@ public class SnippetController {
 				}
 				return true;
 			}finally{
-				fileWriter.close();
+				if(fileWriter != null){
+					fileWriter.close();
+				}
 			}
 		}
 		 catch (IOException e) {

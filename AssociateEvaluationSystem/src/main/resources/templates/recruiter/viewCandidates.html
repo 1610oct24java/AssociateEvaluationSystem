@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>AES | Recruiter Home</title>
 
-<link rel="icon" type="img/png" href="site-images/favicon_192.png">	
+<link rel="icon" type="img/png" href="images/favicon_192.png">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <!-- Optional theme -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
@@ -13,12 +13,12 @@
 
 <link rel="stylesheet" href="css/bigwilliestyle.css">
 </head>
-<body ng-app="AESCoreApp" ng-controller="CandidateViewCtrl">
+<body ng-app="AESCoreApp" ng-controller="CandidateCtrl">
 
 <div class="container">
 	<div class="container logo">
-		<a href="index.html">
-			<img src="site-images/Revature-Logo.png" alt="Revature" height="75px">
+		<a href="../login/index.html">
+			<img src="images/Revature-Logo.png" alt="Revature" height="75px">
 		</a>
 	</div>
 	
@@ -30,10 +30,6 @@
 			<button id="logout" class="btn-revature" ng-click="logout()">logout</button>
 		</span>
 	</div>
-
-
-
-
 
 	<div class="row">
 	
@@ -47,11 +43,32 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="candidate in candidates">
+			<tr ng-repeat-start="candidate in candidates" ng-click="expandd(candidate)">
 				<td>{{candidate.lastName + ', ' + candidate.firstName}}</td>
 				<td>{{candidate.email}}</td>
 				<td>{{candidate.grade}}</td>
+				<td style="text-align:center;"><span class="glyphicon glyphicon-chevron-down" ng-class="{clicked:candidate.expanded}"></span></td>
 			</tr>
+			<tr ng-if="candidate.expanded" ng-repeat-end="">
+				<td colspan="4">
+					<table ng-if="assessments.length != 0" class="table table-striped table-bordered">
+						<thead> 
+							<th>Start</th>
+							<th>Finish</th>
+							<th>Time Limit</th>
+							<th>Score</th>
+						</thead>
+						<tbody>
+			            	<tr ng-repeat="a in assessments">
+								<td>{{a.createdTimeStamp}}</td>
+								<td>{{a.finishedTimeStamp}}</td>
+								<td>{{a.timeLimit}}</td>
+								<td>{{a.grade}}</td>
+			            	</tr>
+		            	</tbody>
+	            	</table>
+            	</td>
+          	</tr>
 		</tbody>
 	</table>
 	
@@ -61,5 +78,6 @@
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.9/angular.js"></script>
 <script type="text/javascript" src="js/app.js"></script>
+<script type="text/javascript" src="js/controllers/CandidateCtrl.js"></script>
 </body>
 </html>

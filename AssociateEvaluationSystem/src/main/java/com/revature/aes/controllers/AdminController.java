@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.revature.aes.beans.User;
+import com.revature.aes.beans.UserUpdateHolder;
 import com.revature.aes.locator.MailServiceLocator;
 import com.revature.aes.logging.Logging;
 import com.revature.aes.service.RestServices;
@@ -52,8 +54,7 @@ public class AdminController {
 	 * This method gets a list of candidates who reference
 	 * this recruiter.
 	 * 
-	 * @param email
-	 * 		the email of this recruiter
+	 *
 	 * @return 
 	 * 		the list of users this recruiter added
 	 */
@@ -61,50 +62,14 @@ public class AdminController {
 	
 	@RequestMapping(value="/admin/employees", method= RequestMethod.GET)
 	public List<User> getEmployees(){
-		
-
-		List<User> users = new ArrayList<User>();
-		users=userService.findAllUsers();
-		
-		//users = userService.findUsersByRole("recruiter");
-		//users.addAll(userService.findUsersByRole("trainer"));
-		
-
+		List<User> users = userService.findAllUsers();
 		return users;
-	}
-	//Delete operation by Hajira Zahir
-	@RequestMapping(value="/admin/employees/Delete/{email}/", method= RequestMethod.DELETE)
-	public Map<String,String> deleteEmployee(@PathVariable String email)
-	{
-		 System.out.println("testing " + email);
-		 Map<String, String> map = new HashMap<>();
-		 userService.removeEmployee( email);
-		 String message=email;
-		 map.put(message, email);
-		 return map;
-	}
-	
-
-	/**
-	 * This method changes details about a user in the database.
-	 * 
-	 * @param email
-	 * 		The email of this recruiter
-	 * @param index
-	 * 		The candidate at the index of the list returned
-	 * 		by getCandidates that needs updating 
-	 * @param candidate
-	 * 		The updated user object
-	 * @return
-	 * 		The newly saved User object
-	 */
-	@RequestMapping(value="admin/employees/Update/{email}/", method= RequestMethod.PUT)
-	public User updateEmployee(@PathVariable String email, @RequestBody User user){
-		return userService.updateEmployee(user, email);
 	}
 	
 	/**
 	 * This method removes the indexed user from the database
+	 * 
+	 * @author Delete operation by Hajira Zahir
 	 * 
 	 * @param email
 	 * 		The email of this recruiter
@@ -112,27 +77,68 @@ public class AdminController {
 	 * 		The index of this user in the list returned by
 	 * getCandidates
 	 */
+	//Delete operation by Hajira Zahir
+	@RequestMapping(value="/admin/employees/Delete/{email}/", method= RequestMethod.DELETE)
+	public void deleteEmployee(@PathVariable String email){
+		System.out.println(" \n====== AdminCtrl.updateEmployee: update employee by email: " + email);
+		userService.removeEmployee(email);
+		System.out.println(" \n====== AdminCtrl.updateEmployee: userService ran update");
+	}
 	
+
+	/**
+	 * This method changes details about a user in the database.
+	 * 
+	 * @param email
+	 * 		The current email of this recruiter
+	 * @param candidate
+	 * 		The updated user object
+	 */
+	@RequestMapping(value="admin/employees/Update/{email}/", method= RequestMethod.PUT)
+	public Map<String, Object> updateEmployee(@PathVariable String email, @RequestBody UserUpdateHolder userUpdate)
+			throws JsonProcessingException{
+		System.out.println(" \n====== AdminCtrl.updateEmployee: update employee by email: " + email);
+		User currentUser = userService.findUserByEmail(email);
+		boolean success = userService.updateEmployee(currentUser, userUpdate);
+		System.out.println(" \n====== AdminCtrl.updateEmployee: userService ran update");
+		
+		Map<String, Object> responseMap = new HashMap<String, Object>();
+		String responseMessage = "default";
+		
+		if (success)
+		{
+			responseMessage = "Credentials Successfully Updated! :)";
+		
+		}else {
+			responseMessage = "Credentials Failed to Update! :(";
+		}
+		
+		responseMap.put("message", responseMessage);
+		
+		return responseMap;
+	}
 
 	@RequestMapping(value="admin/recruiter/{email}/{lastname}/{firstname}", method = RequestMethod.POST)
 	public void initRecruiter(@PathVariable String email, @PathVariable String lastname, @PathVariable String firstname) {
-		System.out.println(" ////////////////////creating Recruiter//////////////////");
-		userService.createRecruiter(email, lastname, firstname);
-		System.out.println(" ////////////////////creating Recruiter 2//////////////////");
+		System.out.println(" \n-------------- AdminController.initRecruiter: reached an endpoint...initRecruiter\n");
+		String pass = userService.createRecruiter(email, lastname, firstname);
+		System.out.println(" \n-------------- AdminController.initRecruiter: userService should have run...\n");
+		
+		boolean mailSentSuccess = mailService.sendTempPassword(email, pass);
+		System.out.println(" \n-------------- AdminController.initRecruiter: Email sent? " + mailSentSuccess);
 	}
 	
-	//For future use
-	
-	/*@RequestMapping(value="admin/trainer/{email}/{lastname}/{firstname}", method = RequestMethod.POST)
+	@RequestMapping(value="admin/trainer/{email}/{lastname}/{firstname}", method = RequestMethod.POST)
 	public void initTrainer(@PathVariable String email, @PathVariable String lastname, @PathVariable String firstname) {
-		System.out.println(" /////////// create the trainer endpoint////////////////");
-		userService.createTrainer(email, lastname, firstname);
-		System.out.println(" ////////////////////creating trainer 2//////////////////");
-		
-	}*/
+		System.out.println(" \n-------------- AdminController.initTrainer: reached an endpoint...");
+		String pass = userService.createTrainer(email, lastname, firstname);
+		System.out.println(" \n-------------- AdminController.initTrainer: userService should have run...");
+	
+		boolean mailSentSuccess = mailService.sendTempPassword(email, pass);
+		System.out.println(" \n-------------- AdminController.initTrainer: Email sent? " + mailSentSuccess);
+	}
 	
 	/**
-
 	 * This method creates a superuser for the system that can 
 	 *   create recruiter and trainer accounts.
 	 * This endpoint is currently disabled after creating the superuser

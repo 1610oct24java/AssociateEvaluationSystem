@@ -10,7 +10,9 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 
+import com.revature.aes.beans.Security;
 import com.revature.aes.beans.User;
+import com.revature.aes.beans.UserUpdateHolder;
 import com.revature.aes.dao.UserDAO;
 import com.revature.aes.logging.Logging;
 
@@ -139,19 +141,20 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void createRecruiter(String email, String lastname, String firstname) {
+	public String createRecruiter(String email, String lastname, String firstname) {
 
-		createEmployee(email, lastname, firstname, "recruiter");
+		return createEmployee(email, lastname, firstname, "recruiter");
 
 	}
 
 	@Override
-	public void createTrainer(String email, String lastname, String firstname) {
-		createEmployee(email, lastname, firstname, "trainer");
+	public String createTrainer(String email, String lastname, String firstname) {
+  
+		return createEmployee(email, lastname, firstname, "trainer");
 		
 	}
 
-	private void createEmployee(String email, String lastname, String firstname, String adminRole){
+	private String createEmployee(String email, String lastname, String firstname, String adminRole){
 		
 		SimpleDateFormat fmt = new SimpleDateFormat(PATTERN);
 		User user = new User();
@@ -162,7 +165,9 @@ public class UserServiceImpl implements UserService {
 		user.setDatePassIssued(fmt.format(new Date()));
 		
 		dao.save(user);
-		security.createKnownSecurity(user);
+		
+		String pass = security.createAdminRoleSecurity(user);
+		return pass;
 	}
 
 	@Override
@@ -182,28 +187,55 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void updateEmployee(String email,String lastname, String firstname) {
+	public boolean updateEmployee(User currentUser, UserUpdateHolder updatedUser) {
+		
 		SimpleDateFormat fmt = new SimpleDateFormat(PATTERN);
-		User u = new User();
-		u.setEmail(email);
-		u.setFirstName(firstname);
-		u.setLastName(lastname);
-		u.setRole(role.findRoleByRoleTitle("Recruiter"));
-		u.setDatePassIssued(fmt.format(new Date()));
+		Security userSecure = security.findSecurityByUserId(currentUser.getUserId());
+		boolean correctPassword = security.checkCorrectPassword(updatedUser.getOldPassword(), userSecure);
+		boolean success = false;
 		
-		dao.save(u);
-		security.createKnownSecurity(u);
+		if (correctPassword)
+		{
+			if (!updatedUser.getNewEmail().isEmpty() && updatedUser.getNewEmail() != null)
+				currentUser.setEmail(updatedUser.getNewEmail());
+			
+			if (!updatedUser.getFirstName().isEmpty() && updatedUser.getFirstName() != null)
+				currentUser.setFirstName(updatedUser.getFirstName());
+			
+			if (!updatedUser.getLastName().isEmpty() && updatedUser.getLastName() != null)
+				currentUser.setLastName(updatedUser.getLastName());
+			
+			if (!updatedUser.getNewPassword().isEmpty() && updatedUser.getNewPassword() != null)
+			{
+				currentUser.setDatePassIssued(fmt.format(new Date()));
+				
+				userSecure.setPassword(updatedUser.getNewPassword());
+				security.updateSecurity(userSecure);
+			
+			}else {
+				try {
+					Date oldPassDate = fmt.parse(currentUser.getDatePassIssued());
+					currentUser.setDatePassIssued(fmt.format(oldPassDate));
+				}catch (ParseException e) {
+					System.out.println("UserServiceImpl.updateEmployee: ERROR IN PARSING DATE-PASS-ISSUED");
+					e.printStackTrace();
+				}finally {
+					currentUser.setDatePassIssued(fmt.format(new Date()));
+				}
+			}
+				
+			dao.save(currentUser);
+			success = true;
 		
+		}else {
+			success = false;
+		}
 		
+		return success;
 	}
-   
-	
-	//added by hajira zahir
-	 
+
 	@Override
 	public void removeEmployee(String email) {
-		
-	
 		dao.delete(dao.findByEmail(email));
 	}
 

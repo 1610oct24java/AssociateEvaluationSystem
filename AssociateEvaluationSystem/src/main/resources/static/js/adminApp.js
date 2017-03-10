@@ -7,8 +7,8 @@ adminApp.constant("SITE_URL", {
 	"PORT" : ":8080",
 	
 	"LOGIN": "index",
-	"VIEW_EMPLOYEES" : "viewEmployees",
-	"REGISTER_EMPLOYEE" : ""
+    "VIEW_EMPLOYEES" : "viewEmployees",
+    "REGISTER_EMPLOYEE" : ""
 });
 
 adminApp.constant("API_URL", {
@@ -32,7 +32,6 @@ adminApp.constant("ROLE", {
 });
 
 adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE_URL, API_URL, ROLE) {
-
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
 		if (response.data.authenticated) {
@@ -78,9 +77,6 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 		urlSpecific = urlSpecific + "/" + employeeInfo.email 
 		+ "/" + employeeInfo.lastName + "/" + employeeInfo.firstName
 		
-		console.log(urlSpecific + " testing url" + employeeInfo.role);
-		
-
 		$scope.postRegister(urlSpecific, employeeInfo);
 		
 		$scope.firstName = '';
@@ -90,10 +86,6 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 	};
 
 	$scope.postRegister = function(urlSpecific, employeeInfo) {
-		console.log("adminApp.js: POST REGISTER EMPLOYEE");
-		console.log("url"+urlSpecific );
-		console.log("employeeinfo"+employeeInfo);
-
 		$http({
 			method  : 'POST',
 			url: urlSpecific,
@@ -125,14 +117,10 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 		})
 	}
 
+
 }); //end register Employee controller
 
 adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_URL, ROLE) {
-
-	
-	
-	
-	
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
 		if (response.data.authenticated) {
@@ -143,7 +131,6 @@ adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_UR
 			$scope.authUser = authUser;
 			if($scope.authUser.authority != ROLE.ADMIN) {
 				window.location = SITE_URL.LOGIN;
-				console.log("Not an Admin");
 			}
 			
 			$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEES)
@@ -170,12 +157,11 @@ adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_UR
 	//Delete user
 	 $scope.Delete = function (email) {
 	        url = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEES + "/Delete/" + email + "/";
-	        console.log("THE URL IS " + url);
 	        $http.delete(url)
 	        .then(function (response) {
-	            console.log(response);
+	        	//Removed console log for sonar cube.
 	        }, function (error) {
-	            console.log(error);
+	        	//Removed console log for sonar cube.
 	        });
 	    }
 	
@@ -196,12 +182,12 @@ adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_UR
 });
 
 function makeUser($scope) {
-	var user = {
-				username: $scope.username,
-				password: $scope.password
-	};
+    var user = {
+        username: $scope.username,
+        password: $scope.password
+    };
 
-	$scope.user = user;
+    $scope.user = user;
 }
 
 adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_URL, API_URL, ROLE) {
