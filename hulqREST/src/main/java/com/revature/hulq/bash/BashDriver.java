@@ -24,7 +24,7 @@ public class BashDriver {
 			Map<Integer, BashData> valSet = runCodeTestScript(keyPath, testPath, argSet);
 			result = bashGrader(valSet, testProfile);
 			System.out.println("ayyy");
-			log.info("test");
+			
 		} catch (BashException e) {
 			// if key file did not compile, student passes if their code
 			// compiles
@@ -106,7 +106,8 @@ public class BashDriver {
 			in.close();
 
 		} catch (IOException e) {
-			System.out.println("Caught IO exception running script: " + e.getStackTrace().toString());
+			//System.out.println("Caught IO exception running script: " + e.getStackTrace().toString());
+			log.error("Caught IO exception running script: " + e.getStackTrace().toString());
 		}
 		return data;
 
@@ -164,7 +165,8 @@ public class BashDriver {
 					} else {
 						rVal = (kVal - uVal) / kVal;
 					}
-					System.out.println("difference:" + rVal);
+					log.debug("difference:" + rVal);
+					//System.out.println("difference:" + rVal);
 				}
 				// get likeness
 				rVal = 1 - rVal;
@@ -182,6 +184,7 @@ public class BashDriver {
 			}
 			System.out.println("case result (pre case error margin): " + rVal);
 			
+			
 			// if string match percentage is below, discard case value
 			if (rVal < testProfile.getCaseErrorMargin()) {
 				rVal = 0.0;
@@ -189,19 +192,21 @@ public class BashDriver {
 			
 			// add case result to total result
 			System.out.println("case result (post case error margin): " + rVal);
+			log.info("case result (post case error margin): " + rVal);
 			totalVal = totalVal + rVal;
 		}
 
 		// compute grade of all results
 		finalResult = totalVal / (double) results.size();
 
-		System.out.println("final result (pre gross error margin): " + finalResult);
-		log.error("final result (pre gross error margin): " + finalResult);
+		//System.out.println("final result (pre gross error margin): " + finalResult);
+		log.info("final result (pre gross error margin): " + finalResult);
 		// if overall grade is below pass threshold, set = zero
 		if (finalResult < testProfile.getGrossErrorMargin()) {
 			finalResult = 0.0;
 		}
-		System.out.println("final result (post gross error margin): " + finalResult);
+		//System.out.println("final result (post gross error margin): " + finalResult);
+		log.info("final result (post gross error margin): " + finalResult);
 		// return final grade
 		return finalResult;
 

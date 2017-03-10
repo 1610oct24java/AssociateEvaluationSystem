@@ -60,7 +60,7 @@ public class Logging {
 		return result;
 	}
 
-	@AfterThrowing(pointcut="execution(* com.revature.aes..*(..))", throwing="e")
+	@AfterThrowing(pointcut="execution(* com.revature.hulq..*(..))", throwing="e")
 	public void stackTraceLogging(Exception e){
 		log.error(dashes);
 		for(StackTraceElement st : e.getStackTrace()){
