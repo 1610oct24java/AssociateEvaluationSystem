@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.Timestamp;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import com.revature.aes.beans.User;
 import com.revature.aes.logging.Logging;
 import com.revature.aes.service.AssessmentService;
 import com.revature.aes.service.QuestionService;
+import com.revature.aes.service.S3Service;
 import com.revature.aes.service.SystemTemplate;
 import com.revature.aes.service.UserService;
 /** Handles the REST requests for making assessments.
@@ -38,7 +40,8 @@ public class AssessmentRestController {
 
 	@Autowired
 	private Logging log;	
-	
+	@Autowired
+	private S3Service s3;
 	@Autowired
 	private SystemTemplate systemp;
 	@Autowired
@@ -61,7 +64,6 @@ public class AssessmentRestController {
 	@RequestMapping(value = "user/RandomAssessment", method = RequestMethod.POST, consumes = {
 			MediaType.APPLICATION_JSON_VALUE })
 	public AssessmentRequest createAssessment(@RequestBody AssessmentRequest assReq) throws URISyntaxException {
-		
 		
 		Template tmpl = new Template();
 		
@@ -99,6 +101,24 @@ public class AssessmentRestController {
 		String link = result.getBody();
 		
 		assReq.setLink(link);
+		
 		return assReq;
+	}
+	
+	@RequestMapping(value = "admin/assessmentMaker", method = RequestMethod.POST, consumes = 
+		{MediaType.APPLICATION_JSON_VALUE })
+	public boolean makeAssessmentFileAndSaveStuff(@RequestBody AssessmentRequest assReq){
+		
+		System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------");
+		System.out.println("Got here!");
+		System.out.println(assReq);
+		System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------");
+		
+		return s3.uploadAssReqToS3(assReq,"AssessmentRequest.properties");
+	}
+	
+	@RequestMapping(value = "admin/assessmentMaker", method = RequestMethod.GET, consumes ={MediaType.APPLICATION_JSON_VALUE })
+	public void getFileFromS3(){
+		
 	}
 }

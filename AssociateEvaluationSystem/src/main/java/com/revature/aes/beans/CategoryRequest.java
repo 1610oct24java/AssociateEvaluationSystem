@@ -1,5 +1,7 @@
 package com.revature.aes.beans;
 
+import java.io.Serializable;
+
 import org.springframework.stereotype.Component;
 
 /**
@@ -7,7 +9,7 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
-public class CategoryRequest {
+public class CategoryRequest implements Serializable{
 
     private String category;
     private Integer msQuestions; //number of multiple select questions

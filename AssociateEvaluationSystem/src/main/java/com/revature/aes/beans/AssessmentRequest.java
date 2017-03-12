@@ -1,13 +1,15 @@
 package com.revature.aes.beans;
 
+import java.io.Serializable;
 import java.util.List;
-import java.util.Objects;
 
 import org.springframework.stereotype.Component;
 
 @Component
-public class AssessmentRequest {
+public class AssessmentRequest implements Serializable{
 
+	private static final long serialVersionUID = 4857861341651025701L;
+	
 	private List<CategoryRequest> categoryRequestList;
     private String link;
     private String userEmail;
