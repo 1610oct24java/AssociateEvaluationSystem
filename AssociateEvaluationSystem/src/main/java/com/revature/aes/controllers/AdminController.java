@@ -96,28 +96,13 @@ public class AdminController {
 	 * @param candidate
 	 * 		The updated user object
 	 */
-	@RequestMapping(value="admin/employees/Update/{email}/", method= RequestMethod.PUT)
-	public Map<String, Object> updateEmployee(@PathVariable String email, @RequestBody UserUpdateHolder userUpdate)
-			throws JsonProcessingException{
+	@RequestMapping(value="admin/employees/update/{email}/", method= RequestMethod.PUT)
+	public void updateEmployee(@RequestBody UserUpdateHolder userUpdate, @PathVariable String email){
 		System.out.println(" \n====== AdminCtrl.updateEmployee: update employee by email: " + email);
 		User currentUser = userService.findUserByEmail(email);
-		boolean success = userService.updateEmployee(currentUser, userUpdate);
+		userService.updateEmployee(currentUser, userUpdate);
 		System.out.println(" \n====== AdminCtrl.updateEmployee: userService ran update");
 		
-		Map<String, Object> responseMap = new HashMap<String, Object>();
-		String responseMessage = "default";
-		
-		if (success)
-		{
-			responseMessage = "Credentials Successfully Updated! :)";
-		
-		}else {
-			responseMessage = "Credentials Failed to Update! :(";
-		}
-		
-		responseMap.put("message", responseMessage);
-		
-		return responseMap;
 	}
 
 	@RequestMapping(value="admin/recruiter/{email}/{lastname}/{firstname}", method = RequestMethod.POST)

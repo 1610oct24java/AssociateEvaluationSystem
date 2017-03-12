@@ -180,30 +180,26 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void createAdmin(String email, String lastname, String firstname) {
-		
-		
-		dao.save(user);
-		
+		//dao.save(user);
 	}
 
 	@Override
-	public boolean updateEmployee(User currentUser, UserUpdateHolder updatedUser) {
+	public void updateEmployee(User currentUser, UserUpdateHolder updatedUser) {
 		
 		SimpleDateFormat fmt = new SimpleDateFormat(PATTERN);
 		Security userSecure = security.findSecurityByUserId(currentUser.getUserId());
 		boolean correctPassword = security.checkCorrectPassword(updatedUser.getOldPassword(), userSecure);
-		boolean success = false;
 		
 		if (correctPassword)
 		{
 			if (!updatedUser.getNewEmail().isEmpty() && updatedUser.getNewEmail() != null)
-				currentUser.setEmail(updatedUser.getNewEmail());
+			{	currentUser.setEmail(updatedUser.getNewEmail()); }
 			
 			if (!updatedUser.getFirstName().isEmpty() && updatedUser.getFirstName() != null)
-				currentUser.setFirstName(updatedUser.getFirstName());
+			{	currentUser.setFirstName(updatedUser.getFirstName()); }
 			
 			if (!updatedUser.getLastName().isEmpty() && updatedUser.getLastName() != null)
-				currentUser.setLastName(updatedUser.getLastName());
+			{	currentUser.setLastName(updatedUser.getLastName()); }
 			
 			if (!updatedUser.getNewPassword().isEmpty() && updatedUser.getNewPassword() != null)
 			{
@@ -225,13 +221,7 @@ public class UserServiceImpl implements UserService {
 			}
 				
 			dao.save(currentUser);
-			success = true;
-		
-		}else {
-			success = false;
 		}
-		
-		return success;
 	}
 
 	@Override
