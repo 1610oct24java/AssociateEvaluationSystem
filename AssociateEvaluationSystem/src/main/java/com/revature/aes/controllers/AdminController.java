@@ -75,9 +75,6 @@ public class AdminController {
 	 * 
 	 * @param email
 	 * 		The email of this recruiter
-	 * @param index
-	 * 		The index of this user in the list returned by
-	 * getCandidates
 	 */
 	//Delete operation by Hajira Zahir
 	@RequestMapping(value="/admin/employees/Delete/{email}/", method= RequestMethod.DELETE)
@@ -93,12 +90,11 @@ public class AdminController {
 	 * 
 	 * @param email
 	 * 		The current email of this recruiter
-	 * @param candidate
-	 * 		The updated user object
 	 */
 	@RequestMapping(value="admin/employees/update/{email}/", method= RequestMethod.PUT)
 	public void updateEmployee(@RequestBody UserUpdateHolder userUpdate, @PathVariable String email){
 		System.out.println(" \n====== AdminCtrl.updateEmployee: update employee by email: " + email);
+		System.out.println( "\n ====== new password = " + userUpdate.getNewPassword());
 		User currentUser = userService.findUserByEmail(email);
 		userService.updateEmployee(currentUser, userUpdate);
 		System.out.println(" \n====== AdminCtrl.updateEmployee: userService ran update");

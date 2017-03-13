@@ -189,19 +189,17 @@ public class UserServiceImpl implements UserService {
 		SimpleDateFormat fmt = new SimpleDateFormat(PATTERN);
 		Security userSecure = security.findSecurityByUserId(currentUser.getUserId());
 		boolean correctPassword = security.checkCorrectPassword(updatedUser.getOldPassword(), userSecure);
+		System.out.println("passed correctPassword with result"+correctPassword);
 		
 		if (correctPassword)
 		{
-			if (!updatedUser.getNewEmail().isEmpty() && updatedUser.getNewEmail() != null)
+			if (updatedUser.getNewEmail() != null && !updatedUser.getNewEmail().isEmpty())
 			{	currentUser.setEmail(updatedUser.getNewEmail()); }
-			
-			if (!updatedUser.getFirstName().isEmpty() && updatedUser.getFirstName() != null)
+			if (updatedUser.getFirstName() != null && !updatedUser.getFirstName().isEmpty())
 			{	currentUser.setFirstName(updatedUser.getFirstName()); }
-			
-			if (!updatedUser.getLastName().isEmpty() && updatedUser.getLastName() != null)
+			if (updatedUser.getLastName() != null && !updatedUser.getLastName().isEmpty())
 			{	currentUser.setLastName(updatedUser.getLastName()); }
-			
-			if (!updatedUser.getNewPassword().isEmpty() && updatedUser.getNewPassword() != null)
+			if (updatedUser.getNewPassword() != null && !updatedUser.getNewPassword().isEmpty())
 			{
 				currentUser.setDatePassIssued(fmt.format(new Date()));
 				
@@ -219,7 +217,7 @@ public class UserServiceImpl implements UserService {
 					currentUser.setDatePassIssued(fmt.format(new Date()));
 				}
 			}
-				
+			System.out.println("Set first name to "+currentUser.getFirstName()+", last name to "+currentUser.getLastName());
 			dao.save(currentUser);
 		}
 	}

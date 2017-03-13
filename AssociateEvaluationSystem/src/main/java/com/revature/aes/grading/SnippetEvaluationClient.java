@@ -10,7 +10,9 @@ import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.revature.aes.logging.Logging;
+import org.springframework.stereotype.Component;
 
+@Component
 public class SnippetEvaluationClient {
 	
 	@Autowired

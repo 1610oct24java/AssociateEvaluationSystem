@@ -40,8 +40,9 @@ public class S3Service {
 			}
 			writer.close();
 			return true;
-		} catch (IOException e) {
+		} catch (Exception e) {
 			log.stackTraceLogging(e);
+			log.error(e.getMessage());
 			return false;
 		} finally{
 			if(printWriter != null){

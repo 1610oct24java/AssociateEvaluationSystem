@@ -257,11 +257,9 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 			headers : {'Content-Type' : 'application/json'},
 			data    : info
 		}).success( function(response) {
-			//Removed console log for sonar cube.
 			console.log("success");
 			//$scope.logout();
 		}).error( function(response) {
-			//Removed console log for sonar cube.
 			console.log("fail");
 		});
 	};
@@ -269,7 +267,6 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 	$scope.logout = function() {
 		$http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
 		.then(function(response) {
-			//Removed console log for sonar cube.
 			window.location = SITE_URL.LOGIN;
 		})
 	}
