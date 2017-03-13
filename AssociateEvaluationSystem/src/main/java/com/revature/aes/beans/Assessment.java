@@ -2,6 +2,7 @@ package com.revature.aes.beans;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -94,6 +95,13 @@ public class Assessment implements Serializable
 		this.createdTimeStamp = createdTimeStamp;
 		this.finishedTimeStamp = finishedTimeStamp;
 		this.template = template;
+	}
+	public Assessment(int grade, int timeLimit, Date createdTimeStamp, Date finishedTimeStamp) {
+		super();
+		this.grade = grade;
+		this.timeLimit = timeLimit;
+		this.createdTimeStamp = (Timestamp) createdTimeStamp;
+		this.finishedTimeStamp = (Timestamp) finishedTimeStamp;
 	}
 
 	public Assessment() {

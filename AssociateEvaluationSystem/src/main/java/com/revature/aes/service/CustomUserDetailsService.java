@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.revature.aes.beans.Security;
@@ -35,7 +36,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername(String arg0) throws UsernameNotFoundException {
-		System.out.println("Logging: "+log);
+		log.debug("Logging: "+log);
 		log.info("Username: "+arg0);
 		log.info("uService: "+uService);
 		com.revature.aes.beans.User user = uService.findUserByEmail(arg0);
@@ -98,4 +99,5 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
         return authorities;
     }
+    
 }

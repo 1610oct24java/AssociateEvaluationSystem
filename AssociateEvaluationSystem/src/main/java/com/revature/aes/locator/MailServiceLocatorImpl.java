@@ -1,9 +1,11 @@
 package com.revature.aes.locator;
 
+import com.revature.aes.beans.MailService;
 import com.revature.aes.logging.Logging;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -19,15 +21,16 @@ import java.net.UnknownHostException;
  * call. 
  * 
  * @author Michelle Slay
- * 
- * 
- *
  */
 @Service
 public class MailServiceLocatorImpl implements MailServiceLocator {
 
 	@Autowired
 	Logging log;
+	
+	@Autowired
+	private MailService mailService;
+	
 	RestTemplate restTemplate = new RestTemplate();
 
 	@Inject
@@ -56,6 +59,7 @@ public class MailServiceLocatorImpl implements MailServiceLocator {
 
 		} catch (UnknownHostException e) {
 			log.error("UnknownHostException; setting ip to localhost");
+			log.stackTraceLogging(e);
 			ip = "localhost";
 		}
 
@@ -66,14 +70,12 @@ public class MailServiceLocatorImpl implements MailServiceLocator {
 //	static AssessmentRequestLoader loader = new AssessmentRequestLoader();
 //	private static final String URL = loader.loadAddress() + "/core";
 
-
-
-	@Override
 	/**
 	 * 
 	 * 
 	 * 
 	 */
+	@Override
 	public boolean sendPassword(String email, String... contents) {
 		// 
 		MailerEntity requestEntity = new MailerEntity();
@@ -85,6 +87,35 @@ public class MailServiceLocatorImpl implements MailServiceLocator {
 		return send(requestEntity, email);
 	}
 
+	/**
+	 * This method will be called by the AdminController after getting
+	 * a temporary password made and emails it to the recruiter/trainer.
+	 * 
+	 * @param email
+	 * 		String, email of the recruiter or trainer
+	 * @param pass
+	 * 		String, generated temporary password
+	 */
+	@Override
+	public boolean sendTempPassword(String email, String pass) {
+		// 
+		StringBuilder msg = new StringBuilder();
+		msg.append("\n\n***** DO NOT REPLY *****\n\n");
+		msg.append("You have been registered into the Associate Evaluation System (AES).\n\n");
+		msg.append("Please use the following temporary password to log in along with your email as username.\n\n");
+		msg.append(pass + " \n\n");
+		msg.append("After logging in, you should change your password.\n\n");
+		msg.append("Should you run into any issues, please notify Revature\n\n");
+		msg.append("***** DO NOT REPLY *****");
+		
+		System.out.println("Email being sent to 2: " + email);
+		
+		SimpleMailMessage mail = mailService.setupMessage(email, "Revature: Temporary Password Issued for AES", msg.toString());
+		mail.setFrom("rev.thompson.noreply@gmail.com");
+		
+		return mailService.sendEmail(mail);
+	}
+	
 	@Override
 	public void overdueAlert(String email) {
 		// 

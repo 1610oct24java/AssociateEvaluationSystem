@@ -5,6 +5,7 @@ import com.revature.aes.beans.User;
 import com.revature.aes.dao.SecurityDao;
 import com.revature.aes.encoder.MyEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,7 +57,6 @@ public class SecurityServiceImpl implements SecurityService {
 	@Override
 	@Transactional(propagation= Propagation.MANDATORY)
 	public String createSecurity(User user) {
-		// 
 		
 		int userId = user.getUserId();
 		Security security = dao.findSecurityByUserId(userId);
@@ -76,20 +76,21 @@ public class SecurityServiceImpl implements SecurityService {
 
 	@Override
 	public void updateSecurity(Security security) {
+		security.setPassword(MyEncoder.encodePassword(security.getPassword()));
 		dao.save(security);
 	}
 
 	@Override
 	public void invalidatePassword(User u) {
-		// 
+		
 		Security s = dao.findSecurityByUserId(u.getUserId());
 		s.setValid(0);
 	}
 
 	@Override
-	@Transactional(propagation= Propagation.MANDATORY)
+	@Transactional(propagation = Propagation.MANDATORY)
 	public String createKnownSecurity(User user) {
-		// TODO Auto-generated method stub
+
 		int userId = user.getUserId();
 		Security security = dao.findSecurityByUserId(userId);
 		if(security == null) {
@@ -105,4 +106,36 @@ public class SecurityServiceImpl implements SecurityService {
 		
 		return "password";
 	}
+	
+	@Override
+	@Transactional(propagation = Propagation.MANDATORY)
+	public String createAdminRoleSecurity(User user) {
+		
+		int userId = user.getUserId();
+		Security security = dao.findSecurityByUserId(userId);
+		if(security == null) {
+			security = new Security();
+		}
+		security.setUserId(userId);
+		security.setValid(1);
+		
+		String pass = new BigInteger(130,rando).toString(32).substring(0,8);
+		security.setPassword(MyEncoder.encodePassword(pass));
+		
+		dao.save(security);
+		
+		return pass;
+	}
+	
+	public boolean checkCorrectPassword(String enteredPass, Security security){
+    	
+    	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    	String dbPassword = security.getPassword();
+
+    	if (passwordEncoder.matches(enteredPass, dbPassword)) {
+    	    return true;
+    	} else {
+    	    return false;
+    	}
+    }
 }

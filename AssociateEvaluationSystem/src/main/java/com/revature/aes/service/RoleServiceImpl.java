@@ -1,14 +1,20 @@
 package com.revature.aes.service;
 
-import com.revature.aes.beans.Role;
-import com.revature.aes.dao.RoleDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.revature.aes.beans.Role;
+import com.revature.aes.dao.RoleDao;
+import com.revature.aes.logging.Logging;
+
 @Service
 @Transactional
 public class RoleServiceImpl implements RoleService {
+	
+	@Autowired
+	Logging log;
+	
 	@Autowired
 	private RoleDao dao;
 
@@ -38,9 +44,8 @@ public class RoleServiceImpl implements RoleService {
 	}
 	
 	public void initRoles() {
-		System.out.println("here");
 		Role candidate = dao.findRoleByRoleTitle("Candidate");
-		System.out.println("CANDIDATE: " + candidate);
+		log.debug("CANDIDATE: " + candidate);
 		if(candidate == null){
 			candidate = new Role();
 			candidate.setRoleTitle("Candidate");
@@ -48,7 +53,7 @@ public class RoleServiceImpl implements RoleService {
 			dao.save(candidate);
 		}
 		Role trainer = dao.findRoleByRoleTitle("Trainer");
-		System.out.println("TRAINER: " + trainer);
+		log.debug("TRAINER: " + trainer);
 		if(trainer == null){
 			trainer = new Role();
 			trainer.setRoleTitle("Trainer");
@@ -56,7 +61,7 @@ public class RoleServiceImpl implements RoleService {
 			dao.save(trainer);
 		}
 		Role recruiter = dao.findRoleByRoleTitle("Recruiter");
-		System.out.println("RECRUITER: " + recruiter);
+		log.debug("RECRUITER: " + recruiter);
 		if(recruiter == null){
 			recruiter = new Role();
 			recruiter.setRoleTitle("Recruiter");

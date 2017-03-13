@@ -1,15 +1,22 @@
 package com.revature.aes.controllers;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.revature.aes.beans.Assessment;
 import com.revature.aes.beans.User;
 import com.revature.aes.locator.MailServiceLocator;
 import com.revature.aes.logging.Logging;
+import com.revature.aes.service.AssessmentService;
 import com.revature.aes.service.RestServices;
 import com.revature.aes.service.RoleService;
 import com.revature.aes.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * 
@@ -30,6 +37,9 @@ public class RecruiterController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private AssessmentService aService;
 	
 	@Autowired
 	private RoleService roleService;
@@ -71,6 +81,17 @@ public class RecruiterController {
 	@RequestMapping(value="/recruiter/{email}/candidates", method= RequestMethod.GET)
 	public List<User> getCandidates(@PathVariable String email){
 		return userService.findUsersByRecruiter(email);
+	}
+	
+	/**
+	 * Gets the assessments of the selected user
+	 * @param email
+	 * @return The list of assessments
+	 */
+	@RequestMapping(value="/recruiter/{email}/assessments", method= RequestMethod.GET)
+	public List<Assessment> getAssessment(@PathVariable String email){
+		List<Assessment> a = aService.findAssessmentsByUser(userService.findUserByEmail(email));
+		return a;
 	}
 	
 	/**
@@ -122,10 +143,10 @@ public class RecruiterController {
 	}
 
 //	THESE ARE NOW IMPLEMENTED IN com.revature.aes.controllers.AdminController.java
-//	@RequestMapping(value="recruiter/{email}/init",method = RequestMethod.POST)
-//	public void initRecruiter(@PathVariable String email) {
-//		userService.createRecruiter(email);
-//	}
+	@RequestMapping(value="recruiter/{email}/init",method = RequestMethod.POST)
+	public void initRecruiter(@PathVariable String email) {
+		userService.createRecruiter(email, "Recruiter", "Tim");
+	}
 //	
 //	@RequestMapping(value="trainer/{email}/init",method = RequestMethod.POST)
 //	public void initTrainer(@PathVariable String email) {
