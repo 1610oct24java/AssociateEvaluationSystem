@@ -48,25 +48,6 @@ public class RegisterCandidateTest {
 		driver.close();
 	}
 	
-	public void registerCandidateDatabaseTest()  {
-		
-		try {
-			Thread.sleep(3000);
-
-			// Remove test candidate before recreating
-			registerCandidatePage.deleteCandidate("test@test.com");
-
-			Thread.sleep(3000);
-			registerCandidatePage.registerCandidate("test", "test", "test@test.com", "SDET");
-			
-			// Check if test candidate is in the database
-			assertTrue(registerCandidatePage.testCandidateExist("test@test.com"));
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-
-	
 	@Test
 	public void registerCandidateTest()  {
 		candidateViewPage.clickRegisterCandidateLink();
