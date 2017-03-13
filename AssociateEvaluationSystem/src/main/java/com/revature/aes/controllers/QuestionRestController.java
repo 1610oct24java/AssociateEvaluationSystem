@@ -81,6 +81,7 @@ public class QuestionRestController
 	{
 		optionService.removeOptionById(optionId);
 		Question question = questionService.getQuestionById(questionId);
+		System.out.println(question + "this is the questioncontroller/////////////");
 		return question;
 	}
 	
@@ -94,6 +95,7 @@ public class QuestionRestController
 	public Question deleteDragDropById(@PathVariable Integer dragDropId, @RequestBody Integer questionId){
 		ddService.removeDragDropById(dragDropId);
 		Question question = questionService.getQuestionById(questionId);
+		
 		return question;
 	}
 
@@ -107,6 +109,7 @@ public class QuestionRestController
 	public List<Question> getAllQuestions()
 	{
 		return questionService.getAllQuestions();
+		
 	}
 	
 	/**
@@ -179,6 +182,7 @@ public class QuestionRestController
 		option.setQuestion(question);
 		optionService.addOption(option);
 		question.getOption().add(option);
+		System.out.println(" \n====== QuestionsCtrl: " + question);
 		return question;
 	}
 	
@@ -192,6 +196,7 @@ public class QuestionRestController
 		ddService.addDragDrop(dragdrop);
 		question.getDragdrop().add(dragdrop);
 		return question;
+	
 }
 	/*
 	 * I was trying to fix the issue where the new correct answer in multiple choice questions would get selected and changed in the database, but the
@@ -227,6 +232,7 @@ public class QuestionRestController
 			optionService.addOption(option);
 		}
 		return option.getQuestion();
+		
 	}
 	
 	@RequestMapping(value="question/{category}/count", method = RequestMethod.POST, produces={MediaType.APPLICATION_JSON_VALUE})
