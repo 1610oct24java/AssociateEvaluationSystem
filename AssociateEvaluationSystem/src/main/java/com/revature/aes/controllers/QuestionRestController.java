@@ -80,8 +80,7 @@ public class QuestionRestController
 	public Question getQuestionByOptionId(@PathVariable Integer optionId, @RequestBody Integer questionId)
 	{
 		optionService.removeOptionById(optionId);
-		Question question = questionService.getQuestionById(questionId);
-		return question;
+		return questionService.getQuestionById(questionId);
 	}
 	
 	/**
@@ -93,8 +92,7 @@ public class QuestionRestController
 			{MediaType.APPLICATION_JSON_VALUE})
 	public Question deleteDragDropById(@PathVariable Integer dragDropId, @RequestBody Integer questionId){
 		ddService.removeDragDropById(dragDropId);
-		Question question = questionService.getQuestionById(questionId);
-		return question;
+		return questionService.getQuestionById(questionId);
 	}
 
 	/**

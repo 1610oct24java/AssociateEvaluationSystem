@@ -6,7 +6,6 @@ import com.revature.aes.beans.User;
 import com.revature.aes.config.IpConf;
 import com.revature.aes.loader.AssessmentRequestLoader;
 import com.revature.aes.locator.AssessmentServiceLocator;
-import com.revature.aes.logging.Logging;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +13,6 @@ import javax.annotation.PostConstruct;;
 
 @Service
 public class RestServicesImpl implements RestServices {
-
-	private Logging log = new Logging();
 
 	@Autowired
 	private AssessmentServiceLocator assessmentService;
