@@ -22,6 +22,9 @@ public class S3Service {
 	
 	@Autowired
 	Logging log;
+
+	@Autowired
+    SnippetIO snippetIO;
 	
 	static String S3LOCATION = "aes.revature/";
 
@@ -34,7 +37,7 @@ public class S3Service {
 		    BufferedWriter writer = new BufferedWriter(printWriter);
 		    writer.write(snippetContents);
 		    //writer.close();
-			new SnippetIO().upload(file, key);
+			snippetIO.upload(file, key);
 			if(!file.delete()){
 				log.error("File not found! Can not delete file that does not exists!");
 			}
