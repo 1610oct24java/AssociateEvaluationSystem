@@ -48,10 +48,11 @@ public class queryTest {
 			conn = DataBaseConnection.getConnection();
 			ps = conn.prepareStatement(getUserIdSQL);
 			
-			ps.setString(1, "test@test.com");
+			ps.setString(1, "willie.c.jenson@gmail.com");
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				userId = rs.getInt("USER_ID");
+				System.out.printf("Deleting user %i\n", userId);
 			}
 			
 			if(userId != 0) {
