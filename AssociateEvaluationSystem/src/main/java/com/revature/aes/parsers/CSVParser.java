@@ -52,7 +52,7 @@ public class CSVParser {
 	 * @return List containing the cleaned input lines.
 	 * @throws IOException 
 	 */
-	private List<String> escapeCommas(MultipartFile file) throws IOException, FileNotFoundException{
+	private List<String> escapeCommas(MultipartFile file) throws IOException{
 		List<String> linesCleaned = new ArrayList<>();
 		String lineInFile = "";
 		try(BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
@@ -109,7 +109,7 @@ public class CSVParser {
 		Format format = null;
 		Option option;
 		boolean trueFalseQuestion = false;
-		Set<Option> options = new HashSet<Option>();
+		Set<Option> options = new HashSet<>();
 		Map<String, Question> questions = new HashMap<>();
 		this.formatList = fmtService.findAllFormats();
 		
@@ -170,7 +170,7 @@ public class CSVParser {
 			// add questions to the return map
 			questions.put(question.getQuestionText(), question);
 			// reset options
-			options = new HashSet<Option>();
+			options = new HashSet<>();
 		}
 		return questions;
 	}

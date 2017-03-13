@@ -28,11 +28,11 @@ public class Error {
 	 */
 	public static String getDate(Date now) {
 		
-		String dateFormat = "dd/MM/yyyy", timeFormat = "HH:mm:ss";
-		SimpleDateFormat sdfDate = new SimpleDateFormat(dateFormat),
-				sdfTime = new SimpleDateFormat(timeFormat);
-		String timeStamp = sdfDate.format(now) + " | " + sdfTime.format(now);
-		return timeStamp;
+		String dateFormat = "dd/MM/yyyy";
+		String timeFormat = "HH:mm:ss";
+		SimpleDateFormat sdfDate = new SimpleDateFormat(dateFormat);
+		SimpleDateFormat sdfTime = new SimpleDateFormat(timeFormat);
+		return sdfDate.format(now) + " | " + sdfTime.format(now);
 	}
 	
 	/**
