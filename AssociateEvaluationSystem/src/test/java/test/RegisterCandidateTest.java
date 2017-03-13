@@ -36,6 +36,7 @@ public class RegisterCandidateTest {
 		System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/src/test/resources/chromedriver.exe");
 		driver = new ChromeDriver();
 		driver.get("http://localhost:8090/aes/login");
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		loginPage = new LoginPage(driver);
 		loginPage.loginToAES("nickolas.jurczak@revature.com", "password");
 		candidateViewPage = new CandidateViewPage(driver);
@@ -47,30 +48,43 @@ public class RegisterCandidateTest {
 		driver.close();
 	}
 	
-	@Test
 	public void registerCandidateDatabaseTest()  {
 		
 		try {
 			Thread.sleep(3000);
 
 			// Remove test candidate before recreating
-			registerCandidatePage.deleteTestCandidate();
+			registerCandidatePage.deleteCandidate("test@test.com");
 
 			Thread.sleep(3000);
 			registerCandidatePage.registerCandidate("test", "test", "test@test.com", "SDET");
 			
 			// Check if test candidate is in the database
-			assertTrue(registerCandidatePage.testCandidateExist());
+			assertTrue(registerCandidatePage.testCandidateExist("test@test.com"));
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	/*
+	
 	@Test
-	public void registerCandidateGUITest()  {
+	public void registerCandidateTest()  {
 		candidateViewPage.clickRegisterCandidateLink();
-		registerCandidatePage.registerCandidate("test", "test", "test@test.com", "SDET");
-	}*/
+		registerCandidatePage.registerCandidate("test", "test", "test@jonsfakemail.com", "SDET");
+		explicitWait(10);
+		assertTrue(registerCandidatePage.testCandidateExist("test@jonsfakemail.com"));
+		registerCandidatePage.clickViewCandidates();
+		explicitWait(10);
+		registerCandidatePage.deleteCandidate("test@jonsfakemail.com");
+	}
+	
+	private void explicitWait(int seconds) {
+		try {
+			Thread.sleep(seconds * 1000);	
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} finally {
+			
+		}
+	}
 }

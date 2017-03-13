@@ -15,6 +15,7 @@ public class RegisterCandidatePage {
 
 	WebDriver driver;
 	
+	By viewCandidatesLink = By.xpath("//a[@href='view']");
 	By firstName = By.id("inputFirstName");
 	By lastName = By.id("inputLastName");
 	By email = By.id("inputEmail");
@@ -46,7 +47,11 @@ public class RegisterCandidatePage {
 		driver.findElement(register).click();
 	}
 	
-	public void deleteTestCandidate() {
+	public void clickViewCandidates() {
+		driver.findElement(viewCandidatesLink).click();
+	}
+	
+	public void deleteCandidate(String userEmail) {
 		
 		Connection conn;
 		PreparedStatement ps;
@@ -57,10 +62,11 @@ public class RegisterCandidatePage {
 			conn = DataBaseConnection.getConnection();
 			ps = conn.prepareStatement(getUserIdSQL);
 			
-			ps.setString(1, "test@test.com");
+			ps.setString(1, userEmail);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				userId = rs.getInt("USER_ID");
+				System.out.println(userId);
 			}
 			
 		if(userId != 0) {
@@ -87,12 +93,11 @@ public class RegisterCandidatePage {
 		}
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
-	public boolean testCandidateExist() {
+	public boolean testCandidateExist(String userEmail) {
 		
 		Connection conn;
 		PreparedStatement ps;
@@ -103,7 +108,7 @@ public class RegisterCandidatePage {
 			conn = DataBaseConnection.getConnection();
 			ps = conn.prepareStatement(getUserIdSQL);
 			
-			ps.setString(1, "test@test.com");
+			ps.setString(1, userEmail);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				userId = rs.getInt("USER_ID");
@@ -113,7 +118,6 @@ public class RegisterCandidatePage {
 				return true;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -141,7 +145,6 @@ public class RegisterCandidatePage {
 				return true;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
