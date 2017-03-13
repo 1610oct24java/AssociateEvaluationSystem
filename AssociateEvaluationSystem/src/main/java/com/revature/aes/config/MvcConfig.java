@@ -20,6 +20,10 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 		registry.addViewController("/view").setViewName("recruiter/viewCandidates");
 		registry.addViewController("/viewEmployees").setViewName("admin/viewEmployees");
 		registry.addViewController("/registerEmployee").setViewName("admin/registerEmployee");
+		registry.addViewController("/createAssessment").setViewName("admin/createAssessment");
+		registry.addViewController("/updateCredentials").setViewName("admin/updateCredentials");
+		/*registry.addViewController("/category").setViewName("bank/trainerHome");
+=======
     registry.addViewController("/updateCredentials").setViewName("admin/updateCredentials");
 
 		/*
@@ -30,6 +34,7 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 		registry.addViewController("/category").setViewName("bank/trainerHome");-m
 
 
+>>>>>>> ee98caadc662fd00cf1e5a776c30f3b101613ce7
 		registry.addViewController("/question").setViewName("bank/trainerHome");
 		registry.addViewController("/format").setViewName("bank/trainerHome");
         registry.addViewController("/trainer/").setViewName("bank/trainerHome");*/
