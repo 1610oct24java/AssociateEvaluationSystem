@@ -75,6 +75,8 @@ public class GetAssessmentController {
 
 	@Autowired
 	IpConf ipConf;
+	
+	private String coreEmailClientEndpointAddress = "http://localhost/aes/";
 
 	@PostConstruct
 	protected void postConstruct(){
@@ -82,8 +84,6 @@ public class GetAssessmentController {
 		configureRestService();
 
 	}
-
-	private String coreEmailClientEndpointAddress = "http://localhost/aes/";
 
 	private void configureRestService(){
 
@@ -195,7 +195,7 @@ public class GetAssessmentController {
 		log.debug("Requesting assessment with ID=" + AssessmentId);
 		
 		Assessment assessment = new Assessment();
-		Map<String, Object> responseMap = new HashMap<String, Object>();
+		Map<String, Object> responseMap = new HashMap<>();
 			
 		try {
 			assessment = service.getAssessmentById(AssessmentId);
