@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>AES | Register Employee</title>
 
-<link rel="icon" type="img/png" href="site-images/favicon_192.png">	
+<link rel="icon" type="img/png" href="images/favicon_192.png">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <!-- Optional theme -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
@@ -20,13 +20,19 @@
 
 	<div class="container logo">
 		<a href="index.html">
-			<img src="site-images/Revature-Logo.png" alt="Revature" height="75px">
+			<img src="images/Revature-Logo.png" alt="Revature" height="75px">
 		</a>
 	</div>
 
 	<div class="row stylePro">
 		<span class="col-xs-6 col-md-6">
 			<a href="viewEmployees">View Employees</a>
+		</span>
+        <span class="col-xs-6 col-md-6">
+			<a href="createAssessment">Create Assessment</a>
+		</span>
+        <span class="col-xs-6 col-md-6">
+			<a href="updateCredentials">Update Employee</a>
 		</span>
 		<span class="col-xs-6 col-md-6">
 			<button id="logout" class="btn-revature" ng-click="logout()">logout</button>
@@ -49,13 +55,12 @@
         </div>
         <div class="row">
             <select id="roleSelect" class="col-xs-8 col-md-6"
-                    ng-model="employeeType" 
-                    ng-options="option.name for option in options"
-                    required>
-                <option value="" hidden>
-                -- select role --
-                </option>
+                    ng-model="employeeType" ng-options="item for item in names">
+            <option >
+            --role--
+            </option>
             </select>
+          
         </div>
         <div class="row">
             <input id="btn-register-recruit" class="btn-revature" type="submit" value="register">

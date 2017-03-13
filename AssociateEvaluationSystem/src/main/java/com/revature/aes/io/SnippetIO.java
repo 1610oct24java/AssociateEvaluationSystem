@@ -11,7 +11,9 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.revature.aes.logging.Logging;
+import org.springframework.stereotype.Component;
 
+@Component
 public class SnippetIO {
 	
 	@Autowired

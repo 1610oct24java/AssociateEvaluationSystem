@@ -11,7 +11,9 @@ app.constant("SITE_URL", {
 	"REGISTER_CANDIDATE" : "",
 	"VIEW_EMPLOYEES" : "viewEmployees",
 	
-	"TRAINER_HOME" : "http://sports.cbsimg.net/images/nhl/blog/Ryan_Reaves_Kiss.JPG"
+	"TRAINER_HOME" : "",
+
+    "REGISTER_EMPLOYEE" : ""
 	
 });
 
@@ -36,7 +38,9 @@ app.constant("ROLE", {
 app.controller('LoginCtrl', function($scope, $httpParamSerializerJQLike, $http, SITE_URL, API_URL, ROLE) {
 	
 	$scope.login = function() {
+		console.log('LOGIN CALLLED');
 		makeUser($scope);
+		console.log('MAKE USER CALLED');
 		$http({
 			method : "POST",
 			url : SITE_URL.BASE + API_URL.BASE + API_URL.LOGIN,
@@ -44,15 +48,18 @@ app.controller('LoginCtrl', function($scope, $httpParamSerializerJQLike, $http, 
 			data: $httpParamSerializerJQLike($scope.user)
 		})//.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGIN, $httpParamSerializerJQLike($scope.user), {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8;'})
 		.then(function(response) {
+			console.log('INSIDE POST TO LOGIN');
 			$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 			.then(function(response) {
-				//Removed console log for sonar cube.
+				console.log("Response data");
+				console.log(response.data);
 				if (response.data.authenticated) {
 					var authUser = {
 						username : response.data.principal.username,
 						authority: response.data.principal.authorities[0].authority
 					}
-					//Removed console log for sonar cube.
+					//console.log(authUser);
+					//console.log(response.data.principal);
 					$scope.authUser = authUser;
 					switch ($scope.authUser.authority) {
 					case ROLE.RECRUITER:
@@ -62,8 +69,9 @@ app.controller('LoginCtrl', function($scope, $httpParamSerializerJQLike, $http, 
 						$scope.candidateEmail = authUser.username;
 						$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.CANDIDATE + $scope.candidateEmail + API_URL.LINK)
 						.then(function(response) {
+							console.log(response.data);
 							window.location = response.data.urlAssessment;
-							//Removed console log for sonar cube.
+							console.log('CHOOCKED');
 						})
 						break;
 					case ROLE.TRAINER:
@@ -73,11 +81,13 @@ app.controller('LoginCtrl', function($scope, $httpParamSerializerJQLike, $http, 
 						window.location = SITE_URL.VIEW_EMPLOYEES;
 						break;
 					default:
+						console.log('INVALID LOGIN?');
 						$scope.username = '';
 						$scope.password = '';
 						window.location = SITE_URL.LOGIN;
 					}
 				} else {
+					console.log('!!! INVALID LOGIN');
 					$scope.username = '';
 					$scope.password = '';
 					$scope.bunkCreds = true;
@@ -91,11 +101,13 @@ app.controller('RegisterCanidateCtrl', function($scope,$location,$http,SITE_URL,
 
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
+		console.log(response.data);
 		if (response.data.authenticated) {
 			var authUser = {
 				username : response.data.principal.username,
 				authority: response.data.principal.authorities[0].authority
 			}
+			console.log(authUser);
 			$scope.authUser = authUser;
 			if($scope.authUser.authority != ROLE.RECRUITER) {
 				window.location = SITE_URL.LOGIN;
@@ -118,6 +130,8 @@ app.controller('RegisterCanidateCtrl', function($scope,$location,$http,SITE_URL,
 			datePassIssued: null,
 			format		  : $scope.program.value
 		};
+
+		console.log(canidateInfo);
 		$scope.postRegister(canidateInfo);
 		
 		$scope.firstName = '';
@@ -127,15 +141,16 @@ app.controller('RegisterCanidateCtrl', function($scope,$location,$http,SITE_URL,
 	};
 
 	$scope.postRegister = function(canidateInfo) {
+		console.log("POSTREGISTER")
 		$http({
 			method  : 'POST',
 			url: SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + $scope.authUser.username + API_URL.CANDIDATES,
 			headers : {'Content-Type' : 'application/json'},
 			data    : canidateInfo
 		}).success( function(res) {
-			//Removed console log for sonar cube.
+			console.log('success');
 		}).error( function(res) {
-			//Removed console log for sonar cube.
+			console.log('error');
 		});
 	};
 
@@ -168,16 +183,21 @@ app.controller('CandidateViewCtrl', function($scope,$http, SITE_URL, API_URL, RO
 				username : response.data.principal.username,
 				authority: response.data.principal.authorities[0].authority
 			}
+			console.log(authUser);
 			$scope.authUser = authUser;
 			if($scope.authUser.authority != ROLE.RECRUITER) {
 				window.location = SITE_URL.LOGIN;
 			}
 			$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + $scope.authUser.username + API_URL.CANDIDATES)
 			.then(function(response) {
+				console.log(response.data);
 				//$scope.candidates = response.data;
 				var c =  response.data;
+				console.log('length: ' + c.length);
 				for (var i=0; i<c.length; i++) {
+					console.log('c[i]: ' + c[i]);
 					if (c[i].grade == -1) {
+						console.log('GKJGKJHJKHJHK');
 						c[i].grade = 'N/A';
 					}
 				}
@@ -197,6 +217,111 @@ app.controller('CandidateViewCtrl', function($scope,$http, SITE_URL, API_URL, RO
 	
 });
 
+//Billy Adding controller for assessment creation
+app.controller('CreateAssessmentCtrl',function ($scope,$http, SITE_URL, API_URL, ROLE) {
+
+    $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
+        .then(function(response) {
+            if (response.data.authenticated) {
+                var authUser = {
+                    username : response.data.principal.username,
+                    authority: response.data.principal.authorities[0].authority
+                }
+                $scope.authUser = authUser;
+                if($scope.authUser.authority != ROLE.RECRUITER) {
+                    window.location = SITE_URL.LOGIN;
+                }
+            } else {
+                window.location = SITE_URL.LOGIN;
+            }
+        });
+
+
+    $(document).ready(function() {
+        $("#add_row").on("click", function() {
+            // Dynamic Rows Code
+
+            // Get max row id and set new id
+            var newid = 0;
+            $.each($("#tab_logic tr"), function() {
+                if (parseInt($(this).data("id")) > newid) {
+                    newid = parseInt($(this).data("id"));
+                }
+            });
+            newid++;
+
+            var tr = $("<tr></tr>", {
+                id: "addr"+newid,
+                "data-id": newid
+            });
+
+            // loop through each td and create new elements with name of newid
+            $.each($("#tab_logic tbody tr:nth(0) td"), function() {
+                var cur_td = $(this);
+
+                var children = cur_td.children();
+
+                // add new td and element if it has a nane
+                if ($(this).data("name") != undefined) {
+                    var td = $("<td></td>", {
+                        "data-name": $(cur_td).data("name")
+                    });
+
+                    var c = $(cur_td).find($(children[0]).prop('tagName')).clone().val("");
+                    c.attr("name", $(cur_td).data("name") + newid);
+                    c.appendTo($(td));
+                    td.appendTo($(tr));
+                } else {
+                    var td = $("<td></td>", {
+                        'text': $('#tab_logic tr').length
+                    }).appendTo($(tr));
+                }
+            });
+
+
+            // add the new row
+            $(tr).appendTo($('#tab_logic'));
+
+            $(tr).find("td button.row-remove").on("click", function() {
+                $(this).closest("tr").remove();
+            });
+        });
+
+
+        // Sortable Code
+        var fixHelperModified = function(e, tr) {
+            var $originals = tr.children();
+            var $helper = tr.clone();
+
+            $helper.children().each(function(index) {
+                $(this).width($originals.eq(index).width())
+            });
+
+            return $helper;
+        };
+
+        $(".table-sortable tbody").sortable({
+            helper: fixHelperModified
+        }).disableSelection();
+
+        $(".table-sortable thead").disableSelection();
+
+
+
+        $("#add_row").trigger("click");
+    });
+
+
+    //logout
+    $scope.logout = function() {
+        $http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
+            .then(function(response) {
+                window.location = SITE_URL.LOGIN;
+            })
+    }
+
+})
+
 function makeUser($scope) {
 	var user = {
 				username: $scope.username,
@@ -205,4 +330,5 @@ function makeUser($scope) {
 
 	$scope.user = user;
 }
+
 

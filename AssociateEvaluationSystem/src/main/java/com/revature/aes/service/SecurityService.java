@@ -8,5 +8,7 @@ public interface SecurityService {
 	public String createSecurity(User user);
 	public void updateSecurity(Security security);
 	public void invalidatePassword(User u);
-	public String createKnownSecurity(User recruiter);
+	public String createKnownSecurity(User superuser);
+	public String createAdminRoleSecurity(User admin);
+	public boolean checkCorrectPassword(String enteredPass, Security security);
 }
