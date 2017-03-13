@@ -26,7 +26,7 @@ public class TestController
 	{
 		Question q = new Question();
 		List<Question> rQuestion;
-		Set<Option> questionOptions = new HashSet<Option>();
+		Set<Option> questionOptions = new HashSet<>();
 		
 		q.setQuestionText("What is a WSDL?");
 		q.setFormat(new Format(1,"True/False"));

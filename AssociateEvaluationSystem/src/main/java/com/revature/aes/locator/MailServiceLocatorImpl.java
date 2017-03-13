@@ -36,10 +36,6 @@ public class MailServiceLocatorImpl implements MailServiceLocator {
 	@Inject
 	private org.springframework.boot.autoconfigure.web.ServerProperties serverProperties;
 
-	private static int port;
-
-	private static String ip;
-
 	private static String URL;
 
 	@PostConstruct
@@ -51,7 +47,8 @@ public class MailServiceLocatorImpl implements MailServiceLocator {
 
 	private void configureRestService(){
 
-		port = serverProperties.getPort();
+		String ip;
+		int port = serverProperties.getPort();
 
 		try{
 

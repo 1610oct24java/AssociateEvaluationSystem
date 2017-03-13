@@ -12,15 +12,7 @@ public class SnippetUpload implements Serializable{
 	private String code;
 	private int questionId;
 	private String fileType;
-
-	public String getFileType() {
-		return fileType;
-	}
-
-	public void setFileType(String fileType) {
-		this.fileType = fileType;
-	}
-
+	
 	public SnippetUpload() {
 		super();	
 	}
@@ -29,6 +21,14 @@ public class SnippetUpload implements Serializable{
 		super();
 		this.code = code;
 		this.questionId = questionId;
+	}
+
+	public String getFileType() {
+		return fileType;
+	}
+
+	public void setFileType(String fileType) {
+		this.fileType = fileType;
 	}
 
 	public String getCode() {

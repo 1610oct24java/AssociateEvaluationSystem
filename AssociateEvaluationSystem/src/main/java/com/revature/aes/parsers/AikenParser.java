@@ -119,7 +119,7 @@ public class AikenParser {
 		log.debug("Line 112: " + line);
     	
 		// Create new options list for each Question
-		Set<Option> optionsList = new HashSet<Option>();
+		Set<Option> optionsList = new HashSet<>();
 		
     	// Parse lines until "ANSWER:" to retrieve Options
     	while(!line.startsWith("ANSWER:")){

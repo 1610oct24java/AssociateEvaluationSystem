@@ -33,7 +33,7 @@ public class RestControl {
 		String now = "";
 		user.setDatePassIssued(now);
 		
-		List<User> listOfUsers = new ArrayList<User>();
+		List<User> listOfUsers = new ArrayList<>();
 		listOfUsers.add(user);
 		return listOfUsers;
 	}

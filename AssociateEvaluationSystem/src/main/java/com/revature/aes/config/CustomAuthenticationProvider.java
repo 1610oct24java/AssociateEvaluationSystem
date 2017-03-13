@@ -26,12 +26,11 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 	@Autowired
 	Logging log;
 	
-	private RestTemplate restTemplate;
-	
 	@Override
 	public Authentication authenticate(Authentication authentication)
 			throws AuthenticationException {
 		
+		RestTemplate restTemplate;
 		String name = authentication.getName();
 		String password = authentication.getCredentials().toString();
 		

@@ -60,9 +60,7 @@ public class UserServiceImpl implements UserService {
 		candidate.setDatePassIssued(fmt.format(new Date()));
 		dao.save(candidate);
 
-		String pass = security.createSecurity(candidate);
-
-		return pass;
+		return security.createSecurity(candidate);
 	}
 
 	@Override
