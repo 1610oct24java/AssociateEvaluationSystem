@@ -295,7 +295,6 @@ adminApp.controller('CreateAssessmentCtrl',function ($scope,$http, SITE_URL, API
     $(document).ready(function() {
         $("#add_row").on("click", function() {
             // Dynamic Rows Code
-
             // Get max row id and set new id
             var newid = 0;
             $.each($("#tab_logic tr"), function() {
@@ -313,15 +312,12 @@ adminApp.controller('CreateAssessmentCtrl',function ($scope,$http, SITE_URL, API
             // loop through each td and create new elements with name of newid
             $.each($("#tab_logic tbody tr:nth(0) td"), function() {
                 var cur_td = $(this);
-
                 var children = cur_td.children();
-
-                // add new td and element if it has a nane
+                // add new td and element if it has a name
                 if ($(this).data("name") != undefined) {
                     var td = $("<td></td>", {
                         "data-name": $(cur_td).data("name")
                     });
-
                     var c = $(cur_td).find($(children[0]).prop('tagName')).clone().val("");
                     c.attr("name", $(cur_td).data("name") + newid);
                     c.appendTo($(td));
@@ -335,7 +331,6 @@ adminApp.controller('CreateAssessmentCtrl',function ($scope,$http, SITE_URL, API
 
             // add the new row
             $(tr).appendTo($('#tab_logic'));
-
             $(tr).find("td button.row-remove").on("click", function() {
                 $(this).closest("tr").remove();
             });
@@ -345,7 +340,7 @@ adminApp.controller('CreateAssessmentCtrl',function ($scope,$http, SITE_URL, API
         var fixHelperModified = function(e, tr) {
             var $originals = tr.children();
             var $helper = tr.clone();
-
+            
             $helper.children().each(function(index) {
                 $(this).width($originals.eq(index).width())
             });
@@ -356,13 +351,24 @@ adminApp.controller('CreateAssessmentCtrl',function ($scope,$http, SITE_URL, API
         $(".table-sortable tbody").sortable({
             helper: fixHelperModified
         }).disableSelection();
-
         $(".table-sortable thead").disableSelection();
-
         $("#add_row").trigger("click");
     });
 
 
+    $scope.createAssessment = function () {
+
+    	var tableArray = [];
+        var tableData = {};
+
+        tableData.categories = $scope.categories;
+		tableData.type = $scope.type;
+		tableData.quantity = $scope.quantity;
+
+		tableArray.push(tableData);
+		console.log(tableArray);
+    }
+    
     //logout
     $scope.logout = function() {
         $http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)

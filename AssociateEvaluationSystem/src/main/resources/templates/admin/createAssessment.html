@@ -20,21 +20,21 @@
 
 	<div class="container logo">
 		<a href="index.html">
-			<img src="site-images/Revature-Logo.png" alt="Revature" height="75px">
+			<img src="images/Revature-Logo.png" alt="Revature" height="75px">
 		</a>
 	</div>
 
 	<div class="row stylePro">
-		<span class="col-xs-6 col-md-6">
+		<span class="col-xs-3 col-md-3">
 			<a href="viewEmployees">View Employees</a>
 		</span>
-		<span class="col-xs-6 col-md-6">
+		<span class="col-xs-3 col-md-3">
 			<a href="registerEmployee">Register Employee</a>
 		</span>
-		<span class="col-xs-6 col-md-6">
+		<span class="col-xs-3 col-md-3">
 			<a href="updateCredentials">Update Employee</a>
 		</span>
-		<span class="col-xs-6 col-md-6">
+		<span class="col-xs-3 col-md-3">
 			<button id="logout" class="btn-revature" ng-click="logout()">logout</button>
 		</span>
 	</div>
@@ -43,7 +43,7 @@
 	<br>
 	<br>
 
-	<form class="form-inline" class="form-revatureAssessment">
+	<form class="form-inline" class="form-revatureAssessment"ng-submit="createAssessment()">
 
 		<h2 class="row">Create Assessment</h2>
 
@@ -79,10 +79,11 @@
 						<tbody>
 						<tr id='addr0' data-id="0" class="hidden">
 							<td data-name="category">
-								<select id='categories' name="categorySelect" ng-model="data.categorySelect">
+								<select id='categories' name="categorySelect"
+										ng-model="CreateAssessmentCtrl.tableData[$index].categories">
 									<option value="HTML">HTML</option>
 									<option value="CSS">CSS</option>
-									<option value="JavaScrpit">JavaScrpit</option>
+									<option value="JavaScript">JavaScript</option>
 									<option value="Object Oriented Programming">Object Oriented Programming</option>
 									<option value="Data Structures">Data Structures</option>
 									<option value="SQL">SQL</option>
@@ -92,7 +93,7 @@
 								</select>
 							</td>
 							<td data-name="type">
-								<select id='type' name="typeSelect" ng-model="data.typeSelect">
+								<select id='type' name="typeSelect" ng-model="CreateAssessmentCtrl.tableData[$index].type">
 									<option value="Drag and Drop">Drag and Drop</option>
 									<option value="Multiple Choice">Multiple Choice</option>
 									<option value="Multiple Select">Multiple Select</option>
@@ -100,8 +101,8 @@
 								</select>
 							</td>
 							<td data-name="quantity">
-								<input id='quantity' type="number" name="quantity" ng-model="example.value"
-									   min="0" max="99">
+								<input id='quantity' type="number" name="quantity"
+									   ng-model="CreateAssessmentCtrl.tableData[$index].quantity" min="0" max="99">
 							</td>
 							<td data-name="del">
 								<button name=del0" class='btn btn-danger glyphicon glyphicon-remove row-remove'></button>
@@ -114,7 +115,7 @@
 			<button id="add_row" class="btn-revature pull-left">Add Row</button>
 		</div>
 
-		<button type="submit" class="btn-revature">Submit</button>
+		<button type="submit" class="btn-revature" value="register">Submit</button>
 	</form>
 
 	<br>
