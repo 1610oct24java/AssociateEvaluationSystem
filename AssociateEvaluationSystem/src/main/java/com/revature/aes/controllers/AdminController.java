@@ -1,9 +1,6 @@
 package com.revature.aes.controllers;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.revature.aes.beans.User;
 import com.revature.aes.beans.UserUpdateHolder;
 import com.revature.aes.locator.MailServiceLocator;
@@ -62,10 +58,7 @@ public class AdminController {
 	
 	@RequestMapping(value="/admin/employees", method= RequestMethod.GET)
 	public List<User> getEmployees(){
-
-		List<User> users = userService.findAllUsers();
-
-		return users;
+		return userService.findAllUsers();
 	}
 	
 	/**
@@ -79,9 +72,9 @@ public class AdminController {
 	//Delete operation by Hajira Zahir
 	@RequestMapping(value="/admin/employees/Delete/{email}/", method= RequestMethod.DELETE)
 	public void deleteEmployee(@PathVariable String email){
-		System.out.println(" \n====== AdminCtrl.updateEmployee: update employee by email: " + email);
+		log.debug(" \n====== AdminCtrl.updateEmployee: update employee by email: " + email);
 		userService.removeEmployee(email);
-		System.out.println(" \n====== AdminCtrl.updateEmployee: userService ran update");
+		log.debug(" \n====== AdminCtrl.updateEmployee: userService ran update");
 	}
 	
 
@@ -93,32 +86,32 @@ public class AdminController {
 	 */
 	@RequestMapping(value="admin/employees/update/{email}/", method= RequestMethod.PUT)
 	public void updateEmployee(@RequestBody UserUpdateHolder userUpdate, @PathVariable String email){
-		System.out.println(" \n====== AdminCtrl.updateEmployee: update employee by email: " + email);
-		System.out.println( "\n ====== new password = " + userUpdate.getNewPassword());
+		log.debug(" \n====== AdminCtrl.updateEmployee: update employee by email: " + email);
+		log.debug( "\n ====== new password = " + userUpdate.getNewPassword());
 		User currentUser = userService.findUserByEmail(email);
 		userService.updateEmployee(currentUser, userUpdate);
-		System.out.println(" \n====== AdminCtrl.updateEmployee: userService ran update");
+		log.debug(" \n====== AdminCtrl.updateEmployee: userService ran update");
 		
 	}
 
 	@RequestMapping(value="admin/recruiter/{email}/{lastname}/{firstname}", method = RequestMethod.POST)
 	public void initRecruiter(@PathVariable String email, @PathVariable String lastname, @PathVariable String firstname) {
-		System.out.println(" \n-------------- AdminController.initRecruiter: reached an endpoint...initRecruiter\n");
+		log.debug(" \n-------------- AdminController.initRecruiter: reached an endpoint...initRecruiter\n");
 		String pass = userService.createRecruiter(email, lastname, firstname);
-		System.out.println(" \n-------------- AdminController.initRecruiter: userService should have run...\n");
+		log.debug(" \n-------------- AdminController.initRecruiter: userService should have run...\n");
 		
 		boolean mailSentSuccess = mailService.sendTempPassword(email, pass);
-		System.out.println(" \n-------------- AdminController.initRecruiter: Email sent? " + mailSentSuccess);
+		log.debug(" \n-------------- AdminController.initRecruiter: Email sent? " + mailSentSuccess);
 	}
 	
 	@RequestMapping(value="admin/trainer/{email}/{lastname}/{firstname}", method = RequestMethod.POST)
 	public void initTrainer(@PathVariable String email, @PathVariable String lastname, @PathVariable String firstname) {
-		System.out.println(" \n-------------- AdminController.initTrainer: reached an endpoint...");
+		log.debug(" \n-------------- AdminController.initTrainer: reached an endpoint...");
 		String pass = userService.createTrainer(email, lastname, firstname);
-		System.out.println(" \n-------------- AdminController.initTrainer: userService should have run...");
+		log.debug(" \n-------------- AdminController.initTrainer: userService should have run...");
 	
 		boolean mailSentSuccess = mailService.sendTempPassword(email, pass);
-		System.out.println(" \n-------------- AdminController.initTrainer: Email sent? " + mailSentSuccess);
+		log.debug(" \n-------------- AdminController.initTrainer: Email sent? " + mailSentSuccess);
 	}
 	
 	/**

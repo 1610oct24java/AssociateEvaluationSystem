@@ -7,7 +7,6 @@ import java.util.Properties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.amazonaws.services.dynamodbv2.xspec.S;
 import com.revature.aes.beans.AssessmentRequest;
 import com.revature.aes.beans.CategoryRequest;
 import com.revature.aes.logging.Logging;

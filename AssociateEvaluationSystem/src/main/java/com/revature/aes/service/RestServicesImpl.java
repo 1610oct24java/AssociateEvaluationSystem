@@ -10,10 +10,7 @@ import com.revature.aes.logging.Logging;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import javax.annotation.PostConstruct;;
 
 @Service
 public class RestServicesImpl implements RestServices {

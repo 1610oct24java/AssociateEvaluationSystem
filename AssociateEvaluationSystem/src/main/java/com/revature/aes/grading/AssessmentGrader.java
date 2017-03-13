@@ -1,7 +1,6 @@
 package com.revature.aes.grading;
 
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -14,13 +13,10 @@ import com.revature.aes.beans.FileUpload;
 import com.revature.aes.beans.Option;
 import com.revature.aes.beans.TemplateQuestion;
 import com.revature.aes.logging.Logging;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class AssessmentGrader {
-
-	private static final double UNINITIALIZED = 0.0;
 	Logging log = new Logging();
 
 	public double gradeAssessment(Assessment assessment){
@@ -106,7 +102,7 @@ public class AssessmentGrader {
 			if(countCorrect<0){	countCorrect=0;	}
 
 			try{
-				if(countOptions != UNINITIALIZED){
+				if(((Double)Math.ceil(countOptions)).intValue() != 0){
 					itemWeightedGrade = itemWeight*(countCorrect/countOptions);
 					result[0] = result[0]+itemWeightedGrade;
 					//result[1] = result[1]+itemWeight;
@@ -220,7 +216,7 @@ public class AssessmentGrader {
 			}
 			
 			try{
-				if(countOptions != UNINITIALIZED){
+				if(((Double)Math.ceil(countOptions)).intValue() != 0){
 					itemWeightedGrade = itemWeight*(countCorrect/countOptions);
 					result[0] = result[0]+itemWeightedGrade;
 					//result[1] = result[1]+itemWeight;

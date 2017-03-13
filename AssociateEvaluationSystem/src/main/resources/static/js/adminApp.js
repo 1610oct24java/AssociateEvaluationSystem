@@ -94,9 +94,9 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 			data    : employeeInfo
 
 		}).success( function(res) {
-			//Removed console log for sonar cube.
+			//Removed console log for sonarqube.
 		}).error( function(res) {
-			//Removed console log for sonar cube.
+			//Removed console log for sonarqube.
 		});
 	};
 
@@ -112,7 +112,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 	$scope.logout = function() {
 		$http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
 		.then(function(response) {
-			//Removed console log for sonar cube.
+			//Removed console log for sonarqube.
 			window.location = SITE_URL.LOGIN;
 		})
 	}
@@ -149,7 +149,7 @@ adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_UR
 	$scope.logout = function() {
 		$http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
 		.then(function(response) {
-			//Removed console log for sonar cube.
+			//Removed console log for sonarqube.
 			window.location = SITE_URL.LOGIN;
 		})
 	};
@@ -159,9 +159,9 @@ adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_UR
 	        url = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEES + "/Delete/" + email + "/";
 	        $http.delete(url)
 	        .then(function (response) {
-	        	//Removed console log for sonar cube.
+	        	//Removed console log for sonarqube.
 	        }, function (error) {
-	        	//Removed console log for sonar cube.
+	        	//Removed console log for sonarqube.
 	        });
 	    }
 	
@@ -257,10 +257,10 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 			headers : {'Content-Type' : 'application/json'},
 			data    : info
 		}).success( function(response) {
-			console.log("success");
+			//Removed console log for sonarqube.
 			//$scope.logout();
 		}).error( function(response) {
-			console.log("fail");
+			//Removed console log for sonarqube.
 		});
 	};
 
@@ -315,10 +315,12 @@ adminApp.controller('CreateAssessmentCtrl',function ($scope,$http, SITE_URL, API
                 var cur_td = $(this);
 
                 var children = cur_td.children();
+                
+                var td;
 
                 // add new td and element if it has a nane
                 if ($(this).data("name") != undefined) {
-                    var td = $("<td></td>", {
+                    td = $("<td></td>", {
                         "data-name": $(cur_td).data("name")
                     });
 
@@ -327,7 +329,7 @@ adminApp.controller('CreateAssessmentCtrl',function ($scope,$http, SITE_URL, API
                     c.appendTo($(td));
                     td.appendTo($(tr));
                 } else {
-                    var td = $("<td></td>", {
+                    td = $("<td></td>", {
                         'text': $('#tab_logic tr').length
                     }).appendTo($(tr));
                 }

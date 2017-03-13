@@ -2,7 +2,6 @@ package com.revature.aes.locator;
 
 import com.revature.aes.beans.AssessmentRequest;
 import com.revature.aes.logging.Logging;
-import com.revature.aes.service.QuestionServiceImpl;
 import com.revature.aes.util.PropertyReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

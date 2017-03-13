@@ -46,7 +46,7 @@ public class SystemTemplate {
 		int size;
 
 		Set<Question> assessList = new HashSet<>();
-		List<Question> formatList = new ArrayList<>();
+		//List<Question> formatList = new ArrayList<>();
 		Set<TemplateQuestion> finalList = new HashSet<>();
 		
 		Category cat = (Category) cDao.getByName(catName);
@@ -185,7 +185,7 @@ public class SystemTemplate {
 			Question q = qService.getQuestionById(list.get(num).intValue());
 			list.remove(num).intValue();
 			assessmentQuestions.add(q);
-			if (list.size() == 0) {
+			if (list.isEmpty()) {
 				break;
 			}
 		}

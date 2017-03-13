@@ -166,16 +166,12 @@ public class UserServiceImpl implements UserService {
 		
 		dao.save(user);
 		
-		String pass = security.createAdminRoleSecurity(user);
-		return pass;
+		return security.createAdminRoleSecurity(user);
 	}
 
 	@Override
 	public List<User> findUsersByRole(String role) {
-		
-		List<User> users = dao.findUsersByRole(role);
-		
-		return users;
+		return dao.findUsersByRole(role);
 	}
 
 	@Override
@@ -189,7 +185,7 @@ public class UserServiceImpl implements UserService {
 		SimpleDateFormat fmt = new SimpleDateFormat(PATTERN);
 		Security userSecure = security.findSecurityByUserId(currentUser.getUserId());
 		boolean correctPassword = security.checkCorrectPassword(updatedUser.getOldPassword(), userSecure);
-		System.out.println("passed correctPassword with result"+correctPassword);
+		log.debug("passed correctPassword with result"+correctPassword);
 		
 		if (correctPassword)
 		{
@@ -211,13 +207,13 @@ public class UserServiceImpl implements UserService {
 					Date oldPassDate = fmt.parse(currentUser.getDatePassIssued());
 					currentUser.setDatePassIssued(fmt.format(oldPassDate));
 				}catch (ParseException e) {
-					System.out.println("UserServiceImpl.updateEmployee: ERROR IN PARSING DATE-PASS-ISSUED");
-					e.printStackTrace();
+					log.debug("UserServiceImpl.updateEmployee: ERROR IN PARSING DATE-PASS-ISSUED");
+					log.stackTraceLogging(e);
 				}finally {
 					currentUser.setDatePassIssued(fmt.format(new Date()));
 				}
 			}
-			System.out.println("Set first name to "+currentUser.getFirstName()+", last name to "+currentUser.getLastName());
+			log.debug("Set first name to "+currentUser.getFirstName()+", last name to "+currentUser.getLastName());
 			dao.save(currentUser);
 		}
 	}

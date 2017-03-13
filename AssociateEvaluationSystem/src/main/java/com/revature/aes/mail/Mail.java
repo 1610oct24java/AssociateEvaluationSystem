@@ -1,6 +1,5 @@
 package com.revature.aes.mail;
 
-import com.revature.aes.beans.Assessment;
 import com.revature.aes.beans.MailService;
 import com.revature.aes.beans.User;
 import com.revature.aes.dao.AssessmentDAO;
@@ -9,9 +8,6 @@ import com.revature.aes.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Component;
-
-import java.sql.Timestamp;
-import java.util.List;
 
 @Component
 public class Mail {

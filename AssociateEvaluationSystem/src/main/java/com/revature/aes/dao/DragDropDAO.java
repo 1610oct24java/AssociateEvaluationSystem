@@ -1,6 +1,5 @@
 package com.revature.aes.dao;
 
-import com.revature.aes.beans.Assessment;
 import com.revature.aes.beans.DragDrop;
 import org.springframework.data.jpa.repository.JpaRepository;
 
