@@ -8,8 +8,8 @@
 <body ng-app="AESCoreApp" ng-controller="parserCtrl">
 
     <label class="control-label">Select File</label>
-    <input type='file' accept="text/xml" onchange="parserCtrl.openFile(event)">
-    <button type='button' class="btn btn-primary" ng-click='parserCtrl.print()'>Upload</button><br>
+    <input type='file' accept="text/xml" onchange="openFile(event)">
+    <button type='button' class="btn btn-primary" ng-click='print()'>Upload</button><br>
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.9/angular.js"></script>
     <script src="js/app.js"></script>

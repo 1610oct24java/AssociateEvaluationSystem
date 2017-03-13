@@ -1,6 +1,7 @@
 package com.revature.aes.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import com.revature.aes.beans.Option;
@@ -31,5 +32,6 @@ public class OptionServiceImpl implements OptionService {
 	public Option addOption(Option option){
 		return optDao.save(option);
 	}
+
 
 }

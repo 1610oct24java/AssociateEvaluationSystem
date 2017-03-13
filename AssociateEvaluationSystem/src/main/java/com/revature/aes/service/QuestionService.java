@@ -33,4 +33,6 @@ public interface QuestionService {
 	public List<BigDecimal> findIdsByFormatAndCategory(String category, String format);
 
 	public BigDecimal findQuestionCountByFormatandCategory(String category, String format);
+
+	Integer findQuestionMax();
 }

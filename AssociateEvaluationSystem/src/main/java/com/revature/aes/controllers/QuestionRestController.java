@@ -1,5 +1,6 @@
 package com.revature.aes.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -108,7 +109,12 @@ public class QuestionRestController
 	{
 		return questionService.getAllQuestions();
 	}
-	
+
+	@RequestMapping(value = "questionMax", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Integer getMaxQuestion(){
+		return questionService.findQuestionMax();
+	}
+
 	/**
 	 * Retrieves all Questions by Format form the database
 	 * 
@@ -132,15 +138,26 @@ public class QuestionRestController
 	{ MediaType.APPLICATION_JSON_VALUE })
 	public Question updateQuestionById(@RequestBody Question question)
 	{
-		for (Option o : question.getOption())
-		{
-			o.setQuestion(question);
-		}
-		for (DragDrop d : question.getDragdrop())
-		{
-			d.setQuestion(question);
-		}
-		return questionService.updateQuestion(question);		
+		//option is not being saved as thier ids are all 0
+//		List<Option> options = new ArrayList<>();
+//		for (Option o : question.getOption()) {
+//			o.setQuestion(question);
+//			Option option = new Option();
+//			option.setOptionText(o.getOptionText());
+//			option.setCorrect(o.getCorrect());
+//			option.setQuestion(question);
+//			optionService.addOption(option);
+//			question.getOption().add(option);
+//
+//		}
+		//un-commenting out the code above will break it. currently a question is being saved with a category
+
+//		if(question.getDragdrop() != null){
+//			for (DragDrop d : question.getDragdrop()) {
+//				d.setQuestion(question);
+//			}
+//		}
+		return questionService.updateQuestion(question);
 	}
 	
 	

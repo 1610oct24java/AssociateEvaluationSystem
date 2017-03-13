@@ -187,6 +187,11 @@ public class QuestionServiceImpl implements QuestionService{
 	public BigDecimal findQuestionCountByFormatandCategory(String category, String format) {
 		return qdao.findQuestionCountByFormatandCategory(category, format);
 	}
-	
+
+	@Override
+	public Integer findQuestionMax(){
+		return qdao.findQuestionMax();
+	}
+
 
 }
