@@ -2,6 +2,13 @@ package com.revature.aes.beans;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 import org.springframework.stereotype.Component;
 
 /**
@@ -11,10 +18,24 @@ import org.springframework.stereotype.Component;
 @Component
 public class CategoryRequest implements Serializable{
 
+	
+	@Id
+	@GeneratedValue(generator = "AES_CATEGORY_REQUEST_SEQ", strategy = GenerationType.SEQUENCE)
+	@GenericGenerator(name="AES_CATEGORY_REQUEST_SEQ", strategy="org.hibernate.id.enhanced.SequenceStyleGenerator", parameters={
+			@Parameter(name="sequence_name", value="AES_CATEGORY_REQUEST_SEQ"),
+			@Parameter(name="optimizer", value="hilo"),
+			@Parameter(name="initial_value",value="1"),
+			@Parameter(name="increment_size",value="1")
+	})
     private String category;
+	
+	@Column(name="MSQUESTIONS")
     private Integer msQuestions; //number of multiple select questions
+	@Column(name="MCQUESTIONS")
     private Integer mcQuestions; //number of multiple choice questions
+	@Column(name="DDQUESTIONS")
     private Integer ddQuestions; //number of drag-n-drop questions
+	@Column(name="CSQUESTIONS")
     private Integer csQuestions; //number of code-snippet questions
 
     public CategoryRequest() {

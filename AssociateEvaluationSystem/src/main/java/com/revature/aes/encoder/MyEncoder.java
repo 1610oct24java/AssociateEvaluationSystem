@@ -12,4 +12,5 @@ public class MyEncoder {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 		return encoder.encode(password);
 	}
+
 }

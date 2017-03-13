@@ -1,11 +1,12 @@
 package com.revature.aes.beans;
 
-import com.revature.aes.logging.Logging;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
+
+import com.revature.aes.logging.Logging;
 
 @Service("mailService")
 public class MailService {
@@ -27,6 +28,7 @@ public class MailService {
 	
     public Boolean sendEmail(SimpleMailMessage msg) {	
 
+    	
         try{
         	mailSender.send(msg); 
         	return true;

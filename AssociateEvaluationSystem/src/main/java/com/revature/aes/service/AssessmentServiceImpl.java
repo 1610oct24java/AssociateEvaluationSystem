@@ -1,18 +1,18 @@
 package com.revature.aes.service;
 
-import com.revature.aes.beans.User;
-import com.revature.aes.logging.Logging;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.revature.aes.beans.Assessment;
-import com.revature.aes.dao.AssessmentDAO;
-import com.revature.aes.grading.AssessmentGrader;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.revature.aes.beans.Assessment;
+import com.revature.aes.beans.User;
+import com.revature.aes.dao.AssessmentDAO;
+import com.revature.aes.grading.AssessmentGrader;
+import com.revature.aes.logging.Logging;
 
 @Service
 public class AssessmentServiceImpl implements AssessmentService {
@@ -47,11 +47,16 @@ public class AssessmentServiceImpl implements AssessmentService {
 	}
 
 	@Override
+	public List<Assessment> findAssessmentsByUser(User user) {
+		return (List<Assessment>)assDAO.findAssessmentsByUser(user);
+	}
+
+	@Override
 	public Integer findGradeByUser(User user) {
-		List<Assessment> asmt = assDAO.findByUser(user);
+		List<Assessment> asmt = assDAO.findAssessmentsByUser(user);
 		log.info(asmt.toString());
 		if (!asmt.isEmpty()) {
-			Assessment as = Collections.max(asmt, Comparator.comparing(a -> a.getFinishedTimeStamp()));
+			Assessment as = Collections.max(asmt, Comparator.comparing(a -> a.getFinishedTimeStamp(), Comparator.nullsFirst(Comparator.naturalOrder())));
 			return as.getGrade();
 		}else {
 			return null;

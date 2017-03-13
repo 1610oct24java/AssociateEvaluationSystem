@@ -3,6 +3,13 @@ package com.revature.aes.beans;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -10,9 +17,21 @@ public class AssessmentRequest implements Serializable{
 
 	private static final long serialVersionUID = 4857861341651025701L;
 	
+	@Id
+	@GeneratedValue(generator = "AES_ASSESSMENT_REQUEST_SEQ", strategy = GenerationType.SEQUENCE)
+	@GenericGenerator(name="AES_ASSESSMENT_REQUEST_SEQ", strategy="org.hibernate.id.enhanced.SequenceStyleGenerator", parameters={
+			@Parameter(name="sequence_name", value="AES_ASSESSMENT_REQUEST_SEQ"),
+			@Parameter(name="optimizer", value="hilo"),
+			@Parameter(name="initial_value",value="1"),
+			@Parameter(name="increment_size",value="1")
+	})
+	private int assessmentRequestId;
+	
 	private List<CategoryRequest> categoryRequestList;
     private String link;
     private String userEmail;
+    
+    @Column(name="TIMELIMIT")
     private Integer timeLimit;
     
 	public AssessmentRequest() {

@@ -1,15 +1,15 @@
 package com.revature.aes.config;
 
-import com.revature.aes.logging.Logging;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
+import javax.inject.Inject;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import javax.inject.Inject;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import com.revature.aes.logging.Logging;
 
 /**
  * Created by Nick on 1/26/2017.

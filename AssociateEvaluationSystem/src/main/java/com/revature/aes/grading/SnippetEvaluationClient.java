@@ -8,9 +8,11 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.revature.aes.logging.Logging;
 
+@Component
 public class SnippetEvaluationClient {
 	
 	@Autowired

@@ -1,5 +1,10 @@
 package com.revature.aes.service;
 
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.revature.aes.beans.AssessmentAuth;
 import com.revature.aes.beans.AssessmentRequest;
 import com.revature.aes.beans.User;
@@ -7,13 +12,6 @@ import com.revature.aes.config.IpConf;
 import com.revature.aes.loader.AssessmentRequestLoader;
 import com.revature.aes.locator.AssessmentServiceLocator;
 import com.revature.aes.logging.Logging;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 @Service
 public class RestServicesImpl implements RestServices {
@@ -24,6 +22,9 @@ public class RestServicesImpl implements RestServices {
 	private AssessmentServiceLocator assessmentService;
 	@Autowired
 	private AssessmentAuthService authService;
+	
+	@Autowired
+	private AssessmentRequestService assReqServ;
 
 	@Autowired
 	private IpConf ipConf;
@@ -51,8 +52,8 @@ public class RestServicesImpl implements RestServices {
 		int userId = candidate.getUserId();
 //		String email = candidate.getEmail();
 		String category = candidate.getFormat();
-		
-		AssessmentRequest ar = loader.loadRequest(category);
+		//------------------------------------------------------------------------------------------------------------------------------------------
+		AssessmentRequest ar = assReqServ.getAssessmentRequestTemplate(); //assReqServ.getassessment by id here
 		
 		ar.setUserEmail(candidate.getEmail());
 		
