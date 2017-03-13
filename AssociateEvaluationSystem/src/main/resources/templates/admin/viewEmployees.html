@@ -25,24 +25,23 @@
 			<img src="images/Revature-Logo.png" alt="Revature" height="75px">
 		</a>
 	</div>
-	
+
 	<div class="row stylePro">
 		<span class="col-xs-6 col-md-6">
 			<a href="registerEmployee">Register Employee</a>
-
+		</span>
+		<span class="col-xs-6 col-md-6">
+			<a href="createAssessment">Create Assessment</a>
 		</span>
 		<span class="col-xs-6 col-md-6">
 			<a href="updateCredentials">Update Employee</a>
-
 		</span>
-		<span class="col-xs-6 col-md-6">
+		<span class="col-xs-4 col-md-4">
 			<button id="logout" class="btn-revature" ng-click="logout()">logout</button>
 		</span>
 	</div>
 	
-	
-	
-	 Order by:
+	Order by:
 		<select ng-model="sortorder" ng-init="sortorder='lastName'">
     		<option  value="firstName">FirstName</option>
     		<option selected value="lastName" >LastName</option>
@@ -59,30 +58,25 @@
 		<caption>Employee List</caption>
 		<thead>
 			<tr>
-
-			     <th><input type="checkbox" ng-model="selectedAll" ng-click="checkAll()" /></th>
+			    <th><input type="checkbox" ng-model="selectedAll" ng-click="checkAll()" /></th>
 				<th>FirstName</th>
 				<th>LastName</th>
 				<th>Email</th>
 				<th>Role</th>
-				
+				<th>Delete/Edit</th>
 			</tr>
 		</thead>
 		<tbody>
-
-		
-			
 			<tr ng-repeat="employee in employees | orderBy: sortorder | filter: employeeSearch">
 				<td>
                 <input type="checkbox" ng-model="employee.selected"/></td>
 				<td>{{employee.firstName}}</td>
 				<td>{{employee.lastName}}</td>
 				<td>{{employee.email}}</td>
-				<td>{{employee.role.roleTitle}}
-				<button style="font-size:24px" ng-click="Delete(employee.email)" margin-left:auto;> <i class="fa fa-trash"></i></button>
-	<button type="button" ng-click=" " >Update</button>
-	</td>
-
+				<td>{{employee.role.roleTitle}}</td>
+				<td>
+					<button style="font-size:24px" ng-click="Delete(employee.email)" margin-left:auto;> <i class="fa fa-trash"></i></button>
+				</td>
 			</tr>
 		</tbody>
 	</table>
