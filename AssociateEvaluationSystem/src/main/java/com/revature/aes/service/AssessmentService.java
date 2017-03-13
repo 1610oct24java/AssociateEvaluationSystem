@@ -18,4 +18,6 @@ public interface AssessmentService {
 
 	public List<User> findUsersWithNoGrade();
 
+	public List<Assessment> findAssessmentsByUser(User user);
+
 }
