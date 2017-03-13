@@ -52,8 +52,18 @@ public class RestServicesImpl implements RestServices {
 		int userId = candidate.getUserId();
 //		String email = candidate.getEmail();
 		String category = candidate.getFormat();
-		//------------------------------------------------------------------------------------------------------------------------------------------
+		System.out.println("------------------------------------------------------------------------------------------------------------------------------------------");
+		System.out.println("RestServicesImpl.java at the part that chelle wrote.");
 		AssessmentRequest ar = assReqServ.getAssessmentRequestTemplate(); //assReqServ.getassessment by id here
+		System.out.println(ar);
+		
+		System.out.println("Is");
+		System.out.println("this");
+		System.out.println("a");
+		System.out.println("code");
+		System.out.println("smell");
+		System.out.println("?");
+		System.out.println("Can you find them all? Mwah hah hah hah!!!");
 		
 		ar.setUserEmail(candidate.getEmail());
 		
@@ -68,9 +78,6 @@ public class RestServicesImpl implements RestServices {
 		
 		authService.save(auth);
 		
-//		map.put("email", email);
-//		map.put("link", auth.getUrlAuth());
-//		map.put("pass", pass);
 		return auth.getUrlAuth();
 	}
 }

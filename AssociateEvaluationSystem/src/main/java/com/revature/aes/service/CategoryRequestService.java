@@ -7,4 +7,6 @@ public interface CategoryRequestService {
 
 	public CategoryRequest getCategoryRequestByCategory(Category cat);
 	
+	public void saveCategoryRequest(CategoryRequest catReq);
+	
 }

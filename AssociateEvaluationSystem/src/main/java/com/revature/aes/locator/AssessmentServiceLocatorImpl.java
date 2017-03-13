@@ -89,7 +89,7 @@ public class AssessmentServiceLocatorImpl implements AssessmentServiceLocator {
 	 */
 	@Override
 	public AssessmentRequest getLink(AssessmentRequest request) {
-		//Change the URL to whatever Matthew's thingy will be
+		//Change the URL to whatever Matthew's thingy will be <-- Descriptive comments are overrated.
 		String lines = "=============================================";
 		log.debug(lines);
 		log.debug(request.toString());

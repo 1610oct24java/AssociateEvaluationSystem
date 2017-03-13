@@ -4,15 +4,18 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-import org.springframework.stereotype.Component;
+import org.springframework.data.annotation.Transient;
 
-@Component
+@Entity
+@Table(name="AES_ASSESSMENT_REQUEST")
 public class AssessmentRequest implements Serializable{
 
 	private static final long serialVersionUID = 4857861341651025701L;
@@ -27,6 +30,7 @@ public class AssessmentRequest implements Serializable{
 	})
 	private int assessmentRequestId;
 	
+	@Transient
 	private List<CategoryRequest> categoryRequestList;
     private String link;
     private String userEmail;

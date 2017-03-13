@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import com.revature.aes.beans.AssessmentRequest;
 import com.revature.aes.dao.AssessmentRequestDAO;
 
-@Service
+@Service("AssessmentRequestServiceImpl")
 public class AssessmentRequestServiceImpl implements AssessmentRequestService {
 
 	private static final Integer AssessmentRequestTemplateId = 1;
@@ -18,5 +18,12 @@ public class AssessmentRequestServiceImpl implements AssessmentRequestService {
 	public AssessmentRequest getAssessmentRequestTemplate() {
 		return assReqDao.getByAssessmentRequestId(AssessmentRequestTemplateId);
 	}
+
+	@Override
+	public AssessmentRequest saveAssessmentRequest(AssessmentRequest assReq){
+		return assReqDao.save(assReq);
+	}
+	
+
 
 }

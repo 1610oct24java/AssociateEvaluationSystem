@@ -8,8 +8,7 @@ import com.revature.aes.beans.Category;
 import com.revature.aes.beans.CategoryRequest;
 import com.revature.aes.dao.CategoryRequestDAO;
 
-@Service
-@Transactional
+@Service("CategoryRequestServiceImpl")
 public class CategoryRequestServiceImpl implements CategoryRequestService {
 
 	@Autowired
@@ -18,6 +17,12 @@ public class CategoryRequestServiceImpl implements CategoryRequestService {
 	@Override
 	public CategoryRequest getCategoryRequestByCategory(Category cat) {
 		return catDao.getByCategory(cat);
+	}
+
+	@Override
+	public void saveCategoryRequest(CategoryRequest catReq) {
+		catDao.save(catReq);
+		
 	}
 
 }
