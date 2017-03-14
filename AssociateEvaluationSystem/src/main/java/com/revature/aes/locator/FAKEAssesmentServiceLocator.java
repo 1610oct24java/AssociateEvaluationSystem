@@ -1,8 +1,9 @@
 package com.revature.aes.locator;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.revature.aes.beans.AssessmentRequest;
 import com.revature.aes.logging.Logging;
-import org.springframework.beans.factory.annotation.Autowired;
 
 
 //@Service

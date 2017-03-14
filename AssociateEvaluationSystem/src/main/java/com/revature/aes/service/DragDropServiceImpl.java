@@ -1,10 +1,10 @@
 package com.revature.aes.service;
 
-import com.revature.aes.beans.DragDrop;
-import com.revature.aes.dao.DragDropDAO;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.revature.aes.beans.DragDrop;
+import com.revature.aes.dao.DragDropDAO;
 
 /**
  * Created by Nick on 1/19/2017.

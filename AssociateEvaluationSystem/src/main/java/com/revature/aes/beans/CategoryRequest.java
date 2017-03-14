@@ -1,25 +1,54 @@
 package com.revature.aes.beans;
 
+import java.io.Serializable;
+
+import javax.persistence.*;
+
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 import org.springframework.stereotype.Component;
 
 /**
  * Created by mpski on 2/22/17.
  */
 
-@Component
-public class CategoryRequest {
+@Entity
+@Table(name="AES_CATEGORY_REQUEST")
+public class CategoryRequest implements Serializable{
 
-    private String category;
+	
+	@Id
+	@GeneratedValue(generator = "AES_CATEGORY_REQUEST_SEQ", strategy = GenerationType.SEQUENCE)
+	@GenericGenerator(name="AES_CATEGORY_REQUEST_SEQ", strategy="org.hibernate.id.enhanced.SequenceStyleGenerator", parameters={
+			@Parameter(name="sequence_name", value="AES_CATEGORY_REQUEST_SEQ"),
+			@Parameter(name="optimizer", value="hilo"),
+			@Parameter(name="initial_value",value="1"),
+			@Parameter(name="increment_size",value="1")
+	})
+    private Integer categoryRequestId;
+
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name = "CATEGORY_ID")
+    private Category category;
+
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name = "ASSESSMENT_REQUEST_ID")
+    private AssessmentRequest assessmentRequest;
+
+    @Column(name="MS_QUESTIONS")
     private Integer msQuestions; //number of multiple select questions
+	@Column(name="MC_QUESTIONS")
     private Integer mcQuestions; //number of multiple choice questions
+	@Column(name="DD_QUESTIONS")
     private Integer ddQuestions; //number of drag-n-drop questions
+	@Column(name="CS_QUESTIONS")
     private Integer csQuestions; //number of code-snippet questions
 
     public CategoryRequest() {
         super();
     }
 
-    public CategoryRequest(String category, Integer msQuestions, Integer mcQuestions, Integer ddQuestions, Integer csQuestions) {
+    public CategoryRequest(Category category, Integer msQuestions, Integer mcQuestions, Integer ddQuestions, Integer csQuestions) {
         this.category = category;
         this.msQuestions = msQuestions;
         this.mcQuestions = mcQuestions;
@@ -27,11 +56,11 @@ public class CategoryRequest {
         this.csQuestions = csQuestions;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 
