@@ -27,8 +27,6 @@ public class Logging {
 		String methodClass = signature.getDeclaringTypeName().toString();
 		String method = signature.getName().toString();
 		Object result = null;
-		
-		System.out.println("Here's another one!!!");
 
 		log.info(dashes);
 
