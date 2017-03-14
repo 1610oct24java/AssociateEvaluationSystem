@@ -1,13 +1,13 @@
 package com.revature.aes.dao;
 
-import com.revature.aes.beans.User;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.revature.aes.beans.Assessment;
-
-import java.util.List;
+import com.revature.aes.beans.User;
 
 @Repository
 public interface AssessmentDAO extends JpaRepository<Assessment, Integer> {
