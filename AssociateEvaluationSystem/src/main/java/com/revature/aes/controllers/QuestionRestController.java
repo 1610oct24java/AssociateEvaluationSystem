@@ -87,7 +87,7 @@ public class QuestionRestController
 	
 	/**
 	 * 
-	 * @param id	The id of the option for a drag and drop question to be 
+	 * @param dragDropId	The id of the option for a drag and drop question to be
 	 * 				deleted.
 	 */
 	@RequestMapping(value="question/deleteDragDrop/{dragDropId}", method = RequestMethod.POST, produces = 
@@ -131,7 +131,7 @@ public class QuestionRestController
 	/**
 	 * Modifies the a question in the database by its unique identifier
 	 * 
-	 * @param id the Id of question, cannot be null or less than 0
+	 * @param question the Id of question, cannot be null or less than 0
 	 * @return the updated Question 
 	 */
 	@RequestMapping(value ="question", method = RequestMethod.PUT, produces = 
@@ -139,17 +139,13 @@ public class QuestionRestController
 	public Question updateQuestionById(@RequestBody Question question)
 	{
 		//option is not being saved as thier ids are all 0
-//		List<Option> options = new ArrayList<>();
-//		for (Option o : question.getOption()) {
-//			o.setQuestion(question);
-//			Option option = new Option();
-//			option.setOptionText(o.getOptionText());
-//			option.setCorrect(o.getCorrect());
-//			option.setQuestion(question);
-//			optionService.addOption(option);
-//			question.getOption().add(option);
-//
-//		}
+		int x = 700;
+		for (Option o : question.getOption()) {
+			o.setQuestion(question);
+			o.setOptionId(0);
+			optionService.addOption(o);
+		}
+		question.setOption(null);
 		//un-commenting out the code above will break it. currently a question is being saved with a category
 
 //		if(question.getDragdrop() != null){

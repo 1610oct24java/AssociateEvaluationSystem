@@ -34,14 +34,14 @@ public class Option implements Serializable {
 	 * @optionId the unique Identifier for the Option class
 	 */
 	@Id
-	@GeneratedValue(generator = "AES_OPTION_SEQ", strategy = GenerationType.SEQUENCE)
+	@Column(name = "OPTION_ID")
+	@GeneratedValue(generator = "AES_OPTION_SEQ")
 	@GenericGenerator(name="AES_OPTION_SEQ", strategy="org.hibernate.id.enhanced.SequenceStyleGenerator", parameters={
 			@Parameter(name="sequence_name", value="AES_OPTION_SEQ"),
 			@Parameter(name="optimizer", value="hilo"),
 			@Parameter(name="initial_value",value="1"),
 			@Parameter(name="increment_size",value="1")
 	})
-	@Column(name = "OPTION_ID")
 	private int optionId;
 	/**
 	 * @optionText A String representation of a possible answer for a question.
