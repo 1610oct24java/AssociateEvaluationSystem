@@ -22,8 +22,8 @@ public class BashDriver {
 		double result = 100.0;
 		try {
 			Map<Integer, BashData> valSet = runCodeTestScript(keyPath, testPath, argSet);
-			result = bashGrader(valSet, testProfile);
-			System.out.println("ayyy");
+			result = bashGrader(valSet, testProfile) * 100;
+			System.out.println("ayyy " + result);
 			
 		} catch (BashException e) {
 			// if key file did not compile, student passes if their code
@@ -57,10 +57,10 @@ public class BashDriver {
 			ProcessBuilder pb = new ProcessBuilder(command);
 			Process p = pb.start();
 			BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			String inputLine;
-			String lineData;
-			String lineType;
-			Integer lineKey;
+			String inputLine = null;
+			StringBuilder lineData = null;
+			String lineType = null;
+			Integer lineKey = null;
 			
 			while ((inputLine = in.readLine()) != null) {
 				if (inputLine.startsWith("ERROR(f)")) {
@@ -78,29 +78,64 @@ public class BashDriver {
 					log.error("caught error from BASH: " + inputLine);
 					throw new BashException("2");
 				}
-				
-				String[] dataPair = inputLine.split(":");
-				lineKey = Integer.parseInt(dataPair[0].substring(dataPair[0].length() - 1, dataPair[0].length()));
-				lineType = dataPair[0].substring(0, 1);
-				lineData = dataPair[1].substring(1);
+				//Spaghetti code here...
+				if (inputLine.startsWith("key") || inputLine.startsWith("test")) {
+					//Update key info
+					if (lineKey != null) {
+						// lineKey is in the data map
+						if (data.containsKey(lineKey)) {
+							if (lineType.equals("t")) {
+								data.get(lineKey).setUserInfo(lineData.toString());
+							} else {
+								data.get(lineKey).setKeyInfo(lineData.toString());
+							}
+						}
+						lineData = null;
+					}
+
+					String[] dataPair = inputLine.split(":");
+					System.out.println("THE INPUTLINE IS " + inputLine);
+					lineKey = Integer.parseInt(dataPair[0].substring(dataPair[0].length() - 1, dataPair[0].length()));
+					lineType = dataPair[0].substring(0, 1);
+					lineData = new StringBuilder(dataPair[1].substring(1));
+
+					// lineKey is in the data map
+					if (data.containsKey(lineKey)) {
+						if (lineType.equals("t")) {
+							data.get(lineKey).setUserInfo(lineData.toString());
+						} else {
+							data.get(lineKey).setKeyInfo(lineData.toString());
+						}
+					}
+					// lineKey is not in data map
+					else {
+						BashData dValue = new BashData();
+						if (lineType.equals("t")) {
+							dValue.setUserInfo(lineData.toString());
+						} else {
+							dValue.setKeyInfo(lineData.toString());
+						}
+						data.put(lineKey, dValue);
+					}
+				}
+				else {
+					if (lineData != null) {
+						lineData.append(" " + inputLine);
+					}
+				}
+			}
+			//update key info
+			if (lineKey != null) {
+				System.out.println("LineData1 " + lineData);
 				// lineKey is in the data map
 				if (data.containsKey(lineKey)) {
 					if (lineType.equals("t")) {
-						data.get(lineKey).setUserInfo(lineData);
+						data.get(lineKey).setUserInfo(lineData.toString());
 					} else {
-						data.get(lineKey).setKeyInfo(lineData);
+						data.get(lineKey).setKeyInfo(lineData.toString());
 					}
 				}
-				// lineKey is not in data map
-				else {
-					BashData dValue = new BashData();
-					if (lineType.equals("t")) {
-						dValue.setUserInfo(lineData);
-					} else {
-						dValue.setKeyInfo(lineData);
-					}
-					data.put(lineKey, dValue);
-				}
+				lineData = null;
 			}
 
 			in.close();
