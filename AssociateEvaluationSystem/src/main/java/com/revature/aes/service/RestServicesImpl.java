@@ -2,12 +2,10 @@ package com.revature.aes.service;
 
 import javax.annotation.PostConstruct;
 
+import com.revature.aes.beans.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.revature.aes.beans.AssessmentAuth;
-import com.revature.aes.beans.AssessmentRequest;
-import com.revature.aes.beans.User;
 import com.revature.aes.config.IpConf;
 import com.revature.aes.loader.AssessmentRequestLoader;
 import com.revature.aes.locator.AssessmentServiceLocator;
@@ -47,7 +45,7 @@ public class RestServicesImpl implements RestServices {
 	@Override
 	public String finalizeCandidate(User candidate, String pass) {
 		
-		AssessmentRequestLoader loader = new AssessmentRequestLoader();
+//		AssessmentRequestLoader loader = new AssessmentRequestLoader();
 //		Map<String,String> map = new HashMap<>();
 		int userId = candidate.getUserId();
 //		String email = candidate.getEmail();
@@ -57,16 +55,18 @@ public class RestServicesImpl implements RestServices {
 		AssessmentRequest ar = assReqServ.getAssessmentRequestTemplate(); //assReqServ.getassessment by id here
 		System.out.println(ar);
 		
-		System.out.println("Is");
-		System.out.println("this");
-		System.out.println("a");
-		System.out.println("code");
-		System.out.println("smell");
-		System.out.println("?");
-		System.out.println("Can you find them all? Mwah hah hah hah!!!");
-		
 		ar.setUserEmail(candidate.getEmail());
-		
+
+		for(CategoryRequest categoryRequest : ar.getCategoryRequestList()){
+
+			if(categoryRequest.getCategory().getName().equalsIgnoreCase("core language")){
+
+				categoryRequest.setCategory(new Category(candidate.getFormat()));
+
+			}
+
+		}
+
 		ar = assessmentService.getLink(ar);
 		
 		String link = ar.getLink();
