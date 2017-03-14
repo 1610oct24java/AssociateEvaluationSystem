@@ -25,6 +25,9 @@ public class RestServicesImpl implements RestServices {
 	private AssessmentRequestService assReqServ;
 
 	@Autowired
+	private CategoryService categoryService;
+
+	@Autowired
 	private IpConf ipConf;
 
 	private static String ip;
@@ -61,7 +64,7 @@ public class RestServicesImpl implements RestServices {
 
 			if(categoryRequest.getCategory().getName().equalsIgnoreCase("core language")){
 
-				categoryRequest.setCategory(new Category(candidate.getFormat()));
+				categoryRequest.setCategory(categoryService.getCategoryByName(candidate.getFormat()));
 
 			}
 

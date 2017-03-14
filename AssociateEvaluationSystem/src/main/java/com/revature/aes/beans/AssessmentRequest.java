@@ -8,7 +8,6 @@ import javax.persistence.*;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-import org.springframework.data.annotation.Transient;
 
 @Entity
 @Table(name="AES_ASSESSMENT_REQUEST")

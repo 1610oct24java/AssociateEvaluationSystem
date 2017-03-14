@@ -32,7 +32,7 @@ public class SnippetEvaluationClient {
 			HttpEntity entity = response.getEntity();
 			String responseString = EntityUtils.toString(entity, "UTF-8");
 			System.out.println("Source: " + submissionKey + " [grade: " + responseString + " ]");
-			return Double.parseDouble(responseString);
+			return Double.parseDouble(responseString)/100;
 
 		} catch (Exception e) {
 			log.stackTraceLogging(e);

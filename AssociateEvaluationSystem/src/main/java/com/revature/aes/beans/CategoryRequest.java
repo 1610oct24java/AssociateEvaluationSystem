@@ -35,13 +35,13 @@ public class CategoryRequest implements Serializable{
     @JoinColumn(name = "ASSESSMENT_REQUEST_ID")
     private AssessmentRequest assessmentRequest;
 
-    @Column(name="MSQUESTIONS")
+    @Column(name="MS_QUESTIONS")
     private Integer msQuestions; //number of multiple select questions
-	@Column(name="MCQUESTIONS")
+	@Column(name="MC_QUESTIONS")
     private Integer mcQuestions; //number of multiple choice questions
-	@Column(name="DDQUESTIONS")
+	@Column(name="DD_QUESTIONS")
     private Integer ddQuestions; //number of drag-n-drop questions
-	@Column(name="CSQUESTIONS")
+	@Column(name="CS_QUESTIONS")
     private Integer csQuestions; //number of code-snippet questions
 
     public CategoryRequest() {
