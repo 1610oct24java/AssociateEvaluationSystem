@@ -8,6 +8,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -47,6 +48,7 @@ public class RegisterCandidateTest {
 		driver.close();
 	}
 	
+	@Ignore
 	@Test
 	public void registerCandidateDatabaseTest()  {
 		
@@ -60,17 +62,34 @@ public class RegisterCandidateTest {
 			registerCandidatePage.registerCandidate("test", "test", "test@test.com", "SDET");
 			
 			// Check if test candidate is in the database
-			assertTrue(registerCandidatePage.testCandidateExist());
+			assertTrue(registerCandidatePage.testCandidateExistDB());
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	/*
 	@Test
 	public void registerCandidateGUITest()  {
-		candidateViewPage.clickRegisterCandidateLink();
-		registerCandidatePage.registerCandidate("test", "test", "test@test.com", "SDET");
-	}*/
+		try {
+			Thread.sleep(3000);
+
+			// Remove test candidate before recreating
+			registerCandidatePage.deleteTestCandidate();
+			candidateViewPage.clickRegisterCandidateLink();
+			
+			Thread.sleep(3000);
+			registerCandidatePage.registerCandidate("test", "test", "test@test.com", "SDET");
+			
+			registerCandidatePage.clickViewCandidateLink();
+			
+			Thread.sleep(3000);
+			driver.navigate().refresh();
+			Thread.sleep(3000);
+			assertTrue(candidateViewPage.testCandidateExistView());
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

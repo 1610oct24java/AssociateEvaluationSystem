@@ -4,9 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
 import utilties.DataBaseConnection;
@@ -20,6 +22,7 @@ public class RegisterCandidatePage {
 	By email = By.id("inputEmail");
 	By program = By.id("courseSelect");
 	By register = By.id("btn-register-recruit");
+	By registerCandidateLink = By.xpath("//a[@href='view']");
 	
 	public RegisterCandidatePage(WebDriver driver) {
 		this.driver = driver;
@@ -44,6 +47,10 @@ public class RegisterCandidatePage {
 	
 	public void clickRegister() {
 		driver.findElement(register).click();
+	}
+	
+	public void clickViewCandidateLink() {
+		driver.findElement(registerCandidateLink).click();
 	}
 	
 	public void deleteTestCandidate() {
@@ -92,35 +99,7 @@ public class RegisterCandidatePage {
 		}
 	}
 	
-	public boolean testCandidateExist() {
-		
-		Connection conn;
-		PreparedStatement ps;
-		int userId = 0;
-		
-		try {
-			String getUserIdSQL = "SELECT user_id FROM aes_users WHERE email = ?";
-			conn = DataBaseConnection.getConnection();
-			ps = conn.prepareStatement(getUserIdSQL);
-			
-			ps.setString(1, "test@test.com");
-			ResultSet rs = ps.executeQuery();
-			while(rs.next()) {
-				userId = rs.getInt("USER_ID");
-			}
-			
-			if(userId != 0) {
-				return true;
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return false;
-	}
-	
-	public static boolean getTestCandidate() {
+	public boolean testCandidateExistDB() {
 		
 		Connection conn;
 		PreparedStatement ps;
