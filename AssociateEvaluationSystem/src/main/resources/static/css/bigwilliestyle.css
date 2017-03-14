@@ -12,16 +12,6 @@ body {
     border-radius: 10px;
 }
 
-.form-revatureAssessment {
-    max-width: 1000px;
-    padding: 30px;
-    margin: auto;
-    background: #B9B9BA;
-    color: #474C55;
-    border: none;
-    border-radius: 10px;
-}
-
 .form-revature, div {
     margin: 10px;
 }
@@ -49,29 +39,24 @@ input {
 }
 
 .logo {
-	margin: 30px;
+    margin: 30px;
 }
 
 .span-creds {
-	color: red;
-	margin: auto;
-	padding: 10px;
+    color: red;
+    margin: auto;
+    padding: 10px;
 }
 
 .stylePro {
-	float: right;
-	margin: auto;
+    float: right;
+    margin: auto;
 }
 
 .suh {
-	color: #474C55;
+    color: #474C55;
 }
 
-.clicked {
-    -ms-transform: rotate(180deg); /* IE 9 */
-    -webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
-    transform: rotate(180deg);
-}
 /*------------------------------------------------------------------------------
 COLOR GUIDE
 
@@ -84,3 +69,24 @@ Secondary Colors
     Yellow    : #FCB414
     Light Gray: #B9B9BA
 ------------------------------------------------------------------------------*/
+
+/*
+    Billy Styling Start
+*/
+.form-revatureAssessment {
+    max-width: 1000px;
+    padding: 30px;
+    margin: auto;
+    background: #B9B9BA;
+    color: #474C55;
+    border: none;
+    border-radius: 10px;
+}
+
+/*
+    Billy Styling End
+*/
+
+*:focus {
+    outline: none;
+}
