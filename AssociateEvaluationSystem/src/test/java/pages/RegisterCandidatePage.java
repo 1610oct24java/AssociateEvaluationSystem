@@ -4,11 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
 import utilties.DataBaseConnection;
@@ -22,7 +20,8 @@ public class RegisterCandidatePage {
 	By email = By.id("inputEmail");
 	By program = By.id("courseSelect");
 	By register = By.id("btn-register-recruit");
-	By registerCandidateLink = By.xpath("//a[@href='view']");
+	By viewCandidatesLink = By.xpath("//a[@href='view']");
+
 	
 	public RegisterCandidatePage(WebDriver driver) {
 		this.driver = driver;
@@ -49,11 +48,11 @@ public class RegisterCandidatePage {
 		driver.findElement(register).click();
 	}
 	
-	public void clickViewCandidateLink() {
-		driver.findElement(registerCandidateLink).click();
+	public void clickViewCandidates() {
+		driver.findElement(viewCandidatesLink).click();
 	}
 	
-	public void deleteTestCandidate() {
+	public void deleteCandidate(String userEmail) {
 		
 		Connection conn;
 		PreparedStatement ps;
@@ -64,42 +63,41 @@ public class RegisterCandidatePage {
 			conn = DataBaseConnection.getConnection();
 			ps = conn.prepareStatement(getUserIdSQL);
 			
-			ps.setString(1, "test@test.com");
+			ps.setString(1, userEmail);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				userId = rs.getInt("USER_ID");
 			}
 			
-		if(userId != 0) {
-			
-			String deleteTestUserSQL = "DELETE FROM aes_users WHERE USER_ID = ? ";
-			ps = conn.prepareStatement(deleteTestUserSQL);
-			ps.setInt(1, userId);
-			ps.executeQuery();
-			
-			String deleteTestUserSQL2 = "DELETE FROM aes_security WHERE USER_ID = ? ";
-			ps = conn.prepareStatement(deleteTestUserSQL2);
-			ps.setInt(1, userId);
-			ps.executeQuery();
-			
-			String deleteTestUserSQL3 = "DELETE FROM aes_assessment WHERE USER_ID = ? ";
-			ps = conn.prepareStatement(deleteTestUserSQL3);
-			ps.setInt(1, userId);
-			ps.executeQuery();
-			
-			String deleteTestUserSQL4 = "DELETE FROM aes_assessment_auth WHERE USER_ID = ? ";
-			ps = conn.prepareStatement(deleteTestUserSQL4);
-			ps.setInt(1, userId);
-			ps.executeQuery();	
-		}
+			if(userId != 0) {
+				
+				String deleteTestUserSQL = "DELETE FROM aes_users WHERE USER_ID = ? ";
+				ps = conn.prepareStatement(deleteTestUserSQL);
+				ps.setInt(1, userId);
+				ps.executeQuery();
+				
+				String deleteTestUserSQL2 = "DELETE FROM aes_security WHERE USER_ID = ? ";
+				ps = conn.prepareStatement(deleteTestUserSQL2);
+				ps.setInt(1, userId);
+				ps.executeQuery();
+				
+				String deleteTestUserSQL3 = "DELETE FROM aes_assessment WHERE USER_ID = ? ";
+				ps = conn.prepareStatement(deleteTestUserSQL3);
+				ps.setInt(1, userId);
+				ps.executeQuery();
+				
+				String deleteTestUserSQL4 = "DELETE FROM aes_assessment_auth WHERE USER_ID = ? ";
+				ps = conn.prepareStatement(deleteTestUserSQL4);
+				ps.setInt(1, userId);
+				ps.executeQuery();	
+			}
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
-	public boolean testCandidateExistDB() {
+	public boolean testCandidateExist(String userEmail) {
 		
 		Connection conn;
 		PreparedStatement ps;
@@ -110,7 +108,7 @@ public class RegisterCandidatePage {
 			conn = DataBaseConnection.getConnection();
 			ps = conn.prepareStatement(getUserIdSQL);
 			
-			ps.setString(1, "test@test.com");
+			ps.setString(1, userEmail);
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				userId = rs.getInt("USER_ID");
@@ -120,7 +118,6 @@ public class RegisterCandidatePage {
 				return true;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

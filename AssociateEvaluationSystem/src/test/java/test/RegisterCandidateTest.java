@@ -8,8 +8,8 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -37,6 +37,7 @@ public class RegisterCandidateTest {
 		System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/src/test/resources/chromedriver.exe");
 		driver = new ChromeDriver();
 		driver.get("http://localhost:8090/aes/login");
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		loginPage = new LoginPage(driver);
 		loginPage.loginToAES("nickolas.jurczak@revature.com", "password");
 		candidateViewPage = new CandidateViewPage(driver);
@@ -48,48 +49,43 @@ public class RegisterCandidateTest {
 		driver.close();
 	}
 	
-	@Ignore
 	@Test
-	public void registerCandidateDatabaseTest()  {
-		
+	public void registerCandidateDBTest()  {
+		candidateViewPage.clickRegisterCandidateLink();
+		registerCandidatePage.registerCandidate("test", "test", "test@jonsfakemail.com", "SDET");
+		explicitWait(10);
+		assertTrue(registerCandidatePage.testCandidateExist("test@jonsfakemail.com"));
+		registerCandidatePage.clickViewCandidates();
+		explicitWait(10);
+		registerCandidatePage.deleteCandidate("test@jonsfakemail.com");
+	}
+	
+	private void explicitWait(int seconds) {
 		try {
-			Thread.sleep(3000);
-
-			// Remove test candidate before recreating
-			registerCandidatePage.deleteTestCandidate();
-
-			Thread.sleep(3000);
-			registerCandidatePage.registerCandidate("test", "test", "test@test.com", "SDET");
-			
-			// Check if test candidate is in the database
-			assertTrue(registerCandidatePage.testCandidateExistDB());
+			Thread.sleep(seconds * 1000);	
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	@Test
 	public void registerCandidateGUITest()  {
-		try {
-			Thread.sleep(3000);
+		
+		explicitWait(10);
 
-			// Remove test candidate before recreating
-			registerCandidatePage.deleteTestCandidate();
-			candidateViewPage.clickRegisterCandidateLink();
-			
-			Thread.sleep(3000);
-			registerCandidatePage.registerCandidate("test", "test", "test@test.com", "SDET");
-			
-			registerCandidatePage.clickViewCandidateLink();
-			
-			Thread.sleep(3000);
-			driver.navigate().refresh();
-			Thread.sleep(3000);
-			assertTrue(candidateViewPage.testCandidateExistView());
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		// Remove test candidate before recreating
+		registerCandidatePage.deleteCandidate("test@jonsfakemail.com");
+		candidateViewPage.clickRegisterCandidateLink();
+		
+		explicitWait(10);
+		registerCandidatePage.registerCandidate("test", "test", "test@jonsfakemail.com", "SDET");
+		
+		registerCandidatePage.clickViewCandidates();
+		
+		explicitWait(10);
+		driver.navigate().refresh();
+		explicitWait(10);
+		assertTrue(candidateViewPage.testCandidateExistView());
+		
 	}
 }

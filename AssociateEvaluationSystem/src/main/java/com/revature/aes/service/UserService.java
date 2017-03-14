@@ -1,6 +1,7 @@
 package com.revature.aes.service;
 
 import com.revature.aes.beans.User;
+import com.revature.aes.beans.UserUpdateHolder;
 
 import java.util.List;
 
@@ -13,12 +14,11 @@ public interface UserService {
 	public User findUserByIndex(int index, String email);
 	public User updateCandidate(User candidate, String email, int index);
 	public void removeCandidate(String email, int index);
-	public void createRecruiter(String email, String lastname, String firstname);
-	public void createTrainer(String email, String lastname, String firstname);
+	public String createRecruiter(String email, String lastname, String firstname);
+	public String createTrainer(String email, String lastname, String firstname);
 	public List<User> findUsersByRole(String role);
 	public void createAdmin(String email, String lastname, String firstname);
-	//public User updateEmployee(User user, String email);
-	void removeEmployee(String email);
-	//void updateEmployee(User user, String email, String lastname, String firstname);
-	public User updateEmployee(String email, String lastname, String firstname);
+	public void updateEmployee(User user, UserUpdateHolder userUpdate);
+	public void removeEmployee(String email);
+
 }
