@@ -2,12 +2,7 @@ package com.revature.aes.beans;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -30,9 +25,17 @@ public class CategoryRequest implements Serializable{
 			@Parameter(name="initial_value",value="1"),
 			@Parameter(name="increment_size",value="1")
 	})
-    private String category;
-	
-	@Column(name="MSQUESTIONS")
+    private Integer categoryRequestId;
+
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name = "CATEGORY_ID")
+    private Category category;
+
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name = "ASSESSMENT_REQUEST_ID")
+    private AssessmentRequest assessmentRequest;
+
+    @Column(name="MSQUESTIONS")
     private Integer msQuestions; //number of multiple select questions
 	@Column(name="MCQUESTIONS")
     private Integer mcQuestions; //number of multiple choice questions
@@ -45,7 +48,7 @@ public class CategoryRequest implements Serializable{
         super();
     }
 
-    public CategoryRequest(String category, Integer msQuestions, Integer mcQuestions, Integer ddQuestions, Integer csQuestions) {
+    public CategoryRequest(Category category, Integer msQuestions, Integer mcQuestions, Integer ddQuestions, Integer csQuestions) {
         this.category = category;
         this.msQuestions = msQuestions;
         this.mcQuestions = mcQuestions;
@@ -53,11 +56,11 @@ public class CategoryRequest implements Serializable{
         this.csQuestions = csQuestions;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 

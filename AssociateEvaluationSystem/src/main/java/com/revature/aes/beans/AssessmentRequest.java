@@ -2,13 +2,9 @@ package com.revature.aes.beans;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -29,10 +25,14 @@ public class AssessmentRequest implements Serializable{
 			@Parameter(name="increment_size",value="1")
 	})
 	private int assessmentRequestId;
-	
+
+	@OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL, mappedBy="assessmentRequest")
+	private Set<CategoryRequest> categoryRequestList;
+
 	@Transient
-	private List<CategoryRequest> categoryRequestList;
     private String link;
+
+	@Transient
     private String userEmail;
     
     @Column(name="TIMELIMIT")
@@ -43,18 +43,18 @@ public class AssessmentRequest implements Serializable{
 		
 	}
 
-	public AssessmentRequest(List<CategoryRequest> categoryRequestList, String link, String userEmail, Integer timeLimit) {
+	public AssessmentRequest(Set<CategoryRequest> categoryRequestList, String link, String userEmail, Integer timeLimit) {
 		this.categoryRequestList = categoryRequestList;
 		this.link = link;
 		this.userEmail = userEmail;
 		this.timeLimit = timeLimit;
 	}
 
-	public List<CategoryRequest> getCategoryRequestList() {
+	public Set<CategoryRequest> getCategoryRequestList() {
 		return categoryRequestList;
 	}
 
-	public void setCategoryRequestList(List<CategoryRequest> categoryRequestList) {
+	public void setCategoryRequestList(Set<CategoryRequest> categoryRequestList) {
 		this.categoryRequestList = categoryRequestList;
 	}
 
