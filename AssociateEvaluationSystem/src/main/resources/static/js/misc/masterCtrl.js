@@ -1,4 +1,4 @@
-app.controller('MasterCtrl', ['$scope', '$rootScope', 'fileUpload', 'ngProgressFactory','$log','Upload', '$state', function($scope, $rootScope, fileUpload, ngProgressFactory, $log, Upload, $state){
+angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope', 'fileUpload', 'ngProgressFactory','$log','Upload', '$state', function($scope, $rootScope, fileUpload, ngProgressFactory, $log, Upload, $state){
 	
 	$scope.templateName = "";
 	
