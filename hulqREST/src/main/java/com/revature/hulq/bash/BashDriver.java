@@ -26,6 +26,9 @@ public class BashDriver {
 			System.out.println("ayyy " + result);
 			
 		} catch (BashException e) {
+			if (e.getMessage() == "0") {
+				result = 0.0;
+			}
 			// if key file did not compile, student passes if their code
 			// compiles
 			if (e.getMessage() == "1") {
@@ -119,6 +122,7 @@ public class BashDriver {
 					}
 				}
 				else {
+					//Append the inputLine echo output to lineData
 					if (lineData != null) {
 						lineData.append(" " + inputLine);
 					}
@@ -126,7 +130,6 @@ public class BashDriver {
 			}
 			//update key info
 			if (lineKey != null) {
-				System.out.println("LineData1 " + lineData);
 				// lineKey is in the data map
 				if (data.containsKey(lineKey)) {
 					if (lineType.equals("t")) {
