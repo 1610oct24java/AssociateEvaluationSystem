@@ -18,14 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class Logging {
 	
 	/** The log. */
-	
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	private String dashes = "\n==========================================================================================================================================================================";
-///*
+/*
 	@Around("execution(* com.revature.hulq..*(..))")
 	public Object log(ProceedingJoinPoint pjp){
-	
-		
 		MethodSignature signature = (MethodSignature) pjp.getSignature();
 		String methodClass = signature.getDeclaringTypeName().toString();
 		String method = signature.getName().toString();
@@ -36,7 +33,7 @@ public class Logging {
 		log.info(methodClass + " ==> " + method);
 		Object[] args = pjp.getArgs();
 		for(int i = 0; i < args.length; i++){
-			log.info("Argument #"+i+": "+args[i]);
+			log.info("Argumetnt #"+i+": "+args[i]);
 		}
 
 		log.info("Executing...");
@@ -60,7 +57,7 @@ public class Logging {
 		return result;
 	}
 
-	@AfterThrowing(pointcut="execution(* com.revature.hulq..*(..))", throwing="e")
+	@AfterThrowing(pointcut="execution(* com.revature.aes..*(..))", throwing="e")
 	public void stackTraceLogging(Exception e){
 		log.error(dashes);
 		for(StackTraceElement st : e.getStackTrace()){

@@ -15,10 +15,10 @@ import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
 
-@Component
+
 public class FileAccess {
 	
-	static String S3LOCATION = "aes.revature/";
+	static private String S3LOCATION = "aes.revature/";
 
 	public boolean upload(String filename, String key){
         AmazonS3 s3client = new AmazonS3Client();
@@ -54,7 +54,6 @@ public class FileAccess {
         AmazonS3 s3client = new AmazonS3Client();
         try {
             System.out.println("Downloading an object");
-            System.out.println("key: " + key);
             File file=new File(key);
                       
             s3client.getObject(new GetObjectRequest(S3LOCATION, key),file);

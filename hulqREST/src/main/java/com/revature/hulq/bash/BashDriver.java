@@ -14,30 +14,28 @@ import org.springframework.stereotype.Component;
 
 import com.revature.hulq.logging.Logging;
 import com.revature.hulq.util.TestProfile;
+import com.revature.hulq.exceptions.*;
 @Component	
 public class BashDriver {
-	
-	Logging log = new Logging();
+
 	public double gradeCode(String keyPath, String testPath, List<String> argSet, TestProfile testProfile) {
-		double result = 100.0;
+		double result;
 		try {
 			Map<Integer, BashData> valSet = runCodeTestScript(keyPath, testPath, argSet);
-			result = bashGrader(valSet, testProfile) * 100;
-			System.out.println("ayyy " + result);
+			result = bashGrader(valSet, testProfile);
+		} catch (KeyCompilationException kce){
+			// there was a problem compiling the trainers code
+			result = 100.00;
+		} catch (TestCompilationException tce) {
+			// there was a problem compiling the candidates code
+			result = 0.0;
+		} catch (UnsupportedFileTypeException ufte) {
+			// the file types sent to hulqBASH are not supported
+			result = 100.00; 
+		} catch (BashException be) {
+			// there was a fault with the script itself 
+			result = 100.0;
 			
-		} catch (BashException e) {
-			if (e.getMessage() == "0") {
-				result = 0.0;
-			}
-			// if key file did not compile, student passes if their code
-			// compiles
-			if (e.getMessage() == "1") {
-				result = 100.0;
-			}
-			// if test file did not compile, student always fails
-			if (e.getMessage() == "2") {
-				result = 0.0;
-			}
 		}
 
 		return result;
@@ -46,9 +44,9 @@ public class BashDriver {
 
 	private Map<Integer, BashData> runCodeTestScript(String keyPath, String testPath, List<String> arguments) throws BashException {
 		
-		Map<Integer, BashData> data = new HashMap<Integer, BashData>();
+		Map<Integer, BashData> data = new HashMap<>();
 
-		List<String> command = new ArrayList<String>();
+		List<String> command = new ArrayList<>();
 		command.add("/bin/bash");
 		command.add("hulqBASH.sh");
 		command.add(keyPath);
@@ -60,92 +58,50 @@ public class BashDriver {
 			ProcessBuilder pb = new ProcessBuilder(command);
 			Process p = pb.start();
 			BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			String inputLine = null;
-			StringBuilder lineData = null;
-			String lineType = null;
-			Integer lineKey = null;
-			
+			String inputLine;
+			String lineData;
+			String lineType;
+			Integer lineKey;
+
 			while ((inputLine = in.readLine()) != null) {
 				if (inputLine.startsWith("ERROR(f)")) {
-					System.out.println("caught error from BASH: " + inputLine);
-					log.error("caught error from BASH: " + inputLine);
-					throw new BashException("0");
+					throw new UnsupportedFileTypeException("file type exception: the files are not currently supported by hulqBASH");
 				}
 				if (inputLine.startsWith("ERROR(c:k)")) {
-					System.out.println("caught error from BASH: " + inputLine);
-					log.error("caught error from BASH: " + inputLine);
-					throw new BashException("1");
+					throw new KeyCompilationException("key compilation exception: ");
 				}
 				if (inputLine.startsWith("ERROR(c:t)")) {
-					System.out.println("caught error from BASH: " + inputLine);
-					log.error("caught error from BASH: " + inputLine);
-					throw new BashException("2");
+					throw new TestCompilationException("");
 				}
-				//Spaghetti code here...
-				if (inputLine.startsWith("key") || inputLine.startsWith("test")) {
-					//Update key info
-					if (lineKey != null) {
-						// lineKey is in the data map
-						if (data.containsKey(lineKey)) {
-							if (lineType.equals("t")) {
-								data.get(lineKey).setUserInfo(lineData.toString());
-							} else {
-								data.get(lineKey).setKeyInfo(lineData.toString());
-							}
-						}
-						lineData = null;
-					}
-
-					String[] dataPair = inputLine.split(":");
-					System.out.println("THE INPUTLINE IS " + inputLine);
-					lineKey = Integer.parseInt(dataPair[0].substring(dataPair[0].length() - 1, dataPair[0].length()));
-					lineType = dataPair[0].substring(0, 1);
-					lineData = new StringBuilder(dataPair[1].substring(1));
-
-					// lineKey is in the data map
-					if (data.containsKey(lineKey)) {
-						if (lineType.equals("t")) {
-							data.get(lineKey).setUserInfo(lineData.toString());
-						} else {
-							data.get(lineKey).setKeyInfo(lineData.toString());
-						}
-					}
-					// lineKey is not in data map
-					else {
-						BashData dValue = new BashData();
-						if (lineType.equals("t")) {
-							dValue.setUserInfo(lineData.toString());
-						} else {
-							dValue.setKeyInfo(lineData.toString());
-						}
-						data.put(lineKey, dValue);
-					}
-				}
-				else {
-					//Append the inputLine echo output to lineData
-					if (lineData != null) {
-						lineData.append(" " + inputLine);
-					}
-				}
-			}
-			//update key info
-			if (lineKey != null) {
+				
+				String[] dataPair = inputLine.split(":");
+				lineKey = Integer.parseInt(dataPair[0].substring(dataPair[0].length() - 1, dataPair[0].length()));
+				lineType = dataPair[0].substring(0, 1);
+				lineData = dataPair[1].substring(1);
 				// lineKey is in the data map
 				if (data.containsKey(lineKey)) {
 					if (lineType.equals("t")) {
-						data.get(lineKey).setUserInfo(lineData.toString());
+						data.get(lineKey).setUserInfo(lineData);
 					} else {
-						data.get(lineKey).setKeyInfo(lineData.toString());
+						data.get(lineKey).setKeyInfo(lineData);
 					}
 				}
-				lineData = null;
+				// lineKey is not in data map
+				else {
+					BashData dValue = new BashData();
+					if (lineType.equals("t")) {
+						dValue.setUserInfo(lineData);
+					} else {
+						dValue.setKeyInfo(lineData);
+					}
+					data.put(lineKey, dValue);
+				}
 			}
 
 			in.close();
 
 		} catch (IOException e) {
-			//System.out.println("Caught IO exception running script: " + e.getStackTrace().toString());
-			log.error("Caught IO exception running script: " + e.getStackTrace().toString());
+			throw new BashException("Caught IO exception trying to run script" + e.getStackTrace().toString());
 		}
 		return data;
 
@@ -157,15 +113,15 @@ public class BashDriver {
 		// value from the user map
 		String useVal;
 		// if math mode is enabled this value is used to hold the key value
-		double kVal = 0.0;
+		double kVal;
 		// if math mode is enabled this value is used to hold the user value
-		double uVal = 0.0;
+		double uVal;
 		// holds relative equality(math mode) or relative match(string mode) of single case
-		double rVal = 0.0;
+		double rVal;
 		// holds sum of all scores from test runs
 		double totalVal = 0.0;
 		// holds sum of all scores/number of test runs
-		double finalResult = 0.0;
+		double finalResult;
 		System.out.println(testProfile.toString());
 		for (Integer key : results.keySet()) {
 			// get key value from map
@@ -203,11 +159,10 @@ public class BashDriver {
 					} else {
 						rVal = (kVal - uVal) / kVal;
 					}
-					log.debug("difference:" + rVal);
-					//System.out.println("difference:" + rVal);
+					System.out.println("difference:" + rVal);
 				}
 				// get likeness
-				//rVal = 1 - rVal;
+				rVal = 1 - rVal;
 
 			// if string mode (default)
 			} else {
@@ -222,7 +177,6 @@ public class BashDriver {
 			}
 			System.out.println("case result (pre case error margin): " + rVal);
 			
-			
 			// if string match percentage is below, discard case value
 			if (rVal < testProfile.getCaseErrorMargin()) {
 				rVal = 0.0;
@@ -230,21 +184,18 @@ public class BashDriver {
 			
 			// add case result to total result
 			System.out.println("case result (post case error margin): " + rVal);
-			log.info("case result (post case error margin): " + rVal);
 			totalVal = totalVal + rVal;
 		}
 
 		// compute grade of all results
 		finalResult = totalVal / (double) results.size();
 
-		//System.out.println("final result (pre gross error margin): " + finalResult);
-		log.info("final result (pre gross error margin): " + finalResult);
+		System.out.println("final result (pre gross error margin): " + finalResult);
 		// if overall grade is below pass threshold, set = zero
 		if (finalResult < testProfile.getGrossErrorMargin()) {
 			finalResult = 0.0;
 		}
-		//System.out.println("final result (post gross error margin): " + finalResult);
-		log.info("final result (post gross error margin): " + finalResult);
+		System.out.println("final result (post gross error margin): " + finalResult);
 		// return final grade
 		return finalResult;
 
