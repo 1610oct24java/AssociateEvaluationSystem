@@ -207,7 +207,7 @@ public class BashDriver {
 					//System.out.println("difference:" + rVal);
 				}
 				// get likeness
-				rVal = 1 - rVal;
+				//rVal = 1 - rVal;
 
 			// if string mode (default)
 			} else {
