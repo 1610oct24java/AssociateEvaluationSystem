@@ -25,16 +25,16 @@ public class BashDriver {
 			result = bashGrader(valSet, testProfile);
 		} catch (KeyCompilationException kce){
 			// there was a problem compiling the trainers code
-			result = 100.00;
+			result = 100.0;
 		} catch (TestCompilationException tce) {
 			// there was a problem compiling the candidates code
 			result = 0.0;
 		} catch (UnsupportedFileTypeException ufte) {
 			// the file types sent to hulqBASH are not supported
-			result = 100.00; 
+			result = 0.0; 
 		} catch (BashException be) {
 			// there was a fault with the script itself 
-			result = 100.0;
+			result = 0.0;
 			
 		}
 
@@ -58,10 +58,10 @@ public class BashDriver {
 			ProcessBuilder pb = new ProcessBuilder(command);
 			Process p = pb.start();
 			BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			String inputLine;
-			String lineData;
-			String lineType;
-			Integer lineKey;
+			String inputLine = null;
+			StringBuilder lineData = null;
+			String lineType = null;
+			Integer lineKey = null;
 
 			while ((inputLine = in.readLine()) != null) {
 				if (inputLine.startsWith("ERROR(f)")) {
@@ -74,28 +74,64 @@ public class BashDriver {
 					throw new TestCompilationException("");
 				}
 				
-				String[] dataPair = inputLine.split(":");
-				lineKey = Integer.parseInt(dataPair[0].substring(dataPair[0].length() - 1, dataPair[0].length()));
-				lineType = dataPair[0].substring(0, 1);
-				lineData = dataPair[1].substring(1);
+				//Spaghetti code here...
+				if (inputLine.startsWith("key") || inputLine.startsWith("test")) {
+					//Update key info
+					if (lineKey != null) {
+						// lineKey is in the data map
+						if (data.containsKey(lineKey)) {
+							if (lineType.equals("t")) {
+								data.get(lineKey).setUserInfo(lineData.toString());
+							} else {
+								data.get(lineKey).setKeyInfo(lineData.toString());
+							}
+						}
+						lineData = null;
+					}
+
+					String[] dataPair = inputLine.split(":");
+					System.out.println("THE INPUTLINE IS " + inputLine);
+					lineKey = Integer.parseInt(dataPair[0].substring(dataPair[0].length() - 1, dataPair[0].length()));
+					lineType = dataPair[0].substring(0, 1);
+					lineData = new StringBuilder(dataPair[1].substring(1));
+
+					// lineKey is in the data map
+					if (data.containsKey(lineKey)) {
+						if (lineType.equals("t")) {
+							data.get(lineKey).setUserInfo(lineData.toString());
+						} else {
+							data.get(lineKey).setKeyInfo(lineData.toString());
+						}
+					}
+					// lineKey is not in data map
+					else {
+						BashData dValue = new BashData();
+						if (lineType.equals("t")) {
+							dValue.setUserInfo(lineData.toString());
+						} else {
+							dValue.setKeyInfo(lineData.toString());
+						}
+						data.put(lineKey, dValue);
+					}
+				}
+				else {
+					//Append the inputLine echo output to lineData
+					if (lineData != null) {
+						lineData.append(" " + inputLine);
+					}
+				}
+			}
+			//update key info
+			if (lineKey != null) {
 				// lineKey is in the data map
 				if (data.containsKey(lineKey)) {
 					if (lineType.equals("t")) {
-						data.get(lineKey).setUserInfo(lineData);
+						data.get(lineKey).setUserInfo(lineData.toString());
 					} else {
-						data.get(lineKey).setKeyInfo(lineData);
+						data.get(lineKey).setKeyInfo(lineData.toString());
 					}
 				}
-				// lineKey is not in data map
-				else {
-					BashData dValue = new BashData();
-					if (lineType.equals("t")) {
-						dValue.setUserInfo(lineData);
-					} else {
-						dValue.setKeyInfo(lineData);
-					}
-					data.put(lineKey, dValue);
-				}
+				lineData = null;
 			}
 
 			in.close();
@@ -148,8 +184,7 @@ public class BashDriver {
 			if (testProfile.isMathMode() && NumberUtils.isNumber(keyVal)) {
 				// if user response is non numeric
 				if (!NumberUtils.isNumber(useVal)) {
-					rVal = 0.0;
-					totalVal = totalVal + rVal;
+					rVal = 1.0;
 				// if user response is numeric
 				} else {
 					kVal = Double.parseDouble(keyVal);

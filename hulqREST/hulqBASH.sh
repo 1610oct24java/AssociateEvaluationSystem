@@ -72,9 +72,14 @@ function compile_test {
 
 #remove downloaded and compiled file
 function remover {
-	#remove runnable files
-	rm "$testRunnable";
-	rm "$keyRunnable";	
+	#remove runnable files... FIX LATER if you want
+	if [[ $keyExecutor == "java " ]]; then 
+		rm "$testRunnable.class";
+		rm "$keyRunnable.class";
+	else 
+		rm "$testRunnable";
+		rm "$keyRunnable";
+	fi
 	
 	#if runnable file was distinct from downloaded source(key)
 	if [[ -e $keyFileName ]]; then
@@ -117,16 +122,34 @@ if [[ $testType == "compiled" ]]; then
 	compile_test;
 fi;
 
-#if test failed to compile
-if [[ ! -e $testRunnable ]]; then 
-	echo "ERROR(c:t): test failed to compile or does not exist";
-	exit; 
-fi 
+#if test is a java program
+if [[ $testExecutor == "java " ]]; then
+	#if test failed to compile
+	if [[ ! -e $testRunnable.class ]]; then 
+		echo "ERROR(c:t): test failed to compile or does not exist";
+		exit; 
+	fi 
+else
+	#if test failed to compile
+	if [[ ! -e $testRunnable ]]; then 
+		echo "ERROR(c:t): test failed to compile or does not exist";
+		exit; 
+	fi 
+fi
 
-#if key failed to compile
-if [[ ! -e $keyRunnable ]]; then
-	echo "ERROR(c:k): key failed to compile or does not exist";
-	exit; 
+#if key is a java prgram
+if [[ $keyExecutor == "java " ]]; then
+	#if key failed to compile
+	if [[ ! -e $keyRunnable.class ]]; then
+		echo "ERROR(c:k): key failed to compile or does not exist";
+		exit; 
+	fi
+else
+	#if key failed to compile
+	if [[ ! -e $keyRunnable ]]; then
+		echo "ERROR(c:k): key failed to compile or does not exist";
+		exit; 
+	fi
 fi
 
 runTest=$testExecutor$testRunnable;
@@ -134,7 +157,6 @@ runKey=$keyExecutor$keyRunnable;
 count=0;
 for argSet in "$@"; do	
 	(
-		
 		#echo the result (goes out to the service calling this)
 		(echo "key $count: $($runKey $argSet)") &
 		(echo "test $count: $($runTest $argSet)") &
@@ -145,4 +167,3 @@ let "count += 1";
 done;
 wait;
 remover;
-
