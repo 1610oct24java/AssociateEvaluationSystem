@@ -1,9 +1,9 @@
 package com.revature.aes.service;
 
+import java.util.List;
+
 import com.revature.aes.beans.User;
 import com.revature.aes.beans.UserUpdateHolder;
-
-import java.util.List;
 
 public interface UserService {
 	public User findUserByEmail(String email);

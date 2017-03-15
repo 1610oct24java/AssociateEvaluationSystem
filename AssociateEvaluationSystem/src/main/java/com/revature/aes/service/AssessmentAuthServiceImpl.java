@@ -1,11 +1,12 @@
 package com.revature.aes.service;
 
-import com.revature.aes.beans.AssessmentAuth;
-import com.revature.aes.beans.User;
-import com.revature.aes.dao.AssessmentAuthDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.revature.aes.beans.AssessmentAuth;
+import com.revature.aes.beans.User;
+import com.revature.aes.dao.AssessmentAuthDao;
 
 @Service
 @Transactional

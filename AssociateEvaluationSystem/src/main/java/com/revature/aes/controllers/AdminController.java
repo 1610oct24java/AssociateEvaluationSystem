@@ -1,9 +1,6 @@
 package com.revature.aes.controllers;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.revature.aes.beans.User;
 import com.revature.aes.beans.UserUpdateHolder;
 import com.revature.aes.locator.MailServiceLocator;
@@ -83,7 +79,6 @@ public class AdminController {
 		userService.removeEmployee(email);
 		System.out.println(" \n====== AdminCtrl.updateEmployee: userService ran update");
 	}
-	
 
 	/**
 	 * This method changes details about a user in the database.
@@ -93,12 +88,8 @@ public class AdminController {
 	 */
 	@RequestMapping(value="admin/employees/update/{email}/", method= RequestMethod.PUT)
 	public void updateEmployee(@RequestBody UserUpdateHolder userUpdate, @PathVariable String email){
-		System.out.println(" \n====== AdminCtrl.updateEmployee: update employee by email: " + email);
-		System.out.println( "\n ====== new password = " + userUpdate.getNewPassword());
 		User currentUser = userService.findUserByEmail(email);
 		userService.updateEmployee(currentUser, userUpdate);
-		System.out.println(" \n====== AdminCtrl.updateEmployee: userService ran update");
-		
 	}
 
 	@RequestMapping(value="admin/recruiter/{email}/{lastname}/{firstname}", method = RequestMethod.POST)

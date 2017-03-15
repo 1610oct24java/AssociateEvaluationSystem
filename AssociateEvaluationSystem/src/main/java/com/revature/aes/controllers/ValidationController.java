@@ -1,9 +1,9 @@
 package com.revature.aes.controllers;
 
+import java.security.Principal;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.security.Principal;
 
 /**
  * 

@@ -1,13 +1,14 @@
 package com.revature.aes.beans;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.revature.aes.locator.MailServiceLocator;
 import com.revature.aes.logging.Logging;
 import com.revature.aes.service.AssessmentService;
 import com.revature.aes.service.SecurityService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class Scheduler {

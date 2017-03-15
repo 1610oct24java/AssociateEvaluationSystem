@@ -202,7 +202,7 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 			$scope.authUser = authUser;
 			var role = $scope.authUser.authority;
 			
-			if(role == "ROLE_ADMIN" || role == "ROLE_RECRUITER" || role == "ROLE_TRAINER") {
+			if(role == "ROLE_ADMIN") {
 				// Continue to page
 			}else {
 				window.location = SITE_URL.LOGIN; // Deny page, re-route to login
@@ -276,6 +276,27 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 //Billy Adding controller for assessment creation
 adminApp.controller('CreateAssessmentCtrl',function ($scope,$http, SITE_URL, API_URL, ROLE) {
 
+    $scope.curricula = [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Object Oriented Programming",
+        "Data Structures",
+        "SQL",
+        "C#",
+        "Java",
+        "Critical Thinking"
+    ]
+
+    $scope.types = [
+        "Drag and Drop",
+        "Multiple Choice",
+        "Multiple Select",
+        "Coding Snippet"
+    ]
+
+    $scope.rows = [];
+
     $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
         .then(function(response) {
             if (response.data.authenticated) {
@@ -295,7 +316,6 @@ adminApp.controller('CreateAssessmentCtrl',function ($scope,$http, SITE_URL, API
     $(document).ready(function() {
         $("#add_row").on("click", function() {
             // Dynamic Rows Code
-
             // Get max row id and set new id
             var newid = 0;
             $.each($("#tab_logic tr"), function() {
@@ -313,15 +333,12 @@ adminApp.controller('CreateAssessmentCtrl',function ($scope,$http, SITE_URL, API
             // loop through each td and create new elements with name of newid
             $.each($("#tab_logic tbody tr:nth(0) td"), function() {
                 var cur_td = $(this);
-
                 var children = cur_td.children();
-
-                // add new td and element if it has a nane
+                // add new td and element if it has a name
                 if ($(this).data("name") != undefined) {
                     var td = $("<td></td>", {
                         "data-name": $(cur_td).data("name")
                     });
-
                     var c = $(cur_td).find($(children[0]).prop('tagName')).clone().val("");
                     c.attr("name", $(cur_td).data("name") + newid);
                     c.appendTo($(td));
@@ -335,7 +352,6 @@ adminApp.controller('CreateAssessmentCtrl',function ($scope,$http, SITE_URL, API
 
             // add the new row
             $(tr).appendTo($('#tab_logic'));
-
             $(tr).find("td button.row-remove").on("click", function() {
                 $(this).closest("tr").remove();
             });
@@ -345,7 +361,7 @@ adminApp.controller('CreateAssessmentCtrl',function ($scope,$http, SITE_URL, API
         var fixHelperModified = function(e, tr) {
             var $originals = tr.children();
             var $helper = tr.clone();
-
+            
             $helper.children().each(function(index) {
                 $(this).width($originals.eq(index).width())
             });
@@ -356,12 +372,77 @@ adminApp.controller('CreateAssessmentCtrl',function ($scope,$http, SITE_URL, API
         $(".table-sortable tbody").sortable({
             helper: fixHelperModified
         }).disableSelection();
-
         $(".table-sortable thead").disableSelection();
-
         $("#add_row").trigger("click");
     });
 
+
+
+    var tableData = {};
+
+    tableData.categories = $scope.categories;
+    tableData.type = $scope.type;
+    tableData.quantity = $scope.quantity;
+
+    var tableArray = [tableData];
+
+
+    // The 'newObj' object, and it's assignments, are used to generate
+    // new objects to be placed within the 'cardArr' array object.
+    $scope.newObj = {};
+    $scope.newObj.requiredGrads = $scope.requiredGrads;
+    $scope.newObj.reqDate = $scope.reqDate;
+    $scope.newObj.requiredBatches = $scope.requiredBatches;
+    $scope.newObj.startDate = $scope.startDate;
+    $scope.newObj.formattedStartDate = $scope.formattedStartDate;
+    $scope.newObj.batchType = $scope.batchType;
+
+    $scope.cardArr = [$scope.newObj];   // Array of Required Trainee batch generation objects.
+
+
+	/* FUNCTION - This method will assign the particular card objects
+	 *            'btchType' variable to the selected value. */
+    $scope.assignCurr = function(bType, index){
+
+        $scope.cardArr[index].batchType = bType;
+
+        if($scope.cardArr[index].requiredGrads > 0) {
+
+            $scope.cumulativeBatches();
+
+        }
+    };
+
+
+
+	/* FUNCTION - This method will add another card to the cardArr object,
+	 *            ultimately generating another card in the 'required Trainee's'
+	 *            tab in the Reports tab. */
+    $scope.genCard = function(){
+
+        var temp = {};
+
+        temp.requiredGrads = $scope.requiredGrads;
+        temp.reqDate = new Date();
+        temp.requiredBatches = $scope.requiredBatches;
+        temp.startDate = $scope.startDate;
+        temp.formattedStartDate = $scope.formattedStartDate;
+        temp.batchType = $scope.batchType;
+
+        //pushes the value onto the end of the array.//
+        $scope.cardArr.push(temp);
+
+    };
+
+
+
+	/* FUNCTION - This method will delete/remove a 'card' in the cardArr
+	 *            object, at a given index.  The deleted 'card' will no
+	 *            longer be displayed on the reports tab. */
+    $scope.removeCardClick = function(index){
+        $scope.cardArr.splice(index, 1);  // Removes a card object from the array index
+        $scope.cumulativeBatches();       // Re-evaluates the cumulative batches.
+    };
 
     //logout
     $scope.logout = function() {
