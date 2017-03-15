@@ -23,15 +23,18 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 		registry.addViewController("/registerEmployee").setViewName("admin/registerEmployee");
 		registry.addViewController("/createAssessment").setViewName("admin/createAssessment");
 		registry.addViewController("/updateEmployee").setViewName("admin/updateEmployee");
-		/*registry.addViewController("/category").setViewName("bank/trainerHome");
-		registry.addViewController("/trainer/**").setViewName("bank/trainerHome");
-		registry.addViewController("/hello").setViewName("asmt/hello");
-		registry.addViewController("/home").setViewName("asmt/home");aast
-		registry.addViewController("/").setViewName("asmt/home");
-		registry.addViewController("/category").setViewName("bank/trainerHome");-m
-		registry.addViewController("/question").setViewName("bank/trainerHome");
-		registry.addViewController("/format").setViewName("bank/trainerHome");
-        registry.addViewController("/trainer/").setViewName("bank/trainerHome");*/
+		
+		registry.addViewController("/category").setViewName("misc/bank/trainerHome");
+		registry.addViewController("/trainer/**").setViewName("misc/bank/trainerHome");
+		registry.addViewController("/hello").setViewName("misc/hello");
+		registry.addViewController("/home").setViewName("misc/home");
+		registry.addViewController("/").setViewName("misc/home");
+		registry.addViewController("/category").setViewName("misc/bank/trainerHome");
+		registry.addViewController("/question").setViewName("misc/bank/trainerHome");
+		registry.addViewController("/format").setViewName("misc/bank/trainerHome");
+        registry.addViewController("/trainer/").setViewName("misc/bank/trainerHome");
+        registry.addViewController("/error").setViewName("error");
+        registry.addViewController("/questionTemplate").setViewName("misc/bank/questionTemplate");
 	}
 	
 	@Override
