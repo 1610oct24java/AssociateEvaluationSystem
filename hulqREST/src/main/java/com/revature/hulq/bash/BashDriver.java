@@ -25,7 +25,7 @@ public class BashDriver {
 			result = bashGrader(valSet, testProfile) * 100;
 		} catch (KeyCompilationException kce){
 			// there was a problem compiling the trainers code
-			result = 100.0;
+			result = 0.0;
 		} catch (TestCompilationException tce) {
 			// there was a problem compiling the candidates code
 			result = 0.0;
@@ -35,7 +35,6 @@ public class BashDriver {
 		} catch (BashException be) {
 			// there was a fault with the script itself 
 			result = 0.0;
-			
 		}
 
 		return result;
@@ -63,20 +62,33 @@ public class BashDriver {
 			String lineType = null;
 			Integer lineKey = null;
 
+			BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+			// read any errors from the attempted command
+			String errorStr = null;
+		    System.out.println("Here is the standard error of the command (if any):");
+		    while ((errorStr = stdError.readLine()) != null)
+		    {
+		        if (errorStr.contains("Exception")) {
+		        	System.out.print("It broke.");
+					throw new TestCompilationException("Exception found");
+				}
+		    }
+		    stdError.close();
+
+		    System.out.println("Now testing the code:");
 			while ((inputLine = in.readLine()) != null) {
 				if (inputLine.startsWith("ERROR(f)")) {
+					System.out.println(inputLine);
 					throw new UnsupportedFileTypeException("file type exception: the files are not currently supported by hulqBASH");
 				}
 				if (inputLine.startsWith("ERROR(c:k)")) {
+					System.out.println(inputLine);
 					throw new KeyCompilationException("key compilation exception: ");
 				}
 				if (inputLine.startsWith("ERROR(c:t)")) {
+					System.out.println(inputLine);
 					throw new TestCompilationException("");
 				}
-				if (inputLine.contains("Exception")) {
-					throw new TestCompilationException("Exception found");
-				}
-				System.out.println("WTF " + inputLine);
 				//Spaghetti code here...
 				if (inputLine.startsWith("key") || inputLine.startsWith("test")) {
 					//Update key info
@@ -124,6 +136,7 @@ public class BashDriver {
 					}
 				}
 			}
+
 			//update key info
 			if (lineKey != null) {
 				// lineKey is in the data map
@@ -141,6 +154,8 @@ public class BashDriver {
 
 		} catch (IOException e) {
 			throw new BashException("Caught IO exception trying to run script" + e.getStackTrace().toString());
+		} catch (Throwable e) {
+			throw new BashException("Some sort of exception occurred when trying to run script");
 		}
 		return data;
 
