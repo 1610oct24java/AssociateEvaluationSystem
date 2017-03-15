@@ -192,8 +192,8 @@ public class BashDriver {
 			if (testProfile.isMathMode() && NumberUtils.isNumber(keyVal)) {
 				// if user response is non numeric
 				if (!NumberUtils.isNumber(useVal)) {
-					rVal = 0.0;
-					totalVal = totalVal + rVal;
+					rVal = 1.0;
+					//totalVal = totalVal + rVal;
 				// if user response is numeric
 				} else {
 					kVal = Double.parseDouble(keyVal);
@@ -204,10 +204,10 @@ public class BashDriver {
 						rVal = (kVal - uVal) / kVal;
 					}
 					log.debug("difference:" + rVal);
-					//System.out.println("difference:" + rVal);
+					System.out.println("difference:" + rVal);
 				}
 				// get likeness
-				//rVal = 1 - rVal;
+				rVal = 1 - rVal;
 
 			// if string mode (default)
 			} else {
