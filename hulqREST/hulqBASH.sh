@@ -161,7 +161,6 @@ for argSet in "$@"; do
 		(echo "key $count: $($runKey $argSet)") &
 		(echo "test $count: $($runTest $argSet)") &
 		wait;
-		
 	) &
 let "count += 1";
 done;

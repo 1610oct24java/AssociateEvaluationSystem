@@ -22,7 +22,7 @@ public class BashDriver {
 		double result;
 		try {
 			Map<Integer, BashData> valSet = runCodeTestScript(keyPath, testPath, argSet);
-			result = bashGrader(valSet, testProfile);
+			result = bashGrader(valSet, testProfile) * 100;
 		} catch (KeyCompilationException kce){
 			// there was a problem compiling the trainers code
 			result = 100.0;
@@ -73,7 +73,10 @@ public class BashDriver {
 				if (inputLine.startsWith("ERROR(c:t)")) {
 					throw new TestCompilationException("");
 				}
-				
+				if (inputLine.contains("Exception")) {
+					throw new TestCompilationException("Exception found");
+				}
+				System.out.println("WTF " + inputLine);
 				//Spaghetti code here...
 				if (inputLine.startsWith("key") || inputLine.startsWith("test")) {
 					//Update key info
@@ -237,6 +240,9 @@ public class BashDriver {
 	}
 
 	private double stringCompare(String key, String user) {
+		if (key.isEmpty() || user.isEmpty()) {
+			return 0;
+		}
 		//this method is similar to cosine inequality
 		int[][] matrix = new int[key.length() + 1][user.length() + 1];
 
