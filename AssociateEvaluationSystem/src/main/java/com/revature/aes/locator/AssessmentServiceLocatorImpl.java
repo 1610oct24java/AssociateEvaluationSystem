@@ -1,18 +1,20 @@
 package com.revature.aes.locator;
 
-import com.revature.aes.beans.AssessmentRequest;
-import com.revature.aes.logging.Logging;
-import com.revature.aes.util.PropertyReader;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import com.revature.aes.beans.AssessmentRequest;
+import com.revature.aes.logging.Logging;
+import com.revature.aes.util.PropertyReader;
 
 /**
  * 
@@ -56,6 +58,7 @@ public class AssessmentServiceLocatorImpl implements AssessmentServiceLocator {
 
 		} catch (UnknownHostException e) {
 			log.error("Failed to set localhost address to ip const");
+			log.stackTraceLogging(e);
 			ip = "localhost";
 		}
 
@@ -86,15 +89,14 @@ public class AssessmentServiceLocatorImpl implements AssessmentServiceLocator {
 	 */
 	@Override
 	public AssessmentRequest getLink(AssessmentRequest request) {
-		//Change the URL to whatever Matthew's thingy will be
+		//Change the URL to whatever Matthew's thingy will be <-- Descriptive comments are overrated.
 		String lines = "=============================================";
 		log.debug(lines);
 		log.debug(request.toString());
-		log.debug(lines);
-		
-		System.out.println("CALLING MATTHEWS SERVICE!");
-		System.out.println(request);
+		log.debug(lines);	
+		log.debug("CALLING MATTHEWS SERVICE!");
 		ResponseEntity<AssessmentRequest> responseEntity = restTemplate.postForEntity("http://"+URI+URIExt+"/user/RandomAssessment", request, AssessmentRequest.class);
+
 		AssessmentRequest response = responseEntity.getBody();
 		log.debug(lines);
 		log.debug(response.toString());

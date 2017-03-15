@@ -11,7 +11,8 @@
 		<RollingFile name="trace-log" fileName="${log-path}/asmt-trace.log"
 			filePattern="${log-path}/asmt-trace-%d{yyyy-MM-dd}.log">
 			<PatternLayout>
-				<pattern>[%p] [%r ms] [%d{MM-dd-yyyy HH:mm:ss}] [%c{1} (%M : %L)] - %m%n</pattern>
+				<pattern>[%p] [%r ms] [%d{MM-dd-yyyy HH:mm:ss}] [%c{1} (%M : %L)] -
+					%m%n</pattern>
 			</PatternLayout>
 			<Policies>
 				<TimeBasedTriggeringPolicy interval="1"
@@ -21,7 +22,8 @@
 		<RollingFile name="error-log" fileName="${log-path}/asmt-error.log"
 			filePattern="${log-path}/asmt-error-%d{yyyy-MM-dd}.log">
 			<PatternLayout>
-				<pattern>[%p] [%r ms] [%d{MM-dd-yyyy HH:mm:ss}] [%c{1} (%M : %L)] - %m%n</pattern>
+				<pattern>[%p] [%r ms] [%d{MM-dd-yyyy HH:mm:ss}] [%c{1} (%M : %L)] -
+					%m%n</pattern>
 			</PatternLayout>
 			<Policies>
 				<TimeBasedTriggeringPolicy interval="1"

@@ -1,8 +1,9 @@
-package com.revature.aes.restcontroller;
+package com.revature.aes.controllers;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,16 @@ import org.springframework.web.client.RestTemplate;
 
 import com.revature.aes.beans.Assessment;
 import com.revature.aes.beans.AssessmentRequest;
+import com.revature.aes.beans.CategoryRequest;
 import com.revature.aes.beans.Template;
 import com.revature.aes.beans.TemplateQuestion;
 import com.revature.aes.beans.User;
+import com.revature.aes.logging.Logging;
+import com.revature.aes.service.AssessmentRequestService;
 import com.revature.aes.service.AssessmentService;
+import com.revature.aes.service.CategoryRequestService;
+import com.revature.aes.service.QuestionService;
+import com.revature.aes.service.S3Service;
 import com.revature.aes.service.SystemTemplate;
 import com.revature.aes.service.UserService;
 /** Handles the REST requests for making assessments.
@@ -33,11 +40,21 @@ import com.revature.aes.service.UserService;
 public class AssessmentRestController {
 
 	@Autowired
+	private Logging log;	
+	@Autowired
+	private CategoryRequestService catReqServ;
+	@Autowired
+	private S3Service s3;
+	@Autowired
 	private SystemTemplate systemp;
 	@Autowired
 	private UserService userService;
 	@Autowired
 	private AssessmentService assServ;
+	@Autowired
+	private AssessmentRequestService assReqServ;
+	@Autowired
+	private QuestionService qServ;
 	private static final String URL = "http://localhost:8090/aes";
 	private RestTemplate restTemplate = new RestTemplate();
 
@@ -52,9 +69,14 @@ public class AssessmentRestController {
 	@RequestMapping(value = "user/RandomAssessment", method = RequestMethod.POST, consumes = {
 			MediaType.APPLICATION_JSON_VALUE })
 	public AssessmentRequest createAssessment(@RequestBody AssessmentRequest assReq) throws URISyntaxException {
+		
 		Template tmpl = new Template();
+		
+		Set<TemplateQuestion> finalQuestion = new HashSet<>();
 
-		Set<TemplateQuestion> finalQuestion = systemp.getRandomSelectionFromCategory(assReq);
+		for (CategoryRequest catReq : assReq.getCategoryRequestList()){
+			finalQuestion.addAll(systemp.getRandomSelectionFromCategory(catReq));
+		}
 
 		for (TemplateQuestion tq : finalQuestion) {
 			tq.setWeight(1);
@@ -64,6 +86,7 @@ public class AssessmentRestController {
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		tmpl.setTemplateQuestion(finalQuestion);
 		tmpl.setCreateTimeStamp(timestamp);
+		
 		// The user id needs to be set to whatever system user is in the AES_USERS table.
 		tmpl.setCreator(userService.getUserById(1));
 
@@ -83,8 +106,27 @@ public class AssessmentRestController {
 		String link = result.getBody();
 		
 		assReq.setLink(link);
-
+		
 		return assReq;
 	}
-
+	
+	@RequestMapping(value = "admin/assessmentMaker", method = RequestMethod.POST, consumes = 
+		{MediaType.APPLICATION_JSON_VALUE })
+	public void makeAssessmentFileAndSaveStuff(@RequestBody AssessmentRequest assReq){
+		
+		System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------");
+		System.out.println("code smell code smell code smell code smell code smell code smell code smell code smell code smell");
+		System.out.println(assReq);
+		System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------");
+		
+		for(CategoryRequest cr : assReq.getCategoryRequestList()){
+			catReqServ.saveCategoryRequest(cr);
+		}
+		assReqServ.saveAssessmentRequest(assReq);
+	}
+	
+	@RequestMapping(value = "admin/assessmentMaker", method = RequestMethod.GET, consumes ={MediaType.APPLICATION_JSON_VALUE })
+	public void getFileFromS3(){
+		
+	}
 }

@@ -1,0 +1,147 @@
+/* Global variable declarations */
+body {
+    --revOrange: #f26a25;
+}
+
+/* Custom element CSS */
+.progressBar {
+    padding: 0px;
+}
+
+.progressBar span {
+    position: relative;
+    top: 0px;
+    height: 2px;
+    display: block;
+}
+
+.toastContainer {
+    overflow: hidden;
+}
+
+.roomList {
+    display: none;
+}
+
+.selectedBatch {
+    background-color: #ddd;
+}
+
+.batchRow, rect {
+    cursor: pointer;
+}
+
+.weekSpan {
+    position: relative;
+    top: -5px;
+}
+
+.batchForm input:disabled {
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+/* ngMaterial customized CSS */
+md-progress-linear .md-container .md-bar, md-progress-linear .md-container {
+    height: 2px;
+}
+
+.batchForm .layout-row {
+    padding: 0px 16px;
+}
+
+.md-datepicker-input-container {
+    /*width: 60%;*/;
+}
+
+.md-toast-animating {
+    overflow: auto !important;
+}
+
+.md-top {
+    position: fixed;
+    top: 66px;
+}
+
+.md-right {
+    position: fixed;
+    right: 16px;
+}
+
+md-toolbar {
+    padding: 0px 16px;
+}
+
+md-radio-button {
+    margin-bottom: 0px;
+}
+
+md-list-item .md-list-item-inner > md-checkbox, md-list-item > md-checkbox {
+    margin-right: 7px;
+}
+
+md-input-container {
+    margin-bottom: 0px;
+}
+
+md-input-container md-select {
+    margin-bottom: 22px;
+}
+
+md-menu-item md-input-container {
+    margin: 10px;
+    padding: 0px;
+}
+
+
+
+.gradTable.md-table:not(.md-row-select) td.md-cell:nth-child(n+2):nth-last-child(n+2), .gradTable.md-table:not(.md-row-select) th.md-column:nth-child(n+2):nth-last-child(n+2) {
+    padding: 0 50px 0 0;
+    text-align: center;
+    font-size: 1em;
+}
+
+
+md-nav-bar.md-default-theme .md-button._md-nav-button.md-unselected, md-nav-bar .md-button._md-nav-button.md-unselected {
+    text-align: center;
+    font-weight: bold;
+}
+
+md-nav-bar.md-default-theme .md-button._md-nav-button.md-active, md-nav-bar .md-button._md-nav-button.md-active {
+    border-bottom: 2px solid rgba(255, 122, 28, 0.75);
+    font-size: 1em;
+    font-weight: bolder;
+}
+
+.md-nav-bar md-nav-ink-bar {
+    background: transparent;
+}
+
+md-toolbar * {
+    font-weight: bold;
+}
+
+
+*:focus {
+    outline: none;
+}
+
+
+md-edit-dialog > .md-content md-input-container {
+    margin: 0;
+    font-size: 13px;
+}
+md-edit-dialog > .md-content md-input-container input {
+    float: none;
+}
+md-edit-dialog > .md-content md-input-container .md-errors-spacer {
+    min-height: auto;
+    min-width: auto;
+    color: rgba(0, 0, 0, 0.54);
+}
+md-edit-dialog > .md-content md-input-container .md-errors-spacer .md-char-counter {
+    padding: 5px 2px 5px 0;
+}
+md-edit-dialog > .md-content md-input-container [ng-message] {
+    padding: 5px 0 5px 2px;
+}

@@ -1,7 +1,8 @@
 package com.revature.aes.dao;
 
-import com.revature.aes.beans.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.revature.aes.beans.Role;
 
 /**
  * This is a repository that checks the role

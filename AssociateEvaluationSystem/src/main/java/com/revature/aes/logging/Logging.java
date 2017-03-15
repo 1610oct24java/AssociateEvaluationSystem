@@ -41,8 +41,8 @@ public class Logging {
 		try{
 			result = pjp.proceed();
 		} catch(Exception e){
+			log.error(e.toString());
 			log.error("\t" + e.getClass() + " " + e.getMessage());
-			log.info(e.toString());
 
 			for(StackTraceElement st : e.getStackTrace()){
 				log.error("\t\t" + st.getMethodName());

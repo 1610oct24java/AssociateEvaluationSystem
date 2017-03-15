@@ -2,7 +2,6 @@ package com.revature.aes.beans;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -48,7 +47,7 @@ public class User implements Serializable{
 	@Column(name="RECRUITER_ID")
 	private Integer recruiterId;
 	
-	@ManyToOne(fetch=FetchType.EAGER,targetEntity = Role.class, cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.EAGER,targetEntity = Role.class)
 	@JoinColumn(name="ROLE_ID")
 	private Role role;
 	

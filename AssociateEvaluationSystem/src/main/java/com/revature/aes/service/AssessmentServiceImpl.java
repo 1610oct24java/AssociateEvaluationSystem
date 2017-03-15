@@ -1,16 +1,18 @@
 package com.revature.aes.service;
 
-import com.revature.aes.beans.User;
-import com.revature.aes.logging.Logging;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.revature.aes.beans.Assessment;
+import com.revature.aes.beans.User;
 import com.revature.aes.dao.AssessmentDAO;
 import com.revature.aes.grading.AssessmentGrader;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.revature.aes.logging.Logging;
 
 @Service
 public class AssessmentServiceImpl implements AssessmentService {
@@ -23,14 +25,12 @@ public class AssessmentServiceImpl implements AssessmentService {
 	
 	@Override
 	public Assessment getAssessmentById(int id) {
-		System.out.println("I'm servicing things! Poorly!");
 		Assessment out = assDAO.findAssessmentByAssessmentId(id);
 		return out;
 	}
 
 	@Override
 	public Assessment saveAssessment(Assessment assessment) {
-		System.out.println("I am saving things!! maybe?");
 		return assDAO.save(assessment);
 	}
 	
@@ -42,17 +42,25 @@ public class AssessmentServiceImpl implements AssessmentService {
 	}
 
 	@Override
-	public Assessment findByUser(User user) {
-		return assDAO.findByUser(user);
+	public List<Assessment> findByUser(User user) {
+		return (List<Assessment>)assDAO.findByUser(user);
+	}
+
+	@Override
+	public List<Assessment> findAssessmentsByUser(User user) {
+		return (List<Assessment>)assDAO.findAssessmentsByUser(user);
 	}
 
 	@Override
 	public Integer findGradeByUser(User user) {
-		Assessment asmt = assDAO.findByUser(user);
+		List<Assessment> asmt = assDAO.findAssessmentsByUser(user);
 		log.info(asmt.toString());
-		if(asmt != null)
-			return assDAO.findByUser(user).getGrade();
-		else return null;
+		if (!asmt.isEmpty()) {
+			Assessment as = Collections.max(asmt, Comparator.comparing(a -> a.getFinishedTimeStamp(), Comparator.nullsFirst(Comparator.naturalOrder())));
+			return as.getGrade();
+		}else {
+			return null;
+		}
 	}
 
 	@Override

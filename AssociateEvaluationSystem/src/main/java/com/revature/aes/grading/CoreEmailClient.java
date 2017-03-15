@@ -1,13 +1,13 @@
 package com.revature.aes.grading;
 
-import com.revature.aes.logging.Logging;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+
+import com.revature.aes.logging.Logging;
 
 @Service
 public class CoreEmailClient {
@@ -50,6 +50,7 @@ public class CoreEmailClient {
 			return true;
 
 		} catch (Exception e) {
+			log.stackTraceLogging(e);
 			return false;
 		}
 	}
