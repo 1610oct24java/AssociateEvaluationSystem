@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface UserService {
 	public User findUserByEmail(String email);
-	public String createCandidate(User candidate, String recruiterEmail);
+	public void createCandidate(User candidate, String recruiterEmail);
 	public List<User> findAllUsers();
 	public List<User> findUsersByRecruiter(String email);
 	public User getUserById(int id);
@@ -20,5 +20,6 @@ public interface UserService {
 	public void createAdmin(String email, String lastname, String firstname);
 	public void updateEmployee(User user, UserUpdateHolder userUpdate);
 	public void removeEmployee(String email);
+	public String setCandidateSecurity(User candidate);
 
 }

@@ -50,7 +50,11 @@ public class RecruiterController {
 	private RestServices client;
 	
 	/**
-	 * This method tries to add a candidate to the system.
+	 * This method adds a candidate to the system.
+	 * 
+	 * Edit (by Ric Smith)
+	 * 		This method now only creates candidates, but doesn't send links to an assessment.
+	 * 		Assessment assignments happen in the following method 'sendAssessment'
 	 * 
 	 * @param candidate
 	 * 		the candidate that is to be added to the database
@@ -60,13 +64,29 @@ public class RecruiterController {
 	 * 		the newly saved user object
 	 */
 	@RequestMapping(value="/recruiter/{email}/candidates", method= RequestMethod.POST)
-	public User createCandidate(@RequestBody User candidate, @PathVariable String email){
-		String pass = userService.createCandidate(candidate, email);
-		User u = userService.findUserByEmail(candidate.getEmail());
-		String link = client.finalizeCandidate(u, pass);
-		mailService.sendPassword(u.getEmail(), link, pass);
-		log.debug("USER: " + u);
-		return u;
+	public void createCandidate(@RequestBody User candidate, @PathVariable String email){
+		userService.createCandidate(candidate, email);
+	}
+	
+	/**
+	 * This method will make an assessment and send a link and temp password in an email
+	 * to the candidate.
+	 * 
+	 * @author Ric S
+	 * 
+	 * @param email
+	 * 		email of the candidate
+	 * 
+	 * @param type
+	 * 		type of assessment such as 'java', 'csharp', etc
+	 */
+	@RequestMapping(value="/recruiter/sendAssessment/{email}/{type}", method=RequestMethod.POST)
+	public void sendAssessment(@PathVariable String email, @PathVariable String type){
+		User candidate = userService.findUserByEmail(email);
+		String pass = userService.setCandidateSecurity(candidate);
+		candidate.setFormat(type);
+		String link = client.finalizeCandidate(candidate, pass);
+		mailService.sendPassword(candidate.getEmail(), link, pass);
 	}
 	
 	/**
@@ -141,17 +161,6 @@ public class RecruiterController {
 	public void deleteCandidate(@PathVariable String email, @PathVariable int index){
 		userService.removeCandidate(email, index);
 	}
-
-//	THESE ARE NOW IMPLEMENTED IN com.revature.aes.controllers.AdminController.java
-	@RequestMapping(value="recruiter/{email}/init",method = RequestMethod.POST)
-	public void initRecruiter(@PathVariable String email) {
-		userService.createRecruiter(email, "Recruiter", "Tim");
-	}
-//	
-//	@RequestMapping(value="trainer/{email}/init",method = RequestMethod.POST)
-//	public void initTrainer(@PathVariable String email) {
-//		userService.createTrainer(email);
-//	}
 	
 	@RequestMapping(value="roles/init",method = RequestMethod.GET)
 	public void initRoles() {

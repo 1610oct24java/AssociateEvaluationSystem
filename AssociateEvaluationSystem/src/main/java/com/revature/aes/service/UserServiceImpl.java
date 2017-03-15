@@ -37,8 +37,13 @@ public class UserServiceImpl implements UserService {
 		return dao.findUserByEmail(email);
 	}
 
+	/**
+	 * Edit (by Ric Smith)
+	 * 
+	 * This method creates candidates and saves them.
+	 */
 	@org.springframework.transaction.annotation.Transactional(propagation= Propagation.REQUIRED)
-	public String createCandidate(User usr, String recruiterEmail) {
+	public void createCandidate(User usr, String recruiterEmail) {
 		SimpleDateFormat fmt = new SimpleDateFormat(PATTERN);
 
 		User candidate = new User();
@@ -60,11 +65,25 @@ public class UserServiceImpl implements UserService {
 		candidate.setDatePassIssued(fmt.format(new Date()));
 		dao.save(candidate);
 
+		security.createSecurity(candidate);
+	}
+
+	/**
+	 * This method resets security for a candidate so that an 
+	 * assessment will be processed and sent to them.
+	 */
+	@Override
+	public String setCandidateSecurity(User candidate){
+		SimpleDateFormat fmt = new SimpleDateFormat(PATTERN);
+		
+		candidate.setDatePassIssued(fmt.format(new Date()));
+		dao.save(candidate);
+
 		String pass = security.createSecurity(candidate);
 
 		return pass;
 	}
-
+	
 	@Override
 	public List<User> findAllUsers() {
 		return dao.findAll();

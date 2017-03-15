@@ -83,8 +83,10 @@ angular.module('AESCoreApp').controller('CandidateCtrl', function($scope,$locati
             data    : candidateInfo
         }).success( function(res) {
             //Removed console log for sonar cube.
+        	// Needs to ng-show a message upon successful save!
         }).error( function(res) {
             //Removed console log for sonar cube.
+        	// Needs to ng-show a message upon unsuccessful save!
         });
     };
 
