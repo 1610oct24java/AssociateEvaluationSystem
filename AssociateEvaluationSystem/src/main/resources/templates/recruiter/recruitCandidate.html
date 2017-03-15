@@ -57,6 +57,18 @@
                 </option>
             </select>
         </div>
+        
+        <div ng-show="registerSuccessfulMsg" class="span-creds">
+			<span class="glyphicon glyphicon-floppy-saved" aria-hidden="true" style="color:green;">
+				Candidate Registered Successfully
+			</span>
+		</div>
+		<div ng-show="registerUnsuccessfulMsg" class="span-creds">
+			<span class="glyphicon glyphicon-floppy-remove" aria-hidden="true" style="color:red;">
+				Error: Registration Unsuccessful !!!
+			</span>
+		</div>
+        
         <div class="row">
             <input id="btn-register-recruit" class="btn-revature" type="submit" value="register">
         </div>

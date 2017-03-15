@@ -142,15 +142,23 @@ app.controller('RegisterCanidateCtrl', function($scope,$location,$http,SITE_URL,
 
 	$scope.postRegister = function(canidateInfo) {
 		console.log("POSTREGISTER")
+		
+		$scope.registerSuccessfulMsg = false;
+		$scope.registerUnsuccessfulMsg = false;
+		
 		$http({
 			method  : 'POST',
 			url: SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + $scope.authUser.username + API_URL.CANDIDATES,
 			headers : {'Content-Type' : 'application/json'},
 			data    : canidateInfo
 		}).success( function(res) {
-			console.log('success');
+			$scope.registerSuccessfulMsg = true;
+			console.log("SUCCCCCESSSSSSS");
+			console.log("register response = " + res.data);
 		}).error( function(res) {
-			console.log('error');
+			$scope.registerUnsuccessfulMsg = true;
+			console.log("FAIAIAIALALLLLL");
+			console.log("register response = " + res.data);
 		});
 	};
 

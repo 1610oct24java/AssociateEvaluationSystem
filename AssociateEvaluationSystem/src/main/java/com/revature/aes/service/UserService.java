@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface UserService {
 	public User findUserByEmail(String email);
-	public void createCandidate(User candidate, String recruiterEmail);
+	public boolean createCandidate(User candidate, String recruiterEmail);
 	public List<User> findAllUsers();
 	public List<User> findUsersByRecruiter(String email);
 	public User getUserById(int id);

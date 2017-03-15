@@ -79,7 +79,7 @@ public class AdminController {
 	//Delete operation by Hajira Zahir
 	@RequestMapping(value="/admin/employees/Delete/{email}/", method= RequestMethod.DELETE)
 	public void deleteEmployee(@PathVariable String email){
-		System.out.println(" \n====== AdminCtrl.updateEmployee: update employee by email: " + email);
+		System.out.println(" \n====== AdminCtrl.updateEmployee: delete by email: " + email);
 		userService.removeEmployee(email);
 		System.out.println(" \n====== AdminCtrl.updateEmployee: userService ran update");
 	}

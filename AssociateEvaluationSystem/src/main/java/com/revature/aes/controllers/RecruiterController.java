@@ -1,5 +1,6 @@
 package com.revature.aes.controllers;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.revature.aes.beans.Assessment;
 import com.revature.aes.beans.User;
 import com.revature.aes.locator.MailServiceLocator;
@@ -64,8 +67,17 @@ public class RecruiterController {
 	 * 		the newly saved user object
 	 */
 	@RequestMapping(value="/recruiter/{email}/candidates", method= RequestMethod.POST)
-	public void createCandidate(@RequestBody User candidate, @PathVariable String email){
-		userService.createCandidate(candidate, email);
+	public String createCandidate(@RequestBody User candidate, @PathVariable String email) 
+			throws JsonParseException, JsonMappingException, IOException {
+		
+		boolean success = userService.createCandidate(candidate, email);
+		
+		if (success)
+		{
+			return "{\"msg\":\"success\"}";
+		}else {
+			return "{\"msg\":\"fail\"}";
+		}
 	}
 	
 	/**
@@ -77,7 +89,7 @@ public class RecruiterController {
 	 * @param user
 	 *		User object with candidate's email and format for assessment
 	 */
-	@RequestMapping(value="/recruiter/candidate", method=RequestMethod.POST)
+	@RequestMapping(value="/recruiter/candidate/", method=RequestMethod.POST)
 	public void sendAssessment(@RequestBody User user){
 		User candidate = userService.findUserByEmail(user.getEmail());
 		String pass = userService.setCandidateSecurity(candidate);

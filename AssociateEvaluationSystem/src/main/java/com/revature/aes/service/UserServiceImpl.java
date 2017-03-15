@@ -43,8 +43,7 @@ public class UserServiceImpl implements UserService {
 	 * This method creates candidates and saves them.
 	 */
 	@org.springframework.transaction.annotation.Transactional(propagation= Propagation.REQUIRED)
-	public void createCandidate(User usr, String recruiterEmail) {
-		SimpleDateFormat fmt = new SimpleDateFormat(PATTERN);
+	public boolean createCandidate(User usr, String recruiterEmail) {
 
 		User candidate = new User();
 		candidate.setEmail(usr.getEmail());
@@ -62,10 +61,18 @@ public class UserServiceImpl implements UserService {
 
 		candidate.setRecruiterId(recruiterId);
 		candidate.setRole(role.findRoleByRoleTitle("candidate"));
+		
+		SimpleDateFormat fmt = new SimpleDateFormat(PATTERN);
 		candidate.setDatePassIssued(fmt.format(new Date()));
-		dao.save(candidate);
-
-		security.createSecurity(candidate);
+		
+		User userCheck = dao.save(candidate);
+		
+		if (userCheck != null && userCheck.getEmail().equals(candidate.getEmail()))
+		{
+			return true;
+		}else {
+			return false;
+		}
 	}
 
 	/**
