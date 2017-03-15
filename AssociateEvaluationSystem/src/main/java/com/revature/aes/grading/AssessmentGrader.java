@@ -7,13 +7,14 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.springframework.stereotype.Component;
+
 import com.revature.aes.beans.Assessment;
 import com.revature.aes.beans.AssessmentDragDrop;
 import com.revature.aes.beans.FileUpload;
 import com.revature.aes.beans.Option;
 import com.revature.aes.beans.TemplateQuestion;
 import com.revature.aes.logging.Logging;
-import org.springframework.stereotype.Component;
 
 @Component
 public class AssessmentGrader {

@@ -1,13 +1,14 @@
 package com.revature.aes.mail;
 
+import com.revature.aes.beans.Assessment;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.stereotype.Component;
+
 import com.revature.aes.beans.MailService;
 import com.revature.aes.beans.User;
 import com.revature.aes.dao.AssessmentDAO;
 import com.revature.aes.dao.UserDAO;
 import com.revature.aes.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.stereotype.Component;
 
 @Component
 public class Mail {

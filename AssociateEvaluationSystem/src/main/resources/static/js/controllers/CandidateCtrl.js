@@ -33,7 +33,6 @@ angular.module('AESCoreApp').controller('CandidateCtrl', function($scope,$locati
         });
 
     $scope.expandd = function(candidate) {
-        //Some more spaghetti code
         $scope.candidates.filter(c => c.email != candidate.email).forEach(c => {c.expanded = false});
         if (!candidate.expanded){
             $http
@@ -42,8 +41,7 @@ angular.module('AESCoreApp').controller('CandidateCtrl', function($scope,$locati
                 candidate.expanded = true;
                 var asmt = response.data;
                 if (asmt.length != 0) {
-                    asmt.forEach(a=>{
-                    a.createdTimeStamp = formatDate(a.createdTimeStamp);
+                    asmt.forEach(a=>{ a.createdTimeStamp = formatDate(a.createdTimeStamp);
                     a.finishedTimeStamp = formatDate(a.finishedTimeStamp)});
                 }
                 $scope.assessments = asmt;
@@ -91,9 +89,6 @@ angular.module('AESCoreApp').controller('CandidateCtrl', function($scope,$locati
     $scope.options = [{
         name: 'Java',
         value: 'Java'
-    }, {
-        name: 'SDET',
-        value: 'Sdet'
     }, {
         name: '.NET',
         value: '.net'

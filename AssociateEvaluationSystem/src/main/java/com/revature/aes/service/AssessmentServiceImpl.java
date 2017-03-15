@@ -1,18 +1,18 @@
 package com.revature.aes.service;
 
-import com.revature.aes.beans.User;
-import com.revature.aes.logging.Logging;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.revature.aes.beans.Assessment;
-import com.revature.aes.dao.AssessmentDAO;
-import com.revature.aes.grading.AssessmentGrader;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.revature.aes.beans.Assessment;
+import com.revature.aes.beans.User;
+import com.revature.aes.dao.AssessmentDAO;
+import com.revature.aes.grading.AssessmentGrader;
+import com.revature.aes.logging.Logging;
 
 @Service
 public class AssessmentServiceImpl implements AssessmentService {

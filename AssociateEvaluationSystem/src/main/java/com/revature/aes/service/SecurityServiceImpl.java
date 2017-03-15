@@ -1,17 +1,18 @@
 package com.revature.aes.service;
 
-import com.revature.aes.beans.Security;
-import com.revature.aes.beans.User;
-import com.revature.aes.dao.SecurityDao;
-import com.revature.aes.encoder.MyEncoder;
+import java.math.BigInteger;
+import java.security.SecureRandom;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigInteger;
-import java.security.SecureRandom;
+import com.revature.aes.beans.Security;
+import com.revature.aes.beans.User;
+import com.revature.aes.dao.SecurityDao;
+import com.revature.aes.encoder.MyEncoder;
 
 /**
  * Provides an implementation of the SecurityService interface.

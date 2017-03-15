@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.aes.beans.Category;
 import com.revature.aes.beans.Format;
-import com.revature.aes.beans.Question;
 import com.revature.aes.beans.Option;
+import com.revature.aes.beans.Question;
 import com.revature.aes.dao.QuestionDAO;
 
 @RestController

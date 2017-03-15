@@ -1,15 +1,39 @@
 package com.revature.aes.beans;
 
+import java.io.Serializable;
 import java.util.List;
 
-import org.springframework.stereotype.Component;
+import javax.persistence.*;
 
-@Component
-public class AssessmentRequest {
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
-	private List<CategoryRequest> categoryRequestList;
+@Entity
+@Table(name="AES_ASSESSMENT_REQUEST")
+public class AssessmentRequest implements Serializable{
+
+	private static final long serialVersionUID = 4857861341651025701L;
+	
+	@Id
+	@GeneratedValue(generator = "AES_ASSESSMENT_REQUEST_SEQ", strategy = GenerationType.SEQUENCE)
+	@GenericGenerator(name="AES_ASSESSMENT_REQUEST_SEQ", strategy="org.hibernate.id.enhanced.SequenceStyleGenerator", parameters={
+			@Parameter(name="sequence_name", value="AES_ASSESSMENT_REQUEST_SEQ"),
+			@Parameter(name="optimizer", value="hilo"),
+			@Parameter(name="initial_value",value="1"),
+			@Parameter(name="increment_size",value="1")
+	})
+	private int assessmentRequestId;
+
+	@OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL, mappedBy="assessmentRequest")
+	private Set<CategoryRequest> categoryRequestList;
+
+	@Transient
     private String link;
+
+	@Transient
     private String userEmail;
+    
+    @Column(name="TIMELIMIT")
     private Integer timeLimit;
     
 	public AssessmentRequest() {
@@ -17,18 +41,18 @@ public class AssessmentRequest {
 		
 	}
 
-	public AssessmentRequest(List<CategoryRequest> categoryRequestList, String link, String userEmail, Integer timeLimit) {
+	public AssessmentRequest(Set<CategoryRequest> categoryRequestList, String link, String userEmail, Integer timeLimit) {
 		this.categoryRequestList = categoryRequestList;
 		this.link = link;
 		this.userEmail = userEmail;
 		this.timeLimit = timeLimit;
 	}
 
-	public List<CategoryRequest> getCategoryRequestList() {
+	public Set<CategoryRequest> getCategoryRequestList() {
 		return categoryRequestList;
 	}
 
-	public void setCategoryRequestList(List<CategoryRequest> categoryRequestList) {
+	public void setCategoryRequestList(Set<CategoryRequest> categoryRequestList) {
 		this.categoryRequestList = categoryRequestList;
 	}
 

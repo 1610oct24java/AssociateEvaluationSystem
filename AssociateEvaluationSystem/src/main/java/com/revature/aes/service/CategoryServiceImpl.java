@@ -29,6 +29,9 @@ public class CategoryServiceImpl implements CategoryService{
 	}
 
 	@Override
+	public Category getCategoryByName(String name){ return cdao.getByName(name);}
+
+	@Override
 	public List<Category> getAllCategory() {
 		return cdao.findAll();
 	}

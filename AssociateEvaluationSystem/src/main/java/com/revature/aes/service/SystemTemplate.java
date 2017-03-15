@@ -8,6 +8,7 @@ import java.util.Random;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.revature.aes.beans.Category;
@@ -25,10 +26,14 @@ public class SystemTemplate {
 	Logging log;
 	
 	@Autowired
+	//@Qualifier("questionDao")
 	private QuestionDAO qDao;
+
 	@Autowired
 	private QuestionService qService;
+
 	@Autowired
+	//@Qualifier("categoryDAO")
 	private CategoryDAO cDao;
 
 	/**
@@ -38,7 +43,7 @@ public class SystemTemplate {
 	 */
 	public Set<TemplateQuestion> getRandomSelectionFromCategory(CategoryRequest assReq) {
 
-		String catName = assReq.getCategory();
+		String catName = assReq.getCategory().getName();
 		int multiChoice = assReq.getMcQuestions();
 		int multiSelect = assReq.getMsQuestions();
 		int dragDrop = assReq.getDdQuestions();

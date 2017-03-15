@@ -2,6 +2,7 @@ package com.revature.aes.controllers;
 
 import java.util.List;
 
+import com.revature.aes.beans.UserUpdateHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -139,6 +140,12 @@ public class RecruiterController {
 	@RequestMapping(value="/recruiter/{email}/candidates/{index}", method= RequestMethod.DELETE)
 	public void deleteCandidate(@PathVariable String email, @PathVariable int index){
 		userService.removeCandidate(email, index);
+	}
+
+	@RequestMapping(value="recruiter/update/{email}/", method= RequestMethod.PUT)
+	public void updateEmployee(@RequestBody UserUpdateHolder userUpdate, @PathVariable String email){
+		User currentUser = userService.findUserByEmail(email);
+		userService.updateEmployee(currentUser, userUpdate);
 	}
 
 //	THESE ARE NOW IMPLEMENTED IN com.revature.aes.controllers.AdminController.java
