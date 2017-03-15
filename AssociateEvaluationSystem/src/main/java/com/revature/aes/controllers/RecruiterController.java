@@ -74,17 +74,14 @@ public class RecruiterController {
 	 * 
 	 * @author Ric S
 	 * 
-	 * @param email
-	 * 		email of the candidate
-	 * 
-	 * @param type
-	 * 		type of assessment such as 'java', 'csharp', etc
+	 * @param user
+	 *		User object with candidate's email and format for assessment
 	 */
-	@RequestMapping(value="/recruiter/sendAssessment/{email}/{type}", method=RequestMethod.POST)
-	public void sendAssessment(@PathVariable String email, @PathVariable String type){
-		User candidate = userService.findUserByEmail(email);
+	@RequestMapping(value="/recruiter/candidate", method=RequestMethod.POST)
+	public void sendAssessment(@RequestBody User user){
+		User candidate = userService.findUserByEmail(user.getEmail());
 		String pass = userService.setCandidateSecurity(candidate);
-		candidate.setFormat(type);
+		candidate.setFormat(user.getFormat());
 		String link = client.finalizeCandidate(candidate, pass);
 		mailService.sendPassword(candidate.getEmail(), link, pass);
 	}
