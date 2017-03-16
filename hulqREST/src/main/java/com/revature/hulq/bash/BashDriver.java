@@ -36,7 +36,7 @@ public class BashDriver {
 			// there was a fault with the script itself 
 			result = 0.0;
 		}
-		System.out.println("The result is " + 100);
+		System.out.println("The result is " + result);
 		return result;
 	}
 	
@@ -68,7 +68,7 @@ public class BashDriver {
 		    System.out.println("\nHere is the standard error of the command (if any):\n");
 		    while ((errorStr = stdError.readLine()) != null)
 		    {
-	        	System.out.print("It broke.\n" + errorStr);
+	        	System.out.println("It broke.\n" + errorStr);
 				throw new TestCompilationException("Error or Exception found");
 		    }
 		    stdError.close();
