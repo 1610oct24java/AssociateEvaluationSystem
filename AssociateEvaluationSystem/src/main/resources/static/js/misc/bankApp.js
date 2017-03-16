@@ -6,24 +6,24 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider) {
     $stateProvider
         .state('category', {
             url:'category',
-            templateUrl: 'templates/bank/categoryTemplate.html',
+            templateUrl: 'templates/misc/bank/categoryTemplate.html',
             controller: 'CategoryCtrl',
             controllerAs: 'ctrl'
         })
         .state('tag', {
             url:'tag',
-            templateUrl: 'templates/bank/tagTemplate.html',
+            templateUrl: 'templates/misc/bank/tagTemplate.html',
             controller: 'TagCtrl'
         })
         .state('question', {
             url:'question',
-            templateUrl: 'templates/bank/questionTemplate.html',
+            templateUrl: 'templates/misc/bank/questionTemplate.html',
             controller: 'QuestionCtrl',
             controllerAs: 'qc'
         })
         .state('upload', {
             url:'upload',
-            templateUrl: 'templates/bank/uploadTemplate.html',
+            templateUrl: 'templates/misc/bank/uploadTemplate.html',
             controller: 'MasterCtrl'
         })
  

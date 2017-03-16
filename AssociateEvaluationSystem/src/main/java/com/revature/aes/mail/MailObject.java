@@ -1,8 +1,9 @@
 package com.revature.aes.mail;
 
-import com.revature.aes.logging.Logging;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.revature.aes.logging.Logging;
 
 @Component
 public class MailObject {

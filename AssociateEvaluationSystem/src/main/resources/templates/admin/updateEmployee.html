@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>AES | Update Credentials</title>
+<title>Revature | AES</title>
 
 <link rel="icon" type="img/png" href="images/favicon_192.png">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -19,30 +19,29 @@
 <div class="container">
 
 	<div class="container logo">
-		<a href="index.html">
 			<img src="images/Revature-Logo.png" alt="Revature" height="75px">
-		</a>
 	</div>
 
-	<div class="row stylePro">
-		<span class="col-xs-6 col-md-6">
-			<a href="view">return</a>
+    <span>
+        <span class="col-md-3">
+			<a href="viewEmployees">View Employees</a>
 		</span>
-        <span class="col-xs-6 col-md-6">
+		<span class="col-md-3">
 			<a href="registerEmployee">Register Employee</a>
 		</span>
-        <span class="col-xs-6 col-md-6">
-			<a href="createAssessment">Create Assessment</a>
+		<span class="col-md-3">
+			<a href="createAssessment">Set Assessment Template</a>
 		</span>
-		<span class="col-xs-6 col-md-6">
+		<span class="col-md-3"></span>
+		<span class="col-md-3">
 			<button id="logout" class="btn-revature" ng-click="logout()">logout</button>
 		</span>
-	</div>
+	</span>
 
     <form class="form-revature" ng-submit="update()">
         <div class="row">
-        	<h2>Update Credentials</h2>
-        	<p>Leave fields BLANK that you do NOT wish to update!</p>
+        	<h2>Update Employee Information</h2>
+        	<p>Leave fields BLANK that you do NOT wish to update (except for employee's current email and password)!</p>
         </div>
        
         <div class="row input-field">
