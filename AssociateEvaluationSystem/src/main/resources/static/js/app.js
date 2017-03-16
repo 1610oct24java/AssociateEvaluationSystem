@@ -35,4 +35,11 @@ app.constant("ROLE", {
 	"ADMIN"		: "ROLE_ADMIN"
 });
 
+			//Console log removed for sonarqube.
+			//Console log removed for sonarqube.
+                
+                var td;
+
+                    td = $("<td></td>", {
+                    td = $("<td></td>", {
 

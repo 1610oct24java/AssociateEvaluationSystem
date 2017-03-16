@@ -22,12 +22,12 @@ public class CoreEmailClient {
 		super();
 		this.serviceHost = serviceHost;
 	}
+	
+	public CoreEmailClient() {
+	}
 
 	public void setServiceHost(String serviceHost) {
 		this.serviceHost = serviceHost;
-	}
-
-	public CoreEmailClient() {
 	}
 
 	public boolean sendEmailAfterGrading(String emailAddress, int assessmentId) {

@@ -1,6 +1,6 @@
 package com.revature.aes.mail;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.revature.aes.beans.Assessment;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Component;
 

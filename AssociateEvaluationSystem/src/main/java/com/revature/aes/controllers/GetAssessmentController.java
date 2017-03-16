@@ -75,6 +75,8 @@ public class GetAssessmentController {
 
 	@Autowired
 	IpConf ipConf;
+	
+	private String coreEmailClientEndpointAddress = "http://localhost/aes/";
 
 	@PostConstruct
 	protected void postConstruct(){
@@ -82,8 +84,6 @@ public class GetAssessmentController {
 		configureRestService();
 
 	}
-
-	private String coreEmailClientEndpointAddress = "http://localhost/aes/";
 
 	private void configureRestService(){
 
@@ -130,12 +130,6 @@ public class GetAssessmentController {
 
 		assessment.setOptions(optList);
 
-/*		for(Option opt : assessment.getOptions()){
-
-			System.out.println(opt);
-
-		}
-*/
 		for (AssessmentDragDrop add : assessment.getAssessmentDragDrop()){
 
 			add.setDragDrop(ddService.getDragDropById(add.getDragDrop().getDragDropId()));
@@ -201,7 +195,7 @@ public class GetAssessmentController {
 		log.debug("Requesting assessment with ID=" + AssessmentId);
 		
 		Assessment assessment = new Assessment();
-		Map<String, Object> responseMap = new HashMap<String, Object>();
+		Map<String, Object> responseMap = new HashMap<>();
 			
 		try {
 			assessment = service.getAssessmentById(AssessmentId);
@@ -257,7 +251,6 @@ public class GetAssessmentController {
 				// Check to see if the user has already taken this assessment
 				if (assessment.getGrade() < 0)
 				{	// Assessment not taken yet
-					//System.out.println("Created Timestamp test= " + assessment.getCreatedTimeStamp());
 					if (assessment.getCreatedTimeStamp() == null)
 					{
 						Timestamp serverQuizStartTime = new Timestamp(System.currentTimeMillis());
@@ -327,12 +320,6 @@ public class GetAssessmentController {
 		}
 
 		assessment.setOptions(optList);
-
-/*		for(Option opt : assessment.getOptions()){
-
-			System.out.println(opt);
-
-		}*/
 
 		for (AssessmentDragDrop add : assessment.getAssessmentDragDrop()){
 

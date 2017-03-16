@@ -46,14 +46,14 @@ public class Question implements Serializable {
 	
 	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name="AES_QUESTION_CATEGORY", joinColumns= @JoinColumn(name="QUESTION_ID"), inverseJoinColumns=@JoinColumn(name="CATEGORY_ID"))
-	private Set<Category> questionCategory = new HashSet<Category>();
+	private Set<Category> questionCategory = new HashSet<>();
 
 	@Column(name = "QUESTION_TEXT")
 	private String questionText;
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
 	@JoinTable(name = "AES_QUESTION_TAG", joinColumns = @JoinColumn(name = "QUESTION_ID"), inverseJoinColumns = @JoinColumn(name = "TAG_ID"))
-	private Set<Tag> questionTags = new HashSet<Tag>();
+	private Set<Tag> questionTags = new HashSet<>();
 
 	@OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL, mappedBy="question")
 	private Set<Option> option;
@@ -82,7 +82,6 @@ public class Question implements Serializable {
 
 	public Question() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public int getQuestionId() {

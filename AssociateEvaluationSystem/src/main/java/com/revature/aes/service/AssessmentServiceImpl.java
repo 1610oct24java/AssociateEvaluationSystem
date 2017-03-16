@@ -25,8 +25,7 @@ public class AssessmentServiceImpl implements AssessmentService {
 	
 	@Override
 	public Assessment getAssessmentById(int id) {
-		Assessment out = assDAO.findAssessmentByAssessmentId(id);
-		return out;
+		return assDAO.findAssessmentByAssessmentId(id);
 	}
 
 	@Override

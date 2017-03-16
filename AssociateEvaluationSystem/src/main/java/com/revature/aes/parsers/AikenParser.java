@@ -33,6 +33,10 @@ import com.revature.aes.service.FormatService;
  */
 @Service
 public class AikenParser {
+	
+	@Autowired
+	Logging log;
+	
 	private HashMap<Question, Set<Option>> questionMap;
 	private String line;
 	
@@ -44,9 +48,6 @@ public class AikenParser {
 	public AikenParser() {
 		super();
 	}
-	
-	@Autowired
-	Logging log;
 	
 	@Autowired
 	public AikenParser(FormatService fs) {
@@ -118,7 +119,7 @@ public class AikenParser {
 		log.debug("Line 112: " + line);
     	
 		// Create new options list for each Question
-		Set<Option> optionsList = new HashSet<Option>();
+		Set<Option> optionsList = new HashSet<>();
 		
     	// Parse lines until "ANSWER:" to retrieve Options
     	while(!line.startsWith("ANSWER:")){

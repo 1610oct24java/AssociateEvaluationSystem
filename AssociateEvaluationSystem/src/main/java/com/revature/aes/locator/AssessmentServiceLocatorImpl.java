@@ -30,16 +30,16 @@ public class AssessmentServiceLocatorImpl implements AssessmentServiceLocator {
 
 	@Autowired
 	PropertyReader propertyReader;
+	
+	@Autowired
+	Logging log;
 
 	private static String URI;
 	private static final String URIExt = "/aes";
+	private RestTemplate restTemplate = new RestTemplate();
 
 	@Inject
 	private org.springframework.boot.autoconfigure.web.ServerProperties serverProperties;
-
-	private static int port;
-
-	private static String ip;
 
 	@PostConstruct
 	protected void postConstruct(){
@@ -49,8 +49,9 @@ public class AssessmentServiceLocatorImpl implements AssessmentServiceLocator {
 	}
 
 	private void configureRestService(){
-
-		port = serverProperties.getPort();
+		
+		String ip;
+		int port = serverProperties.getPort();
 
 		try{
 
@@ -66,7 +67,7 @@ public class AssessmentServiceLocatorImpl implements AssessmentServiceLocator {
 
 	}
 
-	private RestTemplate restTemplate = new RestTemplate();
+	
 
 	/*@PostConstruct
 	protected void postConstruct(){
@@ -75,8 +76,7 @@ public class AssessmentServiceLocatorImpl implements AssessmentServiceLocator {
 
 	}
 */
-	@Autowired
-	Logging log;
+
 	
 	/**
 	 * 

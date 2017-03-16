@@ -52,7 +52,7 @@ public class AssessmentRequestLoader {
 		catReq4.setCsQuestions(Integer.parseInt(prop.getProperty("cat4csQuestions")));
 
 		//For a future sprint this is where you would set the time limit
-		Set<CategoryRequest> list = new HashSet<CategoryRequest>();
+		List<CategoryRequest> list = new ArrayList<>();
 
 		list.add(catReq);
 		list.add(catReq2);

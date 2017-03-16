@@ -135,8 +135,8 @@ public class SecurityServiceImpl implements SecurityService {
 
     	if (passwordEncoder.matches(enteredPass, dbPassword)) {
     	    return true;
-    	} else {
-    	    return false;
     	}
+    	
+    	return false;
     }
 }

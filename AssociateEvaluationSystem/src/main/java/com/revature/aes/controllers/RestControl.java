@@ -15,9 +15,7 @@ public class RestControl {
 	
 	@RequestMapping(value = "/users")
 	public List<User> getUsers() {
-		
-		List<User> listOfUsers = createUserList();
-		return listOfUsers;
+		return createUserList();
 	}
 	
 	// Utiliy method to create user list.
@@ -35,7 +33,7 @@ public class RestControl {
 		String now = "";
 		user.setDatePassIssued(now);
 		
-		List<User> listOfUsers = new ArrayList<User>();
+		List<User> listOfUsers = new ArrayList<>();
 		listOfUsers.add(user);
 		return listOfUsers;
 	}

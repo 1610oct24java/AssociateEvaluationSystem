@@ -48,10 +48,8 @@ public class SystemTemplate {
 		int multiSelect = assReq.getMsQuestions();
 		int dragDrop = assReq.getDdQuestions();
 		int codeSnip = assReq.getCsQuestions();
-		int size;
 
 		Set<Question> assessList = new HashSet<>();
-		List<Question> formatList = new ArrayList<>();
 		Set<TemplateQuestion> finalList = new HashSet<>();
 		
 		Category cat = (Category) cDao.getByName(catName);
@@ -183,14 +181,13 @@ public class SystemTemplate {
 
 	private Set<Question> addQuestionsToList(String format, String category, int questionCount, Set<Question> assessmentQuestions) {
 		List<BigDecimal> list = qService.findIdsByFormatAndCategory(category, format);
-		//int size = list.size();
 		Random rando = new Random();
 		for (int i = 0; i < questionCount; i++) {
 			int num = rando.nextInt(list.size());
 			Question q = qService.getQuestionById(list.get(num).intValue());
 			list.remove(num).intValue();
 			assessmentQuestions.add(q);
-			if (list.size() == 0) {
+			if (list.isEmpty()) {
 				break;
 			}
 		}

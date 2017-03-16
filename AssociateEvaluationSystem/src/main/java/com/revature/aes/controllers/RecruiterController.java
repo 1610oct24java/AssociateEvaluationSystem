@@ -91,8 +91,7 @@ public class RecruiterController {
 	 */
 	@RequestMapping(value="/recruiter/{email}/assessments", method= RequestMethod.GET)
 	public List<Assessment> getAssessment(@PathVariable String email){
-		List<Assessment> a = aService.findAssessmentsByUser(userService.findUserByEmail(email));
-		return a;
+		return aService.findAssessmentsByUser(userService.findUserByEmail(email));
 	}
 	
 	/**

@@ -18,20 +18,18 @@ import com.revature.aes.logging.Logging;
 
 @Component
 public class AssessmentGrader {
-
-	private static final double UNINITIALIZED = 0.0;
 	Logging log = new Logging();
 
 	public double gradeAssessment(Assessment assessment){
 		log.info("Grading assessmsent#"+assessment.getAssessmentId());
-		double dragDrop[] = gradeDragDrop(assessment);
-		double multChoiceSelect[] = gradeMultChoiceSelect(assessment);
-		double snippet[] = gradeSnippet(assessment);
+		double[] dragDrop = gradeDragDrop(assessment);
+		double[] multChoiceSelect = gradeMultChoiceSelect(assessment);
+		double[] snippet = gradeSnippet(assessment);
 		log.info("Drag and Drop Score: "+dragDrop[0]+"/"+dragDrop[1]);
 		log.info("Multiple Choice/Select Score: "+multChoiceSelect[0]+"/"+multChoiceSelect[1]);
 		log.info("Snippet Score: "+snippet[0]+"/"+snippet[1]);
-		double earnedPoints = (dragDrop[0]+multChoiceSelect[0]+snippet[0]);
-		double availablePoints = (dragDrop[1]+multChoiceSelect[1]+snippet[1]);
+		double earnedPoints = dragDrop[0]+multChoiceSelect[0]+snippet[0];
+		double availablePoints = dragDrop[1]+multChoiceSelect[1]+snippet[1];
 		log.info("points earned: " + earnedPoints + " points available: " + availablePoints);
 		log.info("Score earned: "+earnedPoints/availablePoints);
 		return 100*(earnedPoints/availablePoints);
@@ -58,8 +56,8 @@ public class AssessmentGrader {
 			return result;
 
 		}
-		Map<Integer, TemplateQuestion> templateDataMap = new HashMap<Integer, TemplateQuestion>();
-		Map<Integer, Set<Option>> userDataMap = new HashMap<Integer, Set<Option>>();
+		Map<Integer, TemplateQuestion> templateDataMap = new HashMap<>();
+		Map<Integer, Set<Option>> userDataMap = new HashMap<>();
 
 		//Polulate map of all questions from template
 		for(TemplateQuestion tQuestion: assessment.getTemplate().getTemplateQuestion()){
@@ -73,7 +71,7 @@ public class AssessmentGrader {
 				log.info(" adding option to option set: " + opt.getOptionText() + " on question: " +opt.getQuestion().getQuestionId());
 			}
 			else {
-				Set<Option> optSet = new HashSet<Option>();
+				Set<Option> optSet = new HashSet<>();
 				optSet.add(opt);
 				userDataMap.put(opt.getQuestion().getQuestionId(), optSet);
 				log.info(" creating new option set with : " + opt.getOptionText() + " on question: " +opt.getQuestion().getQuestionId());
@@ -102,10 +100,12 @@ public class AssessmentGrader {
 				}
 			}
 			
-			if(countCorrect<0){	countCorrect=0;	}
+			if(countCorrect<0){	
+				countCorrect=0;	
+			}
 
 			try{
-				if(countOptions != UNINITIALIZED){
+				if(((Double)Math.ceil(countOptions)).intValue() != 0){
 					itemWeightedGrade = itemWeight*(countCorrect/countOptions);
 					result[0] = result[0]+itemWeightedGrade;
 					//result[1] = result[1]+itemWeight;
@@ -178,24 +178,21 @@ public class AssessmentGrader {
 			return result;
 
 		}
-		Map<Integer, TemplateQuestion> templateDataMap = new HashMap<Integer, TemplateQuestion>();
-		Map<Integer, Set<AssessmentDragDrop>> userDataMap = new HashMap<Integer, Set<AssessmentDragDrop>>();
+		Map<Integer, TemplateQuestion> templateDataMap = new HashMap<>();
+		Map<Integer, Set<AssessmentDragDrop>> userDataMap = new HashMap<>();
 		
 		
 		for(TemplateQuestion tQuestion: assessment.getTemplate().getTemplateQuestion()){
-			//System.out.println("Adding to templateDataMap: " + tQuestion);
 			templateDataMap.put(tQuestion.getQuestion().getQuestionId(), tQuestion);
 		}
 		
 		
 		for(AssessmentDragDrop dragDrop: assessment.getAssessmentDragDrop()){
 			if(userDataMap.containsKey(dragDrop.getDragDrop().getQuestion().getQuestionId())){
-				//System.out.println("Adding to userDataMap: " + dragDrop);
 				userDataMap.get(dragDrop.getDragDrop().getQuestion().getQuestionId()).add(dragDrop);
 			}
 			else {
-				//System.out.println("Creating list of dragDrop statring with: " + dragDrop);
-				Set<AssessmentDragDrop> dragDropSet = new HashSet<AssessmentDragDrop>();
+				Set<AssessmentDragDrop> dragDropSet = new HashSet<>();
 				dragDropSet.add(dragDrop);
 				userDataMap.put(dragDrop.getDragDrop().getQuestion().getQuestionId(), dragDropSet);
 			}
@@ -219,7 +216,7 @@ public class AssessmentGrader {
 			}
 			
 			try{
-				if(countOptions != UNINITIALIZED){
+				if(((Double)Math.ceil(countOptions)).intValue() != 0){
 					itemWeightedGrade = itemWeight*(countCorrect/countOptions);
 					result[0] = result[0]+itemWeightedGrade;
 					//result[1] = result[1]+itemWeight;
@@ -293,8 +290,8 @@ public class AssessmentGrader {
 			return result;
 
 		}
-		Map<Integer, FileUpload> userDataMap = new HashMap<Integer, FileUpload>();
-		Map<Integer, TemplateQuestion> templateDataMap = new HashMap<Integer, TemplateQuestion>(); 
+		Map<Integer, FileUpload> userDataMap = new HashMap<>();
+		Map<Integer, TemplateQuestion> templateDataMap = new HashMap<>(); 
 		
 		for(TemplateQuestion tQuestion: assessment.getTemplate().getTemplateQuestion()){
 			templateDataMap.put(tQuestion.getQuestion().getQuestionId(), tQuestion);
