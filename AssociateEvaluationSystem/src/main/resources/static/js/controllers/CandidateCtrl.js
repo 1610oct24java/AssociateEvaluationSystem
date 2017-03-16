@@ -3,34 +3,33 @@
  */
 
 angular.module('AESCoreApp').controller('CandidateCtrl', function($scope,$location,$http,SITE_URL, API_URL, ROLE) {
-
     $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
-        .then(function(response) {
-            if (response.data.authenticated) {
-                var authUser = {
-                    username : response.data.principal.username,
-                    authority: response.data.principal.authorities[0].authority
-                }
-                $scope.authUser = authUser;
-                if($scope.authUser.authority != ROLE.RECRUITER) {
-                    window.location = SITE_URL.LOGIN;
-                }
-                $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + $scope.authUser.username + API_URL.CANDIDATES)
-                    .then(function(response) {
-                        //$scope.candidates = response.data;
-                        var c =  response.data;
-                        for (var i=0; i<c.length; i++) {
-                            if (c[i].grade == -1) {
-                                c[i].grade = 'N/A';
-                            }
-                            c[i].expanded = false;
-                        }
-                        $scope.candidates = c;
-                    })
-            } else {
-                window.location = SITE_URL.LOGIN;
-            }
-        });
+    .then(function(response) {
+    	if (response.data.authenticated) {
+    		var authUser = {
+    				username : response.data.principal.username,
+    				authority: response.data.principal.authorities[0].authority
+    		}
+    		$scope.authUser = authUser;
+    		if($scope.authUser.authority != ROLE.RECRUITER) {
+    			window.location = SITE_URL.LOGIN;
+    		}
+    		$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + $scope.authUser.username + API_URL.CANDIDATES)
+    		.then(function(response) {
+    			//$scope.candidates = response.data;
+    			var c =  response.data;
+    			for (var i=0; i<c.length; i++) {
+    				if (c[i].grade == -1) {
+    					c[i].grade = 'N/A';
+    				}
+    				c[i].expanded = false;
+    			}
+    			$scope.candidates = c;
+    		});
+    	}else {
+    		window.location = SITE_URL.LOGIN;
+    	}
+    });
 
     $scope.expandd = function(candidate) {
         $scope.candidates.filter(c => c.email != candidate.email).forEach(c => {c.expanded = false});
@@ -49,11 +48,10 @@ angular.module('AESCoreApp').controller('CandidateCtrl', function($scope,$locati
         } else {
             candidate.expanded = false;
         }
-        
     };
 
     $scope.register = function() {
-
+    	
         var candidateInfo = {
             userId        : null,
             email         : $scope.email,
@@ -63,8 +61,9 @@ angular.module('AESCoreApp').controller('CandidateCtrl', function($scope,$locati
             recruiterId   : null,
             role          : null,
             datePassIssued: null,
-            format		  : $scope.program.value
+            format		  : null
         };
+        
         $scope.postRegister(candidateInfo);
 
         $scope.firstName = '';
@@ -74,17 +73,28 @@ angular.module('AESCoreApp').controller('CandidateCtrl', function($scope,$locati
     };
 
     $scope.postRegister = function(candidateInfo) {
+    	$scope.registerSuccessfulMsg = false;
+		$scope.registerUnsuccessfulMsg = false;
+		
         $http({
             method  : 'POST',
-            url: SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + $scope.authUser.username + API_URL.CANDIDATES,
+            url: SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + $scope.authUser.username + API_URL.CANDIDATE + "register",
             headers : {'Content-Type' : 'application/json'},
             data    : candidateInfo
         }).success( function(res) {
-            //Removed console log for sonar cube.
-        	// Needs to ng-show a message upon successful save!
+        	if(res.data.msg === "success")
+			{
+				$scope.registerSuccessfulMsg = true;
+			}else {
+				$scope.registerUnsuccessfulMsg = true;
+			}
         }).error( function(res) {
-            //Removed console log for sonar cube.
-        	// Needs to ng-show a message upon unsuccessful save!
+        	if(res.data.msg === "success")
+			{
+				$scope.registerSuccessfulMsg = true;
+			}else {
+				$scope.registerUnsuccessfulMsg = true;
+			}
         });
     };
 

@@ -167,36 +167,6 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String createRecruiter(String email, String lastname, String firstname) {
-
-		return createEmployee(email, lastname, firstname, "recruiter");
-
-	}
-
-	@Override
-	public String createTrainer(String email, String lastname, String firstname) {
-  
-		return createEmployee(email, lastname, firstname, "trainer");
-		
-	}
-
-	private String createEmployee(String email, String lastname, String firstname, String adminRole){
-		
-		SimpleDateFormat fmt = new SimpleDateFormat(PATTERN);
-		User user = new User();
-		user.setEmail(email);
-		user.setFirstName(firstname);
-		user.setLastName(lastname);
-		user.setRole(role.findRoleByRoleTitle(adminRole));
-		user.setDatePassIssued(fmt.format(new Date()));
-		
-		dao.save(user);
-		
-		String pass = security.createAdminRoleSecurity(user);
-		return pass;
-	}
-
-	@Override
 	public List<User> findUsersByRole(String role) {
 		
 		List<User> users = dao.findUsersByRole(role);
@@ -209,6 +179,24 @@ public class UserServiceImpl implements UserService {
 		//dao.save(user);
 	}
 
+	@Override
+	public String createEmployee(User employee){
+		
+		SimpleDateFormat fmt = new SimpleDateFormat(PATTERN);
+		
+		User user = new User();
+		user.setEmail(employee.getEmail());
+		user.setFirstName(employee.getFirstName());
+		user.setLastName(employee.getLastName());
+		user.setRole(role.findRoleByRoleTitle(employee.getRole().getRoleTitle()));
+		user.setDatePassIssued(fmt.format(new Date()));
+		
+		dao.save(user);
+		
+		String pass = security.createSecurity(user);
+		return pass;
+	}
+	
 	@Override
 	public void updateEmployee(User currentUser, UserUpdateHolder updatedUser) {
 		

@@ -65,21 +65,25 @@ public class AdminController {
 	}
 	
 	/**
-	 * This method removes the indexed user from the database
+	 * This method registers an employee (trainer, recruiter)
 	 * 
-	 * @author Delete operation by Hajira Zahir
-	 * 
-	 * @param email
-	 * 		The email of this recruiter
+	 * @author Ric Smith
+	 * @param employee	(User object requiring lastname, firstname, email, roleType)
+	 * @return String 	(message to front-end if registration is a success or fail)
 	 */
-	//Delete operation by Hajira Zahir
-	@RequestMapping(value="/admin/employees/Delete/{email}/", method= RequestMethod.DELETE)
-	public void deleteEmployee(@PathVariable String email){
-		System.out.println(" \n====== AdminCtrl.updateEmployee: delete by email: " + email);
-		userService.removeEmployee(email);
-		System.out.println(" \n====== AdminCtrl.updateEmployee: userService ran update");
+	@RequestMapping(value="admin/employee/register", method = RequestMethod.POST)
+	public String registerEmployee(@RequestBody User employee) {
+		String pass = userService.createEmployee(employee);
+		boolean mailSentSuccess = mailService.sendTempPassword(employee.getEmail(), pass);
+	
+		if (mailSentSuccess)
+		{
+			return "{\"msg\":\"success\"}"; 
+		}else {
+			return "{\"msg\":\"fail\"}";
+		}
 	}
-
+	
 	/**
 	 * This method changes details about a user in the database.
 	 * 
@@ -91,25 +95,20 @@ public class AdminController {
 		User currentUser = userService.findUserByEmail(email);
 		userService.updateEmployee(currentUser, userUpdate);
 	}
-
-	@RequestMapping(value="admin/recruiter/{email}/{lastname}/{firstname}", method = RequestMethod.POST)
-	public void initRecruiter(@PathVariable String email, @PathVariable String lastname, @PathVariable String firstname) {
-		System.out.println(" \n-------------- AdminController.initRecruiter: reached an endpoint...initRecruiter\n");
-		String pass = userService.createRecruiter(email, lastname, firstname);
-		System.out.println(" \n-------------- AdminController.initRecruiter: userService should have run...\n");
-		
-		boolean mailSentSuccess = mailService.sendTempPassword(email, pass);
-		System.out.println(" \n-------------- AdminController.initRecruiter: Email sent? " + mailSentSuccess);
-	}
 	
-	@RequestMapping(value="admin/trainer/{email}/{lastname}/{firstname}", method = RequestMethod.POST)
-	public void initTrainer(@PathVariable String email, @PathVariable String lastname, @PathVariable String firstname) {
-		System.out.println(" \n-------------- AdminController.initTrainer: reached an endpoint...");
-		String pass = userService.createTrainer(email, lastname, firstname);
-		System.out.println(" \n-------------- AdminController.initTrainer: userService should have run...");
-	
-		boolean mailSentSuccess = mailService.sendTempPassword(email, pass);
-		System.out.println(" \n-------------- AdminController.initTrainer: Email sent? " + mailSentSuccess);
+	/**
+	 * This method removes the indexed user from the database
+	 * 
+	 * @author Delete operation by Hajira Zahir
+	 * 
+	 * @param email
+	 * 		The email of this recruiter
+	 */
+	@RequestMapping(value="/admin/employees/Delete/{email}/", method= RequestMethod.DELETE)
+	public void deleteEmployee(@PathVariable String email){
+		System.out.println(" \n====== AdminCtrl.updateEmployee: delete by email: " + email);
+		userService.removeEmployee(email);
+		System.out.println(" \n====== AdminCtrl.updateEmployee: userService ran update");
 	}
 	
 	/**

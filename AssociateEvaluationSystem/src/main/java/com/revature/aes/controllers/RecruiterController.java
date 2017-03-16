@@ -67,11 +67,11 @@ public class RecruiterController {
 	 * @return 
 	 * 		the newly saved user object
 	 */
-	@RequestMapping(value="/recruiter/{email}/candidates", method= RequestMethod.POST)
-	public String createCandidate(@RequestBody User candidate, @PathVariable String email) 
+	@RequestMapping(value="/recruiter/{username}/candidate/register", method=RequestMethod.POST)
+	public String createCandidate(@RequestBody User candidate, @PathVariable String username) 
 			throws JsonParseException, JsonMappingException, IOException {
 		
-		boolean success = userService.createCandidate(candidate, email);
+		boolean success = userService.createCandidate(candidate, username);
 		
 		if (success)
 		{
