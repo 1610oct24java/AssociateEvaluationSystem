@@ -49,7 +49,7 @@ public class CandidateViewPage {
 		boolean isCandidateDisplayedInView = false;
 		
 		// Get all the candidates in the list
-		List<WebElement> elements = driver.findElements(By.xpath("//tr[@ng-repeat='candidate in candidates']"));
+		List<WebElement> elements = driver.findElements(By.xpath("//tr[@ng-repeat-start='candidate in candidates']"));
 
 		// Check each candidate to match if the desired candidate exists
 		for(int i=0;i<elements.size(); i++) {
