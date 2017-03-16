@@ -13,6 +13,7 @@ public class AdminEmployeeViewPage {
 	By searchBox = By.xpath("/html/body/div/input");
 	By registerEmployeeLink = By.xpath("//a[@href='registerEmployee']");
 	By updateEmployeeLink = By.xpath("//a[@href='updateCredentials']");
+	By createAssessmentLink = By.xpath("//a[@href='createAssessment']");
 	By logoutButton = By.id("logout");
 	
 	/**
@@ -37,6 +38,10 @@ public class AdminEmployeeViewPage {
 	
 	public void clickUpdateEmployeeLink() {
 		driver.findElement(updateEmployeeLink).click();
+	}
+	
+	public void clickCreateAssessmentLink() {
+		driver.findElement(createAssessmentLink).click();
 	}
 	
 	public void clickLogoutButton() {
