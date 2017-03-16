@@ -47,7 +47,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 		} else {
 			window.location = SITE_URL.LOGIN;
 		}
-	})
+	});
 	$scope.names =["Recruiter"];
 	
 	$scope.register = function() {
