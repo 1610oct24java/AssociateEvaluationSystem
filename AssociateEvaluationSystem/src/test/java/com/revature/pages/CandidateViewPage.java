@@ -1,4 +1,4 @@
-package pages;
+package com.revature.pages;
 
 import java.util.List;
 

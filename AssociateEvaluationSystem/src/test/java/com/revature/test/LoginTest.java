@@ -1,4 +1,4 @@
-package test;
+package com.revature.test;
 
 import static org.junit.Assert.*;
 
@@ -11,9 +11,9 @@ import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import pages.AdminEmployeeViewPage;
-import pages.CandidateViewPage;
-import pages.LoginPage;
+import com.revature.pages.AdminEmployeeViewPage;
+import com.revature.pages.CandidateViewPage;
+import com.revature.pages.LoginPage;
 
 public class LoginTest {
 	

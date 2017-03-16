@@ -1,4 +1,4 @@
-package pages;
+package com.revature.pages;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,7 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Select;
 
-import utilties.DataBaseConnection;
+import com.revature.utilities.DataBaseConnection;
 
 public class RegisterCandidatePage {
 
