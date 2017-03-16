@@ -1,4 +1,4 @@
-package test;
+package com.revature.test;
 
 import static org.junit.Assert.*;
 
@@ -13,9 +13,9 @@ import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import pages.CandidateViewPage;
-import pages.LoginPage;
-import pages.RegisterCandidatePage;
+import com.revature.pages.CandidateViewPage;
+import com.revature.pages.LoginPage;
+import com.revature.pages.RegisterCandidatePage;
 
 public class RegisterCandidateTest {
 	
@@ -71,22 +71,16 @@ public class RegisterCandidateTest {
 
 	@Test
 	public void registerCandidateGUITest()  {
-		
-		explicitWait(3);
-
+		explicitWait(5);
 		// Remove test candidate before recreating
 		registerCandidatePage.deleteCandidate("test@jonsfakemail.com");
 		candidateViewPage.clickRegisterCandidateLink();
-		
-		explicitWait(3);
+		explicitWait(5);
 		registerCandidatePage.registerCandidate("test", "test", "test@jonsfakemail.com", "SDET");
-		
-		registerCandidatePage.clickViewCandidates();
-		
-		explicitWait(3);
+		registerCandidatePage.clickViewCandidates();		
+		explicitWait(5);
 		driver.navigate().refresh();
-		explicitWait(3);
-		assertTrue(candidateViewPage.testCandidateExistView());
-		
+		explicitWait(5);
+		assertTrue(candidateViewPage.verifyCandidateExistInView("test", "test", "test@jonsfakemail.com"));
 	}
 }

@@ -1,4 +1,4 @@
-package test;
+package com.revature.test;
 
 import static org.junit.Assert.*;
 
@@ -10,8 +10,8 @@ import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import pages.LoginPage;
-import pages.CandidateViewPage;
+import com.revature.pages.CandidateViewPage;
+import com.revature.pages.LoginPage;
 
 public class LogoutTest {
 	

@@ -1,4 +1,4 @@
-package pages;
+package com.revature.pages;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,7 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Select;
 
-import utilties.DataBaseConnection;
+import com.revature.utilities.DataBaseConnection;
 
 public class RegisterCandidatePage {
 
@@ -22,23 +22,42 @@ public class RegisterCandidatePage {
 	By register = By.id("btn-register-recruit");
 	By viewCandidatesLink = By.xpath("//a[@href='view']");
 
-	
+	/**
+	 * The driver for the register candidate page.
+	 * @param driver particular to the register candidate page
+	 */
 	public RegisterCandidatePage(WebDriver driver) {
 		this.driver = driver;
 	}
 	
+	/**
+	 * Type candidate first name in first name field.
+	 * @param strFirstName candidate first name
+	 */
 	public void setFirstName(String strFirstName) {
 		driver.findElement(firstName).sendKeys(strFirstName);
 	}
 	
+	/**
+	 * Type candidate last name in last name field.
+	 * @param strLastName candidate last name
+	 */
 	public void setLastName(String strLastName) {
 		driver.findElement(lastName).sendKeys(strLastName);
 	}
 	
+	/**
+	 * Type candidate email in email field.
+	 * @param strFirstName candidate email
+	 */
 	public void setEmail(String strEmail) {
 		driver.findElement(email).sendKeys(strEmail);
 	}
 	
+	/**
+	 * Select program for candidate.
+	 * @param strProgram name of program
+	 */
 	public void selectProgram(String strProgram) {
 		Select select = new Select(driver.findElement(program));
 		select.selectByVisibleText(strProgram);
@@ -52,6 +71,10 @@ public class RegisterCandidatePage {
 		driver.findElement(viewCandidatesLink).click();
 	}
 	
+	/**
+	 * Remove candidate from database.
+	 * @param userEmail user email
+	 */
 	public void deleteCandidate(String userEmail) {
 		
 		Connection conn;
@@ -97,6 +120,11 @@ public class RegisterCandidatePage {
 		}
 	}
 	
+	/**
+	 * Verify if candidate exists in database.
+	 * @param userEmail user email
+	 * @return boolean value if candidate exists or not
+	 */
 	public boolean testCandidateExist(String userEmail) {
 		
 		Connection conn;
@@ -124,6 +152,13 @@ public class RegisterCandidatePage {
 		return false;
 	}
 	
+	/**
+	 * Register candidate in the database
+	 * @param firstName candidate first name
+	 * @param lastName candidate last name
+	 * @param email candidate email
+	 * @param program candidate program
+	 */
 	public void registerCandidate(String firstName, String lastName, String email, String program) {
 		this.setFirstName(firstName);
 		this.setLastName(lastName);

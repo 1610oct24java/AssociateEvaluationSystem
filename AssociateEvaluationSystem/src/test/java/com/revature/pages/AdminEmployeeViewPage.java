@@ -1,4 +1,4 @@
-package pages;
+package com.revature.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -15,11 +15,18 @@ public class AdminEmployeeViewPage {
 	By updateEmployeeLink = By.xpath("//a[@href='updateCredentials']");
 	By logoutButton = By.id("logout");
 	
-	
+	/**
+	 * The driver for the admin employee view page
+	 * @param driver particular to the admin employee view page 
+	 */
 	public AdminEmployeeViewPage(WebDriver driver) {
 		this.driver = driver;
 	}
 	
+	/**
+	 * Retrieve title
+	 * @return title of admin employee view page
+	 */
 	public String getTitle() {
 		return driver.getTitle();
 	}
@@ -36,6 +43,10 @@ public class AdminEmployeeViewPage {
 		driver.findElement(logoutButton).click();
 	}
 	
+	/**
+	 * Select the order of how employees will be displayed.
+	 * @param order of employee
+	 */
 	public void selectSearchOrder(String order) {
 		WebElement wb = driver.findElement(searchOrderDropDown);
 		Select se = new Select(wb);

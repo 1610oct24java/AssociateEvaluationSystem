@@ -1,4 +1,4 @@
-package pages;
+package com.revature.pages;
 
 import java.util.List;
 
@@ -13,10 +13,18 @@ public class CandidateViewPage {
 	By registerCandidateLink = By.xpath("//a[@href='recruit']");
 	By logoutButton = By.id("logout");
 	
+	/**
+	 * The driver for the candidate view page.
+	 * @param driver particular to the candidate view page
+	 */
 	public CandidateViewPage(WebDriver driver) {
 		this.driver = driver;
 	}
 	
+	/**
+	 * Retrieve title
+	 * @return title of candidate view page
+	 */
 	public String getTitle() {
 		return driver.getTitle();
 	}
@@ -29,20 +37,21 @@ public class CandidateViewPage {
 		driver.findElement(logoutButton).click();
 	}
 	
-	public boolean verifyCandidate(String name, String email) {
-		boolean result = false;
-		
-		driver.findElement(By.xpath(""));
-		
-		return result;
-	}
-	
-	public boolean testCandidateExistView() {
+	/**
+	 * Check if candidate shows up in the candidate view page
+	 * @param strFirstName candidate first name
+	 * @param strLastName candidate last name
+	 * @param strEmail candidate email
+	 * @return boolean value if candidate exist or not
+	 */
+	public boolean verifyCandidateExistInView(String strFirstName, String strLastName, String strEmail) {
 		
 		boolean isCandidateDisplayedInView = false;
 		
+		// Get all the candidates in the list
 		List<WebElement> elements = driver.findElements(By.xpath("//tr[@ng-repeat='candidate in candidates']"));
 
+		// Check each candidate to match if the desired candidate exists
 		for(int i=0;i<elements.size(); i++) {
 			WebElement element = elements.get(i);
 
@@ -51,13 +60,11 @@ public class CandidateViewPage {
 			String firstName = str[1];
 			String email = str[2];
 			
-			if(lastName.equals("test") && firstName.equals("test") && email.equals("test@test.com")) {
+			if(lastName.equals(strLastName) && firstName.equals(strFirstName) && email.equals(strEmail)) {
 				isCandidateDisplayedInView = true;
+				break; // Candidate found, no more search required
 			}
-
 		}
-		
 		return isCandidateDisplayedInView;
 	}
-
 }
