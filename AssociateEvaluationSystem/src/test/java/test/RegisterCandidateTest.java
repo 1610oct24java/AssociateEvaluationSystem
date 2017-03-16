@@ -42,6 +42,7 @@ public class RegisterCandidateTest {
 		loginPage.loginToAES("nickolas.jurczak@revature.com", "password");
 		candidateViewPage = new CandidateViewPage(driver);
 		registerCandidatePage = new RegisterCandidatePage(driver);
+		registerCandidatePage.deleteCandidate("test@jonsfakemail.com");
 	}
 
 	@After
@@ -53,10 +54,10 @@ public class RegisterCandidateTest {
 	public void registerCandidateDBTest()  {
 		candidateViewPage.clickRegisterCandidateLink();
 		registerCandidatePage.registerCandidate("test", "test", "test@jonsfakemail.com", "SDET");
-		explicitWait(10);
+		explicitWait(3);
 		assertTrue(registerCandidatePage.testCandidateExist("test@jonsfakemail.com"));
 		registerCandidatePage.clickViewCandidates();
-		explicitWait(10);
+		explicitWait(3);
 		registerCandidatePage.deleteCandidate("test@jonsfakemail.com");
 	}
 	
@@ -71,20 +72,20 @@ public class RegisterCandidateTest {
 	@Test
 	public void registerCandidateGUITest()  {
 		
-		explicitWait(10);
+		explicitWait(3);
 
 		// Remove test candidate before recreating
 		registerCandidatePage.deleteCandidate("test@jonsfakemail.com");
 		candidateViewPage.clickRegisterCandidateLink();
 		
-		explicitWait(10);
+		explicitWait(3);
 		registerCandidatePage.registerCandidate("test", "test", "test@jonsfakemail.com", "SDET");
 		
 		registerCandidatePage.clickViewCandidates();
 		
-		explicitWait(10);
+		explicitWait(3);
 		driver.navigate().refresh();
-		explicitWait(10);
+		explicitWait(3);
 		assertTrue(candidateViewPage.testCandidateExistView());
 		
 	}
