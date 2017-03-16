@@ -22,22 +22,21 @@ public class BashDriver {
 		double result;
 		try {
 			Map<Integer, BashData> valSet = runCodeTestScript(keyPath, testPath, argSet);
-			result = bashGrader(valSet, testProfile);
+			result = bashGrader(valSet, testProfile) * 100;
 		} catch (KeyCompilationException kce){
 			// there was a problem compiling the trainers code
-			result = 100.00;
+			result = 0.0;
 		} catch (TestCompilationException tce) {
 			// there was a problem compiling the candidates code
 			result = 0.0;
 		} catch (UnsupportedFileTypeException ufte) {
 			// the file types sent to hulqBASH are not supported
-			result = 100.00; 
+			result = 0.0; 
 		} catch (BashException be) {
 			// there was a fault with the script itself 
-			result = 100.0;
-			
+			result = 0.0;
 		}
-
+		System.out.println("The result is " + result);
 		return result;
 	}
 	
@@ -58,50 +57,103 @@ public class BashDriver {
 			ProcessBuilder pb = new ProcessBuilder(command);
 			Process p = pb.start();
 			BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			String inputLine;
-			String lineData;
-			String lineType;
-			Integer lineKey;
+			String inputLine = null;
+			StringBuilder lineData = null;
+			String lineType = null;
+			Integer lineKey = null;
 
+			BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+			// read any errors from the executed bash command, normally occurs at the for loop in hulqBASH.sh
+			String errorStr = null;
+		    System.out.println("\nHere is the standard error of the command (if any):\n");
+		    while ((errorStr = stdError.readLine()) != null)
+		    {
+	        	System.out.println("It broke.\n" + errorStr);
+				throw new TestCompilationException("Error or Exception found");
+		    }
+		    stdError.close();
+
+		    System.out.println("Nothing broke yet...\nNow testing the code:");
 			while ((inputLine = in.readLine()) != null) {
 				if (inputLine.startsWith("ERROR(f)")) {
+					System.out.println(inputLine);
 					throw new UnsupportedFileTypeException("file type exception: the files are not currently supported by hulqBASH");
 				}
 				if (inputLine.startsWith("ERROR(c:k)")) {
+					System.out.println(inputLine);
 					throw new KeyCompilationException("key compilation exception: ");
 				}
 				if (inputLine.startsWith("ERROR(c:t)")) {
+					System.out.println(inputLine);
 					throw new TestCompilationException("");
 				}
-				
-				String[] dataPair = inputLine.split(":");
-				lineKey = Integer.parseInt(dataPair[0].substring(dataPair[0].length() - 1, dataPair[0].length()));
-				lineType = dataPair[0].substring(0, 1);
-				lineData = dataPair[1].substring(1);
+				//Spaghetti code here...
+				if (inputLine.startsWith("key") || inputLine.startsWith("test")) {
+					//Update key info
+					if (lineKey != null) {
+						// lineKey is in the data map
+						if (data.containsKey(lineKey)) {
+							if (lineType.equals("t")) {
+								data.get(lineKey).setUserInfo(lineData.toString());
+							} else {
+								data.get(lineKey).setKeyInfo(lineData.toString());
+							}
+						}
+						lineData = null;
+					}
+
+					String[] dataPair = inputLine.split(":");
+					System.out.println("THE INPUTLINE IS " + inputLine);
+					lineKey = Integer.parseInt(dataPair[0].substring(dataPair[0].length() - 1, dataPair[0].length()));
+					lineType = dataPair[0].substring(0, 1);
+					lineData = new StringBuilder(dataPair[1].substring(1));
+
+					// lineKey is in the data map
+					if (data.containsKey(lineKey)) {
+						if (lineType.equals("t")) {
+							data.get(lineKey).setUserInfo(lineData.toString());
+						} else {
+							data.get(lineKey).setKeyInfo(lineData.toString());
+						}
+					}
+					// lineKey is not in data map
+					else {
+						BashData dValue = new BashData();
+						if (lineType.equals("t")) {
+							dValue.setUserInfo(lineData.toString());
+						} else {
+							dValue.setKeyInfo(lineData.toString());
+						}
+						data.put(lineKey, dValue);
+					}
+				}
+				else {
+					//Append the inputLine echo output to lineData
+					if (lineData != null) {
+						lineData.append(" " + inputLine);
+					}
+				}
+			}
+
+			//update key info
+			if (lineKey != null) {
 				// lineKey is in the data map
 				if (data.containsKey(lineKey)) {
 					if (lineType.equals("t")) {
-						data.get(lineKey).setUserInfo(lineData);
+						data.get(lineKey).setUserInfo(lineData.toString());
 					} else {
-						data.get(lineKey).setKeyInfo(lineData);
+						data.get(lineKey).setKeyInfo(lineData.toString());
 					}
 				}
-				// lineKey is not in data map
-				else {
-					BashData dValue = new BashData();
-					if (lineType.equals("t")) {
-						dValue.setUserInfo(lineData);
-					} else {
-						dValue.setKeyInfo(lineData);
-					}
-					data.put(lineKey, dValue);
-				}
+				lineData = null;
 			}
 
 			in.close();
 
 		} catch (IOException e) {
 			throw new BashException("Caught IO exception trying to run script" + e.getStackTrace().toString());
+		} catch (Throwable e) {
+			throw new BashException("Some sort of exception occurred when trying to run script");
 		}
 		return data;
 
@@ -148,8 +200,7 @@ public class BashDriver {
 			if (testProfile.isMathMode() && NumberUtils.isNumber(keyVal)) {
 				// if user response is non numeric
 				if (!NumberUtils.isNumber(useVal)) {
-					rVal = 0.0;
-					totalVal = totalVal + rVal;
+					rVal = 1.0;
 				// if user response is numeric
 				} else {
 					kVal = Double.parseDouble(keyVal);
@@ -202,6 +253,9 @@ public class BashDriver {
 	}
 
 	private double stringCompare(String key, String user) {
+		if (key.isEmpty() || user.isEmpty()) {
+			return 0;
+		}
 		//this method is similar to cosine inequality
 		int[][] matrix = new int[key.length() + 1][user.length() + 1];
 

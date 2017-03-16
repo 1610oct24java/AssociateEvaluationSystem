@@ -1,4 +1,4 @@
-app.controller("TagCtrl", function($http, $scope) {
+angular.module('bankApp').controller("TagCtrl", function($http, $scope) {
 		$scope.tags =[];
 		$scope.delTag = '';
 		$scope.newTag = {
