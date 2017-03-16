@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="ISO-8859-1" />
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.0/angular.js"></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<!-- Optional theme -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" />
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!-- <meta http-equiv="refresh" content="3;url=/Assessment/" /> -->
+<title>Simple Error</title>
+</head>
+<body>
+	<div class="alert alert-warning" role="alert">
+		<strong>Warning!</strong> If you are seeing this page, something <strong>minor</strong>
+		happened.
+	</div>
+	<img th:src="@{/images/logo.png}" src="../static/images/logo.png"
+		alt="revatureLogo" style="padding: 40px;">
+	<br>
+	<img th:src="@{/images/404.png}" src="../static/images/404.png"
+		alt="404">
+</body>
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html ng-app="quizApp" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<base href="/asmt"/>
+<meta charset="ISO-8859-1">
+<title>Assessment</title>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/revatureStyle.css}"
+	href="../static/css/revatureStyle.css">
+
+</head>
+<body>
+	<div class="wrap" ng-controller="quizController">
+		<div id="page-container">
+			<!-- ------ -->
+			<!-- NAVBAR -->
+			<!-- ------ -->
+			<div class="navbar">
+				<!-- COUNTDOWN -->
+				<div class="progress text-center" ng-controller="CountdownController">
+					<div class="progress-bar" role="progressbar"
+						ng-class="{'progress-bar-danger': seconds <= 300, 'progress-bar-warning': seconds <= 900, 'progress-bar-success': seconds > 900}"
+						aria-valuenow="barUpdate" aria-valuemin="0" aria-valuemax="100"
+						ng-style="barUpdate"><span ng-style="timerTextColor">{{timeLeft}}</span>
+					</div>
+				</div>
+				
+				<img th:src="@{/images/revature_logo.png}"
+					src="../static/images/revature_logo.png" alt="Revature"> 
+				
+				<div class="navbar-title">
+					<a href="http://revature.com">Associate Evaluation System</a>
+					<br>{{testtaker}}, <a class="navbar-link-notyou" href="http://revature.com">(not you?)</a>
+				</div>
+				
+				<button type="button" id="navbarMenuBtn" data-toggle="dropdown"
+					class="btn text-center navbar-menu-btn" onclick="openSideNav()">
+					<span class="fa fa-bars" style="font-size:1.5em;"></span><br>Menu
+				</button>
+				
+				<button type="button" id="navbarSubmitBtn"
+					class="btn text-center navbar-menu-btn" ng-click="submitAssessment()">
+					<span class="fa fa-upload" style="font-size:1.5em;"></span><br>Submit
+				</button>
+			</div>
+			<!-- ---- -->
+			<!-- QUIZ -->
+			<!-- ---- -->
+			<div class="container-fluid navbar-overlay-spacing">g
+				<div class="row">
+					<div class="col-sm-10 col-sm-offset-1">
+						<div>
+							<h2 class="h2">Welcome to the test</h2>
+							<hr>
+							<uib-accordion close-others="oneAtATime">
+							<div ng-repeat="q in filteredQuestions" my-repeat-directive>
+								<div uib-accordion-group
+									class="panel panel-default question-box" is-disabled="true"
+									is-open="states[$index+numPerPage*(currentPage-1)].open">
+									<uib-accordion-heading>
+									<div class="panel-heading-revature"
+										style="display: inline-block;"
+										ng-click="collapseQuestion($index+numPerPage*(currentPage-1))">
+										<h4 id="question{{q.id+1}}">Question
+											{{$index+numPerPage*(currentPage-1)+1}}
+									</div>
+									<i class="pull-right glyphicon"
+										ng-class="{'glyphicon-chevron-down glyph-silver': states[$index+numPerPage*(currentPage-1)].open, 'glyphicon-chevron-right glyph-silver': !states[$index+numPerPage*(currentPage-1)].open }"
+										ng-click="collapseQuestion($index+numPerPage*(currentPage-1))"
+										title="Collapsed"> </i> <i
+										class="pull-right glyphicon glyphicon-floppy-disk"
+										ng-class="{'glyph-blue': states[$index+numPerPage*(currentPage-1)].saved, 'glyph-silver': !states[$index+numPerPage*(currentPage-1)].saved}"
+										ng-click="handleSaveClick($index+numPerPage*(currentPage-1))"
+										title="Saved"> </i> <i
+										class="pull-right glyphicon glyphicon-flag"
+										ng-class="{'glyph-red': states[$index+numPerPage*(currentPage-1)].flagged, 'glyph-silver': !states[$index+numPerPage*(currentPage-1)].flagged}"
+										ng-click="flagQuestion($index+numPerPage*(currentPage-1))"
+										title="Title"></i>
+									</h4>
+									</uib-accordion-heading>
+
+									<div class="panel-body">
+										{{q.question.questionText}} <br>
+										<hr>
+										<div ng-show="q.question.format.formatName === 'Multiple Choice'">Choose
+											one:</div>
+										<div ng-show="q.question.format.formatName === 'Multiple Select'">Choose
+											as many as applicable:</div>
+										<div ng-show="q.question.format.formatName === 'Drag and Drop'">Drag
+											and drop:</div>
+										<div ng-show="q.question.format.formatName === 'Code Snippet'">Write
+											your code below:</div>
+										<ul ng-show="q.question.format.formatName === 'Multiple Choice' || q.question.format.formatName === 'Multiple Select'"
+											class="list-group">
+											<li class="list-group-item"
+												ng-repeat="option in q.question.option">
+												<!-- MULTIPLE CHOICE -->
+												<div
+													ng-click="selectOption($index, $parent.$index+numPerPage*(currentPage-1))"
+													class="radio"
+													ng-show="q.question.format.formatName === 'Multiple Choice'">
+													<label><input class="radio" type="radio"
+														name="q{{q.question.questionId}}"
+														ng-checked="checkChecked($index, $parent.$index+numPerPage*(currentPage-1))">{{option.optionText}}</label>
+												</div> <!-- MULTIPLE SELECT -->
+												<div
+													ng-click="selectOption($index, $parent.$index+numPerPage*(currentPage-1))"
+													class="checkbox"
+													ng-show="q.question.format.formatName === 'Multiple Select'">
+													<label><input class="checkbox" type="checkbox" name="q{{q.question.questionId}}"
+														ng-checked="checkChecked($index, $parent.$index+numPerPage*(currentPage-1))">{{option.optionText}}</label>
+												</div>
+											</li>
+										</ul>
+										<!-- DRAG AND DROP -->
+										<div ng-show="q.question.format.formatName === 'Drag and Drop'"
+											ng-controller="dragController">
+											<ul id="revature" class="list-group"
+												data-as-sortable="dragControlListeners"
+												data-ng-model="q.question.dragdrop">
+												<li data-ng-repeat="option in q.question.dragdrop"
+													class="list-group-item" data-as-sortable-item>
+													<div data-as-sortable-item-handle>
+														<span class="glyphicon glyphicon-option-vertical"></span>{{option.dragDropText}}
+													</div>
+												</li>
+											</ul>
+										</div>
+										<!-- CODE SNIPPET -->
+										
+										<div ng-show="q.question.format.formatName === 'Code Snippet'">
+											<!-- <div id="editor{{$index+numPerPage*(currentPage-1)}}"
+												class="editor">public static void main(Strings[] pirateNoises){}</div> -->
+											<div id="editor{{q.question.questionId}}" ui-ace="{theme: 'monokai', mode: '{{getType(q.question.snippetTemplate[0].fileType)}}', onChange:aceChanged}">Enter code here</div>
+										</div>
+										<div></div>
+									</div>
+								</div>
+								<br>
+							</div>
+							</uib-accordion>
+							
+							<!-- ---------- -->
+							<!-- PAGINATION -->
+							<!-- ---------- -->
+							<div class="text-center">
+								<ul uib-pagination ng-model="currentPage"
+									items-per-page="numPerPage" total-items="questions.length"
+									max-size="maxSize" boundary-links="true">
+								</ul>
+								<br>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- -------- -->
+		<!-- SIDE BAR -->
+		<!-- -------- -->
+		<div id="sidenav" class="sidenav">
+			<a href="javascript:void(0)" class="closebtn"
+				onclick="closeSideNav()"><span class="fa fa-toggle-right"></span></a>
+			<div class="navbar-link">
+				<a href="#">About</a>
+				<a href="#">Help</a>
+				<a href="#">Contact</a>
+			</div>
+
+			<hr>
+			
+			<div ng-controller="QuizNavController">
+				<h3>Quiz Navigation</h3>
+				<div id="sideNavTable">
+					<table class="nav-table">
+						<tr ng-repeat="i in array" ng-init="index = i*5">
+							<td ng-repeat="state in states.slice(index,index+5)">
+								<div class="status-container" ng-click="jumpPage(i+1)">
+									<i class="text-center glyphicon glyphicon-floppy-disk icon-size"
+										ng-class="{'glyph-blue': state.saved, 'glyph-silver': !state.saved}"></i>
+									<span class="badge shoppingBadge-custom"
+										ng-class="{'shoppingBadge-flagged': !state.flagged, 'shoppingBadge-flagged': state.flagged}">
+										<a href="#question{{state.id+1}}">{{state.id + 1}}</a>
+									</span>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+		</div>
+		<!-- ------------ -->
+		<!-- Submit Modal -->
+		<!-- ------------ -->
+		<div id="submitModal" class="modal">
+			<div class="modal-content">
+				<div class="text-center">
+					<i class="fa fa-cog fa-spin" style="font-size:24px;color:#ef5c1e;vertical-align:top;"></i>
+					<i class="fa fa-cog fa-spin" style="font-size:48px;color:#f26925;"></i>
+					<i class="fa fa-cog fa-spin" style="font-size:36px;color:#ef5c1e;vertical-align:top;"></i>
+    			</div>
+				<p>Thank you for completing the assessment. Your time has
+					expired. Please wait while your assessment is being uploaded.</p>
+				
+			</div>
+		</div>
+		<!------------>
+		<!-- FOOTER -->
+		<!------------>
+		<div class="footer">
+			<span class="horizon-line"></span> &copy; Copyright 2017, Revature
+			LLC., All Rights Reserved. Sharing or distribution of the contents of
+			this portal without explicit permission from Revature management is a
+			violation of employment terms with Revature.
+		</div>
+	</div>
+
+	<!-- JAVASCRIPT -->
+	<!-- 	LIBRARIES -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-animate.js"></script>
+	<script th:src="@{/js/lib/ui-bootstrap-tpls-2.3.1.js}"
+		src="../static/js/lib/ui-bootstrap-tpls-2.3.1.js"></script>
+	<script th:src="@{/js/lib/ui-ace.min.js}"
+		src="../static/js/lib/ui-ace.min.js"></script>
+	<script th:src="@{/js/lib/ng-sortable.js}"
+		src="../static/js/lib/ng-sortable.js"></script>
+	<!-- 	CUSTOM -->
+	<script th:src="@{/js/asmtApp.js}" src="../static/js/asmtApp.js"></script>
+	<script th:src="@{/js/AngularControllers/dragController.js}"
+		src="../static/js/AngularControllers/dragController.js"></script>
+	<script th:src="@{/js/AngularControllers/quizNavController.js}"
+		src="../static/js/AngularControllers/quizNavController.js"></script>
+	<script th:src="@{/js/AngularControllers/quizController.js}"
+		src="../static/js/AngularControllers/quizController.js"></script>
+	<script th:src="@{/js/AngularControllers/countdownController.js}"
+		src="../static/js/AngularControllers/countdownController.js"></script>
+
+</body>
+</html>
