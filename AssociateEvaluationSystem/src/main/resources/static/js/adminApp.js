@@ -124,7 +124,6 @@ adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_UR
 			
 			$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEES)
 			.then(function(response) {
-
 				$scope.employees = response.data;
 			});
 		} else {
@@ -140,13 +139,14 @@ adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_UR
 		});
 	};
 
-	$scope.Delete = function (email) {
-		url = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEES + "/Delete/" + email + "/";
+	$scope.deleteEmployee = function(email) {
+		url = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/" + email + "/delete";
+		
 		$http.delete(url)
 		.then(function (response) {
-			//Removed console log for sonar cube.
+			//handle success
 		}, function (error) {
-			//Removed console log for sonar cube.
+			//handle error
 		});
 	}
 	
@@ -223,22 +223,24 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 		if ($scope.passNotMatch == false && $scope.passNotEntered == false 
 				&& $scope.emailNotEntered == false)
 		{
-			var updateUrl = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN 
-					+ API_URL.EMPLOYEES + "/update/" + $scope.oldEmail + "/";
-			
-			$scope.postUpdate(updateUrl, employeeInfo);
+			$scope.postUpdate($scope.oldEmail, employeeInfo);
 		}	
 	}
 
-	$scope.postUpdate = function(updateUrl, info) {
+	$scope.postUpdate = function(oldEmail, updateInfo) {
+		var updateUrl = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN 
+				+ API_URL.EMPLOYEE + "/" + $scope.oldEmail + "/update";
+		
 		$http({
 			method  : 'PUT',
-			url: updateUrl,
+			url		: updateUrl,
 			headers : {'Content-Type' : 'application/json'},
-			data    : info
+			data    : updateInfo
 		}).success( function(response) {
+			// redirect to login to sign on with updated info
 			$scope.logout();
 		}).error( function(response) {
+			// handle error
 		});
 	}
 

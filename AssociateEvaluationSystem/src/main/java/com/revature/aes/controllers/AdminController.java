@@ -54,8 +54,6 @@ public class AdminController {
 	 * @return 
 	 * 		the list of users this recruiter added
 	 */
-	
-	
 	@RequestMapping(value="/admin/employees", method= RequestMethod.GET)
 	public List<User> getEmployees(){
 
@@ -90,25 +88,22 @@ public class AdminController {
 	 * @param email
 	 * 		The current email of this recruiter
 	 */
-	@RequestMapping(value="admin/employees/update/{email}/", method= RequestMethod.PUT)
-	public void updateEmployee(@RequestBody UserUpdateHolder userUpdate, @PathVariable String email){
-		User currentUser = userService.findUserByEmail(email);
+	@RequestMapping(value="admin/employee/{currentEmail}/update", method= RequestMethod.PUT)
+	public void updateEmployee(@RequestBody UserUpdateHolder userUpdate, @PathVariable String currentEmail){
+		User currentUser = userService.findUserByEmail(currentEmail);
 		userService.updateEmployee(currentUser, userUpdate);
 	}
 	
 	/**
-	 * This method removes the indexed user from the database
+	 * This method removes a user from the database
 	 * 
-	 * @author Delete operation by Hajira Zahir
+	 * @author Delete operation by Hajira Zahir edited by Ric Smith
 	 * 
-	 * @param email
-	 * 		The email of this recruiter
+	 * @param email		(email of user)
 	 */
-	@RequestMapping(value="/admin/employees/Delete/{email}/", method= RequestMethod.DELETE)
+	@RequestMapping(value="/admin/employee/{email}/delete", method=RequestMethod.DELETE)
 	public void deleteEmployee(@PathVariable String email){
-		System.out.println(" \n====== AdminCtrl.updateEmployee: delete by email: " + email);
 		userService.removeEmployee(email);
-		System.out.println(" \n====== AdminCtrl.updateEmployee: userService ran update");
 	}
 	
 	/**

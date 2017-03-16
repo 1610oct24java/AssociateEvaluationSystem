@@ -25,14 +25,13 @@
 	</div>
 
 	<span>
-		<span class="col-md-3">
+		<span class="col-md-4">
 			<a href="registerEmployee">Register Employee</a>
 		</span>
-		<span class="col-md-3">
+		<span class="col-md-4">
 			<a href="createAssessment">Set Assessment Template</a>
 		</span>
-		<span class="col-md-3"></span>
-		<span class="col-md-3">
+		<span class="col-md-4">
 			<button id="logout" class="btn-revature" ng-click="logout()">logout</button>
 		</span>
 	</span>
@@ -71,7 +70,7 @@
 				<td>{{employee.email}}</td>
 				<td>{{employee.role.roleTitle}}</td>
 				<td>
-					<button style="font-size:24px" ng-click="Delete(employee.email)" margin-left:auto;> <i class="fa fa-trash"></i></button>
+					<button style="font-size:24px" ng-click="deleteEmployee(employee.email)" margin-left:auto;> <i class="fa fa-trash"></i></button>
 				</td>
 				<td ng-show="{{employee.role.roleTitle!=='candidate'}}">
 					<a href="updateEmployee">edit</a>
