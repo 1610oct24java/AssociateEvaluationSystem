@@ -39,3 +39,4 @@ AssociateEvaluationSystem/logs/*
 /automation-tests/nightwatch/node_modules/
 /automation-tests/nightwatch/reports/
 /automation-tests/nightwatch/selenium-debug.log
+/automation-tests/nightwatch/npm-debug.log
