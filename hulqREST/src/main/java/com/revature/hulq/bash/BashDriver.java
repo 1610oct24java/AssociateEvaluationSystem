@@ -36,7 +36,7 @@ public class BashDriver {
 			// there was a fault with the script itself 
 			result = 0.0;
 		}
-
+		System.out.println("The result is " + 100);
 		return result;
 	}
 	
@@ -63,19 +63,17 @@ public class BashDriver {
 			Integer lineKey = null;
 
 			BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-			// read any errors from the attempted command
+			// read any errors from the executed bash command, normally occurs at the for loop in hulqBASH.sh
 			String errorStr = null;
-		    System.out.println("Here is the standard error of the command (if any):");
+		    System.out.println("\nHere is the standard error of the command (if any):\n");
 		    while ((errorStr = stdError.readLine()) != null)
 		    {
-		        if (errorStr.contains("Exception")) {
-		        	System.out.print("It broke.");
-					throw new TestCompilationException("Exception found");
-				}
+	        	System.out.print("It broke.\n" + errorStr);
+				throw new TestCompilationException("Error or Exception found");
 		    }
 		    stdError.close();
 
-		    System.out.println("Now testing the code:");
+		    System.out.println("Nothing broke yet...\nNow testing the code:");
 			while ((inputLine = in.readLine()) != null) {
 				if (inputLine.startsWith("ERROR(f)")) {
 					System.out.println(inputLine);
