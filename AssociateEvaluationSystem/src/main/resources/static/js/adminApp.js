@@ -211,11 +211,12 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 			window.location = SITE_URL.LOGIN;
 		}
 	})
-	
+
 	$scope.update= function() {
 		$scope.passNotMatch = false;
 		$scope.passNotEntered = false;
-		$scope.emailNotEntered = false; 
+		$scope.emailNotEntered = false;
+		$scope.userNotFound = false;
 		
 		var employeeInfo = {
 			newEmail      : $scope.newEmail,
@@ -256,10 +257,11 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 			url: updateUrl,
 			headers : {'Content-Type' : 'application/json'},
 			data    : info
-		}).success( function(response) {
-			console.log("success");
-			//$scope.logout();
-		}).error( function(response) {
+		}).success(function(data){
+                if (!data){
+                    $scope.userNotFound = true;
+                }
+		}).error( function() {
 			console.log("fail");
 		});
 	};

@@ -189,7 +189,6 @@ public class UserServiceImpl implements UserService {
 		SimpleDateFormat fmt = new SimpleDateFormat(PATTERN);
 		Security userSecure = security.findSecurityByUserId(currentUser.getUserId());
 		boolean correctPassword = security.checkCorrectPassword(updatedUser.getOldPassword(), userSecure);
-		System.out.println("passed correctPassword with result"+correctPassword);
 		
 		if (correctPassword)
 		{
@@ -211,13 +210,11 @@ public class UserServiceImpl implements UserService {
 					Date oldPassDate = fmt.parse(currentUser.getDatePassIssued());
 					currentUser.setDatePassIssued(fmt.format(oldPassDate));
 				}catch (ParseException e) {
-					System.out.println("UserServiceImpl.updateEmployee: ERROR IN PARSING DATE-PASS-ISSUED");
 					e.printStackTrace();
 				}finally {
 					currentUser.setDatePassIssued(fmt.format(new Date()));
 				}
 			}
-			System.out.println("Set first name to "+currentUser.getFirstName()+", last name to "+currentUser.getLastName());
 			dao.save(currentUser);
 		}
 	}

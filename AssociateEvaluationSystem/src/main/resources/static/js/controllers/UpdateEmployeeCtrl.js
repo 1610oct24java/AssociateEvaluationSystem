@@ -26,6 +26,7 @@ angular.module('AESCoreApp').controller('UpdateEmployeeCtrl', function($scope,$l
         $scope.passNotMatch = false;
         $scope.passNotEntered = false;
         $scope.emailNotEntered = false;
+        $scope.userNotFound = false;
 
         var employeeInfo = {
             newEmail      : $scope.newEmail,
@@ -66,10 +67,11 @@ angular.module('AESCoreApp').controller('UpdateEmployeeCtrl', function($scope,$l
             url: updateUrl,
             headers : {'Content-Type' : 'application/json'},
             data    : info
-        }).success( function(response) {
-            console.log("success");
-            //$scope.logout();
-        }).error( function(response) {
+        }).success(function(data){
+            if (!data){
+                $scope.userNotFound = true;
+            }
+        }).error( function() {
             console.log("fail");
         });
     };

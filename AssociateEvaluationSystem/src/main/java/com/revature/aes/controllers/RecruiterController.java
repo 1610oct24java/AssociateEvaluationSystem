@@ -4,11 +4,7 @@ import java.util.List;
 
 import com.revature.aes.beans.UserUpdateHolder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.revature.aes.beans.Assessment;
 import com.revature.aes.beans.User;
@@ -144,9 +140,15 @@ public class RecruiterController {
 	}
 
 	@RequestMapping(value="recruiter/update/{email}/", method= RequestMethod.PUT)
-	public void updateEmployee(@RequestBody UserUpdateHolder userUpdate, @PathVariable String email){
+	public @ResponseBody boolean updateEmployee(@RequestBody UserUpdateHolder userUpdate, @PathVariable String email){
 		User currentUser = userService.findUserByEmail(email);
-		userService.updateEmployee(currentUser, userUpdate);
+		if (currentUser != null){
+			userService.updateEmployee(currentUser, userUpdate);
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 //	THESE ARE NOW IMPLEMENTED IN com.revature.aes.controllers.AdminController.java
