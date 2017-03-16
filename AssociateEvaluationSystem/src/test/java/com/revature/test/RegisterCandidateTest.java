@@ -71,21 +71,16 @@ public class RegisterCandidateTest {
 	@Test
 	public void registerCandidateGUITest()  {
 		
-		explicitWait(10);
-
+		explicitWait(5);
 		// Remove test candidate before recreating
 		registerCandidatePage.deleteCandidate("test@jonsfakemail.com");
 		candidateViewPage.clickRegisterCandidateLink();
-		
-		explicitWait(10);
+		explicitWait(5);
 		registerCandidatePage.registerCandidate("test", "test", "test@jonsfakemail.com", "SDET");
-		
-		registerCandidatePage.clickViewCandidates();
-		
-		explicitWait(10);
+		registerCandidatePage.clickViewCandidates();		
+		explicitWait(5);
 		driver.navigate().refresh();
-		explicitWait(10);
-		assertTrue(candidateViewPage.testCandidateExistView());
-		
+		explicitWait(5);
+		assertTrue(candidateViewPage.verifyCandidateExistInView("test", "test", "test@jonsfakemail.com"));
 	}
 }
