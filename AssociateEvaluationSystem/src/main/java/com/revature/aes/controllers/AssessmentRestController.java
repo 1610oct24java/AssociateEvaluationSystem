@@ -114,11 +114,6 @@ public class AssessmentRestController {
 		{MediaType.APPLICATION_JSON_VALUE })
 	public void makeAssessmentFileAndSaveStuff(@RequestBody AssessmentRequest assReq){
 		
-		System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------");
-		System.out.println("code smell code smell code smell code smell code smell code smell code smell code smell code smell");
-		System.out.println(assReq);
-		System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------");
-		
 		for(CategoryRequest cr : assReq.getCategoryRequestList()){
 			catReqServ.saveCategoryRequest(cr);
 		}
