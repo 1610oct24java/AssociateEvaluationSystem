@@ -33,7 +33,7 @@ public class QuestionServiceImpl implements QuestionService{
 	private OptionDAO odao;
 	/**
 	 * Adds a Question to the Database
-	 * @param The Question to be persisted to the database 
+	 * @param question The Question to be persisted to the database
 	 * @return the Object returned after persisting to a database
 	 */
 	@Override
@@ -50,7 +50,7 @@ public class QuestionServiceImpl implements QuestionService{
 
 	/**
 	 * Retrieves a Question from the database 
-	 * @param The unique identifier of a Question to be retrieved to the database, cannot be null 
+	 * @param id The unique identifier of a Question to be retrieved to the database, cannot be null
 	 * @return the Object returned from the database
 	 */
 	@Override
@@ -74,7 +74,7 @@ public class QuestionServiceImpl implements QuestionService{
 	
 	/**
 	 * Retrieves all Questions by a specific format from a database
-	 * @param the Format to determine the restriction type of SQL query
+	 * @param format the Format to determine the restriction type of SQL query
 	 * @return A List of Questions restricted to a specific format
 	 * 
 	 * @see com.revature.aes.beans.Format
@@ -88,7 +88,7 @@ public class QuestionServiceImpl implements QuestionService{
 	
 	/**
 	 * Retrieves all Questions by a specific category from a database
-	 * @param the Category to determine the restriction type of SQL query
+	 * @param category the Category to determine the restriction type of SQL query
 	 * @return A List of Category restricted to a specific format
 	 * 
 	 * @see com.revature.aes.beans.Category
@@ -102,7 +102,7 @@ public class QuestionServiceImpl implements QuestionService{
 
 	/**
 	 * Updates a Question which is stored in a database
-	 * @param an Updated Question value
+	 * @param question an Updated Question value
 	 * @return the Updated object after being persisted in a database
 	 */
 	@Override
@@ -114,7 +114,7 @@ public class QuestionServiceImpl implements QuestionService{
 	
 	/**
 	 * Deletes a question based off an the unique identifier for the question.
-	 * @param the unique identifier of a question.
+	 * @param id the unique identifier of a question.
 	 */
 	@Override
 	@Transactional(propagation=Propagation.REQUIRED)
@@ -186,11 +186,6 @@ public class QuestionServiceImpl implements QuestionService{
 	@Override
 	public BigDecimal findQuestionCountByFormatandCategory(String category, String format) {
 		return qdao.findQuestionCountByFormatandCategory(category, format);
-	}
-
-	@Override
-	public Integer findQuestionMax(){
-		return qdao.findQuestionMax();
 	}
 
 

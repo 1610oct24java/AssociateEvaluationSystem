@@ -48,11 +48,11 @@ public class Category implements Serializable {
 		this.categoryId=id;
 	}
 
-	public Integer getCategoryId() {
+	public int getCategoryId() {
 		return categoryId;
 	}
 
-	public void setCategoryId(Integer categoryId) {
+	public void setCategoryId(int categoryId) {
 		this.categoryId = categoryId;
 	}
 
