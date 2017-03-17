@@ -24,8 +24,11 @@ import com.revature.aes.beans.Template;
 import com.revature.aes.beans.TemplateQuestion;
 import com.revature.aes.beans.User;
 import com.revature.aes.logging.Logging;
+import com.revature.aes.service.AssessmentRequestService;
 import com.revature.aes.service.AssessmentService;
+import com.revature.aes.service.CategoryRequestService;
 import com.revature.aes.service.QuestionService;
+import com.revature.aes.service.S3Service;
 import com.revature.aes.service.SystemTemplate;
 import com.revature.aes.service.UserService;
 /** Handles the REST requests for making assessments.
@@ -38,13 +41,18 @@ public class AssessmentRestController {
 
 	@Autowired
 	private Logging log;	
-	
+	@Autowired
+	private CategoryRequestService catReqServ;
+	@Autowired
+	private S3Service s3;
 	@Autowired
 	private SystemTemplate systemp;
 	@Autowired
 	private UserService userService;
 	@Autowired
 	private AssessmentService assServ;
+	@Autowired
+	private AssessmentRequestService assReqServ;
 	@Autowired
 	private QuestionService qServ;
 	private static final String URL = "http://localhost:8090/aes";
@@ -61,7 +69,6 @@ public class AssessmentRestController {
 	@RequestMapping(value = "user/RandomAssessment", method = RequestMethod.POST, consumes = {
 			MediaType.APPLICATION_JSON_VALUE })
 	public AssessmentRequest createAssessment(@RequestBody AssessmentRequest assReq) throws URISyntaxException {
-		
 		
 		Template tmpl = new Template();
 		
@@ -99,6 +106,27 @@ public class AssessmentRestController {
 		String link = result.getBody();
 		
 		assReq.setLink(link);
+		
 		return assReq;
+	}
+	
+	@RequestMapping(value = "admin/assessmentMaker", method = RequestMethod.POST, consumes = 
+		{MediaType.APPLICATION_JSON_VALUE })
+	public void makeAssessmentFileAndSaveStuff(@RequestBody AssessmentRequest assReq){
+		
+		System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------");
+		System.out.println("code smell code smell code smell code smell code smell code smell code smell code smell code smell");
+		System.out.println(assReq);
+		System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------");
+		
+		for(CategoryRequest cr : assReq.getCategoryRequestList()){
+			catReqServ.saveCategoryRequest(cr);
+		}
+		assReqServ.saveAssessmentRequest(assReq);
+	}
+	
+	@RequestMapping(value = "admin/assessmentMaker", method = RequestMethod.GET, consumes ={MediaType.APPLICATION_JSON_VALUE })
+	public void getFileFromS3(){
+		
 	}
 }

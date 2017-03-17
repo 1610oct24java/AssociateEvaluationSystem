@@ -131,7 +131,7 @@ public class FileParser {
 					if (val.length == 2) {
 
 						val[0] = val[0].toLowerCase();
-						val[1] = val[1].toLowerCase();
+						val[1] = val[1];
 						switch (val[0]) {
 						case "mathmode":
 							testProfile.setMathMode(Boolean.parseBoolean(val[1]));

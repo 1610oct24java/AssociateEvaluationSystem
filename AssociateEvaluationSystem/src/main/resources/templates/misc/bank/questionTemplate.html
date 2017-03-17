@@ -1,67 +1,80 @@
 <div>
 	<main class="container"> 
 	<div class="row">
-		<div class="col-md-3">
+		<div class="col-md-6">
 			<table class="table table-bordered">
 				<thead>
 					<tr>
 						<th>Question</th>
 						<th>Format</th>
+						<th>Category</th>
+						<th>Id</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr ng-repeat="question in qList" ng-click="getQuestion(question)">
 						<td>{{question.questionText}}</td>
 						<td>{{question.format.formatName}}</td>
+						<td>{{question.questionCategory["0"].name}}</td>
+						<td>{{question.questionId}}</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
 
-		<div class="col-md-9">
+		<div class="col-md-6">
 			Question:
 			<div>
-				<input type="text" size="60" ng-model="currentQuestion.questionText"></input>
+				<textarea rows="4" cols="50" contenteditable="true" style="overflow-y: scroll; resize:none;" ng-model="currentQuestion.questionText"></textarea>
 			</div>
-			<pre>Correct:     Options:</pre>
+			<pre>Radio buttons and check boxes show correct answer.</pre>
 			<div ng-show="isMultiChoiceOption">
 				<form>
 				<div ng-repeat="option in currentQuestion.option">
 					<div>
-						<input type="radio" id="msrad" name="correctChoice" ng-model="option.correct" ng-click="multiCorrect(option)" ng-checked="checkButton(option)">
-						<input type="text" size="60" ng-model="option.optionText"></input>
-						<button ng-click="removeOption(option)">shweep</button>
+						<input type="radio" id="msrad" name="correctChoice" ng-model="option.correct"  ng-checked="checkButton(option)"> <!-- ng-click="multiCorrect(option)" -->
+						<textarea rows="4" cols="50" contenteditable="true" style="overflow-y: scroll; resize:none;" ng-model="option.optionText"></textarea><br>
+						Option ID: {{option.optionId}}
+						<!-- <button ng-click="removeOption(option)">Delete</button><br> -->
+						<br>
 					</div>
 				</div>
 				</form>
+				<!-- <pre>Input a new option to this text field, then click "Add Option".</pre><br>
 				<input type="text" size="60" ng-model="newOption"></input><br>
-				<button ng-click="updateQuestion()">shwoop</button>
-				<button ng-click="addOption(newOption)">shwip</button>
+				<button ng-click="updateQuestion()">Update</button>
+				<button ng-click="addOption(newOption)">Add Option</button> -->
 			</div>
 			<div ng-show="isMultiSelectOption">
 				<form>
 				<div ng-repeat="option in currentQuestion.option">
 					<div>
-						<input type="checkbox" ng-model="option.correct" ng-true-value="1" ng-click="multiSelectCorrect(option)">
-						<input type="text" size="60" ng-model="option.optionText"></input>
-						<button ng-click="removeOption(option)">shweep</button>
+						<input type="checkbox" ng-model="option.correct" ng-true-value="1" > <!-- ng-click="multiSelectCorrect(option)" -->
+						<textarea rows="4" cols="50" contenteditable="true" style="overflow-y: scroll; resize:none;" ng-model="option.optionText"></textarea><br>
+						Option ID: {{option.optionId}}
+						<!-- <button ng-click="removeOption(option)">Delete</button><br> -->
+						<br>
 					</div>
 				</div>
 				</form>
-				<input type="text" size="60" ng-model="newOption"></input><br>
-				<button ng-click="updateQuestion()">shwoop</button>
-				<button ng-click="addOption(newOption)">shwip</button>
+				<!-- <pre>Input a new option to this text field, then click "Add Option".</pre><br>
+				<input wrap="" type="text" size="60" ng-model="newOption"></input><br>
+				<button ng-click="updateQuestion()">Update</button>
+				<button ng-click="addOption(newOption)">Add Option</button> -->
 			</div>
 			<div ng-show="isDragDrop">
 				<div ng-repeat="dragdrop in currentQuestion.dragdrop">
 					<div>
-						<input type="text" size="60" ng-model="dragdrop.dragDropText"></input>
-						<button ng-click="removeDDOption(dragdrop)">shweep</button>
+						<textarea rows="4" cols="50" contenteditable="true" style="overflow-y: scroll; resize:none;" ng-model="dragdrop.dragDropText"></textarea><br>
+						Option ID: {{option.optionId}}
+						<!-- <button ng-click="removeDDOption(dragdrop)">Delete</button><br> -->
+						<br>
 					</div>
 				</div>
+				<!-- <pre>Input a new option to this text field, then click "Add Option".</pre><br>
 				<input type="text" size="60" ng-model="newDragDrop"></input><br>
-				<button ng-click="updateQuestion()">shwoop</button>
-				<button ng-click="addDragDrop(newDragDrop)">shwip</button>
+				<button ng-click="updateQuestion()">Update</button>
+				<button ng-click="addDragDrop(newDragDrop)">Add Option</button> -->
 			</div>
 			<div>
 				<!-- <input type="text" size="60" ng-model="newOption"></input> -->
