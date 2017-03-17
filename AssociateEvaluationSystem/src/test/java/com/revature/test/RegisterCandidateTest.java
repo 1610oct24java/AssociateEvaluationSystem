@@ -65,7 +65,7 @@ public class RegisterCandidateTest {
 		loginPage.loginToAES("nickolas.jurczak@revature.com", "password");
 		explicitWait(5);
 		// Remove test candidate before recreating
-		//registerCandidatePage.deleteCandidate("test@jonsfakemail.com");
+		registerCandidatePage.deleteCandidate("test@jonsfakemail.com");
 		candidateViewPage = new CandidateViewPage(driver);
 		candidateViewPage.clickRegisterCandidateLink();
 		explicitWait(5);
