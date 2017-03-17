@@ -175,18 +175,25 @@ public class RecruiterController {
 	 */
 	@RequestMapping(value="/recruiter/candidate/{email}/delete", method= RequestMethod.DELETE)
 	public void deleteCandidate(@PathVariable String email){
+		
 		User candidate = userService.findUserByEmail(email);
 		
-		List<Assessment> assList = aService.findByUser(candidate);
-		for (Assessment ass : assList)
+		if (candidate != null)
 		{
-			aService.deleteAssessment(ass);
+			List<Assessment> assList = aService.findByUser(candidate);
+			if (!assList.isEmpty())
+			{
+				for (Assessment ass : assList)
+				{
+					aService.deleteAssessment(ass);
+				}
+			}
+			
+			authService.remove(candidate.getUserId());
+			secService.removeSecurity(candidate.getUserId());
+			
+			userService.removeCandidate(candidate);
 		}
-		
-		authService.remove(candidate.getUserId());
-		secService.removeSecurity(candidate.getUserId());
-		
-		userService.removeCandidate(candidate);
 	}
 
 	@RequestMapping(value="/recruiter/{currentEmail}/update", method= RequestMethod.PUT)

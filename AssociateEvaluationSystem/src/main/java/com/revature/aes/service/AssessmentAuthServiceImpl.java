@@ -38,6 +38,8 @@ public class AssessmentAuthServiceImpl implements AssessmentAuthService {
 
 	@Override
 	public void remove(int userId) {
-		dao.delete(dao.findByUserId(userId));
+		AssessmentAuth auth = dao.findByUserId(userId);
+		if (auth != null)
+			dao.delete(auth);
 	}
 }
