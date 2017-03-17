@@ -149,7 +149,6 @@ adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_UR
 	$scope.logout = function() {
 		$http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
 		.then(function(response) {
-			//Removed console log for sonar cube.
 			window.location = SITE_URL.LOGIN;
 		})
 	};
@@ -159,9 +158,7 @@ adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_UR
 	        url = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEES + "/Delete/" + email + "/";
 	        $http.delete(url)
 	        .then(function (response) {
-	        	//Removed console log for sonar cube.
 	        }, function (error) {
-	        	//Removed console log for sonar cube.
 	        });
 	    }
 	

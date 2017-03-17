@@ -143,7 +143,9 @@ public class RecruiterController {
 	public @ResponseBody boolean updateEmployee(@RequestBody UserUpdateHolder userUpdate, @PathVariable String email){
 		User currentUser = userService.findUserByEmail(email);
 		if (currentUser != null){
-			userService.updateEmployee(currentUser, userUpdate);
+			if (!userService.updateEmployee(currentUser, userUpdate)){
+				return false;
+			}
 			return true;
 		}
 		else {

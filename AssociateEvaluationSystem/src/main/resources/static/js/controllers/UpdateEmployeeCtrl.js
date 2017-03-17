@@ -26,7 +26,7 @@ angular.module('AESCoreApp').controller('UpdateEmployeeCtrl', function($scope,$l
         $scope.passNotMatch = false;
         $scope.passNotEntered = false;
         $scope.emailNotEntered = false;
-        $scope.userNotFound = false;
+        $scope.updateUnsuccessful = false;
 
         var employeeInfo = {
             newEmail      : $scope.newEmail,
@@ -38,6 +38,10 @@ angular.module('AESCoreApp').controller('UpdateEmployeeCtrl', function($scope,$l
 
         if ($scope.oldEmail === "" || $scope.oldEmail == null)
         {	$scope.emailNotEntered = true; }
+
+        if ($scope.oldEmail !== $scope.authUser.username){
+            $scope.updateUnsuccessful = true;
+        }
 
         if ($scope.newPassword !== $scope.confirmNewPassword)
         {
@@ -54,8 +58,10 @@ angular.module('AESCoreApp').controller('UpdateEmployeeCtrl', function($scope,$l
         {
             var updateUrl = SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER
                 + "update/" + $scope.oldEmail + "/";
+            if (!$scope.updateUnsuccessful){
+                $scope.postUpdate(updateUrl, employeeInfo);
+            }
 
-            $scope.postUpdate(updateUrl, employeeInfo);
         }
 
     };
@@ -69,7 +75,7 @@ angular.module('AESCoreApp').controller('UpdateEmployeeCtrl', function($scope,$l
             data    : info
         }).success(function(data){
             if (!data){
-                $scope.userNotFound = true;
+                $scope.updateUnsuccessful = true;
             }
         }).error( function() {
             console.log("fail");

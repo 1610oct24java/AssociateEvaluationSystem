@@ -184,7 +184,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void updateEmployee(User currentUser, UserUpdateHolder updatedUser) {
+	public boolean updateEmployee(User currentUser, UserUpdateHolder updatedUser) {
 		
 		SimpleDateFormat fmt = new SimpleDateFormat(PATTERN);
 		Security userSecure = security.findSecurityByUserId(currentUser.getUserId());
@@ -217,6 +217,7 @@ public class UserServiceImpl implements UserService {
 			}
 			dao.save(currentUser);
 		}
+		return correctPassword;
 	}
 
 	@Override
