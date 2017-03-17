@@ -1,9 +1,9 @@
 package com.revature.aes.service;
 
+import java.util.List;
+
 import com.revature.aes.beans.Assessment;
 import com.revature.aes.beans.User;
-
-import java.util.List;
 
 public interface AssessmentService {
 	public Assessment getAssessmentById(int id);

@@ -8,6 +8,7 @@ adminApp.constant("SITE_URL", {
 	
 	"LOGIN": "index",
     "VIEW_EMPLOYEES" : "viewEmployees",
+    "VIEW_CANDIDATES" : "view",
     "REGISTER_EMPLOYEE" : ""
 });
 
@@ -96,7 +97,6 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 			//Removed console log for sonar cube.
 		}).error( function(res) {
 			//Removed console log for sonar cube.
-
 		});
 	};
 
@@ -200,83 +200,256 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 				authority: response.data.principal.authorities[0].authority
 			}
 			$scope.authUser = authUser;
-			if($scope.authUser.authority != ROLE.ADMIN) {
-				window.location = SITE_URL.LOGIN;
+			var role = $scope.authUser.authority;
+			
+			if(role == "ROLE_ADMIN") {
+				// Continue to page
+			}else {
+				window.location = SITE_URL.LOGIN; // Deny page, re-route to login
 			}
 		} else {
 			window.location = SITE_URL.LOGIN;
 		}
 	})
 	
-	$scope.Update= function() {
-
+	$scope.update= function() {
+		$scope.passNotMatch = false;
+		$scope.passNotEntered = false;
+		$scope.emailNotEntered = false; 
+		
 		var employeeInfo = {
-			userId        : null,
 			newEmail      : $scope.newEmail,
 			firstName     : $scope.firstName,
 			lastName      : $scope.lastName,
 			oldPassword   : $scope.oldPassword,
 			newPassword   : $scope.newPassword,
-			salesforce    : null,
-			recruiterId   : null,
-			role          : "Recruiter", //$scope.employeeType.value,
-			datePassIssued: null,
-			format		  : null
 		};
 
-		var urlSpecific = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.RECRUITER;
+		if ($scope.oldEmail === "" || $scope.oldEmail == null)
+		{	$scope.emailNotEntered = true; }
 		
-		/*if (employeeInfo.role === "Recruiter")
+		if ($scope.newPassword !== $scope.confirmNewPassword)
 		{
-			urlSpecific = urlSpecific + API_URL.RECRUITER;
-		}else if (employeeInfo.role === "Trainer")
-		{
-			urlSpecific = urlSpecific + API_URL.TRAINER;
+			$scope.passNotMatch = true;
+			$scope.newPassword = '';
+			$scope.confirmNewPassword = '';
 		}
-		*/
-		urlSpecific = urlSpecific + employeeInfo.email 
-		+ "/" + employeeInfo.lastName + "/" + employeeInfo.firstName
 		
-		$scope.postRegister(urlSpecific, employeeInfo);
+		if ($scope.oldPassword === "" || $scope.oldPassword == null)
+		{	$scope.passNotEntered = true; }
 		
-		$scope.firstName = '';
-		$scope.lastName = '';
-		$scope.email = '';
-		$scope.program = '';
+		if ($scope.passNotMatch == false && $scope.passNotEntered == false 
+				&& $scope.emailNotEntered == false)
+		{
+			var updateUrl = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN 
+					+ API_URL.EMPLOYEES + "/update/" + $scope.oldEmail + "/";
+			
+			$scope.postUpdate(updateUrl, employeeInfo);
+		}
+		
 	};
 
-	$scope.postUpdate= function(urlSpecific, employeeInfo) {
+	$scope.postUpdate = function(updateUrl, info) {
 		
 		$http({
 			method  : 'PUT',
-			url: urlSpecific,
+			url: updateUrl,
 			headers : {'Content-Type' : 'application/json'},
-			data    : employeeInfo
+			data    : info
 		}).success( function(response) {
-			var successMessage=response.data.message;
-			//Removed console log for sonar cube.
+			console.log("success");
+			//$scope.logout();
 		}).error( function(response) {
-			//Removed console log for sonar cube.
+			console.log("fail");
 		});
 	};
 
-	$scope.options = [{
-		name: 'Recruiter',
-		value: 'Recruiter'
-	}, {
-		name: 'Trainer',
-		value: 'Trainer'
-	}];
-	
 	$scope.logout = function() {
 		$http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
 		.then(function(response) {
-			//Removed console log for sonar cube.
 			window.location = SITE_URL.LOGIN;
 		})
 	}
 	
-	
-
-
 }); //end update credentials controller
+
+//Billy Adding controller for assessment creation
+adminApp.controller('CreateAssessmentCtrl',function ($scope,$http, SITE_URL, API_URL, ROLE) {
+
+    $scope.curricula = [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Object Oriented Programming",
+        "Data Structures",
+        "SQL",
+        "C#",
+        "Java",
+        "Critical Thinking"
+    ]
+
+    $scope.types = [
+        "Drag and Drop",
+        "Multiple Choice",
+        "Multiple Select",
+        "Coding Snippet"
+    ]
+
+    $scope.rows = [];
+
+    $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
+        .then(function(response) {
+            if (response.data.authenticated) {
+                var authUser = {
+                    username : response.data.principal.username,
+                    authority: response.data.principal.authorities[0].authority
+                }
+                $scope.authUser = authUser;
+                if($scope.authUser.authority != ROLE.ADMIN) {
+                    window.location = SITE_URL.LOGIN;
+                }
+            } else {
+                window.location = SITE_URL.LOGIN;
+            }
+        });
+
+    $(document).ready(function() {
+        $("#add_row").on("click", function() {
+            // Dynamic Rows Code
+            // Get max row id and set new id
+            var newid = 0;
+            $.each($("#tab_logic tr"), function() {
+                if (parseInt($(this).data("id")) > newid) {
+                    newid = parseInt($(this).data("id"));
+                }
+            });
+            newid++;
+
+            var tr = $("<tr></tr>", {
+                id: "addr"+newid,
+                "data-id": newid
+            });
+
+            // loop through each td and create new elements with name of newid
+            $.each($("#tab_logic tbody tr:nth(0) td"), function() {
+                var cur_td = $(this);
+                var children = cur_td.children();
+                // add new td and element if it has a name
+                if ($(this).data("name") != undefined) {
+                    var td = $("<td></td>", {
+                        "data-name": $(cur_td).data("name")
+                    });
+                    var c = $(cur_td).find($(children[0]).prop('tagName')).clone().val("");
+                    c.attr("name", $(cur_td).data("name") + newid);
+                    c.appendTo($(td));
+                    td.appendTo($(tr));
+                } else {
+                    var td = $("<td></td>", {
+                        'text': $('#tab_logic tr').length
+                    }).appendTo($(tr));
+                }
+            });
+
+            // add the new row
+            $(tr).appendTo($('#tab_logic'));
+            $(tr).find("td button.row-remove").on("click", function() {
+                $(this).closest("tr").remove();
+            });
+        });
+
+        // Sortable Code
+        var fixHelperModified = function(e, tr) {
+            var $originals = tr.children();
+            var $helper = tr.clone();
+            
+            $helper.children().each(function(index) {
+                $(this).width($originals.eq(index).width())
+            });
+
+            return $helper;
+        };
+
+        $(".table-sortable tbody").sortable({
+            helper: fixHelperModified
+        }).disableSelection();
+        $(".table-sortable thead").disableSelection();
+        $("#add_row").trigger("click");
+    });
+
+
+
+    var tableData = {};
+
+    tableData.categories = $scope.categories;
+    tableData.type = $scope.type;
+    tableData.quantity = $scope.quantity;
+
+    var tableArray = [tableData];
+
+
+    // The 'newObj' object, and it's assignments, are used to generate
+    // new objects to be placed within the 'cardArr' array object.
+    $scope.newObj = {};
+    $scope.newObj.requiredGrads = $scope.requiredGrads;
+    $scope.newObj.reqDate = $scope.reqDate;
+    $scope.newObj.requiredBatches = $scope.requiredBatches;
+    $scope.newObj.startDate = $scope.startDate;
+    $scope.newObj.formattedStartDate = $scope.formattedStartDate;
+    $scope.newObj.batchType = $scope.batchType;
+
+    $scope.cardArr = [$scope.newObj];   // Array of Required Trainee batch generation objects.
+
+
+	/* FUNCTION - This method will assign the particular card objects
+	 *            'btchType' variable to the selected value. */
+    $scope.assignCurr = function(bType, index){
+
+        $scope.cardArr[index].batchType = bType;
+
+        if($scope.cardArr[index].requiredGrads > 0) {
+
+            $scope.cumulativeBatches();
+
+        }
+    };
+
+
+
+	/* FUNCTION - This method will add another card to the cardArr object,
+	 *            ultimately generating another card in the 'required Trainee's'
+	 *            tab in the Reports tab. */
+    $scope.genCard = function(){
+
+        var temp = {};
+
+        temp.requiredGrads = $scope.requiredGrads;
+        temp.reqDate = new Date();
+        temp.requiredBatches = $scope.requiredBatches;
+        temp.startDate = $scope.startDate;
+        temp.formattedStartDate = $scope.formattedStartDate;
+        temp.batchType = $scope.batchType;
+
+        //pushes the value onto the end of the array.//
+        $scope.cardArr.push(temp);
+
+    };
+
+
+
+	/* FUNCTION - This method will delete/remove a 'card' in the cardArr
+	 *            object, at a given index.  The deleted 'card' will no
+	 *            longer be displayed on the reports tab. */
+    $scope.removeCardClick = function(index){
+        $scope.cardArr.splice(index, 1);  // Removes a card object from the array index
+        $scope.cumulativeBatches();       // Re-evaluates the cumulative batches.
+    };
+
+    //logout
+    $scope.logout = function() {
+        $http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
+            .then(function(response) {
+                window.location = SITE_URL.LOGIN;
+            })
+    }
+
+});

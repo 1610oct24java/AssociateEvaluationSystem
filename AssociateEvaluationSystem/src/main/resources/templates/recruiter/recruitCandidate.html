@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>AES | Register Candidate</title>
+<title>AES</title>
 
 <link rel="icon" type="img/png" href="images/favicon_192.png">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -24,43 +24,42 @@
 		</a>
 	</div>
 
-	<div class="row stylePro">
-		<span class="col-xs-6 col-md-6">
+    <div >
+		<span class="col-md-4">
+			<a href="updateCredentials">update my information</a>
+		</span>
+        <span class="col-md-4">
 			<a href="view">view candidates</a>
 		</span>
-		<span class="col-xs-6 col-md-6">
+        <span class="col-md-4">
 			<button id="logout" class="btn-revature" ng-click="logout()">logout</button>
 		</span>
-	</div>
+    </div>
 
-    <form class="form-revature" ng-submit="register()">
-        <h2 class="row">register candidate</h2>
-        <div class="row input-field">
-            <label class="sr-only" for="inputFirstName">first name</label>
-            <input class="col-xs-12 col-md-12" id="inputFirstName" type="text" placeholder="first name" ng-model="firstName" required autofocus>
-        </div>
-        <div class="row input-field">
-            <label class="sr-only" for="inputLastName">last name</label>
-            <input class="col-xs-12 col-md-12" id="inputLastName" type="text" placeholder="last name" ng-model="lastName" required>
-        </div>
-        <div class="row input-field">
-            <label class="sr-only" for="inputEmail">email address</label>
-            <input class="col-xs-12 col-md-12" id="inputEmail" type="email" placeholder="email address" ng-model="email" required>
-        </div>
-        <div class="row">
-            <select id="courseSelect" class="col-xs-8 col-md-6"
-                    ng-model="program" 
-                    ng-options="option.name for option in options"
-                    required>
-                <option value="" hidden>
-                -- select program --
-                </option>
-            </select>
-        </div>
-        <div class="row">
-            <input id="btn-register-recruit" class="btn-revature" type="submit" value="register">
-        </div>
-    </form>
+
+    <div>
+        <form class="form-revature" ng-submit="register()">
+            <h2 class="row">register candidate</h2>
+            <div class="row input-field">
+                <label class="sr-only" for="inputFirstName">first name</label>
+                <input class="col-xs-12 col-md-12" id="inputFirstName" type="text" placeholder="first name" ng-model="firstName" required autofocus>
+            </div>
+            <div class="row input-field">
+                <label class="sr-only" for="inputLastName">last name</label>
+                <input class="col-xs-12 col-md-12" id="inputLastName" type="text" placeholder="last name" ng-model="lastName" required>
+            </div>
+            <div class="row input-field">
+                <label class="sr-only" for="inputEmail">email address</label>
+                <input class="col-xs-12 col-md-12" id="inputEmail" type="email" placeholder="email address" ng-model="email" required>
+            </div>
+            
+            <div class="row">
+                <input id="btn-register-recruit" class="btn-revature" type="submit" value="Register">
+            </div>
+        </form>
+    </div>
+
+
     
 </div>
 

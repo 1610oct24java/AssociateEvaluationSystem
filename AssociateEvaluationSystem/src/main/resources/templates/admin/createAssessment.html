@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Revature | AES</title>
+	<link rel="icon" type="img/png" href="site-images/favicon_192.png">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	<!-- included for mobile scaling -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+	<link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+	<!--<link rel="stylesheet" href="css/bigwilliestyle.css">-->
+	<link rel="stylesheet" href="css/materials.css">
+</head>
+<!--<body ng-app="AESCoreApp" ng-controller="CreateAssessmentCtrl">-->
+
+<body ng-app="adminApp" ng-controller="CreateAssessmentCtrl">
+<div class="container">
+	<div class="container logo">
+
+			<img src="images/Revature-Logo.png" alt="Revature" height="75px">
+	</div>
+<span>
+		<span class="col-md-3">
+			<a href="viewEmployees">View Employees</a>
+		</span>
+		<span class="col-md-3">
+			<a href="registerEmployee">Register Employee</a>
+		</span>
+		<span class="col-md-3">
+			<button id="logout" class="btn-revature" ng-click="logout()">logout</button>
+		</span>
+	</span>
+</div>
+<md-card>
+	<md-card-title>
+		<md-card-title-text>
+			<span class="md-headline">Create Assessment</span>
+			<label> Select Time: </label>
+
+			<select name="timeSelect" ng-model="data.timeSelect">
+				<option value="15">15 Minutes</option>
+				<option value="30">30 Minutes</option>
+				<option value="45">45 Minutes</option>
+				<option value="60">60 Minutes</option>
+			</select>
+		</md-card-title-text>
+	</md-card-title>
+	<md-content>
+
+
+		<div layout="row" layout-wrap>
+			<md-content flex="80" class="md-padding" layout-xs="column" layout="row">
+				<div flex-xs="20" flex-gt-xs="20" layout="column" ng-repeat="n in cardArr track by $index">
+					<md-card>
+						<md-card-content class="md-padding" layout="column">
+							<md-card-title>
+								<md-card-title-text>
+                                        <span class="md-headline">
+											<!--  Delete Card Button  -->
+									<md-button class="md-icon-button" ng-click="removeCardClick($index)">
+										<i class="material-icons" style="color: #FB8C00;">remove_circle</i>
+									</md-button>
+										</span>
+								</md-card-title-text>
+								<span flex> </span>
+							</md-card-title>
+							<!--  Needed Trainee's Field  -->
+							<md-content flex>
+								<label>Category:</label>
+								<select ng-model="cardArr[$index].batchType">
+									<option ng-value="curriculum" ng-repeat="curriculum in curricula"> {{ curriculum }} </option>
+								</select>
+							</md-content>
+							<!--  Batch Curriculum  -->
+							<md-content>
+								<label>Type:</label>
+								<select ng-model="cardArr[$index].batchType">
+									<option ng-value="type" ng-repeat="type in types"> {{ type }} </option>
+								</select>
+							</md-content>
+							<!--  Needed Trainee's Field  -->
+							<md-content>
+								<label>Quantity:</label>
+								<input ng-model="cardArr[$index].requiredGrads" type="number">
+							</md-content>
+						</md-card-content>
+					</md-card>
+
+				</div>
+			</md-content>
+		</div>
+		<section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
+			<button layout-align="center center" class="md-primary md-raised md-warn" ng-click="genCard()">Add Row</button>
+			<button layout-align="center center" class="md-secondary md-raised white" ng-click="alert('Something will happen in the future....')">Submit</button>
+		</section>
+		<!--<button id="add_row" class="btn-revature md-warn" ng-click="genCard()">Add Row</button>-->
+		<!--<button type="submit" class="btn-revature" ng-click="alert('Something will happen in the future....')">Submit</button>-->
+	</md-content>
+</md-card>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.9/angular.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-animate.js"></script>
+<script type="text/javascript" src="js/adminApp.js"></script>
+<!--<script type="text/javascript" src="js/app.js"></script>-->
+
+</body>
+

@@ -33,7 +33,6 @@ angular.module('AESCoreApp').controller('CandidateCtrl', function($scope,$locati
         });
 
     $scope.expandd = function(candidate) {
-        //Some more spaghetti code
         $scope.candidates.filter(c => c.email != candidate.email).forEach(c => {c.expanded = false});
         if (!candidate.expanded){
             $http
@@ -42,8 +41,7 @@ angular.module('AESCoreApp').controller('CandidateCtrl', function($scope,$locati
                 candidate.expanded = true;
                 var asmt = response.data;
                 if (asmt.length != 0) {
-                    asmt.forEach(a=>{
-                    a.createdTimeStamp = formatDate(a.createdTimeStamp);
+                    asmt.forEach(a=>{ a.createdTimeStamp = formatDate(a.createdTimeStamp);
                     a.finishedTimeStamp = formatDate(a.finishedTimeStamp)});
                 }
                 $scope.assessments = asmt;
@@ -65,14 +63,14 @@ angular.module('AESCoreApp').controller('CandidateCtrl', function($scope,$locati
             recruiterId   : null,
             role          : null,
             datePassIssued: null,
-            format		  : $scope.program.value
+            format		  : null // $scope.program.value
         };
         $scope.postRegister(candidateInfo);
 
         $scope.firstName = '';
         $scope.lastName = '';
         $scope.email = '';
-        $scope.program = '';
+        //$scope.program = '';
     };
 
     $scope.postRegister = function(candidateInfo) {
@@ -88,21 +86,86 @@ angular.module('AESCoreApp').controller('CandidateCtrl', function($scope,$locati
         });
     };
 
-    $scope.options = [{
+   /* $scope.options = [{
         name: 'Java',
         value: 'Java'
     }, {
-        name: 'SDET',
-        value: 'Sdet'
+        name: '.NET',
+        value: '.net'
+    }];*/
+    $scope.sendAssessment = function() {
+
+        var candidateInfo = {
+            userId        : null,
+            email         : $scope.email,
+            firstName     : null,
+            lastName      : null,
+            salesforce    : null,
+            recruiterId   : null,
+            role          : null,
+            datePassIssued: null,
+            format		  : $scope.program.value
+        };
+        $scope.postRegister(candidateInfo);
+
+       // $scope.firstName = '';
+       // $scope.lastName = '';
+        $scope.email = '';
+        $scope.program = '';
+    };
+
+    $scope.postSendAssessment = function(candidateInfo) {
+        $http({
+            method  : 'POST',
+            url: SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER +  API_URL.CANDIDATE,
+            headers : {'Content-Type' : 'application/json'},
+            data    : candidateInfo
+        }).success( function(res) {
+            //Removed console log for sonar cube.
+        }).error( function(res) {
+            //Removed console log for sonar cube.
+        });
+    };
+
+    $scope.options = [{
+        name: 'Java',
+        value: 'Java'
     }, {
         name: '.NET',
         value: '.net'
     }];
 
+
     $scope.logout = function() {
         window.location = API_URL.BASE + API_URL.LOGOUT;
     }
-
+    
+    
+  /*  function showHide($scope)
+    {
+    	$scope.activeCandidateIndex;
+    	$scope.showTable=function(index){
+    		$scope.activeCandidateIndex=index;
+    	};
+    	$scope.isShowing=function(index){
+    	return $scope.activeCandidateIndex===index;	
+    	};
+    }
+    };*/
+    
+    
+   //hide/show the tables
+    $scope.IsHidden = true;
+    $scope.ShowHide = function (index) {
+        //If TABLE is hidden it will be visible and vice versa.
+        $scope.IsHidden = $scope.IsHidden ? false : true;
+//    	index = = $scope.IsHidden ? false : true;
+    }
+    //selecting one candidate
+    $scope.select = function(item){
+    	  $scope.selected = item;
+    	}
+    
 });
 
 function formatDate(date) {
@@ -113,3 +176,4 @@ function formatDate(date) {
     var min = d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes();
     return (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear() + " " + d.getHours() + ":" + min;
 }
+

@@ -8,9 +8,11 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.revature.aes.logging.Logging;
 
+@Component
 public class SnippetEvaluationClient {
 	
 	@Autowired
@@ -30,7 +32,7 @@ public class SnippetEvaluationClient {
 			HttpEntity entity = response.getEntity();
 			String responseString = EntityUtils.toString(entity, "UTF-8");
 			System.out.println("Source: " + submissionKey + " [grade: " + responseString + " ]");
-			return Double.parseDouble(responseString);
+			return Double.parseDouble(responseString)/100;
 
 		} catch (Exception e) {
 			log.stackTraceLogging(e);

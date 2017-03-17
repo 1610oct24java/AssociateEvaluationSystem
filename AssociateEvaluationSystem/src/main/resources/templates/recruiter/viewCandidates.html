@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>AES | Recruiter Home</title>
+<title>Revature | AES</title>
 
 <link rel="icon" type="img/png" href="images/favicon_192.png">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -21,18 +21,16 @@
 			<img src="images/Revature-Logo.png" alt="Revature" height="75px">
 		</a>
 	</div>
-	
-	<div class="row stylePro">
-	<span class="col-xs-6 col-md-6">
-			<a href="updateCredentials">Update Employee</a>
 
+	<div >
+		<span class="col-md-4">
+			<a href="updateCredentials">update my information</a>
 		</span>
-		<span class="col-xs-6 col-md-6">
+		<span class="col-md-4">
 			<a href="recruit">register candidate</a>
 		</span>
-		</span>
-		
-		<span class="col-xs-6 col-md-6">
+		<span class="col-md-4">
+
 			<button id="logout" class="btn-revature" ng-click="logout()">logout</button>
 		</span>
 	</div>
@@ -40,23 +38,44 @@
 	<div class="row">
 	
 	<table class="table table-striped table-bordered">
-		<caption>Candidate Assessment Scores</caption>
+		<caption>My Candidates:</caption>
 		<thead>
 			<tr>
-				<th>name</th>
-				<th>email</th>
-				<th>score</th>
+				<th>Name</th>
+				<th>Email</th>
+				<th>Score</th>
 			</tr>
 		</thead>
-		<tbody>
-			<tr ng-repeat-start="candidate in candidates" ng-click="expandd(candidate)">
+		<tbody ng-repeat="candidate in candidates track by $index">
+			<tr>
 				<td>{{candidate.lastName + ', ' + candidate.firstName}}</td>
 				<td>{{candidate.email}}</td>
-				<td>{{candidate.grade}}</td>
-				<td style="text-align:center;"><span class="glyphicon glyphicon-chevron-down" ng-class="{clicked:candidate.expanded}"></span></td>
+				<td>{{candidate.grade}}</td>	
+             	<td> <input type="button" value="Assessment Options" ng-click="ShowHide($index)" />
+             	
+            		<table ng-hide="IsHidden" class="table table-striped table-bordered" >
+					<thead> 
+						<td> <select id="courseSelect" class="col-xs-8 col-md-6"
+				                       ng-model="program"
+				                       ng-options="option.name for option in options"
+				                       required>
+				                   <option value="" hidden>
+				                       Select Program
+				                   </option>
+				               </select>
+				               <button type="button">Submit</button>
+	       				</td>
+					</thead>
+        		   </table>
+            	</td>
+            	<td style="text-align:center;">
+            		<span  ng-click="expandd(candidate)"  class="glyphicon glyphicon-chevron-down" ng-class="{clicked:candidate.expanded}"></span>
+            	</td>
+            	
 			</tr>
-			<tr ng-if="candidate.expanded" ng-repeat-end="">
-				<td colspan="4">
+			<tr ng-if="candidate.expanded">
+				<td colspan="4"></td>
+            	<td>
 					<table ng-if="assessments.length != 0" class="table table-striped table-bordered">
 						<thead> 
 							<th>Start</th>

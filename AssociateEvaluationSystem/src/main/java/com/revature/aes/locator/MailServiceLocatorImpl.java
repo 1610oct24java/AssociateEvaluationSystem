@@ -1,7 +1,11 @@
 package com.revature.aes.locator;
 
-import com.revature.aes.beans.MailService;
-import com.revature.aes.logging.Logging;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,10 +14,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import com.revature.aes.beans.MailService;
+import com.revature.aes.logging.Logging;
 
 /**
  * 

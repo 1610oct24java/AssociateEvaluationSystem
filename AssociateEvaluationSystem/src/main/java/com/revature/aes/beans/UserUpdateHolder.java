@@ -2,6 +2,9 @@ package com.revature.aes.beans;
 
 import java.io.Serializable;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class UserUpdateHolder implements Serializable{
 
 	private static final long serialVersionUID = -4757047255053843520L;

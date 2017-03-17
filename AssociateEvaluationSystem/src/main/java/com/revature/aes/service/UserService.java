@@ -1,9 +1,9 @@
 package com.revature.aes.service;
 
+import java.util.List;
+
 import com.revature.aes.beans.User;
 import com.revature.aes.beans.UserUpdateHolder;
-
-import java.util.List;
 
 public interface UserService {
 	public User findUserByEmail(String email);
@@ -18,7 +18,7 @@ public interface UserService {
 	public String createTrainer(String email, String lastname, String firstname);
 	public List<User> findUsersByRole(String role);
 	public void createAdmin(String email, String lastname, String firstname);
-	public boolean updateEmployee(User user, UserUpdateHolder userUpdate);
+	public void updateEmployee(User user, UserUpdateHolder userUpdate);
 	public void removeEmployee(String email);
 
 }

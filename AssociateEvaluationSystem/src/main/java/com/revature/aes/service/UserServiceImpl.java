@@ -180,32 +180,26 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void createAdmin(String email, String lastname, String firstname) {
-		
-		
-		//dao.save(user);
-		
+
 	}
 
 	@Override
-	public boolean updateEmployee(User currentUser, UserUpdateHolder updatedUser) {
+	public void updateEmployee(User currentUser, UserUpdateHolder updatedUser) {
 		
 		SimpleDateFormat fmt = new SimpleDateFormat(PATTERN);
 		Security userSecure = security.findSecurityByUserId(currentUser.getUserId());
 		boolean correctPassword = security.checkCorrectPassword(updatedUser.getOldPassword(), userSecure);
-		boolean success = false;
+		System.out.println("passed correctPassword with result"+correctPassword);
 		
 		if (correctPassword)
 		{
-			if (!updatedUser.getNewEmail().isEmpty() && updatedUser.getNewEmail() != null)
-				currentUser.setEmail(updatedUser.getNewEmail());
-			
-			if (!updatedUser.getFirstName().isEmpty() && updatedUser.getFirstName() != null)
-				currentUser.setFirstName(updatedUser.getFirstName());
-			
-			if (!updatedUser.getLastName().isEmpty() && updatedUser.getLastName() != null)
-				currentUser.setLastName(updatedUser.getLastName());
-			
-			if (!updatedUser.getNewPassword().isEmpty() && updatedUser.getNewPassword() != null)
+			if (updatedUser.getNewEmail() != null && !updatedUser.getNewEmail().isEmpty())
+			{	currentUser.setEmail(updatedUser.getNewEmail()); }
+			if (updatedUser.getFirstName() != null && !updatedUser.getFirstName().isEmpty())
+			{	currentUser.setFirstName(updatedUser.getFirstName()); }
+			if (updatedUser.getLastName() != null && !updatedUser.getLastName().isEmpty())
+			{	currentUser.setLastName(updatedUser.getLastName()); }
+			if (updatedUser.getNewPassword() != null && !updatedUser.getNewPassword().isEmpty())
 			{
 				currentUser.setDatePassIssued(fmt.format(new Date()));
 				
@@ -223,15 +217,9 @@ public class UserServiceImpl implements UserService {
 					currentUser.setDatePassIssued(fmt.format(new Date()));
 				}
 			}
-				
+			System.out.println("Set first name to "+currentUser.getFirstName()+", last name to "+currentUser.getLastName());
 			dao.save(currentUser);
-			success = true;
-		
-		}else {
-			success = false;
 		}
-		
-		return success;
 	}
 
 	@Override

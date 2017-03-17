@@ -1,9 +1,6 @@
 package com.revature.aes.controllers;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.revature.aes.beans.User;
 import com.revature.aes.beans.UserUpdateHolder;
 import com.revature.aes.locator.MailServiceLocator;
@@ -62,7 +58,9 @@ public class AdminController {
 	
 	@RequestMapping(value="/admin/employees", method= RequestMethod.GET)
 	public List<User> getEmployees(){
+
 		List<User> users = userService.findAllUsers();
+
 		return users;
 	}
 	
@@ -73,9 +71,6 @@ public class AdminController {
 	 * 
 	 * @param email
 	 * 		The email of this recruiter
-	 * @param index
-	 * 		The index of this user in the list returned by
-	 * getCandidates
 	 */
 	//Delete operation by Hajira Zahir
 	@RequestMapping(value="/admin/employees/Delete/{email}/", method= RequestMethod.DELETE)
@@ -91,31 +86,15 @@ public class AdminController {
 	 * 
 	 * @param email
 	 * 		The current email of this recruiter
-	 * @param candidate
-	 * 		The updated user object
 	 */
-	@RequestMapping(value="admin/employees/Update/{email}/", method= RequestMethod.PUT)
-	public Map<String, Object> updateEmployee(@PathVariable String email, @RequestBody UserUpdateHolder userUpdate)
-			throws JsonProcessingException{
+	@RequestMapping(value="admin/employees/update/{email}/", method= RequestMethod.PUT)
+	public void updateEmployee(@RequestBody UserUpdateHolder userUpdate, @PathVariable String email){
 		System.out.println(" \n====== AdminCtrl.updateEmployee: update employee by email: " + email);
+		System.out.println( "\n ====== new password = " + userUpdate.getNewPassword());
 		User currentUser = userService.findUserByEmail(email);
-		boolean success = userService.updateEmployee(currentUser, userUpdate);
+		userService.updateEmployee(currentUser, userUpdate);
 		System.out.println(" \n====== AdminCtrl.updateEmployee: userService ran update");
 		
-		Map<String, Object> responseMap = new HashMap<String, Object>();
-		String responseMessage = "default";
-		
-		if (success)
-		{
-			responseMessage = "Credentials Successfully Updated! :)";
-		
-		}else {
-			responseMessage = "Credentials Failed to Update! :(";
-		}
-		
-		responseMap.put("message", responseMessage);
-		
-		return responseMap;
 	}
 
 	@RequestMapping(value="admin/recruiter/{email}/{lastname}/{firstname}", method = RequestMethod.POST)
