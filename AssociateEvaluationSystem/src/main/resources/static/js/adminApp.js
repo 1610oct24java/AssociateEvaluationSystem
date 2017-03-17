@@ -48,7 +48,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 		} else {
 			window.location = SITE_URL.LOGIN;
 		}
-	})
+	});
 	
 	$scope.roleTypes =["Recruiter", "Trainer"];
 	
@@ -134,7 +134,6 @@ adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_UR
 	$scope.logout = function() {
 		$http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
 		.then(function(response) {
-			//Removed console log for sonar cube.
 			window.location = SITE_URL.LOGIN;
 		});
 	};
@@ -192,12 +191,14 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 		} else {
 			window.location = SITE_URL.LOGIN;
 		}
+
 	});
 	
 	$scope.update= function() {
 		$scope.passNotMatch = false;
 		$scope.passNotEntered = false;
-		$scope.emailNotEntered = false; 
+		$scope.emailNotEntered = false;
+		$scope.userNotFound = false;
 		
 		var employeeInfo = {
 			newEmail      : $scope.newEmail,
@@ -236,11 +237,12 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 			url		: updateUrl,
 			headers : {'Content-Type' : 'application/json'},
 			data    : updateInfo
-		}).success( function(response) {
-			// redirect to login to sign on with updated info
-			$scope.logout();
-		}).error( function(response) {
-			// handle error
+		}).success(function(data){
+            if (!data){
+                $scope.userNotFound = true;
+            }
+		}).error( function() {
+			console.log("fail");
 		});
 	}
 

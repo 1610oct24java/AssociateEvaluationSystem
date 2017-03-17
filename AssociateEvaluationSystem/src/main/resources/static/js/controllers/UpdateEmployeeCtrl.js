@@ -26,6 +26,7 @@ angular.module('AESCoreApp').controller('UpdateEmployeeCtrl', function($scope,$l
         $scope.passNotMatch = false;
         $scope.passNotEntered = false;
         $scope.emailNotEntered = false;
+        $scope.updateUnsuccessful = false;
 
         var employeeInfo = {
             newEmail      : $scope.newEmail,
@@ -37,6 +38,10 @@ angular.module('AESCoreApp').controller('UpdateEmployeeCtrl', function($scope,$l
 
         if ($scope.oldEmail === "" || $scope.oldEmail == null)
         {	$scope.emailNotEntered = true; }
+
+        if ($scope.oldEmail !== $scope.authUser.username){
+            $scope.updateUnsuccessful = true;
+        }
 
         if ($scope.newPassword !== $scope.confirmNewPassword)
         {
@@ -51,13 +56,13 @@ angular.module('AESCoreApp').controller('UpdateEmployeeCtrl', function($scope,$l
         if ($scope.passNotMatch == false && $scope.passNotEntered == false
             && $scope.emailNotEntered == false)
         {
-            $scope.postUpdate(updateUrl, employeeInfo);
+            if (!$scope.updateUnsuccessful){
+                $scope.postUpdate(employeeInfo);
+            }
         }
     };
 
-    $scope.postUpdate = function(updateUrl, info) {
-    	var updateUrl = SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER
-        		+ "update/" + $scope.oldEmail + "/";
+    $scope.postUpdate = function(info) {
     	var updateUrl = SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER 
 		+ API_URL.EMPLOYEE + "/" + $scope.oldEmail + "/update";
         $http({
@@ -65,11 +70,12 @@ angular.module('AESCoreApp').controller('UpdateEmployeeCtrl', function($scope,$l
             url		: updateUrl,
             headers : {'Content-Type' : 'application/json'},
             data    : info
-        }).success( function(response) {
-        	// redirect to login to sign on with updated info
-            $scope.logout();
-        }).error( function(response) {
-        	// handle error
+        }).success(function(data){
+            if (!data){
+                $scope.updateUnsuccessful = true;
+            }
+        }).error( function() {
+            console.log("fail");
         });
     };
 
