@@ -7,14 +7,11 @@ app.constant("SITE_URL", {
 	"PORT" : ":8080",
 	
 	"LOGIN": "index",
-	"VIEW_CANDIDATES" : "view",
-	"REGISTER_CANDIDATE" : "",
-	"VIEW_EMPLOYEES" : "viewEmployees",
-	
 	"TRAINER_HOME" : "",
-
+	"VIEW_CANDIDATES" : "view",
+	"VIEW_EMPLOYEES" : "viewEmployees",
+	"REGISTER_CANDIDATE" : "",
     "REGISTER_EMPLOYEE" : ""
-	
 });
 
 app.constant("API_URL", {

@@ -17,9 +17,11 @@ import com.revature.aes.beans.Assessment;
 import com.revature.aes.beans.User;
 import com.revature.aes.locator.MailServiceLocator;
 import com.revature.aes.logging.Logging;
+import com.revature.aes.service.AssessmentAuthService;
 import com.revature.aes.service.AssessmentService;
 import com.revature.aes.service.RestServices;
 import com.revature.aes.service.RoleService;
+import com.revature.aes.service.SecurityService;
 import com.revature.aes.service.UserService;
 
 /**
@@ -44,6 +46,12 @@ public class RecruiterController {
 	
 	@Autowired
 	private AssessmentService aService;
+	
+	@Autowired
+	private AssessmentAuthService authService;
+	
+	@Autowired
+	private SecurityService secService;
 	
 	@Autowired
 	private RoleService roleService;
@@ -85,12 +93,12 @@ public class RecruiterController {
 	 * This method will make an assessment and send a link and temp password in an email
 	 * to the candidate.
 	 * 
-	 * @author Ric S
+	 * @author Ric Smith
 	 * 
 	 * @param user
 	 *		User object with candidate's email and format for assessment
 	 */
-	@RequestMapping(value="/recruiter/candidate/", method=RequestMethod.POST)
+	@RequestMapping(value="/recruiter/candidate/assessment", method=RequestMethod.POST)
 	public void sendAssessment(@RequestBody User user){
 		User candidate = userService.findUserByEmail(user.getEmail());
 		String pass = userService.setCandidateSecurity(candidate);
@@ -159,22 +167,31 @@ public class RecruiterController {
 	}
 	
 	/**
-	 * This method removes the indexed user from the database
+	 * This method removes a candidate
 	 * 
-	 * @param email
-	 * 		The email of this recruiter
-	 * @param index
-	 * 		The index of this user in the list returned by
-	 * getCandidates
+	 * @author (Edited by Ric)
+	 * 
+	 * @param email  (String: candidate email)
 	 */
-	@RequestMapping(value="/recruiter/{email}/candidates/{index}", method= RequestMethod.DELETE)
-	public void deleteCandidate(@PathVariable String email, @PathVariable int index){
-		userService.removeCandidate(email, index);
+	@RequestMapping(value="/recruiter/candidate/{email}/delete", method= RequestMethod.DELETE)
+	public void deleteCandidate(@PathVariable String email){
+		User candidate = userService.findUserByEmail(email);
+		
+		List<Assessment> assList = aService.findByUser(candidate);
+		for (Assessment ass : assList)
+		{
+			aService.deleteAssessment(ass);
+		}
+		
+		authService.remove(candidate.getUserId());
+		secService.removeSecurity(candidate.getUserId());
+		
+		userService.removeCandidate(candidate);
 	}
 
-	@RequestMapping(value="recruiter/update/{email}/", method= RequestMethod.PUT)
-	public void updateEmployee(@RequestBody UserUpdateHolder userUpdate, @PathVariable String email){
-		User currentUser = userService.findUserByEmail(email);
+	@RequestMapping(value="/recruiter/{currentEmail}/update", method= RequestMethod.PUT)
+	public void updateEmployee(@RequestBody UserUpdateHolder userUpdate, @PathVariable String currentEmail){
+		User currentUser = userService.findUserByEmail(currentEmail);
 		userService.updateEmployee(currentUser, userUpdate);
 	}
 	

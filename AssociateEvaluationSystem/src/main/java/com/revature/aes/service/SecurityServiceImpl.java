@@ -139,4 +139,9 @@ public class SecurityServiceImpl implements SecurityService {
     	    return false;
     	}
     }
+
+	@Override
+	public void removeSecurity(int userId) {
+		dao.delete(dao.findSecurityByUserId(userId));
+	}
 }

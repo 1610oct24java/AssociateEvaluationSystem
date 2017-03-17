@@ -58,7 +58,8 @@ angular.module('AESCoreApp').controller('UpdateEmployeeCtrl', function($scope,$l
     $scope.postUpdate = function(updateUrl, info) {
     	var updateUrl = SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER
         		+ "update/" + $scope.oldEmail + "/";
-    	
+    	var updateUrl = SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER 
+		+ API_URL.EMPLOYEE + "/" + $scope.oldEmail + "/update";
         $http({
             method  : 'PUT',
             url		: updateUrl,
@@ -73,9 +74,9 @@ angular.module('AESCoreApp').controller('UpdateEmployeeCtrl', function($scope,$l
     };
 
     $scope.logout = function() {
-        $http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
-            .then(function(response) {
-                window.location = SITE_URL.LOGIN;
-            });
+    	$http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
+    	.then(function(response) {
+    		window.location = SITE_URL.LOGIN;
+    	});
     }
 });

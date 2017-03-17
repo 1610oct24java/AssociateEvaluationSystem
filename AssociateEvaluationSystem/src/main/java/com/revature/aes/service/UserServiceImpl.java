@@ -158,12 +158,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void removeCandidate(String email, int index) {
-
-		User candidate = findUsersByRecruiter(email).get(index);
-
+	public void removeCandidate(User candidate) {
 		dao.delete(candidate);
-
 	}
 
 	@Override

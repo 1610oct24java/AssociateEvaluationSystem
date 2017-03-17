@@ -98,14 +98,17 @@ angular.module('AESCoreApp').controller('CandidateCtrl', function($scope,$locati
         });
     };
 
-    $scope.options = [{
-        name: 'Java',
-        value: 'Java'
-    }, {
-        name: '.NET',
-        value: '.net'
-    }];
-
+	$scope.deleteCandidate = function(email) {
+		url = SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + API_URL.CANDIDATE + email + "/delete";
+		
+		$http.delete(url)
+		.then(function (response) {
+			//handle success
+		}, function (error) {
+			//handle error
+		});
+	}
+	
     $scope.logout = function() {
         window.location = API_URL.BASE + API_URL.LOGOUT;
     }
