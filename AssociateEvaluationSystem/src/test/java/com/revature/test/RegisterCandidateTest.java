@@ -33,14 +33,6 @@ public class RegisterCandidateTest {
 	String email = "test@jonsfakemail.com";
 	String program = "Java";
 
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
-
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
-
 	@Before
 	public void setUp() throws Exception {
 		
