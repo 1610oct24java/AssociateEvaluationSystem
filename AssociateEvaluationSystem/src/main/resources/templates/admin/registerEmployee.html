@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>AES | Register Employee</title>
+<title>Revature | AES</title>
 
 <link rel="icon" type="img/png" href="images/favicon_192.png">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -19,28 +19,25 @@
 <div class="container">
 
 	<div class="container logo">
-		<a href="index.html">
 			<img src="images/Revature-Logo.png" alt="Revature" height="75px">
-		</a>
 	</div>
 
-	<div class="row stylePro">
-		<span class="col-xs-6 col-md-6">
+    <span>
+		<span class="col-md-3">
 			<a href="viewEmployees">View Employees</a>
 		</span>
-        <span class="col-xs-6 col-md-6">
-			<a href="createAssessment">Create Assessment</a>
+		<span class="col-md-3">
+			<a href="createAssessment">Set Assessment Template</a>
 		</span>
-        <span class="col-xs-6 col-md-6">
-			<a href="updateCredentials">Update Employee</a>
-		</span>
-		<span class="col-xs-6 col-md-6">
+		<span class="col-md-3"></span>
+		<span class="col-md-3">
+
 			<button id="logout" class="btn-revature" ng-click="logout()">logout</button>
 		</span>
-	</div>
+	</span>
 
     <form class="form-revature" ng-submit="register()">
-        <h2 class="row">Register Employee</h2>
+        <h2 class="row">Register New Recruiter</h2>
         <div class="row input-field">
             <label class="sr-only" for="inputFirstName">first name</label>
             <input class="col-xs-12 col-md-12" id="inputFirstName" type="text" placeholder="first name" ng-model="firstName" required autofocus>
@@ -53,15 +50,14 @@
             <label class="sr-only" for="inputEmail">email address</label>
             <input class="col-xs-12 col-md-12" id="inputEmail" type="email" placeholder="email address" ng-model="email" required>
         </div>
-        <div class="row">
+        <!--div class="row">
             <select id="roleSelect" class="col-xs-8 col-md-6"
                     ng-model="employeeType" ng-options="item for item in names">
             <option >
             --role--
             </option>
             </select>
-          
-        </div>
+        </div!-->
         <div class="row">
             <input id="btn-register-recruit" class="btn-revature" type="submit" value="register">
         </div>

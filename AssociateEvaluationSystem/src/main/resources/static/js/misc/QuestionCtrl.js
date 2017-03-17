@@ -1,4 +1,4 @@
-app.controller('QuestionCtrl', function($http, $scope) {
+angular.module('bankApp').controller('QuestionCtrl', function($http, $scope) {
 	$scope.fList;
 	/*
 	 * var getFormatList = function() { $http.get(url + "format") .then(
@@ -73,6 +73,7 @@ app.controller('QuestionCtrl', function($http, $scope) {
 	}; // getQuestionList() end
 	
 	$scope.getQuestion = function(question){
+		console.log(question)
 		$scope.isOption = false;
 		$scope.isDragDrop = false;
 		if(question.format.formatName == "Drag and Drop"){
