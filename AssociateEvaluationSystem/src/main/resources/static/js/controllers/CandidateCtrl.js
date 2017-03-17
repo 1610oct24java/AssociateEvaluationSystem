@@ -141,30 +141,16 @@ angular.module('AESCoreApp').controller('CandidateCtrl', function($scope,$locati
     }
     
     
-  /*  function showHide($scope)
-    {
-    	$scope.activeCandidateIndex;
-    	$scope.showTable=function(index){
-    		$scope.activeCandidateIndex=index;
-    	};
-    	$scope.isShowing=function(index){
-    	return $scope.activeCandidateIndex===index;	
-    	};
-    }
-    };*/
-    
-    
-   //hide/show the tables
+  //hide/show the tables
     $scope.IsHidden = true;
-    $scope.ShowHide = function (index) {
+    $scope.ShowHide = function (email) {
         //If TABLE is hidden it will be visible and vice versa.
+    	console.log("show hide function"+email);
         $scope.IsHidden = $scope.IsHidden ? false : true;
-//    	index = = $scope.IsHidden ? false : true;
+  	
     }
-    //selecting one candidate
-    $scope.select = function(item){
-    	  $scope.selected = item;
-    	}
+    
+    
     
 });
 
