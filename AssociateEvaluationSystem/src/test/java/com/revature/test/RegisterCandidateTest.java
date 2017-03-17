@@ -24,40 +24,30 @@ public class RegisterCandidateTest {
 	CandidateViewPage candidateViewPage;
 	RegisterCandidatePage registerCandidatePage;
 
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
-
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
-
 	@Before
 	public void setUp() throws Exception {
 		System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/src/test/resources/chromedriver.exe");
 		driver = new ChromeDriver();
 		driver.get("http://localhost:8090/aes/login");
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-		loginPage = new LoginPage(driver);
-		loginPage.loginToAES("nickolas.jurczak@revature.com", "password");
-		candidateViewPage = new CandidateViewPage(driver);
-		registerCandidatePage = new RegisterCandidatePage(driver);
-		registerCandidatePage.deleteCandidate("test@jonsfakemail.com");
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		driver.close();
+		driver.quit();
 	}
 	
 	@Test
 	public void registerCandidateDBTest()  {
+		loginPage = new LoginPage(driver);
+		loginPage.loginToAES("nickolas.jurczak@revature.com", "password");
+		candidateViewPage = new CandidateViewPage(driver);
 		candidateViewPage.clickRegisterCandidateLink();
+		registerCandidatePage = new RegisterCandidatePage(driver);
+		registerCandidatePage.deleteCandidate("test@jonsfakemail.com");
 		registerCandidatePage.registerCandidate("test", "test", "test@jonsfakemail.com", "SDET");
 		explicitWait(3);
 		assertTrue(registerCandidatePage.testCandidateExist("test@jonsfakemail.com"));
-		registerCandidatePage.clickViewCandidates();
-		explicitWait(3);
 		registerCandidatePage.deleteCandidate("test@jonsfakemail.com");
 	}
 	
@@ -71,11 +61,15 @@ public class RegisterCandidateTest {
 
 	@Test
 	public void registerCandidateGUITest()  {
+		loginPage = new LoginPage(driver);
+		loginPage.loginToAES("nickolas.jurczak@revature.com", "password");
 		explicitWait(5);
 		// Remove test candidate before recreating
-		registerCandidatePage.deleteCandidate("test@jonsfakemail.com");
+		//registerCandidatePage.deleteCandidate("test@jonsfakemail.com");
+		candidateViewPage = new CandidateViewPage(driver);
 		candidateViewPage.clickRegisterCandidateLink();
 		explicitWait(5);
+		registerCandidatePage = new RegisterCandidatePage(driver);
 		registerCandidatePage.registerCandidate("test", "test", "test@jonsfakemail.com", "SDET");
 		registerCandidatePage.clickViewCandidates();		
 		explicitWait(5);
