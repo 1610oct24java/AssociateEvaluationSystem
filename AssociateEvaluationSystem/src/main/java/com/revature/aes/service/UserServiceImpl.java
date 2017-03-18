@@ -180,7 +180,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void createAdmin(String email, String lastname, String firstname) {
-		//dao.save(user);
+
 	}
 
 	@Override

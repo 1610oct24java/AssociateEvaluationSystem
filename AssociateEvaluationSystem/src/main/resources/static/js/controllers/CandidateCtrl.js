@@ -32,26 +32,6 @@ angular.module('AESCoreApp').controller('CandidateCtrl', function($scope,$locati
             }
         });
 
-    // $scope.expandd = function(candidate) {
-    //     $scope.candidates.filter(c => c.email != candidate.email).forEach(c => {c.expanded = false});
-    //     if (!candidate.expanded){
-    //         $http
-    //         .get(SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + candidate.email + "/assessments")
-    //         .then(function(response) {
-    //             candidate.expanded = true;
-    //             var asmt = response.data;
-    //             if (asmt.length != 0) {
-    //                 asmt.forEach(a=>{ a.createdTimeStamp = formatDate(a.createdTimeStamp);
-    //                 a.finishedTimeStamp = formatDate(a.finishedTimeStamp)});
-    //             }
-    //             $scope.assessments = asmt;
-    //         })
-    //     } else {
-    //         candidate.expanded = false;
-    //     }
-    //
-    // };
-
     $scope.show2 = function(num, email){
         $scope.assessments = [];
         $http
@@ -106,20 +86,61 @@ angular.module('AESCoreApp').controller('CandidateCtrl', function($scope,$locati
             recruiterId   : null,
             role          : null,
             datePassIssued: null,
-            format		  : $scope.program.value
+            format		  : null // $scope.program.value
         };
         $scope.postRegister(candidateInfo);
 
         $scope.firstName = '';
         $scope.lastName = '';
         $scope.email = '';
-        $scope.program = '';
+        //$scope.program = '';
     };
 
     $scope.postRegister = function(candidateInfo) {
         $http({
             method  : 'POST',
             url: SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + $scope.authUser.username + API_URL.CANDIDATES,
+            headers : {'Content-Type' : 'application/json'},
+            data    : candidateInfo
+        }).success( function(res) {
+            //Removed console log for sonar cube.
+        }).error( function(res) {
+            //Removed console log for sonar cube.
+        });
+    };
+
+   /* $scope.options = [{
+        name: 'Java',
+        value: 'Java'
+    }, {
+        name: '.NET',
+        value: '.net'
+    }];*/
+    $scope.sendAssessment = function() {
+
+        var candidateInfo = {
+            userId        : null,
+            email         : $scope.email,
+            firstName     : null,
+            lastName      : null,
+            salesforce    : null,
+            recruiterId   : null,
+            role          : null,
+            datePassIssued: null,
+            format		  : $scope.program.value
+        };
+        $scope.postRegister(candidateInfo);
+
+       // $scope.firstName = '';
+       // $scope.lastName = '';
+        $scope.email = '';
+        $scope.program = '';
+    };
+
+    $scope.postSendAssessment = function(candidateInfo) {
+        $http({
+            method  : 'POST',
+            url: SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER +  API_URL.CANDIDATE,
             headers : {'Content-Type' : 'application/json'},
             data    : candidateInfo
         }).success( function(res) {
@@ -137,10 +158,13 @@ angular.module('AESCoreApp').controller('CandidateCtrl', function($scope,$locati
         value: '.net'
     }];
 
+
     $scope.logout = function() {
         window.location = API_URL.BASE + API_URL.LOGOUT;
-    }
+    };
 
+
+    //data
     $scope.candidates;
 
 });
@@ -153,3 +177,4 @@ function formatDate(date) {
     var min = d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes();
     return (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear() + " " + d.getHours() + ":" + min;
 }
+
