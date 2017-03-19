@@ -57,16 +57,16 @@ public class SystemTemplate {
 		Category cat = (Category) cDao.getByName(catName);
 		
 		if(multiChoice != 0) {
-			assessList = addQuestionsToList("Multiple Choice", cat.getName(), multiChoice, assessList);
+			addQuestionsToList("Multiple Choice", cat.getName(), multiChoice, assessList);
 		}
 		if(multiSelect != 0) {
-			assessList = addQuestionsToList("Multiple Select", cat.getName(), multiSelect, assessList);
+			addQuestionsToList("Multiple Select", cat.getName(), multiSelect, assessList);
 		}
 		if(dragDrop != 0) {
-			assessList = addQuestionsToList("Drag and Drop", cat.getName(), dragDrop, assessList);
+			addQuestionsToList("Drag and Drop", cat.getName(), dragDrop, assessList);
 		}
 		if(codeSnip != 0) {
-			assessList = addQuestionsToList("Code Snippet", cat.getName(), codeSnip, assessList);
+			addQuestionsToList("Code Snippet", cat.getName(), codeSnip, assessList);
 		}
 		
 		for(Question q : assessList) {
@@ -184,14 +184,22 @@ public class SystemTemplate {
 	private Set<Question> addQuestionsToList(String format, String category, int questionCount, Set<Question> assessmentQuestions) {
 		List<BigDecimal> list = qService.findIdsByFormatAndCategory(category, format);
 		//int size = list.size();
-		Random rando = new Random();
-		for (int i = 0; i < questionCount; i++) {
-			int num = rando.nextInt(list.size());
-			Question q = qService.getQuestionById(list.get(num).intValue());
-			list.remove(num).intValue();
-			assessmentQuestions.add(q);
-			if (list.size() == 0) {
-				break;
+		log.info("List for " + format +" "+ category +" questions is "+ list);
+		if (list.size() == 0){
+
+			log.warn("No " + format + " questions found in " + category + " category");
+
+		}
+		else {
+			Random rando = new Random();
+			for (int i = 0; i < questionCount; i++) {
+				int num = rando.nextInt(list.size());
+				Question q = qService.getQuestionById(list.get(num).intValue());
+				list.remove(num).intValue();
+				assessmentQuestions.add(q);
+				if (list.size() == 0) {
+					break;
+				}
 			}
 		}
 		return assessmentQuestions;
