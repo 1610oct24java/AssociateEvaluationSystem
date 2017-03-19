@@ -44,9 +44,12 @@ public class Logging {
 			log.error(e.toString());
 			log.error("\t" + e.getClass() + " " + e.getMessage());
 
+			log.error(dashes);
 			for(StackTraceElement st : e.getStackTrace()){
-				log.error("\t\t" + st.getMethodName());
+				log.error(st.getMethodName() + " at line " + st.getLineNumber());
 			}
+			log.error(dashes);
+
 		} catch(Throwable e){
 			log.error(e.toString());
 		}
