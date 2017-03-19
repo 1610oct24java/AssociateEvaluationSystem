@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Revature | AES</title>
+
+<link rel="icon" type="img/png" href="images/favicon_192.png">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<!-- included for mobile scaling -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="css/bigwilliestyle.css">
+</head>
+<body ng-app="adminApp" ng-controller="UpdateEmployeeCtrl">
+
+
+<div class="container">
+
+	<div class="container logo">
+			<img src="images/Revature-Logo.png" alt="Revature" height="75px">
+	</div>
+
+    <span>
+        <span class="col-md-3">
+			<a href="viewEmployees">View Employees</a>
+		</span>
+		<span class="col-md-3">
+			<a href="registerEmployee">Register Employee</a>
+		</span>
+		<span class="col-md-3">
+			<a href="createAssessment">Set Assessment Template</a>
+		</span>
+		<span class="col-md-3"></span>
+		<span class="col-md-3">
+			<button id="logout" class="btn-revature" ng-click="logout()">logout</button>
+		</span>
+	</span>
+
+    <form class="form-revature" ng-submit="update()">
+        <div class="row">
+        	<h2>Update Employee Information</h2>
+        	<p>Leave fields BLANK that you do NOT wish to update (except for employee's current email and password)!</p>
+        </div>
+       
+        <div class="row input-field">
+            <label class="sr-only" for="currentEmail">Current Email</label>
+            <input class="col-xs-12 col-md-12" id="currentEmail" type="email" placeholder="current email address" ng-model="oldEmail" required autofocus>
+        </div>
+        <div class="row input-field">
+            <label class="sr-only" for="newEmail">New Email</label>
+            <input class="col-xs-12 col-md-12" id="newEmail" type="email" placeholder="new email address" ng-model="newEmail">
+        </div>
+        
+        <div class="row input-field">
+            <label class="sr-only" for="inputFirstName">First name</label>
+            <input class="col-xs-12 col-md-12" id="inputFirstName" type="text" placeholder="First name" ng-model="firstName">
+        </div>
+        <div class="row input-field">
+            <label class="sr-only" for="inputLastName">Last name</label>
+            <input class="col-xs-12 col-md-12" id="inputLastName" type="text" placeholder="Last name" ng-model="lastName">
+        </div>
+        
+        <div class="row input-field">
+            <label class="sr-only" for="inputPassword">Current Password</label>
+            <input class="col-xs-12 col-md-12" id="inputPassword" type="password" placeholder="Current Password" ng-model="oldPassword" required>
+        </div>
+        <div class="row input-field">
+            <label class="sr-only" for="inputPassword">New Password</label>
+            <input class="col-xs-12 col-md-12" id="inputPassword" type="password" placeholder="New Password" ng-model="newPassword">
+        </div>
+        <div class="row input-field">
+            <label class="sr-only" for="inputPassword">Confirm New Password</label>
+            <input class="col-xs-12 col-md-12" id="inputPassword" type="password" placeholder="New Password" ng-model="confirmNewPassword">
+        </div>
+        
+        <div ng-show="passNotMatch" class="span-creds">
+			!!! New Passwords do NOT match !!!
+		</div>
+		<div ng-show="passNotEntered" class="span-creds">
+			!!! Current Password Missing !!!
+		</div>
+		<div ng-show="emailNotEntered" class="span-creds">
+			!!! Current Email Missing !!!
+		</div>
+        <div ng-show="userNotFound" class="span-creds">
+            !!! This user does not exist !!!
+        </div>
+
+        <div class="row">
+            <input id="btn-update" class="btn-revature" type="submit" value="Update">
+        </div>
+    </form>
+    
+</div>
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.9/angular.js"></script>
+   	<script type="text/javascript" src="js/adminApp.js"></script>
+</body>
+</html>

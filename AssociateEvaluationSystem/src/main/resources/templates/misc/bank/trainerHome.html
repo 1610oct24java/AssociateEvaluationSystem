@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html ng-app="bankApp" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<meta charset="ISO-8859-1">
+<title>Associate Evaluation System</title>
+
+<!-- Angular -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.2/angular-ui-router.min.js"></script>
+<script src="static/js/ngprogress/ngprogress.js"></script>
+<script src="static/js/ngprogress/ng-file-upload.js"></script>
+
+<!-- Custom Angular -->
+<script type="text/javascript" src="static/js/misc/bankApp.js"></script>
+<script type="text/javascript" src="static/js/misc/masterCtrl.js"></script>
+<script type="text/javascript" src="static/js/misc/categoryCtrl.js"></script>
+<script type="text/javascript" src="static/js/misc/tagCtrl.js"></script>
+<script type="text/javascript" src="static/js/misc/QuestionCtrl.js"></script>
+
+<!-- Bootstrap  -->
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous">
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+	rel="stylesheet"
+	integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+	crossorigin="anonymous">
+<!-- Custom CSS -->
+<link rel="stylesheet"
+	href="https://opensource.keycdn.com/fontawesome/4.7.0/font-awesome.min.css"
+	integrity="sha384-dNpIIXE8U05kAbPhy3G1cz+yZmTzA6CY8Vg/u2L9xRnHjJiAK76m2BIEaSEV+/aU"
+	crossorigin="anonymous">
+<link href="static/css/trainer.css" rel="stylesheet">
+<link href="static/css/animate.css" rel="stylesheet">
+<!-- ngProgress -->
+<link rel="stylesheet" href="static/css/ngProgress.css">
+</head>
+<body>
+	<div ng-include="templates/misc/bank/header.html"></div>
+	<div class="container" id="buttons" ng-controller="MasterCtrl">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="row">
+					<div class="col-sm-3 col-md-3 col-lg-3">
+						<div class="box" id="corners">
+							<div class="aligncenter">
+								<div class="icon"
+									ng-class="{'animated fadeInDown cursor-fix':animated1}"
+									ng-mouseenter="animated1=true" ng-mouseleave="animated1=false"
+									ng-click="addCategories()">
+									<i class="fa fa-list-ol fa-5x"></i>
+								</div>
+								<h4 class="buttonLabels">Add Categories</h4>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-3 col-md-3 col-lg-3">
+						<div class="box">
+							<div class="aligncenter">
+								<div class="icon"
+									ng-class="{'animated fadeInDown cursor-fix':animated2}"
+									ng-mouseenter="animated2=true" ng-mouseleave="animated2=false"
+									ng-click="addTags()">
+									<i class="fa fa-tags fa-5x"></i>
+								</div>
+								<h4 class="buttonLabels">Add Tags</h4>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-3 col-md-3 col-lg-3">
+						<div class="box">
+							<div class="aligncenter">
+								<div class="icon"
+									ng-class="{'animated fadeInDown cursor-fix':animated3}"
+									ng-mouseenter="animated3=true" ng-mouseleave="animated3=false"
+									ng-click="modifyQuestions()">
+									<i class="fa fa-pencil-square-o fa-5x"></i>
+								</div>
+								<h4 class="buttonLabels">Modify Questions</h4>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-3 col-md-3 col-lg-3">
+						<div class="box">
+							<div class="aligncenter">
+								<div class="icon"
+									ng-class="{'animated fadeInDown cursor-fix':animated4}"
+									ng-mouseenter="animated4=true" ng-mouseleave="animated4=false"
+									ng-click="uploadAssessment()">
+									<i class="fa fa-upload fa-5x"></i>
+								</div>
+								<h4 class="buttonLabels">Upload Assessment</h4>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container" ng-controller="QuestionCtrl">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<strong>Associate Evaluation System - </strong> {{templateName}}
+			</div>
+			<div class="panel-body">
+				<!-- --------------------------------------------------------------------------------------------------------------------------- -->
+
+				<div>
+					<main class="container">
+					<div class="row">
+						<div class="col-md-6" style="height:800px;overflow:auto;">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th>Question</th>
+										<th>Format</th>
+										<th>Category</th>
+										<th>Id</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="question in qList"
+										ng-click="getQuestion(question)">
+										<td>{{question.questionText}}</td>
+										<td>{{question.format.formatName}}</td>
+										<td>{{question.questionCategory["0"].name}}</td>
+										<td>{{question.questionId}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<div class="col-md-6">
+							Question:
+							<div>
+								<textarea rows="4" cols="50" contenteditable="true"
+									style="overflow-y: scroll; resize: none;"
+									ng-model="currentQuestion.questionText"></textarea>
+							</div>
+							<pre>Radio buttons and check boxes show correct answer.</pre>
+							<div ng-show="isMultiChoiceOption">
+								<form>
+									<div ng-repeat="option in currentQuestion.option">
+										<div>
+											<input type="radio" id="msrad" name="correctChoice"
+												ng-model="option.correct" ng-checked="checkButton(option)"
+												><!-- ng-click="multiCorrect(option)" -->
+											<textarea rows="4" cols="50" contenteditable="true"
+												style="overflow-y: scroll; resize: none;"
+												ng-model="option.optionText"></textarea>
+											<br> Option ID: {{option.optionId}}
+											<button ng-click="removeOption(option)">Delete</button>
+											<br> <br>
+										</div>
+									</div>
+								</form>
+								<pre>Input a new option to this text field, then click "Add Option".</pre>
+								<br> <input type="text" size="60" ng-model="newOption"></input><br>
+								<button ng-click="updateQuestion()">Update</button>
+								<button ng-click="addOption(newOption)">Add Option</button>
+							</div>
+							<div ng-show="isMultiSelectOption">
+								<form>
+									<div ng-repeat="option in currentQuestion.option">
+										<div>
+											<input type="checkbox" ng-model="option.correct"
+												ng-true-value="1" ng-click="multiSelectCorrect(option)">
+
+											<textarea rows="4" cols="50" contenteditable="true"
+												style="overflow-y: scroll; resize: none;"
+												ng-model="option.optionText"></textarea>
+											<br> Option ID: {{option.optionId}}
+											<button ng-click="removeOption(option)">Delete</button>
+											<br> <br>
+										</div>
+									</div>
+								</form>
+								<pre>Input a new option to this text field, then click "Add Option".</pre>
+								<br> <input wrap="" type="text" size="60"
+									ng-model="newOption"></input><br>
+								<button ng-click="updateQuestion()">Update</button>
+								<button ng-click="addOption(newOption)">Add Option</button>
+							</div>
+							<div ng-show="isDragDrop">
+								<div ng-repeat="dragdrop in currentQuestion.dragdrop">
+									<div>
+										<textarea rows="4" cols="50" contenteditable="true"
+											style="overflow-y: scroll; resize: none;"
+											ng-model="dragdrop.dragDropText"></textarea>
+										<br> Option ID: {{option.optionId}}
+										<button ng-click="removeDDOption(dragdrop)">Delete</button>
+										<br> <br>
+									</div>
+								</div>
+								<pre>Input a new option to this text field, then click "Add Option".</pre>
+								<br> <input type="text" size="60" ng-model="newDragDrop"></input><br>
+								<button ng-click="updateQuestion()">Update</button>
+								<button ng-click="addDragDrop(newDragDrop)">Add Option</button>
+							</div>
+							<div>
+							</div>
+						</div>
+					</div>
+
+					</main>
+				</div>
+
+				<div ui-view></div>
+
+				<!-- Upload Form -->
+				<!-- --------------------------------------------------------------------------------------------------------------------------- -->
+			</div>
+		</div>
+	</div>
+	<!-- /container -->
+</body>
+</html>

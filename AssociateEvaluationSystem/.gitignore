@@ -1,0 +1,7 @@
+/target
+.idea
+/logs/
+
+application.properties
+IpConf.java
+pom.xml

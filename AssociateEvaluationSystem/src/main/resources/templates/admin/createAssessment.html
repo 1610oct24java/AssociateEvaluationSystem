@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>BILLY</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+	<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+	<link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" href="af-css/AFMaterialStyle.css">
+</head>
+
+<body ng-app="adminApp" ng-controller="CreateAssessmentCtrl">
+<div class="form-group">
+	<label class="col-md-2 control-label">Time</label>
+	<div class="col-md-4">
+		<select class="form-control" ng-model="time">
+			<option ng-repeat="option in times" value="{{option}}">{{option}}</option>
+		</select>
+	</div>
+</div>
+
+
+<form class="form-horizontal" role="form" ng-submit="addRow()">
+	<div class="form-group">
+		<label class="col-md-2 control-label">Category</label>
+		<div class="col-md-4">
+			<select class="form-control" ng-model="category">
+				<option ng-repeat="option in categories" value="{{option}}">{{option}}</option>
+			</select>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-md-2 control-label">Type</label>
+		<div class="col-md-4">
+			<select class="form-control" ng-model="type">
+				<option ng-repeat="option in types" value="{{option}}">{{option}}</option>
+			</select>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-md-2 control-label">Quantity</label>
+		<div class="col-md-4">
+			<input type="number" max="99" min="0" class="form-control" name="quantity" ng-model="quantity" />
+		</div>
+	</div>
+	<div class="form-group">
+		<div style="padding-left:110px">
+			<input type="submit" value="Add Row" class="btn btn-primary" />
+		</div>
+	</div>
+
+</form>
+
+<div class="form-group">
+	<div style="padding-left:110px">
+		<button class="btn btn-success" ng-click="createAssessment()">Submit</button>
+	</div>
+</div>
+<table class="table">
+	<tr>
+		<th>Category</th>
+		<th>Type</th>
+		<th>Quantity</th>
+		<th>Action</th>
+	</tr>
+	<tr ng-repeat="ass in assessments track by $index">
+		<td>{{ass.category}}</td>
+		<td>{{ass.type}}</td>
+		<td>{{ass.quantity}}</td>
+		<td><input type="button" value="Remove" class="btn btn-primary" ng-click="removeRow($index)" /></td>
+	</tr>
+</table>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-animate.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-aria.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-resource.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-messages.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-sanitize.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/ng-csv/0.3.6/ng-csv.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="js/adminApp.js"></script>
+</body>
+
+</html>
