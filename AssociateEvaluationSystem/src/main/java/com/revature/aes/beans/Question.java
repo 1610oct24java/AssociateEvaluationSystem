@@ -4,18 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -31,13 +20,8 @@ public class Question implements Serializable {
 
 	@Id
 	@Column(name = "QUESTION_ID")
-	@GeneratedValue(generator = "AES_QUESTION_SEQ")
-	@GenericGenerator(name="AES_QUESTION_SEQ", strategy="org.hibernate.id.enhanced.SequenceStyleGenerator", parameters={
-			@Parameter(name="sequence_name", value="AES_QUESTION_SEQ"),
-			@Parameter(name="optimizer", value="hilo"),
-			@Parameter(name="initial_value",value="1"),
-			@Parameter(name="increment_size",value="1")
-	})
+	@GeneratedValue(generator = "AES_QUESTION_SEQ", strategy = GenerationType.SEQUENCE)
+	@GenericGenerator(name="AES_QUESTION_SEQ", strategy="increment")
 	private int questionId;
 
 	@ManyToOne(fetch=FetchType.EAGER, cascade=CascadeType.MERGE)
@@ -104,6 +88,8 @@ public class Question implements Serializable {
 	public Set<Category> getQuestionCategory() {
 		return questionCategory;
 	}
+
+	public void setQuestionCategory(Set<Category> questionCategory){this.questionCategory = questionCategory;}
 
 	public void addQuestionCategory(Category cat) {
 		this.questionCategory.add(cat);
