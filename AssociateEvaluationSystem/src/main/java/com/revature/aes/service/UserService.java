@@ -17,7 +17,7 @@ public interface UserService {
 	public List<User> findUsersByRole(String role);
 	public void createAdmin(String email, String lastname, String firstname);
 	public String createEmployee(User employee);
-	public void updateEmployee(User user, UserUpdateHolder userUpdate);
+	public boolean updateEmployee(User user, UserUpdateHolder userUpdate);
 	public void removeEmployee(String email);
 	public String setCandidateSecurity(User candidate);
 }

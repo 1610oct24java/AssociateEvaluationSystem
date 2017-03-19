@@ -78,23 +78,13 @@ angular.module('AESCoreApp').controller('CandidateCtrl', function($scope,$locati
 		
         $http({
             method  : 'POST',
-            url: SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + $scope.authUser.username + API_URL.CANDIDATE + "register",
+            url: SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + $scope.authUser.username + "candidate/register",
             headers : {'Content-Type' : 'application/json'},
             data    : candidateInfo
-        }).success( function(res) {
-        	if(res.data.msg === "success")
-			{
+        }).success( function() {
 				$scope.registerSuccessfulMsg = true;
-			}else {
+        }).error( function() {
 				$scope.registerUnsuccessfulMsg = true;
-			}
-        }).error( function(res) {
-        	if(res.data.msg === "success")
-			{
-				$scope.registerSuccessfulMsg = true;
-			}else {
-				$scope.registerUnsuccessfulMsg = true;
-			}
         });
     };
 
