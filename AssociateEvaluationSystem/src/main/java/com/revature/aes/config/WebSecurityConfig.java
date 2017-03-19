@@ -24,7 +24,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.permitAll();
 		
 		http.authorizeRequests().antMatchers("/*/recruit", "/*/view", "/*/updateCredentials").hasRole("RECRUITER").and().authorizeRequests().and().csrf().csrfTokenRepository(csrfTokenRepository());//.permitAll().and().authorizeRequests().and().csrf().disable();
-		http.authorizeRequests().antMatchers("/*/registerEmployee", "/*/viewEmployees", "/*/updateCredentials").hasRole("ADMIN").and().authorizeRequests().and().csrf().csrfTokenRepository(csrfTokenRepository());
+		http.authorizeRequests().antMatchers("/*/registerEmployee", "/*/viewEmployees", "/*/updateCredentials", "/*/xmlParser").hasRole("ADMIN").and().authorizeRequests().and().csrf().csrfTokenRepository(csrfTokenRepository());
 		
 		http.authorizeRequests().antMatchers("/").permitAll().anyRequest()
 		.authenticated()
