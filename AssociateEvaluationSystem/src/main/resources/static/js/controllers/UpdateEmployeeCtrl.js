@@ -64,18 +64,20 @@ angular.module('AESCoreApp').controller('UpdateEmployeeCtrl', function($scope,$l
 
     $scope.postUpdate = function(info) {
     	var updateUrl = SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER 
-		+ API_URL.EMPLOYEE + "/" + $scope.oldEmail + "/update";
+		+ "/" + $scope.oldEmail + "/update";
         $http({
             method  : 'PUT',
             url		: updateUrl,
             headers : {'Content-Type' : 'application/json'},
             data    : info
         }).success(function(data){
-            if (!data){
+            if (data){
+                $scope.updateSuccessful = true;
+            } else {
                 $scope.updateUnsuccessful = true;
             }
         }).error( function() {
-            console.log("fail");
+            $scope.updateUnsuccessful = true;
         });
     };
 

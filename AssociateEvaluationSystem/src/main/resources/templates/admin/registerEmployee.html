@@ -35,7 +35,7 @@
 	</span>
 
     <form class="form-revature" ng-submit="register()">
-        <h2 class="row">Register New User</h2>
+        <h2 class="row">Register New Recruiter</h2>
         <div class="row input-field">
             <label class="sr-only" for="inputFirstName">first name</label>
             <input class="col-xs-12 col-md-12" id="inputFirstName" type="text" placeholder="first name" ng-model="firstName" required autofocus>
@@ -48,14 +48,14 @@
             <label class="sr-only" for="inputEmail">email address</label>
             <input class="col-xs-12 col-md-12" id="inputEmail" type="email" placeholder="email address" ng-model="email" required>
         </div>
-        <div class="row">
+        <!--div class="row">
             <select id="roleSelect" class="col-xs-8 col-md-6"
                     ng-model="roleType" ng-options="item for item in roleTypes">
             <option >
             --role--
             </option>
             </select>
-        </div>
+        </div!-->
         
         <div ng-show="registerSuccessfulMsg" class="span-creds">
 			<span class="glyphicon glyphicon-floppy-saved" aria-hidden="true" style="color:green;">

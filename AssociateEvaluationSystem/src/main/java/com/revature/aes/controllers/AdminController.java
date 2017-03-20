@@ -72,13 +72,16 @@ public class AdminController {
 	@RequestMapping(value="admin/employee/register", method = RequestMethod.POST)
 	public String registerEmployee(@RequestBody User employee) {
 		String pass = userService.createEmployee(employee);
-		boolean mailSentSuccess = mailService.sendTempPassword(employee.getEmail(), pass);
-	
-		if (mailSentSuccess)
-		{
-			return "{\"msg\":\"success\"}"; 
-		}else {
-			return "{\"msg\":\"fail\"}";
+		boolean mailSentSuccess;
+		if (pass != null){
+			mailSentSuccess = mailService.sendTempPassword(employee.getEmail(), pass);
+			if (mailSentSuccess)
+			{
+				return "{\"msg\":\"success\"}";
+			} else {
+				return "{\"msg\":\"fail\"}";
+		}} else {
+				return "{\"msg\":\"fail\"}";
 		}
 	}
 	

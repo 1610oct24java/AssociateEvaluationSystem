@@ -50,8 +50,6 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 		}
 	});
 	
-	$scope.roleType ="Recruiter";
-	
 	$scope.register = function() {
 
 		var employeeInfo = {
@@ -61,7 +59,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
             lastName      : $scope.lastName,
             salesforce    : null,
             recruiterId   : null,
-            role          : "Recruiter",
+            role      	: null, //this is hardcoded in createEmployee. I'm not proud of this. -Sledgehammer
 			datePassIssued: null,
 			format		  : null
 		};
@@ -191,6 +189,7 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 		$scope.userNotFound = false;
 		
 		var employeeInfo = {
+			oldEmail	: $scope.oldEmail,
 			newEmail      : $scope.newEmail,
 			firstName     : $scope.firstName,
 			lastName      : $scope.lastName,

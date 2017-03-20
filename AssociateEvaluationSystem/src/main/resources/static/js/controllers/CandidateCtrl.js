@@ -78,7 +78,7 @@ angular.module('AESCoreApp').controller('CandidateCtrl', function($scope,$locati
 		
         $http({
             method  : 'POST',
-            url: SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + $scope.authUser.username + "candidate/register",
+            url: SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + $scope.authUser.username + "/git candidate/register",
             headers : {'Content-Type' : 'application/json'},
             data    : candidateInfo
         }).success( function() {
