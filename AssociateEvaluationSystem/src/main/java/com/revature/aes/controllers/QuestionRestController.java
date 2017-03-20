@@ -202,15 +202,25 @@ public class QuestionRestController
 	
 	@RequestMapping(value="question/markAllIncorrect/{questionId}", method = RequestMethod.POST, produces = 
 			{MediaType.APPLICATION_JSON_VALUE})
-	public void mcReset(@PathVariable Integer questionId){
-		log.debug("Inside eraser method.");
+	public void mcReset(@RequestBody Integer optionId, @PathVariable Integer questionId){
+		System.out.println("********************************************************************************************************");
+		System.out.println("OptionId: " + optionId);
+		System.out.println("QuestionId: " + questionId);
+		System.out.println("********************************************************************************************************");
 		Question question = questionService.getQuestionById(questionId);
+		Option option = optionService.getOptionById(optionId);
 		Set<Option> options = question.getOption();
-		for(int i=0;i<options.size();i++){
-/*			Option opt = options.;
-			System.out.println("Option: " + opt);
-			optionService.addOption(opt);*/
+		for(Option opt : options){
+			if(opt.equals(option)){
+				opt.setCorrect(1);
+			}else{
+			opt.setCorrect(0);
+			}
 		}
+		question.setOption(options);
+		System.out.println("********************************************************************************************************************");
+		System.out.println("Question: " + question);
+		System.out.println("********************************************************************************************************************");
 		questionService.updateQuestion(question);
 	}
 	
