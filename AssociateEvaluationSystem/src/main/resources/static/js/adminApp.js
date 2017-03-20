@@ -50,7 +50,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 		}
 	});
 	
-	$scope.roleTypes =["Recruiter", "Trainer"];
+	$scope.roleType ="Recruiter";
 	
 	$scope.register = function() {
 
@@ -58,10 +58,10 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 			userId        : null,
 			email         : $scope.email,
 			firstName     : $scope.firstName,
-			lastName      : $scope.lastName,
-			salesforce    : null,
-			recruiterId   : null,
-			role          : $scope.roleType, //$scope.roleType.value,
+            lastName      : $scope.lastName,
+            salesforce    : null,
+            recruiterId   : null,
+            role          : "Recruiter",
 			datePassIssued: null,
 			format		  : null
 		};
@@ -84,20 +84,10 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 			headers : {'Content-Type' : 'application/json'},
 			data    : employeeInfo
 
-		}).success( function(res) {
-			if(res.data.msg === "success")
-			{
-				$scope.registerSuccessfulMsg = true;
-			}else {
+		}).success( function() {
+                $scope.registerSuccessfulMsg = true;
+		}).error( function() {
 				$scope.registerUnsuccessfulMsg = true;
-			}
-		}).error( function(res) {
-			if(res.data.msg === "success")
-			{
-				$scope.registerSuccessfulMsg = true;
-			}else {
-				$scope.registerUnsuccessfulMsg = true;
-			}
 		});
 	}
 	
