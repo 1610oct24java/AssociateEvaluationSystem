@@ -30,8 +30,17 @@ public class LoginTest {
 
 	@Before
 	public void setUp() throws Exception {
+		
+		/**
+		 * Setup driver and login to AES
+		 */
+		
 		System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/src/test/resources/chromedriver.exe");
+		
 		driver = new ChromeDriver();
+		
+		loginPage = new LoginPage(driver);
+		
 		driver.get("http://localhost:8090/aes/login");
 	}
 
@@ -42,7 +51,12 @@ public class LoginTest {
 
 	@Test
 	public void recruiterLoginTest() {
-		loginPage = new LoginPage(driver);
+		
+		/**
+		 * Determine if recruiter can login by checking the title
+		 * of the candidate view page
+		 */
+		
 		loginPage.loginToAES("nickolas.jurczak@revature.com", "password");
 		CandidateViewPage cvp = new CandidateViewPage(driver);
 		explicitWait(5);
@@ -51,7 +65,12 @@ public class LoginTest {
 	
 	@Test
 	public void adminLoginTest() {
-		loginPage = new LoginPage(driver);
+		
+		/**
+		 * Determine if trainer can login by checking the title
+		 * of the employee view page
+		 */
+		
 		loginPage.setEmail("trainers@revature.com");
 		loginPage.setPassword("password");
 		loginPage.clickLogin();

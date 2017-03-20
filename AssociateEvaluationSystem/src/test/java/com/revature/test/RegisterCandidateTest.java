@@ -23,13 +23,37 @@ public class RegisterCandidateTest {
 	LoginPage loginPage;
 	CandidateViewPage candidateViewPage;
 	RegisterCandidatePage registerCandidatePage;
+	
+	/**
+	 * Specify candidate to be tested
+	 */
+	
+	String firstName = "test";
+	String lastName = "test";
+	String email = "test@jonsfakemail.com";
+	String program = "Java";
 
 	@Before
 	public void setUp() throws Exception {
+		
+		/**
+		 * Setup driver and page objects and login to AES
+		 */
+		
 		System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/src/test/resources/chromedriver.exe");
+		
 		driver = new ChromeDriver();
 		driver.get("http://localhost:8090/aes/login");
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		
+		loginPage = new LoginPage(driver);
+		candidateViewPage = new CandidateViewPage(driver);
+		registerCandidatePage = new RegisterCandidatePage(driver);
+		
+		loginPage.loginToAES("nickolas.jurczak@revature.com", "password");
+		
+		// Delete candidate before creating the same candidate
+		registerCandidatePage.deleteCandidate(email);
 	}
 
 	@After
@@ -39,16 +63,32 @@ public class RegisterCandidateTest {
 	
 	@Test
 	public void registerCandidateDBTest()  {
-		loginPage = new LoginPage(driver);
-		loginPage.loginToAES("nickolas.jurczak@revature.com", "password");
-		candidateViewPage = new CandidateViewPage(driver);
+		
+		/**
+		 * Register candidate and check if candidate exist in database
+		 */
+		
 		candidateViewPage.clickRegisterCandidateLink();
-		registerCandidatePage = new RegisterCandidatePage(driver);
-		registerCandidatePage.deleteCandidate("test@jonsfakemail.com");
-		registerCandidatePage.registerCandidate("test", "test", "test@jonsfakemail.com", "SDET");
+		registerCandidatePage.registerCandidate(firstName, lastName, email, program);
 		explicitWait(3);
-		assertTrue(registerCandidatePage.testCandidateExist("test@jonsfakemail.com"));
-		registerCandidatePage.deleteCandidate("test@jonsfakemail.com");
+		assertTrue(registerCandidatePage.testCandidateExist(email));
+	}
+
+	@Test
+	public void registerCandidateGUITest()  {
+		
+		/**
+		 * Register candidate and check if candidate shows up in the view
+		 */
+		
+		candidateViewPage.clickRegisterCandidateLink();
+		explicitWait(3);
+		registerCandidatePage.registerCandidate(firstName, lastName, email, program);
+		registerCandidatePage.clickViewCandidates();		
+		explicitWait(3);
+		driver.navigate().refresh();
+		explicitWait(3);
+		assertTrue(candidateViewPage.verifyCandidateExistInView(firstName, lastName, email));
 	}
 	
 	private void explicitWait(int seconds) {
@@ -59,22 +99,4 @@ public class RegisterCandidateTest {
 		}
 	}
 
-	@Test
-	public void registerCandidateGUITest()  {
-		loginPage = new LoginPage(driver);
-		loginPage.loginToAES("nickolas.jurczak@revature.com", "password");
-		explicitWait(5);
-		// Remove test candidate before recreating
-		registerCandidatePage.deleteCandidate("test@jonsfakemail.com");
-		candidateViewPage = new CandidateViewPage(driver);
-		candidateViewPage.clickRegisterCandidateLink();
-		explicitWait(5);
-		registerCandidatePage = new RegisterCandidatePage(driver);
-		registerCandidatePage.registerCandidate("test", "test", "test@jonsfakemail.com", "SDET");
-		registerCandidatePage.clickViewCandidates();		
-		explicitWait(5);
-		driver.navigate().refresh();
-		explicitWait(5);
-		assertTrue(candidateViewPage.verifyCandidateExistInView("test", "test", "test@jonsfakemail.com"));
-	}
 }
