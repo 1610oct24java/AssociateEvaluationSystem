@@ -1,8 +1,11 @@
 package com.revature.aes.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import com.revature.aes.beans.*;
+import org.junit.experimental.categories.Categories;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,11 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.revature.aes.beans.DragDrop;
-import com.revature.aes.beans.Format;
-import com.revature.aes.beans.Option;
-import com.revature.aes.beans.Question;
-import com.revature.aes.beans.QuestionOptionsJSONHandler;
 import com.revature.aes.logging.Logging;
 import com.revature.aes.service.DragDropService;
 import com.revature.aes.service.OptionService;
@@ -71,7 +69,7 @@ public class QuestionRestController
 	/**
 	 * Retrieves a Question from the Database
 	 *
-	 * @param questionId the unique identifier of a Question.  Cannot be null or Negative and must be
+	 * @param optionId the unique identifier of a Question.  Cannot be null or Negative and must be
 	 * @return a Question
 	 * a Integer
 	 */
@@ -86,7 +84,7 @@ public class QuestionRestController
 	
 	/**
 	 * 
-	 * @param id	The id of the option for a drag and drop question to be 
+	 * @param dragDropId	The id of the option for a drag and drop question to be
 	 * 				deleted.
 	 */
 	@RequestMapping(value="question/deleteDragDrop/{dragDropId}", method = RequestMethod.POST, produces = 
@@ -108,7 +106,7 @@ public class QuestionRestController
 	{
 		return questionService.getAllQuestions();
 	}
-	
+
 	/**
 	 * Retrieves all Questions by Format form the database
 	 * 
@@ -125,22 +123,25 @@ public class QuestionRestController
 	/**
 	 * Modifies the a question in the database by its unique identifier
 	 * 
-	 * @param id the Id of question, cannot be null or less than 0
+	 * @param question the Id of question, cannot be null or less than 0
 	 * @return the updated Question 
 	 */
 	@RequestMapping(value ="question", method = RequestMethod.PUT, produces = 
 	{ MediaType.APPLICATION_JSON_VALUE })
 	public Question updateQuestionById(@RequestBody Question question)
 	{
-		for (Option o : question.getOption())
-		{
-			o.setQuestion(question);
+		if (question.getOption() != null){
+			for (Option o : question.getOption()) {
+				o.setQuestion(question);
+			}
 		}
-		for (DragDrop d : question.getDragdrop())
-		{
-			d.setQuestion(question);
+
+		if(question.getDragdrop() != null){
+			for (DragDrop d : question.getDragdrop()) {
+				d.setQuestion(question);
+			}
 		}
-		return questionService.updateQuestion(question);		
+		return questionService.updateQuestion(question);
 	}
 	
 	
@@ -171,11 +172,12 @@ public class QuestionRestController
 	
 	@RequestMapping(value="question/addOption/{questionId}", method = RequestMethod.POST, produces = 
 			{ MediaType.APPLICATION_JSON_VALUE })
-	public Question addOption(@RequestBody String optionText, @PathVariable Integer questionId){
+	public Question addOption(@RequestBody Option opt, @PathVariable Integer questionId){
 		
 		Question question = questionService.getQuestionById(questionId);
 		Option option = new Option();
-		option.setOptionText(optionText);
+		option.setOptionText(opt.getOptionText());
+		option.setCorrect(opt.getCorrect());
 		option.setQuestion(question);
 		optionService.addOption(option);
 		question.getOption().add(option);
@@ -232,5 +234,26 @@ public class QuestionRestController
 	@RequestMapping(value="question/{category}/count", method = RequestMethod.POST, produces={MediaType.APPLICATION_JSON_VALUE})
 	public @ResponseBody int getQuestionCount(@PathVariable String category, @RequestBody String format) {
 		return questionService.findQuestionCountByFormatandCategory(category, format).intValue();	
+	}
+
+	@RequestMapping(value = "questions", method = RequestMethod.POST)
+	public List<Question> createQuestions(@RequestBody List<Question> questions){
+
+		questions.forEach(question -> {
+			final Set<Option> options = question.getOption();
+			final Set<Category> cats = question.getQuestionCategory();
+			question.setOption(null);
+			question.setQuestionCategory(null);
+			question = questionService.addQuestion(question);
+			for(Option option : options){
+				option.setQuestion(question);
+			}
+			question.setOption(options);
+			question.setQuestionCategory(cats);
+			question = questionService.updateQuestion(question);
+			System.out.println(question);
+		});
+
+		return questions;
 	}
 }

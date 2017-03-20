@@ -47,7 +47,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 		} else {
 			window.location = SITE_URL.LOGIN;
 		}
-	})
+	});
 	$scope.names =["Recruiter"];
 	
 	$scope.register = function() {
@@ -149,7 +149,6 @@ adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_UR
 	$scope.logout = function() {
 		$http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
 		.then(function(response) {
-			//Removed console log for sonar cube.
 			window.location = SITE_URL.LOGIN;
 		})
 	};
@@ -159,9 +158,7 @@ adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_UR
 	        url = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEES + "/Delete/" + email + "/";
 	        $http.delete(url)
 	        .then(function (response) {
-	        	//Removed console log for sonar cube.
 	        }, function (error) {
-	        	//Removed console log for sonar cube.
 	        });
 	    }
 	
@@ -211,11 +208,12 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 			window.location = SITE_URL.LOGIN;
 		}
 	})
-	
+
 	$scope.update= function() {
 		$scope.passNotMatch = false;
 		$scope.passNotEntered = false;
-		$scope.emailNotEntered = false; 
+		$scope.emailNotEntered = false;
+		$scope.userNotFound = false;
 		
 		var employeeInfo = {
 			newEmail      : $scope.newEmail,
@@ -256,10 +254,11 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 			url: updateUrl,
 			headers : {'Content-Type' : 'application/json'},
 			data    : info
-		}).success( function(response) {
-			console.log("success");
-			//$scope.logout();
-		}).error( function(response) {
+		}).success(function(data){
+                if (!data){
+                    $scope.userNotFound = true;
+                }
+		}).error( function() {
 			console.log("fail");
 		});
 	};
@@ -276,7 +275,14 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 //Billy Adding controller for assessment creation
 adminApp.controller('CreateAssessmentCtrl',function ($scope,$http, SITE_URL, API_URL, ROLE) {
 
-    $scope.curricula = [
+    $scope.times = [
+        "15 Minutes",
+        "30 Minutes",
+        "45 Minutes",
+        "60 Minutes"
+    ]
+
+    $scope.categories = [
         "HTML",
         "CSS",
         "JavaScript",
@@ -295,154 +301,81 @@ adminApp.controller('CreateAssessmentCtrl',function ($scope,$http, SITE_URL, API
         "Coding Snippet"
     ]
 
-    $scope.rows = [];
+	//variables to hold time and assessment criteria
+    $scope.assessment = [];
+    $scope.time = '';
 
-    $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
-        .then(function(response) {
-            if (response.data.authenticated) {
-                var authUser = {
-                    username : response.data.principal.username,
-                    authority: response.data.principal.authorities[0].authority
+    //remove a criteria
+    $scope.removeRow = function(index) {
+        $scope.assessment.splice(index, 1);
+    };
+
+    //add a criteria
+    $scope.addRow = function() {
+        $scope.assessment.push({ 'category': $scope.category, 'type': $scope.type, 'quantity': $scope.quantity });
+        $scope.category = '';
+        $scope.type = '';
+        $scope.quantity = '';
+    };
+
+
+
+    //creates url and performs AJAX call to appropriate REST endpoint
+	//sending the assessment time and criteria
+    $scope.createAssessment = function() {
+
+        //build test JSON
+        data = {"timeLimit": 45,
+            "categoryRequestList": [
+                {   "category": { "categoryId": 6,
+                    "name": "core language"
+                },
+                    "msQuestions" : 5,
+                    "mcQuestions" : 25,
+                    "ddQuestions" : 0,
+                    "csQuestions" : 1
+                },{ "category": { "categoryId": 2,
+                    "name": "OOP"
+                },
+                    "msQuestions" : 1,
+                    "mcQuestions" : 3,
+                    "ddQuestions" : 0,
+                    "csQuestions" : 0
+                },{ "category": { "categoryId": 3,
+                    "name": "Data Structures"
+                },
+                    "msQuestions" : 1,
+                    "mcQuestions" : 0,
+                    "ddQuestions" : 0,
+                    "csQuestions" : 0
+                },{ "category": { "categoryId": 4,
+                    "name": "SQL"
+                },
+                    "msQuestions" : 3,
+                    "mcQuestions" : 5,
+                    "ddQuestions" : 1,
+                    "csQuestions" : 0
                 }
-                $scope.authUser = authUser;
-                if($scope.authUser.authority != ROLE.ADMIN) {
-                    window.location = SITE_URL.LOGIN;
-                }
-            } else {
-                window.location = SITE_URL.LOGIN;
-            }
-        });
-
-    $(document).ready(function() {
-        $("#add_row").on("click", function() {
-            // Dynamic Rows Code
-            // Get max row id and set new id
-            var newid = 0;
-            $.each($("#tab_logic tr"), function() {
-                if (parseInt($(this).data("id")) > newid) {
-                    newid = parseInt($(this).data("id"));
-                }
-            });
-            newid++;
-
-            var tr = $("<tr></tr>", {
-                id: "addr"+newid,
-                "data-id": newid
-            });
-
-            // loop through each td and create new elements with name of newid
-            $.each($("#tab_logic tbody tr:nth(0) td"), function() {
-                var cur_td = $(this);
-                var children = cur_td.children();
-                // add new td and element if it has a name
-                if ($(this).data("name") != undefined) {
-                    var td = $("<td></td>", {
-                        "data-name": $(cur_td).data("name")
-                    });
-                    var c = $(cur_td).find($(children[0]).prop('tagName')).clone().val("");
-                    c.attr("name", $(cur_td).data("name") + newid);
-                    c.appendTo($(td));
-                    td.appendTo($(tr));
-                } else {
-                    var td = $("<td></td>", {
-                        'text': $('#tab_logic tr').length
-                    }).appendTo($(tr));
-                }
-            });
-
-            // add the new row
-            $(tr).appendTo($('#tab_logic'));
-            $(tr).find("td button.row-remove").on("click", function() {
-                $(this).closest("tr").remove();
-            });
-        });
-
-        // Sortable Code
-        var fixHelperModified = function(e, tr) {
-            var $originals = tr.children();
-            var $helper = tr.clone();
-            
-            $helper.children().each(function(index) {
-                $(this).width($originals.eq(index).width())
-            });
-
-            return $helper;
-        };
-
-        $(".table-sortable tbody").sortable({
-            helper: fixHelperModified
-        }).disableSelection();
-        $(".table-sortable thead").disableSelection();
-        $("#add_row").trigger("click");
-    });
-
-
-
-    var tableData = {};
-
-    tableData.categories = $scope.categories;
-    tableData.type = $scope.type;
-    tableData.quantity = $scope.quantity;
-
-    var tableArray = [tableData];
-
-
-    // The 'newObj' object, and it's assignments, are used to generate
-    // new objects to be placed within the 'cardArr' array object.
-    $scope.newObj = {};
-    $scope.newObj.requiredGrads = $scope.requiredGrads;
-    $scope.newObj.reqDate = $scope.reqDate;
-    $scope.newObj.requiredBatches = $scope.requiredBatches;
-    $scope.newObj.startDate = $scope.startDate;
-    $scope.newObj.formattedStartDate = $scope.formattedStartDate;
-    $scope.newObj.batchType = $scope.batchType;
-
-    $scope.cardArr = [$scope.newObj];   // Array of Required Trainee batch generation objects.
-
-
-	/* FUNCTION - This method will assign the particular card objects
-	 *            'btchType' variable to the selected value. */
-    $scope.assignCurr = function(bType, index){
-
-        $scope.cardArr[index].batchType = bType;
-
-        if($scope.cardArr[index].requiredGrads > 0) {
-
-            $scope.cumulativeBatches();
-
+            ]
         }
+
+        //var sendUrl = SITE_URL.BASE + API_URL.BASE + "/assessmentrequest/" + "1";
+        var sendUrl = SITE_URL.BASE + API_URL.BASE + "/assessmentrequest" + "/1/";
+
+        $http({
+            method  : 'PUT',
+            url: sendUrl,
+             headers : {'Content-Type' : 'application/json'},
+             data    : data
+        }).success( function(response) {
+            console.log("success");
+            console.log(sendUrl);
+        }).error( function(response) {
+            console.log("fail");
+            console.log(sendUrl);
+        });
     };
 
-
-
-	/* FUNCTION - This method will add another card to the cardArr object,
-	 *            ultimately generating another card in the 'required Trainee's'
-	 *            tab in the Reports tab. */
-    $scope.genCard = function(){
-
-        var temp = {};
-
-        temp.requiredGrads = $scope.requiredGrads;
-        temp.reqDate = new Date();
-        temp.requiredBatches = $scope.requiredBatches;
-        temp.startDate = $scope.startDate;
-        temp.formattedStartDate = $scope.formattedStartDate;
-        temp.batchType = $scope.batchType;
-
-        //pushes the value onto the end of the array.//
-        $scope.cardArr.push(temp);
-
-    };
-
-
-
-	/* FUNCTION - This method will delete/remove a 'card' in the cardArr
-	 *            object, at a given index.  The deleted 'card' will no
-	 *            longer be displayed on the reports tab. */
-    $scope.removeCardClick = function(index){
-        $scope.cardArr.splice(index, 1);  // Removes a card object from the array index
-        $scope.cumulativeBatches();       // Re-evaluates the cumulative batches.
-    };
 
     //logout
     $scope.logout = function() {
