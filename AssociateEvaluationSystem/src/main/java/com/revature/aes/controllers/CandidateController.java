@@ -39,4 +39,6 @@ public class CandidateController {
 		return authService.getLink(email);
 		
 	}
+
+
 }

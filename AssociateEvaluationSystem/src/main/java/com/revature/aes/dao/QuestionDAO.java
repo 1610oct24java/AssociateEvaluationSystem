@@ -33,4 +33,7 @@ public interface QuestionDAO extends JpaRepository<Question, Integer> {
 			+ "where CATEGORY_ID = (select CATEGORY_ID from AES_CATEGORY where CATEGORY_NAME = ?1) "
 			+ "and QUESTION_FORMAT_ID = (Select FORMAT_ID from AES_FORMATS where FORMAT_NAME = ?2)", nativeQuery = true)
 	BigDecimal findQuestionCountByFormatandCategory(String category, String format);
+
+	@Query(value = "select max(QUESTION_ID) from AES_QUESTION", nativeQuery = true)
+	int findQuestionMax();
 }
