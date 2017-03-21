@@ -85,4 +85,9 @@ public class AssessmentServiceImpl implements AssessmentService {
 	public void gradeAssessment(Assessment assessment) {
 		assessment.setGrade((int) Math.round(new AssessmentGrader().gradeAssessment(assessment)));
 	}
+
+	@Override
+	public void deleteAssessment(Assessment assessment) {
+		assDAO.delete(assessment);
+	}
 }
