@@ -1,18 +1,24 @@
 package com.revature.aes.controllers;
 
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import com.revature.aes.beans.UserUpdateHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.revature.aes.beans.Assessment;
 import com.revature.aes.beans.User;
 import com.revature.aes.locator.MailServiceLocator;
 import com.revature.aes.logging.Logging;
+import com.revature.aes.service.AssessmentAuthService;
 import com.revature.aes.service.AssessmentService;
 import com.revature.aes.service.RestServices;
 import com.revature.aes.service.RoleService;
+import com.revature.aes.service.SecurityService;
 import com.revature.aes.service.UserService;
 
 /**
@@ -39,6 +45,12 @@ public class RecruiterController {
 	private AssessmentService aService;
 	
 	@Autowired
+	private AssessmentAuthService authService;
+	
+	@Autowired
+	private SecurityService secService;
+	
+	@Autowired
 	private RoleService roleService;
 	
 	@Autowired
@@ -47,7 +59,11 @@ public class RecruiterController {
 	private RestServices client;
 	
 	/**
-	 * This method tries to add a candidate to the system.
+	 * This method adds a candidate to the system.
+	 * 
+	 * Edit (by Ric Smith)
+	 * 		This method now only creates candidates, but doesn't send links to an assessment.
+	 * 		Assessment assignments happen in the following method 'sendAssessment'
 	 * 
 	 * @param candidate
 	 * 		the candidate that is to be added to the database
@@ -56,14 +72,38 @@ public class RecruiterController {
 	 * @return 
 	 * 		the newly saved user object
 	 */
-	@RequestMapping(value="/recruiter/{email}/candidates", method= RequestMethod.POST)
-	public User createCandidate(@RequestBody User candidate, @PathVariable String email){
-		String pass = userService.createCandidate(candidate, email);
-		User u = userService.findUserByEmail(candidate.getEmail());
-		String link = client.finalizeCandidate(u, pass);
-		mailService.sendPassword(u.getEmail(), link, pass);
-		log.debug("USER: " + u);
-		return u;
+	@RequestMapping(value="/recruiter/{username}/candidates", method=RequestMethod.POST)
+	public String createCandidate(@RequestBody User candidate, @PathVariable String username) 
+			throws JsonParseException, JsonMappingException, IOException {
+		
+		boolean success = userService.createCandidate(candidate, username);
+		
+		if (success)
+		{
+			return "{\"msg\":\"success\"}";
+		}else {
+			return "{\"msg\":\"fail\"}";
+		}
+	}
+	
+	/**
+	 * This method will make an assessment and send a link and temp password in an email
+	 * to the candidate.
+	 * 
+	 * @author Ric Smith
+	 * 
+	 * @param user
+	 *		User object with candidate's email and format for assessment
+	 */
+	@RequestMapping(value="/recruiter/candidate/assessment", method=RequestMethod.POST)
+	public void sendAssessment(@RequestBody User user){
+		User candidate = userService.findUserByEmail(user.getEmail());
+
+		String pass = userService.setCandidateSecurity(candidate);
+		candidate.setFormat(user.getFormat());
+		String link = client.finalizeCandidate(candidate, pass);
+		System.out.println(link);
+		mailService.sendPassword(candidate.getEmail(), link, pass);
 	}
 	
 	/**
@@ -126,43 +166,40 @@ public class RecruiterController {
 	}
 	
 	/**
-	 * This method removes the indexed user from the database
+	 * This method removes a candidate
 	 * 
-	 * @param email
-	 * 		The email of this recruiter
-	 * @param index
-	 * 		The index of this user in the list returned by
-	 * getCandidates
+	 * @author (Edited by Ric)
+	 * 
+	 * @param email  (String: candidate email)
 	 */
-	@RequestMapping(value="/recruiter/{email}/candidates/{index}", method= RequestMethod.DELETE)
-	public void deleteCandidate(@PathVariable String email, @PathVariable int index){
-		userService.removeCandidate(email, index);
-	}
-
-	@RequestMapping(value="recruiter/update/{email}/", method= RequestMethod.PUT)
-	public @ResponseBody boolean updateEmployee(@RequestBody UserUpdateHolder userUpdate, @PathVariable String email){
-		User currentUser = userService.findUserByEmail(email);
-		if (currentUser != null){
-			if (!userService.updateEmployee(currentUser, userUpdate)){
-				return false;
+	@RequestMapping(value="/recruiter/candidate/{email}/delete", method= RequestMethod.DELETE)
+	public void deleteCandidate(@PathVariable String email){
+		
+		User candidate = userService.findUserByEmail(email);
+		
+		if (candidate != null)
+		{
+			List<Assessment> assList = aService.findByUser(candidate);
+			if (!assList.isEmpty())
+			{
+				for (Assessment ass : assList)
+				{
+					aService.deleteAssessment(ass);
+				}
 			}
-			return true;
-		}
-		else {
-			return false;
+			
+			authService.remove(candidate.getUserId());
+			secService.removeSecurity(candidate.getUserId());
+			
+			userService.removeCandidate(candidate);
 		}
 	}
 
-//	THESE ARE NOW IMPLEMENTED IN com.revature.aes.controllers.AdminController.java
-	@RequestMapping(value="recruiter/{email}/init",method = RequestMethod.POST)
-	public void initRecruiter(@PathVariable String email) {
-		userService.createRecruiter(email, "Recruiter", "Tim");
+	@RequestMapping(value="/recruiter/{currentEmail}/update", method= RequestMethod.PUT)
+	public void updateEmployee(@RequestBody UserUpdateHolder userUpdate, @PathVariable String currentEmail){
+		User currentUser = userService.findUserByEmail(currentEmail);
+		userService.updateEmployee(currentUser, userUpdate);
 	}
-//	
-//	@RequestMapping(value="trainer/{email}/init",method = RequestMethod.POST)
-//	public void initTrainer(@PathVariable String email) {
-//		userService.createTrainer(email);
-//	}
 	
 	@RequestMapping(value="roles/init",method = RequestMethod.GET)
 	public void initRoles() {
