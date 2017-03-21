@@ -489,11 +489,9 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
     // sets navbar to current page even on refresh
     mc.findCurrentPage = function() {
 
-        // var path = $location.path().replace("/", "");
         var path = window.location.pathname.substr(1);
 
         switch(path) {
-            // case "aes/viewEmployees" : return "overview";
             case "aes/registerEmployee" : return "employees";
             case "aes/updateEmployee" : return "employees";
             case "aes/createAssessment" : return "assessments";
