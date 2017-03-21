@@ -56,36 +56,35 @@ angular.module('AESCoreApp').controller('UpdateEmployeeCtrl', function($scope,$l
         if ($scope.passNotMatch == false && $scope.passNotEntered == false
             && $scope.emailNotEntered == false)
         {
-            var updateUrl = SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER
-                + "update/" + $scope.oldEmail + "/";
             if (!$scope.updateUnsuccessful){
-                $scope.postUpdate(updateUrl, employeeInfo);
+                $scope.postUpdate(employeeInfo);
             }
-
         }
-
     };
 
-    $scope.postUpdate = function(updateUrl, info) {
-
+    $scope.postUpdate = function(info) {
+    	var updateUrl = SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER 
+		+ "/" + $scope.oldEmail + "/update";
         $http({
             method  : 'PUT',
-            url: updateUrl,
+            url		: updateUrl,
             headers : {'Content-Type' : 'application/json'},
             data    : info
         }).success(function(data){
-            if (!data){
+            if (data){
+                $scope.updateSuccessful = true;
+            } else {
                 $scope.updateUnsuccessful = true;
             }
         }).error( function() {
-            console.log("fail");
+            $scope.updateUnsuccessful = true;
         });
     };
 
     $scope.logout = function() {
-        $http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
-            .then(function(response) {
-                window.location = SITE_URL.LOGIN;
-            })
+    	$http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
+    	.then(function(response) {
+    		window.location = SITE_URL.LOGIN;
+    	});
     }
 });

@@ -10,5 +10,6 @@ public interface SecurityService {
 	public void invalidatePassword(User u);
 	public String createKnownSecurity(User superuser);
 	public String createAdminRoleSecurity(User admin);
+	public void removeSecurity(int userId);
 	public boolean checkCorrectPassword(String enteredPass, Security security);
 }

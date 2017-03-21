@@ -23,15 +23,13 @@
 	</div>
 
     <span>
-		<span class="col-md-3">
+		<span class="col-md-4">
 			<a href="viewEmployees">View Employees</a>
 		</span>
-		<span class="col-md-3">
+		<span class="col-md-4">
 			<a href="createAssessment">Set Assessment Template</a>
 		</span>
-		<span class="col-md-3"></span>
-		<span class="col-md-3">
-
+		<span class="col-md-4">
 			<button id="logout" class="btn-revature" ng-click="logout()">logout</button>
 		</span>
 	</span>
@@ -52,12 +50,24 @@
         </div>
         <!--div class="row">
             <select id="roleSelect" class="col-xs-8 col-md-6"
-                    ng-model="employeeType" ng-options="item for item in names">
+                    ng-model="roleType" ng-options="item for item in roleTypes">
             <option >
             --role--
             </option>
             </select>
         </div!-->
+        
+        <div ng-show="registerSuccessfulMsg" class="span-creds">
+			<span class="glyphicon glyphicon-floppy-saved" aria-hidden="true" style="color:green;">
+				Registration Successful!
+			</span>
+		</div>
+		<div ng-show="registerUnsuccessfulMsg" class="span-creds">
+			<span class="glyphicon glyphicon-floppy-remove" aria-hidden="true" style="color:red;">
+				Error: Registration Unsuccessful !!!
+			</span>
+		</div>
+        
         <div class="row">
             <input id="btn-register-recruit" class="btn-revature" type="submit" value="register">
         </div>
