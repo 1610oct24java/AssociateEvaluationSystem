@@ -1,6 +1,7 @@
 package com.revature.aes.controllers;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import com.revature.aes.beans.UserUpdateHolder;
@@ -71,7 +72,7 @@ public class RecruiterController {
 	 * @return 
 	 * 		the newly saved user object
 	 */
-	@RequestMapping(value="/recruiter/{username}/candidate/register", method=RequestMethod.POST)
+	@RequestMapping(value="/recruiter/{username}/candidates", method=RequestMethod.POST)
 	public String createCandidate(@RequestBody User candidate, @PathVariable String username) 
 			throws JsonParseException, JsonMappingException, IOException {
 		
@@ -97,9 +98,11 @@ public class RecruiterController {
 	@RequestMapping(value="/recruiter/candidate/assessment", method=RequestMethod.POST)
 	public void sendAssessment(@RequestBody User user){
 		User candidate = userService.findUserByEmail(user.getEmail());
+
 		String pass = userService.setCandidateSecurity(candidate);
 		candidate.setFormat(user.getFormat());
 		String link = client.finalizeCandidate(candidate, pass);
+		System.out.println(link);
 		mailService.sendPassword(candidate.getEmail(), link, pass);
 	}
 	
