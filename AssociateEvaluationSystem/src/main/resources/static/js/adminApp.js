@@ -21,6 +21,7 @@ adminApp.constant("API_URL", {
 	"RECRUITER" : "/recruiter",
 	"TRAINER"	: "/trainer",
 	"LINK"      : "/link",
+	"EMPLOYEE"	: "/employee",
 	"EMPLOYEES" : "/employees",
 	"ADMIN"		: "/admin"
 });
@@ -70,7 +71,6 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 			window.location = SITE_URL.LOGIN;
 		}
 	});
-	$scope.names =["Recruiter"];
 	
 	$scope.register = function() {
 
@@ -78,29 +78,15 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 			userId        : null,
 			email         : $scope.email,
 			firstName     : $scope.firstName,
-			lastName      : $scope.lastName,
-			salesforce    : null,
-			recruiterId   : null,
-			role          : "Recruiter",  //$scope.employeeType.value,
+            lastName      : $scope.lastName,
+            salesforce    : null,
+            recruiterId   : null,
+            role      	: null, //this is hardcoded in createEmployee. I'm not proud of this. -Sledgehammer
 			datePassIssued: null,
 			format		  : null
 		};
-
-		var urlSpecific = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.RECRUITER;
 		
-		//Maybe used in the future
-		/*if (employeeInfo.role === "Recruiter")
-		{
-			urlSpecific = urlSpecific + API_URL.RECRUITER;
-		}else if (employeeInfo.role === "Trainer")
-		{
-			urlSpecific = urlSpecific + API_URL.TRAINER;
-		}*/
-		
-		urlSpecific = urlSpecific + "/" + employeeInfo.email 
-		+ "/" + employeeInfo.lastName + "/" + employeeInfo.firstName
-		
-		$scope.postRegister(urlSpecific, employeeInfo);
+		$scope.postRegister(employeeInfo);
 		
 		$scope.firstName = '';
 		$scope.lastName = '';
@@ -108,38 +94,29 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 		$scope.program = '';
 	};
 
-	$scope.postRegister = function(urlSpecific, employeeInfo) {
+	$scope.postRegister = function(employeeInfo) {
+		$scope.registerSuccessfulMsg = false;
+		$scope.registerUnsuccessfulMsg = false;
+		
 		$http({
 			method  : 'POST',
-			url: urlSpecific,
+			url: SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/register",
 			headers : {'Content-Type' : 'application/json'},
 			data    : employeeInfo
 
-		}).success( function(res) {
-			//Removed console log for sonar cube.
-		}).error( function(res) {
-			//Removed console log for sonar cube.
+		}).success( function() {
+                $scope.registerSuccessfulMsg = true;
+		}).error( function() {
+				$scope.registerUnsuccessfulMsg = true;
 		});
-	};
-
-
-	/*$scope.options = [{
-		name: 'Recruiter',
-		value: 'Recruiter'
-	}, {
-		name: 'Trainer',
-		value: 'Trainer'
-	}];*/
+	}
 	
 	$scope.logout = function() {
 		$http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
 		.then(function(response) {
-			//Removed console log for sonar cube.
 			window.location = SITE_URL.LOGIN;
-		})
+		});
 	}
-
-
 }); //end register Employee controller
 
 adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_URL, ROLE) {
@@ -157,46 +134,41 @@ adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_UR
 			
 			$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEES)
 			.then(function(response) {
-
 				$scope.employees = response.data;
-			})
+			});
 		} else {
 			window.location = SITE_URL.LOGIN;
 		}
 	})
 	    
-	
-	
-	
 	$scope.logout = function() {
 		$http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
 		.then(function(response) {
 			window.location = SITE_URL.LOGIN;
-		})
+		});
 	};
-	//By Hajira Zahir
-	//Delete user
-	 $scope.Delete = function (email) {
-	        url = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEES + "/Delete/" + email + "/";
-	        $http.delete(url)
-	        .then(function (response) {
-	        }, function (error) {
-	        });
-	    }
+
+	$scope.deleteEmployee = function(email) {
+		url = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/" + email + "/delete";
+		
+		$http.delete(url)
+		.then(function (response) {
+			//handle success
+		}, function (error) {
+			//handle error
+		});
+	}
 	
-
-
-      //added by Hajira Zahir
-      $scope.checkAll = function () {
-          if (!$scope.selectedAll) {
-              $scope.selectedAll = true;
-          } else {
-              $scope.selectedAll = false;
-          }
-          angular.forEach($scope.employees, function (employees) {
-        	  employees.selected = $scope.selectedAll;
-          });
-      };   
+	$scope.checkAll = function () {
+		if (!$scope.selectedAll) {
+			$scope.selectedAll = true;
+		}else {
+			$scope.selectedAll = false;
+		}
+		angular.forEach($scope.employees, function (employees) {
+			employees.selected = $scope.selectedAll;
+		});
+	};   
 	
 });
 
@@ -229,8 +201,9 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 		} else {
 			window.location = SITE_URL.LOGIN;
 		}
-	});
 
+	});
+	
 	$scope.update= function() {
 		$scope.passNotMatch = false;
 		$scope.passNotEntered = false;
@@ -238,6 +211,7 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 		$scope.userNotFound = false;
 		
 		var employeeInfo = {
+			oldEmail	: $scope.oldEmail,
 			newEmail      : $scope.newEmail,
 			firstName     : $scope.firstName,
 			lastName      : $scope.lastName,
@@ -261,35 +235,33 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 		if ($scope.passNotMatch == false && $scope.passNotEntered == false 
 				&& $scope.emailNotEntered == false)
 		{
-			var updateUrl = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN 
-					+ API_URL.EMPLOYEES + "/update/" + $scope.oldEmail + "/";
-			
-			$scope.postUpdate(updateUrl, employeeInfo);
-		}
-		
-	};
+			$scope.postUpdate($scope.oldEmail, employeeInfo);
+		}	
+	}
 
-	$scope.postUpdate = function(updateUrl, info) {
+	$scope.postUpdate = function(oldEmail, updateInfo) {
+		var updateUrl = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN 
+				+ API_URL.EMPLOYEE + "/" + $scope.oldEmail + "/update";
 		
 		$http({
 			method  : 'PUT',
-			url: updateUrl,
+			url		: updateUrl,
 			headers : {'Content-Type' : 'application/json'},
-			data    : info
+			data    : updateInfo
 		}).success(function(data){
-                if (!data){
-                    $scope.userNotFound = true;
-                }
+            if (!data){
+                $scope.userNotFound = true;
+            }
 		}).error( function() {
 			console.log("fail");
 		});
-	};
+	}
 
 	$scope.logout = function() {
 		$http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
 		.then(function(response) {
 			window.location = SITE_URL.LOGIN;
-		})
+		});
 	}
 	
 }); //end update credentials controller
