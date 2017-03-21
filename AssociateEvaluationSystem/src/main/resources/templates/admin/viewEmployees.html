@@ -16,36 +16,14 @@
     <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
     <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
-<link rel="stylesheet" href="css/bigwilliestyle.css">
+    <link rel="stylesheet" href="css/aesMaterials.css">
 </head>
 
 <body ng-app="adminApp" ng-controller="EmployeeViewCtrl">
-
+<div>
+    <ng-include src="'menu.html'" />
+</div>
 <div class="container">
-	<div class="container logo">
-			<img src="images/Revature-Logo.png" alt="Revature" height="75px">
-	</div>
-
-	<span>
-		<span class="col-md-3">
-			<a href="registerEmployee">Register Employee</a>
-		</span>
-		<span class="col-md-3">
-			<a href="createAssessment">Set Assessment Template</a>
-		</span>
-		<span class="col-xs-6 col-md-6">
-			<a href="updateCredentials">Update Employee</a>
-		</span>
-		<span class="col-xs-4 col-md-4">
-			<a href="parser">Xml Parser</a>
-		</span>
-		<span class="col-md-3"></span>
-		<span class="col-md-3">
-			<button id="logout" class="btn-revature" ng-click="logout()">logout</button>
-		</span>
-	</span>
-
-
 	
 	<div class="row">
 	
