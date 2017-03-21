@@ -35,4 +35,11 @@ public class AssessmentAuthServiceImpl implements AssessmentAuthService {
 		User u = uService.findUserByEmail(email);
 		return dao.findByUserId(u.getUserId());
 	}
+
+	@Override
+	public void remove(int userId) {
+		AssessmentAuth auth = dao.findByUserId(userId);
+		if (auth != null)
+			dao.delete(auth);
+	}
 }

@@ -19,5 +19,7 @@ public interface AssessmentService {
 	public List<User> findUsersWithNoGrade();
 
 	public List<Assessment> findAssessmentsByUser(User user);
+	
+	public void deleteAssessment(Assessment assessment);
 
 }
