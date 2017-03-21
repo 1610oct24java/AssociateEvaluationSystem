@@ -1,7 +1,6 @@
 var app = angular.module("bankApp", [ 'ui.router', 'ngFileUpload','ngProgress']);
 
 app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider) { 
-    
  
     $stateProvider
         .state('category', {
@@ -16,7 +15,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider) {
             controller: 'TagCtrl'
         })
         .state('question', {
-            url:'question',
+        	url:'question',
             templateUrl: 'templates/misc/bank/questionTemplate.html',
             controller: 'QuestionCtrl',
             controllerAs: 'qc'
