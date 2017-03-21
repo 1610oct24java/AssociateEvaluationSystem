@@ -3,9 +3,10 @@
         <img src="images/revature_logo_250.png" style="padding-left: 10px; padding-top: 10px;">
         <md-nav-bar md-selected-nav-item="mCtrl.currentPage" aria-label="menu">
             <span flex> </span>
-            <md-nav-item md-nav-href="index.html" name="overview" layout-align="end end"> Overview </md-nav-item>
-            <md-nav-item md-nav-href="#" name="employees" layout-align="end end" ng-click="toggleLeft()" ng-hide="isOpenLeft()"> Employees </md-nav-item>
-            <md-nav-item md-nav-href="test.html" name="assessments" layout-align="end end"> Assessments </md-nav-item>
+            <md-nav-item md-nav-href="viewEmployee" name="overview" layout-align="end end"> Overview </md-nav-item>
+            <md-nav-item md-nav-href="#" name="employees" layout-align="end end" ng-click="toggleLeft()"> Employees </md-nav-item>
+            <md-nav-item md-nav-href="createAssessment" name="assessments" layout-align="end end"> Assessments </md-nav-item>
+            <md-nav-item md-nav-href="parser" name="parser" layout-align="end end"> Parser </md-nav-item>
             <md-nav-item md-nav-href="#" name="logout" layout-align="end end" ng-click="logout()"> Logout </md-nav-item>
         </md-nav-bar>
     </md-content>
@@ -14,18 +15,18 @@
             <h1 class="md-toolbar-tools">Employee Options</h1>
         </md-toolbar>
         <md-content layout-padding="">
-            <md-list-item ng-click="">
+            <md-list-item href="registerEmployee">
                 <md-icon md-font-set="material-icons">home</md-icon>
                 <p>Register Employee</p>
             </md-list-item>
-            <md-list-item ng-click="">
+            <md-list-item href="updateEmployee">
                 <md-icon md-font-set="material-icons">home</md-icon>
                 <p>Update Employee</p>
             </md-list-item>
-            <md-list-item ng-click="">
-                <md-icon md-font-set="material-icons">home</md-icon>
-                <p>Delete Employee</p>
-            </md-list-item>
+            <!--<md-list-item ng-click="">-->
+                <!--<md-icon md-font-set="material-icons">home</md-icon>-->
+                <!--<p>Delete Employee</p>-->
+            <!--</md-list-item>-->
         </md-content>
     </md-sidenav>
 </div>
