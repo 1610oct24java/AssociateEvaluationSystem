@@ -489,12 +489,57 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
     // sets navbar to current page even on refresh
     mc.findCurrentPage = function() {
 
-        var path = $location.path().replace("/", "");
-        // if (path == "index") {
-        if (path == "") {
-            return "overview";
-        } else {
-            return path;
+        // var path = $location.path().replace("/", "");
+        var path = window.location.pathname.substr(1);
+
+        switch(path) {
+            case "aes/viewEmployees" : return "overview";
+            case "aes/registerEmployee" : return "employees";
+            case "aes/updateEmployee" : return "employees";
+            case "aes/createAssessment" : return "assessments";
+            case "aes/parser" : return "parser";
+            default : return "overview"
+        }
+    };
+
+    mc.buildToggler = function(navID) {
+        return function() {
+            $mdSidenav(navID)
+                .toggle()
+                .then(function() {
+                    $log.debug("toggle " + navID + " is done");
+                });
+        };
+    };
+    $scope.isOpenLeft = function() {
+        return $mdSidenav('left').isOpen();
+    };
+
+
+    // data
+    mc.currentPage = mc.findCurrentPage();
+    $scope.toggleLeft = mc.buildToggler('left');
+
+});
+
+var app = angular.module('AESCoreApp',[]);
+app.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav, $log) {
+    var mc = this;
+
+    // functions
+    // sets navbar to current page even on refresh
+    mc.findCurrentPage = function() {
+
+        // var path = $location.path().replace("/", "");
+        var path = window.location.pathname.substr(1);
+
+        switch(path) {
+            case "aes/viewEmployees" : return "overview";
+            case "aes/registerEmployee" : return "employees";
+            case "aes/updateEmployee" : return "employees";
+            case "aes/createAssessment" : return "assessments";
+            case "aes/parser" : return "parser";
+            default : return "overview"
         }
     };
 
