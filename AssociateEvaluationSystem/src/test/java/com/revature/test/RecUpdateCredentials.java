@@ -45,9 +45,11 @@ public class RecUpdateCredentials {
 		candidateViewPage.clickUpdateUserInfo();
 		updateCreds = new UpdateCredentialsPage(driver);
 		updateCreds.updatePassword("nickolas.jurczak@revature.com", "password", "p4ssword", "p4ssword");
+		updateCreds.clickUpdate();
 		updateCreds.clickLogout();
 		loginPage.loginToAES("nickolas.jurczak@revature.com", "p4ssword");
 		assertEquals(candidateViewPage.getTitle(), "Revature | AES");
+		assertTrue(candidateViewPage.verifyUpdateCredentials());
 		//fail("Not yet implemented");
 	}
 
