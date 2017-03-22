@@ -1,5 +1,7 @@
 package com.revature.aes.mail;
 
+import com.revature.aes.config.IpConf;
+import com.revature.aes.util.PropertyReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Component;
@@ -9,6 +11,9 @@ import com.revature.aes.beans.User;
 import com.revature.aes.dao.AssessmentDAO;
 import com.revature.aes.dao.UserDAO;
 import com.revature.aes.service.UserService;
+
+import javax.annotation.PostConstruct;
+import java.util.Properties;
 
 @Component
 public class Mail {
@@ -24,15 +29,34 @@ public class Mail {
 		
 		@Autowired
 		private AssessmentDAO ad;
+
+		@Autowired
+		private PropertyReader propertyReader;
+
+
+	@PostConstruct
+	protected void postConstruct(){
+
+		configureEmailBody();
+
+	}
 		
-		static final String CANIDATE_COMPLETED_BODY = "Please click the link below and complete the quiz within one week.\n"
-				+ "If you can not click the link please copy and paste it into your URL bar\n\n";
+		static String CANIDATE_COMPLETED_BODY;
 		
-		static final String CANDIDATE_NOT_COMPLETE_BODY = "The time to complete your quiz has passed."
-				+ " Your temporary password is no longer valid";
+		static String CANDIDATE_NOT_COMPLETE_BODY;
 		
-		static final String RECRUITER_COMPLETED_BODY = " has finished their quiz and recieved a score: ";
-		
+		static String RECRUITER_COMPLETED_BODY;
+
+	private void configureEmailBody(){
+
+		Properties properties = propertyReader.propertyRead("emailPrompt.properties");
+
+		CANDIDATE_NOT_COMPLETE_BODY = properties.getProperty("candidate_not_complete_body");
+		CANIDATE_COMPLETED_BODY = properties.getProperty("candidate_complete_body");
+		RECRUITER_COMPLETED_BODY = properties.getProperty("recruiter_completed_body");
+
+	}
+
 		public void sendEmail(MailObject m, String email){
 			User candidate = us.findUserByEmail(email);
 			User recruiter = ud.findOne(candidate.getRecruiterId());
