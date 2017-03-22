@@ -28,6 +28,7 @@ public class IpConf {
 
     public String getHostName(){
 
+        if(onEc2){
             return getEc2HostName();
         }
 
