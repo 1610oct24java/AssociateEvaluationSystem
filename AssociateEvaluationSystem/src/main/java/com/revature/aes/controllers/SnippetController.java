@@ -8,6 +8,7 @@ import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,8 +27,9 @@ public class SnippetController {
 	@Autowired
 	Logging log;
 	
-	@RequestMapping(value = "/s3upload/{key}")
-	public boolean uploadToS3(String snippetContents, @RequestParam String key){
+	// key should be a string with the appropriate file extension
+	@RequestMapping(value = "/s3uploadTextAsFile/{key}")
+	public boolean uploadToS3(@RequestParam("contents") String snippetContents, @RequestParam String key){
 		File file;
 		FileWriter fileWriter = null;
 		try{
@@ -39,7 +41,7 @@ public class SnippetController {
 				new SnippetIO().upload(file, key);
 				writer.close();
 				if(!file.delete()){
-					log.error("File not found! Can not delete file that does not exists!");
+					log.error("File not found! Can not delete file that does not exist!");
 				}
 				return true;
 			}finally{
@@ -55,13 +57,13 @@ public class SnippetController {
 	}
 	
 	@ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "/s3uploadFile", method=RequestMethod.POST)
-    public void uploadFileToS3(@RequestParam("file") MultipartFile file) throws IOException {
+    @RequestMapping(value = "/s3uploadFile/{folderName}", method=RequestMethod.POST)
+    public void uploadFileToS3(@RequestParam("file") MultipartFile file, @PathVariable("folderName") String folderName) throws IOException {
         System.out.println(String.format("receive %s", file.getOriginalFilename()));
-        new SnippetIO().upload(convert(file), ".java");
+        new SnippetIO().upload(convert(file, folderName), folderName + "/" + file.getOriginalFilename());
     }
 	
-	private File convert(MultipartFile file) throws IOException
+	private File convert(MultipartFile file, String folderName) throws IOException
 	{    
 	    File convFile = new File(file.getOriginalFilename());
 	    convFile.createNewFile(); 

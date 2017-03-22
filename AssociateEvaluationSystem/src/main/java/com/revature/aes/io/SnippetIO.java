@@ -24,33 +24,38 @@ public class SnippetIO {
 	
 	public boolean upload(File file, String key){
         AmazonS3 s3client = new AmazonS3Client();
+        System.out.println("file:" + file + " " + file.getName() );
         try {
-            log.debug("Uploading a new object to S3 from a file\n");
+//            log.debug("Uploading a new object to S3 from a file\n");
             s3client.putObject(new PutObjectRequest(S3LOCATION, key, file));
-            log.debug("Done.");
+//            log.debug("Done.");
+            System.out.println("SnippiotIO upload function completed successfully");
             return true;
          } catch (AmazonServiceException ase) {
-            log.debug("Caught an AmazonServiceException, which " +
-            		"means your request made it " +
-                    "to Amazon S3, but was rejected with an error response" +
-                    " for some reason.");
-            log.debug("Error Message:    " + ase.getMessage());
-            log.debug("HTTP Status Code: " + ase.getStatusCode());
-            log.debug("AWS Error Code:   " + ase.getErrorCode());
-            log.debug("Error Type:       " + ase.getErrorType());
-            log.debug("Request ID:       " + ase.getRequestId());
-            log.stackTraceLogging(ase);
+        	 System.out.println(ase.getMessage());
+//            log.debug("Caught an AmazonServiceException, which " +
+//            		"means your request made it " +
+//                    "to Amazon S3, but was rejected with an error response" +
+//                    " for some reason.");
+//            log.debug("Error Message:    " + ase.getMessage());
+//            log.debug("HTTP Status Code: " + ase.getStatusCode());
+//            log.debug("AWS Error Code:   " + ase.getErrorCode());
+//            log.debug("Error Type:       " + ase.getErrorType());
+//            log.debug("Request ID:       " + ase.getRequestId());
+//            log.stackTraceLogging(ase);
             return false;
         } catch (AmazonClientException ace) {
-        	log.debug("Caught an AmazonClientException, which " +
-            		"means the client encountered " +
-                    "an internal error while trying to " +
-                    "communicate with S3, " +
-                    "such as not being able to access the network.");
-        	log.debug("Error Message: " + ace.getMessage());
-        	log.stackTraceLogging(ace);
+        	System.out.println(ace.getMessage());
+//        	log.debug("Caught an AmazonClientException, which " +
+//            		"means the client encountered " +
+//                    "an internal error while trying to " +
+//                    "communicate with S3, " +
+//                    "such as not being able to access the network.");
+//        	log.debug("Error Message: " + ace.getMessage());
+//        	log.stackTraceLogging(ace);
             return false;
         }
+        
     }
 	
 	public boolean download(String key){

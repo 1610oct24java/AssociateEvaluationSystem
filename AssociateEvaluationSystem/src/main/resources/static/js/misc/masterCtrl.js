@@ -63,7 +63,7 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
 	   $scope.files.push($scope.snippetTemplateFile[0]);
 	   $scope.files.push($scope.answerSnippetFile[0]);
 	   console.log($scope.files);
-	   $scope.upload($scope.files, '.java');
+	   $scope.upload($scope.files, ['SnippetTemplates', 'SnippetSolutions']);
 	   
    }
 //
@@ -86,14 +86,15 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
 		
 	};
 	
-    $scope.upload = function (files, key) {
+    $scope.upload = function (files, folderNames) {
     		console.log("uploading");
     		console.log(files);
+    		console.log(folderNames);
           if (files && files.length) {
               for (var i = 0; i < files.length; i++) { 
             	  var file = files[i];
             	  Upload.upload({
-            	        url: 'rest/s3uploadFile/',
+            	        url: 'rest/s3uploadFile/' + folderNames[i],
             	        method: 'POST',
             	        file: file
             	    }).progress(function (evt) {
