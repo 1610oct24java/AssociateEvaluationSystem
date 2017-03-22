@@ -60,8 +60,8 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
     
    $scope.submitSnippetFiles = function(){
 	   console.log("Adding Snippet Files");
-	   $scope.files.push($scope.snippetTemplateFile);
-	   $scope.files.push($scope.answerSnippetFile);
+	   $scope.files.push($scope.snippetTemplateFile[0]);
+	   $scope.files.push($scope.answerSnippetFile[0]);
 	   console.log($scope.files);
 	   $scope.upload($scope.files, '.java');
 	   
@@ -97,10 +97,10 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
 //                      fields: {
 //                        'filecontext': 'product',
 //                      },
-                     file: file
+                     data:{file: file}
                   }).then(function(data, status, headers, config){
                 	  //$scope.progressUpdater(evt);
-                	  console.log("Hi from then!")
+                	  console.log("Hi from then!");
                 	  $scope.someFunction(data, status, headers, config);
                   });
                   
