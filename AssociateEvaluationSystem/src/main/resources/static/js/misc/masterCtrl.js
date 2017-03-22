@@ -87,22 +87,34 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
 	};
 	
     $scope.upload = function (files, key) {
-
+    		console.log("uploading");
+    		console.log(files);
           if (files && files.length) {
               for (var i = 0; i < files.length; i++) { 
             	  var file = files[i];
-                  Upload.upload({
-                      url: 'rest/s3uploadFile/',
-                      method: 'POST',
-//                      fields: {
-//                        'filecontext': 'product',
-//                      },
-                     data:{file: file}
-                  }).then(function(data, status, headers, config){
-                	  //$scope.progressUpdater(evt);
-                	  console.log("Hi from then!");
-                	  $scope.someFunction(data, status, headers, config);
-                  });
+            	  Upload.upload({
+            	        url: 'rest/s3uploadFile/',
+            	        method: 'POST',
+            	        file: file
+            	    }).progress(function (evt) {
+            	        var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+            	        console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+            	    }).success(function (data, status, headers, config) {
+            	        console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+            	    });
+            	  
+//                  Upload.upload({
+//                      url: 'rest/s3uploadFile/',
+//                      method: 'POST',
+////                      fields: {
+////                        'filecontext': 'product',
+////                      },
+//                     file: file
+//                  }).then(function(data, status, headers, config){
+//                	  //$scope.progressUpdater(evt);
+//                	  console.log("Hi from then!")
+//                	  $scope.someFunction(data, status, headers, config);
+//                  });
                   
               }
           }
