@@ -72,4 +72,8 @@ public class CandidateViewPage {
 		}
 		return isCandidateDisplayedInView;
 	}
+	
+	public boolean verifyUpdateCredentials() {
+		return driver.findElement(updateUserInfo).isDisplayed();
+	}
 }
