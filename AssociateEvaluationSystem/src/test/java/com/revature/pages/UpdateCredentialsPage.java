@@ -125,4 +125,21 @@ public class UpdateCredentialsPage {
 		this.setConfirmNewPassword(confirmNewPassword);
 	}
 	
+	public void updatePassword(String currentEmail, String currentPassword, String newPassword, String confirmNewPassword) {
+		this.setCurrentEmail(currentEmail);
+		this.setCurrentPassword(currentPassword);
+		this.setNewPassword(newPassword);
+		this.setConfirmNewPassword(confirmNewPassword);
+	}
+	
+	public void updateFirstName(String currentEmail, String newFirstName) {
+		this.setCurrentEmail(currentEmail);
+		this.setFirstName(newFirstName);
+	}
+	
+	public void updateLastName(String currentEmail, String newLastName) {
+		this.setCurrentEmail(currentEmail);
+		this.setLastName(newLastName);
+	}
+	
 }

@@ -10,7 +10,7 @@ public class CandidateViewPage {
 
 	WebDriver driver;
 	
-	By updateUserInfo = By.xpath("//a[@href='updateUser']");
+	By updateUserInfo = By.xpath("//a[@href='updateCredentials']");
 	By registerCandidateLink = By.xpath("//a[@href='recruit']");
 	By logoutButton = By.id("logout");
 	

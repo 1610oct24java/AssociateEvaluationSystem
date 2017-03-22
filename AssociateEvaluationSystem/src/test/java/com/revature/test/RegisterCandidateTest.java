@@ -19,7 +19,7 @@ import com.revature.pages.RegisterCandidatePage;
 
 public class RegisterCandidateTest {
 	
-	WebDriver driver;
+	static WebDriver driver;
 	LoginPage loginPage;
 	CandidateViewPage candidateViewPage;
 	RegisterCandidatePage registerCandidatePage;
@@ -32,6 +32,14 @@ public class RegisterCandidateTest {
 	String lastName = "test";
 	String email = "test@jonsfakemail.com";
 	String program = "Java";
+	
+//	@BeforeClass
+//	public static void setUpBeforeClass() throws Exception {
+//	}
+//
+//	@AfterClass
+//	public static void tearDownAfterClass() throws Exception {
+//	}
 
 	@Before
 	public void setUp() throws Exception {
@@ -47,17 +55,16 @@ public class RegisterCandidateTest {
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		
 		loginPage = new LoginPage(driver);
-		candidateViewPage = new CandidateViewPage(driver);
-		registerCandidatePage = new RegisterCandidatePage(driver);
-		
 		loginPage.loginToAES("nickolas.jurczak@revature.com", "password");
 		
-		// Delete candidate before creating the same candidate
-		registerCandidatePage.deleteCandidate(email);
+		candidateViewPage = new CandidateViewPage(driver);
+		candidateViewPage.clickRegisterCandidateLink();
 	}
 
 	@After
 	public void tearDown() throws Exception {
+		// Delete candidate before creating the same candidate
+		registerCandidatePage.deleteCandidate(email);
 		driver.quit();
 	}
 	
@@ -68,7 +75,7 @@ public class RegisterCandidateTest {
 		 * Register candidate and check if candidate exist in database
 		 */
 		
-		candidateViewPage.clickRegisterCandidateLink();
+		registerCandidatePage = new RegisterCandidatePage(driver);
 		registerCandidatePage.registerCandidate(firstName, lastName, email, program);
 		explicitWait(3);
 		assertTrue(registerCandidatePage.testCandidateExist(email));
@@ -80,8 +87,7 @@ public class RegisterCandidateTest {
 		/**
 		 * Register candidate and check if candidate shows up in the view
 		 */
-		
-		candidateViewPage.clickRegisterCandidateLink();
+		registerCandidatePage = new RegisterCandidatePage(driver);
 		explicitWait(3);
 		registerCandidatePage.registerCandidate(firstName, lastName, email, program);
 		registerCandidatePage.clickViewCandidates();		

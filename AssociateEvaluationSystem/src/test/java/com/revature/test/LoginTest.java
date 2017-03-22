@@ -46,7 +46,7 @@ public class LoginTest {
 
 	@After
 	public void tearDown() throws Exception {
-		driver.close();
+		driver.quit();
 	}
 
 	@Test
@@ -59,8 +59,8 @@ public class LoginTest {
 		
 		loginPage.loginToAES("nickolas.jurczak@revature.com", "password");
 		CandidateViewPage cvp = new CandidateViewPage(driver);
-		explicitWait(5);
-		assertEquals("AES | Recruiter Home", cvp.getTitle());
+		explicitWait(3);
+		assertEquals("Revature | AES", cvp.getTitle());
 	}
 	
 	@Test
@@ -75,9 +75,9 @@ public class LoginTest {
 		loginPage.setPassword("password");
 		loginPage.clickLogin();
 		AdminEmployeeViewPage aevp = new AdminEmployeeViewPage(driver);
-		explicitWait(5);
-		assertEquals("AES | Admin Home", aevp.getTitle());
-		
+		explicitWait(3);
+		//assertEquals("Revature | AES", aevp.getTitle());
+		assertTrue(aevp.verifyRegisterEmployeeLink());
 	}
 	
 	private void explicitWait(int seconds) {

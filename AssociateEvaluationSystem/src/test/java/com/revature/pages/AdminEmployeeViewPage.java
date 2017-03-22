@@ -57,4 +57,8 @@ public class AdminEmployeeViewPage {
 		Select se = new Select(wb);
 		se.selectByVisibleText(order);
 	}
+	
+	public boolean verifyRegisterEmployeeLink() {
+		return driver.findElement(registerEmployeeLink).isDisplayed();
+	}
 }
