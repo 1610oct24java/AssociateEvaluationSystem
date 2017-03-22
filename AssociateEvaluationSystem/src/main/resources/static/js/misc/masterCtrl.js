@@ -1,4 +1,4 @@
-angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', function($scope, $rootScope, $log, $state){
+angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', 'Upload',function($scope, $rootScope, $log, $state, Upload){
 	
 	
 	
@@ -25,7 +25,7 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
 	};
 	
 	// ngProgress bar initialization
-	/*$scope.progressbar = ngProgressFactory.createInstance;
+//	$scope.progressbar = ngProgressFactory.createInstance;
 	
     $scope.uploadFile = function(){
     	// Start the progressbar
@@ -39,10 +39,10 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
     };
     
     // Stops the progressbar from.. progressing
-    $scope.completeProgressbar = function(){
-    	$scope.progressbar.stop;
-        $scope.progressbar.complete;
-    }
+//    $scope.completeProgressbar = function(){
+//    	$scope.progressbar.stop;
+//        $scope.progressbar.complete;
+//    }
     
     $scope.busy = true;
     $scope.ready = false;
@@ -50,9 +50,32 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
     $scope.files = [];
 
     $scope.$watch('files', function () { 
-      $scope.upload($scope.files);
+    	console.log("WATCH called");
+    	angular.forEach($scope.files, function(file){
+    		var fileArr = [file];    		
+    		$scope.upload(fileArr, file.type);
+    	})
+      
     });
-
+    
+   $scope.submitSnippetFiles = function(){
+	   console.log("Adding Snippet Files");
+	   $scope.files.push($scope.snippetTemplateFile);
+	   $scope.files.push($scope.answerSnippetFile);
+	   console.log($scope.files);
+	   $scope.upload($scope.files, '.java');
+	   
+   }
+//
+//    $scope.$watch('snippetTemplateFile', function () { 
+//    	console.log("WATCH snippetTemplateFile");
+//      $scope.upload($scope.snippetTemplateFile);
+//    });
+//    
+//    $scope.$watch('answerSnippetFile', function () { 
+//    	console.log("WATCH answerSnippetFile");
+//      $scope.upload($scope.answerSnippetFile);
+//    });
     
 	$scope.progressUpdater = function(evt){
 		return parseInt(100.0 * evt.loaded / evt.total);
@@ -63,20 +86,25 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
 		
 	};
 	
-    $scope.upload = function (files) {
+    $scope.upload = function (files, key) {
 
           if (files && files.length) {
-              for (var i = 0; i < files.length; i++) {
-                  var file = files[i];
+              for (var i = 0; i < files.length; i++) { 
+            	  var file = files[i];
                   Upload.upload({
-                      url: '/admin-api/files/upload',
-                      fields: {
-                        'filecontext': 'product',
-                      },
-                      file: file
-                  }).progress(progressUpdater(evt))
-                  .success(someFunction(data, status, headers, config));
+                      url: 'rest/s3uploadFile/',
+                      method: 'POST',
+//                      fields: {
+//                        'filecontext': 'product',
+//                      },
+                     file: file
+                  }).then(function(data, status, headers, config){
+                	  //$scope.progressUpdater(evt);
+                	  console.log("Hi from then!")
+                	  $scope.someFunction(data, status, headers, config);
+                  });
+                  
               }
           }
-      };*/
+      };
 }]);
