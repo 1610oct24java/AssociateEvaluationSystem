@@ -1,4 +1,4 @@
-var adminApp = angular.module('adminApp',[]);
+var adminApp = angular.module('adminApp',['ngMaterial', 'ngMessages']);
 
 adminApp.constant("SITE_URL", {
 	"HTTP" : "http://",
@@ -32,6 +32,28 @@ adminApp.constant("ROLE", {
 	"CANDIDATE" : "ROLE_CANDIDATE",
 	"ADMIN"		: "ROLE_ADMIN"
 });
+
+adminApp.config(function($mdThemingProvider) {
+
+    var revOrangeMap = $mdThemingProvider.extendPalette("deep-orange", {
+        "A200": "#FB8C00",
+        "100": "rgba(89, 116, 130, 0.2)"
+    });
+
+    var revBlueMap = $mdThemingProvider.extendPalette("blue-grey", {
+        "500": "#37474F",
+        "800": "#3E5360"
+    });
+
+    $mdThemingProvider.definePalette("revOrange", revOrangeMap);
+    $mdThemingProvider.definePalette("revBlue", revBlueMap);
+
+    $mdThemingProvider.theme("default")
+        .primaryPalette("revBlue")
+        .accentPalette("revOrange");
+});
+
+
 
 adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE_URL, API_URL, ROLE) {
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
@@ -95,7 +117,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 			window.location = SITE_URL.LOGIN;
 		});
 	}
-}); //end register Employee controller
+});
 
 adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_URL, ROLE) {
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
@@ -244,16 +266,36 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 	
 }); //end update credentials controller
 
-//Billy Adding controller for assessment creation
-adminApp.controller('CreateAssessmentCtrl',function ($scope,$http, SITE_URL, API_URL, ROLE) {
+adminApp.controller('CreateAssessmentCtrl', function($scope, $http, SITE_URL, API_URL, ROLE) {
 
-    $scope.times = [
-        "15 Minutes",
-        "30 Minutes",
-        "45 Minutes",
-        "60 Minutes"
-    ]
+    $(document).ready(function() {
+        $('#example').DataTable({
+            sDom: 'rt',
+            fixedColumns: true,
+            scrollY: "220px",
+            scrollX: false,
+            paging: false
+        });
+    });
 
+
+    $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
+        .then(function(response) {
+            if (response.data.authenticated) {
+                var authUser = {
+                    username: response.data.principal.username,
+                    authority: response.data.principal.authorities[0].authority
+                };
+                $scope.authUser = authUser;
+                if ($scope.authUser.authority != ROLE.ADMIN) {
+                    window.location = SITE_URL.LOGIN;
+                };
+            } else {
+                window.location = SITE_URL.LOGIN;
+            }
+        });
+
+    $scope.times = [15, 30, 45, 60, 75, 90];
     $scope.categories = [
         "HTML",
         "CSS",
@@ -264,89 +306,140 @@ adminApp.controller('CreateAssessmentCtrl',function ($scope,$http, SITE_URL, API
         "C#",
         "Java",
         "Critical Thinking"
-    ]
-
+    ];
     $scope.types = [
         "Drag and Drop",
         "Multiple Choice",
         "Multiple Select",
         "Coding Snippet"
-    ]
+    ];
 
-	//variables to hold time and assessment criteria
-    $scope.assessment = [];
-    $scope.time = '';
+    $scope.assessments = [];
+    $scope.totalQuestions = 0;
+    $scope.totalCategories = 0;
+    $scope.totalTypes = 0;
+    $scope.time;
 
-    //remove a criteria
-    $scope.removeRow = function(index) {
-        $scope.assessment.splice(index, 1);
+    function UpdateTotals(quantity) {
+        $scope.totalCategories = UniqueArraybyId($scope.assessments, "category");
+        console.log("Total categories = " + $scope.totalCategories);
+        $scope.totalTypes = UniqueArraybyId($scope.assessments, "type");
+        console.log("Total types = " + $scope.totalTypes);
+        $scope.totalQuestions += quantity;
+        console.log("Total questions = " + $scope.totalQuestions);
+    }
+
+
+    function UniqueArraybyId(collection, keyname) {
+        var output = [],
+            keys = [];
+
+        angular.forEach(collection, function(item) {
+            var key = item[keyname];
+            if (keys.indexOf(key) === -1) {
+                keys.push(key);
+                output.push(item);
+            }
+        });
+        return output.length;
     };
 
-    //add a criteria
+    $scope.removeRow = function(index) {
+        var tempQuantity = $scope.assessments[index]['quantity'];
+        $scope.assessments.splice(index, 1);
+        UpdateTotals(-tempQuantity);
+    };
+
     $scope.addRow = function() {
-        $scope.assessment.push({ 'category': $scope.category, 'type': $scope.type, 'quantity': $scope.quantity });
+        $scope.assessments.push({ 'category': $scope.category, 'type': $scope.type, 'quantity': $scope.quantity });
+        UpdateTotals($scope.quantity);
+        $scope.sectionForm.$setPristine();
+        $scope.sectionForm.$setUntouched();
         $scope.category = '';
         $scope.type = '';
         $scope.quantity = '';
     };
 
-
-
     //creates url and performs AJAX call to appropriate REST endpoint
-	//sending the assessment time and criteria
+    //sending the assessment time and criteria
     $scope.createAssessment = function() {
 
         //build test JSON
-        data = {"timeLimit": 45,
-            "categoryRequestList": [
-                {   "category": { "categoryId": 6,
+        data = {
+            "timeLimit": $scope.time,
+            "categoryRequestList": [{
+                "category": {
+                    "categoryId": 6,
                     "name": "core language"
                 },
-                    "msQuestions" : 5,
-                    "mcQuestions" : 25,
-                    "ddQuestions" : 0,
-                    "csQuestions" : 1
-                },{ "category": { "categoryId": 2,
+                "msQuestions": 5,
+                "mcQuestions": 25,
+                "ddQuestions": 0,
+                "csQuestions": 1
+            }, {
+                "category": {
+                    "categoryId": 2,
                     "name": "OOP"
                 },
-                    "msQuestions" : 1,
-                    "mcQuestions" : 3,
-                    "ddQuestions" : 0,
-                    "csQuestions" : 0
-                },{ "category": { "categoryId": 3,
+                "msQuestions": 1,
+                "mcQuestions": 3,
+                "ddQuestions": 0,
+                "csQuestions": 0
+            }, {
+                "category": {
+                    "categoryId": 3,
                     "name": "Data Structures"
                 },
-                    "msQuestions" : 1,
-                    "mcQuestions" : 0,
-                    "ddQuestions" : 0,
-                    "csQuestions" : 0
-                },{ "category": { "categoryId": 4,
+                "msQuestions": 1,
+                "mcQuestions": 0,
+                "ddQuestions": 0,
+                "csQuestions": 0
+            }, {
+                "category": {
+                    "categoryId": 4,
                     "name": "SQL"
                 },
-                    "msQuestions" : 3,
-                    "mcQuestions" : 5,
-                    "ddQuestions" : 1,
-                    "csQuestions" : 0
-                }
-            ]
-        }
+                "msQuestions": 3,
+                "mcQuestions": 5,
+                "ddQuestions": 1,
+                "csQuestions": 0
+            }]
+        };
 
         //var sendUrl = SITE_URL.BASE + API_URL.BASE + "/assessmentrequest/" + "1";
         var sendUrl = SITE_URL.BASE + API_URL.BASE + "/assessmentrequest" + "/1/";
 
         $http({
-            method  : 'PUT',
+            method: 'PUT',
             url: sendUrl,
-             headers : {'Content-Type' : 'application/json'},
-             data    : data
-        }).success( function(response) {
+            headers: { 'Content-Type': 'application/json' },
+            data: data
+        }).success(function(response) {
             console.log("success");
             console.log(sendUrl);
-        }).error( function(response) {
+        }).error(function(response) {
             console.log("fail");
             console.log(sendUrl);
         });
     };
+
+
+
+
+    //initialize data
+    $http({
+        method: "GET",
+        url: "category"
+    }).then(function (response) {
+        $scope.categories = response.data;
+    });
+
+    $http({
+        method: "GET",
+        url: "format"
+    }).then(function (response) {
+        $scope.formats = response.data;
+    });
 
 
     //logout
@@ -355,6 +448,43 @@ adminApp.controller('CreateAssessmentCtrl',function ($scope,$http, SITE_URL, API
             .then(function(response) {
                 window.location = SITE_URL.LOGIN;
             })
-    }
+    };
+});
+
+adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav, $log) {
+    var mc = this;
+
+    // functions
+    // sets navbar to current page even on refresh
+    mc.findCurrentPage = function() {
+
+        var path = window.location.pathname.substr(1);
+
+        switch(path) {
+            case "aes/registerEmployee" : return "employees";
+            case "aes/updateEmployee" : return "employees";
+            case "aes/createAssessment" : return "assessments";
+            case "aes/parser" : return "parser";
+            default : return "overview"
+        }
+    };
+
+    mc.buildToggler = function(navID) {
+        return function() {
+            $mdSidenav(navID)
+                .toggle()
+                .then(function() {
+                    $log.debug("toggle " + navID + " is done");
+                });
+        };
+    };
+    $scope.isOpenLeft = function() {
+        return $mdSidenav('left').isOpen();
+    };
+
+
+    // data
+    mc.currentPage = mc.findCurrentPage();
+    $scope.toggleLeft = mc.buildToggler('left');
 
 });

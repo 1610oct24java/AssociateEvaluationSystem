@@ -13,35 +13,17 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 <!-- included for mobile scaling -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
-<link rel="stylesheet" href="css/bigwilliestyle.css">
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+    <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="css/aesMaterials.css">
 </head>
 
 <body ng-app="adminApp" ng-controller="EmployeeViewCtrl">
-
+<div>
+    <ng-include src="'menu.html'" />
+</div>
 <div class="container">
-	<div class="container logo">
-			<img src="images/Revature-Logo.png" alt="Revature" height="75px">
-	</div>
-
-	<span>
-		<span class="col-md-4">
-			<a href="registerEmployee">Register Employee</a>
-		</span>
-		<span class="col-md-4">
-			<a href="createAssessment">Set Assessment Template</a>
-		</span>
-		<span class="col-xs-6 col-md-6">
-			<a href="updateEmployee">Update Employee</a>
-		</span>
-		<span class="col-xs-4 col-md-4">
-			<a href="parser">Xml Parser</a>
-		</span>
-		<span class="col-md-3"></span>
-		<span class="col-md-3">
-			<button id="logout" class="btn-revature" ng-click="logout()">logout</button>
-		</span>
-</span>
 
 	<div class="row">
 	
@@ -87,8 +69,14 @@
 	</div>
 
 </div>
-
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.9/angular.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-animate.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-aria.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-messages.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-sanitize.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.js"></script>
 <script type="text/javascript" src="js/adminApp.js"></script>
 </body>
 </html>
