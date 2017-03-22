@@ -38,7 +38,7 @@ public class Option implements Serializable {
 	@GenericGenerator(name="AES_OPTION_SEQ", strategy="org.hibernate.id.enhanced.SequenceStyleGenerator", parameters={
 			@Parameter(name="sequence_name", value="AES_OPTION_SEQ"),
 			@Parameter(name="optimizer", value="hilo"),
-			@Parameter(name="initial_value",value="1"),
+			@Parameter(name="initial_value",value="700"),
 			@Parameter(name="increment_size",value="1")
 	})
 	@Column(name = "OPTION_ID")
