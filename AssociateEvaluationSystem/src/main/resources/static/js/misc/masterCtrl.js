@@ -1,4 +1,4 @@
-angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', 'Upload', ,function($scope, $rootScope, $log, $state, Upload, questionBuilderService){
+angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', 'Upload', 'questionBuilderService',function($scope, $rootScope, $log, $state, Upload, questionBuilderService){
 	
 	
 	
@@ -65,6 +65,15 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
 	   console.log($scope.files);
 	   $scope.upload($scope.files, ['SnippetTemplates', 'SnippetSolutions']);
 	   
+   }
+   
+   $scope.submitSnippetText = function(){
+	   console.log("Building snippet question from text");
+	   var builder = new questionBuilderService.questionBuilder();
+	   builder.createSnippetQuestionBuilder("Write code to complete this function.","java","SnippetTemplates/s3TesterTemplate.java","SnippetSolutions/s3Tester.java");
+	   builder.addQuestionCategory(1,"Java");
+	   question = builder.build();
+	   console.log(question);
    }
    
 

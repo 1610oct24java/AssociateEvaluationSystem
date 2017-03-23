@@ -1,86 +1,74 @@
-app.service("questionBuilderService", function(){
-	function questionBuilder() {
+app.service("questionBuilderService", function($http){
+	this.questionBuilder = function() {
 
-		question = null;
-		snippet = createQuestionSnippet;
-		question = createQuestion;
-		format = createFormat;
-		category = {};		
-
-		createQuestionSnippet = function(){
+		this.question = {};
+		this.invalid = false;
+		
+		// required always
+		this.question.format = {};
+		this.question.questionText = "";
+		
+		// required if Multiple Choice or Multiple Select
+		this.question.option = null;
+		
+		// required if Drag and Drop
+		this.question.dragdrop = null;
+		
+		// required if Code Snippet
+		this.question.snippetTemplates = null;
+		
+		// optional
+		this.question.questionCategory = null;
+		this.question.questionTags = null;
+		
+		this.createMultipleChoiceQuestionBuilder = function (questionText, options){
+			this.question.format.formatId = 1;
+			this.question.format.formatName = "Multiple Choice";
+			this.question.questionText = questionText;
+			this.question.option = options;
+		}
+		
+		this.createMultipleSelectQuestionBuilder = function (questionText, options){
+			this.question.format.formatId = 2;
+			this.question.format.formatName = "Multiple Select";
+			this.question.questionText = questionText;
+			this.question.option = options;
+		}
+		
+		this.createDragAndDropQuestionBuilder = function (questionText, dragdrop){
+			this.question.format.formatId = 3;
+			this.question.format.formatName = "Drag and Drop";
+			this.question.questionText = questionText;
+			this.question.dragdrop = dragdrop;
 			
-			snippet.fileType = "";
-			snippet.snippetTemplateURL = "";
-			snippet.solutionURL = "";
-			return snippet;
-		}
-
-		createQuestion = function(){
-			
-			question.questionText = "";
-			question.questionFormatID = 0;
-			return question;
-		}
-
-		createFormat = function(){		    
-			format.formatID = 0;
-			format.formatName = "";
 		}
 		
-		build = function(){
-			return question;
+		this.createSnippetQuestionBuilder = function (questionText, fileType, templateURL, solutionURL){
+			this.question.format.formatId = 4;
+			this.question.format.formatName = "Code Snippet";
+			this.question.questionText = questionText;
+			this.question.snippetTemplates = [{fileType, templateURL, solutionURL}];
 		}
-	}
-	
-	
-	
-	setFormat = function(name){
-	    $http({
-	        method: "GET",
-	        url: "format"
-	    }).then(function (response) {
-	        formats = response.data;
-	    });
-	    
-	    angular.foreach(formats, function(value,key){
-	    	console.log(key + ': ' + value);
-	    	
-	    });
-	}
-	
-	setQuestionCategory =  function(name){
-		 $http({
-		        method: "GET",
-		        url: "category"
-		    }).then(function (response) {
-		        categories = response.data;
-		    });
-		 angular.foreach(categories, function(value,key){
-		    	console.log(key + ': ' + value);
-		    	
-		    });
-	}
-	
-	setSnippetTemplateURL = function(folderName, fileName) {
-		snippet.snippetTemplateURL = folderName + '/' + fileName;
-	}
-	
-	setSolutionURL = function(folderName, fileName) {
-		snippet.solutionURL= folderName + '/' + fileName;
-	}
-	
-	setQuestionSnippet = function(fileType){
 		
-		snippet.fileType = fileType;
-		snippet.snippetTemplateURL = snippet.snippetTemplateURL;
-		snippet.solutionURL = snippet.solutionURL;
-		snippet= snippet;
-	}
-	
-	setQuestion = function(questionText, questionFormatID){
+		this.addQuestionCategory = function(categoryId, name){
+			if(this.question.questionCategory === null){
+				this.question.questionCategory = [];
+			}
+			var category = {};
+			category.categoryId = categoryId;
+			category.name = name;
+			this.question.questionCategory.push(category);
+		}
 		
-		question.questionText = questionText;
-		question.questionFormatID = FormatID;
-		question = question;
-	}
+		this.addQuestionTags = function(questionTags){
+			if(this.question.questionTags === null){
+				this.question.questionTags = [];
+			}
+			// TODO: Implement
+		}
+		
+		this.build = function(){
+			return this.question;
+		}
+	}	
 });
