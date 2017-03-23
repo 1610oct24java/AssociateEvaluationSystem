@@ -1,4 +1,4 @@
-angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', 'Upload',function($scope, $rootScope, $log, $state, Upload){
+angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', 'Upload', ,function($scope, $rootScope, $log, $state, Upload, questionBuilderService){
 	
 	
 	
@@ -66,6 +66,9 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
 	   $scope.upload($scope.files, ['SnippetTemplates', 'SnippetSolutions']);
 	   
    }
+   
+
+   
 //
 //    $scope.$watch('snippetTemplateFile', function () { 
 //    	console.log("WATCH snippetTemplateFile");

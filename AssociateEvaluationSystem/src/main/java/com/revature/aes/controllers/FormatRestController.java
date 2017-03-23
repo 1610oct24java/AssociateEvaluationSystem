@@ -29,6 +29,7 @@ import com.revature.aes.service.FormatService;
  * object.
  */
 @RestController
+@RequestMapping("/rest")
 public class FormatRestController
 {
 	/**
