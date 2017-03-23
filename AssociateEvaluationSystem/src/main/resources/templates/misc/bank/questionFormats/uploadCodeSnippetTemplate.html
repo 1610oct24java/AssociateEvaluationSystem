@@ -1,18 +1,21 @@
 <div ng-controller="MasterCtrl">
-<h2>Choose a .java file to upload:</h2>
+<h2>Upload files to create snippet:</h2>
+<h3>Question Text:</h3>
+<textarea rows="3" cols="65" id="questionTextBox"></textarea>
+<h3>File Upload:</h3>
 <table>
 	<tr>
 		<td>
 			<div ngf-select ngf-drop ng-model="snippetTemplateFile" class="drop-box"
 				ngf-drag-over-class="{ accept:'dragover', reject:'dragover-err', delay:100}"
 				ngf-multiple="true" ngf-allow-dir="false" >Drag and
-				drop question template files here.</div>
+				drop question template files here!</div>
 		</td>
 		<td>
 			<div ngf-select ngf-drop ng-model="answerSnippetFile" class="drop-box"
 				ngf-drag-over-class="{ accept:'dragover', reject:'dragover-err', delay:100}"
 				ngf-multiple="true" ngf-allow-dir="false" >Drag and
-				drop answer snippet files here.!</div>
+				drop answer snippet files here!</div>
 		</td>
 	</tr>
 </table> 
@@ -21,12 +24,12 @@
 
 
 <br>
-<h2>Or type in the question template and answer snippet:</h2>
-<h3>Enter file name:</h3>
+<h2>Enter text to create snippet:</h2>
+<h3>File Name:</h3>
 <input type="text" id="fileName">
+<h3>Question Text:</h3>
+<textarea rows="3" cols="65" id="questionTextBox"></textarea>
 <h3> Enter question template:</h3>
-
-
 <textarea rows="10" cols="120" id="questionTemplateBox"></textarea>
 <h3> Enter answer code snippet:</h3>
 <textarea rows="10" cols="120" id="answerSnippetBox"></textarea><br>
