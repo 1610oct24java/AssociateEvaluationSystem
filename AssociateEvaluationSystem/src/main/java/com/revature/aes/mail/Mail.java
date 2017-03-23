@@ -89,12 +89,16 @@ public class Mail {
     public void sendEmail(MailObject m, String email) {
         User candidate = us.findUserByEmail(email);
         User recruiter = null;
+        String recruiterEmail;
 
-        if (recruiter.getRecruiterId() != null) {
+        if (candidate.getRecruiterId() != null) {
             recruiter = ud.findOne(candidate.getRecruiterId());
+            recruiterEmail = recruiter.getEmail();
+        }
+        else{
+            recruiterEmail=email;
         }
 
-        String recruiterEmail = recruiter.getEmail();
         SimpleMailMessage simpleMailMessage = null;
 
         switch (m.getType()) {
