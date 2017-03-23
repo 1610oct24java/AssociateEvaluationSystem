@@ -86,7 +86,7 @@ public class Mail {
 
     }
 
-    public void sendEmail(MailObject m, String email) {
+    public boolean sendEmail(MailObject m, String email) {
         User candidate = us.findUserByEmail(email);
         User recruiter = null;
         String recruiterEmail;
@@ -94,9 +94,8 @@ public class Mail {
         if (candidate.getRecruiterId() != null) {
             recruiter = ud.findOne(candidate.getRecruiterId());
             recruiterEmail = recruiter.getEmail();
-        }
-        else{
-            recruiterEmail=email;
+        } else {
+            recruiterEmail = email;
         }
 
         SimpleMailMessage simpleMailMessage = null;
@@ -131,12 +130,19 @@ public class Mail {
         }
 
         simpleMailMessage.setFrom(SENDER);
-        if (!ms.sendEmail(simpleMailMessage) && m.getType().equals("candidateNeedsQuiz")) {
+        if (!ms.sendEmail(simpleMailMessage)){
 
-            m.setType("candidateEmailNotDelivered");
-            sendEmail(m, email);
+            if (m.getType().equals("candidateNeedsQuiz")) {
 
+                m.setType("candidateEmailNotDelivered");
+                sendEmail(m, email);
+            }
+
+            return false;
         }
+
+        return true;
+
     }
 
     private String formatMessage(String prompt, User candidate, User recruiter, MailObject m) {

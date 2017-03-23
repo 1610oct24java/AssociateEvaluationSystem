@@ -125,10 +125,12 @@
 					<table class="table table-striped table-bordered">
 						<tr>
 							<td>
-								<select id="courseSelect" class="col-xs-8 col-md-6"ng-model="program" ng-options="option.name for option in options" required>
+								<form name="form{{candidate.userId}}">
+								<select id="courseSelect" class="col-xs-8 col-md-6"ng-model="program" ng-options="option.name for option in options" ng-required="true">
 									<option value="" hidden>select program</option>
 								</select>
-								<button id="sendAssessment" class="btn-revature" ng-click="sendAssessment(candidate.email,program.value)">Submit</button>
+								<input type="submit" id="sendAssessment" class="btn-revature" ng-click="form{{candidate.userId}}.$valid && sendAssessment(candidate.email,program.value)"/>
+								</form>
 							</td>
 						</tr>
 					</table>

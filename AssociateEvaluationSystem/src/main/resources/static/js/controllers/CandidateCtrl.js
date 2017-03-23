@@ -250,6 +250,7 @@ angular.module('AESCoreApp').controller('CandidateCtrl', function($scope,$locati
             data    : candidateInfo
         }).success( function() {
             $scope.sendSuccessful = true;
+
         }).error( function() {
         });
         console.log($scope.sendSuccessful);

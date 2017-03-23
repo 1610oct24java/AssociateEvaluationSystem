@@ -1,7 +1,7 @@
 public class FizzBuzzAnswer {
 
     public static void main(String[] args) {
-        System.out.println("Will not work");
+        // write your code here
        
     }
 }
