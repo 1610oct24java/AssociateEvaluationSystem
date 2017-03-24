@@ -114,7 +114,9 @@
 			<tr>
 				<td>{{candidate.lastName + ', ' + candidate.firstName}}</td>
 				<td>{{candidate.email}}</td>
-				<td>{{candidate.grade}}</td>
+				<td>
+					<div ng-if="candidate.grade == -1">Test not taken</div>
+					<div ng-if="candidate.grade != -1">{{candidate.grade}}</div></td>
 				<td> <input type="button" value="Send Assessment" ng-click="show('f'+candidate.userId)"></td>
 				<td style="text-align:center;">
 					<span  ng-click="show2('g'+candidate.userId, candidate.email)"  class="glyphicon glyphicon-chevron-down"></span>
