@@ -48,7 +48,7 @@ app.service("questionBuilderService", function($http){
 			this.question.format.formatId = 4;
 			this.question.format.formatName = "Code Snippet";
 			this.question.questionText = questionText;
-			snippetTemplateId = 1;
+			snippetTemplateId = null;
 			this.question.snippetTemplates = [{snippetTemplateId, fileType, templateUrl, solutionUrl}];
 		}
 		

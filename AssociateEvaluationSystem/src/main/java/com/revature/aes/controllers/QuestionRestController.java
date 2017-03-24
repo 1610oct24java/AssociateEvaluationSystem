@@ -1,11 +1,9 @@
 package com.revature.aes.controllers;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.revature.aes.beans.*;
-import org.junit.experimental.categories.Categories;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,10 +13,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.aes.beans.Category;
+import com.revature.aes.beans.DragDrop;
+import com.revature.aes.beans.Format;
+import com.revature.aes.beans.Option;
+import com.revature.aes.beans.Question;
+import com.revature.aes.beans.QuestionOptionsJSONHandler;
+import com.revature.aes.beans.SnippetTemplate;
 import com.revature.aes.logging.Logging;
 import com.revature.aes.service.DragDropService;
 import com.revature.aes.service.OptionService;
 import com.revature.aes.service.QuestionService;
+import com.revature.aes.service.SnippetTemplateService;
 
 /**
  * The Rest Controller that handles HTTP Requests and Response for the Question
@@ -53,6 +59,13 @@ public class QuestionRestController
 	private DragDropService ddService;
 
 	/**
+	 * @snippetTemplateService 		The service used to handle HTTPs Requests and Responses
+	 * 								for the Drag and Drop Options
+	 */
+	@Autowired
+	private SnippetTemplateService snippetTemplateService;	
+	
+	/**
 	 * Stores a Question into a database
 	 * 
 	 * @param question the Question to be persisted into the database
@@ -64,7 +77,32 @@ public class QuestionRestController
 	public Question addQuestion(@RequestBody Question question)
 	{
 		System.out.println("\n\n\n\n\n\n\n\n"+question+"\n\n\n\n\n\n\n\n");
-		return questionService.addQuestion(question);
+		Set<SnippetTemplate> snippetTemplates = question.getSnippetTemplates();
+		
+		System.out.println(1);
+		if(snippetTemplates != null && !snippetTemplates.isEmpty())
+		{
+			question.setSnippetTemplates(null);
+			System.out.println(2);
+			question = questionService.addQuestion(question);	
+			System.out.println(3);
+			question.setSnippetTemplates(new HashSet<SnippetTemplate>());
+			System.out.println(4);
+			for(SnippetTemplate st: snippetTemplates)
+			{
+				System.out.println(5);
+				st.setQuestion(question);
+				snippetTemplateService.addSnippetTemplate(st);
+				question.getSnippetTemplates().add(st);
+			}
+			System.out.println(6);
+			return question;
+		}
+		else
+		{			
+			System.out.println(7);
+			return questionService.addQuestion(question);
+		}
 	}
 
 	/**

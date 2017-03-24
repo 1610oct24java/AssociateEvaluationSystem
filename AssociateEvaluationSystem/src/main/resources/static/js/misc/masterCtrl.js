@@ -70,7 +70,7 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
    $scope.submitSnippetText = function(){
 	   console.log("Building snippet question from text");
 	   var builder = new questionBuilderService.questionBuilder();
-	   builder.createSnippetQuestionBuilder('Write code to complete this function.','Java','SnippetTemplates/s3TesterTemplate.java','SnippetSolutions/s3Tester.java');
+	   builder.createSnippetQuestionBuilder('I am a new code snippet question.','Java','SnippetTemplates/s3TesterTemplate.java','SnippetSolutions/s3Tester.java');
 	   builder.addQuestionCategory(1,'Java');
 	   question = builder.build();
 	   console.log(question);
