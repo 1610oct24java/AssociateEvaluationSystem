@@ -24,9 +24,6 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
 		$scope.templateName = "Upload Assessment";
 	};
 	
-	// ngProgress bar initialization
-//	$scope.progressbar = ngProgressFactory.createInstance;
-	
     $scope.uploadFile = function(){
     	// Start the progressbar
     	$scope.progressbar.start;
@@ -38,11 +35,6 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
         	.then($scope.completeProgressbar);
     };
     
-    // Stops the progressbar from.. progressing
-//    $scope.completeProgressbar = function(){
-//    	$scope.progressbar.stop;
-//        $scope.progressbar.complete;
-//    }
     
     $scope.busy = true;
     $scope.ready = false;
@@ -59,6 +51,7 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
     });
     
    $scope.submitSnippetFiles = function(){
+	   
 	   if($scope.snippetTemplateFile != undefined && $scope.answerSnippetFile != undefined && $scope.questionText != undefined && $scope.fileType != undefined){
 		   //Upload the files to the s3 container
 		   console.log("Adding Snippet Files");
@@ -94,6 +87,8 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
    }
    
    $scope.submitSnippetText = function(){
+	   
+	  if($scope.textSnippetFileName != undefined && $scope.textSnippetQuestionText != undefined && $scope.textSnippetFileType != undefined && $scope.textSnippetQuestionTemplate != undefined && $scope.textSnippetAnswerSnippet != undefined){
 	   console.log("Building snippet question from text");
 	   
 	   var builder = new questionBuilderService.questionBuilder();
@@ -104,17 +99,7 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
 	   builder.addQuestionCategory(1, $scope.textSnippetFileType);
 	   question = builder.build();
 	   console.log(question);
-	   /*
-	   questionJSON = JSON.stringify(question);
-	   console.log(question);
-	    $http({
-	        method: "POST",
-	        url: "question",
-	        data: questionJSON
-	    }).then(function (response) {
-	        console.log(response.data)
-	    });
-	    */
+
 	    console.log("/s3uploadTextAsFile/" + question.snippetTemplates[0].templateUrl);
 	    var url = String();	   
 
@@ -145,21 +130,9 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
 			    }).then(function (response) {
 			        console.log(response.data)
 			    });
-	    
+	  }
    }
    
-
-   
-//
-//    $scope.$watch('snippetTemplateFile', function () { 
-//    	console.log("WATCH snippetTemplateFile");
-//      $scope.upload($scope.snippetTemplateFile);
-//    });
-//    
-//    $scope.$watch('answerSnippetFile', function () { 
-//    	console.log("WATCH answerSnippetFile");
-//      $scope.upload($scope.answerSnippetFile);
-//    });
     
 	$scope.progressUpdater = function(evt){
 		return parseInt(100.0 * evt.loaded / evt.total);
@@ -186,21 +159,7 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
             	        console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
             	    }).success(function (data, status, headers, config) {
             	        console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
-            	    });
-            	  
-//                  Upload.upload({
-//                      url: 'rest/s3uploadFile/',
-//                      method: 'POST',
-////                      fields: {
-////                        'filecontext': 'product',
-////                      },
-//                     file: file
-//                  }).then(function(data, status, headers, config){
-//                	  //$scope.progressUpdater(evt);
-//                	  console.log("Hi from then!")
-//                	  $scope.someFunction(data, status, headers, config);
-//                  });
-                  
+            	    });            	  
               }
           }
       };
