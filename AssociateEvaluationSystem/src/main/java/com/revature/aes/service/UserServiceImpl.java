@@ -179,7 +179,14 @@ public class UserServiceImpl implements UserService {
 	public String createEmployee(User employee){
 		
 		SimpleDateFormat fmt = new SimpleDateFormat(PATTERN);
-		
+
+		//check if employee did not supply email, or if email is already registered to another user
+		if (employee.getEmail() == null || dao.findUserByEmail(employee.getEmail()) != null) {
+
+			return null;
+
+		}
+
 		User user = new User();
 		user.setEmail(employee.getEmail());
 		user.setFirstName(employee.getFirstName());

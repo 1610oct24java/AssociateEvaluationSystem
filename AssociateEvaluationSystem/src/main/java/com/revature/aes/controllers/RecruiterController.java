@@ -2,10 +2,14 @@ package com.revature.aes.controllers;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.revature.aes.beans.UserUpdateHolder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -96,14 +100,27 @@ public class RecruiterController {
 	 *		User object with candidate's email and format for assessment
 	 */
 	@RequestMapping(value="/recruiter/candidate/assessment", method=RequestMethod.POST)
-	public void sendAssessment(@RequestBody User user){
+	public ResponseEntity<Map> sendAssessment(@RequestBody User user){
+		Map<String, String> response = new HashMap<>();
+
 		User candidate = userService.findUserByEmail(user.getEmail());
 
 		String pass = userService.setCandidateSecurity(candidate);
 		candidate.setFormat(user.getFormat());
 		String link = client.finalizeCandidate(candidate, pass);
 		System.out.println(link);
-		mailService.sendPassword(candidate.getEmail(), link, pass);
+		if(mailService.sendPassword(candidate.getEmail(), link, pass)){
+
+			response.put("msg", "success");
+			return ResponseEntity.ok(response);
+
+		}
+		else{
+
+			response.put("msg", "failed to send assessment");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+
+		}
 	}
 	
 	/**
@@ -196,9 +213,18 @@ public class RecruiterController {
 	}
 
 	@RequestMapping(value="/recruiter/{currentEmail}/update", method= RequestMethod.PUT)
-	public void updateEmployee(@RequestBody UserUpdateHolder userUpdate, @PathVariable String currentEmail){
+	public ResponseEntity<Map> updateEmployee(@RequestBody UserUpdateHolder userUpdate, @PathVariable String currentEmail){
 		User currentUser = userService.findUserByEmail(currentEmail);
-		userService.updateEmployee(currentUser, userUpdate);
+		Map<String,String> response = new HashMap<>();
+
+		if (userService.updateEmployee(currentUser, userUpdate)) {
+			response.put("msg", "success");
+			return ResponseEntity.status(HttpStatus.OK).body(response);
+		}
+		else {
+			response.put("msg", "invalid credentials");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+		}
 	}
 	
 	@RequestMapping(value="roles/init",method = RequestMethod.GET)

@@ -42,7 +42,7 @@ public class Logging {
 		try{
 			result = pjp.proceed();
 		} catch(Exception e){
-			StackTraceElement thing = Thread.currentThread().getStackTrace()[1];
+			StackTraceElement thing = e.getStackTrace()[1];
 			Error.error("\nat Line:\t"
 					+ thing.getLineNumber()
 					+ "\nin Method:\t"
