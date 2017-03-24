@@ -64,8 +64,7 @@ public class QuestionRestController
 	public Question addQuestion(@RequestBody Question question)
 	{
 		System.out.println("\n\n\n\n\n\n\n\n"+question+"\n\n\n\n\n\n\n\n");
-		// return questionService.addQuestion(question);
-		return null;
+		return questionService.addQuestion(question);
 	}
 
 	/**
