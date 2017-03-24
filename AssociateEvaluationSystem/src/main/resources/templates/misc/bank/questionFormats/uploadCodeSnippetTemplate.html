@@ -1,7 +1,9 @@
-<div ng-controller="MasterCtrl">
+<div data-ng-controller="MasterCtrl">
 <h2>Upload files to create snippet:</h2>
 <h3>Question Text:</h3>
-<textarea rows="3" cols="65" id="questionTextBox"></textarea>
+<textarea data-ng-model="questionText" rows="3" cols="65" id="questionTextBox"></textarea>
+<h3>File Type:</h3>
+<input data-ng-model="fileType" rows="3" cols="65" id="questionTextBox"></textarea>
 <h3>File Upload:</h3>
 <table>
 	<tr>

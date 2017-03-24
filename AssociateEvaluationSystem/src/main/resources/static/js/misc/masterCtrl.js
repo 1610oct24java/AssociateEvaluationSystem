@@ -59,11 +59,36 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
     });
     
    $scope.submitSnippetFiles = function(){
+	   //Upload the files to the s3 container
 	   console.log("Adding Snippet Files");
 	   $scope.files.push($scope.snippetTemplateFile[0]);
 	   $scope.files.push($scope.answerSnippetFile[0]);
 	   console.log($scope.files);
+	   var folderNames = ['SnippetTemplates', 'SnippetSolutions']
 	   $scope.upload($scope.files, ['SnippetTemplates', 'SnippetSolutions']);
+	   console.log("Building snippet question from text");
+	   
+	   //Upload the files to the database
+	   var questionText = $scope.questionText;
+	   var snippetTemplateUrl = folderNames[0] + '/' + $scope.snippetTemplateFile[0].name;
+	   var snippetSolutionUrl = folderNames[1] + '/' +  $scope.answerSnippetFile[0].name;
+	   var fileType = $scope.fileType;
+	   var builder = new questionBuilderService.questionBuilder();
+	   builder.createSnippetQuestionBuilder(questionText,fileType,snippetTemplateUrl,snippetSolutionUrl);
+	   builder.addQuestionCategory(1,'Java');
+	   question = builder.build();
+	   console.log(question);
+	   
+	   questionJSON = JSON.stringify(question);
+	   console.log(question);
+	    $http({
+	        method: "POST",
+	        url: "question",
+	        data: questionJSON
+	    }).then(function (response) {
+	        console.log(response.data)
+	    });
+	    
 	   
    }
    
