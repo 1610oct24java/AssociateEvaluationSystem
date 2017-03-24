@@ -63,7 +63,9 @@ public class QuestionRestController
 			produces = { MediaType.APPLICATION_JSON_VALUE })
 	public Question addQuestion(@RequestBody Question question)
 	{
-		return questionService.addQuestion(question);
+		System.out.println("\n\n\n\n\n\n\n\n"+question+"\n\n\n\n\n\n\n\n");
+		// return questionService.addQuestion(question);
+		return null;
 	}
 
 	/**

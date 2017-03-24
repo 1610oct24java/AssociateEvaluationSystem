@@ -5,6 +5,7 @@ app.service("questionBuilderService", function($http){
 		this.invalid = false;
 		
 		// required always
+		this.question.questionId = 0;
 		this.question.format = {};
 		this.question.questionText = "";
 		
@@ -47,7 +48,8 @@ app.service("questionBuilderService", function($http){
 			this.question.format.formatId = 4;
 			this.question.format.formatName = "Code Snippet";
 			this.question.questionText = questionText;
-			this.question.snippetTemplates = [{fileType, templateURL, solutionURL}];
+			snippetTemplateId = 0;
+			this.question.snippetTemplates = [{snippetTemplateId, fileType, templateURL, solutionURL}];
 		}
 		
 		this.addQuestionCategory = function(categoryId, name){
