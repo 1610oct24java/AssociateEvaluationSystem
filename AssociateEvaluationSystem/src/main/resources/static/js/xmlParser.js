@@ -1,7 +1,7 @@
-var app = angular.module('AESCoreApp');
+//var app = angular.module('adminApp', ['ngMaterial', 'ngMessages']);
 var reader;
 
-app.controller("parserCtrl", function ($scope, $http) {
+angular.module('adminApp').controller("parserCtrl", function ($scope, $http, SITE_URL, API_URL) {
 
     var removeHTML = function(str){
         var ogStr = str;
@@ -160,6 +160,14 @@ app.controller("parserCtrl", function ($scope, $http) {
     $scope.options = [];
     $scope.error;
     $scope.messageError;
+
+    $scope.logout = function() {
+        $http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
+            .then(function(response) {
+                window.location = SITE_URL.LOGIN;
+            });
+    };
+
 });
 
 
@@ -172,3 +180,65 @@ var openFile = function(event){
     };
     reader.readAsText(input.files[0]);
 };
+
+adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav, $log) {
+    var mc = this;
+
+    // functions
+    // sets navbar to current page even on refresh
+    mc.findCurrentPage = function() {
+
+        // var path = $location.path().replace("/", "");
+        var path = window.location.pathname.substr(1);
+
+        switch(path) {
+            // case "aes/viewEmployees" : return "overview";
+            case "aes/registerEmployee" : return "employees";
+            case "aes/updateEmployee" : return "employees";
+            case "aes/createAssessment" : return "assessments";
+            case "aes/parser" : return "parser";
+            default : return "overview"
+        }
+    };
+
+    mc.buildToggler = function(navID) {
+        return function() {
+            $mdSidenav(navID)
+                .toggle()
+                .then(function() {
+                    $log.debug("toggle " + navID + " is done");
+                });
+        };
+    };
+    $scope.isOpenLeft = function() {
+        return $mdSidenav('left').isOpen();
+    };
+
+
+    // data
+    mc.currentPage = mc.findCurrentPage();
+    $scope.toggleLeft = mc.buildToggler('left');
+
+
+});
+
+
+adminApp.config(function($mdThemingProvider) {
+
+    var revOrangeMap = $mdThemingProvider.extendPalette("deep-orange", {
+        "A200": "#FB8C00",
+        "100": "rgba(89, 116, 130, 0.2)"
+    });
+
+    var revBlueMap = $mdThemingProvider.extendPalette("blue-grey", {
+        "500": "#37474F",
+        "800": "#3E5360"
+    });
+
+    $mdThemingProvider.definePalette("revOrange", revOrangeMap);
+    $mdThemingProvider.definePalette("revBlue", revBlueMap);
+
+    $mdThemingProvider.theme("default")
+        .primaryPalette("revBlue")
+        .accentPalette("revOrange");
+});
