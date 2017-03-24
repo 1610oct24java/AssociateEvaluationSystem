@@ -42,12 +42,14 @@
 <br>
 <h2>Enter text to create snippet:</h2>
 <h3>File Name:</h3>
-<input type="text" id="fileName">
+<input ng-model="textSnippetFileName" type="text" id="fileName">
 <h3>Question Text:</h3>
-<textarea rows="3" cols="65" id="questionTextBox"></textarea>
+<textarea ng-model="textSnippetQuestionText" rows="3" cols="65" id="questionTextBox"></textarea>
+<h3>File Type:</h3>
+<input data-ng-model="textSnippetFileType" required rows="3" cols="65" id="questionTextBox"></textarea>
 <h3> Enter question template:</h3>
-<textarea rows="10" cols="120" id="questionTemplateBox"></textarea>
+<textarea ng-model="textSnippetQuestionTemplate" rows="10" cols="120" id="questionTemplateBox"></textarea>
 <h3> Enter answer code snippet:</h3>
-<textarea rows="10" cols="120" id="answerSnippetBox"></textarea><br>
+<textarea ng-model="textSnippetAnswerSnippet" rows="10" cols="120" id="answerSnippetBox"></textarea><br>
 <input type="button" value="Submit" data-ng-click="submitSnippetText()">
 </div>

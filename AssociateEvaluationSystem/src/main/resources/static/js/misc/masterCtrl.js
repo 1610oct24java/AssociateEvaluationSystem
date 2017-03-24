@@ -76,7 +76,7 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
 		   var fileType = $scope.fileType;
 		   var builder = new questionBuilderService.questionBuilder();
 		   builder.createSnippetQuestionBuilder(questionText,fileType,snippetTemplateUrl,snippetSolutionUrl);
-		   builder.addQuestionCategory(1,'Java');
+		   builder.addQuestionCategory(1, $scope.textSnippetFileType);
 		   question = builder.build();
 		   console.log(question);
 		   
@@ -95,9 +95,13 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
    
    $scope.submitSnippetText = function(){
 	   console.log("Building snippet question from text");
+	   
 	   var builder = new questionBuilderService.questionBuilder();
-	   builder.createSnippetQuestionBuilder('I am a new code snippet question.','Java','SnippetTemplates/HiNick.java','SnippetSolutions/s3Tester.java');
-	   builder.addQuestionCategory(1,'Java');
+	   var folderNames = ['SnippetTemplates', 'SnippetSolutions']
+	   var snippetTemplateUrl = folderNames[0] + '/' + $scope.textSnippetFileName + 'Template.' + $scope.textSnippetFileType;
+	   var snippetSolutionUrl = folderNames[1] + '/' + $scope.textSnippetFileName + 'Solution.' + $scope.textSnippetFileType;
+	   builder.createSnippetQuestionBuilder($scope.textSnippetQuestionText,$scope.textSnippetFileType,snippetTemplateUrl,snippetSolutionUrl);
+	   builder.addQuestionCategory(1, $scope.textSnippetFileType);
 	   question = builder.build();
 	   console.log(question);
 	   /*
@@ -112,17 +116,35 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
 	    });
 	    */
 	    console.log("/s3uploadTextAsFile/" + question.snippetTemplates[0].templateUrl);
-	    var url = String();
-	    var contents = JSON.stringify({contents: "This is test template text"});
-	   // var contents2 = ;
-	    console.log(contents);
+	    var url = String();	   
+
 	    $http({
 	        method: "POST",
 	        url: "rest/s3uploadTextAsFile/" + question.snippetTemplates[0].templateUrl, 
-	        data: "This is test template text"
+	        data: $scope.textSnippetQuestionTemplate
 	    }).then(function (response) {
 	        console.log(response.data)
 	    });
+	    
+	   
+		    $http({
+		        method: "POST",
+		        url: "rest/s3uploadTextAsFile/" + question.snippetTemplates[0].solutionUrl, 
+		        data: $scope.textSnippetAnswerSnippet
+		    }).then(function (response) {
+		        console.log(response.data)
+		    });
+		    
+		    
+		    questionJSON = JSON.stringify(question);
+			   console.log(question);
+			    $http({
+			        method: "POST",
+			        url: "question",
+			        data: questionJSON
+			    }).then(function (response) {
+			        console.log(response.data)
+			    });
 	    
    }
    
