@@ -11,6 +11,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 	$rootScope.snippetSubmissions = [];
 	$scope.protoTest2 = {};
 	$scope.testtaker = "loading...";
+	$scope.submitted = false;
 	getQuizQuestions();
 
 	var makeState = function(input) {
@@ -295,6 +296,9 @@ app.controller("quizController", function($scope, $rootScope, $http,
 	}
 	
 	$rootScope.submitAssessment = function(){
+
+		$scope.submitted = true;
+
 		$rootScope.protoTest.assessmentDragDrop.forEach(function(entry){
 
 			delete entry.assessmentId;
