@@ -1,24 +1,38 @@
 <div data-ng-controller="MasterCtrl">
 <h2>Upload files to create snippet:</h2>
 <h3>Question Text:</h3>
-<textarea data-ng-model="questionText" rows="3" cols="65" id="questionTextBox"></textarea>
+<textarea data-ng-model="questionText" required rows="3" cols="65" id="questionTextBox"></textarea>
 <h3>File Type:</h3>
-<input data-ng-model="fileType" rows="3" cols="65" id="questionTextBox"></textarea>
+<input data-ng-model="fileType" required rows="3" cols="65" id="questionTextBox"></textarea>
 <h3>File Upload:</h3>
+
+
 <table>
 	<tr>
 		<td>
 			<div ngf-select ngf-drop ng-model="snippetTemplateFile" class="drop-box"
 				ngf-drag-over-class="{ accept:'dragover', reject:'dragover-err', delay:100}"
-				ngf-multiple="true" ngf-allow-dir="false" >Drag and
+				ngf-multiple="false" ngf-allow-dir="false" >Drag and
 				drop question template files here!</div>
 		</td>
 		<td>
 			<div ngf-select ngf-drop ng-model="answerSnippetFile" class="drop-box"
 				ngf-drag-over-class="{ accept:'dragover', reject:'dragover-err', delay:100}"
-				ngf-multiple="true" ngf-allow-dir="false" >Drag and
+				ngf-multiple="false" ngf-allow-dir="false" >Drag and
 				drop answer snippet files here!</div>
 		</td>
+	</tr>
+	<tr>
+	<td>Files:
+    <ul>
+        <li style="font:smaller">{{snippetTemplateFile.name}} {{snippetTemplateFile.$error}} {{snippetTemplateFile.$errorParam}}</li>
+    </ul>
+	</td>
+	<td>Files:
+    <ul>
+        <li style="font:smaller">{{answerSnippetFile.name}} {{answerSnippetFile.$error}} {{answerSnippetFile.$errorParam}}</li>
+    </ul>
+	</td>
 	</tr>
 </table> 
 <br>
