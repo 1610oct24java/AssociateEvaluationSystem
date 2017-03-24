@@ -100,14 +100,27 @@ public class RecruiterController {
 	 *		User object with candidate's email and format for assessment
 	 */
 	@RequestMapping(value="/recruiter/candidate/assessment", method=RequestMethod.POST)
-	public void sendAssessment(@RequestBody User user){
+	public ResponseEntity<Map> sendAssessment(@RequestBody User user){
+		Map<String, String> response = new HashMap<>();
+
 		User candidate = userService.findUserByEmail(user.getEmail());
 
 		String pass = userService.setCandidateSecurity(candidate);
 		candidate.setFormat(user.getFormat());
 		String link = client.finalizeCandidate(candidate, pass);
 		System.out.println(link);
-		mailService.sendPassword(candidate.getEmail(), link, pass);
+		if(mailService.sendPassword(candidate.getEmail(), link, pass)){
+
+			response.put("msg", "success");
+			return ResponseEntity.ok(response);
+
+		}
+		else{
+
+			response.put("msg", "failed to send assessment");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+
+		}
 	}
 	
 	/**
