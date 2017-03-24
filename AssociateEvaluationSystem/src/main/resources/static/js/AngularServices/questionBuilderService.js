@@ -44,12 +44,12 @@ app.service("questionBuilderService", function($http){
 			
 		}
 		
-		this.createSnippetQuestionBuilder = function (questionText, fileType, templateURL, solutionURL){
+		this.createSnippetQuestionBuilder = function (questionText, fileType, templateUrl, solutionUrl){
 			this.question.format.formatId = 4;
 			this.question.format.formatName = "Code Snippet";
 			this.question.questionText = questionText;
 			snippetTemplateId = 0;
-			this.question.snippetTemplates = [{snippetTemplateId, fileType, templateURL, solutionURL}];
+			this.question.snippetTemplates = [{snippetTemplateId, fileType, templateUrl, solutionUrl}];
 		}
 		
 		this.addQuestionCategory = function(categoryId, name){
