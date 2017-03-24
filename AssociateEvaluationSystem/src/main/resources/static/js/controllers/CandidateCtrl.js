@@ -235,6 +235,7 @@ angular.module('AESCoreApp').controller('CandidateCtrl', function($scope,$locati
         };
         $scope.postSendAssessment(candidateInfo);
 
+        return true;
         // $scope.firstName = '';
         // $scope.lastName = '';
         //$scope.email = '';
