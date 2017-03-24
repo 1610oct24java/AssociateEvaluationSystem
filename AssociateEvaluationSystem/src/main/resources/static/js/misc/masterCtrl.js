@@ -1,4 +1,4 @@
-angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', 'Upload', 'questionBuilderService',function($scope, $rootScope, $log, $state, Upload, questionBuilderService){
+angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', '$http', 'Upload', 'questionBuilderService',function($scope, $rootScope, $log, $state, $http, Upload, questionBuilderService){
 	
 	
 	
@@ -70,10 +70,19 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
    $scope.submitSnippetText = function(){
 	   console.log("Building snippet question from text");
 	   var builder = new questionBuilderService.questionBuilder();
-	   builder.createSnippetQuestionBuilder("Write code to complete this function.","java","SnippetTemplates/s3TesterTemplate.java","SnippetSolutions/s3Tester.java");
-	   builder.addQuestionCategory(1,"Java");
+	   builder.createSnippetQuestionBuilder('Write code to complete this function.','Java','SnippetTemplates/s3TesterTemplate.java','SnippetSolutions/s3Tester.java');
+	   builder.addQuestionCategory(1,'Java');
 	   question = builder.build();
 	   console.log(question);
+	   question = JSON.stringify(question);
+	   console.log(question);
+	    $http({
+	        method: "POST",
+	        url: "question",
+	        data: question
+	    }).then(function (response) {
+	        console.log(response.data)
+	    });
    }
    
 
