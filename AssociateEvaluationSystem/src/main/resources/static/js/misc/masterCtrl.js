@@ -74,15 +74,29 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
 	   builder.addQuestionCategory(1,'Java');
 	   question = builder.build();
 	   console.log(question);
-	   question = JSON.stringify(question);
+	   /*
+	   questionJSON = JSON.stringify(question);
 	   console.log(question);
 	    $http({
 	        method: "POST",
 	        url: "question",
-	        data: question
+	        data: questionJSON
 	    }).then(function (response) {
 	        console.log(response.data)
 	    });
+	    */
+	    console.log("/s3uploadTextAsFile/" + question.snippetTemplates[0].templateUrl);
+	    var contents = JSON.stringify({contents: "This is test template text"});
+	   // var contents2 = ;
+	    console.log(contents);
+	    $http({
+	        method: "POST",
+	        url: "rest/s3uploadTextAsFile/" + question.snippetTemplates[0].templateUrl, 
+	        data: contents
+	    }).then(function (response) {
+	        console.log(response.data)
+	    });
+	    
    }
    
 

@@ -28,27 +28,21 @@ public class SnippetController {
 	Logging log;
 	
 	// key should be a string with the appropriate file extension
-	@RequestMapping(value = "/s3uploadTextAsFile/{key}")
-	public boolean uploadToS3(@RequestParam("contents") String snippetContents, @RequestParam String key){
-		File file;
-		FileWriter fileWriter = null;
+	@RequestMapping(value = "/s3uploadTextAsFile/{folderName}/{key}", method=RequestMethod.POST)
+	public boolean uploadToS3( @PathVariable String folderName, @PathVariable String key,@RequestParam("contents") String snippetContents){
 		try{
-			try {
-				file = File.createTempFile("snippet", ".tmp");
-				fileWriter = new FileWriter(file);
-				BufferedWriter writer = new BufferedWriter(fileWriter);
-				writer.write(snippetContents);
-				new SnippetIO().upload(file, key);
-				writer.close();
-				if(!file.delete()){
-					log.error("File not found! Can not delete file that does not exist!");
-				}
-				return true;
-			}finally{
-				if(fileWriter != null){
-					fileWriter.close();
-				}
+			File file = File.createTempFile("snippet", ".tmp");
+			FileWriter fileWriter = new FileWriter(file);
+			BufferedWriter writer = new BufferedWriter(fileWriter);
+			writer.write(snippetContents);
+			new SnippetIO().upload(file, folderName + "/" + key);
+			writer.close();
+			fileWriter.close();
+			if (!file.delete())
+			{
+				log.error("File not found! Can not delete file that does not exist!");
 			}
+			return true;
 		}
 		 catch (IOException e) {
 			log.stackTraceLogging(e);
