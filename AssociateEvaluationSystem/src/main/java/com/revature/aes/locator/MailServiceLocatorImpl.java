@@ -100,8 +100,16 @@ public class MailServiceLocatorImpl implements MailServiceLocator {
 	 */
 	@Override
 	public boolean sendTempPassword(String email, String pass) {
-		// 
-		StringBuilder msg = new StringBuilder();
+		//
+
+		MailerEntity requestEntity = new MailerEntity();
+
+		requestEntity.setTempPass(pass);
+		requestEntity.setType("temporaryPassword");
+
+		return send(requestEntity, email);
+
+		/*StringBuilder msg = new StringBuilder();
 		msg.append("\n\n***** DO NOT REPLY *****\n\n");
 		msg.append("You have been registered into the Associate Evaluation System (AES).\n\n");
 		msg.append("Please use the following temporary password to log in along with your email as username.\n\n");
@@ -115,7 +123,7 @@ public class MailServiceLocatorImpl implements MailServiceLocator {
 		SimpleMailMessage mail = mailService.setupMessage(email, "Revature: Temporary Password Issued for AES", msg.toString());
 		mail.setFrom("rev.thompson.noreply@gmail.com");
 		
-		return mailService.sendEmail(mail);
+		return mailService.sendEmail(mail);*/
 	}
 	
 	@Override
