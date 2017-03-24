@@ -70,7 +70,7 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
    $scope.submitSnippetText = function(){
 	   console.log("Building snippet question from text");
 	   var builder = new questionBuilderService.questionBuilder();
-	   builder.createSnippetQuestionBuilder('I am a new code snippet question.','Java','SnippetTemplates/s3TesterTemplate.java','SnippetSolutions/s3Tester.java');
+	   builder.createSnippetQuestionBuilder('I am a new code snippet question.','Java','SnippetTemplates/HiNick.java','SnippetSolutions/s3Tester.java');
 	   builder.addQuestionCategory(1,'Java');
 	   question = builder.build();
 	   console.log(question);
@@ -86,13 +86,14 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
 	    });
 	    */
 	    console.log("/s3uploadTextAsFile/" + question.snippetTemplates[0].templateUrl);
+	    var url = String();
 	    var contents = JSON.stringify({contents: "This is test template text"});
 	   // var contents2 = ;
 	    console.log(contents);
 	    $http({
 	        method: "POST",
 	        url: "rest/s3uploadTextAsFile/" + question.snippetTemplates[0].templateUrl, 
-	        data: contents
+	        data: "This is test template text"
 	    }).then(function (response) {
 	        console.log(response.data)
 	    });
