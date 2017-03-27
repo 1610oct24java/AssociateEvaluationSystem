@@ -1,0 +1,86 @@
+<div data-ng-controller="MasterCtrl">
+
+<div class="panel panel-default">
+<div class="panel-heading">Upload files to create a snippet</div>
+<div class="panel-body">
+
+<form name="snippetDragDropForm" ng-submit="submitSnippetFiles(snippetDragDropForm.$valid)" novalidate>
+<div class="form-group" ng-class="{ 'has-error' : snippetDragDropForm.fileType.$invalid && snippetDragDropForm.fileType.$touched }">
+<h3>File Type:</h3>
+<input data-ng-model="fileType" name="fileType" class="form-control" required></textarea>
+<p ng-show="snippetDragDropForm.fileType.$invalid && snippetDragDropForm.fileType.$touched" class="help-block">File type is required.</p>
+<small class="form-text text-muted">e.g. java</small>
+</div>
+<div class="form-group" ng-class="{ 'has-error' : snippetDragDropForm.questionText.$invalid && snippetDragDropForm.questionText.$touched }">
+<h3>Question Text:</h3>
+<textarea data-ng-model="questionText" name="questionText" rows="5" class="form-control" required></textarea>
+<p ng-show="snippetDragDropForm.questionText.$invalid && snippetDragDropForm.questionText.$touched" class="help-block">Question text is required.</p>
+<small class="form-text text-muted">e.g. Write code to print HELLO WORLD! to the console three times.</small>
+</div>
+<h3>File Upload:</h3>
+<div class="container">
+<table>
+	<tr>
+		<td>
+			<div ngf-select ngf-drop ng-model="snippetTemplateFile" class="drop-box" style="height:200px; width:250px"
+				ngf-drag-over-class="{ accept:'dragover', reject:'dragover-err', delay:100}"
+				ngf-multiple="false" ngf-allow-dir="false" ngf-model-invalid="errorSnippetTemplate" 
+				required>{{snippetTemplateFile.name !== undefined ? snippetTemplateFile.name : "Drag and drop template snippet file here!"}}</div>
+		</td>
+		<td>
+			<div ngf-select ngf-drop ng-model="snippetSolutionFile" class="drop-box" style="height:200px; width:250px"
+				ngf-drag-over-class="{ accept:'dragover', reject:'dragover-err', delay:100}"
+				ngf-multiple="false" ngf-allow-dir="false" ngf-model-invalid="errorSnippetSolution"
+				required>{{snippetSolutionFile.name !== undefined ? snippetSolutionFile.name : "Drag and drop solution snippet file here!"}}</div>
+		</td>
+	</tr>
+</table> 
+</div>
+<br />
+<button type="submit" class="btn btn-primary" ng-disabled="snippetDragDropForm.$invalid">Submit</button>
+</form>
+</div> <!-- panel-body -->
+</div> <!-- panel panel-default -->
+
+<br />
+
+<div class="panel panel-default">
+<div class="panel-heading">Enter text to create a snippet</div>
+<div class="panel-body">
+
+<form name="snippetTextForm" ng-submit="submitSnippetText(snippetTextForm.$valid)" novalidate>
+<div class="form-group" ng-class="{ 'has-error' : snippetTextForm.fileName.$invalid && snippetTextForm.fileName.$touched }">
+<h3>File Name:</h3>
+<input ng-model="textSnippetFileName" type="text" class="form-control" name="fileName" required>
+<p ng-show="snippetTextForm.fileName.$invalid && snippetTextForm.fileName.$touched" class="help-block">File name is required.</p>
+<small id="textSnippetFileNameHelp" class="form-text text-muted">This name will be used for both files.  For example, entering "hello" here and "java" for the file type will result in helloTemplate.java and helloSolution.java.</small>
+</div>
+<div class="form-group" ng-class="{ 'has-error' : snippetTextForm.fileType.$invalid && snippetTextForm.fileType.$touched }">
+<h3>File Type:</h3>
+<input data-ng-model="textSnippetFileType" class="form-control" name="fileType" required></textarea>
+<p ng-show="snippetTextForm.fileType.$invalid && snippetTextForm.fileType.$touched" class="help-block">File type is required.</p>
+<small class="form-text text-muted">e.g. java</small>
+</div>
+<div class="form-group" ng-class="{ 'has-error' : snippetTextForm.questionText.$invalid && snippetTextForm.questionText.$touched }">
+<h3>Question Text:</h3>
+<textarea ng-model="textSnippetQuestionText" class="form-control" name="questionText" rows="5" required></textarea>
+<p ng-show="snippetTextForm.questionText.$invalid && snippetTextForm.questionText.$touched" class="help-block">Question text is required.</p>
+<small class="form-text text-muted">e.g. Write code to print HELLO WORLD! to the console three times.</small>
+</div>
+<div class="form-group" ng-class="{ 'has-error' : snippetTextForm.snippetTemplate.$invalid && snippetTextForm.snippetTemplate.$touched }">
+<h3> Enter template code snippet:</h3>
+<textarea ng-model="textSnippetTemplate" class="form-control" name="snippetTemplate" rows="10" style="font-family: Consolas, monaco, monospace;" required></textarea>
+<p ng-show="snippetTextForm.snippetTemplate.$invalid && snippetTextForm.snippetTemplate.$touched" class="help-block">Snippet template is required.</p>
+</div>
+<div class="form-group" ng-class="{ 'has-error' : snippetTextForm.snippetSolution.$invalid && snippetTextForm.snippetSolution.$touched }">
+<h3> Enter solution code snippet:</h3>
+<textarea ng-model="textSnippetSolution" class="form-control" name="snippetSolution" rows="10" style="font-family: Consolas, monaco, monospace;" required></textarea>
+<p ng-show="snippetTextForm.snippetSolution.$invalid && snippetTextForm.snippetSolution.$touched" class="help-block">Snippet solution is required.</p>
+</div>
+<button type="submit" class="btn btn-primary" ng-disabled="snippetTextForm.$invalid">Submit</button>
+</form>
+
+</div> <!-- panel-body -->
+</div> <!-- panel panel-default -->
+
+</div>

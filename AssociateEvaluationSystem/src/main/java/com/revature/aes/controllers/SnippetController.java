@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Scanner;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,23 +27,15 @@ public class SnippetController {
 	@Autowired
 	Logging log;
 	
-	// key should be a string with the appropriate file extension
+	// key will be the name of the file on the S3, and should be a string with the appropriate file extension
 	@RequestMapping(value = "/s3uploadTextAsFile/{folderName}/{key:.+}", method=RequestMethod.POST)
 	public String uploadToS3(@PathVariable String folderName, @PathVariable String key, @RequestBody String snippetContents){
-		System.out.println("\n\n\n\n\n Snippet Contents: "+snippetContents+"\n\n\n\n\n\n\n\n");
-		System.out.println("folderName: "+folderName);
-		System.out.println("key: "+key);
 		try{
 			File file = File.createTempFile("snippet", ".tmp");
 			FileWriter fileWriter = new FileWriter(file);
 			fileWriter.write(snippetContents);
 			fileWriter.flush();
 			fileWriter.close();
-			Scanner scan = new Scanner(file);
-			while(scan.hasNextLine()){
-				System.out.println(scan.nextLine());
-			}
-			scan.close();
 			new SnippetIO().upload(file, folderName + "/" + key);
 			
 			if (!file.delete())
@@ -62,7 +53,6 @@ public class SnippetController {
 	@ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/s3uploadFile/{folderName}", method=RequestMethod.POST)
     public void uploadFileToS3(@RequestParam("file") MultipartFile file, @PathVariable("folderName") String folderName) throws IOException {
-        System.out.println(String.format("receive %s", file.getOriginalFilename()));
         new SnippetIO().upload(convert(file, folderName), folderName + "/" + file.getOriginalFilename());
     }
 	

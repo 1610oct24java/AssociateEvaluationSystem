@@ -1,7 +1,5 @@
 angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', '$http', 'Upload', 'questionBuilderService',function($scope, $rootScope, $log, $state, $http, Upload, questionBuilderService){
 	
-	
-	
 	$scope.templateName = "";
 	
 	$scope.addCategories = function(){
@@ -33,104 +31,109 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
         var uploadUrl = "/aes/parseAiken";
         fileUpload.uploadFileToUrl(file, uploadUrl)
         	.then($scope.completeProgressbar);
-    };
-    
+    };    
     
     $scope.busy = true;
     $scope.ready = false;
 
     $scope.files = [];
 
-    $scope.$watch('files', function () { 
-    	console.log("WATCH called");
+    $scope.$watch('files', function () {
+    	/*
+    	// console.log("WATCH called");
     	angular.forEach($scope.files, function(file){
     		var fileArr = [file];    		
     		$scope.upload(fileArr, file.type);
     	})
-      
+      	*/
     });
     
-   $scope.submitSnippetFiles = function(){
+   $scope.submitSnippetFiles = function(isValid){
+	   if (!isValid) {
+		  alert('Problem with form, aborting.');
+		  return;
+	   } 
 	   
-	   if($scope.snippetTemplateFile != undefined && $scope.answerSnippetFile != undefined && $scope.questionText != undefined && $scope.fileType != undefined){
-		   //Upload the files to the s3 container
-		   console.log("Adding Snippet Files");
-		   $scope.files.push($scope.snippetTemplateFile);
-		   $scope.files.push($scope.answerSnippetFile);
-		   console.log($scope.files);
-		   var folderNames = ['SnippetTemplates', 'SnippetSolutions']
-		   $scope.upload($scope.files, ['SnippetTemplates', 'SnippetSolutions']);
-		   console.log("Building snippet question from text");
-		   
-		   //Upload the files to the database
-		   var questionText = $scope.questionText;
-		   var snippetTemplateUrl = folderNames[0] + '/' + $scope.snippetTemplateFile.name;
-		   var snippetSolutionUrl = folderNames[1] + '/' +  $scope.answerSnippetFile.name;
-		   var fileType = $scope.fileType;
-		   var builder = new questionBuilderService.questionBuilder();
-		   builder.createSnippetQuestionBuilder(questionText,fileType,snippetTemplateUrl,snippetSolutionUrl);
-		   builder.addQuestionCategory(1, $scope.textSnippetFileType);
-		   question = builder.build();
-		   console.log(question);
-		   
-		   questionJSON = JSON.stringify(question);
-		   console.log(question);
-		    $http({
-		        method: "POST",
-		        url: "question",
-		        data: questionJSON
-		    }).then(function (response) {
-		        console.log(response.data)
-		    });
-	   }
-	   
-   }
-   
-   $scope.submitSnippetText = function(){
-	   
-	  if($scope.textSnippetFileName != undefined && $scope.textSnippetQuestionText != undefined && $scope.textSnippetFileType != undefined && $scope.textSnippetQuestionTemplate != undefined && $scope.textSnippetAnswerSnippet != undefined){
-	   console.log("Building snippet question from text");
-	   
-	   var builder = new questionBuilderService.questionBuilder();
+	   // Upload the files to the S3 container
+	   // console.log("Adding Snippet Files");
+	   $scope.files.push($scope.snippetTemplateFile);
+	   $scope.files.push($scope.snippetSolutionFile);
+	   // console.log($scope.files);
 	   var folderNames = ['SnippetTemplates', 'SnippetSolutions']
-	   var snippetTemplateUrl = folderNames[0] + '/' + $scope.textSnippetFileName + 'Template.' + $scope.textSnippetFileType;
-	   var snippetSolutionUrl = folderNames[1] + '/' + $scope.textSnippetFileName + 'Solution.' + $scope.textSnippetFileType;
-	   builder.createSnippetQuestionBuilder($scope.textSnippetQuestionText,$scope.textSnippetFileType,snippetTemplateUrl,snippetSolutionUrl);
+	   $scope.upload($scope.files, ['SnippetTemplates', 'SnippetSolutions']);
+	   // console.log("Building snippet question from text");
+	   
+	   // Upload question complete with URLs to the database
+	   var questionText = $scope.questionText;
+	   var snippetTemplateUrl = folderNames[0] + '/' + $scope.snippetTemplateFile.name;
+	   var snippetSolutionUrl = folderNames[1] + '/' +  $scope.snippetSolutionFile.name;
+	   var fileType = $scope.fileType;
+	   var builder = new questionBuilderService.questionBuilder();
+	   builder.createSnippetQuestionBuilder(questionText,fileType,snippetTemplateUrl,snippetSolutionUrl);
 	   builder.addQuestionCategory(1, $scope.textSnippetFileType);
 	   question = builder.build();
-	   console.log(question);
-
-	    console.log("/s3uploadTextAsFile/" + question.snippetTemplates[0].templateUrl);
-	    var url = String();	   
-
+	   // console.log(question);
+	   
+	   questionJSON = JSON.stringify(question);
+	   // console.log(question);
 	    $http({
 	        method: "POST",
-	        url: "rest/s3uploadTextAsFile/" + question.snippetTemplates[0].templateUrl, 
-	        data: $scope.textSnippetQuestionTemplate
+	        url: "question",
+	        data: questionJSON
 	    }).then(function (response) {
-	        console.log(response.data)
+	        // console.log(response.data)
 	    });
-	    
-	   
-		    $http({
-		        method: "POST",
-		        url: "rest/s3uploadTextAsFile/" + question.snippetTemplates[0].solutionUrl, 
-		        data: $scope.textSnippetAnswerSnippet
-		    }).then(function (response) {
-		        console.log(response.data)
-		    });
-		    
-		    
-		    questionJSON = JSON.stringify(question);
-			   console.log(question);
-			    $http({
-			        method: "POST",
-			        url: "question",
-			        data: questionJSON
-			    }).then(function (response) {
-			        console.log(response.data)
-			    });
-	  }
+   }
+   
+   $scope.submitSnippetText = function(isValid){
+       if (!isValid) {
+              alert('Problem with form, aborting.');
+              return;
+           } 
+       
+       // console.log("Building snippet question from text");
+              
+       var folderNames = ['SnippetTemplates', 'SnippetSolutions']
+       var snippetTemplateUrl = folderNames[0] + '/' + $scope.textSnippetFileName + 'Template.' + $scope.textSnippetFileType;
+       var snippetSolutionUrl = folderNames[1] + '/' + $scope.textSnippetFileName + 'Solution.' + $scope.textSnippetFileType;
+       
+       var builder = new questionBuilderService.questionBuilder();
+       builder.createSnippetQuestionBuilder($scope.textSnippetQuestionText,$scope.textSnippetFileType,snippetTemplateUrl,snippetSolutionUrl);
+       builder.addQuestionCategory(1, $scope.textSnippetFileType);
+       question = builder.build();
+       // console.log(question);
+
+       // console.log("/s3uploadTextAsFile/" + question.snippetTemplates[0].templateUrl);
+       
+       // Upload template to the S3 container
+       var url = String();       
+       $http({
+           method: "POST",
+           url: "rest/s3uploadTextAsFile/" + question.snippetTemplates[0].templateUrl, 
+           data: $scope.textSnippetTemplate
+       }).then(function (response) {
+           // console.log(response.data)
+       });       
+      
+       // Upload solution to the S3 container
+       $http({
+           method: "POST",
+           url: "rest/s3uploadTextAsFile/" + question.snippetTemplates[0].solutionUrl, 
+           data: $scope.textSnippetSolution
+       }).then(function (response) {
+           // console.log(response.data)
+       });        
+       
+       // Update database with question, complete with URLs
+       questionJSON = JSON.stringify(question);
+       // console.log(question);
+       $http({
+           method: "POST",
+           url: "question",
+           data: questionJSON
+       }).then(function (response) {
+           // console.log(response.data)
+       });
    }
    
     
@@ -139,14 +142,13 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
 	};
 	
 	$scope.someFunction = function(data, status, headers, config){
-    // keeping it to shut up sonarQube. This is that hot fix doe.
-		
+    // keeping it to shut up sonarQube. This is that hot fix doe.		
 	};
 	
     $scope.upload = function (files, folderNames) {
-    		console.log("uploading");
-    		console.log(files);
-    		console.log(folderNames);
+    	  // console.log("uploading");
+    	  // console.log(files);
+    	  // console.log(folderNames);
           if (files && files.length) {
               for (var i = 0; i < files.length; i++) { 
             	  var file = files[i];
@@ -156,9 +158,9 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
             	        file: file
             	    }).progress(function (evt) {
             	        var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-            	        console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+            	        // console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
             	    }).success(function (data, status, headers, config) {
-            	        console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+            	        // console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
             	    });            	  
               }
           }

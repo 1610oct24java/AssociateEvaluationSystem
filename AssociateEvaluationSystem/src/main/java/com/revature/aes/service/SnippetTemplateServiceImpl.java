@@ -28,7 +28,6 @@ public class SnippetTemplateServiceImpl implements SnippetTemplateService
 	@Override
 	public SnippetTemplate getSnippetTemplate(int id)
 	{
-		// TODO Auto-generated method stub
 		return stDao.findOne(id);
 	}
 
