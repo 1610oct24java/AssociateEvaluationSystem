@@ -1,7 +1,7 @@
 
 package com.revature.aes.logging;
 
-import com.revature.aes.util.Error;
+import com.revature.aes.logging.Error;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
@@ -43,7 +43,7 @@ public class Logging {
 			result = pjp.proceed();
 		} catch(Exception e){
 			StackTraceElement thing = e.getStackTrace()[0];
-			Error.error("\nat Line:\t"
+			log.error("\nat Line:\t"
 					+ thing.getLineNumber()
 					+ "\nin Method:\t"
 					+ thing.getMethodName()

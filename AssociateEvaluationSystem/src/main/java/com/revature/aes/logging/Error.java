@@ -1,5 +1,4 @@
-
-package com.revature.aes.util;
+package com.revature.aes.logging;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
