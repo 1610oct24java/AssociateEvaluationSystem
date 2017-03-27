@@ -186,7 +186,7 @@
 					<table class="nav-table">
 						<tr ng-repeat="i in array" ng-init="index = i*5">
 							<td ng-repeat="state in states.slice(index,index+5)">
-								<div class="status-container" ng-click="jumpPage(i+1)">
+								<div class="status-container" ng-click="jumpPage(state.id)">
 									<i class="text-center glyphicon glyphicon-floppy-disk icon-size"
 										ng-class="{'glyph-blue': state.saved, 'glyph-silver': !state.saved}"></i>
 									<span class="badge shoppingBadge-custom"
