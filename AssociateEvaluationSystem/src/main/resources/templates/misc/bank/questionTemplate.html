@@ -72,6 +72,8 @@
 				<button ng-click="updateQuestion()">Update</button>
 				<button ng-click="addOption(newOption)">Add Option</button>
 			</div>
+			
+			<!-- Both the removeDDOption button and addDragDrop button work, they are just disabled until a way to change the correct order is implemented. -->
 			<div ng-show="isDragDrop">
 				<div ng-repeat="dragdrop in currentQuestion.dragdrop">
 					<div>
@@ -79,14 +81,16 @@
 							style="overflow-y: scroll; resize: none;"
 							ng-model="dragdrop.dragDropText"></textarea>
 						<br> Option ID: {{option.optionId}}
-						<button ng-click="removeDDOption(dragdrop)">Delete</button>
+						<!-- <button ng-click="removeDDOption(dragdrop)">Delete</button> -->
 						<br> <br>
 					</div>
 				</div>
-				<pre>Input a new option to this text field, then click "Add Option".</pre>
+				<pre>Input a new option to this text field, then click "Add Option".</pre><br>
+				<pre>IF THIS IS USED TO ADD AN OPTION, THEN THE CORRECT ORDER MUST BE CHANGED 
+				MANUALLY IN THE	DATABASE</pre>
 				<br> <input type="text" size="60" ng-model="newDragDrop"></input><br>
 				<button ng-click="updateQuestion()">Update</button>
-				<button ng-click="addDragDrop(newDragDrop)">Add Option</button>
+				<!-- <button ng-click="addDragDrop(newDragDrop)">Add Option</button> -->
 			</div>
 			<div></div>
 		</div>

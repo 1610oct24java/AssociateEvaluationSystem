@@ -66,7 +66,6 @@ angular.module('bankApp').controller('QuestionCtrl', function($http, $scope) {
 	
 	// Retrieves the List of Questions from the Database
 	$scope.getQuestionList = function() {
-		document.body.style.backgroundColor = "red";
 		$http.get("question")
 			.then(function(response) {	
 				$scope.qList = response.data;
@@ -394,7 +393,18 @@ angular.module('bankApp').controller('QuestionCtrl', function($http, $scope) {
 	 */
 	$scope.multiCorrect = function(option){
 		if(document.getElementById("msrad").checked == false){
-	    	$http.post("question/markAllIncorrect/" + $scope.currentQuestion.questionId, option.optionId)
+	    	$http.post("question/mcCorrect/" + $scope.currentQuestion.questionId, option.optionId)
+	    	.then(function(response){
+	    		$scope.currentQuestion = response.data;
+	    		$scope.getQuestion($scope.currentQuestion)
+	    		var length = $scope.qList.length;
+	    		for(var i=0;i<length;i++){
+	    			if($scope.currentQuestion.questionId == $scope.qList[i].questionId){
+	    				$scope.qList[i]=$scope.currentQuestion;
+	    				break;
+	    			}
+	    		}
+	    	})
 	    	document.getElementById("msrad").checked == true;
 	    }
 	}
