@@ -3,7 +3,7 @@
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-<base href="/asmt"/>
+<base href="/aes"/>
 <meta charset="ISO-8859-1">
 <title>Assessment</title>
 <!-- Latest compiled and minified CSS -->
@@ -171,9 +171,11 @@
 			<a href="javascript:void(0)" class="closebtn"
 				onclick="closeSideNav()"><span class="fa fa-toggle-right"></span></a>
 			<div class="navbar-link">
-				<a href="#">About</a>
-				<a href="#">Help</a>
-				<a href="#">Contact</a>
+				<a href="javascript:void(0)" class="openbtn"
+					onclick="openAboutNav()">About</a>
+				<a href="javascript:void(0)" class="openbtn"
+					onclick="openHelpNav()">Help</a>
+				<a href="mailto:aes.support@revature.com?Subject=Assessment%20Support" target="_blank">Contact</a>
 			</div>
 
 			<hr>
@@ -184,7 +186,7 @@
 					<table class="nav-table">
 						<tr ng-repeat="i in array" ng-init="index = i*5">
 							<td ng-repeat="state in states.slice(index,index+5)">
-								<div class="status-container" ng-click="jumpPage(i+1)">
+								<div class="status-container" ng-click="jumpPage(state.id)">
 									<i class="text-center glyphicon glyphicon-floppy-disk icon-size"
 										ng-class="{'glyph-blue': state.saved, 'glyph-silver': !state.saved}"></i>
 									<span class="badge shoppingBadge-custom"
@@ -198,6 +200,32 @@
 				</div>
 			</div>
 
+		</div>
+		<!-- -------- -->
+		<!-- ABOUT BAR -->
+		<!-- -------- -->
+		<div id="aboutnav" class="sidenav">
+			<a href="javascript:void(0)" class="closebtn"
+				onclick="closeAboutNav()"><span class="fa fa-toggle-right"></span></a>
+
+			<!-- currently hard-coded to the aes context -->
+			<div ng-include="'aes/static/help.html'"></div>
+
+			<hr>
+			
+		</div>
+		<!-- -------- -->
+		<!-- HELP BAR -->
+		<!-- -------- -->
+		<div id="helpnav" class="sidenav">
+			<a href="javascript:void(0)" class="closebtn"
+				onclick="closeHelpNav()"><span class="fa fa-toggle-right"></span></a>
+				
+			<!-- currently hard-coded to the aes context -->
+			<div ng-include="'aes/static/help.html'"></div>
+
+			<hr>
+			
 		</div>
 		<!-- ------------ -->
 		<!-- Submit Modal -->
