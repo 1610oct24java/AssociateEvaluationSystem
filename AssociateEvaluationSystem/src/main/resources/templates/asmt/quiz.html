@@ -3,7 +3,7 @@
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-<base href="/asmt"/>
+<base href="/aes"/>
 <meta charset="ISO-8859-1">
 <title>Assessment</title>
 <!-- Latest compiled and minified CSS -->
@@ -207,11 +207,9 @@
 		<div id="aboutnav" class="sidenav">
 			<a href="javascript:void(0)" class="closebtn"
 				onclick="closeAboutNav()"><span class="fa fa-toggle-right"></span></a>
-			<div class="navbar-link">
-				<h1>Revature</h1>
-				<p>This application written and developed by Revature associates</p>
-				<p>Copyright 2017, Revature LLC</p>
-			</div>
+
+			<!-- currently hard-coded to the aes context -->
+			<div ng-include="'aes/static/help.html'"></div>
 
 			<hr>
 			
@@ -222,13 +220,9 @@
 		<div id="helpnav" class="sidenav">
 			<a href="javascript:void(0)" class="closebtn"
 				onclick="closeHelpNav()"><span class="fa fa-toggle-right"></span></a>
-			<div class="navbar-link">
-				<h1>Help</h1>
-				<p>Please select the correct answer(s) for each question.<p>
-				<p>The nav bar at the bottom will allow you to change pages.</p>
-				<p>Please click the Submit button in the top left corner when you are finished.</p>
 				
-			</div>
+			<!-- currently hard-coded to the aes context -->
+			<div ng-include="'aes/static/help.html'"></div>
 
 			<hr>
 			
