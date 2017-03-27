@@ -108,7 +108,6 @@ public class RecruiterController {
 		String pass = userService.setCandidateSecurity(candidate);
 		candidate.setFormat(user.getFormat());
 		String link = client.finalizeCandidate(candidate, pass);
-		System.out.println(link);
 		if(mailService.sendPassword(candidate.getEmail(), link, pass)){
 
 			response.put("msg", "success");

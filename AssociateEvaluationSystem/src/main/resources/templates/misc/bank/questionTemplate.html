@@ -1,7 +1,8 @@
 <div>
 	<main class="container">
 	<div class="row">
-		<div class="col-md-6" style="height: 800px; overflow: auto;">
+	<pre>Click on a question to see all of its details. This may take a bit to load.</pre>
+			<div class="col-md-6" style="height: 800px; overflow: auto;">
 			<table class="table table-bordered">
 				<thead>
 					<tr>
@@ -29,8 +30,9 @@
 					style="overflow-y: scroll; resize: none;"
 					ng-model="currentQuestion.questionText"></textarea>
 			</div>
-			<pre>Radio buttons and check boxes show correct answer.</pre>
+			
 			<div ng-show="isMultiChoiceOption">
+			<pre>Radio buttons and check boxes show correct answer.</pre>
 				<form>
 					<div ng-repeat="option in currentQuestion.option">
 						<div>

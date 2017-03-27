@@ -193,22 +193,12 @@ public class QuestionRestController
 		dragdrop.setQuestion(question);
 		ddService.addDragDrop(dragdrop);
 		question.getDragdrop().add(dragdrop);
-		return question;
-}
-	/*
-	 * I was trying to fix the issue where the new correct answer in multiple choice questions would get selected and changed in the database, but the
-	 * 	old answer wouldn't be changed to incorrect. I was trying to make a method where all the options would be changed to incorrect, then the new one would be 
-	 * 	updated to correct, but I was having an issue with iterating through the set of options.
-	 */
-	
+		return question;	
+	}
 	
 	@RequestMapping(value="question/mcCorrect/{questionId}", method = RequestMethod.POST, produces = 
-			{MediaType.APPLICATION_JSON_VALUE})
+		{MediaType.APPLICATION_JSON_VALUE })
 	public Question mcReset(@RequestBody Integer optionId, @PathVariable Integer questionId){
-		System.out.println("********************************************************************************************************");
-		System.out.println("OptionId: " + optionId);
-		System.out.println("QuestionId: " + questionId);
-		System.out.println("********************************************************************************************************");
 		Question question = questionService.getQuestionById(questionId);
 		Option option = optionService.getOptionById(optionId);
 		Set<Option> options = question.getOption();
@@ -220,9 +210,6 @@ public class QuestionRestController
 			}
 		}
 		question.setOption(options);
-		System.out.println("********************************************************************************************************************");
-		System.out.println("Question: " + question);
-		System.out.println("********************************************************************************************************************");
 		return questionService.updateQuestion(question);
 	}
 	
