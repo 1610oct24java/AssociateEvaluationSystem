@@ -1,4 +1,4 @@
-var app = angular.module('AESCoreApp',[]);
+var app = angular.module('AESCoreApp',['ngMaterial', 'ngMessages']);
 
 app.constant("SITE_URL", {
 	"HTTP" : "http://",

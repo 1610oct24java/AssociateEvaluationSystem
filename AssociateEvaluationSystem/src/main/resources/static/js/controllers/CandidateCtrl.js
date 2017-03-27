@@ -1,122 +1,6 @@
-/**
- * Created by SLEDGEHAMMER on 3/6/2017.
 
-
-angular.module('AESCoreApp').controller('CandidateCtrl', function($scope,$location,$http,SITE_URL, API_URL, ROLE) {
-    $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
-    .then(function(response) {
-    	if (response.data.authenticated) {
-    		var authUser = {
-    				username : response.data.principal.username,
-    				authority: response.data.principal.authorities[0].authority
-    		}
-    		$scope.authUser = authUser;
-    		if($scope.authUser.authority != ROLE.RECRUITER) {
-    			window.location = SITE_URL.LOGIN;
-    		}
-    		$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + $scope.authUser.username + API_URL.CANDIDATES)
-    		.then(function(response) {
-    			//$scope.candidates = response.data;
-    			var c =  response.data;
-    			for (var i=0; i<c.length; i++) {
-    				if (c[i].grade == -1) {
-    					c[i].grade = 'N/A';
-    				}
-    				c[i].expanded = false;
-    			}
-    			$scope.candidates = c;
-    		});
-    	}else {
-    		window.location = SITE_URL.LOGIN;
-    	}
-    });
-
-    $scope.expandd = function(candidate) {
-        $scope.candidates.filter(c => c.email != candidate.email).forEach(c => {c.expanded = false});
-        if (!candidate.expanded){
-            $http
-            .get(SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + candidate.email + "/assessments")
-            .then(function(response) {
-                candidate.expanded = true;
-                var asmt = response.data;
-                if (asmt.length != 0) {
-                    asmt.forEach(a=>{ a.createdTimeStamp = formatDate(a.createdTimeStamp);
-                    a.finishedTimeStamp = formatDate(a.finishedTimeStamp)});
-                }
-                $scope.assessments = asmt;
-            })
-        } else {
-            candidate.expanded = false;
-        }
-    };
-
-    $scope.register = function() {
-    	
-        var candidateInfo = {
-            userId        : null,
-            email         : $scope.email,
-            firstName     : $scope.firstName,
-            lastName      : $scope.lastName,
-            salesforce    : null,
-            recruiterId   : null,
-            role          : null,
-            datePassIssued: null,
-            format		  : null
-        };
-        
-        $scope.postRegister(candidateInfo);
-
-        $scope.firstName = '';
-        $scope.lastName = '';
-        $scope.email = '';
-        $scope.program = '';
-    };
-
-    $scope.postRegister = function(candidateInfo) {
-    	$scope.registerSuccessfulMsg = false;
-		$scope.registerUnsuccessfulMsg = false;
-		
-        $http({
-            method  : 'POST',
-            url: SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + $scope.authUser.username + "/git candidate/register",
-            headers : {'Content-Type' : 'application/json'},
-            data    : candidateInfo
-        }).success( function() {
-				$scope.registerSuccessfulMsg = true;
-        }).error( function() {
-				$scope.registerUnsuccessfulMsg = true;
-        });
-    };
-
-	$scope.deleteCandidate = function(email) {
-		url = SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + API_URL.CANDIDATE + email + "/delete";
-		
-		$http.delete(url)
-		.then(function (response) {
-			//handle success
-		}, function (error) {
-			//handle error
-		});
-	}
+angular.module('AESCoreApp').controller('CandidateCtrl', function($scope,$mdToast,$location,$http,SITE_URL, API_URL, ROLE) {
 	
-    $scope.logout = function() {
-        window.location = API_URL.BASE + API_URL.LOGOUT;
-    }
-
-});
-
-function formatDate(date) {
-    if (date == null) {
-        return "";
-    }
-    var d = new Date(date);
-    var min = d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes();
-    return (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear() + " " + d.getHours() + ":" + min;
-}
- */
-
-angular.module('AESCoreApp').controller('CandidateCtrl', function($scope,$location,$http,SITE_URL, API_URL, ROLE) {
-
     $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
         .then(function(response) {
             if (response.data.authenticated) {
@@ -178,6 +62,7 @@ angular.module('AESCoreApp').controller('CandidateCtrl', function($scope,$locati
     };
 
     $scope.show = function(num){
+    	
         var myEl = angular.element( document.querySelector( '#'+num ) );
         if(angular.element(document.querySelector('#'+num).classList)[0] == "ng-hide"){
             myEl.removeClass("ng-hide");
@@ -210,15 +95,18 @@ angular.module('AESCoreApp').controller('CandidateCtrl', function($scope,$locati
     };
 
     $scope.postRegister = function(candidateInfo) {
-        $http({
+    	$scope.registerSuccessfulMsg = false;
+    	$scope.registerUnsuccessfulMsg = false;
+    	
+    	$http({
             method  : 'POST',
             url: SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + $scope.authUser.username + API_URL.CANDIDATES,
             headers : {'Content-Type' : 'application/json'},
             data    : candidateInfo
         }).success( function(res) {
-            //Removed console log for sonar cube.
+        	$scope.registerSuccessfulMsg = true;
         }).error( function(res) {
-            //Removed console log for sonar cube.
+        	$scope.registerUnsuccessfulMsg = true;
         });
     };
 
@@ -241,9 +129,14 @@ angular.module('AESCoreApp').controller('CandidateCtrl', function($scope,$locati
         //$scope.email = '';
         //$scope.program = '';
     };
+    
+    $scope.showToast = function(message) {
+    	$mdToast.show($mdToast.simple().textContent(message).parent(document.querySelectorAll('#toastContainer')).position("top right").action("OKAY").highlightAction(true));
+    };
 
     $scope.postSendAssessment = function(candidateInfo) {
         $scope.sendSuccessful = false;
+        
         $http({
             method  : 'POST',
             url: SITE_URL.BASE + API_URL.BASE +"/recruiter/candidate/assessment",
@@ -251,8 +144,9 @@ angular.module('AESCoreApp').controller('CandidateCtrl', function($scope,$locati
             data    : candidateInfo
         }).success( function() {
             $scope.sendSuccessful = true;
-
+            $scope.showToast("Successfully Sent an Assessment");
         }).error( function() {
+            $scope.showToast("Failed to Send an Assessment");
         });
         console.log($scope.sendSuccessful);
     };
@@ -275,6 +169,15 @@ angular.module('AESCoreApp').controller('CandidateCtrl', function($scope,$locati
     $scope.candidates;
 
 });
+
+function sleep(milliseconds) {
+	  var start = new Date().getTime();
+	  for (var i = 0; i < 1e7; i++) {
+	    if ((new Date().getTime() - start) > milliseconds){
+	      break;
+	    }
+	  }
+	}
 
 function formatDate(date) {
     if (date == null) {
