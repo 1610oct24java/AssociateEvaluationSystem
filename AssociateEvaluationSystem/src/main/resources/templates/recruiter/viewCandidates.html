@@ -114,9 +114,7 @@
 			<tr>
 				<td>{{candidate.lastName + ', ' + candidate.firstName}}</td>
 				<td>{{candidate.email}}</td>
-				<td>
-					<div ng-if="candidate.grade == -1">Test not taken</div>
-					<div ng-if="candidate.grade != -1">{{candidate.grade}}</div></td>
+				<td >{{candidate.grade}}</td>
 				<td> <input type="button" value="Send Assessment" ng-click="show('f'+candidate.userId)"></td>
 				<td style="text-align:center;">
 					<span  ng-click="show2('g'+candidate.userId, candidate.email)"  class="glyphicon glyphicon-chevron-down"></span>
@@ -152,7 +150,8 @@
 							<td>{{a.createdTimeStamp}}</td>
 							<td>{{a.finishedTimeStamp}}</td>
 							<td>{{a.timeLimit}}</td>
-							<td>{{a.grade}}</td>
+							<td ng-if="a.grade == -1">Test not taken.</td>
+							<td ng-if="a.grade != -1">{{a.grade}}</td>
 						</tr>
 						</tbody>
 					</table>
