@@ -52,8 +52,13 @@ public class SnippetController {
 	
 	@ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/s3uploadFile/{folderName}", method=RequestMethod.POST)
-    public void uploadFileToS3(@RequestParam("file") MultipartFile file, @PathVariable("folderName") String folderName) throws IOException {
-        new SnippetIO().upload(convert(file, folderName), folderName + "/" + file.getOriginalFilename());
+    public void uploadFileToS3(@RequestParam("file") MultipartFile mpfile, @PathVariable("folderName") String folderName) throws IOException {
+        File file = convert(mpfile, folderName);
+		new SnippetIO().upload(file, folderName + "/" + mpfile.getOriginalFilename());
+		if (!file.delete())
+		{
+			log.error("File not found! Can not delete file that does not exist!");
+		}
     }
 	
 	private File convert(MultipartFile file, String folderName) throws IOException
