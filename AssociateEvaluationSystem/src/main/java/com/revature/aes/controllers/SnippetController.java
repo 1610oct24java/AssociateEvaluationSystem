@@ -63,7 +63,7 @@ public class SnippetController {
 	
 	private File convert(MultipartFile file, String folderName) throws IOException
 	{    
-	    File convFile = new File(file.getOriginalFilename());
+	    File convFile = File.createTempFile(file.getOriginalFilename(),".tmp");
 	    convFile.createNewFile(); 
 	    FileOutputStream fos = new FileOutputStream(convFile); 
 	    fos.write(file.getBytes());
