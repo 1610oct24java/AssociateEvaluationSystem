@@ -55,20 +55,27 @@ public class RestServicesImpl implements RestServices {
 		String category = candidate.getFormat();
 		System.out.println("------------------------------------------------------------------------------------------------------------------------------------------");
 		System.out.println("RestServicesImpl.java at the part that chelle wrote.");
-		AssessmentRequest ar = assReqServ.getAssessmentRequestTemplate(); //assReqServ.getassessment by id here
-		System.out.println(ar);
-		
+		AssessmentRequest ar = new AssessmentRequest(assReqServ.getAssessmentRequestTemplate()); //assReqServ.getassessment by id here
+		//System.out.println(ar);
+
 		ar.setUserEmail(candidate.getEmail());
+
+		CategoryRequest oldCR = null;
+		CategoryRequest newCR = null;
 
 		for(CategoryRequest categoryRequest : ar.getCategoryRequestList()){
 
 			if(categoryRequest.getCategory().getName().equalsIgnoreCase("core language")){
 
-				categoryRequest.setCategory(categoryService.getCategoryByName(candidate.getFormat()));
+				newCR = new CategoryRequest(categoryRequest);
+				newCR.setCategory(categoryService.getCategoryByName(category));
 
 			}
 
 		}
+
+		ar.getCategoryRequestList().remove(oldCR);
+		ar.getCategoryRequestList().add(newCR);
 
 		ar = assessmentService.getLink(ar);
 		
