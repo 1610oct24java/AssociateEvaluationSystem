@@ -26,6 +26,7 @@ hs_err_pid*
 /bin/
 /Servers/
 /target/
+*/target/
 /RemoteSystemsTempFiles/
 /External Files/
 
