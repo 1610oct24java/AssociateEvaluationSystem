@@ -241,9 +241,9 @@ public class QuestionRestController
 	 */
 	
 	
-	@RequestMapping(value="question/markAllIncorrect/{questionId}", method = RequestMethod.POST, produces = 
+	@RequestMapping(value="question/mcCorrect/{questionId}", method = RequestMethod.POST, produces = 
 			{MediaType.APPLICATION_JSON_VALUE})
-	public void mcReset(@RequestBody Integer optionId, @PathVariable Integer questionId){
+	public Question mcReset(@RequestBody Integer optionId, @PathVariable Integer questionId){
 		System.out.println("********************************************************************************************************");
 		System.out.println("OptionId: " + optionId);
 		System.out.println("QuestionId: " + questionId);
@@ -262,7 +262,7 @@ public class QuestionRestController
 		System.out.println("********************************************************************************************************************");
 		System.out.println("Question: " + question);
 		System.out.println("********************************************************************************************************************");
-		questionService.updateQuestion(question);
+		return questionService.updateQuestion(question);
 	}
 	
 	@RequestMapping(value="question/changeCorrect/{optionId}", method = RequestMethod.POST, produces=
