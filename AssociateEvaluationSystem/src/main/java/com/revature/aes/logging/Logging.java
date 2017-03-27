@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Aspect
 @RestController
 public class Logging {
-	
+
 	/** The log. */
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	private String dashes = "\n==========================================================================================================================================================================";
@@ -42,7 +42,7 @@ public class Logging {
 		try{
 			result = pjp.proceed();
 		} catch(Exception e){
-			StackTraceElement thing = e.getStackTrace()[1];
+			StackTraceElement thing = e.getStackTrace()[0];
 			Error.error("\nat Line:\t"
 					+ thing.getLineNumber()
 					+ "\nin Method:\t"
@@ -68,7 +68,7 @@ public class Logging {
 		}
 		log.error(dashes);
 	}
-	
+
 	/**
 	 * Warn.
 	 *
@@ -76,10 +76,10 @@ public class Logging {
 	 *            the msg
 	 */
 	public void warn(String msg) {
-		
+
 		log.warn(msg);
 	}
-	
+
 	/**
 	 * Info.
 	 *
@@ -87,10 +87,10 @@ public class Logging {
 	 *            the msg
 	 */
 	public void info(String msg) {
-		
+
 		log.info(msg);
 	}
-	
+
 /**
 	 * Debug.
 	 *

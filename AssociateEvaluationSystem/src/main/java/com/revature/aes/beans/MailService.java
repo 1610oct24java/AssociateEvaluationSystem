@@ -30,7 +30,7 @@ public class MailService {
 
     	
         try{
-        	mailSender.send(msg); 
+        	mailSender.send(msg);
         	return true;
         }
         catch(MailException e){
