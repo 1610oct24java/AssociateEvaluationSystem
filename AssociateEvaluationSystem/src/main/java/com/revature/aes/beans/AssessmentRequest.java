@@ -1,6 +1,7 @@
 package com.revature.aes.beans;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -11,7 +12,7 @@ import org.hibernate.annotations.Parameter;
 
 @Entity
 @Table(name="AES_ASSESSMENT_REQUEST")
-public class AssessmentRequest implements Serializable{
+public class AssessmentRequest implements Serializable, Cloneable{
 
 	private static final long serialVersionUID = 4857861341651025701L;
 	
@@ -40,6 +41,14 @@ public class AssessmentRequest implements Serializable{
 	public AssessmentRequest() {
 		super();
 		
+	}
+
+	public AssessmentRequest(AssessmentRequest assessmentRequest){
+
+		this.categoryRequestList = new HashSet<>();
+		this.categoryRequestList.addAll(assessmentRequest.getCategoryRequestList());
+		this.timeLimit = assessmentRequest.getTimeLimit();
+
 	}
 
 	public AssessmentRequest(Set<CategoryRequest> categoryRequestList, String link, String userEmail, Integer timeLimit) {

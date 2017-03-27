@@ -64,6 +64,15 @@ angular.module('bankApp').controller('QuestionCtrl', function($http, $scope) {
 		snippetTemplate:null
 	};
 	
+	//trying to use this for a fancy table.
+	$(document).ready(function() {
+		$('#questionList').DataTable( {
+			sDom: 'rt',
+            fixedColumns: true,
+			scrollY: "565px",
+	    } );
+	} );
+	
 	// Retrieves the List of Questions from the Database
 	$scope.getQuestionList = function() {
 		$http.get("question")

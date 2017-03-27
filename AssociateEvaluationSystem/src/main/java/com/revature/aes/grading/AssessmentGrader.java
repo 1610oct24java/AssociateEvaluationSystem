@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.revature.aes.beans.Assessment;
@@ -18,6 +20,10 @@ import com.revature.aes.logging.Logging;
 
 @Component
 public class AssessmentGrader {
+
+	@Autowired
+	@Qualifier("snippetEvaluationClient")
+	private SnippetEvaluationClient snippetEvaluationClient;
 
 	private static final double UNINITIALIZED = 0.0;
 	Logging log = new Logging();
@@ -273,7 +279,7 @@ public class AssessmentGrader {
 	
 	// This method should return the aggregate grades for all snippets
 	public double[] gradeSnippet(Assessment assessment){
-		SnippetEvaluationClient sec = new SnippetEvaluationClient();
+		log.info("snippetEvaluationClient = " + snippetEvaluationClient);
 		double[] result = new double[2];
 		double itemWeightedGrade;
 		double itemWeight;
@@ -312,7 +318,7 @@ public class AssessmentGrader {
 			log.info(" keyFileName: " + keyFileName);
 			itemWeight = templateDataMap.get(entry.getKey()).getWeight();
 			log.info(" weight: "+itemWeight);
-			double codeTestResult = sec.evaluateSnippet(userFileName, keyFileName);
+			double codeTestResult = snippetEvaluationClient.evaluateSnippet(userFileName, keyFileName);
 			log.info(" code being evaluated to "+codeTestResult);
 			itemWeightedGrade = itemWeight*codeTestResult;//
 			result[0] = result[0]+itemWeightedGrade;
@@ -327,7 +333,7 @@ public class AssessmentGrader {
 			log.info(" keyFileName: " + keyFileName);
 			itemWeight = templateDataMap.get(key).getWeight();
 			log.info(" weight: "+itemWeight);
-			double codeTestResult = sec.evaluateSnippet(userFileName, keyFileName);
+			double codeTestResult = snippetEvaluationClient.evaluateSnippet(userFileName, keyFileName);
 			log.info(" code being evaluated to "+codeTestResult);
 			itemWeightedGrade = itemWeight*codeTestResult;//
 			result[0] = result[0]+itemWeightedGrade;

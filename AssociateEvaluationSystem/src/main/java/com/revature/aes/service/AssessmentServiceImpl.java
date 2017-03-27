@@ -22,6 +22,9 @@ public class AssessmentServiceImpl implements AssessmentService {
 
 	@Autowired
 	AssessmentDAO assDAO;
+
+	@Autowired
+	AssessmentGrader assessmentGrader;
 	
 	@Override
 	public Assessment getAssessmentById(int id) {
@@ -83,7 +86,7 @@ public class AssessmentServiceImpl implements AssessmentService {
 
 
 	public void gradeAssessment(Assessment assessment) {
-		assessment.setGrade((int) Math.round(new AssessmentGrader().gradeAssessment(assessment)));
+		assessment.setGrade((int) Math.round(assessmentGrader.gradeAssessment(assessment)));
 	}
 
 	@Override
