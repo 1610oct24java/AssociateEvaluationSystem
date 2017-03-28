@@ -1,13 +1,17 @@
 package com.revature.aes.service;
 
+import java.net.UnknownHostException;
+
 import javax.annotation.PostConstruct;
 
-import com.revature.aes.beans.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.revature.aes.beans.AssessmentAuth;
+import com.revature.aes.beans.AssessmentRequest;
+import com.revature.aes.beans.CategoryRequest;
+import com.revature.aes.beans.User;
 import com.revature.aes.config.IpConf;
-import com.revature.aes.loader.AssessmentRequestLoader;
 import com.revature.aes.locator.AssessmentServiceLocator;
 import com.revature.aes.logging.Logging;
 
@@ -33,13 +37,13 @@ public class RestServicesImpl implements RestServices {
 	private static String ip;
 
 	@PostConstruct
-	protected void postConstruct(){
+	protected void postConstruct() throws UnknownHostException{
 
 		configureRestService();
 
 	}
 
-	private void configureRestService(){
+	private void configureRestService() throws UnknownHostException{
 
 		ip = ipConf.getHostName();
 
@@ -53,22 +57,27 @@ public class RestServicesImpl implements RestServices {
 		int userId = candidate.getUserId();
 //		String email = candidate.getEmail();
 		String category = candidate.getFormat();
-		System.out.println("------------------------------------------------------------------------------------------------------------------------------------------");
-		System.out.println("RestServicesImpl.java at the part that chelle wrote.");
-		AssessmentRequest ar = assReqServ.getAssessmentRequestTemplate(); //assReqServ.getassessment by id here
-		System.out.println(ar);
-		
+		AssessmentRequest ar = new AssessmentRequest(assReqServ.getAssessmentRequestTemplate()); //assReqServ.getassessment by id here
+		//System.out.println(ar);
+
 		ar.setUserEmail(candidate.getEmail());
+
+		CategoryRequest oldCR = null;
+		CategoryRequest newCR = null;
 
 		for(CategoryRequest categoryRequest : ar.getCategoryRequestList()){
 
 			if(categoryRequest.getCategory().getName().equalsIgnoreCase("core language")){
 
-				categoryRequest.setCategory(categoryService.getCategoryByName(candidate.getFormat()));
+				newCR = new CategoryRequest(categoryRequest);
+				newCR.setCategory(categoryService.getCategoryByName(category));
 
 			}
 
 		}
+
+		ar.getCategoryRequestList().remove(oldCR);
+		ar.getCategoryRequestList().add(newCR);
 
 		ar = assessmentService.getLink(ar);
 		

@@ -9,7 +9,6 @@ import javax.inject.Inject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -45,26 +44,22 @@ public class MailServiceLocatorImpl implements MailServiceLocator {
 	private static String URL;
 
 	@PostConstruct
-	protected void postConstruct(){
+	protected void postConstruct() {
 
 		configureRestService();
 
 	}
 
-	private void configureRestService(){
+	private void configureRestService() {
 
 		port = serverProperties.getPort();
 
 		try{
-
 			ip = InetAddress.getLocalHost().getHostAddress();
-
-		} catch (UnknownHostException e) {
-			log.error("UnknownHostException; setting ip to localhost");
-			log.stackTraceLogging(e);
-			ip = "localhost";
+		} catch(Exception e)
+		{
+			log.error(Logging.errorMsg("Failed to configure rest service, falling back to localhost", e));
 		}
-
 		URL = "http://" + ip + ":" + port + "/aes";
 
 	}
@@ -100,8 +95,16 @@ public class MailServiceLocatorImpl implements MailServiceLocator {
 	 */
 	@Override
 	public boolean sendTempPassword(String email, String pass) {
-		// 
-		StringBuilder msg = new StringBuilder();
+		//
+
+		MailerEntity requestEntity = new MailerEntity();
+
+		requestEntity.setTempPass(pass);
+		requestEntity.setType("temporaryPassword");
+
+		return send(requestEntity, email);
+
+		/*StringBuilder msg = new StringBuilder();
 		msg.append("\n\n***** DO NOT REPLY *****\n\n");
 		msg.append("You have been registered into the Associate Evaluation System (AES).\n\n");
 		msg.append("Please use the following temporary password to log in along with your email as username.\n\n");
@@ -115,7 +118,7 @@ public class MailServiceLocatorImpl implements MailServiceLocator {
 		SimpleMailMessage mail = mailService.setupMessage(email, "Revature: Temporary Password Issued for AES", msg.toString());
 		mail.setFrom("rev.thompson.noreply@gmail.com");
 		
-		return mailService.sendEmail(mail);
+		return mailService.sendEmail(mail);*/
 	}
 	
 	@Override

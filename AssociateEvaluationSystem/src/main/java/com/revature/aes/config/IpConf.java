@@ -11,6 +11,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.revature.aes.logging.Logging;
 
+
 /**
  * Created by Nick on 1/26/2017.
  */
@@ -18,59 +19,61 @@ import com.revature.aes.logging.Logging;
 @Service
 public class IpConf {
 
-    @Autowired
-    Logging log;
+	@Autowired
+	Logging log;
 
-    @Inject
-    private org.springframework.boot.autoconfigure.web.ServerProperties serverProperties;
+	@Inject
+	private org.springframework.boot.autoconfigure.web.ServerProperties serverProperties;
 
-    public static final boolean onEc2 = true;
+	public static final boolean onEc2 = true;
 
-    public String getHostName(){
+	public String getHostName(){
 
-        if(onEc2){
-            return getEc2HostName();
-        }
+		if (onEc2) {
+			return getEc2HostName();
+		}
 
-        else{
+		else {
 
-            return getLocalMachineName();
+			return getLocalMachineName();
 
-        }
+		}
 
-    }
+	}
 
-    public String getEc2HostName(){
+	public String getEc2HostName() {
 
-        RestTemplate restTemplate = new RestTemplate();
-        //ResponseEntity<String> response = restTemplate.exchange("http://169.254.169.254/latest/meta-data/public-hostname", HttpMethod.GET, null, String.class);
-        //return response.getBody()+":"+getPort();
-        return restTemplate.getForObject("http://169.254.169.254/latest/meta-data/public-hostname", String.class) + ":" + getPort();
+		RestTemplate restTemplate = new RestTemplate();
+		// ResponseEntity<String> response =
+		// restTemplate.exchange("http://169.254.169.254/latest/meta-data/public-hostname",
+		// HttpMethod.GET, null, String.class);
+		// return response.getBody()+":"+getPort();
+		return restTemplate.getForObject("http://169.254.169.254/latest/meta-data/public-hostname", String.class) + ":"
+				+ getPort();
 
-    }
+	}
 
-    public String getLocalMachineName(){
+	public String getLocalMachineName(){
 
-        String hostName;
+		String hostName;
 
         try{
 
             hostName = InetAddress.getLocalHost().getHostAddress();
 
         } catch (UnknownHostException e) {
-            log.error("Failed to set localhost address to ip const");
-            log.stackTraceLogging(e);
+            log.error(Logging.errorMsg("Failed to set localhost address to ip const",e));
             hostName = "localhost";
         }
 
-        return hostName+":"+getPort();
+return hostName+":"+getPort();
 
-    }
+	}
 
-    public String getPort(){
+	public String getPort() {
 
-        return serverProperties.getPort().toString();
+		return serverProperties.getPort().toString();
 
-    }
+	}
 
 }

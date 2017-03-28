@@ -18,13 +18,13 @@ import com.revature.aes.service.RoleService;
 import com.revature.aes.service.UserService;
 
 /**
- * 
- * Controller for admins. Provides restful 
+ *
+ * Controller for admins. Provides restful
  * CRUD methods that can create, retrieve, update
- * or delete recruiters and trainers from the database. 
- * 
+ * or delete recruiters and trainers from the database.
+ *
  * Access is limited to admin.
- * 
+ *
  * @author Michelle Slay, Ric Smith
  *
  */
@@ -33,29 +33,27 @@ public class AdminController {
 
 	@Autowired
 	Logging log;
-	
+
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private RoleService roleService;
-	
+
 	@Autowired
 	private MailServiceLocator mailService;
-	
+
 	@Autowired
 	private RestServices client;
-	
+
 	/**
 	 * This method gets a list of candidates who reference
 	 * this recruiter.
-	 * 
 	 *
-	 * @return 
+	 *
+	 * @return
 	 * 		the list of users this recruiter added
 	 */
-	
-	
 	@RequestMapping(value="/admin/employees", method= RequestMethod.GET)
 	public List<User> getEmployees(){
 
@@ -63,66 +61,60 @@ public class AdminController {
 
 		return users;
 	}
-	
+
 	/**
-	 * This method removes the indexed user from the database
-	 * 
-	 * @author Delete operation by Hajira Zahir
-	 * 
-	 * @param email
-	 * 		The email of this recruiter
+	 * This method registers an employee (trainer, recruiter)
+	 *
+	 * @author Ric Smith
+	 * @param employee	(User object requiring lastname, firstname, email, roleType)
+	 * @return String 	(message to front-end if registration is a success or fail)
 	 */
-	//Delete operation by Hajira Zahir
-	@RequestMapping(value="/admin/employees/Delete/{email}/", method= RequestMethod.DELETE)
-	public void deleteEmployee(@PathVariable String email){
-		System.out.println(" \n====== AdminCtrl.updateEmployee: update employee by email: " + email);
-		userService.removeEmployee(email);
-		System.out.println(" \n====== AdminCtrl.updateEmployee: userService ran update");
+	@RequestMapping(value="admin/employee/register", method = RequestMethod.POST)
+	public String registerEmployee(@RequestBody User employee) {
+		String pass = userService.createEmployee(employee);
+		boolean mailSentSuccess;
+		if (pass != null){
+			mailSentSuccess = mailService.sendTempPassword(employee.getEmail(), pass);
+			if (mailSentSuccess)
+			{
+				return "{\"msg\":\"success\"}";
+			} else {
+				return "{\"msg\":\"fail\"}";
+		}} else {
+				return "{\"msg\":\"fail\"}";
+		}
 	}
-	
 
 	/**
 	 * This method changes details about a user in the database.
-	 * 
+	 *
 	 * @param email
 	 * 		The current email of this recruiter
 	 */
-	@RequestMapping(value="admin/employees/update/{email}/", method= RequestMethod.PUT)
-	public void updateEmployee(@RequestBody UserUpdateHolder userUpdate, @PathVariable String email){
-		System.out.println(" \n====== AdminCtrl.updateEmployee: update employee by email: " + email);
-		System.out.println( "\n ====== new password = " + userUpdate.getNewPassword());
-		User currentUser = userService.findUserByEmail(email);
+	@RequestMapping(value="admin/employee/{currentEmail}/update", method= RequestMethod.PUT)
+	public void updateEmployee(@RequestBody UserUpdateHolder userUpdate, @PathVariable String currentEmail){
+		User currentUser = userService.findUserByEmail(currentEmail);
 		userService.updateEmployee(currentUser, userUpdate);
-		System.out.println(" \n====== AdminCtrl.updateEmployee: userService ran update");
-		
 	}
 
-	@RequestMapping(value="admin/recruiter/{email}/{lastname}/{firstname}", method = RequestMethod.POST)
-	public void initRecruiter(@PathVariable String email, @PathVariable String lastname, @PathVariable String firstname) {
-		System.out.println(" \n-------------- AdminController.initRecruiter: reached an endpoint...initRecruiter\n");
-		String pass = userService.createRecruiter(email, lastname, firstname);
-		System.out.println(" \n-------------- AdminController.initRecruiter: userService should have run...\n");
-		
-		boolean mailSentSuccess = mailService.sendTempPassword(email, pass);
-		System.out.println(" \n-------------- AdminController.initRecruiter: Email sent? " + mailSentSuccess);
-	}
-	
-	@RequestMapping(value="admin/trainer/{email}/{lastname}/{firstname}", method = RequestMethod.POST)
-	public void initTrainer(@PathVariable String email, @PathVariable String lastname, @PathVariable String firstname) {
-		System.out.println(" \n-------------- AdminController.initTrainer: reached an endpoint...");
-		String pass = userService.createTrainer(email, lastname, firstname);
-		System.out.println(" \n-------------- AdminController.initTrainer: userService should have run...");
-	
-		boolean mailSentSuccess = mailService.sendTempPassword(email, pass);
-		System.out.println(" \n-------------- AdminController.initTrainer: Email sent? " + mailSentSuccess);
-	}
-	
 	/**
-	 * This method creates a superuser for the system that can 
+	 * This method removes a user from the database
+	 *
+	 * @author Delete operation by Hajira Zahir edited by Ric Smith
+	 *
+	 * @param email		(email of user)
+	 */
+	@RequestMapping(value="/admin/employee/{email}/delete", method=RequestMethod.DELETE)
+	public void deleteEmployee(@PathVariable String email){
+		userService.removeEmployee(email);
+	}
+
+	/**
+	 * This method creates a superuser for the system that can
 	 *   create recruiter and trainer accounts.
 	 * This endpoint is currently disabled after creating the superuser
 	 *   account so that no one else can create another superuser.
-	 * 
+	 *
 	 * @param email
 	 * 		The email of the superuser
 	 * @param lastname
@@ -134,5 +126,5 @@ public class AdminController {
 //	public void initSuperuser(@PathVariable String email, @PathVariable String lastname, @PathVariable String firstname) {
 //		userService.createAdmin(email, lastname, firstname);
 //	}
-	
+
 }

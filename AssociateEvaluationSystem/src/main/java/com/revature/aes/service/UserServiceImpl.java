@@ -37,9 +37,13 @@ public class UserServiceImpl implements UserService {
 		return dao.findUserByEmail(email);
 	}
 
+	/**
+	 * Edit (by Ric Smith)
+	 * 
+	 * This method creates candidates and saves them.
+	 */
 	@org.springframework.transaction.annotation.Transactional(propagation= Propagation.REQUIRED)
-	public String createCandidate(User usr, String recruiterEmail) {
-		SimpleDateFormat fmt = new SimpleDateFormat(PATTERN);
+	public boolean createCandidate(User usr, String recruiterEmail) {
 
 		User candidate = new User();
 		candidate.setEmail(usr.getEmail());
@@ -57,6 +61,28 @@ public class UserServiceImpl implements UserService {
 
 		candidate.setRecruiterId(recruiterId);
 		candidate.setRole(role.findRoleByRoleTitle("candidate"));
+		
+		SimpleDateFormat fmt = new SimpleDateFormat(PATTERN);
+		candidate.setDatePassIssued(fmt.format(new Date()));
+		
+		User userCheck = dao.save(candidate);
+		
+		if (userCheck != null && userCheck.getEmail().equals(candidate.getEmail()))
+		{
+			return true;
+		}else {
+			return false;
+		}
+	}
+
+	/**
+	 * This method resets security for a candidate so that an 
+	 * assessment will be processed and sent to them.
+	 */
+	@Override
+	public String setCandidateSecurity(User candidate){
+		SimpleDateFormat fmt = new SimpleDateFormat(PATTERN);
+		
 		candidate.setDatePassIssued(fmt.format(new Date()));
 		dao.save(candidate);
 
@@ -64,7 +90,7 @@ public class UserServiceImpl implements UserService {
 
 		return pass;
 	}
-
+	
 	@Override
 	public List<User> findAllUsers() {
 		return dao.findAll();
@@ -132,42 +158,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void removeCandidate(String email, int index) {
-
-		User candidate = findUsersByRecruiter(email).get(index);
-
+	public void removeCandidate(User candidate) {
 		dao.delete(candidate);
-
-	}
-
-	@Override
-	public String createRecruiter(String email, String lastname, String firstname) {
-
-		return createEmployee(email, lastname, firstname, "recruiter");
-
-	}
-
-	@Override
-	public String createTrainer(String email, String lastname, String firstname) {
-  
-		return createEmployee(email, lastname, firstname, "trainer");
-		
-	}
-
-	private String createEmployee(String email, String lastname, String firstname, String adminRole){
-		
-		SimpleDateFormat fmt = new SimpleDateFormat(PATTERN);
-		User user = new User();
-		user.setEmail(email);
-		user.setFirstName(firstname);
-		user.setLastName(lastname);
-		user.setRole(role.findRoleByRoleTitle(adminRole));
-		user.setDatePassIssued(fmt.format(new Date()));
-		
-		dao.save(user);
-		
-		String pass = security.createAdminRoleSecurity(user);
-		return pass;
 	}
 
 	@Override
@@ -183,6 +175,31 @@ public class UserServiceImpl implements UserService {
 		//dao.save(user);
 	}
 
+	@Override
+	public String createEmployee(User employee){
+		
+		SimpleDateFormat fmt = new SimpleDateFormat(PATTERN);
+
+		//check if employee did not supply email, or if email is already registered to another user
+		if (employee.getEmail() == null || dao.findUserByEmail(employee.getEmail()) != null) {
+
+			return null;
+
+		}
+
+		User user = new User();
+		user.setEmail(employee.getEmail());
+		user.setFirstName(employee.getFirstName());
+		user.setLastName(employee.getLastName());
+		user.setRole(role.findRoleByRoleTitle("recruiter"));
+		user.setDatePassIssued(fmt.format(new Date()));
+		
+		dao.save(user);
+		
+		String pass = security.createSecurity(user);
+		return pass;
+	}
+	
 	@Override
 	public boolean updateEmployee(User currentUser, UserUpdateHolder updatedUser) {
 		
@@ -222,7 +239,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void removeEmployee(String email) {
-		dao.delete(dao.findByEmail(email));
+		dao.delete(dao.findUserByEmail(email));
 	}
 
 }

@@ -50,7 +50,7 @@ public class CoreEmailClient {
 			return true;
 
 		} catch (Exception e) {
-			log.stackTraceLogging(e);
+			log.error(Logging.errorMsg("\nin class: CoreEmailClient\nin method: sendEmailAfterGrading \nexcept",e));
 			return false;
 		}
 	}

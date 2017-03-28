@@ -1,6 +1,7 @@
 package com.revature.aes.controllers;
 
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -195,14 +196,13 @@ public class GetAssessmentController {
 	}
 	
 	@RequestMapping(value = "{id}")
-	public Map<String, Object> getAssessment(@PathVariable("id") int AssessmentId)
-			throws JsonProcessingException {
+	public Map<String, Object> getAssessment(@PathVariable("id") int AssessmentId) throws IOException {
 		
 		log.debug("Requesting assessment with ID=" + AssessmentId);
 		
 		Assessment assessment = new Assessment();
 		Map<String, Object> responseMap = new HashMap<String, Object>();
-			
+		
 		try {
 			assessment = service.getAssessmentById(AssessmentId);
 			
@@ -299,8 +299,9 @@ public class GetAssessmentController {
 				responseMap.put("msg", "deny");
 			}
 			
-		} catch (NullPointerException e) {
-			log.stackTraceLogging(e);
+		}catch(NullPointerException e)
+		{
+			log.error(Logging.errorMsg("\nin class: GetAssessmentController\nin method: getAssessment \nexcept", e));
 		}
 
 		// Returns a hashMap object with allow message and assessment object

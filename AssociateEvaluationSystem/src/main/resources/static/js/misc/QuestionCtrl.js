@@ -64,6 +64,15 @@ angular.module('bankApp').controller('QuestionCtrl', function($http, $scope) {
 		snippetTemplate:null
 	};
 	
+	//trying to use this for a fancy table.
+	$(document).ready(function() {
+		$('#questionList').DataTable( {
+			sDom: 'rt',
+            fixedColumns: true,
+			scrollY: "565px",
+	    } );
+	} );
+	
 	// Retrieves the List of Questions from the Database
 	$scope.getQuestionList = function() {
 		$http.get("question")
@@ -393,8 +402,18 @@ angular.module('bankApp').controller('QuestionCtrl', function($http, $scope) {
 	 */
 	$scope.multiCorrect = function(option){
 		if(document.getElementById("msrad").checked == false){
-	    	$http.post("question/markAllIncorrect/" + $scope.currentQuestion.questionId)
-	    	$scope.optionCorrectChanger(option)
+	    	$http.post("question/mcCorrect/" + $scope.currentQuestion.questionId, option.optionId)
+	    	.then(function(response){
+	    		$scope.currentQuestion = response.data;
+	    		$scope.getQuestion($scope.currentQuestion)
+	    		var length = $scope.qList.length;
+	    		for(var i=0;i<length;i++){
+	    			if($scope.currentQuestion.questionId == $scope.qList[i].questionId){
+	    				$scope.qList[i]=$scope.currentQuestion;
+	    				break;
+	    			}
+	    		}
+	    	})
 	    	document.getElementById("msrad").checked == true;
 	    }
 	}
