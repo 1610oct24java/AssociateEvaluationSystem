@@ -55,7 +55,7 @@ adminApp.config(function($mdThemingProvider) {
 
 
 
-adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE_URL, API_URL, ROLE) {
+adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$http,SITE_URL, API_URL, ROLE) {
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
 		if (response.data.authenticated) {
@@ -124,7 +124,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 	}
 });
 
-adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_URL, ROLE) {
+adminApp.controller('EmployeeViewCtrl', function($scope,$mdToast, $http, SITE_URL, API_URL, ROLE) {
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
 		if (response.data.authenticated) {
@@ -152,16 +152,23 @@ adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_UR
 			window.location = SITE_URL.LOGIN;
 		});
 	};
+	
+	 $scope.showToast = function(message) {
+	    	$mdToast.show($mdToast.simple().textContent(message).parent(document.querySelectorAll('#toastContainer')).position("center center").action("OKAY").highlightAction(true));
+	    };
 
 	$scope.deleteEmployee = function(email) {
 		url = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/" + email + "/delete";
-		
 		$http.delete(url)
-		.then(function (response) {
-			//handle success
-		}, function (error) {
-			//handle error
-		});
+		.success( function(response) {
+			$scope.showToast("User Deleted");
+			$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEES)
+			.then(function(response) {
+				$scope.employees = response.data;
+			});
+        }).error( function(response) {
+        	$scope.showToast("Failed to Delete User");
+        });
 	}
 	
 	$scope.checkAll = function () {
