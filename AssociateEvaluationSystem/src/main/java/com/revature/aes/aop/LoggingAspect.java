@@ -21,6 +21,7 @@ import com.revature.aes.logging.Logging;
 @Aspect
 public class LoggingAspect
 {
+	private String dashes = "\n==========================================================================================================================================================================";
 	@Autowired
 	Logging log;
 	/**
@@ -30,13 +31,14 @@ public class LoggingAspect
 	 *            the pjp
 	 */
 	@Around("everything()")
-	public void traceLogging(ProceedingJoinPoint pjp) {
-		
+	public Object traceLogging(ProceedingJoinPoint pjp) {
+		log.info(dashes);
 		// Setup for grabbing method information
 		MethodSignature sign = (MethodSignature) pjp.getSignature();
 		Class[] paramTypes = sign.getParameterTypes();
 		String[] paramNames = sign.getParameterNames();
 		Class[] excepType = sign.getExceptionTypes();
+		Object result=null;
 		
 		List<String> type = new ArrayList<>();
 		int i = 0;
@@ -62,7 +64,7 @@ public class LoggingAspect
 				+ type+" called.");
 		// Surround proceed in try catch
 		try {
-			pjp.proceed();
+			result=pjp.proceed();
 		} catch (Throwable e) {
 			log.error(Logging.errorMsg("\nin Class:\t"
 					+ sign.getDeclaringTypeName()
@@ -79,12 +81,17 @@ public class LoggingAspect
 			
 		}
 		
+		log.info(sign.getDeclaringTypeName() + " ==> " + sign.getName() + " - Exit\nReturning: " + result);
+
+		log.info(dashes);
+		return result;
+		
 	}
 	
 	/**
 	 * Pointcut for everything.
 	 */
-	@Pointcut("execution(* *.aes.*.*(..))")
+	@Pointcut("execution(* com.revature.aes..*(..))")
 	public void everything() {
 		
 	}
