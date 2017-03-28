@@ -54,7 +54,12 @@ public class LoggingAspect
 		for (Class c : excepType) {
 			except.add(c.getSimpleName());
 		}
-		
+		log.info("\nin Class:\t"
+				+ sign.getDeclaringTypeName()
+				+ "\nin Method:\t"
+				+ sign.getName()
+				+ "\nParameters:\n"
+				+ type+" called.");
 		// Surround proceed in try catch
 		try {
 			pjp.proceed();

@@ -18,7 +18,17 @@ public class Logging {
 
 	/** The log. */
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
+	/**
+	 * Trace.
+	 *
+	 * @param msg
+	 *            the msg
+	 */
+	public void trace(String msg) {
 
+		log.trace(msg);
+	}
+	
 	/**
 	 * Warn.
 	 *
