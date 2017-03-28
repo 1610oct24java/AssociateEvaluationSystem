@@ -37,7 +37,11 @@
 </table> 
 </div>
 <br />
-<button type="submit" class="btn btn-primary" ng-disabled="snippetDragDropForm.$invalid">Submit</button>
+<button type="submit" class="btn btn-primary" ng-disabled="!snippetError && !submittingSnippet && snippetDragDropForm.$invalid">Submit</button>
+<br/>
+<div ng-show="submittingSnippet" class="alert alert-info" role="alert"><strong>Submitting...</strong></div>
+<div ng-show="snippetError" class="alert alert-danger" role="alert"><strong>Submit error!</strong></div>
+<div ng-show="snippetFileSuccess" class="alert alert-success" role="alert"><strong>Submitted successfully!</strong></div>
 </form>
 </div> <!-- panel-body -->
 </div> <!-- panel panel-default -->
@@ -77,7 +81,11 @@
 <textarea ng-model="textSnippetSolution" class="form-control" name="snippetSolution" rows="10" style="font-family: Consolas, monaco, monospace;" required></textarea>
 <p ng-show="snippetTextForm.snippetSolution.$invalid && snippetTextForm.snippetSolution.$touched" class="help-block">Snippet solution is required.</p>
 </div>
-<button type="submit" class="btn btn-primary" ng-disabled="snippetTextForm.$invalid">Submit</button>
+<button type="submit" class="btn btn-primary" ng-disabled="!snippetError && !submittingSnippet && snippetTextForm.$invalid">Submit</button>
+<br/>
+<div ng-show="submittingSnippet" class="alert alert-info" role="alert"><strong>Submitting...</strong></div>
+<div ng-show="snippetError" class="alert alert-danger" role="alert"><strong>Submit error!</strong></div>
+<div ng-show="snippetTextSuccess" class="alert alert-success" role="alert"><strong>Submitted successfully!</strong></div>
 </form>
 
 </div> <!-- panel-body -->

@@ -11,7 +11,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider) {
         })
         .state('tag', {
             url:'tag',
-            templateUrl: 'templates/misc/bank/tagTemplate.html',
+            templateUrl: 'templates/misc/bank/uploadCodeSnippetTemplate.html',
             controller: 'TagCtrl'
         })
         .state('question', {

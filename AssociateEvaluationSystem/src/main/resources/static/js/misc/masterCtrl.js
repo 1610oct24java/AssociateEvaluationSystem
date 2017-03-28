@@ -1,6 +1,13 @@
 angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', '$http', 'Upload', 'questionBuilderService',function($scope, $rootScope, $log, $state, $http, Upload, questionBuilderService){
 	
 	$scope.templateName = "";
+	$scope.snippetError = false;
+	$scope.submittingSnippet = false;
+	$scope.snippetFileSuccess = false;
+	$scope.snippetTextSuccess = false;
+    $scope.busy = true;
+    $scope.ready = false;
+    $scope.files = [];
 	
 	$scope.addCategories = function(){
 		$state.go("category")
@@ -33,11 +40,6 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
         	.then($scope.completeProgressbar);
     };    
     
-    $scope.busy = true;
-    $scope.ready = false;
-
-    $scope.files = [];
-
     $scope.$watch('files', function () {
     	/*
     	// console.log("WATCH called");
@@ -53,6 +55,8 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
 		  alert('Problem with form, aborting.');
 		  return;
 	   } 
+	   
+	   $scope.submittingSnippet = true;
 	   
 	   // Upload the files to the S3 container
 	   // console.log("Adding Snippet Files");
@@ -80,16 +84,25 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
 	        method: "POST",
 	        url: "question",
 	        data: questionJSON
-	    }).then(function (response) {
+	    }).then(function (response) { // success
 	        // console.log(response.data)
+	    	$scope.submittingSnippet = false;
+	    	$scope.snippetFileSuccess = true;
+	    }, function(reason){ // error
+	    	   console.log('Error:');
+	    	   console.log(reason);  
+	    	   $scope.snippetError = true;
 	    });
+	    
    }
    
    $scope.submitSnippetText = function(isValid){
        if (!isValid) {
               alert('Problem with form, aborting.');
               return;
-           } 
+       } 
+       
+       $scope.submittingSnippet = true;
        
        // console.log("Building snippet question from text");
               
@@ -111,8 +124,12 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
            method: "POST",
            url: "rest/s3uploadTextAsFile/" + question.snippetTemplates[0].templateUrl, 
            data: $scope.textSnippetTemplate
-       }).then(function (response) {
-           // console.log(response.data)
+       }).then(function(response){ // success
+    	   // console.log(response.data)
+       }, function(reason){ // error
+    	   console.log('Error:');
+    	   console.log(reason);  
+    	   $scope.snippetError = true;
        });       
       
        // Upload solution to the S3 container
@@ -120,8 +137,12 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
            method: "POST",
            url: "rest/s3uploadTextAsFile/" + question.snippetTemplates[0].solutionUrl, 
            data: $scope.textSnippetSolution
-       }).then(function (response) {
+       }).then(function (response) { // success
            // console.log(response.data)
+       }, function(reason){ // error
+    	   console.log('Error:');
+    	   console.log(reason);  
+    	   $scope.snippetError = true;
        });        
        
        // Update database with question, complete with URLs
@@ -131,12 +152,17 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
            method: "POST",
            url: "question",
            data: questionJSON
-       }).then(function (response) {
-           // console.log(response.data)
+       }).then(function (response) { // success
+    	   $scope.submittingSnippet = false;
+    	   $scope.snippetTextSuccess = !$scope.snippetError;
+       }, function(reason){ // error
+    	   console.log('Error:');
+    	   console.log(reason);  
+    	   $scope.snippetError = true;
        });
+       
    }
    
-    
 	$scope.progressUpdater = function(evt){
 		return parseInt(100.0 * evt.loaded / evt.total);
 	};

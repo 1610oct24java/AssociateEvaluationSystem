@@ -29,7 +29,6 @@ public class SnippetIO {
 //            log.debug("Uploading a new object to S3 from a file\n");
             s3client.putObject(new PutObjectRequest(S3LOCATION, key, file));
 //            log.debug("Done.");
-            System.out.println("SnippiotIO upload function completed successfully");
             return true;
          } catch (AmazonServiceException ase) {
         	 System.out.println(ase.getMessage());
