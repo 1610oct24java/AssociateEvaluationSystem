@@ -104,8 +104,13 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 			headers : {'Content-Type' : 'application/json'},
 			data    : employeeInfo
 
-		}).success( function() {
+		}).success( function(data) {
+		    if(!data || data.msg == "fail"){
+		        $scope.registerUnsuccessfulMsg = true;
+            }
+            else {
                 $scope.registerSuccessfulMsg = true;
+            }
 		}).error( function() {
 				$scope.registerUnsuccessfulMsg = true;
 		});
@@ -117,7 +122,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 			window.location = SITE_URL.LOGIN;
 		});
 	}
-}); //end register Employee controller
+});
 
 adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_URL, ROLE) {
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
@@ -266,7 +271,6 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 	
 }); //end update credentials controller
 
-//Billy Adding controller for assessment creation
 adminApp.controller('CreateAssessmentCtrl', function($scope, $http, SITE_URL, API_URL, ROLE) {
 
     $(document).ready(function() {
@@ -505,8 +509,6 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, SITE_URL, AP
             })
     };
 });
-
-
 
 adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav, $log) {
     var mc = this;

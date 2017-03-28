@@ -48,6 +48,12 @@ public class CategoryRequest implements Serializable{
         super();
     }
 
+    public CategoryRequest(CategoryRequest categoryRequest){
+
+        this(categoryRequest.getCategory(), categoryRequest.getMsQuestions(), categoryRequest.getMcQuestions(), categoryRequest.getDdQuestions(), categoryRequest.getCsQuestions());
+
+    }
+
     public CategoryRequest(Category category, Integer msQuestions, Integer mcQuestions, Integer ddQuestions, Integer csQuestions) {
         this.category = category;
         this.msQuestions = msQuestions;

@@ -1,6 +1,7 @@
 
 package com.revature.aes.logging;
 
+import com.revature.aes.util.Error;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Aspect
 @RestController
 public class Logging {
-	
+
 	/** The log. */
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	private String dashes = "\n==========================================================================================================================================================================";
@@ -41,14 +42,13 @@ public class Logging {
 		try{
 			result = pjp.proceed();
 		} catch(Exception e){
-			log.error(e.toString());
-			log.error("\t" + e.getClass() + " " + e.getMessage());
-
-			log.error(dashes);
-			for(StackTraceElement st : e.getStackTrace()){
-				log.error(st.getMethodName() + " at line " + st.getLineNumber());
-			}
-			log.error(dashes);
+			StackTraceElement thing = e.getStackTrace()[0];
+			Error.error("\nat Line:\t"
+					+ thing.getLineNumber()
+					+ "\nin Method:\t"
+					+ thing.getMethodName()
+					+ "\nin Class:\t"
+					+ thing.getClassName(), e);
 
 		} catch(Throwable e){
 			log.error(e.toString());
@@ -68,7 +68,7 @@ public class Logging {
 		}
 		log.error(dashes);
 	}
-	
+
 	/**
 	 * Warn.
 	 *
@@ -76,10 +76,10 @@ public class Logging {
 	 *            the msg
 	 */
 	public void warn(String msg) {
-		
+
 		log.warn(msg);
 	}
-	
+
 	/**
 	 * Info.
 	 *
@@ -87,10 +87,10 @@ public class Logging {
 	 *            the msg
 	 */
 	public void info(String msg) {
-		
+
 		log.info(msg);
 	}
-	
+
 /**
 	 * Debug.
 	 *

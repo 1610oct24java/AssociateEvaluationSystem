@@ -1,7 +1,7 @@
-var app = angular.module('AESCoreApp', ['ngMaterial', 'ngMessages']);
+//var app = angular.module('adminApp', ['ngMaterial', 'ngMessages']);
 var reader;
 
-app.controller("parserCtrl", function ($scope, $http) {
+angular.module('adminApp').controller("parserCtrl", function ($scope, $http, SITE_URL, API_URL) {
 
     var removeHTML = function(str){
         var ogStr = str;
@@ -160,6 +160,14 @@ app.controller("parserCtrl", function ($scope, $http) {
     $scope.options = [];
     $scope.error;
     $scope.messageError;
+
+    $scope.logout = function() {
+        $http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
+            .then(function(response) {
+                window.location = SITE_URL.LOGIN;
+            });
+    };
+
 });
 
 
@@ -173,7 +181,7 @@ var openFile = function(event){
     reader.readAsText(input.files[0]);
 };
 
-app.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav, $log) {
+adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav, $log) {
     var mc = this;
 
     // functions
@@ -210,10 +218,11 @@ app.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav, $lo
     mc.currentPage = mc.findCurrentPage();
     $scope.toggleLeft = mc.buildToggler('left');
 
+
 });
 
 
-app.config(function($mdThemingProvider) {
+adminApp.config(function($mdThemingProvider) {
 
     var revOrangeMap = $mdThemingProvider.extendPalette("deep-orange", {
         "A200": "#FB8C00",

@@ -24,6 +24,8 @@ import com.revature.aes.logging.Logging;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
+	private static final int deadline = 1;
+
 	@Autowired
 	private Logging log;
 
@@ -62,7 +64,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 			}
 			long diff = currentDate.getTime() - passwordDate.getTime();
 			long days = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-			if("Candidate".equalsIgnoreCase(user.getRole().getRoleTitle()) && days > 7) {
+			if("Candidate".equalsIgnoreCase(user.getRole().getRoleTitle()) && days > deadline) {
 				security.setValid(0);
 				sService.updateSecurity(security);
 			} else {
