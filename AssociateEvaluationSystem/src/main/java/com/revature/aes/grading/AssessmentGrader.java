@@ -110,17 +110,14 @@ public class AssessmentGrader {
 			
 			if(countCorrect<0){	countCorrect=0;	}
 
-			try{
-				if(countOptions != UNINITIALIZED){
-					itemWeightedGrade = itemWeight*(countCorrect/countOptions);
-					result[0] = result[0]+itemWeightedGrade;
-					//result[1] = result[1]+itemWeight;
-					log.info(" out of " + countOptions + " options " + countCorrect +" were correct");
-				}
+			
+			if(countOptions != UNINITIALIZED){
+				itemWeightedGrade = itemWeight*(countCorrect/countOptions);
+				result[0] = result[0]+itemWeightedGrade;
+				//result[1] = result[1]+itemWeight;
+				log.info(" out of " + countOptions + " options " + countCorrect +" were correct");
 			}
-			catch(ArithmeticException e){
-				log.stackTraceLogging(e);
-			}
+			
 		}
 		
 		//Saving for later in case of complications
@@ -224,18 +221,12 @@ public class AssessmentGrader {
 				countOptions += 1.0;
 			}
 			
-			try{
-				if(countOptions != UNINITIALIZED){
-					itemWeightedGrade = itemWeight*(countCorrect/countOptions);
-					result[0] = result[0]+itemWeightedGrade;
-					//result[1] = result[1]+itemWeight;
-					log.info("out of " + countOptions + " options " + countCorrect +" were correct");
-				}
-				
-			}
 			
-			catch(ArithmeticException e){
-				log.stackTraceLogging(e);
+			if(countOptions != UNINITIALIZED){
+				itemWeightedGrade = itemWeight*(countCorrect/countOptions);
+				result[0] = result[0]+itemWeightedGrade;
+				//result[1] = result[1]+itemWeight;
+				log.info("out of " + countOptions + " options " + countCorrect +" were correct");
 			}
 		}
 

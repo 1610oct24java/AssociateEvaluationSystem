@@ -9,7 +9,6 @@ import javax.inject.Inject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -45,25 +44,17 @@ public class MailServiceLocatorImpl implements MailServiceLocator {
 	private static String URL;
 
 	@PostConstruct
-	protected void postConstruct(){
+	protected void postConstruct() throws UnknownHostException{
 
 		configureRestService();
 
 	}
 
-	private void configureRestService(){
+	private void configureRestService() throws UnknownHostException{
 
 		port = serverProperties.getPort();
 
-		try{
-
-			ip = InetAddress.getLocalHost().getHostAddress();
-
-		} catch (UnknownHostException e) {
-			log.error("UnknownHostException; setting ip to localhost");
-			log.stackTraceLogging(e);
-			ip = "localhost";
-		}
+		ip = InetAddress.getLocalHost().getHostAddress();
 
 		URL = "http://" + ip + ":" + port + "/aes";
 

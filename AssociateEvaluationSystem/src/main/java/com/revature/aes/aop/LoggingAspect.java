@@ -9,9 +9,10 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.revature.aes.util.Error;
+import com.revature.aes.logging.Logging;
 
 /**
  * The Class AOP.
@@ -19,7 +20,9 @@ import com.revature.aes.util.Error;
 @Component
 @Aspect
 public class LoggingAspect
-{	
+{
+	@Autowired
+	Logging log;
 	/**
 	 * Trace logging, surrounds the given point cut with error logging.
 	 *
@@ -56,14 +59,19 @@ public class LoggingAspect
 		try {
 			pjp.proceed();
 		} catch (Throwable e) {
-			Error.error("\nin Class:\t"
+			log.error(Logging.errorMsg("\nin Class:\t"
 					+ sign.getDeclaringTypeName()
 					+ "\nin Method:\t"
 					+ sign.getName()
 					+ "\nParameters:\n"
 					+ type
 					+ "\nMethod exceptions:\n"
-					+ except, e);
+					+ except, e));
+
+			for(StackTraceElement st : e.getStackTrace()){
+				log.debug(st.getMethodName() + " at line " + st.getLineNumber());
+			}
+			
 		}
 		
 	}

@@ -1,6 +1,7 @@
 package com.revature.aes.controllers;
 
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -77,7 +78,7 @@ public class GetAssessmentController {
 	IpConf ipConf;
 
 	@PostConstruct
-	protected void postConstruct(){
+	protected void postConstruct() throws UnknownHostException{
 
 		configureRestService();
 
@@ -85,7 +86,7 @@ public class GetAssessmentController {
 
 	private String coreEmailClientEndpointAddress = "http://localhost/aes/";
 
-	private void configureRestService(){
+	private void configureRestService() throws UnknownHostException{
 
 		coreEmailClientEndpointAddress = "http://"+ipConf.getHostName()+"/aes/";
 
@@ -196,14 +197,13 @@ public class GetAssessmentController {
 	
 	@RequestMapping(value = "{id}")
 	public Map<String, Object> getAssessment(@PathVariable("id") int AssessmentId)
-			throws JsonProcessingException {
+			throws IOException {
 		
 		log.debug("Requesting assessment with ID=" + AssessmentId);
 		
 		Assessment assessment = new Assessment();
 		Map<String, Object> responseMap = new HashMap<String, Object>();
-			
-		try {
+		
 			assessment = service.getAssessmentById(AssessmentId);
 			
 			// --- This portion of code pulls a snippet template from the S3 bucket --- -RicSmith
@@ -299,9 +299,7 @@ public class GetAssessmentController {
 				responseMap.put("msg", "deny");
 			}
 			
-		} catch (NullPointerException e) {
-			log.stackTraceLogging(e);
-		}
+		
 
 		// Returns a hashMap object with allow message and assessment object
 		// which is automatically converted into JSON objects
