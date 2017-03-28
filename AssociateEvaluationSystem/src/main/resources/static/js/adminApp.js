@@ -104,8 +104,13 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 			headers : {'Content-Type' : 'application/json'},
 			data    : employeeInfo
 
-		}).success( function() {
+		}).success( function(data) {
+		    if(!data || data.msg == "fail"){
+		        $scope.registerUnsuccessfulMsg = true;
+            }
+            else {
                 $scope.registerSuccessfulMsg = true;
+            }
 		}).error( function() {
 				$scope.registerUnsuccessfulMsg = true;
 		});
