@@ -44,18 +44,22 @@ public class MailServiceLocatorImpl implements MailServiceLocator {
 	private static String URL;
 
 	@PostConstruct
-	protected void postConstruct() throws UnknownHostException{
+	protected void postConstruct() {
 
 		configureRestService();
 
 	}
 
-	private void configureRestService() throws UnknownHostException{
+	private void configureRestService() {
 
 		port = serverProperties.getPort();
 
-		ip = InetAddress.getLocalHost().getHostAddress();
-
+		try{
+			ip = InetAddress.getLocalHost().getHostAddress();
+		} catch(Exception e)
+		{
+			log.error(Logging.errorMsg("Failed to configure rest service, falling back to localhost", e));
+		}
 		URL = "http://" + ip + ":" + port + "/aes";
 
 	}

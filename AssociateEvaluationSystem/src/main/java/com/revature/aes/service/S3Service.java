@@ -32,7 +32,7 @@ public class S3Service {
 
 	static String S3LOCATION = "aes.revature/";
 
-	public boolean uploadToS3(String snippetContents, String key) throws IOException {
+	public boolean uploadToS3(String snippetContents, String key) {
 		File file = new File("tempFile");
 		PrintWriter printWriter = null;
 
@@ -47,7 +47,10 @@ public class S3Service {
 			}
 			writer.close();
 			return true;
-		} finally {
+		} catch(Exception e) {
+			log.error(Logging.errorMsg("S3 Upload failed", e));
+			return false;
+		}finally {
 			if (printWriter != null) {
 				printWriter.close();
 			}
@@ -55,19 +58,26 @@ public class S3Service {
 
 	}
 
-	public boolean uploadAssReqToS3(AssessmentRequest assessContents, String key) throws IOException {
+	public boolean uploadAssReqToS3(AssessmentRequest assessContents, String key){
+		try{
+			File file2 = new File("AssessRequest");
+			FileOutputStream file = new FileOutputStream(file2);
+			ObjectOutputStream oos = new ObjectOutputStream(file);
+			oos.writeObject(assessContents);
+			
 
-		File file2 = new File("AssessRequest");
-		FileOutputStream file = new FileOutputStream(file2);
-		ObjectOutputStream oos = new ObjectOutputStream(file);
-		oos.writeObject(assessContents);
-
-		new SnippetIO().upload(file2, key);
-		if (!file2.delete()) {
-			log.error("File not found! Can not delete file that does not exists!");
+			new SnippetIO().upload(file2, key);
+			if (!file2.delete()) {
+				log.error("File not found! Can not delete file that does not exists!");
+			}
+			oos.close();
+			return true;
 		}
-		oos.close();
-		return true;
+		catch(Exception e)
+		{
+			log.error(Logging.errorMsg("uploading Assessment Req to S3", e));
+			return false;
+		}
 	}
 
 	public String readFromS3(String key) throws IOException {

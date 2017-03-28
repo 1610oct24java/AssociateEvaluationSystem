@@ -78,7 +78,7 @@ public class GetAssessmentController {
 	IpConf ipConf;
 
 	@PostConstruct
-	protected void postConstruct() throws UnknownHostException{
+	protected void postConstruct(){
 
 		configureRestService();
 
@@ -86,7 +86,7 @@ public class GetAssessmentController {
 
 	private String coreEmailClientEndpointAddress = "http://localhost/aes/";
 
-	private void configureRestService() throws UnknownHostException{
+	private void configureRestService(){
 
 		coreEmailClientEndpointAddress = "http://"+ipConf.getHostName()+"/aes/";
 
@@ -196,14 +196,14 @@ public class GetAssessmentController {
 	}
 	
 	@RequestMapping(value = "{id}")
-	public Map<String, Object> getAssessment(@PathVariable("id") int AssessmentId)
-			throws IOException {
+	public Map<String, Object> getAssessment(@PathVariable("id") int AssessmentId) throws IOException {
 		
 		log.debug("Requesting assessment with ID=" + AssessmentId);
 		
 		Assessment assessment = new Assessment();
 		Map<String, Object> responseMap = new HashMap<String, Object>();
 		
+		try {
 			assessment = service.getAssessmentById(AssessmentId);
 			
 			// --- This portion of code pulls a snippet template from the S3 bucket --- -RicSmith
@@ -299,7 +299,10 @@ public class GetAssessmentController {
 				responseMap.put("msg", "deny");
 			}
 			
-		
+		}catch(NullPointerException e)
+		{
+			log.error(Logging.errorMsg("\nin class: GetAssessmentController\nin method: getAssessment \nexcept", e));
+		}
 
 		// Returns a hashMap object with allow message and assessment object
 		// which is automatically converted into JSON objects

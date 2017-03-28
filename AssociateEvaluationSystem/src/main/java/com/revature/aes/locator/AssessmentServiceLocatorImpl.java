@@ -42,17 +42,22 @@ public class AssessmentServiceLocatorImpl implements AssessmentServiceLocator {
 	private static String ip;
 
 	@PostConstruct
-	protected void postConstruct() throws UnknownHostException{
+	protected void postConstruct() {
 
 		configureRestService();
 
 	}
 
-	private void configureRestService() throws UnknownHostException{
+	private void configureRestService() {
 
 		port = serverProperties.getPort();
-
-		ip = InetAddress.getLocalHost().getHostAddress();
+		try{
+			ip = InetAddress.getLocalHost().getHostAddress();
+		} catch(Exception e)
+		{
+			log.error(Logging.errorMsg("Failed to configure RestService, falling back to localhost", e));
+			ip="localhost";
+		}
 
 		URI = ip + ":" + port;
 

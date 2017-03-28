@@ -57,8 +57,6 @@ public class RestServicesImpl implements RestServices {
 		int userId = candidate.getUserId();
 //		String email = candidate.getEmail();
 		String category = candidate.getFormat();
-		System.out.println("------------------------------------------------------------------------------------------------------------------------------------------");
-		System.out.println("RestServicesImpl.java at the part that chelle wrote.");
 		AssessmentRequest ar = new AssessmentRequest(assReqServ.getAssessmentRequestTemplate()); //assReqServ.getassessment by id here
 		//System.out.println(ar);
 

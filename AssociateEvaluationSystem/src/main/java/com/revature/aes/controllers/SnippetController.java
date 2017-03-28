@@ -35,6 +35,9 @@ public class SnippetController {
 				log.error("File not found! Can not delete file that does not exists!");
 			}
 			return true;
+		} catch(Exception e){
+			log.error(Logging.errorMsg("Could not upload to S3", e));
+			return false;
 		} finally {
 			if (fileWriter != null) {
 				fileWriter.close();

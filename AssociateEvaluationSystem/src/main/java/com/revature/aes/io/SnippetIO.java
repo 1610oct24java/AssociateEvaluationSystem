@@ -23,20 +23,30 @@ public class SnippetIO {
 
 	public boolean upload(File file, String key) {
 		AmazonS3 s3client = new AmazonS3Client();
-		log.debug("Uploading a new object to S3 from a file\n");
-		s3client.putObject(new PutObjectRequest(S3LOCATION, key, file));
-		log.debug("Done.");
-		return true;
+		try{
+			log.debug("Uploading a new object to S3 from a file\n");
+			s3client.putObject(new PutObjectRequest(S3LOCATION, key, file));
+			log.debug("Done.");
+			return true;
+		}catch(Exception e){
+			log.error(Logging.errorMsg("SnippetIO upload to S3 failed", e));
+			return false;
+		}
 	}
 
 	public boolean download(String key) {
 		AmazonS3 s3client = new AmazonS3Client();
-		log.debug("Downloading an object");
-		File file = new File(key);
+		try{
+			log.debug("Downloading an object");
+			File file = new File(key);
 
-		s3client.getObject(new GetObjectRequest(S3LOCATION, key), file);
+			s3client.getObject(new GetObjectRequest(S3LOCATION, key), file);
 
-		return true;
+			return true;
+		}catch(Exception e){
+			log.error(Logging.errorMsg("SnippetIO download from S3 failed", e));
+			return false;
+		}
 
 	}
 }
