@@ -6,6 +6,8 @@ import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -23,6 +25,7 @@ import com.revature.aes.beans.CategoryRequest;
 import com.revature.aes.beans.Template;
 import com.revature.aes.beans.TemplateQuestion;
 import com.revature.aes.beans.User;
+import com.revature.aes.config.IpConf;
 import com.revature.aes.logging.Logging;
 import com.revature.aes.service.AssessmentRequestService;
 import com.revature.aes.service.AssessmentService;
@@ -55,9 +58,27 @@ public class AssessmentRestController {
 	private AssessmentRequestService assReqServ;
 	@Autowired
 	private QuestionService qServ;
-	private static final String URL = "http://localhost:8090/aes";
+	@Autowired
+	private IpConf ipConf;
+	
+	private static String ip;
+	private static String URL;
 	private RestTemplate restTemplate = new RestTemplate();
 
+	@PostConstruct
+	protected void postConstruct(){
+
+		configureRestService();
+
+	}
+
+	private void configureRestService(){
+
+		ip = ipConf.getHostName();
+		URL = "http://" + ip + "/aes";
+
+	}
+	
 	/**
 	 * Takes in a JSON that requests an assessment.
 	 * 
