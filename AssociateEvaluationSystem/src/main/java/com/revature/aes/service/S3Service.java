@@ -42,9 +42,9 @@ public class S3Service {
 		    writer.write(snippetContents);
 		    //writer.close();
 			snippetIO.upload(file, key);
-			if(!file.delete()){
+			/*if(!file.delete()){
 				log.error("File not found! Can not delete file that does not exists!");
-			}
+			}*/
 			writer.close();
 			return true;
 		} catch (Exception e) {
