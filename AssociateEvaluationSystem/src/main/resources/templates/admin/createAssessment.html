@@ -31,7 +31,7 @@
 					<span>Assessment Creation</span>
 				</div>
 				<span flex> </span>
-				<button layout-margin type="submit" class="btn btn-success btn-md" ng-disabled="!assessments[0] || timeForm.$invalid" ng-click="createAssessment()">Create Assessment</button>
+				<button layout-margin type="submit" class="btn btn-success btn-md" ng-disabled="!sections[0] || timeForm.$invalid" ng-click="createAssessment()">Create Assessment</button>
 			</md-toolbar>
 			<md-card-content>
 				<form name="timeForm" novalidate="">
@@ -66,8 +66,8 @@
 						<md-input-container class="md-block" flex-gt-sm="">
 							<label>Category</label>
 							<md-select required ng-model="category">
-								<md-option ng-repeat="category in categories" value="{{category.name}}">
-									{{category.name}}
+								<md-option ng-repeat="option in categories track by $index" value="{{$index}}">
+									{{option.name}}
 								</md-option>
 							</md-select>
 						</md-input-container>
@@ -123,7 +123,7 @@
 							<td>
 								<input type="button" value="Remove" class="btn btn-primary btn-block" ng-click="removeRow($index)" />
 							</td>
-							<td>{{ass.category}}</td>
+							<td>{{ass.category.name}}</td>
 							<td>{{ass.type}}</td>
 							<td>{{ass.quantity}}</td>
 						</tr>
