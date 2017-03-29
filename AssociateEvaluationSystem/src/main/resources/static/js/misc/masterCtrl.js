@@ -41,13 +41,13 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
     };    
     
     $scope.$watch('files', function () {
-    	/*
+    	
     	// console.log("WATCH called");
     	angular.forEach($scope.files, function(file){
     		var fileArr = [file];    		
     		$scope.upload(fileArr, file.type);
     	})
-      	*/
+      	
     });
     
    $scope.submitSnippetFiles = function(isValid){

@@ -25,28 +25,16 @@
 	href="//fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="css/bigwilliestyle.css">
 <style>
-@
-keyframes loading { 0% {
-	transform-origin: 100% 100%;
-	transform: rotate(0deg);
-}
-
-100%
-{
-transform-origin
-:
- 
-100%
-100%;
-transform
-:
- 
-rotate
-(360deg);
-
-			
-}
-}
+@keyframes loading {
+			0% {
+				transform-origin: 100% 100%;
+				transform: rotate(0deg);
+			}
+			100% {
+				transform-origin: 100% 100%;
+				transform: rotate(360deg);
+			}
+		}
 * {
 	box-sizing: border-box;
 }
@@ -157,19 +145,19 @@ rotate
 												class="btn-revature"
 												ng-click="form.$valid && sendAssessment(candidate.email,program.value)&& show('f'+candidate.userId)" />
 										</form>
-										<div ng-show="sendSuccessful" class="span-creds">
+										<!-- <div ng-show="sendSuccessful" class="span-creds">
 											<span class="glyphicon glyphicon-floppy-saved" aria-hidden="true" style="color: green;"> Assessment Sent Successfully </span>
 										</div>
 										<div ng-show="sendUnsuccessful" class="span-creds">
 											<span class="glyphicon glyphicon-floppy-remove" aria-hidden="true" style="color: red;"> Error: Send Assessment Failed !!! </span>
-										</div>
+										</div> -->
 									</td>
 								</tr>
 							</table>
 						</td>
 					</tr>
 					<tr id="g{{candidate.userId}}" class="ng-hide">
-						<td colspan="5" ng-if="assessments.length != 0">
+						<td colspan="5" ng-if="assessments.length != 0 && returnCheck == true">
 							<table class="table table-striped table-bordered">
 								<thead>
 									<th>Start</th>
@@ -188,9 +176,10 @@ rotate
 								</tbody>
 							</table>
 						</td>
-						<td colspan="5" ng-if="assessments.length == 0">
+						<td colspan="5" ng-if="assessments.length == 0 && returnCheck == true">
 							<div>No assessments given. Please create an assessment.</div>
 						</td>
+						<td colspan="5" ng-show="returnCheck == false"><i class="loading"></i></td>
 					</tr>
 				</tbody>
 			</table>

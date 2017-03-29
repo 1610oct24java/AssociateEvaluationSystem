@@ -150,7 +150,7 @@ angular.module('adminApp').controller("parserCtrl", function ($scope, $http, SIT
 
     $http({
         method: "GET",
-        url: "format"
+        url: "rest/format"
     }).then(function (response) {
         $scope.formats = response.data;
     });

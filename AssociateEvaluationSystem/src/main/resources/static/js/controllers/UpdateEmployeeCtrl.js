@@ -1,7 +1,7 @@
 /**
  * Created by SLEDGEHAMMER on 3/9/2017.
  */
-angular.module('AESCoreApp').controller('UpdateEmployeeCtrl', function ($scope, $location, $http, SITE_URL, API_URL, ROLE) {
+angular.module('AESCoreApp').controller('UpdateEmployeeCtrl', function ($scope, $mdToast, $location, $http, SITE_URL, API_URL, ROLE) {
     $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
         .then(function (response) {
             if (response.data.authenticated) {
@@ -62,6 +62,10 @@ angular.module('AESCoreApp').controller('UpdateEmployeeCtrl', function ($scope, 
             }
         }
     };
+    
+    $scope.showToast = function(message) {
+    	$mdToast.show($mdToast.simple().textContent(message).parent(document.querySelectorAll('#toastContainer')).position("top right").action("OKAY").highlightAction(true));
+    };
 
     $scope.postUpdate = function (info) {
         var updateUrl = SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER
@@ -72,11 +76,13 @@ angular.module('AESCoreApp').controller('UpdateEmployeeCtrl', function ($scope, 
             headers: {'Content-Type': 'application/json'},
             data: info
         }).success(function (data) {
-            $scope.updateSuccessful = true;
-            $scope.updateUnsuccessful = false;
+        	$scope.showToast("Successfully Updated User");
+           /* $scope.updateSuccessful = true;
+            $scope.updateUnsuccessful = false;*/
         }).error(function () {
-            $scope.updateUnsuccessful = true;
-            $scope.updateSuccessful = false;
+        	$scope.showToast("Failed to Update User");
+            /*$scope.updateUnsuccessful = true;
+            $scope.updateSuccessful = false;*/
         });
     };
 
