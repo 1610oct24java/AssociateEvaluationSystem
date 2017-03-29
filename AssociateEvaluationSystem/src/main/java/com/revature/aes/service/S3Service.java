@@ -40,11 +40,11 @@ public class S3Service {
 			printWriter = new PrintWriter(file);
 		    BufferedWriter writer = new BufferedWriter(printWriter);
 		    writer.write(snippetContents);
-		    //writer.close();
+		    writer.close();
 			snippetIO.upload(file, key);
-			/*if(!file.delete()){
+			if(!file.delete()){
 				log.error("File not found! Can not delete file that does not exists!");
-			}*/
+			}
 			writer.close();
 			return true;
 		} catch (Exception e) {
