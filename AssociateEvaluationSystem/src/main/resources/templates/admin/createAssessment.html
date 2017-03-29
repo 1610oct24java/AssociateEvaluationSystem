@@ -17,7 +17,6 @@
 	<link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
 	<link rel="stylesheet" href="css/aesMaterials.css">
-
 </head>
 
 <body ng-app="adminApp" ng-controller="CreateAssessmentCtrl" layout-fill>
@@ -124,7 +123,7 @@
 							<td>
 								<input type="button" value="Remove" class="btn btn-primary btn-block" ng-click="removeRow($index)" />
 							</td>
-							<td>{{ass.category.name}}</td>
+							<td>{{ass.category}}</td>
 							<td>{{ass.type}}</td>
 							<td>{{ass.quantity}}</td>
 						</tr>
@@ -132,12 +131,6 @@
 					</tbody>
 				</table>
 			</md-card-content>
-			<!--Loading Circle -->
-			<!-- <div ng-if="totalQuestions == undefined" layout="column" layout-wrap layout-align="center center">
-                    <div flex="100"> &nbsp; </div>
-                    <md-progress-circular flex="100" md-mode="indeterminate"> </md-progress-circular>
-                    <div flex="100"> &nbsp; </div>
-                </div> -->
 		</md-card>
 	</div>
 </div>
