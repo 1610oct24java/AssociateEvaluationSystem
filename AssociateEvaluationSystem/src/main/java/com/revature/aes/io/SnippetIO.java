@@ -1,6 +1,8 @@
 package com.revature.aes.io;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,7 +30,20 @@ public class SnippetIO {
         try {
 //            log.debug("Uploading a new object to S3 from a file\n");
             s3client.putObject(new PutObjectRequest(S3LOCATION, key, file));
-//            log.debug("Done.");
+            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                String fullFile = "";
+                String line = null;
+                log.info("Current File data: ");
+                while ((line = br.readLine()) != null) {
+                    fullFile += line;
+                    line=null;
+                }
+                log.info(fullFile);
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+            log.debug("Done.");
             return true;
          } catch (AmazonServiceException ase) {
         	 System.out.println(ase.getMessage());

@@ -3,6 +3,9 @@ var reader;
 
 angular.module('adminApp').controller("parserCtrl", function ($scope, $http, SITE_URL, API_URL) {
 
+
+    $scope.myFile;
+
     var removeHTML = function(str){
         var ogStr = str;
         str = str.replace("<p>", "");
@@ -181,6 +184,24 @@ var openFile = function(event){
     reader.readAsText(input.files[0]);
 };
 
+
+
+adminApp.directive("fileModel", ['$parse', function ($parse) {
+    return {
+        restrict: 'A', //restricts this directive to be only invoked by attributes
+        link: function(scope, element, attrs) {
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
+
+            element.bind('change', function(){
+                scope.$apply(function(){
+                    modelSetter(scope, element[0].files[0]);
+                });
+            });
+        }
+    };
+}]);
+
 adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav, $log) {
     var mc = this;
 
@@ -192,7 +213,6 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
         var path = window.location.pathname.substr(1);
 
         switch(path) {
-            // case "aes/viewEmployees" : return "overview";
             case "aes/registerEmployee" : return "employees";
             case "aes/updateEmployee" : return "employees";
             case "aes/createAssessment" : return "assessments";
