@@ -1,7 +1,72 @@
 /**
  * Created by SLEDGEHAMMER on 3/9/2017.
  */
-angular.module('AESCoreApp').controller('UpdateEmployeeCtrl', function ($scope, $location, $http, SITE_URL, API_URL, ROLE) {
+
+
+var AESCoreApp = angular.module('AESCoreApp', ['ngMaterial', 'ngMessages']);
+
+
+
+AESCoreApp.constant("SITE_URL", {
+    "HTTP" : "http://",
+    "HTTPS": "https://",
+    "BASE" : "",
+    "PORT" : ":8080",
+
+    "LOGIN": "index",
+    "TRAINER_HOME" : "",
+    "VIEW_CANDIDATES" : "view",
+    "VIEW_EMPLOYEES" : "viewEmployees",
+    "REGISTER_CANDIDATE" : "",
+    "REGISTER_EMPLOYEE" : ""
+});
+
+
+AESCoreApp.constant("API_URL", {
+    "BASE"      : "/aes",
+    "LOGIN"     : "/login",
+    "LOGOUT"    : "/logout",
+    "AUTH"      : "/security/auth",
+    "CANDIDATE" : "/candidate/",
+    "RECRUITER" : "/recruiter/",
+    "LINK"      : "/link",
+    "CANDIDATES": "/candidates"
+});
+
+
+AESCoreApp.constant("ROLE", {
+    "RECRUITER" : "ROLE_RECRUITER",
+    "TRAINER"   : "ROLE_TRAINER",
+    "CANDIDATE" : "ROLE_CANDIDATE",
+    "ADMIN"		: "ROLE_ADMIN"
+});
+
+
+
+AESCoreApp.config(function($mdThemingProvider) {
+
+    var revOrangeMap = $mdThemingProvider.extendPalette("deep-orange", {
+        "A200": "#FB8C00",
+        "100": "rgba(89, 116, 130, 0.2)"
+    });
+
+    var revBlueMap = $mdThemingProvider.extendPalette("blue-grey", {
+        "500": "#37474F",
+        "800": "#3E5360"
+    });
+
+    $mdThemingProvider.definePalette("revOrange", revOrangeMap);
+    $mdThemingProvider.definePalette("revBlue", revBlueMap);
+
+    $mdThemingProvider.theme("default")
+        .primaryPalette("revBlue")
+        .accentPalette("revOrange");
+});
+
+
+
+
+AESCoreApp.controller('UpdateEmployeeCtrl', function ($scope, $location, $http, SITE_URL, API_URL, ROLE) {
     $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
         .then(function (response) {
             if (response.data.authenticated) {
@@ -86,4 +151,28 @@ angular.module('AESCoreApp').controller('UpdateEmployeeCtrl', function ($scope, 
                 window.location = SITE_URL.LOGIN;
             });
     }
+});
+
+AESCoreApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav, $log) {
+    var mc = this;
+
+    // functions
+    // sets navbar to current page even on refresh
+    mc.findCurrentPage = function() {
+
+        var path = window.location.pathname.substr(1);
+
+        // switch (path) {
+        //     case "index.html":
+        //         return "employees";
+        //     case "update.html":
+        //         return "employees";
+        //     case "New.html":
+        //         return "assessments";
+        //     default:
+        //         return "overview"
+        //}
+
+        return "overview";
+    };
 });

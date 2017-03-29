@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>AES | Recruiters</title>
+    <title>AES | Manage Questions</title>
     <link rel="icon" type="img/png" href="images/favicon_192.png">
     <!-- Google icon for trash can -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -16,46 +15,29 @@
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
     <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="css/bigwilliestyle.css">
     <link rel="stylesheet" href="css/aesMaterials.css">
 </head>
-
-<body ng-app="AESCoreApp" ng-controller="CandidateCtrl">
-<div id="toastContainer">
-    <div>
-        <ng-include src="'recruitMenu.html'" />
-    </div>
-    <div class="container">
-        <form class="form-revature" ng-submit="register()">
-            <h2 class="row">Register Candidate</h2>
-            <div class="row input-field">
-                <label class="sr-only" for="inputFirstName">first name</label>
-                <input class="col-xs-12 col-md-12" id="inputFirstName" type="text" placeholder="first name" ng-model="firstName" required autofocus>
-            </div>
-            <div class="row input-field">
-                <label class="sr-only" for="inputLastName">last name</label>
-                <input class="col-xs-12 col-md-12" id="inputLastName" type="text" placeholder="last name" ng-model="lastName" required>
-            </div>
-            <div class="row input-field">
-                <label class="sr-only" for="inputEmail">email address</label>
-                <input class="col-xs-12 col-md-12" id="inputEmail" type="email" placeholder="email address" ng-model="email" required>
-            </div>
-            <div ng-show="registerSuccessfulMsg" class="span-creds">
-                    <span class="glyphicon glyphicon-floppy-saved" aria-hidden="true" style="color:green;">
-                Candidate Registered Successfully
-            </span>
-            </div>
-            <div ng-show="registerUnsuccessfulMsg" class="span-creds">
-                    <span class="glyphicon glyphicon-floppy-remove" aria-hidden="true" style="color:red;">
-                Error: Registration Unsuccessful !!!
-            </span>
-            </div>
-            <div class="row">
-                <input id="btn-register-recruit" class="btn-revature" type="submit" value="register">
-            </div>
-        </form>
-    </div>
+<body ng-app="adminApp" ng-controller="manageQuestions">
+<div>
+    <ng-include src="'menu.html'" />
 </div>
+<div layout="column" ng-cloak="" class="md-inline-form">
+    <md-content>
+        <md-card>
+            <md-toolbar layout="columns" class="md-primary">
+                <div class="md-toolbar-tools">
+                    <span>Manage Questions</span>
+                </div>
+            </md-toolbar>
+            <md-card-content>
+                <h1>This is a whole lot of something that doesn't mean anything!</h1>
+                <h2>AND MAYBE ADD A CODE SNIPPET IN A FUTURE TIME AND PLACE!!!!</h2>
+            </md-card-content>
+        </md-card>
+    </md-content>
+</div>
+
+
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.js"></script>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.js"></script>
@@ -64,8 +46,7 @@
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-messages.js"></script>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-sanitize.js"></script>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.js"></script>
-<script type="text/javascript" src="js/app.js"></script>
-<script type="text/javascript" src="js/controllers/CandidateCtrl.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="js/adminApp.js"></script>
 </body>
-
 </html>

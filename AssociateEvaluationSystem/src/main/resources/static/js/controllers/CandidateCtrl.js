@@ -1,5 +1,65 @@
+var AESCoreApp = angular.module('AESCoreApp', ['ngMaterial', 'ngMessages']);
 
-angular.module('AESCoreApp').controller('CandidateCtrl', function($scope,$mdToast,$location,$http,SITE_URL, API_URL, ROLE) {
+
+
+AESCoreApp.constant("SITE_URL", {
+    "HTTP" : "http://",
+    "HTTPS": "https://",
+    "BASE" : "",
+    "PORT" : ":8080",
+
+    "LOGIN": "index",
+    "TRAINER_HOME" : "",
+    "VIEW_CANDIDATES" : "view",
+    "VIEW_EMPLOYEES" : "viewEmployees",
+    "REGISTER_CANDIDATE" : "",
+    "REGISTER_EMPLOYEE" : ""
+});
+
+
+AESCoreApp.constant("API_URL", {
+    "BASE"      : "/aes",
+    "LOGIN"     : "/login",
+    "LOGOUT"    : "/logout",
+    "AUTH"      : "/security/auth",
+    "CANDIDATE" : "/candidate/",
+    "RECRUITER" : "/recruiter/",
+    "LINK"      : "/link",
+    "CANDIDATES": "/candidates"
+});
+
+
+AESCoreApp.constant("ROLE", {
+    "RECRUITER" : "ROLE_RECRUITER",
+    "TRAINER"   : "ROLE_TRAINER",
+    "CANDIDATE" : "ROLE_CANDIDATE",
+    "ADMIN"		: "ROLE_ADMIN"
+});
+
+
+
+AESCoreApp.config(function($mdThemingProvider) {
+
+    var revOrangeMap = $mdThemingProvider.extendPalette("deep-orange", {
+        "A200": "#FB8C00",
+        "100": "rgba(89, 116, 130, 0.2)"
+    });
+
+    var revBlueMap = $mdThemingProvider.extendPalette("blue-grey", {
+        "500": "#37474F",
+        "800": "#3E5360"
+    });
+
+    $mdThemingProvider.definePalette("revOrange", revOrangeMap);
+    $mdThemingProvider.definePalette("revBlue", revBlueMap);
+
+    $mdThemingProvider.theme("default")
+        .primaryPalette("revBlue")
+        .accentPalette("revOrange");
+});
+
+
+AESCoreApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,SITE_URL, API_URL, ROLE) {
 	
     $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
         .then(function(response) {
@@ -187,3 +247,79 @@ function formatDate(date) {
     var min = d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes();
     return (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear() + " " + d.getHours() + ":" + min;
 }
+
+
+AESCoreApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav, $log) {
+    var mc = this;
+
+    // functions
+    // sets navbar to current page even on refresh
+    mc.findCurrentPage = function() {
+
+        var path = window.location.pathname.substr(1);
+
+        // switch (path) {
+        //     case "index.html":
+        //         return "employees";
+        //     case "update.html":
+        //         return "employees";
+        //     case "New.html":
+        //         return "assessments";
+        //     default:
+        //         return "overview"
+        //}
+
+        return "overview";
+    };
+});
+
+AESCoreApp.controller('LoginCtrl', function($scope, $httpParamSerializerJQLike, $http, SITE_URL, API_URL, ROLE) {
+
+    $scope.login = function() {
+        makeUser($scope);
+        $http({
+            method : "POST",
+            url : SITE_URL.BASE + API_URL.BASE + API_URL.LOGIN,
+            headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8;'},
+            data: $httpParamSerializerJQLike($scope.user)
+        })//.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGIN, $httpParamSerializerJQLike($scope.user), {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8;'})
+            .then(function(response) {
+                $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
+                    .then(function(response) {
+                        if (response.data.authenticated) {
+                            var authUser = {
+                                username : response.data.principal.username,
+                                authority: response.data.principal.authorities[0].authority
+                            }
+                            $scope.authUser = authUser;
+                            switch ($scope.authUser.authority) {
+                                case ROLE.RECRUITER:
+                                    window.location = SITE_URL.VIEW_CANDIDATES;
+                                    break;
+                                case ROLE.CANDIDATE:
+                                    $scope.candidateEmail = authUser.username;
+                                    $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.CANDIDATE + $scope.candidateEmail + API_URL.LINK)
+                                        .then(function(response) {
+                                            window.location = response.data.urlAssessment;
+                                        })
+                                    break;
+                                case ROLE.TRAINER:
+                                    window.location = SITE_URL.TRAINER_HOME;
+                                    break;
+                                case ROLE.ADMIN:
+                                    window.location = SITE_URL.VIEW_EMPLOYEES;
+                                    break;
+                                default:
+                                    $scope.username = '';
+                                    $scope.password = '';
+                                    window.location = SITE_URL.LOGIN;
+                            }
+                        } else {
+                            $scope.username = '';
+                            $scope.password = '';
+                            $scope.bunkCreds = true;
+                        }
+                    })
+            })
+    }
+}); //end login controller
