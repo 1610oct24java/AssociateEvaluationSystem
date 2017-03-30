@@ -19,11 +19,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.revature.aes.io.SnippetIO;
 import com.revature.aes.logging.Logging;
 
-
 @RestController
 @RequestMapping("/rest")
 public class SnippetController {
-	
+
 	@Autowired
 	Logging log;
 	
@@ -44,10 +43,11 @@ public class SnippetController {
 			}
 			return "true";
 		}
-		 catch (IOException e) {
-			log.stackTraceLogging(e);
+		catch(Exception e){
+			log.error(Logging.errorMsg("Could not upload to S3", e));
 			return "false";
 		}
+
 	}
 	
 	@ResponseStatus(HttpStatus.OK)

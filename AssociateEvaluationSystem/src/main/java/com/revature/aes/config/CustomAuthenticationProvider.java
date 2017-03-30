@@ -18,7 +18,6 @@ import org.springframework.web.client.RestTemplate;
 
 import com.revature.aes.beans.User;
 import com.revature.aes.logging.Logging;
-import com.revature.aes.util.Error;
 
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
@@ -79,12 +78,12 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		} catch (Exception e) {
 			
 			StackTraceElement thing = Thread.currentThread().getStackTrace()[1];
-			Error.error("\nat Line:\t"
+			log.error(Logging.errorMsg("\nat Line:\t"
 					+ thing.getLineNumber()
 					+ "\nin Method:\t"
 					+ thing.getMethodName()
 					+ "\nin Class:\t"
-					+ thing.getClassName(), e);
+					+ thing.getClassName(), e));
 			
 		}
 		

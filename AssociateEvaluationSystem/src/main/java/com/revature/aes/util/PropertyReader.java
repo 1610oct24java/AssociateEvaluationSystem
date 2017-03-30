@@ -29,12 +29,12 @@ public class PropertyReader {
 
 		} catch (IOException e) {
 			StackTraceElement thing = Thread.currentThread().getStackTrace()[1];
-			Error.error("\nat Line:\t"
+			log.error(Logging.errorMsg("\nat Line:\t"
 					+ thing.getLineNumber()
 					+ "\nin Method:\t"
 					+ thing.getMethodName()
 					+ "\nin Class:\t"
-					+ thing.getClassName(), e);
+					+ thing.getClassName(), e));
 		}
 		
 		return prop;
