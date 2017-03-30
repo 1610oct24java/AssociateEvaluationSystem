@@ -422,7 +422,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
         UpdateTotals($scope.quantity);
         $scope.sectionForm.$setPristine();
         $scope.sectionForm.$setUntouched();
-        $scope.category = '';
+        $scope.category = {};
         $scope.type = '';
         $scope.quantity = '';
 
