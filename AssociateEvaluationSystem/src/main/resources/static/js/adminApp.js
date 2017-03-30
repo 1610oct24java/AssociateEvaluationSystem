@@ -477,10 +477,10 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
             url: (SITE_URL.BASE + API_URL.BASE + "/assessmentrequest" + "/1/"),
             headers: { 'Content-Type': 'application/json' },
             data: (createJSON())
-        }).success(function(response) {
+        }).success(function() {
             $scope.showToast("Assessment created successfully", "success");
             console.log("Assessment creation success");
-        }).error(function(response) {
+        }).error(function() {
             $scope.showToast("Assessment creation failed", "fail");
             console.log("Assessment creation failed");
         });
@@ -497,15 +497,14 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
 
         var path = window.location.pathname.substr(1);
 
-        switch (path) {
-            case "index.html":
-                return "employees";
-            case "update.html":
-                return "employees";
-            case "New.html":
-                return "assessments";
-            default:
-                return "overview"
+        switch(path) {
+            case "aes/registerEmployee" : return "employees";
+            case "aes/updateEmployee"   : return "employees";
+            case "aes/addQuestions"     : return "questions";
+            case "aes/manageQuestions"  : return "questions";
+            case "aes/createAssessment" : return "assessments";
+            case "aes/parser"           : return "parser";
+            default : return "overview"
         }
     };
 
