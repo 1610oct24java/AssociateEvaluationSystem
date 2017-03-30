@@ -161,18 +161,15 @@ AESCoreApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSiden
     mc.findCurrentPage = function() {
 
         var path = window.location.pathname.substr(1);
+        console.log("This is my path var - " + path);
 
-        // switch (path) {
-        //     case "index.html":
-        //         return "employees";
-        //     case "update.html":
-        //         return "employees";
-        //     case "New.html":
-        //         return "assessments";
-        //     default:
-        //         return "overview"
-        //}
+        switch(path) {
+            case "aes/updateUser"  : return "updateRecruiter";
+            case "aes/recruit" : return "register";
+            // case "aes/view"             : return "overview";
+            default : return "overview"
+        }
 
-        return "overview";
+        // return "overview";
     };
 });
