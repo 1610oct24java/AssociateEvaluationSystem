@@ -1,45 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Revature | AES</title>
-
-
-<link rel="icon" type="img/png" href="images/favicon_192.png">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-	crossorigin="anonymous">
-<!-- Optional theme -->
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-	integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
-	crossorigin="anonymous">
-<!-- included for mobile scaling -->
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet"
-	href="//ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
-<link rel="stylesheet"
-	href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
-<link rel="stylesheet"
-	href="//fonts.googleapis.com/icon?family=Material+Icons">
-<link rel="stylesheet" href="css/bigwilliestyle.css">
-<style>
-@keyframes loading {
-			0% {
-				transform-origin: 100% 100%;
-				transform: rotate(0deg);
-			}
-			100% {
-				transform-origin: 100% 100%;
-				transform: rotate(360deg);
-			}
-		}
-* {
-	box-sizing: border-box;
-}
-
-<head>
 	<meta charset="UTF-8">
 	<title>AES | Recruiters</title>
 	<link rel="icon" type="img/png" href="images/favicon_192.png">
@@ -56,7 +17,63 @@
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
 	<link rel="stylesheet" href="css/aesMaterials.css">
 	<style>
-
+		@keyframes loading {
+			0% {
+				transform-origin: 100% 100%;
+				transform: rotate(0deg);
+			}
+			100% {
+				transform-origin: 100% 100%;
+				transform: rotate(360deg);
+			}
+		}
+		* {
+			box-sizing: border-box;
+		}
+		.loading {
+			position: relative;
+			display: block;
+			z-index: 13;
+			margin: 15px auto;
+			width: 100px;
+			height: 100px;
+			border: 5px solid transparent;
+			border-radius: 50%;
+			background-color: transparent;
+		}
+		/*.loading:hover {*/
+		/*border-color: rgba(210, 210, 210, 0.5);*/
+		/*}*/
+		/*.loading:hover:before {*/
+		/*background-color: rgba(210, 210, 210, 0.4);*/
+		/*}*/
+		.loading:before {
+			position: absolute;
+			display: block;
+			content: '';
+			z-index: 12;
+			top: 4px;
+			left: 4px;
+			width: 82px;
+			height: 82px;
+			border-radius: 50%;
+			background-color: white;
+		}
+		.loading:after {
+			position: absolute;
+			display: block;
+			top: 0;
+			content: '';
+			z-index: 11;
+			top: 0px;
+			left: 0px;
+			width: 45px;
+			height: 45px;
+			border-radius: 200px 0 0 0;
+			/*background: linear-gradient(45deg, rgba(0, 0, 0, 0) 0%, #459ad7 50%, #459ad7 100%);*/
+			background: orange;
+			animation: loading .9s linear infinite;
+		}
 	</style>
 </head>
 
@@ -67,7 +84,8 @@
 		<ng-include src="'recruitMenu.html'" />
 	</div>
 	<div class="container">
-		<div class="row">
+		<div class="row" >
+		<div style="height: 750px; overflow: auto;">
 			<table class="table table-striped table-bordered">
 				<caption>My Candidates:</caption>
 				<thead>
@@ -137,6 +155,7 @@
 					</tr>
 				</tbody>
 			</table>
+		</div>
 		</div>
 	</div>
 </div>
