@@ -5,7 +5,7 @@ adminApp.constant("SITE_URL", {
 	"HTTPS": "https://",
 	"BASE" : "",
 	"PORT" : ":8080",
-	
+
 	"LOGIN": "index",
     "VIEW_EMPLOYEES" : "viewEmployees",
     "VIEW_CANDIDATES" : "view",
@@ -48,6 +48,9 @@ adminApp.config(function($mdThemingProvider) {
     $mdThemingProvider.definePalette("revOrange", revOrangeMap);
     $mdThemingProvider.definePalette("revBlue", revBlueMap);
 
+    $mdThemingProvider.theme("success-toast");
+    $mdThemingProvider.theme("fail-toast");
+
     $mdThemingProvider.theme("default")
         .primaryPalette("revBlue")
         .accentPalette("revOrange");
@@ -71,7 +74,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 			window.location = SITE_URL.LOGIN;
 		}
 	});
-	
+
 	$scope.register = function() {
 
 		var employeeInfo = {
@@ -85,9 +88,9 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 			datePassIssued: null,
 			format		  : null
 		};
-		
+
 		$scope.postRegister(employeeInfo);
-		
+
 		$scope.firstName = '';
 		$scope.lastName = '';
 		$scope.email = '';
@@ -97,7 +100,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 	$scope.postRegister = function(employeeInfo) {
 		$scope.registerSuccessfulMsg = false;
 		$scope.registerUnsuccessfulMsg = false;
-		
+
 		$http({
 			method  : 'POST',
 			url: SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/register",
@@ -115,7 +118,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$location,$http,SITE
 				$scope.registerUnsuccessfulMsg = true;
 		});
 	}
-	
+
 	$scope.logout = function() {
 		$http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
 		.then(function(response) {
@@ -136,7 +139,7 @@ adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_UR
 			if($scope.authUser.authority != ROLE.ADMIN) {
 				window.location = SITE_URL.LOGIN;
 			}
-			
+
 			$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEES)
 			.then(function(response) {
 				$scope.employees = response.data;
@@ -144,8 +147,8 @@ adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_UR
 		} else {
 			window.location = SITE_URL.LOGIN;
 		}
-	})
-	    
+	});
+
 	$scope.logout = function() {
 		$http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
 		.then(function(response) {
@@ -155,15 +158,15 @@ adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_UR
 
 	$scope.deleteEmployee = function(email) {
 		url = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/" + email + "/delete";
-		
+
 		$http.delete(url)
 		.then(function (response) {
 			//handle success
 		}, function (error) {
 			//handle error
 		});
-	}
-	
+	};
+
 	$scope.checkAll = function () {
 		if (!$scope.selectedAll) {
 			$scope.selectedAll = true;
@@ -173,8 +176,8 @@ adminApp.controller('EmployeeViewCtrl', function($scope, $http, SITE_URL, API_UR
 		angular.forEach($scope.employees, function (employees) {
 			employees.selected = $scope.selectedAll;
 		});
-	};   
-	
+	};
+
 });
 
 function makeUser($scope) {
@@ -194,10 +197,10 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 			var authUser = {
 				username : response.data.principal.username,
 				authority: response.data.principal.authorities[0].authority
-			}
+			};
 			$scope.authUser = authUser;
 			var role = $scope.authUser.authority;
-			
+
 			if(role == "ROLE_ADMIN") {
 				// Continue to page
 			}else {
@@ -208,13 +211,13 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 		}
 
 	});
-	
+
 	$scope.update= function() {
 		$scope.passNotMatch = false;
 		$scope.passNotEntered = false;
 		$scope.emailNotEntered = false;
 		$scope.userNotFound = false;
-		
+
 		var employeeInfo = {
 			oldEmail	: $scope.oldEmail,
 			newEmail      : $scope.newEmail,
@@ -226,28 +229,28 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 
 		if ($scope.oldEmail === "" || $scope.oldEmail == null)
 		{	$scope.emailNotEntered = true; }
-		
+
 		if ($scope.newPassword !== $scope.confirmNewPassword)
 		{
 			$scope.passNotMatch = true;
 			$scope.newPassword = '';
 			$scope.confirmNewPassword = '';
 		}
-		
+
 		if ($scope.oldPassword === "" || $scope.oldPassword == null)
 		{	$scope.passNotEntered = true; }
-		
-		if ($scope.passNotMatch == false && $scope.passNotEntered == false 
+
+		if ($scope.passNotMatch == false && $scope.passNotEntered == false
 				&& $scope.emailNotEntered == false)
 		{
 			$scope.postUpdate($scope.oldEmail, employeeInfo);
-		}	
+		}
 	}
 
 	$scope.postUpdate = function(oldEmail, updateInfo) {
-		var updateUrl = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN 
+		var updateUrl = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN
 				+ API_URL.EMPLOYEE + "/" + $scope.oldEmail + "/update";
-		
+
 		$http({
 			method  : 'PUT',
 			url		: updateUrl,
@@ -268,10 +271,23 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 			window.location = SITE_URL.LOGIN;
 		});
 	}
-	
+
 }); //end update credentials controller
 
-adminApp.controller('CreateAssessmentCtrl', function($scope, $http, SITE_URL, API_URL, ROLE) {
+adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SITE_URL, API_URL, ROLE) {
+
+
+    $scope.showToast = function(message, type) {
+        $mdToast.show($mdToast.simple(message)
+            .parent(document.querySelectorAll('#toastContainer'))
+            .position("top right")
+            .action("OKAY")
+            .highlightAction(true)
+            .highlightClass('toastActionButton')
+            .theme(type + '-toast')
+            .hideDelay(5000)
+        );
+    };
 
     $(document).ready(function() {
         $('#example').DataTable({
@@ -300,26 +316,12 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, SITE_URL, AP
             }
         });
 
+
     $scope.times = [15, 30, 45, 60, 75, 90];
-    $scope.categories = [
-        "HTML",
-        "CSS",
-        "JavaScript",
-        "Object Oriented Programming",
-        "Data Structures",
-        "SQL",
-        "C#",
-        "Java",
-        "Critical Thinking"
-    ];
-    $scope.types = [
-        "Drag and Drop",
-        "Multiple Choice",
-        "Multiple Select",
-        "Coding Snippet"
-    ];
+
 
     $scope.assessments = [];
+    $scope.sections = [];
     $scope.totalQuestions = 0;
     $scope.totalCategories = 0;
     $scope.totalTypes = 0;
@@ -336,8 +338,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, SITE_URL, AP
 
 
     function UniqueArraybyId(collection, keyname) {
-        var output = [],
-            keys = [];
+        var output = [], keys = [];
 
         angular.forEach(collection, function(item) {
             var key = item[keyname];
@@ -356,13 +357,75 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, SITE_URL, AP
     };
 
     $scope.addRow = function() {
-        $scope.assessments.push({ 'category': $scope.category, 'type': $scope.type, 'quantity': $scope.quantity });
+
+        // $scope.temp = $scope.categories[$scope.categories.indexOf($scope.category.valueOf())];
+
+        $scope.sections.push({ 'category': $scope.category, 'type': $scope.type, 'quantity': $scope.quantity });
+
+
+        var tempCategory = $.grep($scope.categories, function(e){ return e.name == $scope.category; });
+
+
+        // console.log(result);
+        // console.log(result[0].categoryId);
+        // console.log(result[0].name);
+        // console.log($scope.category);
+
+        var msQuestions=0, mcQuestions=0, ddQuestions=0, csQuestions=0;
+
+        switch($scope.type) {
+            case $scope.types[0].formatName : { /* Multiple Choice */
+                console.log("case - 0");
+                mcQuestions = $scope.quantity;
+                console.log($scope.type); break;
+            }
+            case $scope.types[1].formatName : { /* Multiple Select */
+                console.log("case - 1");
+                msQuestions = $scope.quantity;
+                console.log($scope.type); break;
+            }
+            case $scope.types[2].formatName : { /* Drag 'n' Drop */
+                console.log("case - 2");
+                ddQuestions = $scope.quantity;
+                console.log($scope.type); break;
+            }
+            case $scope.types[3].formatName : { /* Code Snippet */
+                console.log("case - 3");
+                csQuestions = $scope.quantity;
+                console.log($scope.type); break;
+            }
+            default : {
+                console.log("case - default");
+                console.log($scope.type); break;
+            }
+        }
+
+
+
+        $scope.assessments.push({
+            "category": {
+                "categoryId": tempCategory[0].categoryId,
+                "name":  tempCategory[0].name
+            },
+            "msQuestions": msQuestions,
+            "mcQuestions": mcQuestions,
+            "ddQuestions": ddQuestions,
+            "csQuestions": csQuestions
+
+        });
+
+
+        console.log("Assessments - ");
+        console.log($scope.assessments);
+
+
         UpdateTotals($scope.quantity);
         $scope.sectionForm.$setPristine();
         $scope.sectionForm.$setUntouched();
         $scope.category = '';
         $scope.type = '';
         $scope.quantity = '';
+        $scope.showToast("Success - Section added", "success");
     };
 
     //creates url and performs AJAX call to appropriate REST endpoint
@@ -370,61 +433,63 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, SITE_URL, AP
     $scope.createAssessment = function() {
 
         //build test JSON
+        // data = {
+        //     "timeLimit": $scope.time,
+        //     "categoryRequestList": [{
+        //         "category": {
+        //             "categoryId": 6,
+        //             "name": "core language"
+        //         },
+        //         "msQuestions": 5,
+        //         "mcQuestions": 25,
+        //         "ddQuestions": 0,
+        //         "csQuestions": 1
+        //     }, {
+        //         "category": {
+        //             "categoryId": 2,
+        //             "name": "OOP"
+        //         },
+        //         "msQuestions": 1,
+        //         "mcQuestions": 3,
+        //         "ddQuestions": 0,
+        //         "csQuestions": 0
+        //     }, {
+        //         "category": {
+        //             "categoryId": 3,
+        //             "name": "Data Structures"
+        //         },
+        //         "msQuestions": 1,
+        //         "mcQuestions": 0,
+        //         "ddQuestions": 0,
+        //         "csQuestions": 1
+        //     }, {
+        //         "category": {
+        //             "categoryId": 4,
+        //             "name": "SQL"
+        //         },
+        //         "msQuestions": 3
+        //     }]
+        // };
+
         data = {
             "timeLimit": $scope.time,
-            "categoryRequestList": [{
-                "category": {
-                    "categoryId": 6,
-                    "name": "core language"
-                },
-                "msQuestions": 5,
-                "mcQuestions": 25,
-                "ddQuestions": 0,
-                "csQuestions": 1
-            }, {
-                "category": {
-                    "categoryId": 2,
-                    "name": "OOP"
-                },
-                "msQuestions": 1,
-                "mcQuestions": 3,
-                "ddQuestions": 0,
-                "csQuestions": 0
-            }, {
-                "category": {
-                    "categoryId": 3,
-                    "name": "Data Structures"
-                },
-                "msQuestions": 1,
-                "mcQuestions": 0,
-                "ddQuestions": 0,
-                "csQuestions": 0
-            }, {
-                "category": {
-                    "categoryId": 4,
-                    "name": "SQL"
-                },
-                "msQuestions": 3,
-                "mcQuestions": 5,
-                "ddQuestions": 1,
-                "csQuestions": 0
-            }]
+            "categoryRequestList": $scope.assessments
         };
 
         //var sendUrl = SITE_URL.BASE + API_URL.BASE + "/assessmentrequest/" + "1";
-        var sendUrl = SITE_URL.BASE + API_URL.BASE + "/assessmentrequest" + "/1/";
+        // var sendUrl = SITE_URL.BASE + API_URL.BASE + "/assessmentrequest" + "/1/";
 
         $http({
             method: 'PUT',
-            url: sendUrl,
+            url: (SITE_URL.BASE + API_URL.BASE + "/assessmentrequest" + "/1/"),
             headers: { 'Content-Type': 'application/json' },
             data: data
         }).success(function(response) {
-            console.log("success");
-            console.log(sendUrl);
+            $scope.showToast("Assessment created successfully", "success");
+            console.log("Assessment creation success");
         }).error(function(response) {
-            console.log("fail");
-            console.log(sendUrl);
+            $scope.showToast("Assessment creation failed", "fail");
+            console.log("Assessment creation failed");
         });
     };
 
@@ -437,13 +502,19 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, SITE_URL, AP
         url: "category"
     }).then(function (response) {
         $scope.categories = response.data;
+        console.log("Categories - ");
+        console.log(response);
+        $scope.showToast("Got all categories", "success");
     });
 
     $http({
         method: "GET",
         url: "format"
     }).then(function (response) {
-        $scope.formats = response.data;
+        $scope.types = response.data;
+        console.log("Formats - ");
+        console.log(response);
+        $scope.showToast("Got all formats", "success");
     });
 
 
@@ -465,12 +536,15 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
 
         var path = window.location.pathname.substr(1);
 
-        switch(path) {
-            case "aes/registerEmployee" : return "employees";
-            case "aes/updateEmployee" : return "employees";
-            case "aes/createAssessment" : return "assessments";
-            case "aes/parser" : return "parser";
-            default : return "overview"
+        switch (path) {
+            case "index.html":
+                return "employees";
+            case "update.html":
+                return "employees";
+            case "New.html":
+                return "assessments";
+            default:
+                return "overview"
         }
     };
 
@@ -492,4 +566,83 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
     mc.currentPage = mc.findCurrentPage();
     $scope.toggleLeft = mc.buildToggler('left');
 
+
+    // $scope.toggleLeft = buildDelayedToggler('left');
+    $scope.toggleRight = buildToggler('right');
+    $scope.isOpenRight = function() {
+        return $mdSidenav('right').isOpen();
+    };
+
+    /**
+     * Supplies a function that will continue to operate until the
+     * time is up.
+     */
+    function debounce(func, wait, context) {
+        var timer;
+
+        return function debounced() {
+            var context = $scope,
+                args = Array.prototype.slice.call(arguments);
+            $timeout.cancel(timer);
+            timer = $timeout(function() {
+                timer = undefined;
+                func.apply(context, args);
+            }, wait || 10);
+        };
+    }
+
+    /**
+     * Build handler to open/close a SideNav; when animation finishes
+     * report completion in console
+     */
+    function buildDelayedToggler(navID) {
+        return debounce(function() {
+            // Component lookup should always be available since we are not using `ng-if`
+            $mdSidenav(navID)
+                .toggle()
+                .then(function() {
+                    $log.debug("toggle " + navID + " is done");
+                });
+        }, 200);
+    }
+
+    function buildToggler(navID) {
+        return function() {
+            // Component lookup should always be available since we are not using `ng-if`
+            $mdSidenav(navID)
+                .toggle()
+                .then(function() {
+                    $log.debug("toggle " + navID + " is done");
+                });
+        };
+    }
+
+});
+
+
+adminApp.controller('LeftCtrl', function($scope, $timeout, $mdSidenav, $log) {
+    $scope.close = function() {
+        // Component lookup should always be available since we are not using `ng-if`
+        $mdSidenav('left').close()
+            .then(function() {
+                $log.debug("close LEFT is done");
+            });
+
+    };
+});
+
+
+adminApp.controller('RightCtrl', function($scope, $timeout, $mdSidenav, $log) {
+    $scope.close = function() {
+        // Component lookup should always be available since we are not using `ng-if`
+        $mdSidenav('right').close()
+            .then(function() {
+                $log.debug("close RIGHT is done");
+            });
+    };
+});
+
+
+adminApp.controller('manageQuestions', function($scope, $http, SITE_URL, API_URL, ROLE) {
+    var mq = this;
 });

@@ -1,6 +1,8 @@
 package com.revature.aes.io;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,6 +22,7 @@ public class SnippetIO {
 	Logging log;
 
 	static String S3LOCATION = "aes.revature/";
+
 
 	public boolean upload(File file, String key) {
 		AmazonS3 s3client = new AmazonS3Client();
