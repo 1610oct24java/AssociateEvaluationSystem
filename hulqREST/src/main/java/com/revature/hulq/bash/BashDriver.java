@@ -55,6 +55,7 @@ public class BashDriver {
 		System.out.println("WAFFLES");
 		System.out.println("keyPath: " + keyPath);
 		System.out.println("testPath: " + testPath);
+		System.out.println("args: "+arguments);
 		
 		try {
 			System.out.println("Executing bash command: " + command.toString());
@@ -137,6 +138,8 @@ public class BashDriver {
 						lineData.append(" " + inputLine);
 					}
 				}
+				System.out.print("BASH: ");
+				System.out.println(inputLine);
 			}
 
 			//update key info
