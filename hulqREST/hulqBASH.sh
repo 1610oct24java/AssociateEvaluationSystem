@@ -51,10 +51,7 @@ function read_config_file {
 			testRunnable=$outFile;
 		fi;
 		
-		echo customOut: $customOut
-		echo testCustomOut: $testCustomOut
-		echo outFile: $outFile
-		echo testRunnable: $testRunnable
+		echo customOut: $customOut testCustomOut: $testCustomOut outFile: $outFile testRunnable: $testRunnable
 }	
 
 #compile key file
