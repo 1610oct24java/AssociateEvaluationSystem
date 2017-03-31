@@ -91,6 +91,7 @@ AESCoreApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,
 
     $scope.show2 = function(num, email){
         $scope.assessments = [];
+        $scope.returnCheck = false;
         $http
             .get(SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + email + "/assessments")
             .then(function(response) {
@@ -100,6 +101,7 @@ AESCoreApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,
                     a.finishedTimeStamp = formatDate(a.finishedTimeStamp)});
                 }
                 $scope.assessments = asmt;
+                $scope.returnCheck = true;
             });
 
         var myEl = angular.element( document.querySelector( '#'+num ) );

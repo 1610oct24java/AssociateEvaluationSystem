@@ -1,6 +1,9 @@
 package com.revature.aes.grading;
 
-import com.revature.aes.util.PropertyReader;
+import java.util.Properties;
+
+import javax.annotation.PostConstruct;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -9,13 +12,10 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.revature.aes.logging.Logging;
-
-import javax.annotation.PostConstruct;
-import java.util.Properties;
+import com.revature.aes.util.PropertyReader;
 
 @Component("snippetEvaluationClient")
 public class SnippetEvaluationClient {
@@ -60,8 +60,9 @@ public class SnippetEvaluationClient {
 			return Double.parseDouble(responseString)/100;
 
 		} catch (Exception e) {
-			log.stackTraceLogging(e);
-			//e.printStackTrace();
+			log.error(Logging.errorMsg("\nin class: SnippetEvaluationClient\nin method: evaluateSnippet"
+					+ "\nparameters:\n\tSubmission Key: "+submissionKey+"\n\tSolution Key: "+solutionKey
+					+"\nexcept",e));
 			return 1.0;
 		}
 	}
