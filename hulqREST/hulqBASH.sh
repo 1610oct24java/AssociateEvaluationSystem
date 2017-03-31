@@ -2,7 +2,7 @@
 
 #hulqBASH: Hosted Universal Language Qualifier in BASH.
 #This script was designed and developed by Michael Rod
-#for use by Revature LLC. 
+#(Magic Mike) for use by Revature LLC. 
 #######################################################
 #This is the core logic for the utility. It manages 
 #language determination, compilation,and execution, 
@@ -50,6 +50,11 @@ function read_config_file {
 		else
 			testRunnable=$outFile;
 		fi;
+		
+		echo customOut: $customOut
+		echo testCustomOut: $testCustomOut
+		echo outFile: $outFile
+		echo testRunnable: $testRunnable
 }	
 
 #compile key file
