@@ -80,6 +80,8 @@ public class BashDriver {
 
 		    System.out.println("Nothing broke yet...\nNow testing the code:");
 			while ((inputLine = in.readLine()) != null) {
+				System.out.print("BASH: ");
+				System.out.println(inputLine);
 				if (inputLine.startsWith("ERROR(f)")) {
 					System.out.println(inputLine);
 					throw new UnsupportedFileTypeException("file type exception: the files are not currently supported by hulqBASH");
@@ -138,8 +140,6 @@ public class BashDriver {
 						lineData.append(" " + inputLine);
 					}
 				}
-				System.out.print("BASH: ");
-				System.out.println(inputLine);
 			}
 
 			//update key info
