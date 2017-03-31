@@ -102,29 +102,29 @@ AESCoreApp.controller('UpdateEmployeeCtrl', function ($scope, $location, $http, 
             newPassword: $scope.newPassword,
         };
 
-        if ($scope.oldEmail === "" || $scope.oldEmail == null) {
+        if ($scope.oldEmail == "" || $scope.oldEmail == null) {
             $scope.emailNotEntered = true;
         }
 
-        if ($scope.oldEmail !== $scope.authUser.username) {
+        if ($scope.oldEmail != $scope.authUser.username) {
+        	console.log($scope.oldEmail)
+        	console.log($scope.authUser.username)
             $scope.updateUnsuccessful = true;
         }
 
-        if ($scope.newPassword !== $scope.confirmNewPassword) {
+        if ($scope.newPassword != $scope.confirmNewPassword) {
             $scope.passNotMatch = true;
             $scope.newPassword = '';
             $scope.confirmNewPassword = '';
         }
 
-        if ($scope.oldPassword === "" || $scope.oldPassword == null) {
+        if ($scope.oldPassword == "" || $scope.oldPassword == null) {
             $scope.passNotEntered = true;
         }
 
         if ($scope.passNotMatch == false && $scope.passNotEntered == false
-            && $scope.emailNotEntered == false) {
-            if (!$scope.updateUnsuccessful) {
-                $scope.postUpdate(employeeInfo);
-            }
+            && $scope.emailNotEntered == false && $scope.updateUnsuccessful == false) {
+               $scope.postUpdate(employeeInfo);
         }
     };
     
@@ -141,10 +141,13 @@ AESCoreApp.controller('UpdateEmployeeCtrl', function ($scope, $location, $http, 
             headers: {'Content-Type': 'application/json'},
             data: info
         }).success(function (data) {
+        	console.log("Inside success.")
+        	console.log(data)
         	$scope.showToast("Successfully Updated User");
-           /* $scope.updateSuccessful = true;
-            $scope.updateUnsuccessful = false;*/
+           /* $scope.updateSuccessful = true;*/
+            $scope.updateUnsuccessful = false;
         }).error(function () {
+        	console.log("Inside Failure.")
         	$scope.showToast("Failed to Update User");
             /*$scope.updateUnsuccessful = true;
             $scope.updateSuccessful = false;*/
