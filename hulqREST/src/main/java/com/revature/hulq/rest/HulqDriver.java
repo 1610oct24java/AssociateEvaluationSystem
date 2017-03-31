@@ -59,7 +59,8 @@ public class HulqDriver {
 			System.out.println(renamedKey + "-newKey:" + newKeyName +"[=]"+ renamedTest+ " newTest:" + newTestName);
 			//if both files were successfully renamed
 			if(renamedKey && renamedTest){
-				result = bd.gradeCode(newKeyName, newTestName, arguments, testProfile);				
+				System.out.println("bacon");
+				result = bd.gradeCode(newKeyName, newTestName, arguments, testProfile);
 			}
 		} 
 		

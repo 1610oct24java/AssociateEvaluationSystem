@@ -52,6 +52,10 @@ public class BashDriver {
 		command.add(testPath);
 		command.addAll(arguments);
 		
+		System.out.println("WAFFLES");
+		System.out.println("keyPath: " + keyPath);
+		System.out.println("testPath: " + testPath);
+		
 		try {
 			System.out.println("Executing bash command: " + command.toString());
 			ProcessBuilder pb = new ProcessBuilder(command);
