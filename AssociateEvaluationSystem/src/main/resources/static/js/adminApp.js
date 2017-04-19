@@ -59,6 +59,8 @@ adminApp.config(function($mdThemingProvider) {
 
 
 adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$http,SITE_URL, API_URL, ROLE) {
+	$scope.roleTypes = [];
+	
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
 		if (response.data.authenticated) {
@@ -84,7 +86,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
             lastName      : $scope.lastName,
             salesforce    : null,
             recruiterId   : null,
-            role      	: null, //this is hardcoded in createEmployee. I'm not proud of this. -Sledgehammer
+            role          : $scope.roleType,
 			datePassIssued: null,
 			format		  : null
 		};
@@ -95,6 +97,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 		$scope.lastName = '';
 		$scope.email = '';
 		$scope.program = '';
+		$scope.roleType = '';
 	};
 
 	$scope.postRegister = function(employeeInfo) {
@@ -125,6 +128,13 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 			window.location = SITE_URL.LOGIN;
 		});
 	}
+	
+	// populate roleTypes in registerEmployee View.
+	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/roles")
+	.then(function(result) {
+		$scope.roleTypes = result.data;
+	})
+	
 });
 
 adminApp.controller('EmployeeViewCtrl', function($scope,$mdToast, $http, SITE_URL, API_URL, ROLE) {
