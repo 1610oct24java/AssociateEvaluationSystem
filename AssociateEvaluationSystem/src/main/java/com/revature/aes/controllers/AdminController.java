@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.aes.beans.Role;
 import com.revature.aes.beans.User;
 import com.revature.aes.beans.UserUpdateHolder;
 import com.revature.aes.locator.MailServiceLocator;
@@ -126,5 +127,18 @@ public class AdminController {
 //	public void initSuperuser(@PathVariable String email, @PathVariable String lastname, @PathVariable String firstname) {
 //		userService.createAdmin(email, lastname, firstname);
 //	}
+	
+	/**
+	 * Retrieves all user roles that are in the database.
+	 *  
+	 * @return
+	 */
+	@RequestMapping(value="/admin/employee/roles")
+	public List<Role> getRoles() {
+		return roleService.getRoles();
+	}
+	
+	
+	
 
 }
