@@ -516,7 +516,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
 
     $http({
         method: "GET",
-        url: "format"
+        url: "rest/format"
     }).then(function (response) {
         $scope.types = response.data;
         console.log("Formats - ");
