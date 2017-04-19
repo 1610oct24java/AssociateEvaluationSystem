@@ -17,12 +17,14 @@
 #### readme located in /hulqConfig.
 #######################################################
 
+#FUNCTION TO GET FILE TYPES ==================================================================
 #extract file extensions from input filenames
 function get_file_types {
 	keyLang=${1:`expr index "$1" .`}
 	testLang=${2:`expr index "$2" .`}
 }
 
+#FUNCTION TO CONFIG FILE ==================================================================
 #get configuration from config files
 function read_config_file {
 	# get key config
@@ -54,6 +56,7 @@ function read_config_file {
 		echo customOut: $customOut testCustomOut: $testCustomOut outFile: $outFile testRunnable: $testRunnable
 }	
 
+#COMPILE KEY FILE ==================================================================
 #compile key file
 function compile_key {
 	if [[ $keyCustomOut == "y" ]]; then
@@ -63,6 +66,7 @@ function compile_key {
 	fi;		
 }
 
+#COMPILE TEST FILE ==================================================================
 #compile test file
 function compile_test {
 	if [[ $testCustomOut == "y" ]]; then
@@ -72,6 +76,7 @@ function compile_test {
 	fi;
 }
 
+#REMOVE DOWNLOADED AND COMPILE FILE ==================================================================
 #remove downloaded and compiled file
 function remover {
 	#remove runnable files... FIX LATER if you want
@@ -94,6 +99,8 @@ function remover {
 	fi
 	
 }
+#=============================== END FUNCTIONS =============================================
+#===========================================================================================
 
 #set input names to variables
 keyFileName=$1
@@ -102,8 +109,11 @@ testFileName=$2
 #shift command variables by 2
 shift 2;
 
+#Returns true if file extensions types match and are valid types  
+testVar="$(bash hulqConfig/checkLanguages.sh $keyFileName $testFileName)";
+
 #if the file types are invalid, exit
-if [[ "$(bash hulqConfig/checkLanguages.sh $keyFileName $testFileName)" != "true" ]]; then
+if [[ "$testVar" != "true" ]]; then
 	echo "ERROR(f): invalid file types";
 	exit;
 fi;
@@ -114,6 +124,7 @@ get_file_types $keyFileName $testFileName
 #set config variables
 read_config_file "hulqConfig/$keyLang.hulq" "hulqConfig/$testLang.hulq" 
 
+#======================== COMPILATION ==========================================
 #if key needs to be compiled
 if [[ $keyType == "compiled" ]]; then
 	compile_key;
@@ -123,7 +134,9 @@ fi;
 if [[ $testType == "compiled" ]]; then
 	compile_test;
 fi;
+#======================== END COMPILATION ==========================================
 
+#======================== COMPILATION RESULT ===============================
 #if test is a java program
 if [[ $testExecutor == "java " ]]; then
 	#if test failed to compile
@@ -153,12 +166,14 @@ else
 		exit; 
 	fi
 fi
+#======================== END COMPILATION RESULT ===============================
 
 runTest=$testExecutor$testRunnable;
 runKey=$keyExecutor$keyRunnable; 
 count=0;
 for argSet in "$@"; do	
 	(
+        echo $argSet;
 		#echo the result (goes out to the service calling this)
 		(echo "key $count: $($runKey $argSet)") &
 		(echo "test $count: $($runTest $argSet)") &
@@ -167,4 +182,4 @@ for argSet in "$@"; do
 let "count += 1";
 done;
 wait;
-remover;
+#remover;

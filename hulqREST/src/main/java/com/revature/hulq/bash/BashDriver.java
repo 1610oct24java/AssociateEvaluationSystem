@@ -40,7 +40,14 @@ public class BashDriver {
 		return result;
 	}
 	
-
+	/**
+	 * 
+	 * @param keyPath : File that is the answer
+	 * @param testPath : File that user entered
+	 * @param arguments : 
+	 * @return
+	 * @throws BashException
+	 */
 	private Map<Integer, BashData> runCodeTestScript(String keyPath, String testPath, List<String> arguments) throws BashException {
 		
 		Map<Integer, BashData> data = new HashMap<>();
