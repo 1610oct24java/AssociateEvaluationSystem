@@ -52,6 +52,11 @@ public class BashDriver {
 		command.add(testPath);
 		command.addAll(arguments);
 		
+		System.out.println("WAFFLES");
+		System.out.println("keyPath: " + keyPath);
+		System.out.println("testPath: " + testPath);
+		System.out.println("args: "+arguments);
+		
 		try {
 			System.out.println("Executing bash command: " + command.toString());
 			ProcessBuilder pb = new ProcessBuilder(command);
@@ -75,6 +80,8 @@ public class BashDriver {
 
 		    System.out.println("Nothing broke yet...\nNow testing the code:");
 			while ((inputLine = in.readLine()) != null) {
+				System.out.print("BASH: ");
+				System.out.println(inputLine);
 				if (inputLine.startsWith("ERROR(f)")) {
 					System.out.println(inputLine);
 					throw new UnsupportedFileTypeException("file type exception: the files are not currently supported by hulqBASH");
