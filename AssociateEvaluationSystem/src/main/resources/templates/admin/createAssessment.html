@@ -17,7 +17,6 @@
 	<link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
 	<link rel="stylesheet" href="css/aesMaterials.css">
-
 </head>
 
 <body ng-app="adminApp" ng-controller="CreateAssessmentCtrl" layout-fill>
@@ -32,7 +31,7 @@
 					<span>Assessment Creation</span>
 				</div>
 				<span flex> </span>
-				<button layout-margin type="submit" class="btn btn-success btn-md" ng-disabled="!assessments[0] || timeForm.$invalid">Create Assessment</button>
+				<button layout-margin type="submit" class="btn btn-success btn-md" ng-disabled="!assessments[0] || timeForm.$invalid" ng-click="createAssessment()">Create Assessment</button>
 			</md-toolbar>
 			<md-card-content>
 				<form name="timeForm" novalidate="">
@@ -67,16 +66,16 @@
 						<md-input-container class="md-block" flex-gt-sm="">
 							<label>Category</label>
 							<md-select required ng-model="category">
-								<md-option ng-repeat="option in categories" value="{{option}}">
-									{{option}}
+								<md-option ng-repeat="category in categories" value="{{category.name}}">
+									{{category.name}}
 								</md-option>
 							</md-select>
 						</md-input-container>
 						<md-input-container class="md-block" flex-gt-sm="">
 							<label>Type</label>
 							<md-select required ng-model="type">
-								<md-option ng-repeat="option in types" value="{{option}}">
-									{{option}}
+								<md-option ng-repeat="option in types" value="{{option.formatName}}">
+									{{option.formatName}}
 								</md-option>
 							</md-select>
 						</md-input-container>
@@ -120,7 +119,7 @@
 					</tfoot>
 					<tbody>
 					<div>
-						<tr ng-repeat="ass in assessments track by $index">
+						<tr ng-repeat="ass in sections track by $index">
 							<td>
 								<input type="button" value="Remove" class="btn btn-primary btn-block" ng-click="removeRow($index)" />
 							</td>
@@ -132,12 +131,6 @@
 					</tbody>
 				</table>
 			</md-card-content>
-			<!--Loading Circle -->
-			<!-- <div ng-if="totalQuestions == undefined" layout="column" layout-wrap layout-align="center center">
-                    <div flex="100"> &nbsp; </div>
-                    <md-progress-circular flex="100" md-mode="indeterminate"> </md-progress-circular>
-                    <div flex="100"> &nbsp; </div>
-                </div> -->
 		</md-card>
 	</div>
 </div>

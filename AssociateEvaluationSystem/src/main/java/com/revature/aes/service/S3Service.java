@@ -38,9 +38,10 @@ public class S3Service {
 
 		try {
 			printWriter = new PrintWriter(file);
-			BufferedWriter writer = new BufferedWriter(printWriter);
-			writer.write(snippetContents);
-			// writer.close();
+
+		  BufferedWriter writer = new BufferedWriter(printWriter);
+		  writer.write(snippetContents);
+		  writer.close();
 			snippetIO.upload(file, key);
 			if (!file.delete()) {
 				log.error("File not found! Can not delete file that does not exists!");
