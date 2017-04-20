@@ -11,6 +11,7 @@ import com.revature.aes.beans.User;
 public interface UserDAO extends JpaRepository<User, Integer>{
 	
 	public User findByEmail(String email);
+	public User findByEmailIgnoreCase(String email);
 	public User findUserByEmail(String email);
 	public User findByUserId(int userId);
 	public List<User> findUsersByRecruiterId(int recruiterId);
