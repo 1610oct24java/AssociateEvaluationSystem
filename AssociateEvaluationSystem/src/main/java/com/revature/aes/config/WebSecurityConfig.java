@@ -13,7 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
-
 @Configuration
 @EnableWebSecurity
 //@ImportResource("classpath*:com/revature/aes/config/security-context.xml")
