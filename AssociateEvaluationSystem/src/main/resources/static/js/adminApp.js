@@ -170,8 +170,17 @@ adminApp.controller('EmployeeViewCtrl', function($scope,$mdToast, $http, SITE_UR
 	    	$mdToast.show($mdToast.simple().textContent(message).parent(document.querySelectorAll('#toastContainer')).position("center center").action("OKAY").highlightAction(true));
 	    };
 
-	$scope.deleteEmployee = function(email) {
-		url = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/" + email + "/delete";
+	// deletes an employee only if it is not the system user.
+    $scope.deleteEmployee = function(employee) {
+    	if (employee.role.roleTitle.toUpperCase() === "SYSTEM") {
+    		$scope.showToast("Cannot delete System User");
+    		console.log("CAN'T DO SYSTEM USER DELETE");
+    		return;
+    	}
+    	
+    	// delete the employee if it is not the system user.
+    	console.log("DOING NON-SYSTEM USER DELETE");
+		url = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/" + employee.email + "/delete";
 		$http.delete(url)
 		.success( function(response) {
 			$scope.showToast("User Deleted");
