@@ -256,12 +256,16 @@ public class GetAssessmentController {
 						assessment.setCreatedTimeStamp(serverQuizStartTime);
 						service.updateAssessment(assessment);
 						
-						// Add assessment's full time limit to the response
+						// Add assessment's full time limit to the response TODO fix
 						responseMap.put("timeLimit", assessment.getTimeLimit());
+						responseMap.put("newTime", 0);
 						responseMap.put("msg", "allow");
 						responseMap.put("assessment", assessment);
+						//System.out.println("timeLimit " + assessment.getTimeLimit()+"\n\n\n\n\n");
 						
 					}else {
+						responseMap.put("timeLimit", assessment.getTimeLimit());
+						//System.out.println("timeLimit " + assessment.getTimeLimit()+"\n\n\n\n\n");
 						Timestamp serverNowTime = new Timestamp(System.currentTimeMillis());
 						long serverNowTimeInMillis = serverNowTime.getTime();
 						long createdTimestampInMillis = assessment.getCreatedTimeStamp().getTime();
@@ -275,7 +279,8 @@ public class GetAssessmentController {
 						}else {
 							
 							// Add modified time limit since assessment is still in progress
-							responseMap.put("timeLimit", modifiedTimelimit);
+							//System.out.println("\n\n"+ modifiedTimelimit + "I need this");
+							responseMap.put("newTime", modifiedTimelimit);
 							responseMap.put("msg", "allow");
 							responseMap.put("assessment", assessment);
 						}
