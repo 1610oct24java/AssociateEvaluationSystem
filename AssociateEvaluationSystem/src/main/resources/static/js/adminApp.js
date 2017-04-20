@@ -56,10 +56,10 @@ adminApp.config(function($mdThemingProvider) {
         .accentPalette("revOrange");
 });
 
-
-
 adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$http,SITE_URL, API_URL, ROLE) {
 	$scope.roleTypes = [];
+	$scope.allEmails = [];
+	$scope.buttonToggle = false; // by default
 	
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
@@ -77,6 +77,21 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 		}
 	});
 
+	/* This function checks if email is in the database
+	 * Disables registration if email is in the database
+	 * */
+	$scope.checkEmail = function(){
+		$scope.allEmails.forEach(function(email) {
+			if (email === $scope.email){
+				alert("Email already registered.");
+				$scope.buttonToggle = true;
+			}
+			else {
+				$scope.buttonToggle = false;
+			}
+		});
+	};
+	
 	$scope.register = function() {
 
 		var employeeInfo = {
@@ -86,6 +101,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
             lastName      : $scope.lastName,
             salesforce    : null,
             recruiterId   : null,
+            /*role      	  : null, //this is hardcoded in createEmployee. I'm not proud of this. -Sledgehammer */
             role          : $scope.roleType,
 			datePassIssued: null,
 			format		  : null
@@ -133,7 +149,13 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/roles")
 	.then(function(result) {
 		$scope.roleTypes = result.data;
-	})
+	});
+	
+	// get all emails from the database
+	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/emails")
+	.then(function(result) {
+		$scope.allEmails = result.data;
+	});
 	
 });
 
