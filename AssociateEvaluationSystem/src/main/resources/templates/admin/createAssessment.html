@@ -31,7 +31,7 @@
 					<span>Assessment Creation</span>
 				</div>
 				<span flex> </span>
-				<button layout-margin type="submit" class="btn btn-success btn-md" ng-disabled="!assessments[0] || timeForm.$invalid" ng-click="createAssessment()">Create Assessment</button>
+				<button layout-margin type="submit" class="btn btn-success btn-md" ng-disabled="!assessments[0] || timeForm.$invalid || coreLanguage == false" ng-click="createAssessment()">Create Assessment</button>
 			</md-toolbar>
 			<md-card-content>
 				<form name="timeForm" novalidate="">
