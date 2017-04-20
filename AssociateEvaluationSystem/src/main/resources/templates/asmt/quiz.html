@@ -61,7 +61,8 @@
 							<h2 class="h2">Welcome to the test</h2>
 							<hr>
 							<uib-accordion close-others="oneAtATime">
-							<div ng-repeat="q in filteredQuestions" my-repeat-directive>
+							<div ng-repeat="q in filteredQuestions" my-repeat-directive >
+								<div id="anchor{{$index+numPerPage*(currentPage-1)+1}}"></div>
 								<div uib-accordion-group
 									class="panel panel-default question-box" is-disabled="true"
 									is-open="states[$index+numPerPage*(currentPage-1)].open">
@@ -276,6 +277,7 @@
 		src="../static/js/AngularControllers/quizController.js"></script>
 	<script th:src="@{/js/AngularControllers/countdownController.js}"
 		src="../static/js/AngularControllers/countdownController.js"></script>
+		
 
 </body>
 </html>
