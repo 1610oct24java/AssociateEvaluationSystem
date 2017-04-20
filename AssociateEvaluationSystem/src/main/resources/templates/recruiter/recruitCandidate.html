@@ -42,7 +42,7 @@
             </div>
             <div class="row input-field">
                 <label class="sr-only" for="inputEmail">email address</label>
-                <input class="col-xs-12 col-md-12" id="inputEmail" type="email" placeholder="email address" ng-model="email" required>
+                <input class="col-xs-12 col-md-12" id="inputEmail" type="email" placeholder="email address" ng-model="email" ng-change="checkEmail()" required>
             </div>
             <div ng-show="registerSuccessfulMsg" class="span-creds">
                     <span class="glyphicon glyphicon-floppy-saved" aria-hidden="true" style="color:green;">
@@ -55,7 +55,7 @@
             </span>
             </div>
             <div class="row">
-                <input id="btn-register-recruit" class="btn-revature" type="submit" value="register">
+                <input id="btn-register-recruit" class="btn-revature" type="submit" value="register" ng-disabled="buttonToggle">
             </div>
         </form>
     </div>

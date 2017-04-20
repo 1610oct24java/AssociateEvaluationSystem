@@ -1,6 +1,7 @@
 package com.revature.aes.controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -229,5 +230,15 @@ public class RecruiterController {
 	@RequestMapping(value="roles/init",method = RequestMethod.GET)
 	public void initRoles() {
 		roleService.initRoles();
+	}
+	
+	// this obtains all the emails in the database
+	@RequestMapping(value="recruiter/emails")
+	public List<String> getEmails() {
+		List<String> allEmails = new ArrayList<String>();
+		for (User user : userService.findAllUsers()){
+			allEmails.add(user.getEmail());
+		}
+		return allEmails;
 	}
 }
