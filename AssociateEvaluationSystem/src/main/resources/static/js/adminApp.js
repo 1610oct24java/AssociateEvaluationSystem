@@ -281,8 +281,7 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 
 }); //end update credentials controller
 
-adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SITE_URL, API_URL, ROLE) {
-
+adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SITE_URL, API_URL, ROLE) {	
 
     $scope.showToast = function(message, type) {
         $mdToast.show($mdToast.simple(message)
@@ -306,6 +305,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
         });
         $scope.coreLanguage = false;
         $scope.coreCount = 0;
+        $scope.showModal = false;	
     });
 
 
@@ -548,10 +548,14 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
             "timeLimit": $scope.time,
             "categoryRequestList": $scope.assessments
         };
+        
+        if($scope.coreLanguage == false){
+        	$scope.showToast("Core Language Section Required", "fail");
+        }
 
         //var sendUrl = SITE_URL.BASE + API_URL.BASE + "/assessmentrequest/" + "1";
         // var sendUrl = SITE_URL.BASE + API_URL.BASE + "/assessmentrequest" + "/1/";
-        if($scope.coreLanguage == true){
+        else if($scope.coreLanguage == true){
                 $http({
                     method: 'PUT',
                     url: (SITE_URL.BASE + API_URL.BASE + "/assessmentrequest" + "/1/"),
