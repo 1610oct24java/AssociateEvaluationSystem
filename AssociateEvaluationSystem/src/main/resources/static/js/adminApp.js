@@ -84,15 +84,19 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 	 * Disables registration if email is in the database
 	 * */
 	$scope.checkEmail = function(){
+		var keepGoing = true;
 		$scope.allEmails.forEach(function(email) {
-			if (email === $scope.email){
-				alert("Email already registered.");
-				$scope.buttonToggle = true;
+			if(keepGoing) {
+				if (email === $scope.email){
+					alert("Email already registered.");
+					$scope.buttonToggle = true;
+					keepGoing = false;
+				}
+				else {
+					$scope.buttonToggle = false;
+				}
 			}
-			else {
-				$scope.buttonToggle = false;
-			}
-		});
+		});	
 	};
 	
 	// show the recruiter select menu if employee being registered is a candidate
