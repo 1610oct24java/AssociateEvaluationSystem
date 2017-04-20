@@ -20,4 +20,5 @@ public interface UserService {
 	public boolean updateEmployee(User user, UserUpdateHolder userUpdate);
 	public void removeEmployee(String email);
 	public String setCandidateSecurity(User candidate);
+	public String findEmailById(int id);
 }
