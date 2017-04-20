@@ -17,7 +17,6 @@ import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 @EnableWebSecurity
 //@ImportResource("classpath*:com/revature/aes/config/security-context.xml")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
