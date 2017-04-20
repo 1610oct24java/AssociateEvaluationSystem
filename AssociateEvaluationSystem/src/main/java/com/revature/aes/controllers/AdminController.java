@@ -1,14 +1,17 @@
 package com.revature.aes.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.aes.beans.Role;
 import com.revature.aes.beans.User;
 import com.revature.aes.beans.UserUpdateHolder;
 import com.revature.aes.locator.MailServiceLocator;
@@ -82,17 +85,27 @@ public class AdminController {
 	 */
 	@RequestMapping(value="admin/employee/register", method = RequestMethod.POST)
 	public String registerEmployee(@RequestBody User employee) {
-		String pass = userService.createEmployee(employee);
+
+		boolean passC = false;
+		String pass = null;
+		// check if there's a recruiter id associated with this registration
+		if (employee.getRecruiterId() != null) {
+			// if there is, it's a new candidate being added
+			passC = userService.createCandidate(employee, userService.findEmailById(employee.getRecruiterId()));
+			// if not, then it's a recruiter/trainer(/admin?)
+		} else {
+			pass = userService.createEmployee(employee);
+		}
 		boolean mailSentSuccess;
-		if (pass != null){
+		if (pass != null || passC != false) {
 			mailSentSuccess = mailService.sendTempPassword(employee.getEmail(), pass);
-			if (mailSentSuccess)
-			{
+			if (mailSentSuccess) {
 				return "{\"msg\":\"success\"}";
 			} else {
 				return "{\"msg\":\"fail\"}";
-		}} else {
-				return "{\"msg\":\"fail\"}";
+			}
+		} else {
+			return "{\"msg\":\"fail\"}";
 		}
 	}
 
@@ -137,5 +150,44 @@ public class AdminController {
 //	public void initSuperuser(@PathVariable String email, @PathVariable String lastname, @PathVariable String firstname) {
 //		userService.createAdmin(email, lastname, firstname);
 //	}
+	
+	/**
+	 * Retrieves all user roles that are in the database.
+	 *  
+	 * @return
+	 */
+	@RequestMapping(value="/admin/employee/roles")
+	public List<Role> getRoles() {
+		return roleService.getRoles();
+	}
+	
+	/**
+	 * Retrieves all emails from users that are registered already
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value="admin/employee/emails")
+	public List<String> getEmails() {
+		List<String> allEmails = new ArrayList<String>();
+		for (User user : userService.findAllUsers()){
+			allEmails.add(user.getEmail());
+		}
+		return allEmails;
+	}
+	
+	/**
+	 * Retrives all recruiters from the database
+	 * @return
+	 */
+	@RequestMapping(value="admin/employee/recruiters")
+	public List<User> getRecruiters(){
+		List<User> allRecruiters = new ArrayList<User>();
+		for (User user : userService.findAllUsers()){
+			if (user.getRole().getRoleId() == 2){
+				allRecruiters.add(user);
+			}
+		}
+		return allRecruiters;
+	}
 
 }

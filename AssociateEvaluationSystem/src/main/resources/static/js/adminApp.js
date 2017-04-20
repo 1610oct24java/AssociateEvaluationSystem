@@ -56,9 +56,14 @@ adminApp.config(function($mdThemingProvider) {
         .accentPalette("revOrange");
 });
 
-
-
 adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$http,SITE_URL, API_URL, ROLE) {
+	$scope.roleTypes = [];
+	$scope.allEmails = [];
+	$scope.buttonToggle = false; // by default
+	$scope.recruiter = null; // by default, unless admin picks candidate
+	$scope.recruiterSelect = false; // by default, unless admin picks candidate
+	$scope.allRecruiters = [];
+	
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
 		if (response.data.authenticated) {
@@ -75,7 +80,36 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 		}
 	});
 
+	/* This function checks if email is in the database
+	 * Disables registration if email is in the database
+	 * */
+	$scope.checkEmail = function(){
+		var keepGoing = true;
+		$scope.allEmails.forEach(function(email) {
+			if(keepGoing) {
+				if (email === $scope.email){
+					alert("Email already registered.");
+					$scope.buttonToggle = true;
+					keepGoing = false;
+				}
+				else {
+					$scope.buttonToggle = false;
+				}
+			}
+		});	
+	};
+	
+	// show the recruiter select menu if employee being registered is a candidate
+	$scope.checkIfCandidate = function(){
+		if ($scope.roleType.roleTitle.toUpperCase() === 'CANDIDATE'){
+			$scope.recruiterSelect = true;
+		} else {
+			$scope.recruiterSelect = false;
+		}
+	};
+	
 	$scope.register = function() {
+		console.log($scope.recruiter);
 
 		var employeeInfo = {
 			userId        : null,
@@ -83,8 +117,8 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 			firstName     : $scope.firstName,
             lastName      : $scope.lastName,
             salesforce    : null,
-            recruiterId   : null,
-            role      	: null, //this is hardcoded in createEmployee. I'm not proud of this. -Sledgehammer
+            recruiterId   : $scope.recruiter.userId,
+            role          : $scope.roleType,
 			datePassIssued: null,
 			format		  : null
 		};
@@ -95,6 +129,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 		$scope.lastName = '';
 		$scope.email = '';
 		$scope.program = '';
+		$scope.roleType = '';
 	};
 
 	$scope.postRegister = function(employeeInfo) {
@@ -125,6 +160,35 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 			window.location = SITE_URL.LOGIN;
 		});
 	}
+	
+	// populate roleTypes in registerEmployee View.
+	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/roles")
+	.then(function(result) {
+		// we don't want to display 'restuser' or 'system'
+		result.data.forEach(function(role){
+			if (role.roleTitle.toUpperCase() === 'RESTUSER'){
+			}
+			else if (role.roleTitle.toUpperCase() === 'SYSTEM'){
+			}
+			else {
+				// if any other role, we add it to the select option
+				$scope.roleTypes.push(role);
+			}
+		});
+	});
+	
+	// get all emails from the database
+	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/emails")
+	.then(function(result) {
+		$scope.allEmails = result.data;
+	});
+	
+	// get all recruiters from the database
+	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/recruiters")
+	.then(function(result) {
+		$scope.allRecruiters = result.data;
+	});
+	
 });
 
 adminApp.controller('EmployeeViewCtrl', function($scope,$mdToast, $http, SITE_URL, API_URL, ROLE) {
@@ -160,8 +224,17 @@ adminApp.controller('EmployeeViewCtrl', function($scope,$mdToast, $http, SITE_UR
 	    	$mdToast.show($mdToast.simple().textContent(message).parent(document.querySelectorAll('#toastContainer')).position("center center").action("OKAY").highlightAction(true));
 	    };
 
-	$scope.deleteEmployee = function(email) {
-		url = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/" + email + "/delete";
+	// deletes an employee only if it is not the system user.
+    $scope.deleteEmployee = function(employee) {
+    	if (employee.role.roleTitle.toUpperCase() === "SYSTEM") {
+    		$scope.showToast("Cannot delete System User");
+    		console.log("CAN'T DO SYSTEM USER DELETE");
+    		return;
+    	}
+    	
+    	// delete the employee if it is not the system user.
+    	console.log("DOING NON-SYSTEM USER DELETE");
+		url = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/" + employee.email + "/delete";
 		$http.delete(url)
 		.success( function(response) {
 			$scope.showToast("User Deleted");
