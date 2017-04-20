@@ -32,7 +32,7 @@
 	</div>
 	<div class="container">		
     <form class="form-revature" ng-submit="register()">
-        <h2 class="row">Register New Recruiter</h2>
+        <h2 class="row">Register New Employee</h2>
         <div class="row input-field">
             <label class="sr-only" for="inputFirstName">first name</label>
             <input class="col-xs-12 col-md-12" id="inputFirstName" type="text" placeholder="first name" ng-model="firstName" required autofocus>
@@ -47,10 +47,20 @@
             ng-blur="checkEmail()" required>
         </div>
         <div class="row">
-            <select id="roleSelect" class="col-xs-8 col-md-6"
+        What type of user?<br>
+            <select id="roleSelect" class="col-xs-8 col-md-6" ng-change="checkIfCandidate()"
                     ng-model="roleType" ng-options="item.roleTitle for item in roleTypes">
             <option >
             	<!-- role -->
+            </option>
+            </select>
+        </div>
+        <div ng-show="recruiterSelect" class="row">
+        Who is the recruiter for this candidate?<br>
+            <select id="recruiterSelect" class="col-xs-8 col-md-6" 
+                    ng-model="recruiter" ng-options="item.firstName + ' ' + item.lastName for item in allRecruiters">
+            <option >
+            	<!-- recruiters -->
             </option>
             </select>
         </div>

@@ -74,17 +74,27 @@ public class AdminController {
 	 */
 	@RequestMapping(value="admin/employee/register", method = RequestMethod.POST)
 	public String registerEmployee(@RequestBody User employee) {
-		String pass = userService.createEmployee(employee);
+
+		boolean passC = false;
+		String pass = null;
+		// check if there's a recruiter id associated with this registration
+		if (employee.getRecruiterId() != null) {
+			// if there is, it's a new candidate being added
+			passC = userService.createCandidate(employee, userService.findEmailById(employee.getRecruiterId()));
+			// if not, then it's a recruiter/trainer(/admin?)
+		} else {
+			pass = userService.createEmployee(employee);
+		}
 		boolean mailSentSuccess;
-		if (pass != null){
+		if (pass != null || passC != false) {
 			mailSentSuccess = mailService.sendTempPassword(employee.getEmail(), pass);
-			if (mailSentSuccess)
-			{
+			if (mailSentSuccess) {
 				return "{\"msg\":\"success\"}";
 			} else {
 				return "{\"msg\":\"fail\"}";
-		}} else {
-				return "{\"msg\":\"fail\"}";
+			}
+		} else {
+			return "{\"msg\":\"fail\"}";
 		}
 	}
 
@@ -152,6 +162,21 @@ public class AdminController {
 			allEmails.add(user.getEmail());
 		}
 		return allEmails;
+	}
+	
+	/**
+	 * Retrives all recruiters from the database
+	 * @return
+	 */
+	@RequestMapping(value="admin/employee/recruiters")
+	public List<User> getRecruiters(){
+		List<User> allRecruiters = new ArrayList<User>();
+		for (User user : userService.findAllUsers()){
+			if (user.getRole().getRoleId() == 2){
+				allRecruiters.add(user);
+			}
+		}
+		return allRecruiters;
 	}
 
 }

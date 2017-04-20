@@ -60,6 +60,9 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 	$scope.roleTypes = [];
 	$scope.allEmails = [];
 	$scope.buttonToggle = false; // by default
+	$scope.recruiter = null; // by default, unless admin picks candidate
+	$scope.recruiterSelect = false; // by default, unless admin picks candidate
+	$scope.allRecruiters = [];
 	
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
@@ -92,7 +95,17 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 		});
 	};
 	
+	// show the recruiter select menu if employee being registered is a candidate
+	$scope.checkIfCandidate = function(){
+		if ($scope.roleType.roleTitle.toUpperCase() === 'CANDIDATE'){
+			$scope.recruiterSelect = true;
+		} else {
+			$scope.recruiterSelect = false;
+		}
+	};
+	
 	$scope.register = function() {
+		console.log($scope.recruiter);
 
 		var employeeInfo = {
 			userId        : null,
@@ -100,8 +113,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 			firstName     : $scope.firstName,
             lastName      : $scope.lastName,
             salesforce    : null,
-            recruiterId   : null,
-            /*role      	  : null, //this is hardcoded in createEmployee. I'm not proud of this. -Sledgehammer */
+            recruiterId   : $scope.recruiter.userId,
             role          : $scope.roleType,
 			datePassIssued: null,
 			format		  : null
@@ -148,13 +160,29 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 	// populate roleTypes in registerEmployee View.
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/roles")
 	.then(function(result) {
-		$scope.roleTypes = result.data;
+		// we don't want to display 'restuser' or 'system'
+		result.data.forEach(function(role){
+			if (role.roleTitle.toUpperCase() === 'RESTUSER'){
+			}
+			else if (role.roleTitle.toUpperCase() === 'SYSTEM'){
+			}
+			else {
+				// if any other role, we add it to the select option
+				$scope.roleTypes.push(role);
+			}
+		});
 	});
 	
 	// get all emails from the database
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/emails")
 	.then(function(result) {
 		$scope.allEmails = result.data;
+	});
+	
+	// get all recruiters from the database
+	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/recruiters")
+	.then(function(result) {
+		$scope.allRecruiters = result.data;
 	});
 	
 });
