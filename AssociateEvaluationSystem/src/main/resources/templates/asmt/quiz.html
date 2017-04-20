@@ -70,7 +70,7 @@
 										style="display: inline-block;"
 										ng-click="collapseQuestion($index+numPerPage*(currentPage-1))">
 										<h4 id="question{{q.id+1}}">Question
-											{{$index+numPerPage*(currentPage-1)+1}}
+											{{$index+numPerPage*(currentPage-1)+1}}</h4>
 									</div>
 									<i class="pull-right glyphicon"
 										ng-class="{'glyphicon-chevron-down glyph-silver': states[$index+numPerPage*(currentPage-1)].open, 'glyphicon-chevron-right glyph-silver': !states[$index+numPerPage*(currentPage-1)].open }"
@@ -84,7 +84,7 @@
 										ng-class="{'glyph-red': states[$index+numPerPage*(currentPage-1)].flagged, 'glyph-silver': !states[$index+numPerPage*(currentPage-1)].flagged}"
 										ng-click="flagQuestion($index+numPerPage*(currentPage-1))"
 										title="Title"></i>
-									</h4>
+									
 									</uib-accordion-heading>
 
 									<div class="panel-body">
