@@ -186,12 +186,14 @@ public class UserServiceImpl implements UserService {
 			return null;
 
 		}
+		
+		System.out.println("////////////////////////////////////////////////////////////\nRole object passed: " + employee.getRole() + "//////////////////////////////\n");
 
 		User user = new User();
 		user.setEmail(employee.getEmail());
 		user.setFirstName(employee.getFirstName());
 		user.setLastName(employee.getLastName());
-//		user.setRole(role.findRoleByRoleTitle("recruiter"));
+		//user.setRole(role.findRoleByRoleTitle("recruiter")); //sledgehammer's hardcode
 		user.setRole(employee.getRole());
 		user.setDatePassIssued(fmt.format(new Date()));
 		

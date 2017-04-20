@@ -128,6 +128,19 @@ public class AdminController {
 //	public void initSuperuser(@PathVariable String email, @PathVariable String lastname, @PathVariable String firstname) {
 //		userService.createAdmin(email, lastname, firstname);
 //	}
+	
+	/**
+	 * Retrieves all user roles that are in the database.
+	 *  
+	 * @return
+	 */
+	@RequestMapping(value="/admin/employee/roles")
+	public List<Role> getRoles() {
+		return roleService.getRoles();
+	}
+	
+	
+	
 
 	
 
