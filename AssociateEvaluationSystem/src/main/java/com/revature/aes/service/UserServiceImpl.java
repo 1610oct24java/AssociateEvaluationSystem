@@ -207,7 +207,9 @@ public class UserServiceImpl implements UserService {
 		
 		SimpleDateFormat fmt = new SimpleDateFormat(PATTERN);
 		Security userSecure = security.findSecurityByUserId(currentUser.getUserId());
-		boolean correctPassword = security.checkCorrectPassword(updatedUser.getOldPassword(), userSecure);
+		
+		//checks to see if it needs to checks the old password, if so compares the old password to check if it is valid.
+		boolean correctPassword = updatedUser.isNoOldPasswordCheck() || security.checkCorrectPassword(updatedUser.getOldPassword(), userSecure);
 		
 		if (correctPassword)
 		{

@@ -14,7 +14,16 @@ public class UserUpdateHolder implements Serializable{
 	private String lastName;
 	private String oldPassword;
 	private String newPassword;
+	transient private boolean noOldPasswordCheck;
 	
+	public boolean isNoOldPasswordCheck() {
+		return noOldPasswordCheck;
+	}
+
+	public void setNoOldPasswordCheck(boolean noOldPasswordCheck) {
+		this.noOldPasswordCheck = noOldPasswordCheck;
+	}
+
 	public UserUpdateHolder() {
 		super();
 	}
@@ -28,6 +37,7 @@ public class UserUpdateHolder implements Serializable{
 		this.oldPassword = oldPassword;
 		this.newPassword = newPassword;
 	}
+
 
 	@Override
 	public String toString() {

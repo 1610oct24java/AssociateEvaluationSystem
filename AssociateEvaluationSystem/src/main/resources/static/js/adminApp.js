@@ -262,8 +262,8 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$route
 			$scope.confirmNewPassword = '';
 		}
 
-		if ($scope.oldPassword === "" || $scope.oldPassword == null)
-		{	$scope.passNotEntered = true; }
+/*		if ($scope.oldPassword === "" || $scope.oldPassword == null)
+		{	$scope.passNotEntered = true; }*/
 
 		if ($scope.passNotMatch == false && $scope.passNotEntered == false
 				&& $scope.emailNotEntered == false)
@@ -273,6 +273,9 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$route
 	}
 
 	$scope.postUpdate = function(oldEmail, updateInfo) {
+		$scope.updateUnsuccessful = false;
+		$scope.updateSuccessful = false;
+		
 		var updateUrl = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN
 				+ API_URL.EMPLOYEE + "/" + $scope.oldEmail + "/update";
 
@@ -283,7 +286,9 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$route
 			data    : updateInfo
 		}).success(function(data){
             if (!data){
-                $scope.userNotFound = true;
+                $scope.updateUnsuccessful = true;
+            } else {
+            	$scope.updateSuccessful = true;
             }
 		}).error( function() {
 			console.log("fail");

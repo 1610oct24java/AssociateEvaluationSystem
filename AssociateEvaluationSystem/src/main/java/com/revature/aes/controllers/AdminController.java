@@ -103,9 +103,10 @@ public class AdminController {
 	 * 		The current email of this recruiter
 	 */
 	@RequestMapping(value="admin/employee/{currentEmail}/update", method= RequestMethod.PUT)
-	public void updateEmployee(@RequestBody UserUpdateHolder userUpdate, @PathVariable String currentEmail){
+	public Boolean updateEmployee(@RequestBody UserUpdateHolder userUpdate, @PathVariable String currentEmail){
 		User currentUser = userService.findUserByEmail(currentEmail);
-		userService.updateEmployee(currentUser, userUpdate);
+		userUpdate.setNoOldPasswordCheck(true);
+		return userService.updateEmployee(currentUser, userUpdate);
 	}
 
 	/**
