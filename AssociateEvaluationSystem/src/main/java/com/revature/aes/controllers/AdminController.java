@@ -1,5 +1,6 @@
 package com.revature.aes.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -139,9 +140,18 @@ public class AdminController {
 		return roleService.getRoles();
 	}
 	
-	
-	
-
-	
+	/**
+	 * Retrieves all emails from users that are registered already
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value="admin/employee/emails")
+	public List<String> getEmails() {
+		List<String> allEmails = new ArrayList<String>();
+		for (User user : userService.findAllUsers()){
+			allEmails.add(user.getEmail());
+		}
+		return allEmails;
+	}
 
 }
