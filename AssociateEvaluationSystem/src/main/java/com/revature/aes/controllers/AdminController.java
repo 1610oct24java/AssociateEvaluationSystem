@@ -61,6 +61,17 @@ public class AdminController {
 
 		return users;
 	}
+	
+	@RequestMapping(value="/admin/employee/{userEmail:.+}", method = RequestMethod.GET)
+	public User getEmployee(@PathVariable String userEmail){
+		User user = userService.findUserByEmail(userEmail);
+		return user;
+	}
+//	@RequestMapping(value="/admin/employee/{id}", method = RequestMethod.GET)
+//	public User getEmployeeById(@PathVariable String id){
+//		User user = userService.getUserById(Integer.parseInt(id));
+//		return user;
+//	}
 
 	/**
 	 * This method registers an employee (trainer, recruiter)

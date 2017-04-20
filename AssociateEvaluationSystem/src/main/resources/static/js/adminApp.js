@@ -1,4 +1,4 @@
-var adminApp = angular.module('adminApp',['ngMaterial', 'ngMessages']);
+var adminApp = angular.module('adminApp',['ngMaterial', 'ngMessages', 'ngRoute']);
 
 adminApp.constant("SITE_URL", {
 	"HTTP" : "http://",
@@ -196,7 +196,7 @@ function makeUser($scope) {
     $scope.user = user;
 }
 
-adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_URL, API_URL, ROLE) {
+adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$routeParams, SITE_URL, API_URL, ROLE) {
 
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
@@ -218,12 +218,30 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 		}
 
 	});
+	
+	//loads up fields with existing data
+	var userEmail = $location.search().email;
+	if (userEmail){
+		var getInfo = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/" + userEmail;
+		$http.get(getInfo).then(function(response){
+			var employee = response.data;
+			console.log(employee);
+			$scope.oldEmail = employee.email;
+			$scope.firstName = employee.firstName;
+			$scope.lastName = employee.lastName;
+			$scope.roleName = employee.role.roleTitle;
+		});
+	}
 
-	$scope.update= function() {
+	
+	//$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/" + )
+
+	$scope.update= function() { 
 		$scope.passNotMatch = false;
 		$scope.passNotEntered = false;
 		$scope.emailNotEntered = false;
 		$scope.userNotFound = false;
+		
 
 		var employeeInfo = {
 			oldEmail	: $scope.oldEmail,
