@@ -1,5 +1,5 @@
 app.controller("quizController", function($scope, $rootScope, $http, 
-		$location, $window, $timeout) {
+		$location, $window, $timeout, $anchorScroll) {
 	$rootScope.states = [];
 	$scope.answers = [];
 	$scope.numEditors = 0;
@@ -236,10 +236,30 @@ app.controller("quizController", function($scope, $rootScope, $http,
 	$scope.numPerPage = 5;
 	$scope.maxSize = 100;
 	
+	
+	
+	//code to jump to page and question 
 	$scope.jumpPage = function (index) {
 
 		numPage=index/$scope.numPerPage;
 		$scope.currentPage =1+ Math.floor(numPage);
+//		
+		//$timeout(1000);
+		var old = $location.hash();
+		//code to jump to the question
+		 var newHash = 'anchor' + index;
+	      if ($location.hash() !== newHash) {
+	        // set the $location.hash to `newHash` and
+	        // $anchorScroll will automatically scroll to it
+	        $location.hash('anchor' + index);
+	        $anchorScroll(newHash);
+	      } else {
+	        // call $anchorScroll() explicitly,
+//	        // since $location.hash hasn't changed
+	        $anchorScroll(newHash);
+	      }
+	      //location.hash(old);
+		
 	};
 
 	$scope.$watch('currentPage + numPerPage', function() {
@@ -288,7 +308,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 				$rootScope.snippetStarters = response.data.snippets;
 				initSetup();
 				$rootScope.initQuizNav();
-				$rootScope.initTimer(response.data.timeLimit);
+				$rootScope.initTimer(response.data.timeLimit, response.data.newTime);
 
 			}else {
 				// Assessment was taken or time expired, redirecting to expired page
@@ -324,3 +344,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 	}
 	
 });
+
+
+
+
