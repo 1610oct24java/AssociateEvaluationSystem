@@ -7,6 +7,7 @@ import com.revature.aes.beans.UserUpdateHolder;
 
 public interface UserService {
 	public User findUserByEmail(String email);
+	public User findUserByEmailIgnoreCase(String email);
 	public List<User> findAllUsers();
 	public List<User> findUsersByRecruiter(String email);
 	public User getUserById(int id);

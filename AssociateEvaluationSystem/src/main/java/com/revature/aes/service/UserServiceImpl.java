@@ -36,6 +36,11 @@ public class UserServiceImpl implements UserService {
 	public User findUserByEmail(String email) {
 		return dao.findUserByEmail(email);
 	}
+	
+	@Override
+	public User findUserByEmailIgnoreCase(String email) {
+		return dao.findByEmailIgnoreCase(email);
+	}
 
 	/**
 	 * Edit (by Ric Smith)
