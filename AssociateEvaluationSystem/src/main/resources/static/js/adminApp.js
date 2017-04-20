@@ -56,8 +56,6 @@ adminApp.config(function($mdThemingProvider) {
         .accentPalette("revOrange");
 });
 
-
-
 adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$http,SITE_URL, API_URL, ROLE) {
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
@@ -84,7 +82,8 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
             lastName      : $scope.lastName,
             salesforce    : null,
             recruiterId   : null,
-            role      	: null, //this is hardcoded in createEmployee. I'm not proud of this. -Sledgehammer
+            /*role      	  : null, //this is hardcoded in createEmployee. I'm not proud of this. -Sledgehammer */
+            role		  : role,
 			datePassIssued: null,
 			format		  : null
 		};

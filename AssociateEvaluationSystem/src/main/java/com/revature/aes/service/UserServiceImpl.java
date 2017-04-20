@@ -191,7 +191,8 @@ public class UserServiceImpl implements UserService {
 		user.setEmail(employee.getEmail());
 		user.setFirstName(employee.getFirstName());
 		user.setLastName(employee.getLastName());
-		user.setRole(role.findRoleByRoleTitle("recruiter"));
+//		user.setRole(role.findRoleByRoleTitle("recruiter"));
+		user.setRole(employee.getRole());
 		user.setDatePassIssued(fmt.format(new Date()));
 		
 		dao.save(user);

@@ -3,12 +3,14 @@ package com.revature.aes.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.aes.beans.Role;
 import com.revature.aes.beans.User;
 import com.revature.aes.beans.UserUpdateHolder;
 import com.revature.aes.locator.MailServiceLocator;
@@ -126,5 +128,7 @@ public class AdminController {
 //	public void initSuperuser(@PathVariable String email, @PathVariable String lastname, @PathVariable String firstname) {
 //		userService.createAdmin(email, lastname, firstname);
 //	}
+
+	
 
 }
