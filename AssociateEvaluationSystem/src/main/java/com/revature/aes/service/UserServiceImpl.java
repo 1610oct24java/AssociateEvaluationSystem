@@ -175,6 +175,8 @@ public class UserServiceImpl implements UserService {
 		//dao.save(user);
 	}
 
+	
+	//GENERATES A RANDOM PASSWORD STRING
 	@Override
 	public String createEmployee(User employee){
 		

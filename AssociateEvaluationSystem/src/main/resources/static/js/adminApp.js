@@ -281,8 +281,7 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 
 }); //end update credentials controller
 
-adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SITE_URL, API_URL, ROLE) {
-
+adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SITE_URL, API_URL, ROLE) {	
 
     $scope.showToast = function(message, type) {
         $mdToast.show($mdToast.simple(message)
@@ -304,6 +303,9 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
             scrollX: false,
             paging: false
         });
+        $scope.coreLanguage = false;
+        $scope.coreCount = 0;
+        $scope.showModal = false;	
     });
 
 
@@ -337,7 +339,8 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
     function UpdateTotals(quantity) {
         $scope.totalCategories = UniqueArraybyId($scope.assessments, "category");
         console.log("Total categories = " + $scope.totalCategories);
-        $scope.totalTypes = UniqueArraybyId($scope.assessments, "type");
+        //$scope.totalTypes = UniqueArraybyId($scope.assessments, "type");
+        $scope.totalTypes = typeCount($scope.assessments);
         console.log("Total types = " + $scope.totalTypes);
         $scope.totalQuestions += quantity;
         console.log("Total questions = " + $scope.totalQuestions);
@@ -357,9 +360,68 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
         return output.length;
     };
 
+    //returns number of types in th
+    function typeCount(collection){
+
+        var types = 0;
+        var mcBool = false;
+        var msBool = false;
+        var ddBool = false;
+        var csBool = false;
+        angular.forEach(collection, function(item){
+
+            if(item['mcQuestions'] > 0 && mcBool == false){
+                types++;
+                mcBool = true;
+            }
+            if(item['msQuestions'] > 0 && msBool == false){
+                types++;
+                msBool = true;
+            }
+            if(item['ddQuestions'] > 0 && ddBool == false){
+                types++;
+                ddBool = true;
+            }
+            if(item['csQuestions'] > 0 && csBool == false){
+                types++;
+                csBool = true;
+            }
+            
+        });
+        return types;
+    }
+
     $scope.removeRow = function(index) {
-        var tempQuantity = $scope.assessments[index]['quantity'];
-        $scope.assessments.splice(index, 1);
+        console.log($scope.assessments[index]['mcQuestions']);
+        var mcCount = $scope.assessments[index]['mcQuestions'];
+        var msCount = $scope.assessments[index]['msQuestions'];
+        var ddCount = $scope.assessments[index]['ddQuestions'];
+        var csCount = $scope.assessments[index]['csQuestions'];
+
+        var tempQuantity = mcCount + msCount + ddCount + csCount;
+
+        //var tempQuantity = $scope.assessments[index]['quantity'];
+        console.log($scope.assessments + "scopeassessments");
+
+        if($scope.assessments[index]['category'].categoryId == 6){
+            $scope.coreCount--;
+
+            if ($scope.coreCount == 0) {
+                $scope.coreLanguage = false;
+            }
+
+         }
+
+
+    	 $scope.assessments.splice(index, 1);
+    	
+         $scope.sections.splice(index,1);
+
+         
+         
+         
+       
+        //console.log($scope.assessments[index]['quantity'] + "THIS IS $SCOPE.ASSESMENTS[INDEX]['QUANTITY']");
         UpdateTotals(-tempQuantity);
     };
 
@@ -381,24 +443,24 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
         var msQuestions=0, mcQuestions=0, ddQuestions=0, csQuestions=0;
 
         switch($scope.type) {
-            case $scope.types[0].formatName : { /* Multiple Choice */
+            case $scope.types[0].formatName : { /* Multiple Choice changed to cs */
                 console.log("case - 0");
-                mcQuestions = $scope.quantity;
+                csQuestions = $scope.quantity;
                 console.log($scope.type); break;
             }
-            case $scope.types[1].formatName : { /* Multiple Select */
+            case $scope.types[1].formatName : { /* Multiple Select changed to dd */
                 console.log("case - 1");
-                msQuestions = $scope.quantity;
-                console.log($scope.type); break;
-            }
-            case $scope.types[2].formatName : { /* Drag 'n' Drop */
-                console.log("case - 2");
                 ddQuestions = $scope.quantity;
                 console.log($scope.type); break;
             }
-            case $scope.types[3].formatName : { /* Code Snippet */
+            case $scope.types[2].formatName : { /* Drag 'n' Drop changed to mc */
+                console.log("case - 2");
+                mcQuestions = $scope.quantity;
+                console.log($scope.type); break;
+            }
+            case $scope.types[3].formatName : { /* Code Snippet changed to ms */
                 console.log("case - 3");
-                csQuestions = $scope.quantity;
+                msQuestions = $scope.quantity;
                 console.log($scope.type); break;
             }
             default : {
@@ -407,6 +469,10 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
             }
         }
 
+        if(tempCategory[0].categoryId == 6){
+            $scope.coreLanguage = true;
+            $scope.coreCount++;
+        }
 
 
         $scope.assessments.push({
@@ -482,22 +548,28 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
             "timeLimit": $scope.time,
             "categoryRequestList": $scope.assessments
         };
+        
+        if($scope.coreLanguage == false){
+        	$scope.showToast("Core Language Section Required", "fail");
+        }
 
         //var sendUrl = SITE_URL.BASE + API_URL.BASE + "/assessmentrequest/" + "1";
         // var sendUrl = SITE_URL.BASE + API_URL.BASE + "/assessmentrequest" + "/1/";
+        else if($scope.coreLanguage == true){
+                $http({
+                    method: 'PUT',
+                    url: (SITE_URL.BASE + API_URL.BASE + "/assessmentrequest" + "/1/"),
+                    headers: { 'Content-Type': 'application/json' },
+                    data: data
+                }).success(function(response) {
+                    $scope.showToast("Assessment created successfully", "success");
+                    console.log("Assessment creation success");
+                }).error(function(response) {
+                    $scope.showToast("Assessment creation failed", "fail");
+                    console.log("Assessment creation failed");
+                });
+            }
 
-        $http({
-            method: 'PUT',
-            url: (SITE_URL.BASE + API_URL.BASE + "/assessmentrequest" + "/1/"),
-            headers: { 'Content-Type': 'application/json' },
-            data: data
-        }).success(function(response) {
-            $scope.showToast("Assessment created successfully", "success");
-            console.log("Assessment creation success");
-        }).error(function(response) {
-            $scope.showToast("Assessment creation failed", "fail");
-            console.log("Assessment creation failed");
-        });
     };
 
 
@@ -533,6 +605,9 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
             })
     };
 });
+
+
+
 
 adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav, $log) {
     var mc = this;
