@@ -144,7 +144,7 @@ AESCoreApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,
 		var keepGoing = true;
 		$scope.allEmails.forEach(function(email) {
 			if(keepGoing) {
-				if (email === $scope.email){
+				if (email.toUpperCase() === $scope.email.toUpperCase()){ //case-insensitive email match
 					alert("Email already registered.");
 					$scope.buttonToggle = true;
 					keepGoing = false;
