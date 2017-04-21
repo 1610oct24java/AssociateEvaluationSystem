@@ -44,7 +44,15 @@ public class CategoryRequest implements Serializable{
 	@Column(name="CS_QUESTIONS")
     private Integer csQuestions; //number of code-snippet questions
 
-    public CategoryRequest() {
+    public AssessmentRequest getAssessmentRequest() {
+		return assessmentRequest;
+	}
+
+	public void setAssessmentRequest(AssessmentRequest assessmentRequest) {
+		this.assessmentRequest = assessmentRequest;
+	}
+
+	public CategoryRequest() {
         super();
     }
 

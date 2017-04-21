@@ -81,7 +81,18 @@
         </div>
 
         <div class="row">
-            <input id="btn-update" class="btn-revature" type="submit" value="Update">
+
+			<div class="col-md-6">
+            	<input id="btn-update" class="btn-revature" type="submit" value="Update">
+        	</div>
+        	<div class="col-md-6">
+    			<div class="alert alert-success" ng-show="updateSuccessful">
+			  		<strong>Updated</strong>
+				</div>
+				<div class="alert alert-danger" ng-show="updateUnsuccessful">
+					<strong>Failed To Update</strong>
+				</div>
+			</div>
         </div>
     </form>
     
