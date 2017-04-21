@@ -104,7 +104,7 @@ public class RecruiterController {
 	public ResponseEntity<Map> sendAssessment(@RequestBody User user){
 		Map<String, String> response = new HashMap<>();
 
-		User candidate = userService.findUserByEmail(user.getEmail());
+		User candidate = userService.findUserByEmailIgnoreCase(user.getEmail());
 
 		String pass = userService.setCandidateSecurity(candidate);
 		candidate.setFormat(user.getFormat());

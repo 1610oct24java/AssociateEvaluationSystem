@@ -117,7 +117,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 			firstName     : $scope.firstName,
             lastName      : $scope.lastName,
             salesforce    : null,
-            recruiterId   : $scope.recruiter.userId,
+            recruiterId   : ($scope.recruiter !== null ? $scope.recruiter.userId : null), //only candidates will have a recruiter; everyone else has null!
             role          : $scope.roleType,
 			datePassIssued: null,
 			format		  : null
