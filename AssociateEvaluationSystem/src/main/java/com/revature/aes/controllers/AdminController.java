@@ -1,6 +1,7 @@
 package com.revature.aes.controllers;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +66,12 @@ public class AdminController {
 		return users;
 	}
 	
+	@RequestMapping(value="/admin/candidates")
+	public List<User> getCandidates(){
+		List<User> users = userService.findUsersByRole("candidate");
+		return users;
+	}
+	
 	@RequestMapping(value="/admin/employee/{userEmail:.+}", method = RequestMethod.GET)
 	public User getEmployee(@PathVariable String userEmail){
 		User user = userService.findUserByEmail(userEmail);
@@ -75,6 +82,34 @@ public class AdminController {
 	public List<User> getCandidatesByRecruiter(@PathVariable String userEmail){
 		List <User> candidates = userService.findUsersByRecruiter(userEmail);
 		return candidates;
+	}
+	@RequestMapping(value="/admin/employee/{userEmail}/updateCandidates", method = RequestMethod.PUT)
+	public List<User> updateCandidatesListByRecruiter(@PathVariable String userEmail, @RequestBody List<User> newCandidates){
+		List <User> oldCandidatesList = userService.findUsersByRecruiter(userEmail);
+		User recruiter = userService.findUserByEmail(userEmail);
+		//gets a list of candidates that no longer has this recruiter
+		List <User> candidatesToRemoveRecruiter = new LinkedList<User>(oldCandidatesList);
+		candidatesToRemoveRecruiter.removeAll(newCandidates);
+		
+		//get a list of candidates that now get this recruiter
+		newCandidates.removeAll(oldCandidatesList);
+		
+		candidatesToRemoveRecruiter.forEach(c -> {
+			UserUpdateHolder updateHolder = new UserUpdateHolder();
+			updateHolder.setNewRecruiterId(0);
+			userService.updateEmployee(c, updateHolder);
+		});
+		
+		newCandidates.forEach(c -> {
+			UserUpdateHolder updateHolder = new UserUpdateHolder();
+			updateHolder.setNewRecruiterId(recruiter.getUserId());
+			userService.updateEmployee(c, updateHolder);
+		});
+		
+		return userService.findUsersByRecruiter(userEmail);
+		
+		
+		
 	}
 //	@RequestMapping(value="/admin/employee/{id}", method = RequestMethod.GET)
 //	public User getEmployeeById(@PathVariable String id){

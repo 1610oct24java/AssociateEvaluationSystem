@@ -270,7 +270,9 @@ function makeUser($scope) {
 }
 
 adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$routeParams, SITE_URL, API_URL, ROLE) {
-
+	
+	
+	
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
 		if (response.data.authenticated) {
@@ -310,13 +312,36 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$route
 				var getCandidateInfo = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/" + userEmail + "/getCandidates";
 				$http.get(getCandidateInfo).then(function(response){
 					$scope.candidateList = response.data;
+					console.log("Candidate List");
 					console.log(response.data);
+					$scope.getPossibleCandidatesToAdd($scope.candidateList);
+					
+					
+					// loads a full candidate list and then starts the function to generate the list for the add candidate 
+					var getCandidateListInfo = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + "/candidates"
+					$http.get(getCandidateListInfo).then(function(response){
+						$scope.allCandidates = response.data;
+						console.log("All Candidates");
+						console.log(response.data);
+						$scope.updatePossibleCandidatesList()
+					})
+					
 				});
 			}
 		});
 		
 
 	}
+	
+	
+	//creates and updates the list of possible candidates to add
+	$scope.updatePossibleCandidatesList = function(){
+		$scope.possibleCandidates = $scope.allCandidates.filter( function( el ) {
+			  return $scope.candidateList.indexOf( el ) < 0;
+			} );
+	}
+	
+	
 
 	
 	//$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/" + )

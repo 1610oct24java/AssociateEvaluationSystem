@@ -227,6 +227,14 @@ public class UserServiceImpl implements UserService {
 			{	currentUser.setFirstName(updatedUser.getFirstName()); }
 			if (updatedUser.getLastName() != null && !updatedUser.getLastName().isEmpty())
 			{	currentUser.setLastName(updatedUser.getLastName()); }
+			if (updatedUser.getNewRecruiterId() != null){
+				// if new Recruiter id is 0 or belows, it will reflect null in the database
+				if (updatedUser.getNewRecruiterId() <= 0){
+					currentUser.setRecruiterId(null);
+				} else {
+					currentUser.setRecruiterId(updatedUser.getNewRecruiterId());
+				}
+			}
 			if (updatedUser.getNewPassword() != null && !updatedUser.getNewPassword().isEmpty())
 			{
 				currentUser.setDatePassIssued(fmt.format(new Date()));
