@@ -117,7 +117,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 			firstName     : $scope.firstName,
             lastName      : $scope.lastName,
             salesforce    : null,
-            recruiterId   : $scope.recruiter.userId,
+            recruiterId   : ($scope.recruiter !== null ? $scope.recruiter.userId : null), //only candidates will have a recruiter; everyone else has null!
             role          : $scope.roleType,
 			datePassIssued: null,
 			format		  : null
@@ -299,6 +299,7 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$route
 		$http.get(getInfo).then(function(response){
 			var employee = response.data;
 			console.log(employee);
+			$('#currentEmail').prop('readonly',true);
 			$scope.oldEmail = employee.email;
 			$scope.firstName = employee.firstName;
 			$scope.lastName = employee.lastName;

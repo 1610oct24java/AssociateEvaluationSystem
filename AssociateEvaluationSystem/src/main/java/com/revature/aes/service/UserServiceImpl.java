@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
 		User candidate = new User();
 		candidate.setEmail(usr.getEmail());
 
-		User existingCandidate = dao.findUserByEmail(candidate.getEmail());
+		User existingCandidate = dao.findUserByEmailIgnoreCase(candidate.getEmail());
 		if(existingCandidate != null) {
 			candidate = existingCandidate;
 		}
@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
 		candidate.setLastName(usr.getLastName());
 		candidate.setFormat(usr.getFormat());
 
-		int recruiterId = dao.findUserByEmail(recruiterEmail).getUserId();
+		int recruiterId = dao.findUserByEmailIgnoreCase(recruiterEmail).getUserId();
 
 		candidate.setRecruiterId(recruiterId);
 		candidate.setRole(role.findRoleByRoleTitle("candidate"));
@@ -188,7 +188,7 @@ public class UserServiceImpl implements UserService {
 		SimpleDateFormat fmt = new SimpleDateFormat(PATTERN);
 
 		//check if employee did not supply email, or if email is already registered to another user
-		if (employee.getEmail() == null || dao.findUserByEmail(employee.getEmail()) != null) {
+		if (employee.getEmail() == null || dao.findUserByEmailIgnoreCase(employee.getEmail()) != null) {
 
 			return null;
 
