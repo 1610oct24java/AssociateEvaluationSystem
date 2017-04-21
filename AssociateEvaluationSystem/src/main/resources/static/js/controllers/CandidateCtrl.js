@@ -61,6 +61,8 @@ AESCoreApp.config(function($mdThemingProvider) {
 
 AESCoreApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,SITE_URL, API_URL, ROLE) {
 	
+	$scope.buttonToggle = false; // by default
+	
     $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
         .then(function(response) {
             if (response.data.authenticated) {
@@ -134,6 +136,25 @@ AESCoreApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,
             myEl.addClass("ng-hide");
         }
     };
+    
+    /* This function checks if email is in the database
+	 * Disables registration if email is in the database
+	 * */
+	$scope.checkEmail = function(){
+		var keepGoing = true;
+		$scope.allEmails.forEach(function(email) {
+			if(keepGoing) {
+				if (email === $scope.email){
+					alert("Email already registered.");
+					$scope.buttonToggle = true;
+					keepGoing = false;
+				}
+				else {
+					$scope.buttonToggle = false;
+				}
+			}
+		});	
+	};
 
     $scope.register = function() {
 
@@ -226,6 +247,12 @@ AESCoreApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,
         window.location = API_URL.BASE + API_URL.LOGOUT;
     };
 
+    
+    // get all emails from the database
+	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + "/emails")
+	.then(function(result) {
+		$scope.allEmails = result.data;
+	});
 
     //data
     $scope.candidates;

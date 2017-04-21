@@ -1,4 +1,4 @@
-var adminApp = angular.module('adminApp',['ngMaterial', 'ngMessages']);
+var adminApp = angular.module('adminApp',['ngMaterial', 'ngMessages', 'ngRoute']);
 
 adminApp.constant("SITE_URL", {
 	"HTTP" : "http://",
@@ -56,9 +56,14 @@ adminApp.config(function($mdThemingProvider) {
         .accentPalette("revOrange");
 });
 
-
-
 adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$http,SITE_URL, API_URL, ROLE) {
+	$scope.roleTypes = [];
+	$scope.allEmails = [];
+	$scope.buttonToggle = false; // by default
+	$scope.recruiter = null; // by default, unless admin picks candidate
+	$scope.recruiterSelect = false; // by default, unless admin picks candidate
+	$scope.allRecruiters = [];
+	
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
 		if (response.data.authenticated) {
@@ -75,7 +80,36 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 		}
 	});
 
+	/* This function checks if email is in the database
+	 * Disables registration if email is in the database
+	 * */
+	$scope.checkEmail = function(){
+		var keepGoing = true;
+		$scope.allEmails.forEach(function(email) {
+			if(keepGoing) {
+				if (email === $scope.email){
+					alert("Email already registered.");
+					$scope.buttonToggle = true;
+					keepGoing = false;
+				}
+				else {
+					$scope.buttonToggle = false;
+				}
+			}
+		});	
+	};
+	
+	// show the recruiter select menu if employee being registered is a candidate
+	$scope.checkIfCandidate = function(){
+		if ($scope.roleType.roleTitle.toUpperCase() === 'CANDIDATE'){
+			$scope.recruiterSelect = true;
+		} else {
+			$scope.recruiterSelect = false;
+		}
+	};
+	
 	$scope.register = function() {
+		console.log($scope.recruiter);
 
 		var employeeInfo = {
 			userId        : null,
@@ -83,8 +117,8 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 			firstName     : $scope.firstName,
             lastName      : $scope.lastName,
             salesforce    : null,
-            recruiterId   : null,
-            role      	: null, //this is hardcoded in createEmployee. I'm not proud of this. -Sledgehammer
+            recruiterId   : $scope.recruiter.userId,
+            role          : $scope.roleType,
 			datePassIssued: null,
 			format		  : null
 		};
@@ -95,6 +129,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 		$scope.lastName = '';
 		$scope.email = '';
 		$scope.program = '';
+		$scope.roleType = '';
 	};
 
 	$scope.postRegister = function(employeeInfo) {
@@ -125,6 +160,35 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 			window.location = SITE_URL.LOGIN;
 		});
 	}
+	
+	// populate roleTypes in registerEmployee View.
+	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/roles")
+	.then(function(result) {
+		// we don't want to display 'restuser' or 'system'
+		result.data.forEach(function(role){
+			if (role.roleTitle.toUpperCase() === 'RESTUSER'){
+			}
+			else if (role.roleTitle.toUpperCase() === 'SYSTEM'){
+			}
+			else {
+				// if any other role, we add it to the select option
+				$scope.roleTypes.push(role);
+			}
+		});
+	});
+	
+	// get all emails from the database
+	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/emails")
+	.then(function(result) {
+		$scope.allEmails = result.data;
+	});
+	
+	// get all recruiters from the database
+	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/recruiters")
+	.then(function(result) {
+		$scope.allRecruiters = result.data;
+	});
+	
 });
 
 adminApp.controller('EmployeeViewCtrl', function($scope,$mdToast, $http, SITE_URL, API_URL, ROLE) {
@@ -160,8 +224,17 @@ adminApp.controller('EmployeeViewCtrl', function($scope,$mdToast, $http, SITE_UR
 	    	$mdToast.show($mdToast.simple().textContent(message).parent(document.querySelectorAll('#toastContainer')).position("center center").action("OKAY").highlightAction(true));
 	    };
 
-	$scope.deleteEmployee = function(email) {
-		url = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/" + email + "/delete";
+	// deletes an employee only if it is not the system user.
+    $scope.deleteEmployee = function(employee) {
+    	if (employee.role.roleTitle.toUpperCase() === "SYSTEM") {
+    		$scope.showToast("Cannot delete System User");
+    		console.log("CAN'T DO SYSTEM USER DELETE");
+    		return;
+    	}
+    	
+    	// delete the employee if it is not the system user.
+    	console.log("DOING NON-SYSTEM USER DELETE");
+		url = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/" + employee.email + "/delete";
 		$http.delete(url)
 		.success( function(response) {
 			$scope.showToast("User Deleted");
@@ -196,7 +269,7 @@ function makeUser($scope) {
     $scope.user = user;
 }
 
-adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_URL, API_URL, ROLE) {
+adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$routeParams, SITE_URL, API_URL, ROLE) {
 
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
@@ -218,12 +291,30 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 		}
 
 	});
+	
+	//loads up fields with existing data
+	var userEmail = $location.search().email;
+	if (userEmail){
+		var getInfo = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/" + userEmail;
+		$http.get(getInfo).then(function(response){
+			var employee = response.data;
+			console.log(employee);
+			$scope.oldEmail = employee.email;
+			$scope.firstName = employee.firstName;
+			$scope.lastName = employee.lastName;
+			$scope.roleName = employee.role.roleTitle;
+		});
+	}
 
-	$scope.update= function() {
+	
+	//$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/" + )
+
+	$scope.update= function() { 
 		$scope.passNotMatch = false;
 		$scope.passNotEntered = false;
 		$scope.emailNotEntered = false;
 		$scope.userNotFound = false;
+		
 
 		var employeeInfo = {
 			oldEmail	: $scope.oldEmail,
@@ -244,8 +335,8 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 			$scope.confirmNewPassword = '';
 		}
 
-		if ($scope.oldPassword === "" || $scope.oldPassword == null)
-		{	$scope.passNotEntered = true; }
+/*		if ($scope.oldPassword === "" || $scope.oldPassword == null)
+		{	$scope.passNotEntered = true; }*/
 
 		if ($scope.passNotMatch == false && $scope.passNotEntered == false
 				&& $scope.emailNotEntered == false)
@@ -255,6 +346,9 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 	}
 
 	$scope.postUpdate = function(oldEmail, updateInfo) {
+		$scope.updateUnsuccessful = false;
+		$scope.updateSuccessful = false;
+		
 		var updateUrl = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN
 				+ API_URL.EMPLOYEE + "/" + $scope.oldEmail + "/update";
 
@@ -265,7 +359,9 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 			data    : updateInfo
 		}).success(function(data){
             if (!data){
-                $scope.userNotFound = true;
+                $scope.updateUnsuccessful = true;
+            } else {
+            	$scope.updateSuccessful = true;
             }
 		}).error( function() {
 			console.log("fail");
@@ -281,8 +377,7 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 
 }); //end update credentials controller
 
-adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SITE_URL, API_URL, ROLE) {
-
+adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SITE_URL, API_URL, ROLE) {	
 
     $scope.showToast = function(message, type) {
         $mdToast.show($mdToast.simple(message)
@@ -306,6 +401,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
         });
         $scope.coreLanguage = false;
         $scope.coreCount = 0;
+        $scope.showModal = false;	
     });
 
 
@@ -548,11 +644,15 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
             "timeLimit": $scope.time,
             "categoryRequestList": $scope.assessments
         };
+        
+        if($scope.coreLanguage == false){
+        	$scope.showToast("Core Language Section Required", "fail");
+        }
 
 
         //var sendUrl = SITE_URL.BASE + API_URL.BASE + "/assessmentrequest/" + "1";
         // var sendUrl = SITE_URL.BASE + API_URL.BASE + "/assessmentrequest" + "/1/";
-        if($scope.coreLanguage == true){
+        else if($scope.coreLanguage == true){
                 $http({
                     method: 'PUT',
                     url: (SITE_URL.BASE + API_URL.BASE + "/assessmentrequest" + "/1/"),

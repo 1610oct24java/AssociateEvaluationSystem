@@ -36,6 +36,11 @@ public class UserServiceImpl implements UserService {
 	public User findUserByEmail(String email) {
 		return dao.findUserByEmail(email);
 	}
+	
+	@Override
+	public User findUserByEmailIgnoreCase(String email) {
+		return dao.findByEmailIgnoreCase(email);
+	}
 
 	/**
 	 * Edit (by Ric Smith)
@@ -188,12 +193,15 @@ public class UserServiceImpl implements UserService {
 			return null;
 
 		}
+		
+		System.out.println("////////////////////////////////////////////////////////////\nRole object passed: " + employee.getRole() + "//////////////////////////////\n");
 
 		User user = new User();
 		user.setEmail(employee.getEmail());
 		user.setFirstName(employee.getFirstName());
 		user.setLastName(employee.getLastName());
-		user.setRole(role.findRoleByRoleTitle("recruiter"));
+		//user.setRole(role.findRoleByRoleTitle("recruiter")); //sledgehammer's hardcode
+		user.setRole(employee.getRole());
 		user.setDatePassIssued(fmt.format(new Date()));
 		
 		dao.save(user);
@@ -207,7 +215,9 @@ public class UserServiceImpl implements UserService {
 		
 		SimpleDateFormat fmt = new SimpleDateFormat(PATTERN);
 		Security userSecure = security.findSecurityByUserId(currentUser.getUserId());
-		boolean correctPassword = security.checkCorrectPassword(updatedUser.getOldPassword(), userSecure);
+		
+		//checks to see if it needs to checks the old password, if so compares the old password to check if it is valid.
+		boolean correctPassword = updatedUser.isNoOldPasswordCheck() || security.checkCorrectPassword(updatedUser.getOldPassword(), userSecure);
 		
 		if (correctPassword)
 		{
@@ -242,6 +252,13 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void removeEmployee(String email) {
 		dao.delete(dao.findUserByEmail(email));
+	}
+
+	@Override
+	public String findEmailById(int id) {
+		// TODO Auto-generated method stub
+		String email = dao.findByUserId(id).getEmail();
+		return email;
 	}
 
 }
