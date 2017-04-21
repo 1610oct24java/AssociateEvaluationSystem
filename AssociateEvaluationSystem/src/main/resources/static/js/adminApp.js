@@ -549,6 +549,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
             "categoryRequestList": $scope.assessments
         };
 
+
         //var sendUrl = SITE_URL.BASE + API_URL.BASE + "/assessmentrequest/" + "1";
         // var sendUrl = SITE_URL.BASE + API_URL.BASE + "/assessmentrequest" + "/1/";
         if($scope.coreLanguage == true){
