@@ -27,4 +27,11 @@ public class AssessmentRequestServiceImpl implements AssessmentRequestService {
     }
 
 
+/*	@Override
+	public AssessmentRequest getLastInsertedAssessmentRequest() {
+		// TODO Auto-generated method stub
+		return assReqDao.getLastInsertedAssessmentRequest();
+	}*/
+
+
 }

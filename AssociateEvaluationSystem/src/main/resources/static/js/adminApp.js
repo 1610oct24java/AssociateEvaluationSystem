@@ -1,4 +1,4 @@
-var adminApp = angular.module('adminApp',['ngMaterial', 'ngMessages', 'ngRoute']);
+	var adminApp = angular.module('adminApp',['ngMaterial', 'ngMessages', 'ngRoute']);
 
 adminApp.constant("SITE_URL", {
 	"HTTP" : "http://",

@@ -6,5 +6,6 @@ public interface AssessmentRequestService {
 
 	public AssessmentRequest getAssessmentRequestTemplate();
 	public AssessmentRequest saveAssessmentRequest(AssessmentRequest assReq);
+/*	public AssessmentRequest getLastInsertedAssessmentRequest();*/
 	
 }
