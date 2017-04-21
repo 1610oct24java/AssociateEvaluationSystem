@@ -67,6 +67,12 @@ public class AdminController {
 		User user = userService.findUserByEmail(userEmail);
 		return user;
 	}
+	
+	@RequestMapping(value="/admin/employee/{userEmail:.+}/getCandidates", method = RequestMethod.GET)
+	public List<User> getCandidatesByRecruiter(@PathVariable String userEmail){
+		List <User> candidates = userService.findUsersByRecruiter(userEmail);
+		return candidates;
+	}
 //	@RequestMapping(value="/admin/employee/{id}", method = RequestMethod.GET)
 //	public User getEmployeeById(@PathVariable String id){
 //		User user = userService.getUserById(Integer.parseInt(id));

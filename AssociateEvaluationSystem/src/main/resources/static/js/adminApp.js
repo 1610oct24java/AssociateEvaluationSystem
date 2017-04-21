@@ -231,6 +231,11 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$route
 			$scope.lastName = employee.lastName;
 			$scope.roleName = employee.role.roleTitle;
 		});
+		
+		var getCandidateInfo = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/" + userEmail + "/getCandidates";
+		$http.get(getCandidateInfo).then(function(response){
+			
+		})
 	}
 
 	
