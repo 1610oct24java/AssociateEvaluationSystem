@@ -1,49 +1,25 @@
 package com.revature.aes.controllers;
 
-import java.io.IOException;
-import java.net.UnknownHostException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.core.MediaType;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.revature.aes.beans.AnswerData;
-import com.revature.aes.beans.Assessment;
-import com.revature.aes.beans.AssessmentDragDrop;
-import com.revature.aes.beans.FileUpload;
-import com.revature.aes.beans.Format;
-import com.revature.aes.beans.Option;
-import com.revature.aes.beans.Question;
-import com.revature.aes.beans.SnippetTemplate;
-import com.revature.aes.beans.SnippetUpload;
-import com.revature.aes.beans.TemplateQuestion;
+import com.revature.aes.beans.*;
 import com.revature.aes.config.IpConf;
 import com.revature.aes.dao.UserDAO;
 import com.revature.aes.grading.CoreEmailClient;
 import com.revature.aes.logging.Logging;
-import com.revature.aes.service.AssessmentServiceImpl;
-import com.revature.aes.service.DragDropService;
-import com.revature.aes.service.OptionService;
-import com.revature.aes.service.QuestionService;
-import com.revature.aes.service.S3Service;
+import com.revature.aes.service.*;
+import org.hashids.Hashids;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.*;
+//Importing a class for hashing the assessment id in this controller
+//Author: Nicholas Perez	Date: 4/20/2017
 
 
 @RestController
@@ -92,14 +68,20 @@ public class GetAssessmentController {
 
 	}
 
-
+	//possible hash code insertion should go here????
+	//Author: Nicholas Perez
 	@RequestMapping(value = "/link", method = RequestMethod.POST, consumes = {
 			MediaType.APPLICATION_JSON })
 	public String getAssessmentID(@RequestBody Assessment assessment, HttpServletRequest request) {
 		
 		log.info("Link called " + assessment);
 
-		return coreEmailClientEndpointAddress + "quiz?asmt=" + assessment.getAssessmentId();
+		Hashids hashids = new Hashids();
+		System.out.print(hashids.encode(assessment.getAssessmentId()));
+
+		System.out.println(hashids.decode(hashids.encode(assessment.getAssessmentId())));
+		return coreEmailClientEndpointAddress + "quiz?asmt=" + hashids.encode(assessment.getAssessmentId());
+
 	}
 	
 	@RequestMapping(value = "/submitAssessment", method = RequestMethod.POST)
@@ -194,17 +176,27 @@ public class GetAssessmentController {
 		
 		return "{\"success\":\"ok\"}";
 	}
-	
+
+	/**
+	 * In this function the id will be decoded so that the assesment will show with the questions
+	 * @param AssessmentId - passes in the id of the test currently being taken
+	 * @return
+	 * @throws IOException
+	 * Author: Nicholas Perez
+	 */
 	@RequestMapping(value = "{id}")
-	public Map<String, Object> getAssessment(@PathVariable("id") int AssessmentId) throws IOException {
-		
+	public Map<String, Object> getAssessment(@PathVariable("id") String AssessmentId) throws IOException {
+
+		Hashids otherHash = new Hashids();
+		long[] hashIdnum = otherHash.decode(AssessmentId);
 		log.debug("Requesting assessment with ID=" + AssessmentId);
 		
 		Assessment assessment = new Assessment();
 		Map<String, Object> responseMap = new HashMap<String, Object>();
 		
 		try {
-			assessment = service.getAssessmentById(AssessmentId);
+			assessment = service.getAssessmentById((int) hashIdnum[0]);
+			System.out.println(assessment.toString());
 			
 			// --- This portion of code pulls a snippet template from the S3 bucket --- -RicSmith
 			// This list of snippet templates will be added to the response map.
