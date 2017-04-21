@@ -283,7 +283,6 @@
 			<artifactId>spring-context-support</artifactId>
 		</dependency>
 
-
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
@@ -293,6 +292,12 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 			<version>5.0.4.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hashids</groupId>
+			<artifactId>hashids</artifactId>
+			<version>1.0.1</version>
 		</dependency>
 
 	</dependencies>
