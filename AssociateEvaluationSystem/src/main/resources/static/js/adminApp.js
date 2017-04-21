@@ -303,12 +303,18 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$route
 			$scope.firstName = employee.firstName;
 			$scope.lastName = employee.lastName;
 			$scope.roleName = employee.role.roleTitle;
+			
+			//get candidate list, if user role is recruiter
+			if ($scope.roleName === "recruiter"){
+				var getCandidateInfo = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/" + userEmail + "/getCandidates";
+				$http.get(getCandidateInfo).then(function(response){
+					$scope.candidateList = response.data;
+					console.log(response.data);
+				});
+			}
 		});
 		
-		var getCandidateInfo = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/" + userEmail + "/getCandidates";
-		$http.get(getCandidateInfo).then(function(response){
-			
-		})
+
 	}
 
 	
