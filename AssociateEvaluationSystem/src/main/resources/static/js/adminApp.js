@@ -299,6 +299,7 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$route
 		$http.get(getInfo).then(function(response){
 			var employee = response.data;
 			console.log(employee);
+			$('#currentEmail').prop('readonly',true);
 			$scope.oldEmail = employee.email;
 			$scope.firstName = employee.firstName;
 			$scope.lastName = employee.lastName;
