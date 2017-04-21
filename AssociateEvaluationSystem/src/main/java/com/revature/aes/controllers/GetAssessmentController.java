@@ -1,25 +1,50 @@
 package com.revature.aes.controllers;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.revature.aes.beans.*;
-import com.revature.aes.config.IpConf;
-import com.revature.aes.dao.UserDAO;
-import com.revature.aes.grading.CoreEmailClient;
-import com.revature.aes.logging.Logging;
-import com.revature.aes.service.*;
-import org.hashids.Hashids;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import java.io.IOException;
+import java.net.UnknownHostException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.MediaType;
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.*;
-//Importing a class for hashing the assessment id in this controller
-//Author: Nicholas Perez	Date: 4/20/2017
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.revature.aes.beans.AnswerData;
+import com.revature.aes.beans.Assessment;
+import com.revature.aes.beans.AssessmentDragDrop;
+import com.revature.aes.beans.FileUpload;
+import com.revature.aes.beans.Format;
+import com.revature.aes.beans.Option;
+import com.revature.aes.beans.Question;
+import com.revature.aes.beans.SnippetTemplate;
+import com.revature.aes.beans.SnippetUpload;
+import com.revature.aes.beans.TemplateQuestion;
+import com.revature.aes.config.IpConf;
+import com.revature.aes.dao.UserDAO;
+import com.revature.aes.grading.CoreEmailClient;
+import com.revature.aes.logging.Logging;
+import com.revature.aes.service.AssessmentDragDropServiceImp;
+import com.revature.aes.service.AssessmentServiceImpl;
+import com.revature.aes.service.DragDropService;
+import com.revature.aes.service.OptionService;
+import com.revature.aes.service.QuestionService;
+import com.revature.aes.service.S3Service;
 
 
 @RestController
@@ -31,6 +56,9 @@ public class GetAssessmentController {
 	
 	@Autowired
 	private AssessmentServiceImpl service;
+	
+	@Autowired
+	private AssessmentDragDropServiceImp serviceDD;
 	
 	@Autowired
 	UserDAO UsersService;
@@ -68,20 +96,14 @@ public class GetAssessmentController {
 
 	}
 
-	//possible hash code insertion should go here????
-	//Author: Nicholas Perez
+
 	@RequestMapping(value = "/link", method = RequestMethod.POST, consumes = {
 			MediaType.APPLICATION_JSON })
 	public String getAssessmentID(@RequestBody Assessment assessment, HttpServletRequest request) {
 		
 		log.info("Link called " + assessment);
 
-		Hashids hashids = new Hashids();
-		System.out.print(hashids.encode(assessment.getAssessmentId()));
-
-		System.out.println(hashids.decode(hashids.encode(assessment.getAssessmentId())));
-		return coreEmailClientEndpointAddress + "quiz?asmt=" + hashids.encode(assessment.getAssessmentId());
-
+		return coreEmailClientEndpointAddress + "quiz?asmt=" + assessment.getAssessmentId();
 	}
 	
 	@RequestMapping(value = "/submitAssessment", method = RequestMethod.POST)
@@ -119,10 +141,9 @@ public class GetAssessmentController {
 
 		}
 */
+		
 		for (AssessmentDragDrop add : assessment.getAssessmentDragDrop()){
-
 			add.setDragDrop(ddService.getDragDropById(add.getDragDrop().getDragDropId()));
-
 		}
 
 		assessment.setFileUpload(new HashSet<FileUpload>());
@@ -176,32 +197,24 @@ public class GetAssessmentController {
 		
 		return "{\"success\":\"ok\"}";
 	}
-
-	/**
-	 * In this function the id will be decoded so that the assesment will show with the questions
-	 * @param AssessmentId - passes in the id of the test currently being taken
-	 * @return
-	 * @throws IOException
-	 * Author: Nicholas Perez
-	 */
+	
 	@RequestMapping(value = "{id}")
-	public Map<String, Object> getAssessment(@PathVariable("id") String AssessmentId) throws IOException {
-
-		Hashids otherHash = new Hashids();
-		long[] hashIdnum = otherHash.decode(AssessmentId);
+	public Map<String, Object> getAssessment(@PathVariable("id") int AssessmentId) throws IOException {
+		
 		log.debug("Requesting assessment with ID=" + AssessmentId);
 		
 		Assessment assessment = new Assessment();
 		Map<String, Object> responseMap = new HashMap<String, Object>();
 		
 		try {
-			assessment = service.getAssessmentById((int) hashIdnum[0]);
-			System.out.println(assessment.toString());
+			System.out.println("ASS : "+AssessmentId);
+			assessment = service.getAssessmentById(AssessmentId);
+			System.out.println("GOT : "+assessment);
 			
 			// --- This portion of code pulls a snippet template from the S3 bucket --- -RicSmith
 			// This list of snippet templates will be added to the response map.
-			List<String> codeStarters = new ArrayList<>();
 			// Pull out the TemplateQuestion set from the assessment.
+			List<String> codeStarters = new ArrayList<>();
 			Set<TemplateQuestion> templateQuestions = assessment.getTemplate().getTemplateQuestion();
 			
 			for (TemplateQuestion tq : templateQuestions)
@@ -256,16 +269,12 @@ public class GetAssessmentController {
 						assessment.setCreatedTimeStamp(serverQuizStartTime);
 						service.updateAssessment(assessment);
 						
-						// Add assessment's full time limit to the response TODO fix
+						// Add assessment's full time limit to the response
 						responseMap.put("timeLimit", assessment.getTimeLimit());
-						responseMap.put("newTime", 0);
 						responseMap.put("msg", "allow");
 						responseMap.put("assessment", assessment);
-						//System.out.println("timeLimit " + assessment.getTimeLimit()+"\n\n\n\n\n");
 						
 					}else {
-						responseMap.put("timeLimit", assessment.getTimeLimit());
-						//System.out.println("timeLimit " + assessment.getTimeLimit()+"\n\n\n\n\n");
 						Timestamp serverNowTime = new Timestamp(System.currentTimeMillis());
 						long serverNowTimeInMillis = serverNowTime.getTime();
 						long createdTimestampInMillis = assessment.getCreatedTimeStamp().getTime();
@@ -279,8 +288,7 @@ public class GetAssessmentController {
 						}else {
 							
 							// Add modified time limit since assessment is still in progress
-							//System.out.println("\n\n"+ modifiedTimelimit + "I need this");
-							responseMap.put("newTime", modifiedTimelimit);
+							responseMap.put("timeLimit", modifiedTimelimit);
 							responseMap.put("msg", "allow");
 							responseMap.put("assessment", assessment);
 						}
@@ -314,8 +322,13 @@ public class GetAssessmentController {
 		
 		Assessment assessment = answerData.getAssessment();
 		
+		/*SA CHANGES*/
+		int assID = assessment.getAssessmentId();
+		Assessment currAssessment =  service.getAssessmentById(assID);
+		
 		List<SnippetUpload> lstSnippetUploads = answerData.getSnippetUploads();
-
+		System.out.println("QUICK SAVE CALLED"+assessment);
+		System.out.println(lstSnippetUploads);
 		Set<Option> optList = new HashSet<>();
 
 		for (Option opts : assessment.getOptions()){
@@ -323,6 +336,7 @@ public class GetAssessmentController {
 			optList.add(optService.getOptionById(opts.getOptionId()));
 			
 		}
+		System.out.println("OPTIONS : "+optList);
 
 		assessment.setOptions(optList);
 
@@ -331,15 +345,26 @@ public class GetAssessmentController {
 			System.out.println(opt);
 
 		}*/
-
-		for (AssessmentDragDrop add : assessment.getAssessmentDragDrop()){
-
-			add.setDragDrop(ddService.getDragDropById(add.getDragDrop().getDragDropId()));
-
+	
+		//Set<AssessmentDragDrop> assDragDrop= new HashSet<>();
+		System.out.println("DRAG SIZE : "+assessment.getAssessmentDragDrop().size());
+		
+		//assessment.setAssessmentDragDrop(new HashSet<AssessmentDragDrop>());
+		for (AssessmentDragDrop addD : assessment.getAssessmentDragDrop()){
+			
+			//addD.setAssessment(currAssessment);
+			addD.setDragDrop(ddService.getDragDropById(addD.getDragDrop().getDragDropId()));
+			//assDragDrop.add(addD);
+			//System.out.println("D : "+addD);
+			//assDragDrop.add(addD);
+			//serviceDD.updateDD(addD);
+			
+			
+			//assessment.getAssessmentDragDrop().add(addD);
 		}
-
+		//assessment.setAssessmentDragDrop(assDragDrop);
+		
 		assessment.setFileUpload(new HashSet<FileUpload>());
-
 		if(lstSnippetUploads!=null) {
 
 			for (SnippetUpload su : lstSnippetUploads) {
@@ -367,6 +392,7 @@ public class GetAssessmentController {
 					break;
 				}
 				
+				System.out.println("FILE UPLOADS : "+su.getCode());
 				s3.uploadToS3(su.getCode(), key);
 				FileUpload fu = new FileUpload();
 				fu.setAssessment(assessment);
@@ -377,6 +403,7 @@ public class GetAssessmentController {
 		}
 
 		//SAVE the answers into the database (grader not called yet)
+		//service.updateADragDrop(assessment);
 		service.updateAssessment(assessment);
 		log.debug("GetAssessmentController.saveAssessmentAnswers: Assessment state should now be quick saved.");
 		

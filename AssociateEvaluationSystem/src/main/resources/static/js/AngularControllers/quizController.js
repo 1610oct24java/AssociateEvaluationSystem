@@ -1,5 +1,5 @@
 app.controller("quizController", function($scope, $rootScope, $http, 
-		$location, $window, $timeout, $anchorScroll) {
+		$location, $window, $timeout) {
 	$rootScope.states = [];
 	$scope.answers = [];
 	$scope.numEditors = 0;
@@ -14,6 +14,8 @@ app.controller("quizController", function($scope, $rootScope, $http,
 	$scope.submitted = false;
 	getQuizQuestions();
 
+	$scope.snippetSubmissions = [];
+	
 	var makeState = function(input) {
 		var temp = {
 			id: input,
@@ -24,6 +26,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 		$scope.states.push(temp);
 	};
 	var makeAnswers = function(ndx) {
+		//console.log(ndx);
 		if ($scope.questions[ndx].question.format.formatName === "Multiple Choice" ) {
 			$scope.answers.push([-1]);
 		}
@@ -32,15 +35,50 @@ app.controller("quizController", function($scope, $rootScope, $http,
 		}
 	}
 	var initSetup = function() {
+		
 		for (var i = 0; i < $scope.questions.length; i++) {
+			var boolT = 0; var optionS=[];
+			for (var z3=0; z3 < $rootScope.protoTest.options.length; z3++)
+			{
+				//console.log("OPTIONS : "+$rootScope.protoTest.options[z3].optionId+" "+$scope.questions[i].question.questionId);
+				for(var k=0;k<$scope.questions[i].question.option.length;k++){
+					//console.log($scope.questions[i].question.option[k].optionId);
+					if($scope.questions[i].question.option[k].optionId==$rootScope.protoTest.options[z3].optionId)
+						{
+						console.log(k+" EQUAL"+$rootScope.protoTest.options[z3].optionId+" = "+$scope.questions[i].question.option[k].optionId);
+						boolT=1;
+						optionS.push(k);
+						}
+				}
+			}
+			
 			makeState(i);
-			makeAnswers(i);
+			if(boolT==1){
+				
+				if ($scope.questions[i].question.format.formatName === "Multiple Choice" ) {
+					if(optionS.length){
+						$scope.selectOption(optionS[0],i);
+					}
+				}
+				else if($scope.questions[i].question.format.formatName === "Multiple Select")
+				{
+					for(var l=0;l<optionS.length;l++){
+						$scope.selectOption(optionS[l],i);
+					}
+				}
+				
+				$scope.states[i].saved = true;
+				
+			}else{
+			
+			makeAnswers(i);}
 		}
+		
 		$scope.testtaker = $rootScope.protoTest.user.firstName + " " + $rootScope.protoTest.user.lastName;
 	
 		$timeout(function () {
 			for (var i=0; i < $scope.filteredQuestions.length; i++)
-			{
+			{console.log("init");
 				if ($scope.filteredQuestions[i].question.format.formatName === "Code Snippet")
 				{
 					var editorId = "editor"+$scope.filteredQuestions[i].question.questionId;
@@ -56,7 +94,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 	};
 	
 	var saveQuestion = function(index) {
-
+		console.log("SAVING QUESTION");
 		var q = $scope.questions[index];
 		
 		if(q.question.format.formatName === "Drag and Drop") {
@@ -67,6 +105,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 						assessmentId : $scope.protoTest.assessmentId,
 						dragDrop : q.question.dragdrop[i]
 				};
+				console.log("ORDER :"+(i+1)+" "+$scope.protoTest.assessmentId+" "+q.question.dragdrop[i]);
 				$rootScope.protoTest.assessmentDragDrop.push(assessmentDragDrop);
 			}
 		}
@@ -87,7 +126,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 				assessment : $rootScope.protoTest,
 				snippetUploads : $rootScope.snippetSubmissions
 		};
-
+		console.log("QUICK SAVE"+$rootScope.protoTest.length);
 		$http({
 			method: 'POST',
 			url: "aes/rest/quickSaveAssessment",
@@ -105,6 +144,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 	$scope.selectOption = function (ndxOption, ndxQuestion) {
 		// Handles putting the answer into the javascript object when the uesr
 		// selects an option
+		console.log("SELECTED : "+ndxOption+" "+ndxQuestion);
 		var answer;
 		
 		if($scope.questions[ndxQuestion].question.format.formatName === "Multiple Choice") {
@@ -201,6 +241,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 		return output;
 	}
 	
+	//var c=1;
 	$scope.aceChanged = function(e) {
 		var id2 = e[1].container.id;
 		var editor = e[1];
@@ -208,7 +249,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 			this.code = _code;
 			this.questionId = _questionId;
 			this.fileType = _fileType;
-		};
+		};//c=0;
 		var snippetQuestionIndex;
 		var q = {};
 		for (var i = 0; i < $scope.questions.length; i++ ) {
@@ -227,6 +268,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 			}
 		}
 		$rootScope.snippetSubmissions.push(newSnippet);
+		console.log(newSnippet);
 		saveQuestion(snippetQuestionIndex);
 	};
 
@@ -236,38 +278,18 @@ app.controller("quizController", function($scope, $rootScope, $http,
 	$scope.numPerPage = 5;
 	$scope.maxSize = 100;
 	
-	
-	
-	//code to jump to page and question 
 	$scope.jumpPage = function (index) {
-
+		
 		numPage=index/$scope.numPerPage;
 		$scope.currentPage =1+ Math.floor(numPage);
-//		
-		//$timeout(1000);
-		var old = $location.hash();
-		//code to jump to the question
-		 var newHash = 'anchor' + index;
-	      if ($location.hash() !== newHash) {
-	        // set the $location.hash to `newHash` and
-	        // $anchorScroll will automatically scroll to it
-	        $location.hash('anchor' + index);
-	        $anchorScroll(newHash);
-	      } else {
-	        // call $anchorScroll() explicitly,
-//	        // since $location.hash hasn't changed
-	        $anchorScroll(newHash);
-	      }
-	      //location.hash(old);
-		
+		console.log("JUMP"+numPage);
 	};
 
 	$scope.$watch('currentPage + numPerPage', function() {
 		var begin = (($scope.currentPage - 1) * $scope.numPerPage), end = begin
 				+ $scope.numPerPage;
-
 		$scope.filteredQuestions = $scope.questions.slice(begin, end);
-
+		
 		$timeout(function () {
 			for (var i=0; i < $scope.filteredQuestions.length; i++)
 			{
@@ -275,7 +297,18 @@ app.controller("quizController", function($scope, $rootScope, $http,
 				{
 					var editorId = "editor"+$scope.filteredQuestions[i].question.questionId;
 					var aceEditor = ace.edit(editorId);
-					aceEditor.getSession().setValue($rootScope.snippetSubmissions[0].code, -1);
+					
+					//To init ace editor if other than first page
+					if(aceEditor.length!=1){
+						if(aceEditor.getSession().getValue()==="Enter code here"){
+							aceEditor.getSession().setValue($rootScope.snippetStarters[0], -1);
+						}
+					}
+
+					//To keep changes on the ace editor if pages are switched
+					if($rootScope.snippetSubmissions.length){
+						aceEditor.getSession().setValue($rootScope.snippetSubmissions[0].code, -1);
+					}
 				}
 			}
 	    }, 2000);
@@ -291,7 +324,6 @@ app.controller("quizController", function($scope, $rootScope, $http,
 	
 	// AJAX
 	function getQuizQuestions() {
-		
 		$http({
 			method: 'GET',
 			url: QUIZ_REST_URL + $location.search().asmt,
@@ -304,11 +336,13 @@ app.controller("quizController", function($scope, $rootScope, $http,
 				// Assessment ready to take
 				$rootScope.protoTest = response.data.assessment;
 				$scope.questions = $rootScope.protoTest.template.templateQuestion;
-				$rootScope.protoTest.options = [];
+				console.log("options selected : "+$rootScope.protoTest.options.length);//[0].optionId);
+				//$rootScope.protoTest.options = [];
+				console.log("options selected : "+$rootScope.protoTest.options.length);
 				$rootScope.snippetStarters = response.data.snippets;
 				initSetup();
 				$rootScope.initQuizNav();
-				$rootScope.initTimer(response.data.timeLimit, response.data.newTime);
+				$rootScope.initTimer(response.data.timeLimit);
 
 			}else {
 				// Assessment was taken or time expired, redirecting to expired page
@@ -344,7 +378,3 @@ app.controller("quizController", function($scope, $rootScope, $http,
 	}
 	
 });
-
-
-
-

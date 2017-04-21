@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -65,7 +66,19 @@ public class Assessment implements Serializable
 		inverseJoinColumns = @JoinColumn(name = "option_id"))
 	private Set<Option> options;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "assessment")
+	//@OneToMany(fetch = FetchType.LAZY, mappedBy = "assessment")
+  /* @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(name="aes_assessment_drag_drop")
+    @JoinColumns({
+    	//@JoinColumn(name = "assessment_drag_drop_id", referencedColumnName = "assessment_drag_drop_id"),
+        @JoinColumn(name = "user_order"),//, referencedColumnName = "user_order"),
+        @JoinColumn(name = "ASSESSMENT_ID"),//, referencedColumnName = "ASSESSMENT_ID"),
+        @JoinColumn(name = "drag_drop_id")//, referencedColumnName = "drag_drop_id")
+    })*/
+	@OneToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "aes_assessment_drag_drop", 
+	joinColumns = {@JoinColumn(name = "assessment_id")}, 
+	inverseJoinColumns = {@JoinColumn(name = "drag_drop_id"),@JoinColumn(name = "user_order")})
 	private Set<AssessmentDragDrop> assessmentDragDrop;
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy ="assessment")

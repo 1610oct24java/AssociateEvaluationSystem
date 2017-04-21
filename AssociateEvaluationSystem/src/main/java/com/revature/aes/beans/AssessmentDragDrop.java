@@ -2,6 +2,8 @@ package com.revature.aes.beans;
 
 import java.io.Serializable;
 
+import javax.persistence.AssociationOverride;
+import javax.persistence.AssociationOverrides;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -37,25 +39,22 @@ public class AssessmentDragDrop implements Serializable {
 			@Parameter(name="initial_value",value="1"),
 			@Parameter(name="increment_size",value="1")
 	})
-	@JsonIgnore
 	private int assessmentDragDropId;
 	
 	@Column(name = "user_order")
 	private int userOrder;
 
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="ASSESSMENT_ID")
 	private Assessment assessment;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "drag_drop_id")
 	private DragDrop dragDrop;
 	
 	public AssessmentDragDrop() {
 		super();
 	}
-
-
 
 	@Override
 	public String toString() {

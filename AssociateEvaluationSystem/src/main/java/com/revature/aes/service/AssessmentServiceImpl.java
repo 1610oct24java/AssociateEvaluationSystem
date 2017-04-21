@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.revature.aes.beans.Assessment;
+import com.revature.aes.beans.AssessmentDragDrop;
 import com.revature.aes.beans.User;
 import com.revature.aes.dao.AssessmentDAO;
+import com.revature.aes.dao.AssessmentDragDropDAO;
 import com.revature.aes.grading.AssessmentGrader;
 import com.revature.aes.logging.Logging;
 
@@ -22,13 +25,17 @@ public class AssessmentServiceImpl implements AssessmentService {
 
 	@Autowired
 	AssessmentDAO assDAO;
+	
+	@Autowired
+	AssessmentDragDropDAO assDragDrop;
 
 	@Autowired
 	AssessmentGrader assessmentGrader;
 	
 	@Override
 	public Assessment getAssessmentById(int id) {
-		Assessment out = assDAO.findAssessmentByAssessmentId(id);
+		//Assessment out = assDAO.findAssessmentByAssessmentId(id);
+		Assessment out = assDAO.findOne(id);
 		return out;
 	}
 
@@ -93,4 +100,5 @@ public class AssessmentServiceImpl implements AssessmentService {
 	public void deleteAssessment(Assessment assessment) {
 		assDAO.delete(assessment);
 	}
+	
 }
