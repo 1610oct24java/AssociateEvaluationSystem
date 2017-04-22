@@ -13,6 +13,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 	$scope.testtaker = "loading...";
 	$scope.submitted = false;
 	getQuizQuestions();
+	getInfo();
 
 	var makeState = function(input) {
 		var temp = {
@@ -343,6 +344,20 @@ app.controller("quizController", function($scope, $rootScope, $http,
 		});
 	}
 	
+/*	function getInfo(){
+		$scope.candidateEmail = authUser.username;
+		$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.CANDIDATE + $scope.candidateEmail + API_URL.LINK)
+			.then(function(response) {
+				$scope.fName = response.data.firstName;
+				$scope.lName = response.data.lastName;
+				$scope.time = response.data.timeLimit;
+		});
+	}
+	getInfo();
+	
+	$rootScope.startAssessment = function(){
+		window.location = response.data.urlAssessment;
+	}*/
 });
 
 

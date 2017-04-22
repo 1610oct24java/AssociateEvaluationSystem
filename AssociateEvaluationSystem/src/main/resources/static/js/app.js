@@ -11,7 +11,7 @@ app.constant("SITE_URL", {
 	"VIEW_CANDIDATES" : "view",
 	"VIEW_EMPLOYEES" : "viewEmployees",
 	"REGISTER_CANDIDATE" : "",
-    "REGISTER_EMPLOYEE" : ""
+    "REGISTER_EMPLOYEE" : "",   
 });
 
 app.constant("API_URL", {
