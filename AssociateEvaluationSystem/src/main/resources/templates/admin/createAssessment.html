@@ -2,152 +2,154 @@
 <html>
 
 <head>
-	<meta charset="UTF-8">
-	<title>AES | Create Assessment</title>
-	<link rel="icon" type="img/png" href="images/favicon_192.png">
-	<!-- Google icon for trash can -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-	<!-- Optional theme -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-	<!-- Included for mobile scaling -->
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
-	<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
-	<link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
-	<link rel="stylesheet" href="css/aesMaterials.css">
+<meta charset="UTF-8">
+<title>AES | Create Assessment</title>
+<link rel="icon" type="img/png" href="images/favicon_192.png">
+<!-- Google icon for trash can -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous">
+<!-- Optional theme -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+	integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+	crossorigin="anonymous">
+<!-- Included for mobile scaling -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="//ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+<link rel="stylesheet"
+	href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+<link rel="stylesheet"
+	href="//fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="css/aesMaterials.css">
 </head>
 
 <body ng-app="adminApp" ng-controller="CreateAssessmentCtrl" layout-fill>
-<div>
-    <ng-include src="'menu.html'" />
-</div>
-<div layout="column" ng-cloak="" class="md-inline-form">
-	<md-content>
-		<md-card>
-			<md-toolbar layout="columns" class="md-primary">
-				<div class="md-toolbar-tools">
-					<span>Assessment Creation</span>
-				</div>
-				<span flex> </span>
-				 <!-- || coreLanguage == false -->
-				<button layout-margin type="submit" class="btn btn-success btn-md" ng-disabled="!assessments[0] || timeForm.$invalid" ng-click="createAssessment()">Create Assessment</button>
-			</md-toolbar>
-			<md-card-content>
-				<form name="timeForm" novalidate="">
-					<div layout-gt-sm="row">
-						<md-input-container class="md-block" flex-gt-sm="">
-							<label>Assessment Length</label>
-							<md-select required ng-model="time">
-								<md-option ng-repeat="time in times" value="{{time}}">
-									{{time}} Minutes
-								</md-option>
-							</md-select>
-						</md-input-container>
-					</div>
-				</form>
-			</md-card-content>
-		</md-card>
-	</md-content>
-</div>
-	        
-	        
-<div flex="100" layout-xs="column" layout="row">
-	<div flex-xs="" flex-gt-xs="40" layout="column">
-		<md-card style="height:375px;">
-			<md-toolbar class="md-primary">
-				<div class="md-toolbar-tools">
-					<span>Create Section</span>
-				</div>
-			</md-toolbar>
-			<md-divider></md-divider>
-			<md-card-content>
-				<!-- <form role="form" ng-submit="addRow()"> -->
-				<form name="sectionForm" ng-submit="addRow()" novalidate>
-					<div layout-gt-sm="column">
-						<md-input-container class="md-block" flex-gt-sm="">
-							<label>Category</label>
-							<md-select required ng-model="category">
-								<md-option ng-repeat="category in categories" value="{{category.name}}">
-									{{category.name}}
-								</md-option>
-							</md-select>
-						</md-input-container>
-						<md-input-container class="md-block" flex-gt-sm="">
-							<label>Type</label>
-							<md-select required ng-model="type">
-								<md-option ng-repeat="option in types" value="{{option.formatName}}">
-									{{option.formatName}}
-								</md-option>
-							</md-select>
-						</md-input-container>
-						<md-input-container class="md-block" flex-gt-sm="">
-							<label style="font-weight: normal">Quantity</label>
-							<input class ="decimal integer" required type="number" max="99" min="0" step="1" name="quantity" ng-model="quantity" />
-						</md-input-container>
-					</div>
-					<div layout="column" layout-wrap layout-align="center center">
-						<button type="submit" class="btn btn-primary btn-block" ng-disabled="sectionForm.$invalid">Add Section</button>
-					</div>
-				</form>
-			</md-card-content>
-		</md-card>
+	<div>
+		<ng-include src="'menu.html'" />
 	</div>
-	<div flex-xs="" flex-gt-xs="60" layout="column">
-		<md-card style="height:375px;">
-			<md-toolbar class="md-primary">
-				<div class="md-toolbar-tools">
-					<span> Current Sections </span>
+	<div layout="column" ng-cloak="" class="md-inline-form">
+		<md-content> <md-card> <md-toolbar
+			layout="columns" class="md-primary">
+		<div class="md-toolbar-tools">
+			<span>Assessment Creation</span>
+		</div>
+		<span flex> </span> <!-- || coreLanguage == false -->
+		<button layout-margin type="submit" class="btn btn-success btn-md"
+			ng-disabled="!assessments[0] || timeForm.$invalid"
+			ng-click="createAssessment()">Create Assessment</button>
+		</md-toolbar> <md-card-content>
+		<form name="timeForm" novalidate="">
+			<div layout-gt-sm="row">
+				<md-input-container class="md-block" flex-gt-sm="">
+				<label>Assessment Length</label> <md-select required ng-model="time">
+				<md-option ng-repeat="time in times" value="{{time}}">
+				{{time}} Minutes </md-option> </md-select> </md-input-container>
+			</div>
+		</form>
+		</md-card-content> </md-card> </md-content>
+	</div>
+
+
+	<div flex="100" layout-xs="column" layout="row">
+		<div flex-xs="" flex-gt-xs="40" layout="column">
+			<md-card style="height:375px;"> <md-toolbar
+				class="md-primary">
+			<div class="md-toolbar-tools">
+				<span>Create Section</span>
+			</div>
+			</md-toolbar> <md-divider></md-divider> <md-card-content> <!-- <form role="form" ng-submit="addRow()"> -->
+			<form name="sectionForm" ng-submit="addRow()" novalidate>
+				<div layout-gt-sm="column">
+					<md-input-container class="md-block" flex-gt-sm="">
+					<label>Category</label> <md-select required ng-model="category">
+					<md-option ng-repeat="category in categories"
+						value="{{category.name}}"> {{category.name}} </md-option> </md-select> </md-input-container>
+					<md-input-container class="md-block" flex-gt-sm="">
+					<label>Type</label> <md-select required ng-model="type">
+					<md-option ng-repeat="option in types"
+						value="{{option.formatName}}"> {{option.formatName}} </md-option>
+					</md-select> </md-input-container>
+					<md-input-container class="md-block" flex-gt-sm="">
+					<label style="font-weight: normal">Quantity</label> <input
+						class="decimal integer" required type="number" max="99" min="0"
+						step="1" name="quantity" ng-model="quantity" /> </md-input-container>
 				</div>
-			</md-toolbar>
-			<md-divider></md-divider>
-			<md-card-content ng-if="totalQuestions != undefined">
-				<table id="example" class="ui celled table" cellspacing="0" width="100%">
-					<thead>
+				<div layout="column" layout-wrap layout-align="center center">
+					<button type="submit" class="btn btn-primary btn-block"
+						ng-disabled="sectionForm.$invalid">Add Section</button>
+				</div>
+			</form>
+			</md-card-content> </md-card>
+		</div>
+		<div flex-xs="" flex-gt-xs="60" layout="column">
+			<md-card style="height:375px;"> <md-toolbar
+				class="md-primary">
+			<div class="md-toolbar-tools">
+				<span> Current Sections </span>
+			</div>
+			</md-toolbar> <md-divider></md-divider> <md-card-content
+				ng-if="totalQuestions != undefined">
+			<table id="example" class="ui celled table" cellspacing="0"
+				width="100%">
+				<thead>
 					<tr style="border-width: 0px;">
 						<th>Action</th>
 						<th>Category</th>
 						<th>Type</th>
 						<th>Quantity</th>
 					</tr>
-					</thead>
-					<tfoot>
+				</thead>
+				<tfoot>
 					<tr>
-						<th> Totals</th>
+						<th>Totals</th>
 						<th>{{totalCategories}}</th>
 						<th>{{totalTypes}}</th>
 						<th>{{totalQuestions}}</th>
 					</tr>
-					</tfoot>
-					<tbody>
+				</tfoot>
+				<tbody>
 					<div>
 						<tr ng-repeat="ass in sections track by $index">
-							<td>
-								<input type="button" value="Remove" class="btn btn-primary btn-block" ng-click="removeRow($index)" />
+							<td><input type="button" value="Remove"
+								class="btn btn-primary btn-block" ng-click="removeRow($index)" />
 							</td>
 							<td>{{ass.category}}</td>
 							<td>{{ass.type}}</td>
 							<td>{{ass.quantity}}</td>
 						</tr>
 					</div>
-					</tbody>
-				</table>
-			</md-card-content>
-		</md-card>
+				</tbody>
+			</table>
+			</md-card-content> </md-card>
+		</div>
 	</div>
-</div>
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.js"></script>
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.js"></script>
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-animate.js"></script>
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-aria.js"></script>
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-messages.js"></script>
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-sanitize.js"></script>
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="js/adminApp.js"></script>
-<script>
+	<script type="text/javascript"
+		src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<script type="text/javascript"
+		src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.js"></script>
+	<script type="text/javascript"
+		src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.js"></script>
+	<script type="text/javascript"
+		src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-animate.js"></script>
+	<script type="text/javascript"
+		src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-aria.js"></script>
+	<script type="text/javascript"
+		src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-messages.js"></script>
+	<script type="text/javascript"
+		src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-sanitize.js"></script>
+	<script type="text/javascript"
+		src="//ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.js"></script>
+	<script type="text/javascript"
+		src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="js/adminApp.js"></script>
+	<script>
 $(".integer").keypress(function(e) {
     if (e.which < 48 || e.which > 57) {
         showAdvice(this, "Integer values only");
