@@ -109,6 +109,46 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 		}
 	};
 	
+	// reset form and refresh page's cache of emails and recruiters
+	$scope.resetRegistrationForm = function() {
+		// reset all form state variables
+		$scope.allEmails = [];
+		$scope.buttonToggle = false; // by default
+		$scope.recruiter = null; // by default, unless admin picks candidate
+		$scope.recruiterSelect = false; // by default, unless admin picks candidate
+		$scope.allRecruiters = [];
+	}
+	
+	$scope.initializeRegistrationSelects = function() {
+		// populate roleTypes in registerEmployee View.
+		$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/roles")
+		.then(function(result) {
+			// we don't want to display 'restuser' or 'system'
+			result.data.forEach(function(role){
+				if (role.roleTitle.toUpperCase() === 'RESTUSER'){
+				}
+				else if (role.roleTitle.toUpperCase() === 'SYSTEM'){
+				}
+				else {
+					// if any other role, we add it to the select option
+					$scope.roleTypes.push(role);
+				}
+			});
+		});
+		
+		// get all emails from the database
+		$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/emails")
+		.then(function(result) {
+			$scope.allEmails = result.data;
+		});
+		
+		// get all recruiters from the database
+		$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/recruiters")
+		.then(function(result) {
+			$scope.allRecruiters = result.data;
+		});
+	}
+	
 	$scope.register = function() {
 		
 		// if we're registering a candidate...
@@ -154,6 +194,9 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
             else {
                 $scope.registerSuccessfulMsg = true;
             }
+		    // clear form.
+		    $scope.resetRegistrationForm();
+		    $scope.initializeRegistrationSelects(); //needs to occur AFTER post completes; updates emails and recruiters in memory for validation purposes.
 		}).error( function() {
 				$scope.registerUnsuccessfulMsg = true;
 		});
@@ -166,33 +209,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 		});
 	}
 	
-	// populate roleTypes in registerEmployee View.
-	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/roles")
-	.then(function(result) {
-		// we don't want to display 'restuser' or 'system'
-		result.data.forEach(function(role){
-			if (role.roleTitle.toUpperCase() === 'RESTUSER'){
-			}
-			else if (role.roleTitle.toUpperCase() === 'SYSTEM'){
-			}
-			else {
-				// if any other role, we add it to the select option
-				$scope.roleTypes.push(role);
-			}
-		});
-	});
-	
-	// get all emails from the database
-	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/emails")
-	.then(function(result) {
-		$scope.allEmails = result.data;
-	});
-	
-	// get all recruiters from the database
-	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/recruiters")
-	.then(function(result) {
-		$scope.allRecruiters = result.data;
-	});
+	$scope.initializeRegistrationSelects();
 	
 });
 

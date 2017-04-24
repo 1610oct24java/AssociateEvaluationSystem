@@ -97,7 +97,7 @@
         
         <div class="row">
             <input id="btn-register-recruit" class="btn-revature" type="submit" 
-            value="register" ng-click="employeeForm.$setPristine()" ng-disabled="employeeForm.$invalid || buttonToggle">
+            value="register" ng-click="employeeForm.$setPristine(); resetRegistrationForm()" ng-disabled="employeeForm.$invalid || buttonToggle">
         </div>
     </form>
     
