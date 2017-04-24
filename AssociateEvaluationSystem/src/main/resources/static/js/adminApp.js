@@ -342,7 +342,7 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$route
 	//creates and updates the list of possible candidates to add
 	$scope.updatePossibleCandidatesList = function(){
 		$scope.possibleCandidates = [];
-		$scope.allCandidates.forEach(function(candidate){}
+		$scope.allCandidates.forEach(function(candidate){
 			if (candidate.recruiterId !== $scope.userId){
 				$scope.possibleCandidates.push(candidate);
 			}
