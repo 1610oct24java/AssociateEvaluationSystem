@@ -36,6 +36,7 @@ public class AssessmentServiceImpl implements AssessmentService {
 	}
 
 	@Override
+	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	public Assessment saveAssessment(Assessment assessment) {
 		return assDAO.save(assessment);
 	}
