@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.revature.aes.beans.Assessment;
 import com.revature.aes.beans.User;
@@ -27,12 +29,14 @@ public class AssessmentServiceImpl implements AssessmentService {
 	AssessmentGrader assessmentGrader;
 	
 	@Override
+	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	public Assessment getAssessmentById(int id) {
 		Assessment out = assDAO.findAssessmentByAssessmentId(id);
 		return out;
 	}
 
 	@Override
+	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	public Assessment saveAssessment(Assessment assessment) {
 		return assDAO.save(assessment);
 	}

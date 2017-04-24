@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -22,6 +23,9 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "aes_assessment")
@@ -65,7 +69,8 @@ public class Assessment implements Serializable
 		inverseJoinColumns = @JoinColumn(name = "option_id"))
 	private Set<Option> options;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "assessment")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy ="assessment",cascade=CascadeType.ALL)
+	@JsonManagedReference //@JsonIgnoreProperties("assessment")
 	private Set<AssessmentDragDrop> assessmentDragDrop;
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy ="assessment")
@@ -198,9 +203,9 @@ public class Assessment implements Serializable
 				", createdTimeStamp=" + createdTimeStamp +
 				", finishedTimeStamp=" + finishedTimeStamp +
 				", template=" + template +
-				", options=" + options +
+				", options=" + options+
 				", assessmentDragDrop=" + assessmentDragDrop +
-				", fileUpload=" + fileUpload +
+				", fileUpload=" + fileUpload + 
 				'}';
 	}
 }

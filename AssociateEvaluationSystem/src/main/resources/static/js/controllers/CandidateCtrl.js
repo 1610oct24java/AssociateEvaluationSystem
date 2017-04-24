@@ -13,7 +13,8 @@ AESCoreApp.constant("SITE_URL", {
     "VIEW_CANDIDATES" : "view",
     "VIEW_EMPLOYEES" : "viewEmployees",
     "REGISTER_CANDIDATE" : "",
-    "REGISTER_EMPLOYEE" : ""
+    "REGISTER_EMPLOYEE" : "",
+    "ASSESSMENT_LANDING" : "assessmentLandingPage"
 });
 
 
@@ -299,11 +300,12 @@ AESCoreApp.controller('LoginCtrl', function($scope, $httpParamSerializerJQLike, 
                                     window.location = SITE_URL.VIEW_CANDIDATES;
                                     break;
                                 case ROLE.CANDIDATE:
-                                    $scope.candidateEmail = authUser.username;
+                                   /* $scope.candidateEmail = authUser.username;
                                     $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.CANDIDATE + $scope.candidateEmail + API_URL.LINK)
                                         .then(function(response) {
                                             window.location = response.data.urlAssessment;
-                                        })
+                                        })*/
+                                	window.location = SITE_URL.ASSESSMENT_LANDING;
                                     break;
                                 case ROLE.TRAINER:
                                     window.location = SITE_URL.TRAINER_HOME;
