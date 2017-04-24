@@ -64,6 +64,7 @@ public class BashDriver {
 		
 		//System.out.println("WAFFLES");
 		log.info("WAFFLES");
+		log.trace("============= runCodeTestScript ===============");
 		//System.out.println("keyPath: " + keyPath);
 		log.info("keyPath: " + keyPath);
 		//System.out.println("testPath: " + testPath);
@@ -104,17 +105,20 @@ public class BashDriver {
 				log.info(inputLine);
 				if (inputLine.startsWith("ERROR(f)")) {
 					//System.out.println(inputLine);
-					log.info(inputLine);
+					log.error(inputLine);
+					log.error("============= END runCodeTestScript (Error) ===============");
 					throw new UnsupportedFileTypeException("file type exception: the files are not currently supported by hulqBASH");
 				}
 				if (inputLine.startsWith("ERROR(c:k)")) {
 					//System.out.println(inputLine);
-					log.info(inputLine);
+					log.error(inputLine);
+					log.error("============= END runCodeTestScript (Error) ===============");
 					throw new KeyCompilationException("key compilation exception: ");
 				}
 				if (inputLine.startsWith("ERROR(c:t)")) {
 					//System.out.println(inputLine);
-					log.info(inputLine);
+					log.error(inputLine);
+					log.error("============= END runCodeTestScript (Error) ===============");
 					throw new TestCompilationException("");
 				}
 				//Spaghetti code here...
@@ -182,10 +186,13 @@ public class BashDriver {
 			in.close();
 
 		} catch (IOException e) {
+			log.warn("============= END runCodeTestScript (IOException) ===============");
 			throw new BashException("Caught IO exception trying to run script" + e.getStackTrace().toString());
 		} catch (Throwable e) {
+			log.warn("============= END runCodeTestScript (Exception) ===============");
 			throw new BashException("Some sort of exception occurred when trying to run script");
 		}
+		log.trace("============= END runCodeTestScript ===============");
 		return data;
 
 	}
