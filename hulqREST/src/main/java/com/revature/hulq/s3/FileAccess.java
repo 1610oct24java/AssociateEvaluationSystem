@@ -70,7 +70,7 @@ public class FileAccess {
 	
 	public boolean download(String key){
 		//System.out.println("=== DOWNLOADING FILES FROM S3 ===");
-		log.info("=== DOWNLOADING FILES FROM S3 ===");
+		log.info("======== DOWNLOADING FILES FROM S3 ========");
         AmazonS3 s3client = new AmazonS3Client();
         try {
             //System.out.println("Downloading an object: " + key);
@@ -80,7 +80,7 @@ public class FileAccess {
             s3client.getObject(new GetObjectRequest(S3LOCATION, key),file);
             
             //System.out.println("=== END DOWNLOADING FILES FROM S3 ===\n");
-            log.info("=== END DOWNLOADING FILES FROM S3 ===\n");
+            log.info("====== END DOWNLOADING FILES FROM S3 ======\n");
         
             return true;
          } catch (AmazonServiceException ase) {
@@ -105,7 +105,7 @@ public class FileAccess {
             //System.out.println("Item:             " + key);
             log.info("Item:             " + key);
             //System.out.println("=== END DOWNLOADING FILES FROM S3 (AMAZON SERVICE EXCEPTION) ===\n");
-            log.info("=== END DOWNLOADING FILES FROM S3 (AMAZON SERVICE EXCEPTION) ===\n");
+            log.info("====== END DOWNLOADING FILES FROM S3 (AMAZON SERVICE EXCEPTION) ======\n");
             return false;
         } catch (AmazonClientException ace) {
 //            System.out.println("Caught an AmazonClientException, which " +
@@ -121,7 +121,7 @@ public class FileAccess {
             //System.out.println("Error Message: " + ace.getMessage());
             log.info("Error Message: " + ace.getMessage());
             //System.out.println("=== END DOWNLOADING FILES FROM S3 (AMAZON CLIENT EXCEPTION) ===\n");
-            log.info("=== END DOWNLOADING FILES FROM S3 (AMAZON CLIENT EXCEPTION) ===\n");
+            log.info("====== END DOWNLOADING FILES FROM S3 (AMAZON CLIENT EXCEPTION) ======\n");
             return false;
         }
 

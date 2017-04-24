@@ -1,4 +1,4 @@
-public class Palindrome
+public class UserInput
 {
     public static boolean isPalindrome(String s)
     {
@@ -25,27 +25,3 @@ public class Palindrome
     }
 }
 
-/*
-  @Config
-  mathmode:false
-  trimwhitespace:false
-  extractwhitespace:false
-  caseignore:false
-  grosserrormargin:0.0
-  caseerrormargin:0.0
-  keyfilename:Palindrome.java
-  testfilename:UserInput
-
-  @ArgSet(1)
-  racecar % true
-
-  @ArgSet(2)
-  thisisnotapalindrome % false
-  bob % this second argument is ignored
-
-  @ArgSet(3)
-  anna % true
-
-  @ArgSet(4)
-  raceCar % false (capitalization)
-*/

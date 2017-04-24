@@ -47,8 +47,6 @@ public class HulqDriver {
 		if(getTest && getKey && hasScript){
 			List<String> arguments = fp.getArgs(keyFileKey);
 			TestProfile testProfile = fp.getTestProfile(keyFileKey);
-			//System.out.println("==> " + testProfile.toString() + " <==");
-			log.info("==> " + testProfile.toString() + " <==");
 			// rename key and test files
 			
 			File oldKey = new File(keyFileKey);
@@ -61,15 +59,11 @@ public class HulqDriver {
 			// this allows the candidate to define what language they wish to use
 			String newTestName = testProfile.getTestFileName()+"."+testFileKey.split("\\.")[1];
 			File newTest = new File(newTestName);
-			//System.out.println("oldtets: " + oldTest);
-			log.info("oldtest: " + oldTest);
-			//System.out.println("newTestName: " + newTestName);
-			log.info("newTestName:" + newTestName);
 			boolean renamedTest = oldTest.renameTo(newTest);
 			
-			//System.out.println("newoldtets: " + oldTest);
-			log.info("newOldTest: " + oldTest);
 			//System.out.println(renamedKey + "-newKey:" + newKeyName +"[=]"+ renamedTest+ " newTest:" + newTestName);
+			log.info(renamedKey + "-newKey:" + newKeyName +"[=]"+ renamedTest+ " newTest:" + newTestName);
+			
 			//if both files were successfully renamed
 			if(renamedKey && renamedTest){
 				//System.out.println("bacon");
