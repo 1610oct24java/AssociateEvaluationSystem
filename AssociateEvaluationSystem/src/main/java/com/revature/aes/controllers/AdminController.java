@@ -83,34 +83,13 @@ public class AdminController {
 		List <User> candidates = userService.findUsersByRecruiter(userEmail);
 		return candidates;
 	}
-	@RequestMapping(value="/admin/employee/{userEmail}/updateCandidates", method = RequestMethod.PUT)
-	public List<User> updateCandidatesListByRecruiter(@PathVariable String userEmail, @RequestBody List<User> newCandidates){
-		List <User> oldCandidatesList = userService.findUsersByRecruiter(userEmail);
-		User recruiter = userService.findUserByEmail(userEmail);
-		//gets a list of candidates that no longer has this recruiter
-		List <User> candidatesToRemoveRecruiter = new LinkedList<User>(oldCandidatesList);
-		candidatesToRemoveRecruiter.removeAll(newCandidates);
-		
-		//get a list of candidates that now get this recruiter
-		newCandidates.removeAll(oldCandidatesList);
-		
-		candidatesToRemoveRecruiter.forEach(c -> {
-			UserUpdateHolder updateHolder = new UserUpdateHolder();
-			updateHolder.setNewRecruiterId(0);
-			userService.updateEmployee(c, updateHolder);
-		});
-		
-		newCandidates.forEach(c -> {
-			UserUpdateHolder updateHolder = new UserUpdateHolder();
-			updateHolder.setNewRecruiterId(recruiter.getUserId());
-			userService.updateEmployee(c, updateHolder);
-		});
-		
-		return userService.findUsersByRecruiter(userEmail);
-		
-		
-		
-	}
+	
+//	@RequestMapping(value="/admin/employee/{userEmail}/updateCandidates", method = RequestMethod.PUT)
+//	public List<User> updateCandidatesListByRecruiter(@PathVariable String userEmail, @RequestBody List<User> newCandidates){
+//
+//		return userService.updateCandidatesOnRecruiter(userEmail, newCandidates);
+//				
+//	}
 //	@RequestMapping(value="/admin/employee/{id}", method = RequestMethod.GET)
 //	public User getEmployeeById(@PathVariable String id){
 //		User user = userService.getUserById(Integer.parseInt(id));

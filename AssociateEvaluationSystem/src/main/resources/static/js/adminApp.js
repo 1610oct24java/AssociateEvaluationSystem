@@ -353,6 +353,31 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$route
 		console.log($scope.possibleCandidates);
 	}
 	
+	var move = function(objectToMove, fromArray, toArray){
+		var i = fromArray.indexOf(objectToMove);
+		var o = fromArray.splice(i, 1)[0];
+		toArray.push(o);
+		console.log("Move command");
+		console.log(fromArray);
+		console.log(toArray);
+	}
+	
+	$scope.toRight = function(){
+		console.log($scope.selectedCurrentCanidates);
+		$scope.selectedCurrentCanidates.forEach(function(el){
+			move(el, $scope.candidateList, $scope.possibleCandidates);
+		});
+	}
+	
+	$scope.toLeft = function(){
+		console.log($scope.selectedNewCanidates);
+		$scope.selectedNewCanidates.forEach(function(el){
+			move(el, $scope.possibleCandidates, $scope.candidateList);
+		});
+	}
+	
+	
+	
 	
 
 	
@@ -366,13 +391,15 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$route
 		
 
 		var employeeInfo = {
-			oldEmail	: $scope.oldEmail,
-			newEmail      : $scope.newEmail,
-			firstName     : $scope.firstName,
-			lastName      : $scope.lastName,
-			oldPassword   : $scope.oldPassword,
-			newPassword   : $scope.newPassword,
+			oldEmail		: $scope.oldEmail,
+			newEmail      	: $scope.newEmail,
+			firstName     	: $scope.firstName,
+			lastName      	: $scope.lastName,
+			oldPassword   	: $scope.oldPassword,
+			newPassword   	: $scope.newPassword,
+			candidates		: $scope.candidateList
 		};
+		
 
 		if ($scope.oldEmail === "" || $scope.oldEmail == null)
 		{	$scope.emailNotEntered = true; }

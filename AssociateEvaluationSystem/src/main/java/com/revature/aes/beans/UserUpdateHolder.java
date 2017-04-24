@@ -1,6 +1,7 @@
 package com.revature.aes.beans;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
@@ -15,6 +16,7 @@ public class UserUpdateHolder implements Serializable{
 	private String oldPassword;
 	private String newPassword;
 	private Integer newRecruiterId;
+	private List<User> candidates;
 	public Integer getNewRecruiterId() {
 		return newRecruiterId;
 	}
@@ -143,6 +145,14 @@ public class UserUpdateHolder implements Serializable{
 		} else if (!oldPassword.equals(other.oldPassword))
 			return false;
 		return true;
+	}
+
+	public List<User> getCandidates() {
+		return candidates;
+	}
+
+	public void setCandidates(List<User> candidates) {
+		this.candidates = candidates;
 	}
 	
 	
