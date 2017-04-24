@@ -32,9 +32,57 @@ app.controller("quizController", function($scope, $rootScope, $http,
 		}
 	}
 	var initSetup = function() {
+		/*SA-CHANGES STARTED*/
 		for (var i = 0; i < $scope.questions.length; i++) {
+			var boolT = 0; var optionS=[];
+			for (var z3=0; z3 < $rootScope.protoTest.options.length; z3++)
+			{
+					for(var k=0;k<$scope.questions[i].question.option.length;k++){
+					if($scope.questions[i].question.option[k].optionId==$rootScope.protoTest.options[z3].optionId)
+						{
+						  boolT=1;
+						  optionS.push(k);
+						}
+				}
+			}
+			
+			if($scope.questions[i].question.format.formatName === "Drag and Drop") {
+			 var oDragDrop=[];
+			 for(var z4=0;z4<$rootScope.protoTest.assessmentDragDrop.length;z4++){
+					var uOrder = $rootScope.protoTest.assessmentDragDrop[z4].userOrder;
+					var dDrop = $rootScope.protoTest.assessmentDragDrop[z4].dragDrop;
+					
+					if(($scope.questions[i].question.dragdrop).indexOf(dDrop)){
+						oDragDrop[uOrder-1]=dDrop;
+					}
+			 }
+			 if(oDragDrop.length){
+				 $scope.questions[i].question.dragdrop = oDragDrop;
+				 boolT=1
+			 }
+			}
+			
 			makeState(i);
-			makeAnswers(i);
+			if(boolT==1){
+				
+				if ($scope.questions[i].question.format.formatName === "Multiple Choice" ) {
+					if(optionS.length){
+						$scope.selectOption(optionS[0],i);
+					}
+				}
+				else if($scope.questions[i].question.format.formatName === "Multiple Select")
+				{
+					for(var l=0;l<optionS.length;l++){
+						$scope.selectOption(optionS[l],i);
+					}
+				}
+				
+				$scope.states[i].saved = true;
+				
+			}else{
+			 makeAnswers(i);
+			}
+			/*SA-CHANGES ENDED*/
 		}
 		$scope.testtaker = $rootScope.protoTest.user.firstName + " " + $rootScope.protoTest.user.lastName;
 	
@@ -275,7 +323,21 @@ app.controller("quizController", function($scope, $rootScope, $http,
 				{
 					var editorId = "editor"+$scope.filteredQuestions[i].question.questionId;
 					var aceEditor = ace.edit(editorId);
-					aceEditor.getSession().setValue($rootScope.snippetSubmissions[0].code, -1);
+					//aceEditor.getSession().setValue($rootScope.snippetSubmissions[0].code, -1);
+					
+					/*SA-CHANGES STARTED*/
+					//To init ace editor if other than first page
+					if(aceEditor.length!=1){
+						if(aceEditor.getSession().getValue()==="Enter code here"){
+							aceEditor.getSession().setValue($rootScope.snippetStarters[0], -1);
+						}
+					}
+
+					//To keep changes on the ace editor if pages are switched
+					if($rootScope.snippetSubmissions.length){
+						aceEditor.getSession().setValue($rootScope.snippetSubmissions[0].code, -1);
+					}
+					/*SA-CHANGES ENDED*/
 				}
 			}
 	    }, 2000);
@@ -304,7 +366,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 				// Assessment ready to take
 				$rootScope.protoTest = response.data.assessment;
 				$scope.questions = $rootScope.protoTest.template.templateQuestion;
-				$rootScope.protoTest.options = [];
+				//$rootScope.protoTest.options = [];
 				$rootScope.snippetStarters = response.data.snippets;
 				initSetup();
 				$rootScope.initQuizNav();
