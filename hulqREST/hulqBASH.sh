@@ -149,6 +149,8 @@ if [[ $testExecutor == "java " ]]; then
 else
 	#if test failed to compile
 	if [[ ! -e $testRunnable ]]; then 
+		echo "Not Java Executor: $testExecutor";
+		echo "Not Java Runnable: $testRunnable";
 		echo "ERROR(c:t): test failed to compile or does not exist";
 		exit; 
 	fi 
