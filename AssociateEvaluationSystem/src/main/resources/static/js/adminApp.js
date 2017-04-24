@@ -64,6 +64,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 	$scope.recruiterSelect = false; // by default, unless admin picks candidate
 	$scope.allRecruiters = [];
 	
+	
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
 		if (response.data.authenticated) {
@@ -270,7 +271,7 @@ function makeUser($scope) {
 }
 
 adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$routeParams, SITE_URL, API_URL, ROLE) {
-	
+	$scope.possibleCandidates = [];
 	
 	
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
@@ -314,7 +315,7 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$route
 					$scope.candidateList = response.data;
 					console.log("Candidate List");
 					console.log(response.data);
-					$scope.getPossibleCandidatesToAdd($scope.candidateList);
+					//$scope.updatePossibleCandidatesList();
 					
 					
 					// loads a full candidate list and then starts the function to generate the list for the add candidate 
@@ -339,6 +340,8 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$route
 		$scope.possibleCandidates = $scope.allCandidates.filter( function( el ) {
 			  return $scope.candidateList.indexOf( el ) < 0;
 			} );
+		console.log("updated candidate list");
+		console.log($scope.possibleCandidates);
 	}
 	
 	

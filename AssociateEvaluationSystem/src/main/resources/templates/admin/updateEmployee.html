@@ -64,7 +64,10 @@
         
         <div ng-show = "roleName == 'recruiter'">
         	is Recruiter
-        
+        	
+        	<select ng-model = "selectedCandidate" ng-options="c.firstName + ' ' + c.lastName for c in possibleCandidates"></select>
+        	{{candidate}}
+        	
         </div>
         
         <div ng-show="passNotMatch" class="span-creds">

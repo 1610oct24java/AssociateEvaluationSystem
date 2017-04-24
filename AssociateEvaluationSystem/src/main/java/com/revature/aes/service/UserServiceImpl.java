@@ -170,7 +170,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<User> findUsersByRole(String role) {
 		
-		List<User> users = dao.findUsersByRole(role);
+		List<User> users = dao.findUsersByRole_RoleTitle(role);
 		
 		return users;
 	}
