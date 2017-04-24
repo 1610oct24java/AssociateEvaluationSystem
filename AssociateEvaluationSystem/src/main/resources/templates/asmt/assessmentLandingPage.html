@@ -59,6 +59,8 @@ body {
 
 .logo{
   padding: 20px;
+}
+
 </style>
 <body ng-controller="landingPageCtrl">
 	<div class="logo" style="background-color:white;" >
@@ -70,7 +72,7 @@ body {
 		
 	</div>
 	
-	<div class="container" align="center">
+	<div id="showBox" ng-hide="hideBox" ng-cloak class="container" align="center">
 	<br /><br />
 		<div class="box">
             <div class="box-content">

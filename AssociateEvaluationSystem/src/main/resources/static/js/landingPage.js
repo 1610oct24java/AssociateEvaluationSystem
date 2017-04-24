@@ -36,11 +36,12 @@ landingApp.constant("ROLE", {
 });
 
 landingApp.controller("landingPageCtrl", function($scope, $http, $rootScope, 
-		SITE_URL, API_URL) {
+		$window, SITE_URL, API_URL) {
 	var quizPage = "";
 	$scope.testtaker = "Loading...";
 	$scope.time = "";
 	var QUIZ_REST_URL = "/aes/rest/";
+	$scope.hideBox = true;
 
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
@@ -80,8 +81,10 @@ landingApp.controller("landingPageCtrl", function($scope, $http, $rootScope,
 			$rootScope.protoTest = response.data.assessment;
 			$scope.testtaker = "Welcome " + $rootScope.protoTest.user.firstName + " " + $rootScope.protoTest.user.lastName;
 			$scope.time = response.data.timeLimit;
-		} else {
-			console.log("I hate this game")
+			$scope.hideBox = false;
+		}else {
+			// Assessment was taken or time expired, redirecting to expired page
+			$window.location.href = '/aes/expired';
 		}
 	})
 	}
