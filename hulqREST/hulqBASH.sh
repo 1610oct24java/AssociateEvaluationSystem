@@ -171,9 +171,11 @@ fi
 runTest=$testExecutor$testRunnable;
 runKey=$keyExecutor$keyRunnable; 
 count=0;
-for argSet in "$@"; do	
+for argSet in "$@/"; do	
 	(
-        echo $argSet;
+        echo "======" >> lag.txt;
+        echo $argSet >> lag.txt;
+        echo "======" >> lag.txt;
 		#echo the result (goes out to the service calling this)
 		(echo "key $count: $($runKey $argSet)") &
 		(echo "test $count: $($runTest $argSet)") &
@@ -182,4 +184,5 @@ for argSet in "$@"; do
 let "count += 1";
 done;
 wait;
+echo "---------------------------------------------------------------------------------";
 #remover;

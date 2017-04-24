@@ -64,7 +64,7 @@ public class LoggingAspect
 					+ "\nin Method:\t"
 					+ sign.getName()
 					+ "\nParameters:\n"
-					+ type
+					+ type.toString()
 					+ "\nMethod exceptions:\n"
 					+ except, e);
 		}
