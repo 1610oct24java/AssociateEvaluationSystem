@@ -84,7 +84,7 @@
 						</md-input-container>
 						<md-input-container class="md-block" flex-gt-sm="">
 							<label style="font-weight: normal">Quantity</label>
-							<input required type="number" max="99" min="0" name="quantity" ng-model="quantity" />
+							<input class ="decimal integer" required type="number" max="99" min="0" step="1" name="quantity" ng-model="quantity" />
 						</md-input-container>
 					</div>
 					<div layout="column" layout-wrap layout-align="center center">
@@ -147,6 +147,32 @@
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="js/adminApp.js"></script>
+<script>
+$(".integer").keypress(function(e) {
+    if (e.which < 48 || e.which > 57) {
+        showAdvice(this, "Integer values only");
+        return(false);
+    }
+});
+
+$(".decimal").keypress(function(e) {
+    // 46 is a period
+    if (e.which != 46 && (e.which < 48 || e.which > 57)) {
+        showAdvice(this, "Integer values only");
+        return(false);
+    }
+    if (e.which == 46 && this.value.indexOf(".") != -1) {
+        showAdvice(this, "Only one period allowed in decimal numbers");
+        return(false);   // only one decimal allowed
+    }
+});
+
+function showAdvice(obj, msg) {
+    $("#singleAdvice").stop(true, false).remove();
+    $('<span id="singleAdvice" class="advice">' + msg + '</span>').insertAfter(obj);
+    $("#singleAdvice").delay(4000).fadeOut(1500);
+}
+</script>
 </body>
 
 </html>

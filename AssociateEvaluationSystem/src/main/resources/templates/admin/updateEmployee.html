@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
     <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/angularjs/1.1.0/angular-route.js">
     <link rel="stylesheet" href="css/aesMaterials.css">
 <link rel="stylesheet" href="css/bigwilliestyle.css">
 </head>
@@ -46,11 +47,12 @@
             <label class="sr-only" for="inputLastName">Last name</label>
             <input class="col-xs-12 col-md-12" id="inputLastName" type="text" placeholder="Last name" ng-model="lastName">
         </div>
+
         
-        <div class="row input-field">
-            <label class="sr-only" for="inputPassword">Current Password</label>
-            <input class="col-xs-12 col-md-12" id="inputPassword" type="password" placeholder="Current Password" ng-model="oldPassword" required>
-        </div>
+<!--         <div class="row input-field"> -->
+<!--             <label class="sr-only" for="inputPassword">Current Password</label> -->
+<!--             <input class="col-xs-12 col-md-12" id="inputPassword" type="password" placeholder="Current Password" ng-model="oldPassword" required> -->
+<!--         </div> -->
         <div class="row input-field">
             <label class="sr-only" for="inputPassword">New Password</label>
             <input class="col-xs-12 col-md-12" id="inputPassword" type="password" placeholder="New Password" ng-model="newPassword">
@@ -58,6 +60,11 @@
         <div class="row input-field">
             <label class="sr-only" for="inputPassword">Confirm New Password</label>
             <input class="col-xs-12 col-md-12" id="inputPassword" type="password" placeholder="New Password" ng-model="confirmNewPassword">
+        </div>
+        
+        <div ng-show = "roleName == 'recruiter'">
+        	is Recruiter
+        
         </div>
         
         <div ng-show="passNotMatch" class="span-creds">
@@ -74,7 +81,18 @@
         </div>
 
         <div class="row">
-            <input id="btn-update" class="btn-revature" type="submit" value="Update">
+
+			<div class="col-md-6">
+            	<input id="btn-update" class="btn-revature" type="submit" value="Update">
+        	</div>
+        	<div class="col-md-6">
+    			<div class="alert alert-success" ng-show="updateSuccessful">
+			  		<strong>Updated</strong>
+				</div>
+				<div class="alert alert-danger" ng-show="updateUnsuccessful">
+					<strong>Failed To Update</strong>
+				</div>
+			</div>
         </div>
     </form>
     
