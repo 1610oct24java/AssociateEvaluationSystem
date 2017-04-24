@@ -312,7 +312,7 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$route
 			$scope.firstName = employee.firstName;
 			$scope.lastName = employee.lastName;
 			$scope.roleName = employee.role.roleTitle;
-			
+			$scope.userId = employee.userId;
 			//get candidate list, if user role is recruiter
 			if ($scope.roleName === "recruiter"){
 				var getCandidateInfo = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/" + userEmail + "/getCandidates";
@@ -320,7 +320,6 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$route
 					$scope.candidateList = response.data;
 					console.log("Candidate List");
 					console.log(response.data);
-					//$scope.updatePossibleCandidatesList();
 					
 					
 					// loads a full candidate list and then starts the function to generate the list for the add candidate 
@@ -342,9 +341,14 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$route
 	
 	//creates and updates the list of possible candidates to add
 	$scope.updatePossibleCandidatesList = function(){
-		$scope.possibleCandidates = $scope.allCandidates.filter( function( el ) {
-			  return $scope.candidateList.indexOf( el ) < 0;
-			} );
+		$scope.possibleCandidates = [];
+		$scope.allCandidates.forEach(function(candidate){}
+			if (candidate.recruiterId !== $scope.userId){
+				$scope.possibleCandidates.push(candidate);
+			}
+		});
+			
+		
 		console.log("updated candidate list");
 		console.log($scope.possibleCandidates);
 	}
