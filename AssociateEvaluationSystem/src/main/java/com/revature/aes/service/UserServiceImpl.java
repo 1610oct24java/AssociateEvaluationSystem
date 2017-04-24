@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
 		
 		User userCheck = dao.save(candidate);
 		
-		if (userCheck != null && userCheck.getEmail().equals(candidate.getEmail()))
+		if (userCheck != null && userCheck.getEmail().equalsIgnoreCase(candidate.getEmail()))
 		{
 			return true;
 		}else {
