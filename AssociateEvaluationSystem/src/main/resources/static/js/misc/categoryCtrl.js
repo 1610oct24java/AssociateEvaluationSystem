@@ -6,13 +6,11 @@ angular.module('bankApp').controller('CategoryCtrl', function($scope, $http){
 			name : ''
 	};
 	
-	function getCategories() {
-		var array = $http.get("category").then(
-				function(response){
-					$scope.categories = response.data;
-					
-				}); 
-		return array.$$state;
+	$scope.getCategories = function() {
+		$http.get("category").then(
+			function(response) {
+				$scope.categories = response.data;
+			})
 	}
 	
 	$scope.saveCategory = function() {
@@ -57,6 +55,6 @@ angular.module('bankApp').controller('CategoryCtrl', function($scope, $http){
 		}
 	};
 	
-	$scope.categories =  getCategories();
+	$scope.getCategories();
 	
 });
