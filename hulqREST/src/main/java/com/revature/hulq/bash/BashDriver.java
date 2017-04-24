@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.math.NumberUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +21,7 @@ import com.revature.hulq.exceptions.*;
 public class BashDriver {
 
 	public double gradeCode(String keyPath, String testPath, List<String> argSet, TestProfile testProfile) {
+		final Logger log = LoggerFactory.getLogger(this.getClass());
 		double result;
 		try {
 			Map<Integer, BashData> valSet = runCodeTestScript(keyPath, testPath, argSet);
@@ -36,7 +39,8 @@ public class BashDriver {
 			// there was a fault with the script itself 
 			result = 0.0;
 		}
-		System.out.println("The result is " + result);
+		//System.out.println("The result is " + result);
+		log.info("The result is " + result);
 		return result;
 	}
 	
