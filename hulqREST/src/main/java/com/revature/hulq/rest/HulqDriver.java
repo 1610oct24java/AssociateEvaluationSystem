@@ -66,7 +66,7 @@ public class HulqDriver {
 			if(renamedKey && renamedTest){
 				System.out.println("bacon");
 				result = bd.gradeCode(newKeyName, newTestName, arguments, testProfile);
-				result = bd.gradeCode(oldKey.toString(), oldTest.toString(), arguments, testProfile);
+				//result = bd.gradeCode(oldKey.toString(), oldTest.toString(), arguments, testProfile);
 			}
 		} 
 		
