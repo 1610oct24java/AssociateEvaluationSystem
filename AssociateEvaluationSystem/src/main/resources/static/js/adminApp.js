@@ -271,7 +271,12 @@ function makeUser($scope) {
 }
 
 adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$routeParams, SITE_URL, API_URL, ROLE) {
+	// list of candidates recruiter does not have.
 	$scope.possibleCandidates = [];
+	
+	//list of candidates a recruiter does have.
+	$scope.candidateList = [];
+	
 	
 	
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
