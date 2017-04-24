@@ -107,9 +107,9 @@
 					<thead>
 					<tr style="border-width: 0px;">
 						<th>Action</th>
-						<th>Category</th>
-						<th>Type</th>
-						<th>Quantity</th>
+						<th><a href="#" ng-click="sortType = 'category'; sortReverse = !sortReverse">Category</a></th>
+						<th><a href="#" ng-click="sortType = 'type'; sortReverse = !sortReverse">Type</a></th>
+						<th><a href="#" ng-click="sortType = 'quantity'; sortReverse = !sortReverse">Quantity</a></th>
 					</tr>
 					</thead>
 					<tfoot>
@@ -122,7 +122,7 @@
 					</tfoot>
 					<tbody>
 					<div>
-						<tr ng-repeat="ass in sections track by $index">
+						<tr ng-repeat="ass in sections | orderBy:sortType:sortReverse">
 							<td>
 								<input type="button" value="Remove" class="btn btn-primary btn-block" ng-click="removeRow($index)" />
 							</td>
@@ -172,6 +172,8 @@ function showAdvice(obj, msg) {
     $('<span id="singleAdvice" class="advice">' + msg + '</span>').insertAfter(obj);
     $("#singleAdvice").delay(4000).fadeOut(1500);
 }
+
+
 </script>
 </body>
 
