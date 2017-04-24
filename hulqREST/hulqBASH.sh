@@ -142,16 +142,16 @@ echo "#======================== COMPILATION RESULT =============================
 if [[ $testExecutor == "java " ]]; then
 	#if test failed to compile
 	if [[ ! -e $testRunnable.class ]]; then 
-		echo "Not Java Executor: $testExecutor"; >> lag.txt
-		echo "Not Java Runnable: $testRunnable"; >> lag.txt
+		echo "Not Java Executor: $testExecutor" >> lag.txt;
+		echo "Not Java Runnable: $testRunnable" >> lag.txt;
 		echo "ERROR(c:t): test failed to compile or does not exist";
 		exit; 
 	fi 
 else
 	#if test failed to compile
 	if [[ ! -e $testRunnable ]]; then 
-		echo "Not Java Executor: $testExecutor"; >> lag.txt
-		echo "Not Java Runnable: $testRunnable"; >> lag.txt
+		echo "Not Java Executor: $testExecutor" >> lag.txt;
+		echo "Not Java Runnable: $testRunnable" >> lag.txt;
 		echo "ERROR(c:t): test failed to compile or does not exist";
 		exit; 
 	fi 
