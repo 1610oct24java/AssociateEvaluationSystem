@@ -63,6 +63,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 	$scope.recruiter = null; // by default, unless admin picks candidate
 	$scope.recruiterSelect = false; // by default, unless admin picks candidate
 	$scope.allRecruiters = [];
+	var recruiter = null;
 	
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
@@ -88,7 +89,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 		$scope.allEmails.forEach(function(email) {
 			if(keepGoing) {
 				if (email === $scope.email){
-					alert("Email already registered.");
+					/*alert("Email already registered.");*/
 					$scope.buttonToggle = true;
 					keepGoing = false;
 				}
@@ -109,7 +110,11 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 	};
 	
 	$scope.register = function() {
-		console.log($scope.recruiter);
+		
+		// if we're registering a candidate...
+		if ($scope.recruiterSelect === true) {
+			recruiter = $scope.recruiter.userId;
+		}
 
 		var employeeInfo = {
 			userId        : null,
@@ -117,7 +122,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 			firstName     : $scope.firstName,
             lastName      : $scope.lastName,
             salesforce    : null,
-            recruiterId   : $scope.recruiter.userId,
+            recruiterId   : recruiter,
             role          : $scope.roleType,
 			datePassIssued: null,
 			format		  : null
