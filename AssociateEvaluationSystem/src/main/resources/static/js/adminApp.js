@@ -301,7 +301,8 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
             fixedColumns: true,
             scrollY: "220px",
             scrollX: false,
-            paging: false
+            paging: false,
+            "ordering": false
         });
         $scope.coreLanguage = false;
         $scope.coreCount = 0;
@@ -728,3 +729,4 @@ adminApp.controller('RightCtrl', function($scope, $timeout, $mdSidenav, $log) {
 adminApp.controller('manageQuestions', function($scope, $http, SITE_URL, API_URL, ROLE) {
     var mq = this;
 });
+
