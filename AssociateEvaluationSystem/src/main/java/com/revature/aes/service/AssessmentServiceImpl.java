@@ -93,4 +93,10 @@ public class AssessmentServiceImpl implements AssessmentService {
 	public void deleteAssessment(Assessment assessment) {
 		assDAO.delete(assessment);
 	}
+
+	@Override
+	public List<Assessment> findAll() {
+		// TODO Auto-generated method stub
+		return assDAO.findAll();
+	}
 }

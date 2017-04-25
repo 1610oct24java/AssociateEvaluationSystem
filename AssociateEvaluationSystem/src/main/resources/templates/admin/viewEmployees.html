@@ -63,7 +63,8 @@
 				<td>
 					<button style="font-size:24px" ng-click="deleteEmployee(employee)" margin-left:auto;> <i class="fa fa-trash"></i></button>
 				</td>
-				<td ng-show="{{employee.role.roleTitle!=='candidate'}}">
+				<td> 
+<!-- 				ng-show="{{employee.role.roleTitle!=='candidate'}}"> -->
 					<a ng-href="updateEmployee#?email={{employee.email}}"><i class="fa fa-pencil"></i></a>
 				</td>
 			</tr>
