@@ -92,6 +92,7 @@ public class BashDriver {
 		    {
 	        	//System.out.println("It broke.\n" + errorStr);
 	        	log.info("It broke.\n" + errorStr);
+				log.error("============= END runCodeTestScript (TestCompilationException) ===============");
 				throw new TestCompilationException("Error or Exception found");
 		    }
 		    stdError.close();
@@ -106,13 +107,13 @@ public class BashDriver {
 				if (inputLine.startsWith("ERROR(f)")) {
 					//System.out.println(inputLine);
 					log.error(inputLine);
-					log.error("============= END runCodeTestScript (Error) ===============");
+					log.error("============= END runCodeTestScript (Error File Types) ===============");
 					throw new UnsupportedFileTypeException("file type exception: the files are not currently supported by hulqBASH");
 				}
 				if (inputLine.startsWith("ERROR(c:k)")) {
 					//System.out.println(inputLine);
 					log.error(inputLine);
-					log.error("============= END runCodeTestScript (Error) ===============");
+					log.error("============= END runCodeTestScript (Error Key Compile) ===============");
 					throw new KeyCompilationException("key compilation exception: ");
 				}
 				if (inputLine.startsWith("ERROR(c:t)")) {
@@ -192,7 +193,7 @@ public class BashDriver {
 			log.warn("============= END runCodeTestScript (Exception) ===============");
 			throw new BashException("Some sort of exception occurred when trying to run script");
 		}
-		log.trace("============= END runCodeTestScript ===============");
+		log.trace("============= END runCodeTestScript (Ok) ===============");
 		return data;
 
 	}

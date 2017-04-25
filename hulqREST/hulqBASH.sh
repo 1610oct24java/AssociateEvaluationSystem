@@ -107,6 +107,9 @@ keyFileName=$1
 testFileName=$2
 
 #shift command variables by 2
+# 	<file1><file2> arg1 arg2 
+# 		=
+#	arg1 arg2
 shift 2;
 
 #Returns true if file extensions types match and are valid types  
@@ -136,27 +139,24 @@ if [[ $testType == "compiled" ]]; then
 fi;
 #======================== END COMPILATION ==========================================
 
-echo "#======================== COMPILATION RESULT ===============================";
 #======================== COMPILATION RESULT ===============================
+# User Input -------------------------
 #if test is a java program
 if [[ $testExecutor == "java " ]]; then
 	#if test failed to compile
 	if [[ ! -e $testRunnable.class ]]; then 
-		echo "Not Java Executor: $testExecutor" >> lag.txt;
-		echo "Not Java Runnable: $testRunnable" >> lag.txt;
 		echo "ERROR(c:t): test failed to compile or does not exist";
 		exit; 
 	fi 
 else
 	#if test failed to compile
 	if [[ ! -e $testRunnable ]]; then 
-		echo "Not Java Executor: $testExecutor" >> lag.txt;
-		echo "Not Java Runnable: $testRunnable" >> lag.txt;
 		echo "ERROR(c:t): test failed to compile or does not exist";
 		exit; 
 	fi 
 fi
 
+# Answer Key -------------------------
 #if key is a java prgram
 if [[ $keyExecutor == "java " ]]; then
 	#if key failed to compile
@@ -173,21 +173,45 @@ else
 fi
 #======================== END COMPILATION RESULT ===============================
 
+#Form execution command
+# i.e java <class>
+# 	python <file>
 runTest=$testExecutor$testRunnable;
 runKey=$keyExecutor$keyRunnable; 
 count=0;
+
+#For each argument in the @Args
+#	at the bottom of the Answer Key File 
 for argSet in "$@/"; do	
 	(
-        echo "======" >> lag.txt;
-        echo $argSet >> lag.txt;
-        echo "======" >> lag.txt;
 		#echo the result (goes out to the service calling this)
-		(echo "key $count: $($runKey $argSet)") &
-		(echo "test $count: $($runTest $argSet)") &
+		
+		#Prints out current arg count and what running the code on 
+		#	the args returns/prints out
+
+		#################
+		### OLD CODE ###
+		#(echo "key $count: $($runKey $argSet)") &
+		#(echo "test $count: $($runTest $argSet)") &
+		#################
+		
+		#Run code
+		result=$($runTest $argSet) ;
+
+		#Code returned after executing last command
+		#	0 usually means no problems
+		#	? anything else problem
+		code=$?;
+		if [ $code -ne 0 ]; then
+			echo "ERROR CODE ($code): Running user code produced an invalid result with arg $argSet" >> nohup.out;
+			exit 1;		
+		else
+			(echo "key $count: $($runKey $argSet)") &
+			(echo "test $count: $($runTest $argSet)") &
+		fi
 		wait;
 	) &
 let "count += 1";
 done;
 wait;
-echo "---------------------------------------------------------------------------------";
-#remover;
+remover;
