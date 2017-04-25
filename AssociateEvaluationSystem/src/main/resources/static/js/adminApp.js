@@ -64,6 +64,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 	$scope.recruiterSelect = false; // by default, unless admin picks candidate
 	$scope.allRecruiters = [];
 	
+	
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
 		if (response.data.authenticated) {
@@ -270,7 +271,14 @@ function makeUser($scope) {
 }
 
 adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$routeParams, SITE_URL, API_URL, ROLE) {
-
+	// list of candidates recruiter does not have.
+	$scope.possibleCandidates = [];
+	
+	//list of candidates a recruiter does have.
+	$scope.candidateList = [];
+	
+	
+	
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
 		if (response.data.authenticated) {
@@ -298,14 +306,70 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$route
 		var getInfo = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/" + userEmail;
 		$http.get(getInfo).then(function(response){
 			var employee = response.data;
-			console.log(employee);
 			$('#currentEmail').prop('readonly',true);
 			$scope.oldEmail = employee.email;
 			$scope.firstName = employee.firstName;
 			$scope.lastName = employee.lastName;
 			$scope.roleName = employee.role.roleTitle;
+			$scope.userId = employee.userId;
+			//get candidate list, if user role is recruiter
+			if ($scope.roleName === "recruiter"){
+				var getCandidateInfo = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/" + userEmail + "/getCandidates";
+				$http.get(getCandidateInfo).then(function(response){
+					$scope.candidateList = response.data;
+					
+					
+					// loads a full candidate list and then starts the function to generate the list for the add candidate 
+					var getCandidateListInfo = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + "/candidates"
+					$http.get(getCandidateListInfo).then(function(response){
+						$scope.allCandidates = response.data;
+						$scope.updatePossibleCandidatesList()
+					})
+					
+				});
+			}
 		});
+		
+
 	}
+	
+	
+	//creates and updates the list of possible candidates to add
+	$scope.updatePossibleCandidatesList = function(){
+		$scope.possibleCandidates = [];
+		$scope.allCandidates.forEach(function(candidate){
+			if (candidate.recruiterId !== $scope.userId){
+				$scope.possibleCandidates.push(candidate);
+			}
+		});
+			
+	}
+	
+	var move = function(objectToMove, fromArray, toArray){
+		var i = fromArray.indexOf(objectToMove);
+		var o = fromArray.splice(i, 1)[0];
+		toArray.push(o);
+	}
+	
+	$scope.toRight = function(){
+		if ($scope.selectedCurrentCanidates != null){
+			$scope.selectedCurrentCanidates.forEach(function(el){
+				move(el, $scope.candidateList, $scope.possibleCandidates);
+			});
+		}
+	}
+	
+	$scope.toLeft = function(){
+		if ($scope.selectedNewCanidates != null){
+			$scope.selectedNewCanidates.forEach(function(el){
+				move(el, $scope.possibleCandidates, $scope.candidateList);
+			});
+		}
+	}
+	
+	
+	
+	
 
 	
 	//$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/" + )
@@ -315,16 +379,25 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$route
 		$scope.passNotEntered = false;
 		$scope.emailNotEntered = false;
 		$scope.userNotFound = false;
-		
+			
 
 		var employeeInfo = {
-			oldEmail	: $scope.oldEmail,
-			newEmail      : $scope.newEmail,
-			firstName     : $scope.firstName,
-			lastName      : $scope.lastName,
-			oldPassword   : $scope.oldPassword,
-			newPassword   : $scope.newPassword,
+			oldEmail		: $scope.oldEmail,
+			newEmail      	: $scope.newEmail,
+			firstName     	: $scope.firstName,
+			lastName      	: $scope.lastName,
+			oldPassword   	: $scope.oldPassword,
+			newPassword   	: $scope.newPassword,
+			candidates		: $scope.candidateList
 		};
+		
+		//resets the error messages
+		$scope.emailNotEntered = false;
+		$scope.passNotMatch = false;
+		$scope.emailNotEntered = false;
+		$scope.updateSuccessful = false;
+		$scope.updateUnsuccessful = false;
+		
 
 		if ($scope.oldEmail === "" || $scope.oldEmail == null)
 		{	$scope.emailNotEntered = true; }
@@ -336,11 +409,8 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$route
 			$scope.confirmNewPassword = '';
 		}
 
-/*		if ($scope.oldPassword === "" || $scope.oldPassword == null)
-		{	$scope.passNotEntered = true; }*/
-
-		if ($scope.passNotMatch == false && $scope.passNotEntered == false
-				&& $scope.emailNotEntered == false)
+		if (!$scope.passNotMatch&& !$scope.passNotEntered
+				&& !$scope.emailNotEntered)
 		{
 			$scope.postUpdate($scope.oldEmail, employeeInfo);
 		}
@@ -362,10 +432,18 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$route
             if (!data){
                 $scope.updateUnsuccessful = true;
             } else {
+            	if($scope.newEmail){
+            		$scope.oldEmail = $scope.newEmail;
+            		$scope.newEmail = "";
+            	}
+            	
+            	$scope.confirmNewPassword = "";
+            	$scope.newPassword = "";
+            	
             	$scope.updateSuccessful = true;
             }
 		}).error( function() {
-			console.log("fail");
+			 $scope.updateUnsuccessful = true;
 		});
 	}
 
@@ -398,7 +476,8 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
             fixedColumns: true,
             scrollY: "220px",
             scrollX: false,
-            paging: false
+            paging: false,
+            "ordering": false
         });
         $scope.coreLanguage = false;
         $scope.coreCount = 0;
@@ -850,3 +929,4 @@ adminApp.controller('ChooseAssessmentCtrl', function($scope, $http, SITE_URL, AP
     }
 
 });
+
