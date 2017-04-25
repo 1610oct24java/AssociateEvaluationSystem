@@ -306,7 +306,6 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$route
 		var getInfo = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/" + userEmail;
 		$http.get(getInfo).then(function(response){
 			var employee = response.data;
-			console.log(employee);
 			$('#currentEmail').prop('readonly',true);
 			$scope.oldEmail = employee.email;
 			$scope.firstName = employee.firstName;
@@ -318,16 +317,12 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$route
 				var getCandidateInfo = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/" + userEmail + "/getCandidates";
 				$http.get(getCandidateInfo).then(function(response){
 					$scope.candidateList = response.data;
-					console.log("Candidate List");
-					console.log(response.data);
 					
 					
 					// loads a full candidate list and then starts the function to generate the list for the add candidate 
 					var getCandidateListInfo = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + "/candidates"
 					$http.get(getCandidateListInfo).then(function(response){
 						$scope.allCandidates = response.data;
-						console.log("All Candidates");
-						console.log(response.data);
 						$scope.updatePossibleCandidatesList()
 					})
 					
@@ -348,29 +343,21 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$route
 			}
 		});
 			
-		
-		console.log("updated candidate list");
-		console.log($scope.possibleCandidates);
 	}
 	
 	var move = function(objectToMove, fromArray, toArray){
 		var i = fromArray.indexOf(objectToMove);
 		var o = fromArray.splice(i, 1)[0];
 		toArray.push(o);
-		console.log("Move command");
-		console.log(fromArray);
-		console.log(toArray);
 	}
 	
 	$scope.toRight = function(){
-		console.log($scope.selectedCurrentCanidates);
 		$scope.selectedCurrentCanidates.forEach(function(el){
 			move(el, $scope.candidateList, $scope.possibleCandidates);
 		});
 	}
 	
 	$scope.toLeft = function(){
-		console.log($scope.selectedNewCanidates);
 		$scope.selectedNewCanidates.forEach(function(el){
 			move(el, $scope.possibleCandidates, $scope.candidateList);
 		});
@@ -411,11 +398,8 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$route
 			$scope.confirmNewPassword = '';
 		}
 
-/*		if ($scope.oldPassword === "" || $scope.oldPassword == null)
-		{	$scope.passNotEntered = true; }*/
-
-		if ($scope.passNotMatch == false && $scope.passNotEntered == false
-				&& $scope.emailNotEntered == false)
+		if (!$scope.passNotMatch&& !$scope.passNotEntered
+				&& !$scope.emailNotEntered)
 		{
 			$scope.postUpdate($scope.oldEmail, employeeInfo);
 		}
@@ -440,7 +424,7 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$route
             	$scope.updateSuccessful = true;
             }
 		}).error( function() {
-			console.log("fail");
+			 $scope.updateUnsuccessful = true;
 		});
 	}
 
