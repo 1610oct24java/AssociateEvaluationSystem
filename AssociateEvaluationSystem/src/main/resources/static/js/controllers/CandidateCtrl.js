@@ -58,7 +58,7 @@ AESCoreApp.config(function($mdThemingProvider) {
         .accentPalette("revOrange");
 });
 
-//On esc event
+/*//On esc event
 AESCoreApp.directive('onEsc', function() {
   return function(scope, elm, attr) {
     elm.bind('keydown', function(e) {
@@ -111,13 +111,11 @@ AESCoreApp.directive('inlineEdit', function($timeout) {
     },
     templateUrl: '../templates/recruiter/inline-edit.html'
   };
-});
+});*/
 
 
 AESCoreApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,SITE_URL, API_URL, ROLE) {
-	
-	$scope.buttonToggle = false; // by default
-	
+		
     $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
         .then(function(response) {
             if (response.data.authenticated) {
@@ -195,12 +193,12 @@ AESCoreApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,
     /* This function checks if email is in the database
 	 * Disables registration if email is in the database
 	 * */
-	$scope.checkEmail = function(){
+    $scope.checkEmail = function(){
 		var keepGoing = true;
 		$scope.allEmails.forEach(function(email) {
 			if(keepGoing) {
 				if (email === $scope.email){
-					alert("Email already registered.");
+					/*alert("Email already registered.");*/
 					$scope.buttonToggle = true;
 					keepGoing = false;
 				}
@@ -210,6 +208,22 @@ AESCoreApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,
 			}
 		});	
 	};
+	
+	// reset form and refresh page's cache of emails and recruiters
+	$scope.resetRegistrationForm = function() {
+		// reset all form state variables
+		$scope.allEmails = [];
+		$scope.buttonToggle = false; // by default
+	}
+	
+	$scope.initializeRegistrationSelects = function() {
+		// get all emails from the database
+		$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + "/emails")
+		.then(function(result) {
+			$scope.allEmails = result.data;
+			console.log($scope.allEmails);
+		});
+	}
 
     $scope.register = function() {
 
@@ -243,6 +257,10 @@ AESCoreApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,
             data    : candidateInfo
         }).success( function(res) {
         	$scope.registerSuccessfulMsg = true;
+        	
+        	// clear form.
+		    $scope.resetRegistrationForm();
+		    $scope.initializeRegistrationSelects();
         }).error( function(res) {
         	$scope.registerUnsuccessfulMsg = true;
         });
@@ -297,20 +315,16 @@ AESCoreApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,
         value: '.net'
     }];
 
-
     $scope.logout = function() {
         window.location = API_URL.BASE + API_URL.LOGOUT;
     };
 
-    
-    // get all emails from the database
-	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + "/emails")
-	.then(function(result) {
-		$scope.allEmails = result.data;
-	});
-
     //data
     $scope.candidates;
+    
+    // first time retrieving emails from the database,
+    // when page loads
+    $scope.initializeRegistrationSelects();
 
 });
 
