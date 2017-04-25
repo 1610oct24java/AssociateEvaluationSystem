@@ -1,6 +1,7 @@
 package com.revature.aes.controllers;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,11 +66,30 @@ public class AdminController {
 		return users;
 	}
 	
+	@RequestMapping(value="/admin/candidates")
+	public List<User> getCandidates(){
+		List<User> users = userService.findUsersByRole("candidate");
+		return users;
+	}
+	
 	@RequestMapping(value="/admin/employee/{userEmail:.+}", method = RequestMethod.GET)
 	public User getEmployee(@PathVariable String userEmail){
 		User user = userService.findUserByEmail(userEmail);
 		return user;
 	}
+	
+	@RequestMapping(value="/admin/employee/{userEmail}/getCandidates", method = RequestMethod.GET)
+	public List<User> getCandidatesByRecruiter(@PathVariable String userEmail){
+		List <User> candidates = userService.findUsersByRecruiter(userEmail);
+		return candidates;
+	}
+	
+//	@RequestMapping(value="/admin/employee/{userEmail}/updateCandidates", method = RequestMethod.PUT)
+//	public List<User> updateCandidatesListByRecruiter(@PathVariable String userEmail, @RequestBody List<User> newCandidates){
+//
+//		return userService.updateCandidatesOnRecruiter(userEmail, newCandidates);
+//				
+//	}
 //	@RequestMapping(value="/admin/employee/{id}", method = RequestMethod.GET)
 //	public User getEmployeeById(@PathVariable String id){
 //		User user = userService.getUserById(Integer.parseInt(id));

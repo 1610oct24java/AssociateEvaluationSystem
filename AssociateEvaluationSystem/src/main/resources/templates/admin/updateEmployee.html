@@ -48,11 +48,6 @@
             <input class="col-xs-12 col-md-12" id="inputLastName" type="text" placeholder="Last name" ng-model="lastName">
         </div>
 
-        
-<!--         <div class="row input-field"> -->
-<!--             <label class="sr-only" for="inputPassword">Current Password</label> -->
-<!--             <input class="col-xs-12 col-md-12" id="inputPassword" type="password" placeholder="Current Password" ng-model="oldPassword" required> -->
-<!--         </div> -->
         <div class="row input-field">
             <label class="sr-only" for="inputPassword">New Password</label>
             <input class="col-xs-12 col-md-12" id="inputPassword" type="password" placeholder="New Password" ng-model="newPassword">
@@ -62,9 +57,24 @@
             <input class="col-xs-12 col-md-12" id="inputPassword" type="password" placeholder="New Password" ng-model="confirmNewPassword">
         </div>
         
+        
         <div ng-show = "roleName == 'recruiter'">
         	is Recruiter
-        
+        	
+        	<!-- Add and remove candidates boxes -->
+        	<div class = "subject-info-box-1">
+        		<select multiple = "multiple" id = "currentCanidatesBox" class= "form-control" ng-model = "selectedCurrentCanidates" ng-options= "c.firstName + ' ' + c.lastName for c in candidateList"></select>
+        	</div>
+        	
+        	<div class = "subject-info-arrows text-center">
+        		<input type = 'button' id = "btnRight" ng-click = "toRight()"  value = '>' class="btn btn-default"/><br/>
+        		<input type = 'button' id = "btnLeft" ng-click = "toLeft()" value = '<' class="btn btn-default"/><br/>
+        	</div>
+        	
+        	<div class = "subject-info-box-2">
+        		<select multiple = "multiple" id = "newCanidatesBox" class= "form-control" ng-model = "selectedNewCanidates" ng-options="c.firstName + ' ' + c.lastName for c in possibleCandidates"></select>
+        	</div>
+        	
         </div>
         
         <div ng-show="passNotMatch" class="span-creds">
