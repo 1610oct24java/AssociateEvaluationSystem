@@ -42,6 +42,7 @@ public class AssessmentServiceImpl implements AssessmentService {
 	}
 	
 	@Override
+	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	public void updateAssessment(Assessment assessment) {
 		Assessment oldAssessment = assDAO.findOne(assessment.getAssessmentId());
 		oldAssessment = assessment;
