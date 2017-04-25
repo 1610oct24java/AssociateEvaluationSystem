@@ -218,23 +218,67 @@ public class UserServiceImpl implements UserService {
 		User recruiter = this.findUserByEmail(userEmail);
 		//gets a list of candidates that no longer has this recruiter
 		List <User> candidatesToRemoveRecruiter = new LinkedList<>(oldCandidatesList);
-		boolean b2 = candidatesToRemoveRecruiter.removeAll(newCandidates);
+		candidatesToRemoveRecruiter.removeAll(newCandidates);
+		
+		boolean addCommaToLog = false;
 		
 		//get a list of candidates that now get this recruiter
 		newCandidates.removeAll(oldCandidatesList);
 		
+		//creates the log message for candidates being removed
+		StringBuilder logMessage1 = new StringBuilder();
+		logMessage1.append("Users being removed from recruiter id # ");
+		logMessage1.append(recruiter.getUserId());
+		logMessage1.append(" : ");
+		
+		
+		
+		//removes recruiter from candidate
 		for(User c : candidatesToRemoveRecruiter){
+			if (addCommaToLog){
+				logMessage1.append(", ");
+			}
+			
+			//removes recruiter from candidates
 			UserUpdateHolder updateHolder = new UserUpdateHolder();
 			updateHolder.setNoOldPasswordCheck(true);
 			updateHolder.setNewRecruiterId(0);
 			b = this.updateEmployee(c, updateHolder) && b;
+			
+			logMessage1.append(c.getUserId());
+			addCommaToLog = true;
 		}
+		
+		//creates the log message for new candidates being added
+		StringBuilder logMessage2 = new StringBuilder();
+		logMessage2.append("Users being added to recruiter id # ");
+		logMessage2.append(recruiter.getUserId());
+		logMessage2.append(" : ");
 
+		addCommaToLog = false;
+		
+		//adds recruiter to candidate
 		for (User c : newCandidates){
+			if (addCommaToLog){
+				logMessage2.append(", ");
+			}
+			
 			UserUpdateHolder updateHolder = new UserUpdateHolder();
 			updateHolder.setNewRecruiterId(recruiter.getUserId());
 			updateHolder.setNoOldPasswordCheck(true);
+			
+			logMessage2.append(c.getUserId());
+			addCommaToLog = true;
+			
 			b =  this.updateEmployee(c, updateHolder) && b;
+		}
+		
+
+		if (!candidatesToRemoveRecruiter.isEmpty()){
+			log.info(logMessage1.toString());
+		}
+		if (!newCandidates.isEmpty()){
+			log.info(logMessage2.toString());
 		}
 		
 		return this.findUsersByRecruiter(userEmail);
