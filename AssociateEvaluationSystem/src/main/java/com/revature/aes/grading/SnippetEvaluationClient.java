@@ -53,6 +53,8 @@ public class SnippetEvaluationClient {
 			StringEntity params = new StringEntity("{\"submission\":\"" + submissionKey + "\",\"solution\":\"" + solutionKey + "\"} ");
 			request.addHeader("content-type", "application/json");
 			request.setEntity(params);
+			System.out.println("==> " + EntityUtils.toString(params) + "<==");
+			
 			HttpResponse response = httpClient.execute(request);
 			HttpEntity entity = response.getEntity();
 			String responseString = EntityUtils.toString(entity, "UTF-8");

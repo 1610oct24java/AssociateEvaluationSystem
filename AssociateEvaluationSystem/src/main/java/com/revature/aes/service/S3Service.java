@@ -30,7 +30,7 @@ public class S3Service {
 	@Autowired
 	SnippetIO snippetIO;
 
-	static private String S3LOCATION = "aes.revature/";
+	static String S3LOCATION = "aes.revature/";
 
 	public boolean uploadToS3(String snippetContents, String key) {
 		File file = new File("tempFile");

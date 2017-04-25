@@ -17,7 +17,7 @@ public class SnippetIO {
 	@Autowired
 	Logging log;
 
-	static private String S3LOCATION = "aes.revature/";
+	static String S3LOCATION = "aes.revature/";
 
 	public boolean upload(File file, String key) {
 		AmazonS3 s3client = new AmazonS3Client();
