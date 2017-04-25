@@ -64,7 +64,7 @@
         	<!-- Add and remove candidates boxes -->
         	<div class = "subject-info-box-1 form-group">
         		<label>Recruiter's Candidates</label>
-        		<select multiple = "multiple" id = "currentCanidatesBox" class= "form-control" ng-model = "selectedCurrentCanidates" ng-options= "c.firstName + ' ' + c.lastName for c in candidateList | orderBy:['lastName', 'firstName'] track by c.userId"></select>
+        		<select multiple = "multiple" id = "currentCanidatesBox" class= "form-control" ng-model = "selectedCurrentCanidates" ng-options= "c.firstName + ' ' + c.lastName for c in candidateList | orderBy:['lastName', 'firstName']"></select>
         	</div>
         	
         	<div class = " subject-info-arrows btn-group">
@@ -74,7 +74,7 @@
         	
         	<div class = "subject-info-box-2 form-group">
         		<label>Candidates to Add </label>
-        		<select multiple = "multiple" id = "newCanidatesBox" class= "form-control" ng-model = "selectedNewCanidates" ng-options="c.firstName + ' ' + c.lastName for c in possibleCandidates | orderBy:['lastName', 'firstName'] track by c.userId"></select>
+        		<select multiple = "multiple" id = "newCanidatesBox" class= "form-control" ng-model = "selectedNewCanidates" ng-options="c.firstName + ' ' + c.lastName for c in possibleCandidates | orderBy:['lastName', 'firstName']"></select>
         	</div>
         	
         </div>
