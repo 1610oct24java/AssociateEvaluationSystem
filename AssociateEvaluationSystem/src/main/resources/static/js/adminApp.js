@@ -1,4 +1,4 @@
-	var adminApp = angular.module('adminApp',['ngMaterial', 'ngMessages', 'ngRoute']);
+var adminApp = angular.module('adminApp',['ngMaterial', 'ngMessages', 'ngRoute']);
 
 adminApp.constant("SITE_URL", {
 	"HTTP" : "http://",
@@ -753,6 +753,10 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
         return $mdSidenav('right').isOpen();
     };
 
+    $scope.toggleAss = buildToggler('ass');
+    $scope.isOpenAss = function(){
+    	return $mdSidenav('ass').isOpen();
+    };
     /**
      * Supplies a function that will continue to operate until the
      * time is up.
@@ -825,4 +829,24 @@ adminApp.controller('RightCtrl', function($scope, $timeout, $mdSidenav, $log) {
 
 adminApp.controller('manageQuestions', function($scope, $http, SITE_URL, API_URL, ROLE) {
     var mq = this;
+});
+
+adminApp.controller('ChooseAssessmentCtrl', function($scope, $http, SITE_URL, API_URL, ROLE){
+
+    $scope.assList = [];
+
+    $http({
+        method: "GET",
+        url: "allAssessments"
+    }).then(function (response) {
+        $scope.assList = response.data;
+        console.log("loading ass - ");
+        console.log( $scope.assList);
+    });
+
+    $scope.getNumOfSec = function getNumOfSections(index){
+    
+    	return $scope.assList[index].categoryRequestList.length;
+    }
+
 });

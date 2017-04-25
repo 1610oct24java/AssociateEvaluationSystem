@@ -19,6 +19,8 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Component
 @Table(name="AES_ASSESSMENT_REQUEST")
@@ -36,6 +38,7 @@ public class AssessmentRequest implements Serializable, Cloneable{
 	})
 	private int assessmentRequestId;
 
+	@JsonManagedReference
 	@OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL, mappedBy="assessmentRequest")
 	private Set<CategoryRequest> categoryRequestList;
 
