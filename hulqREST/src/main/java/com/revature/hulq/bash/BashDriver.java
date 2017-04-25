@@ -64,7 +64,7 @@ public class BashDriver {
 		
 		//System.out.println("WAFFLES");
 		log.info("WAFFLES");
-		log.trace("============= runCodeTestScript ===============");
+		log.info("============= runCodeTestScript ===============");
 		//System.out.println("keyPath: " + keyPath);
 		log.info("keyPath: " + keyPath);
 		//System.out.println("testPath: " + testPath);
