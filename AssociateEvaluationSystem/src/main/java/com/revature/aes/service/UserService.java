@@ -22,4 +22,5 @@ public interface UserService {
 	public void removeEmployee(String email);
 	public String setCandidateSecurity(User candidate);
 	public String findEmailById(int id);
+	public List<User> updateCandidatesOnRecruiter(String userEmail, List<User> newCandidates);
 }

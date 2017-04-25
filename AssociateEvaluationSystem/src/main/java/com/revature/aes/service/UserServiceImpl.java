@@ -3,6 +3,7 @@ package com.revature.aes.service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -170,7 +171,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<User> findUsersByRole(String role) {
 		
-		List<User> users = dao.findUsersByRole(role);
+		List<User> users = dao.findUsersByRole_RoleTitle(role);
 		
 		return users;
 	}
@@ -211,6 +212,80 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	public List<User> updateCandidatesOnRecruiter(String userEmail, List<User> newCandidates){
+		Boolean b = true;
+		List <User> oldCandidatesList = this.findUsersByRecruiter(userEmail);
+		User recruiter = this.findUserByEmail(userEmail);
+		//gets a list of candidates that no longer has this recruiter
+		List <User> candidatesToRemoveRecruiter = new LinkedList<>(oldCandidatesList);
+		candidatesToRemoveRecruiter.removeAll(newCandidates);
+		
+		boolean addCommaToLog = false;
+		
+		//get a list of candidates that now get this recruiter
+		newCandidates.removeAll(oldCandidatesList);
+		
+		//creates the log message for candidates being removed
+		StringBuilder logMessage1 = new StringBuilder();
+		logMessage1.append("Users being removed from recruiter id # ");
+		logMessage1.append(recruiter.getUserId());
+		logMessage1.append(" : ");
+		
+		
+		
+		//removes recruiter from candidate
+		for(User c : candidatesToRemoveRecruiter){
+			if (addCommaToLog){
+				logMessage1.append(", ");
+			}
+			
+			//removes recruiter from candidates
+			UserUpdateHolder updateHolder = new UserUpdateHolder();
+			updateHolder.setNoOldPasswordCheck(true);
+			updateHolder.setNewRecruiterId(0);
+			b = this.updateEmployee(c, updateHolder) && b;
+			
+			logMessage1.append(c.getUserId());
+			addCommaToLog = true;
+		}
+		
+		//creates the log message for new candidates being added
+		StringBuilder logMessage2 = new StringBuilder();
+		logMessage2.append("Users being added to recruiter id # ");
+		logMessage2.append(recruiter.getUserId());
+		logMessage2.append(" : ");
+
+		addCommaToLog = false;
+		
+		//adds recruiter to candidate
+		for (User c : newCandidates){
+			if (addCommaToLog){
+				logMessage2.append(", ");
+			}
+			
+			UserUpdateHolder updateHolder = new UserUpdateHolder();
+			updateHolder.setNewRecruiterId(recruiter.getUserId());
+			updateHolder.setNoOldPasswordCheck(true);
+			
+			logMessage2.append(c.getUserId());
+			addCommaToLog = true;
+			
+			b =  this.updateEmployee(c, updateHolder) && b;
+		}
+		
+
+		if (!candidatesToRemoveRecruiter.isEmpty()){
+			log.info(logMessage1.toString());
+		}
+		if (!newCandidates.isEmpty()){
+			log.info(logMessage2.toString());
+		}
+		
+		return this.findUsersByRecruiter(userEmail);
+	}
+	
+	
+	@Override
 	public boolean updateEmployee(User currentUser, UserUpdateHolder updatedUser) {
 		
 		SimpleDateFormat fmt = new SimpleDateFormat(PATTERN);
@@ -221,12 +296,27 @@ public class UserServiceImpl implements UserService {
 		
 		if (correctPassword)
 		{
+			//handles updating candidates for recruiters
+			if("recruiter".equals(currentUser.getRole().getRoleTitle())){
+				List<User> candidates = updatedUser.getCandidates();
+				candidates = this.updateCandidatesOnRecruiter(currentUser.getEmail(), candidates);
+				int i = 1;
+			}
+			
 			if (updatedUser.getNewEmail() != null && !updatedUser.getNewEmail().isEmpty())
 			{	currentUser.setEmail(updatedUser.getNewEmail()); }
 			if (updatedUser.getFirstName() != null && !updatedUser.getFirstName().isEmpty())
 			{	currentUser.setFirstName(updatedUser.getFirstName()); }
 			if (updatedUser.getLastName() != null && !updatedUser.getLastName().isEmpty())
 			{	currentUser.setLastName(updatedUser.getLastName()); }
+			if (updatedUser.getNewRecruiterId() != null){
+				// if new Recruiter id is 0 or belows, it will reflect null in the database
+				if (updatedUser.getNewRecruiterId() <= 0){
+					currentUser.setRecruiterId(null);
+				} else {
+					currentUser.setRecruiterId(updatedUser.getNewRecruiterId());
+				}
+			}
 			if (updatedUser.getNewPassword() != null && !updatedUser.getNewPassword().isEmpty())
 			{
 				currentUser.setDatePassIssued(fmt.format(new Date()));
@@ -244,6 +334,8 @@ public class UserServiceImpl implements UserService {
 					currentUser.setDatePassIssued(fmt.format(new Date()));
 				}
 			}
+
+			
 			dao.save(currentUser);
 		}
 		return correctPassword;
