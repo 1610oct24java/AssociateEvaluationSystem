@@ -62,12 +62,20 @@ public class AssessmentDragDrop implements Serializable {
 
 	@Override
 	public String toString() {
-		int id=0;
+		int id=0;//", assessmentDragDropId="+ assessmentDragDropId+  
 		if(assessment !=null)
 			id=assessment.getAssessmentId();
 		return "AssessmentDragDrop [userOrder=" + userOrder + ", assessmentId=" + id + ", dragDrop="
 				+ dragDrop + "]";
 	}
+	public int getAssessmentDragDropId() {
+		return assessmentDragDropId;
+	}
+
+	public void setAssessmentDragDropId(int assessmentDragDropId) {
+		this.assessmentDragDropId = assessmentDragDropId;
+	}
+
 	public int getUserOrder() {
 		return userOrder;
 	}

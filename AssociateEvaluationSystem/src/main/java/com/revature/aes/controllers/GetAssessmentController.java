@@ -119,14 +119,19 @@ public class GetAssessmentController {
 
 		}
 */
-		for (AssessmentDragDrop add : assessment.getAssessmentDragDrop()){
-
-			add.setDragDrop(ddService.getDragDropById(add.getDragDrop().getDragDropId()));
-
+		/*SA-CHANGES STARTED*/
+		for (AssessmentDragDrop addD : assessment.getAssessmentDragDrop()){
+			for(AssessmentDragDrop addE : tempAssessment.getAssessmentDragDrop()){
+				if((addE.getDragDrop().getDragDropId())==(addD.getDragDrop().getDragDropId())){
+					addD.setAssessmentDragDropId(addE.getAssessmentDragDropId());
+					break;
+				}
+			}
+			addD.setDragDrop(ddService.getDragDropById(addD.getDragDrop().getDragDropId()));
 		}
 
-		assessment.setFileUpload(new HashSet<FileUpload>());
-
+		//assessment.setFileUpload(new HashSet<FileUpload>());
+		/*SA-CHANGES END*/
 		if(lstSnippetUploads!=null) {
 
 			for (SnippetUpload su : lstSnippetUploads) {
@@ -155,11 +160,23 @@ public class GetAssessmentController {
 				}
 				
 				s3.uploadToS3(su.getCode(), key);
-				FileUpload fu = new FileUpload();
-				fu.setAssessment(assessment);
-				fu.setFileUrl(key);
-				fu.setQuestion(questService.getQuestionById(su.getQuestionId()));
-				assessment.getFileUpload().add(fu);
+				
+				/*SA-CHANGES STARTED*/
+				boolean bIsExists = false;
+				for(FileUpload fUpload : tempAssessment.getFileUpload()){
+					if((fUpload.getFileUrl()).equals(key)){
+						bIsExists=true;
+					}
+				}
+				
+				if(bIsExists==false){
+					FileUpload fu = new FileUpload();
+					fu.setAssessment(assessment);
+					fu.setFileUrl(key);
+					fu.setQuestion(questService.getQuestionById(su.getQuestionId()));
+					assessment.getFileUpload().add(fu);
+				}
+				/*SA-CHANGES END*/
 			}
 		}
 
@@ -203,7 +220,7 @@ public class GetAssessmentController {
 			List<String> codeStarters = new ArrayList<>();
 			// Pull out the TemplateQuestion set from the assessment.
 			Set<TemplateQuestion> templateQuestions = assessment.getTemplate().getTemplateQuestion();
-			
+			Set<FileUpload> tempUploads = assessment.getFileUpload();
 			for (TemplateQuestion tq : templateQuestions)
 			{
 				Question question = tq.getQuestion();						// Get each question.
@@ -214,14 +231,29 @@ public class GetAssessmentController {
 				{
 					// Pull out the SnippetTemplates from the question.
 					Set<SnippetTemplate> snippetTemplates = question.getSnippetTemplates();
-					
-					// Loop through the snippetTemplates to get their url locations in S3 bucket.
-					for (SnippetTemplate st : snippetTemplates)
-					{
-						String snippetTemplateUrl = st.getTemplateUrl();		// SnippetTemplate URL.
-						String starterCode = s3.readFromS3(snippetTemplateUrl);	// Read snippet starter from S3 bucket.
-						codeStarters.add(starterCode);							// Add snippetTemplate to list.
+					/*SA-CHANGES STARTED*/
+					boolean addedS = false;
+					String starterCode="";
+					if(tempUploads.size() > 0){
+						for(FileUpload f : tempUploads){
+							starterCode= s3.readFromS3(f.getFileUrl());
+							if(f.getQuestion().getQuestionId() == question.getQuestionId()){
+								codeStarters.add(starterCode);
+								addedS=true;
+								break;
+							}
+						}
 					}
+					
+					if(addedS==false){
+						// Loop through the snippetTemplates to get their url locations in S3 bucket.
+						for (SnippetTemplate st : snippetTemplates)
+						{
+							String snippetTemplateUrl = st.getTemplateUrl();		// SnippetTemplate URL.
+							starterCode = s3.readFromS3(snippetTemplateUrl);	// Read snippet starter from S3 bucket.
+							codeStarters.add(starterCode);							// Add snippetTemplate to list.
+						}
+					}/*SA-CHANGES ENDED*/
 				}
 			}
 			
@@ -314,6 +346,10 @@ public class GetAssessmentController {
 		
 		Assessment assessment = answerData.getAssessment();
 		
+		/*SA-CHANGES STARTED*/
+		int assID = assessment.getAssessmentId();
+		Assessment currAssessment =  service.getAssessmentById(assID);
+		
 		List<SnippetUpload> lstSnippetUploads = answerData.getSnippetUploads();
 
 		Set<Option> optList = new HashSet<>();
@@ -332,13 +368,18 @@ public class GetAssessmentController {
 
 		}*/
 
-		for (AssessmentDragDrop add : assessment.getAssessmentDragDrop()){
-
-			add.setDragDrop(ddService.getDragDropById(add.getDragDrop().getDragDropId()));
-
+		for (AssessmentDragDrop addD : assessment.getAssessmentDragDrop()){
+			for(AssessmentDragDrop addE : currAssessment.getAssessmentDragDrop()){
+				if((addE.getDragDrop().getDragDropId())==addD.getDragDrop().getDragDropId()){
+					addD.setAssessmentDragDropId(addE.getAssessmentDragDropId());
+					break;
+				}
+			}
+			
+			addD.setDragDrop(ddService.getDragDropById(addD.getDragDrop().getDragDropId()));
 		}
 
-		assessment.setFileUpload(new HashSet<FileUpload>());
+		//assessment.setFileUpload(new HashSet<FileUpload>());
 
 		if(lstSnippetUploads!=null) {
 
@@ -368,11 +409,21 @@ public class GetAssessmentController {
 				}
 				
 				s3.uploadToS3(su.getCode(), key);
-				FileUpload fu = new FileUpload();
-				fu.setAssessment(assessment);
-				fu.setFileUrl(key);
-				fu.setQuestion(questService.getQuestionById(su.getQuestionId()));
-				assessment.getFileUpload().add(fu);
+				
+				boolean bIsExists = false;
+				for(FileUpload fUpload : currAssessment.getFileUpload()){
+					if((fUpload.getFileUrl()).equals(key)){
+						bIsExists=true;
+					}
+				}
+				
+				if(bIsExists==false){
+					FileUpload fu = new FileUpload();
+					fu.setAssessment(assessment);
+					fu.setFileUrl(key);
+					fu.setQuestion(questService.getQuestionById(su.getQuestionId()));
+					assessment.getFileUpload().add(fu);
+				}/*SA-CHANGES ENDED*/
 			}
 		}
 
