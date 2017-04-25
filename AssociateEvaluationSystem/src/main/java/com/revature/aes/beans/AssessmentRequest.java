@@ -89,17 +89,25 @@ public class AssessmentRequest implements Serializable, Cloneable{
 	public void setTimeLimit(Integer timeLimit) {
 		this.timeLimit = timeLimit;
 	}
+	
+	// Overriding clone() method of Object class
+	public Object clone() throws CloneNotSupportedException {
+		return (AssessmentRequest) super.clone();
+	}
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o) 
+			return true;
+		if (o == null || getClass() != o.getClass()) 
+			return false;
 
 		AssessmentRequest that = (AssessmentRequest) o;
 
 		if (getCategoryRequestList() != null ? !getCategoryRequestList().equals(that.getCategoryRequestList()) : that.getCategoryRequestList() != null)
 			return false;
-		if (getLink() != null ? !getLink().equals(that.getLink()) : that.getLink() != null) return false;
+		if (getLink() != null ? !getLink().equals(that.getLink()) : that.getLink() != null) 
+			return false;
 		if (getUserEmail() != null ? !getUserEmail().equals(that.getUserEmail()) : that.getUserEmail() != null)
 			return false;
 		return getTimeLimit() != null ? getTimeLimit().equals(that.getTimeLimit()) : that.getTimeLimit() == null;
