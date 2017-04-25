@@ -352,15 +352,19 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$route
 	}
 	
 	$scope.toRight = function(){
-		$scope.selectedCurrentCanidates.forEach(function(el){
-			move(el, $scope.candidateList, $scope.possibleCandidates);
-		});
+		if ($scope.selectedCurrentCanidates != null){
+			$scope.selectedCurrentCanidates.forEach(function(el){
+				move(el, $scope.candidateList, $scope.possibleCandidates);
+			});
+		}
 	}
 	
 	$scope.toLeft = function(){
-		$scope.selectedNewCanidates.forEach(function(el){
-			move(el, $scope.possibleCandidates, $scope.candidateList);
-		});
+		if ($scope.selectedNewCanidates != null){
+			$scope.selectedNewCanidates.forEach(function(el){
+				move(el, $scope.possibleCandidates, $scope.candidateList);
+			});
+		}
 	}
 	
 	
@@ -375,7 +379,7 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$route
 		$scope.passNotEntered = false;
 		$scope.emailNotEntered = false;
 		$scope.userNotFound = false;
-		
+			
 
 		var employeeInfo = {
 			oldEmail		: $scope.oldEmail,
@@ -386,6 +390,13 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$route
 			newPassword   	: $scope.newPassword,
 			candidates		: $scope.candidateList
 		};
+		
+		//resets the error messages
+		$scope.emailNotEntered = false;
+		$scope.passNotMatch = false;
+		$scope.emailNotEntered = false;
+		$scope.updateSuccessful = false;
+		$scope.updateUnsuccessful = false;
 		
 
 		if ($scope.oldEmail === "" || $scope.oldEmail == null)
@@ -421,6 +432,14 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$route
             if (!data){
                 $scope.updateUnsuccessful = true;
             } else {
+            	if($scope.newEmail){
+            		$scope.oldEmail = $scope.newEmail;
+            		$scope.newEmail = "";
+            	}
+            	
+            	$scope.confirmNewPassword = "";
+            	$scope.newPassword = "";
+            	
             	$scope.updateSuccessful = true;
             }
 		}).error( function() {
