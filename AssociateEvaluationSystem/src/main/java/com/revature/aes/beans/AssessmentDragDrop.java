@@ -2,6 +2,9 @@ package com.revature.aes.beans;
 
 import java.io.Serializable;
 
+import javax.persistence.AssociationOverride;
+import javax.persistence.AssociationOverrides;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,7 +18,9 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "aes_assessment_drag_drop")
@@ -23,7 +28,7 @@ public class AssessmentDragDrop implements Serializable {
 
 //	@Autowired
 //	@Transient
-//	@JsonIgnore
+
 //	private AssessmentService asmtServ;
 
 	private static final long serialVersionUID = -6980285894791938854L;
@@ -37,7 +42,6 @@ public class AssessmentDragDrop implements Serializable {
 			@Parameter(name="initial_value",value="1"),
 			@Parameter(name="increment_size",value="1")
 	})
-	@JsonIgnore
 	private int assessmentDragDropId;
 	
 	@Column(name = "user_order")
@@ -45,6 +49,7 @@ public class AssessmentDragDrop implements Serializable {
 
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="ASSESSMENT_ID")
+	@JsonBackReference//@JsonIgnoreProperties("assessmentDragDrop")	
 	private Assessment assessment;
 
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -55,13 +60,22 @@ public class AssessmentDragDrop implements Serializable {
 		super();
 	}
 
-
-
 	@Override
 	public String toString() {
-		return "AssessmentDragDrop [userOrder=" + userOrder + ", assessmentId=" + assessment + ", dragDrop="
+		int id=0;//", assessmentDragDropId="+ assessmentDragDropId+  
+		if(assessment !=null)
+			id=assessment.getAssessmentId();
+		return "AssessmentDragDrop [userOrder=" + userOrder + ", assessmentId=" + id + ", dragDrop="
 				+ dragDrop + "]";
 	}
+	public int getAssessmentDragDropId() {
+		return assessmentDragDropId;
+	}
+
+	public void setAssessmentDragDropId(int assessmentDragDropId) {
+		this.assessmentDragDropId = assessmentDragDropId;
+	}
+
 	public int getUserOrder() {
 		return userOrder;
 	}
