@@ -296,6 +296,14 @@ public class BashDriver {
 		//System.out.println("final result (post gross error margin): " + finalResult);
 		log.info("final result (post gross error margin): " + finalResult);
 		// return final grade
+		
+		//If finalResult is less than 2% then it is ignored
+		//Since our partial credit tends to be generous
+		if ( finalResult < 3.0)
+		{
+			finalResult=0.0;
+		}
+		
 		log.info("============= END Bash Grader ===============");
 		return finalResult;
 
