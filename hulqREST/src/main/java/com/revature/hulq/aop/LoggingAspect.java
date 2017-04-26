@@ -51,12 +51,11 @@ public class LoggingAspect
 		for (Class c : excepType) {
 			except.add(c.getSimpleName());
 		}
-		Object obj = new Object();
 		
 		// Surround proceed in try catch
 		try {
 			
-			obj = pjp.proceed();
+			pjp.proceed();
 			
 		} catch (Throwable e) {
 			Error.error("\nin Class:\t"
