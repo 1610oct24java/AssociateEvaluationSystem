@@ -25,7 +25,7 @@ public class IpConf {
 	@Inject
 	private org.springframework.boot.autoconfigure.web.ServerProperties serverProperties;
 
-	public static final boolean onEc2 = false;
+	public static final boolean onEc2 = true;
 
 	public String getHostName(){
 
@@ -44,10 +44,6 @@ public class IpConf {
 	public String getEc2HostName() {
 
 		RestTemplate restTemplate = new RestTemplate();
-		// ResponseEntity<String> response =
-		// restTemplate.exchange("http://169.254.169.254/latest/meta-data/public-hostname",
-		// HttpMethod.GET, null, String.class);
-		// return response.getBody()+":"+getPort();
 		return restTemplate.getForObject("http://169.254.169.254/latest/meta-data/public-hostname", String.class) + ":"
 				+ getPort();
 

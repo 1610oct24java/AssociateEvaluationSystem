@@ -58,18 +58,7 @@ AESCoreApp.config(function($mdThemingProvider) {
         .accentPalette("revOrange");
 });
 
-/*//On esc event
-AESCoreApp.directive('onEsc', function() {
-  return function(scope, elm, attr) {
-    elm.bind('keydown', function(e) {
-      if (e.keyCode === 27) {
-        scope.$apply(attr.onEsc);
-      }
-    });
-  };
-});
-
-// On enter event
+//On enter event
 AESCoreApp.directive('onEnter', function() {
   return function(scope, elm, attr) {
     elm.bind('keypress', function(e) {
@@ -101,7 +90,7 @@ AESCoreApp.directive('inlineEdit', function($timeout) {
       };
       scope.save = function() {
         scope.editMode = false;
-        scope.handleSave({value: scope.model});
+        
       };
       scope.cancel = function() {
         scope.editMode = false;
@@ -109,10 +98,15 @@ AESCoreApp.directive('inlineEdit', function($timeout) {
         scope.handleCancel({value: scope.model});
       };
     },
-    templateUrl: '../templates/recruiter/inline-edit.html'
+    template: '<div><input type="text" on-enter="save()" on-esc="cancel()" ng-model="model" ng-show="editMode">'
+    	+ '<button ng-click="cancel()" ng-show="editMode"><span class="glyphicon glyphicon-remove"></span></button>'
+    	+ '<button ng-click="save()" ng-show="editMode"><span class="glyphicon glyphicon-ok"></span></button>'
+    	+ '<span ng-mouseenter="showEdit = true" ng-mouseleave="showEdit = false">'
+    	+ '<span ng-hide="editMode" ng-click="edit()">{{model}}</span>'
+    	+ '<a ng-show="showEdit" ng-click="edit()"><span class="glyphicon glyphicon-pencil"></span></a>'
+    	+ '</span></div>'
   };
-});*/
-
+});
 
 AESCoreApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,SITE_URL, API_URL, ROLE) {
 		
@@ -243,7 +237,6 @@ AESCoreApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,
         $scope.firstName = '';
         $scope.lastName = '';
         $scope.email = '';
-        //$scope.program = '';
     };
 
     $scope.postRegister = function(candidateInfo) {
@@ -280,10 +273,6 @@ AESCoreApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,
         $scope.postSendAssessment(candidateInfo);
 
         return true;
-        // $scope.firstName = '';
-        // $scope.lastName = '';
-        //$scope.email = '';
-        //$scope.program = '';
     };
     
     $scope.showToast = function(message) {
@@ -356,17 +345,6 @@ AESCoreApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSiden
 
         var path = window.location.pathname.substr(1);
 
-        // switch (path) {
-        //     case "index.html":
-        //         return "employees";
-        //     case "update.html":
-        //         return "employees";
-        //     case "New.html":
-        //         return "assessments";
-        //     default:
-        //         return "overview"
-        //}
-
         return "overview";
     };
 });
@@ -380,7 +358,7 @@ AESCoreApp.controller('LoginCtrl', function($scope, $httpParamSerializerJQLike, 
             url : SITE_URL.BASE + API_URL.BASE + API_URL.LOGIN,
             headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8;'},
             data: $httpParamSerializerJQLike($scope.user)
-        })//.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGIN, $httpParamSerializerJQLike($scope.user), {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8;'})
+        })
             .then(function(response) {
                 $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
                     .then(function(response) {
