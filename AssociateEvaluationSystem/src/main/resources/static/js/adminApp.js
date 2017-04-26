@@ -458,6 +458,40 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$route
 
 adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SITE_URL, API_URL, ROLE) {	
 
+	$scope.checkDuplicate = function () {
+	 var flag = false;
+	 var count = 0;
+		angular.forEach($scope.sections , function (category) {
+			console.log(sections.category);
+			//category.selected = $scope.selectedAll;
+
+//index of what is selected 
+// catagories ?
+//
+			if( categories[count] == category)
+				{
+
+					flag = true;
+				}
+		
+		
+
+
+
+		});
+			if( flag == true)
+			{
+				return true;
+
+			}
+			else {
+				return false;
+	
+				}
+	};
+	
+	
+	
     $scope.showToast = function(message, type) {
         $mdToast.show($mdToast.simple(message)
             .parent(document.querySelectorAll('#toastContainer'))
@@ -605,6 +639,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
 
         // $scope.temp = $scope.categories[$scope.categories.indexOf($scope.category.valueOf())];
 
+    	
         $scope.sections.push({ 'category': $scope.category, 'type': $scope.type, 'quantity': $scope.quantity });
 
 
@@ -905,4 +940,5 @@ adminApp.controller('RightCtrl', function($scope, $timeout, $mdSidenav, $log) {
 adminApp.controller('manageQuestions', function($scope, $http, SITE_URL, API_URL, ROLE) {
     var mq = this;
 });
+
 

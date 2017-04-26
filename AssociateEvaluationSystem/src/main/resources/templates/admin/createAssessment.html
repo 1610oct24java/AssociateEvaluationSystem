@@ -32,7 +32,7 @@
 				</div>
 				<span flex> </span>
 				 <!-- || coreLanguage == false -->
-				<button layout-margin type="submit" class="btn btn-success btn-md" ng-disabled="!assessments[0] || timeForm.$invalid" ng-click="createAssessment()">Create Assessment</button>
+				<button layout-margin type="submit" class="btn btn-success btn-md" ng-disabled="!assessments[0] || timeForm.$invalid  " ng-click="createAssessment()">Create Assessment</button>
 			</md-toolbar>
 			<md-card-content>
 				<form name="timeForm" novalidate="">
@@ -64,7 +64,7 @@
 			<md-divider></md-divider>
 			<md-card-content>
 				<!-- <form role="form" ng-submit="addRow()"> -->
-				<form name="sectionForm" ng-submit="addRow()" novalidate>
+				<form name="sectionForm" ng-submit="addRow(); checkDuplicate()" novalidate>
 					<div layout-gt-sm="column">
 						<md-input-container class="md-block" flex-gt-sm="">
 							<label>Category</label>
@@ -88,7 +88,7 @@
 						</md-input-container>
 					</div>
 					<div layout="column" layout-wrap layout-align="center center">
-						<button type="submit" class="btn btn-primary btn-block" ng-disabled="sectionForm.$invalid">Add Section</button>
+						<button type="submit" class="btn btn-primary btn-block" ng-disabled="sectionForm.$invalid ">Add Section</button>
 					</div>
 				</form>
 			</md-card-content>
