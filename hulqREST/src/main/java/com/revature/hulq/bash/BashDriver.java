@@ -193,7 +193,7 @@ public class BashDriver {
 			log.warn("============= END runCodeTestScript (Exception) ===============");
 			throw new BashException("Some sort of exception occurred when trying to run script");
 		}
-		log.trace("============= END runCodeTestScript (Ok) ===============");
+		log.info("============= END runCodeTestScript (Ok) ===============");
 		return data;
 
 	}
@@ -214,6 +214,7 @@ public class BashDriver {
 		// holds sum of all scores/number of test runs
 		double finalResult;
 		//System.out.println(testProfile.toString());
+		log.info("============= Bash Grader ===============");
 		log.info(testProfile.toString());
 		for (Integer key : results.keySet()) {
 			// get key value from map
@@ -295,6 +296,7 @@ public class BashDriver {
 		//System.out.println("final result (post gross error margin): " + finalResult);
 		log.info("final result (post gross error margin): " + finalResult);
 		// return final grade
+		log.info("============= END Bash Grader ===============");
 		return finalResult;
 
 	}
