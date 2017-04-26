@@ -73,7 +73,8 @@ public class Assessment implements Serializable
 	@JsonManagedReference //@JsonIgnoreProperties("assessment")
 	private Set<AssessmentDragDrop> assessmentDragDrop;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy ="assessment")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy ="assessment",cascade=CascadeType.MERGE.ALL)
+	@JsonManagedReference
 	private Set<FileUpload> fileUpload;
 
 	public Assessment(int assessmentId, User user, int grade, int timeLimit, Timestamp createdTimeStamp,
