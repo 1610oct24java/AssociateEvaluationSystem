@@ -39,8 +39,8 @@ landingApp.controller("landingPageCtrl", function($scope, $http, $rootScope,
 		$window, SITE_URL, API_URL) {
 	var quizPage = "";
 	$scope.testtaker = "Loading...";
-	$scope.time = "";
-	var QUIZ_REST_URL = "/aes/rest/";
+	var QUIZ_REST_URL = "/aes/rest/landing/";
+	$scope.landingScript = "";
 	$scope.hideBox = true;
 
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
@@ -79,11 +79,12 @@ landingApp.controller("landingPageCtrl", function($scope, $http, $rootScope,
 		if (response.data.msg === "allow"){
 			console.log("test");
 			$rootScope.protoTest = response.data.assessment;
-			$scope.testtaker = "Welcome " + $rootScope.protoTest.user.firstName + " " + $rootScope.protoTest.user.lastName;
-			$scope.time = response.data.timeLimit;
+			$scope.testtaker = "Welcome " + response.data.firstName + " " + response.data.lastName;
+			$scope.landingScript = response.data.landingScript;
 			$scope.hideBox = false;
 		}else {
 			// Assessment was taken or time expired, redirecting to expired page
+			console.log("not good");
 			$window.location.href = '/aes/expired';
 		}
 	})

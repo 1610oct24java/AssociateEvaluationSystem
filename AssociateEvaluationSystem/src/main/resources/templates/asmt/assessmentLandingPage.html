@@ -78,12 +78,8 @@ body {
             <div class="box-content">
                 <h2 class="tag-title">Java Assessment </h2>
                 <hr />
-                <p>You are about to take a java assessment. Once you select the start assessment button your assessment
-				will begin.  You will have {{time}} minutes to complete the entire assessment.  Once the assessment is 
-				complete, it will be graded and then your recruiter will get in contact with you </p>
-				<p>If you feel that you have been assigned an incorrect assessment, please contact your recruiter.</p>
-				<p>Thank you and Good Luck!</p>
-                <br /><br />
+                <p>{{landingScript}}</p>
+                <br /><br /><br /><br />
                 <button class="btn btn-block btn-primary" ng-click="gotoQuiz()">Start Assessment</button>                   
             </div>           
         </div>
@@ -102,16 +98,7 @@ body {
 		src="../static/js/lib/ui-ace.min.js"></script>
 	<script th:src="@{/js/lib/ng-sortable.js}"
 		src="../static/js/lib/ng-sortable.js"></script>
-	<!-- 	CUSTOM -->
-	<script th:src="@{/js/asmtApp.js}" src="../static/js/asmtApp.js"></script>
-	<script th:src="@{/js/AngularControllers/dragController.js}"
-		src="../static/js/AngularControllers/dragController.js"></script>
-	<script th:src="@{/js/AngularControllers/quizNavController.js}"
-		src="../static/js/AngularControllers/quizNavController.js"></script>
-	<script th:src="@{/js/AngularControllers/quizController.js}"
-		src="../static/js/AngularControllers/quizController.js"></script>
-	<script th:src="@{/js/AngularControllers/countdownController.js}"
-		src="../static/js/AngularControllers/countdownController.js"></script>
+	<!-- 	CUSTOM -->	
 	<script th:src="@{/js/landingPage.js}"
 		src="../static/js/landingPage.js"></script>
 </body>
