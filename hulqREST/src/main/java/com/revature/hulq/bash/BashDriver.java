@@ -317,9 +317,9 @@ public class BashDriver {
 		log.info("----------------- AFTER KEY -------------------------");
 		for (int i = 0; i < matrix.length; i++) {
 		    for (int j = 0; j < matrix[i].length; j++) {
-		        System.out.println(matrix[i][j] + " ");
+		        System.out.print(matrix[i][j] + " ");
 		    }
-		    System.out.println("\n");
+		    System.out.print("\n");
 		}
 		log.info("----------------- END AFTER KEY -------------------------");
 
@@ -330,9 +330,9 @@ public class BashDriver {
 		log.info("----------------- AFTER USER -------------------------");
 		for (int i = 0; i < matrix.length; i++) {
 		    for (int j = 0; j < matrix[i].length; j++) {
-		        System.out.println(matrix[i][j] + " ");
+		        System.out.print(matrix[i][j] + " ");
 		    }
-		    System.out.println("\n");
+		    System.out.print("\n");
 		}
 		log.info("----------------- END USER KEY -------------------------");
 
@@ -353,9 +353,9 @@ public class BashDriver {
 		log.info("----------------- AFTER ALL -------------------------");
 		for (int i = 0; i < matrix.length; i++) {
 		    for (int j = 0; j < matrix[i].length; j++) {
-		        System.out.println(matrix[i][j] + " ");
+		        System.out.print(matrix[i][j] + " ");
 		    }
-		    System.out.println("\n");
+		    System.out.print("\n");
 		}
 		log.info("----------------- END AFTER KEY -------------------------");
 		
