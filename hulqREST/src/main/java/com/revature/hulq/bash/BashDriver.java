@@ -302,6 +302,7 @@ public class BashDriver {
 		if ( finalResult < .03)
 		{
 			finalResult=0.0;
+			log.warn("Final Result is less than 3% giving 0% since our grading might be too genorous");
 		}
 		
 		log.info("============= END Bash Grader ===============");
