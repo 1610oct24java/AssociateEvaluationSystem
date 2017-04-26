@@ -3,6 +3,8 @@ package com.revature.aes.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +22,9 @@ public class ChooseAssessmentController {
 	@Autowired
 	private AssessmentRequestServiceImpl assReqServ;
 	
+	@Autowired
+	private AssessmentRequest assReq;
+	
 	//created by: Edward Young
 	// on enter view, objective is to call /allAssessments to load initial vaules of assessments.
 	
@@ -29,6 +34,18 @@ public class ChooseAssessmentController {
 		List<AssessmentRequest> allAss = assReqServ.findAll();
 		
 		return allAss;
+	}
+	
+	@RequestMapping(value = "/selectAssessment", method = RequestMethod.POST)
+	@Transactional
+	public void selectDefaultAssessment(@RequestBody AssessmentRequest newDefault){
+		System.out.println("====================================================================================================");
+		System.out.println("====================================================================================================");
+		System.out.println(newDefault);
+		
+		AssessmentRequest newDefaultAss = assReqServ.getAssessmentRequestById(newDefault.getAssessmentRequestId());
+		assReqServ.newDefaultAssessment(newDefaultAss);
+		
 	}
 
 }

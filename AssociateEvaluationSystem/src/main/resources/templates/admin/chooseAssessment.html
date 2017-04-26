@@ -35,6 +35,30 @@
 		<ng-include src="'menu.html'" />
 	</div>
 
+	<table id="defualtAss" class="ui celled table" cellspacing="0"
+				width="100%">
+				<thead>
+					<tr style="border-width: 0px;">
+						<th>Default ID</th>
+						<th>Number of Sections</th>
+						<th>Number of Questions</th>
+						<th>Time Limit</th>
+					</tr>
+				</thead>
+ 				<tbody>
+ 					<div>
+ 						<tr>
+							<td>{{defaultAss.assessmentRequestId}}</td>
+							<td>{{defaultNumOfSec()}}</td>
+							<td>{{defaultTotalNumOfQuestions()}}</td>
+							<td>{{defaultAss.timeLimit}}</td>
+							</td>
+						</tr> 
+					</div> 
+				</tbody>
+			</table>
+	
+	
 	<table id="allAss" class="ui celled table" cellspacing="0"
 				width="100%">
 				<thead>
@@ -46,20 +70,12 @@
 						<th>Select Default</th>
 					</tr>
 				</thead>
-				<!-- <tfoot>
-					<tr>
-						<th>Totals</th>
-						<th>{{totalCategories}}</th>
-						<th>{{totalTypes}}</th>
-						<th>{{totalQuestions}}</th>
-					</tr>
-				</tfoot> -->
 				<tbody>
 					<div>
-						<tr ng-repeat="ass in assList">
+						<tr ng-repeat="ass in assList" ng-if="ass.assessmentRequestId != assList[defaultIndex].assessmentRequestId">
 							<td>{{ass.assessmentRequestId}}</td>
 							<td>{{getNumOfSec($index)}}</td>
-							<td></td>
+							<td>{{getTotalNumOfQuestions($index)}}</td>
 							<td>{{ass.timeLimit}}</td>
 							<td><input type="button" value="default"
 								class="btn btn-primary btn-block" ng-click="selectDefault($index)" />

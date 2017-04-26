@@ -34,6 +34,25 @@ public class AssessmentRequestServiceImpl implements AssessmentRequestService {
 		return assReqDao.findAll();
 	}
 
+	@Override
+	public AssessmentRequest getAssessmentRequestById(Integer id) {
+		// TODO Auto-generated method stub
+		return assReqDao.getByAssessmentRequestId(id);
+	}
+
+	@Override
+	public void newDefaultAssessment(AssessmentRequest assReq) {
+		// TODO Auto-generated method stub
+		
+		List<AssessmentRequest> defAss = assReqDao.getDefaultAssessment();
+		defAss.get(0).setIsDefault(0);
+		assReqDao.save(defAss.get(0));
+		
+		assReq.setIsDefault(1);
+		assReqDao.save(assReq);
+		
+	}
+
 
 /*	@Override
 	public AssessmentRequest getLastInsertedAssessmentRequest() {

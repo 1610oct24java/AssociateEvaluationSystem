@@ -51,9 +51,20 @@ public class AssessmentRequest implements Serializable, Cloneable{
     @Column(name="TIMELIMIT")
     private Integer timeLimit;
     
+    @Column(name="ISDEFAULT")
+    private Integer isDefault;
+    
 	public AssessmentRequest() {
 		super();
 		
+	}
+
+	public Integer getIsDefault() {
+		return isDefault;
+	}
+
+	public void setIsDefault(Integer isDefault) {
+		this.isDefault = isDefault;
 	}
 
 	public AssessmentRequest(AssessmentRequest assessmentRequest){

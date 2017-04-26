@@ -834,9 +834,6 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
         return function() {
             $mdSidenav(navID)
                 .toggle()
-                .then(function() {
-                    $log.debug("toggle " + navID + " is done");
-                });
         };
     };
     $scope.isOpenLeft = function() {
@@ -886,9 +883,6 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
             // Component lookup should always be available since we are not using `ng-if`
             $mdSidenav(navID)
                 .toggle()
-                .then(function() {
-                    $log.debug("toggle " + navID + " is done");
-                });
         }, 200);
     }
 
@@ -897,9 +891,6 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
             // Component lookup should always be available since we are not using `ng-if`
             $mdSidenav(navID)
                 .toggle()
-                .then(function() {
-                    $log.debug("toggle " + navID + " is done");
-                });
         };
     }
 
@@ -934,21 +925,86 @@ adminApp.controller('manageQuestions', function($scope, $http, SITE_URL, API_URL
 });
 
 adminApp.controller('ChooseAssessmentCtrl', function($scope, $http, SITE_URL, API_URL, ROLE){
-
+	
     $scope.assList = [];
+    $scope.defaultAss = {};
+    $scope.defaultIndex = 0;
 
+
+
+//get number of sections for view 
+    $scope.getNumOfSec = function(index){
+    
+    	return $scope.assList[index].categoryRequestList.length;
+    }
+
+    $scope.defaultNumOfSec = function(){
+        return $scope.defaultAss.categoryRequestList.length;
+    }
+
+//gets number of questions for questions
+    $scope.getTotalNumOfQuestions = function(index){
+        var totalQuestions = 0;
+        for(var i = 0; i < $scope.assList[index].categoryRequestList.length; i++){
+            totalQuestions = totalQuestions + $scope.assList[index].categoryRequestList[i].csQuestions;
+            totalQuestions = totalQuestions + $scope.assList[index].categoryRequestList[i].ddQuestions;
+            totalQuestions = totalQuestions + $scope.assList[index].categoryRequestList[i].mcQuestions;
+            totalQuestions = totalQuestions + $scope.assList[index].categoryRequestList[i].msQuestions;
+
+        }
+        return totalQuestions;
+    }
+    
+    $scope.defaultTotalNumOfQuestions = function(index){
+        var totalQuestions = 0;
+        for(var i = 0; i < $scope.defaultAss.categoryRequestList.length; i++){
+            totalQuestions = totalQuestions + $scope.defaultAss.categoryRequestList[i].csQuestions;
+            totalQuestions = totalQuestions + $scope.defaultAss.categoryRequestList[i].ddQuestions;
+            totalQuestions = totalQuestions + $scope.defaultAss.categoryRequestList[i].mcQuestions;
+            totalQuestions = totalQuestions + $scope.defaultAss.categoryRequestList[i].msQuestions;
+
+        }
+        return totalQuestions;
+    }
+
+
+    //gets all the assessments requests
     $http({
         method: "GET",
         url: "allAssessments"
     }).then(function (response) {
         $scope.assList = response.data;
-        console.log("loading ass - ");
-        console.log( $scope.assList);
+
+        for(var i = 0; i < $scope.assList.length; i++){
+            if($scope.assList[i].isDefault == 1){
+                $scope.defaultAss = $scope.assList[i];
+                $scope.defaultIndex = i;
+            }
+        }
     });
 
-    $scope.getNumOfSec = function getNumOfSections(index){
-    
-    	return $scope.assList[index].categoryRequestList.length;
+    $scope.selectDefault = function(index){
+        $http({
+            method: "POST",
+            url: "selectAssessment",
+            data: $scope.assList[index]
+        }).then(function(response){
+
+            $http({
+                method: "GET",
+                url: "allAssessments"
+            }).then(function (response) {
+                $scope.assList = response.data;
+
+                for(var i = 0; i < $scope.assList.length; i++){
+                    if($scope.assList[i].isDefault == 1){
+                        $scope.defaultAss = $scope.assList[i];
+                        $scope.defaultIndex = i;
+                    }
+                }
+            });
+        });
+
     }
 
 });

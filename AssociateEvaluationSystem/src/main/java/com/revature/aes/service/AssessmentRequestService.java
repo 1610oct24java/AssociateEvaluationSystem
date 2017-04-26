@@ -9,6 +9,7 @@ public interface AssessmentRequestService {
 	public AssessmentRequest getAssessmentRequestTemplate();
 	public AssessmentRequest saveAssessmentRequest(AssessmentRequest assReq);
 	public List<AssessmentRequest> findAll();
-/*	public AssessmentRequest getLastInsertedAssessmentRequest();*/
+	public AssessmentRequest getAssessmentRequestById(Integer id);
+	public void newDefaultAssessment(AssessmentRequest assReq);
 	
 }
