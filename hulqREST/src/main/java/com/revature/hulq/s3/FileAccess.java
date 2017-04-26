@@ -19,8 +19,8 @@ import com.amazonaws.services.s3.model.S3Object;
 
 public class FileAccess {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
-	static private String S3LOCATION = "hulq-bash";
-//	static private String S3LOCATION = "aes.revature/";
+//	static private String S3LOCATION = "hulq-bash";
+	static private String S3LOCATION = "aes.revature/";
 
 	public boolean upload(String filename, String key){
         AmazonS3 s3client = new AmazonS3Client();
