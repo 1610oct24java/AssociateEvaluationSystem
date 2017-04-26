@@ -58,18 +58,7 @@ AESCoreApp.config(function($mdThemingProvider) {
         .accentPalette("revOrange");
 });
 
-/*//On esc event
-AESCoreApp.directive('onEsc', function() {
-  return function(scope, elm, attr) {
-    elm.bind('keydown', function(e) {
-      if (e.keyCode === 27) {
-        scope.$apply(attr.onEsc);
-      }
-    });
-  };
-});
-
-// On enter event
+//On enter event
 AESCoreApp.directive('onEnter', function() {
   return function(scope, elm, attr) {
     elm.bind('keypress', function(e) {
@@ -101,7 +90,9 @@ AESCoreApp.directive('inlineEdit', function($timeout) {
       };
       scope.save = function() {
         scope.editMode = false;
-        scope.handleSave({value: scope.model});
+        
+        // make rest call here to update a user info
+        /*scope.handleSave({value: scope.model});*/
       };
       scope.cancel = function() {
         scope.editMode = false;
@@ -109,10 +100,15 @@ AESCoreApp.directive('inlineEdit', function($timeout) {
         scope.handleCancel({value: scope.model});
       };
     },
-    templateUrl: '../templates/recruiter/inline-edit.html'
+    template: '<div><input type="text" on-enter="save()" on-esc="cancel()" ng-model="model" ng-show="editMode">'
+    	+ '<button ng-click="cancel()" ng-show="editMode"><span class="glyphicon glyphicon-remove"></span></button>'
+    	+ '<button ng-click="save()" ng-show="editMode"><span class="glyphicon glyphicon-ok"></span></button>'
+    	+ '<span ng-mouseenter="showEdit = true" ng-mouseleave="showEdit = false">'
+    	+ '<span ng-hide="editMode" ng-click="edit()">{{model}}</span>'
+    	+ '<a ng-show="showEdit" ng-click="edit()"><span class="glyphicon glyphicon-pencil"></span></a>'
+    	+ '</span></div>'
   };
-});*/
-
+});
 
 AESCoreApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,SITE_URL, API_URL, ROLE) {
 		
