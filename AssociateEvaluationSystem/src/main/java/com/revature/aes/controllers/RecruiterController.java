@@ -241,4 +241,11 @@ public class RecruiterController {
 		}
 		return allEmails;
 	}
+	
+	// updating a candidate's info
+	@RequestMapping(value="recruiter/update/candidate")
+	public ResponseEntity<User> updateCandidate(@RequestBody User candidate) {
+		// logic goes here to update info
+		return new ResponseEntity<User>(candidate, HttpStatus.OK);
+	}
 }
