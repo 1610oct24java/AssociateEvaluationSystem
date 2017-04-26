@@ -86,11 +86,8 @@ public class FileParser {
 			}
 			br.close();
 		} catch (IOException e) {
-			//System.out.println("ERROR: key parser has failed");
 			log.info("ERROR: key parser has failed");
-			//System.out.println("CAUSE: file not found(probably)");
 			log.info("CAUSE: file not found(probably)");
-			//System.out.println("ACTION: obvious");
 			log.info("ACTION: obvious");
 			return null;
 		}
@@ -174,11 +171,8 @@ public class FileParser {
 			}
 			br.close();
 		} catch (IOException e) {
-			//System.out.println("ERROR: key parser has failed");
 			log.info("ERROR: key parser has failed");
-			//System.out.println("CAUSE: file not found(probably)");
 			log.info("CAUSE: file not found(probably)");
-			//System.out.println("ACTION: obvious");
 			log.info("ACTION: obvious");
 			return null;
 		}
