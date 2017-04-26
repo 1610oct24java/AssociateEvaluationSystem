@@ -17,12 +17,23 @@
 #### readme located in /testingSettings.
 #######################################################
 
+#
+# TODO:
+#
+# THIS FILE CHECKS IF THE TWO VALID FILE TYPES BUT IF ITS A KEY AND ITS ANSWER THEY SHOULD MATCH
+# THIS WORKS IF PASSED IN IS 
+# KEY.JAVA TEST.CPP 
+# WHICH I BELIEVE SHOULDNT WORK NOT TOO SURE ON THE IMPLEMENTATION
 
-
+#CHECK FILE TYPES ==================================================================
 function check_file_types {
 	keyStatus="false";
 	testStatus="false";
-	for fileExt in "${validTypes[@]}"
+
+    #ARRAY OF FILETYPES THAT ARE AVAILABLE AS OF NOW
+    validTypess=("cpp" "c" "cs" "java" "py");
+
+	for fileExt in "${validTypess[@]}"
 	do
 		if [[ "$keyFileName" == *.$fileExt ]]; then
 			keyStatus="true";
@@ -43,13 +54,15 @@ function check_file_types {
 	fi
 }
 
+#READ FILE OPTIONS ==================================================================
 function read_file_options {
 	while read -r line || [[ -n "$line" ]]; do
     	if [[ $line != "" ]]; then 
 			validTypes+=("$line");
     	fi;
-	done < "hulqConfig/fileTypes.hulq"
+	done < "fileTypes.hulq"
 }
+#=============================== END FUNCTIONS =============================================
 
 keyFileName=$1;
 testFileName=$2;
