@@ -7,6 +7,7 @@ var AESCoreApp = angular.module('AESCoreApp',['ngMaterial', 'ngMessages']);
 AESCoreApp.controller('LoginCtrl', function($scope, $httpParamSerializerJQLike, $http, SITE_URL, API_URL, ROLE) {
 
     $scope.login = function() {
+    	console.log('login');
         makeUser($scope);
         $http({
             method : "POST",
@@ -53,6 +54,7 @@ AESCoreApp.controller('LoginCtrl', function($scope, $httpParamSerializerJQLike, 
                     })
             })
     }
+    console.log('login controller');
 }); //end login controller
 
 function makeUser($scope) {
