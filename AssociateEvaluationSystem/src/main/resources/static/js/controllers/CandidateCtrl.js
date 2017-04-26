@@ -58,11 +58,60 @@ AESCoreApp.config(function($mdThemingProvider) {
         .accentPalette("revOrange");
 });
 
+//On enter event
+AESCoreApp.directive('onEnter', function() {
+  return function(scope, elm, attr) {
+    elm.bind('keypress', function(e) {
+      if (e.keyCode === 13) {
+        scope.$apply(attr.onEnter);
+      }
+    });
+  };
+});
+
+// Inline edit directive
+AESCoreApp.directive('inlineEdit', function($timeout) {
+  return {
+    scope: {
+      model: '=inlineEdit',
+      handleSave: '&onSave',
+      handleCancel: '&onCancel'
+    },
+    link: function(scope, elm, attr) {
+      var previousValue;
+      
+      scope.edit = function() {
+        scope.editMode = true;
+        previousValue = scope.model;
+        
+        $timeout(function() {
+          elm.find('input')[0].focus();
+        }, 0, false);
+      };
+      scope.save = function() {
+        scope.editMode = false;
+        
+        // make rest call here to update a user info
+        /*scope.handleSave({value: scope.model});*/
+      };
+      scope.cancel = function() {
+        scope.editMode = false;
+        scope.model = previousValue;
+        scope.handleCancel({value: scope.model});
+      };
+    },
+    template: '<div><input type="text" on-enter="save()" on-esc="cancel()" ng-model="model" ng-show="editMode">'
+    	+ '<button ng-click="cancel()" ng-show="editMode"><span class="glyphicon glyphicon-remove"></span></button>'
+    	+ '<button ng-click="save()" ng-show="editMode"><span class="glyphicon glyphicon-ok"></span></button>'
+    	+ '<span ng-mouseenter="showEdit = true" ng-mouseleave="showEdit = false">'
+    	+ '<span ng-hide="editMode" ng-click="edit()">{{model}}</span>'
+    	+ '<a ng-show="showEdit" ng-click="edit()"><span class="glyphicon glyphicon-pencil"></span></a>'
+    	+ '</span></div>'
+  };
+});
 
 AESCoreApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,SITE_URL, API_URL, ROLE) {
-	
-	$scope.buttonToggle = false; // by default
-	
+		
     $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
         .then(function(response) {
             if (response.data.authenticated) {
@@ -140,12 +189,12 @@ AESCoreApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,
     /* This function checks if email is in the database
 	 * Disables registration if email is in the database
 	 * */
-	$scope.checkEmail = function(){
+    $scope.checkEmail = function(){
 		var keepGoing = true;
 		$scope.allEmails.forEach(function(email) {
 			if(keepGoing) {
 				if (email.toUpperCase() === $scope.email.toUpperCase()){ //case-insensitive email match
-					alert("Email already registered.");
+					/*alert("Email already registered.");*/
 					$scope.buttonToggle = true;
 					keepGoing = false;
 				}
@@ -155,6 +204,22 @@ AESCoreApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,
 			}
 		});	
 	};
+	
+	// reset form and refresh page's cache of emails and recruiters
+	$scope.resetRegistrationForm = function() {
+		// reset all form state variables
+		$scope.allEmails = [];
+		$scope.buttonToggle = false; // by default
+	}
+	
+	$scope.initializeRegistrationSelects = function() {
+		// get all emails from the database
+		$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + "/emails")
+		.then(function(result) {
+			$scope.allEmails = result.data;
+			console.log($scope.allEmails);
+		});
+	}
 
     $scope.register = function() {
 
@@ -188,6 +253,10 @@ AESCoreApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,
             data    : candidateInfo
         }).success( function(res) {
         	$scope.registerSuccessfulMsg = true;
+        	
+        	// clear form.
+		    $scope.resetRegistrationForm();
+		    $scope.initializeRegistrationSelects();
         }).error( function(res) {
         	$scope.registerUnsuccessfulMsg = true;
         });
@@ -242,20 +311,16 @@ AESCoreApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,
         value: '.net'
     }];
 
-
     $scope.logout = function() {
         window.location = API_URL.BASE + API_URL.LOGOUT;
     };
 
-    
-    // get all emails from the database
-	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + "/emails")
-	.then(function(result) {
-		$scope.allEmails = result.data;
-	});
-
     //data
     $scope.candidates;
+    
+    // first time retrieving emails from the database,
+    // when page loads
+    $scope.initializeRegistrationSelects();
 
 });
 

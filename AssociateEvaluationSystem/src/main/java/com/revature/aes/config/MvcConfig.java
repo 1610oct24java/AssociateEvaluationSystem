@@ -43,6 +43,7 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("/trainer/").setViewName("misc/bank/trainerHome");
         registry.addViewController("/error").setViewName("error");
         registry.addViewController("/questionTemplate").setViewName("misc/bank/questionTemplate");
+        registry.addViewController("/chooseAssessment").setViewName("admin/chooseAssessment");
 	}
 	
 	@Override

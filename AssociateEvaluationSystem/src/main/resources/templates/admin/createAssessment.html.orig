@@ -105,7 +105,28 @@
 				</form>
 			</md-card-content>
 		</md-card>
-
+=======
+	<div layout="column" ng-cloak="" class="md-inline-form">
+		<md-content> <md-card> <md-toolbar
+			layout="columns" class="md-primary">
+		<div class="md-toolbar-tools">
+			<span>Assessment Creation</span>
+		</div>
+		<span flex> </span> <!-- || coreLanguage == false -->
+		<button layout-margin type="submit" class="btn btn-success btn-md"
+			ng-disabled="!assessments[0] || timeForm.$invalid"
+			ng-click="createAssessment()">Create Assessment</button>
+		</md-toolbar> <md-card-content>
+		<form name="timeForm" novalidate="">
+			<div layout-gt-sm="row">
+				<md-input-container class="md-block" flex-gt-sm="">
+				<label>Assessment Length</label> <md-select required ng-model="time">
+				<md-option ng-repeat="time in times" value="{{time}}">
+				{{time}} Minutes </md-option> </md-select> </md-input-container>
+			</div>
+		</form>
+		</md-card-content> </md-card> </md-content>
+>>>>>>> 98d98c6655e8d5d5e84757b491e99488c88b8e73
 	</div>
 
 

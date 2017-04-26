@@ -19,6 +19,8 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Component
 @Table(name="AES_ASSESSMENT_REQUEST")
@@ -36,6 +38,7 @@ public class AssessmentRequest implements Serializable, Cloneable{
 	})
 	private int assessmentRequestId;
 
+	@JsonManagedReference
 	@OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL, mappedBy="assessmentRequest")
 	private Set<CategoryRequest> categoryRequestList;
 
@@ -107,17 +110,25 @@ public class AssessmentRequest implements Serializable, Cloneable{
 	public void setTimeLimit(Integer timeLimit) {
 		this.timeLimit = timeLimit;
 	}
+	
+	// Overriding clone() method of Object class
+	public Object clone() throws CloneNotSupportedException {
+		return (AssessmentRequest) super.clone();
+	}
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o) 
+			return true;
+		if (o == null || getClass() != o.getClass()) 
+			return false;
 
 		AssessmentRequest that = (AssessmentRequest) o;
 
 		if (getCategoryRequestList() != null ? !getCategoryRequestList().equals(that.getCategoryRequestList()) : that.getCategoryRequestList() != null)
 			return false;
-		if (getLink() != null ? !getLink().equals(that.getLink()) : that.getLink() != null) return false;
+		if (getLink() != null ? !getLink().equals(that.getLink()) : that.getLink() != null) 
+			return false;
 		if (getUserEmail() != null ? !getUserEmail().equals(that.getUserEmail()) : that.getUserEmail() != null)
 			return false;
 		return getTimeLimit() != null ? getTimeLimit().equals(that.getTimeLimit()) : that.getTimeLimit() == null;

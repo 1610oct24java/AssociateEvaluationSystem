@@ -968,7 +968,8 @@ adminApp.controller('manageQuestions', function($scope, $http, SITE_URL, API_URL
     var mq = this;
 });
 
-
+<<<<<<< HEAD
+=======
 adminApp.controller('ChooseAssessmentCtrl', function($scope, $http, SITE_URL, API_URL, ROLE){
 
     $scope.assList = [];
@@ -988,4 +989,5 @@ adminApp.controller('ChooseAssessmentCtrl', function($scope, $http, SITE_URL, AP
     }
 
 });
+>>>>>>> 98d98c6655e8d5d5e84757b491e99488c88b8e73
 
