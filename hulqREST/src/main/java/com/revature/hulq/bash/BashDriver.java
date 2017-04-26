@@ -299,7 +299,7 @@ public class BashDriver {
 		
 		//If finalResult is less than 2% then it is ignored
 		//Since our partial credit tends to be generous
-		if ( finalResult < 3.0)
+		if ( finalResult < .03)
 		{
 			finalResult=0.0;
 		}
