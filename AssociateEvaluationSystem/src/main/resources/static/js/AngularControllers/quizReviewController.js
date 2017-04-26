@@ -1,4 +1,4 @@
-app.controller("quizController", function($scope, $rootScope, $http, 
+app.controller("quizReviewController", function($scope, $rootScope, $http, 
 		$location, $window, $timeout, $anchorScroll) {
 	$rootScope.states = [];
 	$scope.answers = [];
@@ -38,7 +38,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 			for (var z3=0; z3 < $rootScope.protoTest.options.length; z3++)
 			{
 					for(var k=0;k<$scope.questions[i].question.option.length;k++){
-					if($scope.questions[i].question.option[k].optionId==$Scope.protoTest.options[z3].optionId)
+					if($scope.questions[i].question.option[k].optionId==$rootScope.protoTest.options[z3].optionId)
 						{
 						  boolT=1;
 						  optionS.push(k);
@@ -362,7 +362,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 		.then(function(response) {
 			console.log(response);
 			// Check response for assessment availability
-			if (response.data.msg === "allow"){
+			if (response.data.msg != "allow"){
 				// Assessment ready to take
 				$rootScope.protoTest = response.data.assessment;
 				$scope.questions = $rootScope.protoTest.template.templateQuestion;
@@ -393,21 +393,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 				assessment : $rootScope.protoTest,
 				snippetUploads : $rootScope.snippetSubmissions
 		};
-		var review = "yes";
-		$http({
-			method: 'POST',
-			url: "aes/rest/submitAssessment",
-			headers: {'Content-Type': 'application/json'},
-			data: answerData
-		}).then(function(response) {
-			//Removed console log for sonar cube.
-			if (review === "yes"){
-				//This should allow the questions to put into this page
-				$window.location.href = '/aes/quizReview';
-			} else {
-				$window.location.href = '/aes/goodbye';
-			}
-		});
+		
 	}
 	
 });

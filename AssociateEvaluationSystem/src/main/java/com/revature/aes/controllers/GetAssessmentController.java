@@ -345,6 +345,11 @@ public class GetAssessmentController {
 
 		// Returns a hashMap object with allow message and assessment object
 		// which is automatically converted into JSON objects
+
+		//Adding a sconsole print to see what the output is to trace.
+		//Author: Nick Date:4/26/2017
+		System.out.println("LOOK RIGHT HERE!!!!");
+		System.out.println(responseMap.get("msg"));
 		return responseMap;
 	}
 	
