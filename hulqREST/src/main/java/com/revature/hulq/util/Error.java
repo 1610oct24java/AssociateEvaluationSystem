@@ -69,7 +69,6 @@ public class Error {
 		
 		if (t == null) {
 			entire = entire + border;
-			//System.err.println(entire);
 			log.error(entire);
 		} else {
 			entire = entire
@@ -77,10 +76,8 @@ public class Error {
 					+ t.getClass().getSimpleName()
 					+ "\nMessage:\t"
 					+ t.getMessage();
-			//System.err.println(entire + "\nStackTrace:\n");
 			log.error(entire + "\nStackTrace:\n");
 			t.printStackTrace();
-			//System.err.println(border);
 			log.error(border);
 		}
 		
