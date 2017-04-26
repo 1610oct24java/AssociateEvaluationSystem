@@ -102,6 +102,7 @@ public class AssessmentRestController {
 		for (TemplateQuestion tq : finalQuestion) {
 			tq.setWeight(1);
 			tq.setTemplate(tmpl);
+			//System.out.println("\n\n\n\nTHIS IS STUFF I NEED TO KNOW\n\n\n\n\n" + tq.toString()+ "\n\n");
 		}
 
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());

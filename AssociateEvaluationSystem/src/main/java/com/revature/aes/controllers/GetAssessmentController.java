@@ -220,7 +220,8 @@ public class GetAssessmentController {
 					{
 						String snippetTemplateUrl = st.getTemplateUrl();		// SnippetTemplate URL.
 						String starterCode = s3.readFromS3(snippetTemplateUrl);	// Read snippet starter from S3 bucket.
-						codeStarters.add(starterCode);							// Add snippetTemplate to list.
+						codeStarters.add(starterCode);	
+						System.out.println("the length is \n\n\n\n\n\n" + codeStarters.size() + "\n\n\n" + starterCode);// Add snippetTemplate to list.
 					}
 				}
 			}

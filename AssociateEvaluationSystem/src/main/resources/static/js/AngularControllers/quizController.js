@@ -39,13 +39,15 @@ app.controller("quizController", function($scope, $rootScope, $http,
 		$scope.testtaker = $rootScope.protoTest.user.firstName + " " + $rootScope.protoTest.user.lastName;
 	
 		$timeout(function () {
+			var codeSnipNum = 0;
 			for (var i=0; i < $scope.filteredQuestions.length; i++)
 			{
 				if ($scope.filteredQuestions[i].question.format.formatName === "Code Snippet")
 				{
 					var editorId = "editor"+$scope.filteredQuestions[i].question.questionId;
 					var aceEditor = ace.edit(editorId);
-					aceEditor.getSession().setValue($rootScope.snippetStarters[0], -1);
+					aceEditor.getSession().setValue($rootScope.snippetStarters[codeSnipNum], -1);
+					codeSnipNum++;
 				}
 			}
 	    }, 5000);
@@ -219,21 +221,37 @@ app.controller("quizController", function($scope, $rootScope, $http,
 		}
 		
 		var incFileType = q.question.snippetTemplates[0].fileType;
+		//console.log(incFileType);
+		//console.log(editor.getValue());
+		//console.log(id2.substr(6, id2.length));
 		var newSnippet = new SnippetUpload(editor.getValue(), id2.substr(6, id2.length), incFileType);
 		
 		for (i = 0; i < $rootScope.snippetSubmissions.length; i++){
-			if ($rootScope.snippetSubmissions[i].questionId = newSnippet.questionId){
+			console.log($rootScope.snippetSubmissions[i].questionId);
+			console.log(newSnippet.questionId);
+			if ($rootScope.snippetSubmissions[i].questionId === newSnippet.questionId){
 				$rootScope.snippetSubmissions.splice(i, 1);
+				console.log("sliced");
+			}
+			else{
+				console.log("not sliced");
 			}
 		}
-		$rootScope.snippetSubmissions.push(newSnippet);
+		
+		$rootScope.snippetSubmissions.push(newSnippet);		
 		saveQuestion(snippetQuestionIndex);
+		
+		console.log("actually the data" + '\n\n'+ $rootScope.snippetSubmissions[0].questionId);
+		console.log(incFileType);		
+		console.log(editor.getValue());
+		console.log(id2.substr(6, id2.length));
+		console.log($rootScope.snippetSubmissions.length);
 	};
 
 	// PAGINATION
  	$scope.filteredQuestions = [];
 	$scope.currentPage = 1;
-	$scope.numPerPage = 5;
+	$scope.numPerPage = 30;
 	$scope.maxSize = 100;
 	
 	
@@ -275,7 +293,8 @@ app.controller("quizController", function($scope, $rootScope, $http,
 				{
 					var editorId = "editor"+$scope.filteredQuestions[i].question.questionId;
 					var aceEditor = ace.edit(editorId);
-					aceEditor.getSession().setValue($rootScope.snippetSubmissions[0].code, -1);
+					console.log($rootScope.snippetSubmissions[i].code);
+					aceEditor.getSession().setValue($rootScope.snippetSubmissions[i].code, -1);
 				}
 			}
 	    }, 2000);
@@ -326,12 +345,14 @@ app.controller("quizController", function($scope, $rootScope, $http,
 			delete entry.assessmentId;
 			entry.assessment = {"assessmentId" : $rootScope.protoTest.assessmentId,};
 		});
-
+		console.table($rootScope.snippetSubmissions);
+		
+		
 		var answerData = {
 				assessment : $rootScope.protoTest,
 				snippetUploads : $rootScope.snippetSubmissions
 		};
-
+		//console.log(answerData);
 		$http({
 			method: 'POST',
 			url: "aes/rest/submitAssessment",
