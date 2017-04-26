@@ -16,6 +16,8 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 		registry.addViewController("/quiz").setViewName("asmt/quiz");
 		registry.addViewController("/goodbye").setViewName("asmt/goodbye");
 		registry.addViewController("/expired").setViewName("asmt/expired");
+		registry.addViewController("/recruitMenu.html").setViewName("recruiter/recruitMenu");
+//		registry.addViewController("/recruitMenu.html").setViewName("admin/recruitMenu");
 		registry.addViewController("/recruit").setViewName("recruiter/recruitCandidate");
 		registry.addViewController("/view").setViewName("recruiter/viewCandidates");
 		registry.addViewController("/updateUser").setViewName("recruiter/updateUser");
@@ -23,6 +25,8 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 		registry.addViewController("/registerEmployee").setViewName("admin/registerEmployee");
 		registry.addViewController("/parser").setViewName("admin/xmlParser");
 		registry.addViewController("/menu.html").setViewName("admin/menu");
+		registry.addViewController("/manageQuestions").setViewName("admin/manageQuestions");
+		registry.addViewController("/addQuestions").setViewName("admin/addQuestions");
 		registry.addViewController("/createAssessment").setViewName("admin/createAssessment");
         registry.addViewController("/updateCredentials").setViewName("admin/updateCredentials");
 		registry.addViewController("/updateEmployee").setViewName("admin/updateEmployee");
@@ -33,6 +37,7 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 		registry.addViewController("/").setViewName("misc/home");
 		registry.addViewController("/category").setViewName("misc/bank/trainerHome");
 		registry.addViewController("/question").setViewName("misc/bank/trainerHome");
+		//fix this format
 		registry.addViewController("/format").setViewName("misc/bank/trainerHome");
         registry.addViewController("/trainer/").setViewName("misc/bank/trainerHome");
         registry.addViewController("/error").setViewName("error");

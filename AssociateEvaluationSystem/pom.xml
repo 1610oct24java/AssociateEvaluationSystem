@@ -283,6 +283,12 @@
 			<artifactId>spring-context-support</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>org.hashids</groupId>
+			<artifactId>hashids</artifactId>
+			<version>1.0.1</version>
+		</dependency>
+		
 	</dependencies>
 
 	<build>
