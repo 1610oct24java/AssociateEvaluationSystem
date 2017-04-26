@@ -29,14 +29,14 @@ public class SnippetController {
 	// key will be the name of the file on the S3, and should be a string with the appropriate file extension
 	@RequestMapping(value = "/s3uploadTextAsFile/{folderName}/{key:.+}", method=RequestMethod.POST)
 	public String uploadToS3(@PathVariable String folderName, @PathVariable String key, @RequestBody String snippetContents){
-		try{
-			File file = File.createTempFile("snippet", ".tmp");
-			FileWriter fileWriter = new FileWriter(file);
+
+		File file = null;
+
+		try(FileWriter fileWriter = new FileWriter(file)){
+			file= File.createTempFile("snippet", ".tmp");
 			fileWriter.write(snippetContents);
 			fileWriter.flush();
-			fileWriter.close();
 			new SnippetIO().upload(file, folderName + "/" + key);
-			
 			if (!file.delete())
 			{
 				log.error("File not found! Can not delete file that does not exist!");
