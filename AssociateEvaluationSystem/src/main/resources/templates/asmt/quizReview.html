@@ -24,14 +24,6 @@
 			<!-- NAVBAR -->
 			<!-- ------ -->
 			<div class="navbar">
-				<!-- COUNTDOWN -->
-				<div class="progress text-center" ng-controller="CountdownController">
-					<div class="progress-bar" role="progressbar"
-						ng-class="{'progress-bar-danger': seconds <= 300, 'progress-bar-warning': seconds <= 900, 'progress-bar-success': seconds > 900}"
-						aria-valuenow="barUpdate" aria-valuemin="0" aria-valuemax="100"
-						ng-style="barUpdate"><span ng-style="timerTextColor">{{timeLeft}}</span>
-					</div>
-				</div>
 				
 				<img th:src="@{/images/revature_logo.png}"
 					src="../static/images/revature_logo.png" alt="Revature"> 
