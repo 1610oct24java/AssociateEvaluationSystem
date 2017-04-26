@@ -40,7 +40,7 @@ public class AssessmentServiceImpl implements AssessmentService {
 	@Override
 	public void updateAssessment(Assessment assessment) {
 		Assessment oldAssessment = assDAO.findOne(assessment.getAssessmentId());
-		oldAssessment = assessment;
+		//oldAssessment = assessment;
 		assDAO.save(oldAssessment);
 	}
 
