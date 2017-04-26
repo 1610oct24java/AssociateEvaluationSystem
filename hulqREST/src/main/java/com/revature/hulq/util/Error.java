@@ -15,7 +15,6 @@ import com.revature.hulq.logging.Logging;
  * but also provides a method to create a time stamp.
  */
 public class Error {
-	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	/**
 	 * Gets the date.<br>
 	 * Used in {@link #error} to create timestamp
