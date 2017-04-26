@@ -332,7 +332,7 @@ public class BashDriver {
 		    for (int j = 0; j < matrix[i].length; j++) {
 		        System.out.println(matrix[i][j] + " ");
 		    }
-		    log.info("\n");
+		    System.out.println("\n");
 		}
 		log.info("----------------- END USER KEY -------------------------");
 
