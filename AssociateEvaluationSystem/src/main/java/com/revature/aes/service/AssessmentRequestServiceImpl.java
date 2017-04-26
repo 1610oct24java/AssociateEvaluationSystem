@@ -30,16 +30,7 @@ public class AssessmentRequestServiceImpl implements AssessmentRequestService {
 
 	@Override
 	public List<AssessmentRequest> findAll() {
-		// TODO Auto-generated method stub
 		return assReqDao.findAll();
 	}
-
-
-/*	@Override
-	public AssessmentRequest getLastInsertedAssessmentRequest() {
-		// TODO Auto-generated method stub
-		return assReqDao.getLastInsertedAssessmentRequest();
-	}*/
-
 
 }

@@ -91,8 +91,6 @@ AESCoreApp.directive('inlineEdit', function($timeout) {
       scope.save = function() {
         scope.editMode = false;
         
-        // make rest call here to update a user info
-        /*scope.handleSave({value: scope.model});*/
       };
       scope.cancel = function() {
         scope.editMode = false;
@@ -239,7 +237,6 @@ AESCoreApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,
         $scope.firstName = '';
         $scope.lastName = '';
         $scope.email = '';
-        //$scope.program = '';
     };
 
     $scope.postRegister = function(candidateInfo) {
@@ -276,10 +273,6 @@ AESCoreApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,
         $scope.postSendAssessment(candidateInfo);
 
         return true;
-        // $scope.firstName = '';
-        // $scope.lastName = '';
-        //$scope.email = '';
-        //$scope.program = '';
     };
     
     $scope.showToast = function(message) {
@@ -352,17 +345,6 @@ AESCoreApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSiden
 
         var path = window.location.pathname.substr(1);
 
-        // switch (path) {
-        //     case "index.html":
-        //         return "employees";
-        //     case "update.html":
-        //         return "employees";
-        //     case "New.html":
-        //         return "assessments";
-        //     default:
-        //         return "overview"
-        //}
-
         return "overview";
     };
 });
@@ -376,7 +358,7 @@ AESCoreApp.controller('LoginCtrl', function($scope, $httpParamSerializerJQLike, 
             url : SITE_URL.BASE + API_URL.BASE + API_URL.LOGIN,
             headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8;'},
             data: $httpParamSerializerJQLike($scope.user)
-        })//.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGIN, $httpParamSerializerJQLike($scope.user), {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8;'})
+        })
             .then(function(response) {
                 $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
                     .then(function(response) {
