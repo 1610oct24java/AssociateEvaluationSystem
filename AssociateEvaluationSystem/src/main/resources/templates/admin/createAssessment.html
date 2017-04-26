@@ -34,78 +34,6 @@
 <div>
     <ng-include src="'menu.html'" />
 </div>
-<div layout="column" ng-cloak="" class="md-inline-form">
-	<md-content>
-		<md-card>
-			<md-toolbar layout="columns" class="md-primary">
-				<div class="md-toolbar-tools">
-					<span>Assessment Creation</span>
-				</div>
-				<span flex> </span>
-				 <!-- || coreLanguage == false -->
-				<button layout-margin type="submit" class="btn btn-success btn-md" ng-disabled="!assessments[0] || timeForm.$invalid" ng-click="createAssessment()">Create Assessment</button>
-			</md-toolbar>
-			<md-card-content>
-				<form name="timeForm" novalidate="">
-					<div layout-gt-sm="row">
-						<md-input-container class="md-block" flex-gt-sm="">
-							<label>Assessment Length</label>
-							<md-select required ng-model="time">
-								<md-option ng-repeat="time in times" value="{{time}}">
-									{{time}} Minutes
-								</md-option>
-							</md-select>
-						</md-input-container>
-					</div>
-				</form>
-			</md-card-content>
-		</md-card>
-	</md-content>
-</div>	
-	        
-	        
-<div flex="100" layout-xs="column" layout="row">
-	<div flex-xs="" flex-gt-xs="40" layout="column">
-		<md-card style="height:375px;">
-			<md-toolbar class="md-primary">
-				<div class="md-toolbar-tools">
-					<span>Create Section</span>
-				</div>
-			</md-toolbar>
-			<md-divider></md-divider>
-			<md-card-content>
-				<!-- <form role="form" ng-submit="addRow()"> -->
-				<form name="sectionForm" ng-submit="addRow()" novalidate>
-					<div layout-gt-sm="column">
-						<md-input-container class="md-block" flex-gt-sm="">
-							<label>Category</label>
-							<md-select required ng-model="category">
-								<md-option ng-repeat="category in categories" value="{{category.name}}">
-									{{category.name}}
-								</md-option>
-							</md-select>
-						</md-input-container>
-						<md-input-container class="md-block" flex-gt-sm="">
-							<label>Type</label>
-							<md-select required ng-model="type">
-								<md-option ng-repeat="option in types" value="{{option.formatName}}">
-									{{option.formatName}}
-								</md-option>
-							</md-select>
-						</md-input-container>
-						<md-input-container class="md-block" flex-gt-sm="">
-							<label style="font-weight: normal">Quantity</label>
-							<input class ="decimal integer" required type="number" max="99" min="1" step="1" name="quantity" ng-model="quantity" />
-						</md-input-container>
-					</div>
-					<div layout="column" layout-wrap layout-align="center center">
-						<button type="submit" class="btn btn-primary btn-block" ng-disabled="sectionForm.$invalid">Add Section</button>
-					</div>
-				</form>
-			</md-card-content>
-		</md-card>
-
-	</div>
 	<div layout="column" ng-cloak="" class="md-inline-form">
 		<md-content> <md-card> <md-toolbar
 			layout="columns" class="md-primary">
@@ -150,7 +78,7 @@
 					</md-select> </md-input-container>
 					<md-input-container class="md-block" flex-gt-sm="">
 					<label style="font-weight: normal">Quantity</label> <input
-						class="decimal integer" required type="number" max="99" min="0"
+						class="decimal integer" required type="number" max="99" min="1"
 						step="1" name="quantity" ng-model="quantity" /> </md-input-container>
 				</div>
 				<div layout="column" layout-wrap layout-align="center center">
@@ -189,6 +117,7 @@
 				</tfoot>
 				<tbody>
 					<div>
+
 						<tr ng-repeat="ass in sections | orderBy:sortType:sortReverse">
 							<td>
 								<input type="button" value="Remove" class="btn btn-primary btn-block" ng-click="removeRow($index)" />

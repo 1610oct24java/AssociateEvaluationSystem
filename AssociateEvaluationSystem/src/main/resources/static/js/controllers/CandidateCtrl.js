@@ -110,7 +110,6 @@ AESCoreApp.directive('inlineEdit', function($timeout) {
   };
 });
 
-
 AESCoreApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,SITE_URL, API_URL, ROLE) {
 		
     $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
