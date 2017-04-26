@@ -302,7 +302,9 @@ public class BashDriver {
 	}
 
 	private double stringCompare(String key, String user) {
+		log.info("================ stringCompare ==================");
 		if (key.isEmpty() || user.isEmpty()) {
+			log.info("================ END stringCompare (empty) ==================");
 			return 0;
 		}
 		//this method is similar to cosine inequality
@@ -311,10 +313,28 @@ public class BashDriver {
 		for (int i = 0; i <= key.length(); i++) {
 			matrix[i][0] = i;
 		}
+		//DEBUG PURPOSE PRINTING OUT MATRIX
+		log.info("----------------- AFTER KEY -------------------------");
+		for (int i = 0; i < matrix.length; i++) {
+		    for (int j = 0; j < matrix[i].length; j++) {
+		        log.info(matrix[i][j] + " ");
+		    }
+		    log.info("\n");
+		}
+		log.info("----------------- END AFTER KEY -------------------------");
 
 		for (int j = 0; j <= user.length(); j++) {
 			matrix[0][j] = j;
 		}
+
+		log.info("----------------- AFTER USER -------------------------");
+		for (int i = 0; i < matrix.length; i++) {
+		    for (int j = 0; j < matrix[i].length; j++) {
+		        log.info(matrix[i][j] + " ");
+		    }
+		    log.info("\n");
+		}
+		log.info("----------------- END USER KEY -------------------------");
 
 		int sub, add, del;
 		for (int i = 1; i <= key.length(); i++) {
@@ -329,6 +349,17 @@ public class BashDriver {
 				}
 			}
 		}
+		
+		log.info("----------------- AFTER ALL -------------------------");
+		for (int i = 0; i < matrix.length; i++) {
+		    for (int j = 0; j < matrix[i].length; j++) {
+		        log.info(matrix[i][j] + " ");
+		    }
+		    log.info("\n");
+		}
+		log.info("----------------- END AFTER KEY -------------------------");
+		
+		log.info("================ END stringCompare ==================");
 		return ((double)key.length() - (double)matrix[key.length() - 1][user.length() - 1])/(double)key.length();
 	}
 
