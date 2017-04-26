@@ -119,7 +119,7 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
        // console.log("/s3uploadTextAsFile/" + question.snippetTemplates[0].templateUrl);
        
        // Upload template to the S3 container
-       var url = String();       
+     /*  var url = String();   */    
        $http({
            method: "POST",
            url: "rest/s3uploadTextAsFile/" + question.snippetTemplates[0].templateUrl, 
