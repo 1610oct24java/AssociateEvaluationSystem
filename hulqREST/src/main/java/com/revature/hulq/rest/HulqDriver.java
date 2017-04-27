@@ -80,7 +80,7 @@ public class HulqDriver {
 			pb.start();
 			return true;
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.info("IOException", e);
 			return false;
 		}
 	}
