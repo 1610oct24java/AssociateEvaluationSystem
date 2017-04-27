@@ -111,7 +111,7 @@ public class AssessmentGrader {
 			if(countCorrect<0){	countCorrect=0;	}
 
 			
-			if(countOptions != UNINITIALIZED){
+			if(countOptions != UNINITIALIZED && countOptions!=0){
 				itemWeightedGrade = itemWeight*(countCorrect/countOptions);
 				result[0] = result[0]+itemWeightedGrade;
 				//result[1] = result[1]+itemWeight;
