@@ -19,7 +19,7 @@ import com.amazonaws.services.s3.model.S3Object;
 
 public class FileAccess {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
-	static private String S3LOCATION = "aes.revature/";
+	static private String S3LOCATION = "hulq-bash";
 
 	public boolean upload(String filename, String key){
         AmazonS3 s3client = new AmazonS3Client();
@@ -93,16 +93,16 @@ public class FileAccess {
 
 	}
 	
-	public String readFromS3(String key){
+	public StringBuilder readFromS3(String key){
         AmazonS3 s3client = new AmazonS3Client();
 	    S3Object s3object = s3client.getObject(new GetObjectRequest(
 	            S3LOCATION, key));
-	    String fileContent="";
+	    StringBuilder fileContent = new StringBuilder();
 	    BufferedReader reader = new BufferedReader(new InputStreamReader(s3object.getObjectContent()));
 	    String line;
 	    try {
 			while((line = reader.readLine()) != null) {
-			  fileContent = fileContent + line + "\n";
+			  fileContent = fileContent.append(line + "\n");
 			}
 		} catch (IOException e) {
 			log.info("IOException", e);
