@@ -27,7 +27,7 @@ public class LoggingAspect
 	 *            the pjp
 	 */
 	@Around("everything()")
-	public void traceLogging(ProceedingJoinPoint pjp) {
+	public Object traceLogging(ProceedingJoinPoint pjp) {
 		
 		// Setup for grabbing method information
 		MethodSignature sign = (MethodSignature) pjp.getSignature();
@@ -51,11 +51,12 @@ public class LoggingAspect
 		for (Class c : excepType) {
 			except.add(c.getSimpleName());
 		}
+		Object obj = new Object();
 		
 		// Surround proceed in try catch
 		try {
 			
-			pjp.proceed();
+			obj = pjp.proceed();
 			
 		} catch (Throwable e) {
 			Error.error("\nin Class:\t"
@@ -67,6 +68,7 @@ public class LoggingAspect
 					+ "\nMethod exceptions:\n"
 					+ except, e);
 		}
+		return obj;
 		
 	}
 	
