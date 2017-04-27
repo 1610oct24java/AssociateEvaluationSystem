@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html ng-app="landingPageApp" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<base href="/aes"/>
+<meta charset="ISO-8859-1">
+<title>AssessmentLandingPage</title>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/revatureStyle.css}"
+	href="../static/css/revatureStyle.css">
+</head>
+<style>
+body {
+  background-color:#ef5c1e;
+}
+
+.box {
+  background:#fff;
+  transition:all 0.2s ease;
+  border:2px dashed #dadada;
+  box-sizing: border-box;
+  border-radius: 5px;
+  background-clip: padding-box;
+  height:340px;
+  width: 400px;
+  margin: 0 auto;
+  text-align:center;
+
+}
+
+.box:hover {
+  border:2px solid #525C7A;
+}
+
+.box span.box-title {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 300;
+    text-transform: uppercase;
+}
+
+.box .box-content {
+  padding: 16px;
+  border-radius: 0 0 2px 2px;
+  background-clip: padding-box;
+  box-sizing: border-box;
+}
+.box .box-content p {
+  color:#515c66;
+  text-transform:none;
+}
+
+.logo{
+  padding: 20px;
+}
+
+</style>
+<body ng-controller="landingPageCtrl">
+	<div class="logo" style="background-color:white;" >
+		<a href="https://revature.com/">
+			<img th:src="@{/images/revature_logo.png}"
+					src="../static/images/revature_logo.png" alt="Revature"> 
+		</a>
+		<h1 class="text-center">{{testtaker}} </h1>	
+		
+	</div>
+	
+	<div id="showBox" ng-hide="hideBox" ng-cloak class="container" align="center">
+	<br /><br />
+		<div class="box">
+            <div class="box-content">
+                <h2 class="tag-title">Placement Assessment </h2>
+                <hr />
+                <p>{{landingScript}}</p>
+                <br /><br /><br /><br />
+                <button class="btn btn-block btn-primary" ng-click="gotoQuiz()">Start Assessment</button>                   
+            </div>           
+        </div>
+	</div>
+	
+		<!-- JAVASCRIPT -->
+	<!-- 	LIBRARIES -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-animate.js"></script>
+	<script th:src="@{/js/lib/ui-bootstrap-tpls-2.3.1.js}"
+		src="../static/js/lib/ui-bootstrap-tpls-2.3.1.js"></script>
+	<script th:src="@{/js/lib/ui-ace.min.js}"
+		src="../static/js/lib/ui-ace.min.js"></script>
+	<script th:src="@{/js/lib/ng-sortable.js}"
+		src="../static/js/lib/ng-sortable.js"></script>
+	<!-- 	CUSTOM -->	
+	<script th:src="@{/js/landingPage.js}"
+		src="../static/js/landingPage.js"></script>
+</body>
+</html>

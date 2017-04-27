@@ -15,6 +15,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "aes_file_upload")
 public class FileUpload implements Serializable {
@@ -23,9 +25,9 @@ public class FileUpload implements Serializable {
 	
 	@Id
 	@Column(name = "file_id")
-	@GeneratedValue(generator = "FILE_UPLOAD_SEQ", strategy = GenerationType.SEQUENCE)
-	@GenericGenerator(name="FILE_UPLOAD_SEQ", strategy="org.hibernate.id.enhanced.SequenceStyleGenerator", parameters={
-			@Parameter(name="sequence_name", value="FILE_UPLOAD_SEQ"),
+	@GeneratedValue(generator = "AES_FILE_UPLOAD_SEQ", strategy = GenerationType.SEQUENCE)
+	@GenericGenerator(name="AES_FILE_UPLOAD_SEQ", strategy="org.hibernate.id.enhanced.SequenceStyleGenerator", parameters={
+			@Parameter(name="sequence_name", value="AES_FILE_UPLOAD_SEQ"),
 			@Parameter(name="optimizer", value="hilo"),
 			@Parameter(name="initial_value",value="1"),
 			@Parameter(name="increment_size",value="1")
@@ -40,6 +42,7 @@ public class FileUpload implements Serializable {
 
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="ASSESSMENT_ID")
+	@JsonBackReference
 	private Assessment assessment;
 
 	@ManyToOne(fetch=FetchType.LAZY)
