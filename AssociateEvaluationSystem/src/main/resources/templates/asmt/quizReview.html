@@ -5,7 +5,7 @@
 <head>
 <base href="/aes"/>
 <meta charset="ISO-8859-1">
-<title>Assessment</title>
+<title>Assessment Review</title>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -18,26 +18,18 @@
 
 </head>
 <body>
-	<div class="wrap" ng-controller="quizController">
+	<div class="wrap" ng-controller="quizReviewController">
 		<div id="page-container">
 			<!-- ------ -->
 			<!-- NAVBAR -->
 			<!-- ------ -->
 			<div class="navbar">
-				<!-- COUNTDOWN -->
-				<div class="progress text-center" ng-controller="CountdownController">
-					<div class="progress-bar" role="progressbar"
-						ng-class="{'progress-bar-danger': seconds <= 300, 'progress-bar-warning': seconds <= 900, 'progress-bar-success': seconds > 900}"
-						aria-valuenow="barUpdate" aria-valuemin="0" aria-valuemax="100"
-						ng-style="barUpdate"><span ng-style="timerTextColor">{{timeLeft}}</span>
-					</div>
-				</div>
 				
 				<img th:src="@{/images/revature_logo.png}"
 					src="../static/images/revature_logo.png" alt="Revature"> 
 				
 				<div class="navbar-title">
-					<a href="http://revature.com">Associate Evaluation System</a>
+					<a href="http://revature.com">Associate Evaluation System Review</a>
 					<br>{{testtaker}}, <a class="navbar-link-notyou" href="http://revature.com">(not you?)</a>
 				</div>
 				
@@ -58,7 +50,7 @@
 				<div class="row">
 					<div class="col-sm-10 col-sm-offset-1">
 						<div>
-							<h2 class="h2">Welcome to the test</h2>
+							<h2 class="h2">Welcome to the review</h2>
 							<hr>
 							<uib-accordion close-others="oneAtATime">
 							<div ng-repeat="q in filteredQuestions" my-repeat-directive >
@@ -273,11 +265,7 @@
 		src="../static/js/AngularControllers/dragController.js"></script>
 	<script th:src="@{/js/AngularControllers/quizNavController.js}"
 		src="../static/js/AngularControllers/quizNavController.js"></script>
-	<script th:src="@{/js/AngularControllers/quizController.js}"
-		src="../static/js/AngularControllers/quizController.js"></script>
-	<script th:src="@{/js/AngularControllers/countdownController.js}"
-		src="../static/js/AngularControllers/countdownController.js"></script>
-		
-
+	<script th:src="@{/js/AngularControllers/quizReviewController.js}"
+		src="../static/js/AngularControllers/quizReviewController.js"></script>
 </body>
 </html>
