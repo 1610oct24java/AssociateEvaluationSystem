@@ -78,6 +78,10 @@
 				<!-- <form role="form" ng-submit="addRow()"> -->
 				<form name="sectionForm" ng-submit="addRow(); checkDuplicate()" novalidate>
 					<div layout-gt-sm="column">
+					  <label>Allow Review:
+    <input type="checkbox" ng-model="checkboxModel.value"
+           ng-true-value="'YES'" ng-false-value="'NO'">
+   </label><br/>
 						<md-input-container class="md-block" flex-gt-sm="">
 							<label>Category</label>
 							<md-select required ng-model="category">
