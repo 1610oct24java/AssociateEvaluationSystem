@@ -57,6 +57,7 @@ public class BashDriver {
 		List<String> command = new ArrayList<>();
 		command.add("/bin/bash");
 		command.add("hulqBASH.sh");
+		//command.add(seconds);
 		command.add(keyPath);
 		command.add(testPath);
 		command.addAll(arguments);
