@@ -221,6 +221,7 @@ public class GetAssessmentController {
 			// Pull out the TemplateQuestion set from the assessment.
 			Set<TemplateQuestion> templateQuestions = assessment.getTemplate().getTemplateQuestion();
 			Set<FileUpload> tempUploads = assessment.getFileUpload();
+			int numQ = 1;
 			for (TemplateQuestion tq : templateQuestions)
 			{
 				Question question = tq.getQuestion();						// Get each question.
@@ -239,6 +240,7 @@ public class GetAssessmentController {
 						for(FileUpload f : tempUploads){
 							starterCode= s3.readFromS3(f.getFileUrl());
 							if(f.getQuestion().getQuestionId() == question.getQuestionId()){
+								
 								codeStarters.add(starterCode);
 								addedS=true;
 								break;
@@ -253,10 +255,13 @@ public class GetAssessmentController {
 						{
 							String snippetTemplateUrl = st.getTemplateUrl();		// SnippetTemplate URL.
 							starterCode = s3.readFromS3(snippetTemplateUrl);	// Read snippet starter from S3 bucket.
+							//System.out.println("\n\n\n\n\n\n\n\n\n\n THIS IS THE NUMBER OF THE QUESTION " + numQ);
 							codeStarters.add(starterCode);							// Add snippetTemplate to list.
 						}
 					}/*SA-CHANGES ENDED*/
 				}
+				numQ++;
+				
 			}
 			
 			// If code snippet questions exist in the assessment, this array won't be empty.
@@ -292,7 +297,7 @@ public class GetAssessmentController {
 						
 						// Add assessment's full time limit to the response TODO fix
 						responseMap.put("timeLimit", assessment.getTimeLimit());
-						responseMap.put("newTime", 0);
+						responseMap.put("newTime", -1);
 						responseMap.put("msg", "allow");
 						responseMap.put("assessment", assessment);
 						//System.out.println("timeLimit " + assessment.getTimeLimit()+"\n\n\n\n\n");

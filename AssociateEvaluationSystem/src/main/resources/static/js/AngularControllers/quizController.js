@@ -275,31 +275,28 @@ app.controller("quizController", function($scope, $rootScope, $http,
 		var newSnippet = new SnippetUpload(editor.getValue(), id2.substr(6, id2.length), incFileType);
 		
 		for (i = 0; i < $rootScope.snippetSubmissions.length; i++){
-			console.log($rootScope.snippetSubmissions[i].questionId);
-			console.log(newSnippet.questionId);
+			//console.log($rootScope.snippetSubmissions[i].questionId);
+			//console.log(newSnippet.questionId);
 			if ($rootScope.snippetSubmissions[i].questionId === newSnippet.questionId){
 				$rootScope.snippetSubmissions.splice(i, 1);
-				console.log("sliced");
+				//console.log("sliced");
 			}
 			else{
-				console.log("not sliced");
+				//console.log("not sliced");
 			}
 		}
 		
 		$rootScope.snippetSubmissions.push(newSnippet);		
 		saveQuestion(snippetQuestionIndex);
 		
-		console.log("actually the data" + '\n\n'+ $rootScope.snippetSubmissions[0].questionId);
-		console.log(incFileType);		
-		console.log(editor.getValue());
-		console.log(id2.substr(6, id2.length));
-		console.log($rootScope.snippetSubmissions.length);
+		
+		//console.log($rootScope.snippetSubmissions.length);
 	};
 
 	// PAGINATION
  	$scope.filteredQuestions = [];
 	$scope.currentPage = 1;
-	$scope.numPerPage = 30;
+	$scope.numPerPage = 5;
 	$scope.maxSize = 100;
 	
 	
@@ -335,6 +332,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 		$scope.filteredQuestions = $scope.questions.slice(begin, end);
 
 		$timeout(function () {
+			//var snipCount = 0;
 			for (var i=0; i < $scope.filteredQuestions.length; i++)
 			{
 				if ($scope.filteredQuestions[i].question.format.formatName === "Code Snippet")
@@ -346,16 +344,30 @@ app.controller("quizController", function($scope, $rootScope, $http,
 					
 					/*SA-CHANGES STARTED*/
 					//To init ace editor if other than first page
+					
 					if(aceEditor.length!=1){
 						if(aceEditor.getSession().getValue()==="Enter code here"){
-							aceEditor.getSession().setValue($rootScope.snippetStarters[0], -1);
+							console.log("zero ");
+							for(z=0; z < $rootScope.snippetStarters.length; z++){
+								
+								if($rootScope.snippetSubmissions[z].questionId == $scope.filteredQuestions[i].question.questionId){
+									console.log(z);
+									aceEditor.getSession().setValue($rootScope.snippetStarters[z], -1);
+								}
+							}
 						}
 					}
 
 					//To keep changes on the ace editor if pages are switched
-					if($rootScope.snippetSubmissions.length){
-						aceEditor.getSession().setValue($rootScope.snippetSubmissions[0].code, -1);
+					for(z=0; z < $rootScope.snippetSubmissions.length; z++){
+						if($rootScope.snippetSubmissions[z].questionId == $scope.filteredQuestions[i].question.questionId){
+							console.log($rootScope.snippetSubmissions[z].questionId );
+							console.log($scope.filteredQuestions[i].question.questionId);
+							aceEditor.getSession().setValue($rootScope.snippetSubmissions[z].code, -1);
+						}
 					}
+					
+					//snipCount++;
 					/*SA-CHANGES ENDED*/
 
 				}
