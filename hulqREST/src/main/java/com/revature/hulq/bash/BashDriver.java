@@ -296,13 +296,24 @@ public class BashDriver {
 		//System.out.println("final result (post gross error margin): " + finalResult);
 		log.info("final result (post gross error margin): " + finalResult);
 		// return final grade
+		
+		//If finalResult is less than 2% then it is ignored
+		//Since our partial credit tends to be generous
+		if ( finalResult < .03)
+		{
+			finalResult=0.0;
+			log.warn("Final Result is less than 3% giving 0% since our grading might be too genorous");
+		}
+		
 		log.info("============= END Bash Grader ===============");
 		return finalResult;
 
 	}
 
 	private double stringCompare(String key, String user) {
+		log.info("================ stringCompare ==================");
 		if (key.isEmpty() || user.isEmpty()) {
+			log.info("================ END stringCompare (empty) ==================");
 			return 0;
 		}
 		//this method is similar to cosine inequality
@@ -329,6 +340,8 @@ public class BashDriver {
 				}
 			}
 		}
+		
+		log.info("================ END stringCompare ==================");
 		return ((double)key.length() - (double)matrix[key.length() - 1][user.length() - 1])/(double)key.length();
 	}
 

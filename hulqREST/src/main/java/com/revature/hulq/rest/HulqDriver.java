@@ -22,6 +22,7 @@ public class HulqDriver {
 		
 	
 	public double executeCodeTest(String keyFileKey, String testFileKey){
+		log.info("=============== executeCodeTest ===================" );
 		boolean getKey = fa.download(keyFileKey);
 		boolean getTest = fa.download(testFileKey);
 		//System.out.println("key:" + keyFileKey + " test:" + testFileKey);
@@ -72,7 +73,13 @@ public class HulqDriver {
 				//result = bd.gradeCode(oldKey.toString(), oldTest.toString(), arguments, testProfile);
 			}
 		} 
+		else
+		{
+			result = 0;
+			log.error("["+ keyFileKey + ", " + testFileKey + ", hulqBASH.sh] one or more failed to download");
+		}
 		
+		log.info("===============  END executeCodeTest ===================" );
 		return result;
 	}
 	
