@@ -281,7 +281,62 @@ adminApp.controller('EmployeeViewCtrl', function($scope,$mdToast, $http, SITE_UR
 			employees.selected = $scope.selectedAll;
 		});
 	};
+	
+    // open/close viewing assessments for a candidate.
+    $scope.viewAssessments = function(num, email){
+        $scope.assessments = [];
+        $scope.returnCheck = false;
+        $http
+            .get(SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + "/" + email + "/assessments") // get the assessments of this candidate
+            .then(function(response) {
+                var asmt = response.data;
+                if (asmt.length != 0) {
+                    asmt.forEach(a=>{ a.createdTimeStamp = formatDate(a.createdTimeStamp);
+                    a.finishedTimeStamp = formatDate(a.finishedTimeStamp)});
+                }
+                $scope.assessments = asmt;
+                $scope.returnCheck = true;
+            });
 
+        var myEl = angular.element( document.querySelector( '#'+num ) );
+        for(var i = 0; i < $scope.employees.length; i++){
+            var close = angular.element( document.querySelector( '#g'+$scope.employees[i].userId ) );
+            if((close[0].attributes[0].nodeValue == "ng-show" || close[0].attributes[1].nodeValue == "ng-show") && '#'+num != '#g'+$scope.employees[i].userId){
+                close.removeClass("ng-show");
+                close.addClass("ng-hide");
+            }
+        }
+
+        if(angular.element(document.querySelector('#'+num).classList)[0] == "ng-hide"){
+            myEl.removeClass("ng-hide");
+            myEl.addClass("ng-show");
+        } else {
+            myEl.removeClass("ng-show");
+            myEl.addClass("ng-hide");
+        }
+    };
+    
+    // check whether an employee is a candidate (used in deciding whether to show view-assessments button)
+    $scope.isCandidate = function(employee) {
+    	if (employee.role.roleTitle.toUpperCase() === "CANDIDATE") {
+    		return true;
+    	}
+    	else {
+    		return false;
+    	}
+    };
+    
+    // closes all assessments being viewed (necessary when searching or re-ordering the display of employees) //FIXME: when searchbar has input, opening assessments breaks
+    $scope.closeAllAssessments = function() {
+        for(var i = 0; i < $scope.employees.length; i++){
+            var close = angular.element( document.querySelector( '#g'+$scope.employees[i].userId ) );
+            if((close[0].attributes[0].nodeValue == "ng-show" || close[0].attributes[1].nodeValue == "ng-show")){
+                close.removeClass("ng-show");
+                close.addClass("ng-hide");
+            }
+        }
+    }
+    
 });
 
 function makeUser($scope) {
@@ -953,3 +1008,11 @@ adminApp.controller('ChooseAssessmentCtrl', function($scope, $http, SITE_URL, AP
 
 });
 
+function formatDate(date) {
+    if (date == null) {
+        return "";
+    }
+    var d = new Date(date);
+    var min = d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes();
+    return (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear() + " " + d.getHours() + ":" + min;
+}
