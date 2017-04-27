@@ -496,6 +496,7 @@ public class GetAssessmentController {
 						responseMap.put("firstName", assessment.getUser().getFirstName());
 						responseMap.put("lastName", assessment.getUser().getLastName());
 						responseMap.put("landingScript", landingPageScript);
+						responseMap.put("timestamp", assessment.getCreatedTimeStamp());
 						responseMap.put("msg", "allow");
 						
 					}else {
@@ -516,6 +517,7 @@ public class GetAssessmentController {
 							responseMap.put("firstName", assessment.getUser().getFirstName());
 							responseMap.put("lastName", assessment.getUser().getLastName());
 							responseMap.put("landingScript", landingPageScript2);
+							responseMap.put("timestamp", assessment.getCreatedTimeStamp());
 							responseMap.put("msg", "allow");
 						}
 					}
