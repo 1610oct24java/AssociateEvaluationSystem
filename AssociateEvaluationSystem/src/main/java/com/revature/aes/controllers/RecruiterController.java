@@ -1,6 +1,7 @@
 package com.revature.aes.controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -103,7 +104,7 @@ public class RecruiterController {
 	public ResponseEntity<Map> sendAssessment(@RequestBody User user){
 		Map<String, String> response = new HashMap<>();
 
-		User candidate = userService.findUserByEmail(user.getEmail());
+		User candidate = userService.findUserByEmailIgnoreCase(user.getEmail());
 
 		String pass = userService.setCandidateSecurity(candidate);
 		candidate.setFormat(user.getFormat());
@@ -229,5 +230,22 @@ public class RecruiterController {
 	@RequestMapping(value="roles/init",method = RequestMethod.GET)
 	public void initRoles() {
 		roleService.initRoles();
+	}
+	
+	// this obtains all the emails in the database
+	@RequestMapping(value="recruiter/emails")
+	public List<String> getEmails() {
+		List<String> allEmails = new ArrayList<String>();
+		for (User user : userService.findAllUsers()){
+			allEmails.add(user.getEmail());
+		}
+		return allEmails;
+	}
+	
+	// updating a candidate's info
+	@RequestMapping(value="recruiter/update/candidate")
+	public ResponseEntity<User> updateCandidate(@RequestBody User candidate) {
+		// logic goes here to update info
+		return new ResponseEntity<User>(candidate, HttpStatus.OK);
 	}
 }
