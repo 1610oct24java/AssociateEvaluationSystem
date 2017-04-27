@@ -232,7 +232,7 @@ public class GetAssessmentController {
 			
 			Set<TemplateQuestion> templateQuestions = assessment.getTemplate().getTemplateQuestion();
 			Set<FileUpload> tempUploads = assessment.getFileUpload();
-			
+
 			for (TemplateQuestion tq : templateQuestions)
 			{
 				Question question = tq.getQuestion();						// Get each question.
@@ -272,6 +272,16 @@ public class GetAssessmentController {
 							codeStartersInd.add(ind);
 						}
 					}
+					
+					if(addedS==false){
+						// Loop through the snippetTemplates to get their url locations in S3 bucket.
+						for (SnippetTemplate st : snippetTemplates)
+						{
+							String snippetTemplateUrl = st.getTemplateUrl();		// SnippetTemplate URL.
+							starterCode = s3.readFromS3(snippetTemplateUrl);	// Read snippet starter from S3 bucket.
+							codeStarters.add(starterCode);							// Add snippetTemplate to list.
+						}
+					}/*SA-CHANGES ENDED*/
 				}
 			}
 			

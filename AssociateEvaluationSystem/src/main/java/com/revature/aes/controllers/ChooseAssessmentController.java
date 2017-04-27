@@ -1,0 +1,34 @@
+package com.revature.aes.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.revature.aes.beans.AssessmentRequest;
+import com.revature.aes.logging.Logging;
+import com.revature.aes.service.AssessmentRequestServiceImpl;
+
+@RestController
+public class ChooseAssessmentController {
+	
+	@Autowired
+	private Logging log;
+	
+	@Autowired
+	private AssessmentRequestServiceImpl assReqServ;
+	
+	//created by: Edward Young
+	// on enter view, objective is to call /allAssessments to load initial vaules of assessments.
+	
+	@RequestMapping(value = "/allAssessments", method = RequestMethod.GET)
+	public List<AssessmentRequest> getListOfAssessments(){
+		
+		List<AssessmentRequest> allAss = assReqServ.findAll();
+		
+		return allAss;
+	}
+
+}

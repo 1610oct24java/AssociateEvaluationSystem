@@ -328,8 +328,6 @@ app.controller("quizController", function($scope, $rootScope, $http,
 				{
 					var editorId = "editor"+$scope.filteredQuestions[i].question.questionId;
 					var aceEditor = ace.edit(editorId);
-					//aceEditor.getSession().setValue($rootScope.snippetSubmissions[0].code, -1);
-					
 					
 					//To init ace editor if other than first page
 					if(aceEditor.getSession().getValue()==="Enter code here"){
@@ -348,7 +346,6 @@ app.controller("quizController", function($scope, $rootScope, $http,
 							aceEditor.getSession().setValue($rootScope.snippetSubmissions[z].code, -1);
 						}
 					}
-			
 				}
 			}
 	    }, 2000);

@@ -45,7 +45,7 @@ public class AssessmentServiceImpl implements AssessmentService {
 	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	public void updateAssessment(Assessment assessment) {
 		Assessment oldAssessment = assDAO.findOne(assessment.getAssessmentId());
-		oldAssessment = assessment;
+		//oldAssessment = assessment;
 		assDAO.save(oldAssessment);
 	}
 
@@ -97,5 +97,11 @@ public class AssessmentServiceImpl implements AssessmentService {
 	@Override
 	public void deleteAssessment(Assessment assessment) {
 		assDAO.delete(assessment);
+	}
+
+	@Override
+	public List<Assessment> findAll() {
+		// TODO Auto-generated method stub
+		return assDAO.findAll();
 	}
 }
