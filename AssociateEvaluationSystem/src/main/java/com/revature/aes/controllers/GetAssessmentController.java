@@ -245,11 +245,11 @@ public class GetAssessmentController {
 					Set<SnippetTemplate> snippetTemplates = question.getSnippetTemplates();
 					int questionID = question.getQuestionId();
 					
-					Integer in = new Integer(questionID);
-					String ind = in.toString();
+					int in = questionID;
+					String ind = String.valueOf(in);
 					boolean addedS = false;
 					String starterCode="";
-					if(tempUploads.size() > 0){
+					if(!tempUploads.isEmpty()){
 						for(FileUpload f : tempUploads){
 							starterCode+= s3.readFromS3(f.getFileUrl());
 							if(f.getQuestion().getQuestionId() == question.getQuestionId()){
