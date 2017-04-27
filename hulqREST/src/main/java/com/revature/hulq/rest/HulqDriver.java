@@ -25,7 +25,6 @@ public class HulqDriver {
 		log.info("=============== executeCodeTest ===================" );
 		boolean getKey = fa.download(keyFileKey);
 		boolean getTest = fa.download(testFileKey);
-		//System.out.println("key:" + keyFileKey + " test:" + testFileKey);
 		log.info("key:" + keyFileKey + " test:" + testFileKey);
 		//create temp file to check if script file is present
 		File varTmpDir = new File("hulqBASH.sh");
@@ -62,15 +61,12 @@ public class HulqDriver {
 			File newTest = new File(newTestName);
 			boolean renamedTest = oldTest.renameTo(newTest);
 			
-			//System.out.println(renamedKey + "-newKey:" + newKeyName +"[=]"+ renamedTest+ " newTest:" + newTestName);
 			log.info(renamedKey + "-newKey:" + newKeyName +"[=]"+ renamedTest+ " newTest:" + newTestName);
 			
 			//if both files were successfully renamed
 			if(renamedKey && renamedTest){
-				//System.out.println("bacon");
 				log.info("bacon");
 				result = bd.gradeCode(newKeyName, newTestName, arguments, testProfile);
-				//result = bd.gradeCode(oldKey.toString(), oldTest.toString(), arguments, testProfile);
 			}
 		} 
 		else
