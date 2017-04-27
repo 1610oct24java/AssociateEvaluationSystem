@@ -60,9 +60,10 @@ public class S3Service {
 	}
 
 	public boolean uploadAssReqToS3(AssessmentRequest assessContents, String key){
-		try{
-			File file2 = new File("AssessRequest");
-			FileOutputStream file = new FileOutputStream(file2);
+		
+		File file2 = new File("AssessRequest");
+
+		try(FileOutputStream file = new FileOutputStream(file2)){
 			ObjectOutputStream oos = new ObjectOutputStream(file);
 			oos.writeObject(assessContents);
 			
@@ -79,6 +80,8 @@ public class S3Service {
 			log.error(Logging.errorMsg("uploading Assessment Req to S3", e));
 			return false;
 		}
+
+		
 	}
 
 	public String readFromS3(String key) throws IOException {
