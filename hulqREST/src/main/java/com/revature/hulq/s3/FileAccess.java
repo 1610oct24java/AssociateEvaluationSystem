@@ -106,7 +106,6 @@ public class FileAccess {
 			}
 		} catch (IOException e) {
 			log.info("IOException", e);
-			e.printStackTrace();
 		}
 		return fileContent;
 	}
