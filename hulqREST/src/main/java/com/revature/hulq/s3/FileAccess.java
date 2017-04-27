@@ -30,6 +30,7 @@ public class FileAccess {
             log.info("Done.");
             return true;
          } catch (AmazonServiceException ase) {
+        	log.info("AmazonServiceException", ase);
             log.info("Caught an AmazonServiceException, which " +
             		"means your request made it " +
                     "to Amazon S3, but was rejected with an error response" +
@@ -41,6 +42,7 @@ public class FileAccess {
             log.info("Request ID:         " + ase.getRequestId());
             return false;
         } catch (AmazonClientException ace) {
+        	log.info("AmazonClientException", ace);
             log.info("Caught an AmazonClientException, which " +
             		"means the client encountered " +
                     "an internal error while trying to " +
@@ -64,6 +66,7 @@ public class FileAccess {
         
             return true;
          } catch (AmazonServiceException ase) {
+        	log.info("AmazonServiceException", ase);
             log.info("Caught an AmazonServiceException, which " +
             		"means your request made it " +
                     "to Amazon S3, but was rejected with an error response" +
@@ -77,6 +80,7 @@ public class FileAccess {
             log.info("====== END DOWNLOADING FILES FROM S3 (AMAZON SERVICE EXCEPTION) ======\n");
             return false;
         } catch (AmazonClientException ace) {
+        	log.info("AmazonClientException", ace);
         	log.info("Caught an AmazonClientException, which " +
             		"means the client encountered " +
                     "an internal error while trying to " +
@@ -101,7 +105,7 @@ public class FileAccess {
 			  fileContent = fileContent + line + "\n";
 			}
 		} catch (IOException e) {
-			
+			log.info("IOException", e);
 		}
 		return fileContent;
 	}
