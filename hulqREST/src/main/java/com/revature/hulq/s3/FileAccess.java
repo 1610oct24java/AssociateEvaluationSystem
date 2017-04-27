@@ -101,7 +101,7 @@ public class FileAccess {
 			  fileContent = fileContent + line + "\n";
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			
 		}
 		return fileContent;
 	}
