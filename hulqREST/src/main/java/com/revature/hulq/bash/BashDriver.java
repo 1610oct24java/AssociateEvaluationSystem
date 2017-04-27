@@ -282,6 +282,10 @@ public class BashDriver {
 			log.warn("Final Result is less than 3% giving 0% since our grading might be too genorous");
 		}
 		
+		if(Double.isNaN(finalResult)){
+			finalResult = 0.0;
+		}
+		
 		log.info("============= END Bash Grader ===============");
 		return finalResult;
 
