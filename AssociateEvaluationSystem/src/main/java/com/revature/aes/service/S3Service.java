@@ -80,6 +80,7 @@ public class S3Service {
 				log.error("File not found! Can not delete file that does not exists!");
 			}
 			oos.close();
+			file.close();
 			return true;
 		}
 		catch(Exception e)
