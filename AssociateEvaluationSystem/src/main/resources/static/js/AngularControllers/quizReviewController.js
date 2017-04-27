@@ -370,8 +370,6 @@ app.controller("quizReviewController", function($scope, $rootScope, $http,
 				$rootScope.snippetStarters = response.data.snippets;
 				initSetup();
 				$rootScope.initQuizNav();
-				$rootScope.initTimer(response.data.timeLimit, response.data.newTime);
-
 			}else {
 				// Assessment was taken or time expired, redirecting to expired page
 				$window.location.href = '/aes/expired';

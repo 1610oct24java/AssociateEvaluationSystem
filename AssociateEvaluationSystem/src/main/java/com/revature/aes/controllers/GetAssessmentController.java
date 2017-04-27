@@ -330,6 +330,7 @@ public class GetAssessmentController {
 					
 				}else {
 					// Assessment taken, this message will redirect to expired page
+					responseMap.put("assessment", assessment);
 					responseMap.put("msg", "deny");
 				}
 				
@@ -477,7 +478,9 @@ public class GetAssessmentController {
 			//Getting the landing page dialog box from file
 			Properties properties = propertyReader.propertyRead("landingPage.properties");
 			String landingPageScript=null;
+			String landingPageScript2 = null;
 			landingPageScript = properties.getProperty("landing");
+			landingPageScript2 = properties.getProperty("continue");
 			
 			//Formatting the landing page script to enter in the time limit of assessment
 			landingPageScript = formatMessage(landingPageScript, assessment.getTimeLimit());
@@ -493,7 +496,6 @@ public class GetAssessmentController {
 						responseMap.put("firstName", assessment.getUser().getFirstName());
 						responseMap.put("lastName", assessment.getUser().getLastName());
 						responseMap.put("landingScript", landingPageScript);
-						System.out.println("landing: " + landingPageScript);
 						responseMap.put("msg", "allow");
 						
 					}else {
@@ -513,7 +515,7 @@ public class GetAssessmentController {
 							
 							responseMap.put("firstName", assessment.getUser().getFirstName());
 							responseMap.put("lastName", assessment.getUser().getLastName());
-							responseMap.put("timeLimit", assessment.getTimeLimit());
+							responseMap.put("landingScript", landingPageScript2);
 							responseMap.put("msg", "allow");
 						}
 					}
