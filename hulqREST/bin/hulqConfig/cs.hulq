@@ -1,0 +1,5 @@
+type="compiled"
+customOut="n"
+outFile="${inFileName%$".cs"}.exe"
+compiler="mcs"
+executor="mono "
