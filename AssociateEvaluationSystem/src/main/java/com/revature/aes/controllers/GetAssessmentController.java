@@ -228,27 +228,33 @@ public class GetAssessmentController {
 			// --- This portion of code pulls a snippet template from the S3 bucket --- -RicSmith
 			// This list of snippet templates will be added to the response map.
 			List<String> codeStarters = new ArrayList<>();
-			// Pull out the TemplateQuestion set from the assessment.
+			List<String> codeStartersInd = new ArrayList<>();
+			
 			Set<TemplateQuestion> templateQuestions = assessment.getTemplate().getTemplateQuestion();
 			Set<FileUpload> tempUploads = assessment.getFileUpload();
+			
 			for (TemplateQuestion tq : templateQuestions)
 			{
 				Question question = tq.getQuestion();						// Get each question.
 				Format questionFormat = question.getFormat();				// Get each question format.
-				
+			
 				// Check to see if this question format is a code snippet.
 				if ("Code Snippet".equals(questionFormat.getFormatName()))	
 				{
 					// Pull out the SnippetTemplates from the question.
 					Set<SnippetTemplate> snippetTemplates = question.getSnippetTemplates();
-					/*SA-CHANGES STARTED*/
+					int questionID = question.getQuestionId();
+					
+					Integer in = new Integer(questionID);
+					String ind = in.toString();
 					boolean addedS = false;
 					String starterCode="";
 					if(tempUploads.size() > 0){
 						for(FileUpload f : tempUploads){
-							starterCode= s3.readFromS3(f.getFileUrl());
+							starterCode+= s3.readFromS3(f.getFileUrl());
 							if(f.getQuestion().getQuestionId() == question.getQuestionId()){
 								codeStarters.add(starterCode);
+								codeStartersInd.add(ind);
 								addedS=true;
 								break;
 							}
@@ -260,18 +266,22 @@ public class GetAssessmentController {
 						for (SnippetTemplate st : snippetTemplates)
 						{
 							String snippetTemplateUrl = st.getTemplateUrl();		// SnippetTemplate URL.
-							starterCode = s3.readFromS3(snippetTemplateUrl);	// Read snippet starter from S3 bucket.
-							codeStarters.add(starterCode);							// Add snippetTemplate to list.
+							starterCode+= s3.readFromS3(snippetTemplateUrl);	// Read snippet starter from S3 bucket.
+							codeStarters.add(starterCode);	
+							// Add snippetTemplate to list.
+							codeStartersInd.add(ind);
 						}
-					}/*SA-CHANGES ENDED*/
+					}
 				}
 			}
 			
 			// If code snippet questions exist in the assessment, this array won't be empty.
 			if (!codeStarters.isEmpty())
 			{
+				System.out.println("No of Snippets : "+codeStarters.size());
 				// Add code starters for snippets to the responseMap that will be sent with the assessment to AngularJS for parsing.
 				responseMap.put("snippets", codeStarters);
+				responseMap.put("snippetIndexes", codeStartersInd);
 			}
 
 			// Get Date where password issued to user

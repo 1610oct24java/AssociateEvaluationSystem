@@ -9,6 +9,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 	$scope.questions = [];
 	$rootScope.snippetStarters = [];
 	$rootScope.snippetSubmissions = [];
+	$rootScope.snippetStartersInd = [];
 	$scope.protoTest2 = {};
 	$scope.testtaker = "loading...";
 	$scope.submitted = false;
@@ -93,7 +94,11 @@ app.controller("quizController", function($scope, $rootScope, $http,
 				{
 					var editorId = "editor"+$scope.filteredQuestions[i].question.questionId;
 					var aceEditor = ace.edit(editorId);
-					aceEditor.getSession().setValue($rootScope.snippetStarters[0], -1);
+					for(z=0;z<$rootScope.snippetStartersInd.length;z++){
+						if($rootScope.snippetStartersInd[z]==$scope.filteredQuestions[i].question.questionId){
+							aceEditor.getSession().setValue($rootScope.snippetStarters[z], -1);
+						}
+					}
 				}
 			}
 	    }, 5000);
@@ -270,7 +275,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 		var newSnippet = new SnippetUpload(editor.getValue(), id2.substr(6, id2.length), incFileType);
 		
 		for (i = 0; i < $rootScope.snippetSubmissions.length; i++){
-			if ($rootScope.snippetSubmissions[i].questionId = newSnippet.questionId){
+			if ($rootScope.snippetSubmissions[i].questionId == newSnippet.questionId){
 				$rootScope.snippetSubmissions.splice(i, 1);
 			}
 		}
@@ -325,19 +330,25 @@ app.controller("quizController", function($scope, $rootScope, $http,
 					var aceEditor = ace.edit(editorId);
 					//aceEditor.getSession().setValue($rootScope.snippetSubmissions[0].code, -1);
 					
-					/*SA-CHANGES STARTED*/
+					
 					//To init ace editor if other than first page
-					if(aceEditor.length!=1){
-						if(aceEditor.getSession().getValue()==="Enter code here"){
-							aceEditor.getSession().setValue($rootScope.snippetStarters[0], -1);
+					if(aceEditor.getSession().getValue()==="Enter code here"){
+						for(z=0;z<$rootScope.snippetStartersInd.length;z++){
+							if($rootScope.snippetStartersInd[z]==$scope.filteredQuestions[i].question.questionId){
+								aceEditor.getSession().setValue($rootScope.snippetStarters[z], -1);
+								break;
+							}
 						}
 					}
 
+
 					//To keep changes on the ace editor if pages are switched
-					if($rootScope.snippetSubmissions.length){
-						aceEditor.getSession().setValue($rootScope.snippetSubmissions[0].code, -1);
+					for(z=0;z<$rootScope.snippetSubmissions.length;z++){
+						if($rootScope.snippetSubmissions[z].questionId==$scope.filteredQuestions[i].question.questionId){
+							aceEditor.getSession().setValue($rootScope.snippetSubmissions[z].code, -1);
+						}
 					}
-					/*SA-CHANGES ENDED*/
+			
 				}
 			}
 	    }, 2000);
@@ -366,8 +377,8 @@ app.controller("quizController", function($scope, $rootScope, $http,
 				// Assessment ready to take
 				$rootScope.protoTest = response.data.assessment;
 				$scope.questions = $rootScope.protoTest.template.templateQuestion;
-				//$rootScope.protoTest.options = [];
 				$rootScope.snippetStarters = response.data.snippets;
+				$rootScope.snippetStartersInd = response.data.snippetIndexes;
 				initSetup();
 				$rootScope.initQuizNav();
 				$rootScope.initTimer(response.data.timeLimit, response.data.newTime);
