@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "AES_GLOBAL_SETTINGS")
-public class GlobalSettings implements Serializable {
+public class GlobalSetting implements Serializable {
 
 	private static final long serialVersionUID = -4222238979371700842L;
 
@@ -29,7 +29,7 @@ public class GlobalSettings implements Serializable {
 	@JoinColumn(name = "PROPERTY_TYPE_ID")
 	GlobalSettingType propertyType;
 
-	public GlobalSettings() {
+	public GlobalSetting() {
 		super();
 	}
 
@@ -90,7 +90,7 @@ public class GlobalSettings implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		GlobalSettings other = (GlobalSettings) obj;
+		GlobalSetting other = (GlobalSetting) obj;
 		if (propertyId != other.propertyId)
 			return false;
 		return true;
