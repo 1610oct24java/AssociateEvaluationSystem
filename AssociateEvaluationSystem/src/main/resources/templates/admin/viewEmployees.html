@@ -61,10 +61,11 @@
 				<td>{{employee.email}}</td>
 				<td>{{employee.role.roleTitle}}</td>
 				<td>
-					<button style="font-size:24px" ng-click="deleteEmployee(employee.email)" margin-left:auto;> <i class="fa fa-trash"></i></button>
+					<button style="font-size:24px" ng-click="deleteEmployee(employee)" margin-left:auto;> <i class="fa fa-trash"></i></button>
 				</td>
-				<td ng-show="{{employee.role.roleTitle!=='candidate'}}">
-					<a href="updateEmployee">edit</a>
+				<td> 
+<!-- 				ng-show="{{employee.role.roleTitle!=='candidate'}}"> -->
+					<a ng-href="updateEmployee#?email={{employee.email}}"><i class="fa fa-pencil"></i></a>
 				</td>
 			</tr>
 		</tbody>

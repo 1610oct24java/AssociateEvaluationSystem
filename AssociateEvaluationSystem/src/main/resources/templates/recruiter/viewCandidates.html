@@ -90,24 +90,27 @@
 				<caption>My Candidates:</caption>
 				<thead>
 				<tr>
-					<th>Name</th>
+					<th>Last Name</th>
+					<th>First Name</th>
 					<th>Email</th>
+					<th></th>
 					<th>Score</th>
 					<th></th>
 					<th></th>
 				</tr>
 				</thead>
-				<tbody ng-repeat="candidate in candidates">
+				<tbody ng-repeat="candidate in candidates" >
 					<tr>
-						<td>{{candidate.lastName + ', ' + candidate.firstName}}</td>
-						<td>{{candidate.email}}</td>
+						<td inline-edit="candidate.lastName">{{candidate.lastName}}</td>
+						<td inline-edit="candidate.firstName">{{candidate.firstName}}</td>
+						<td inline-edit="candidate.email">{{candidate.email}}</td>
 						<td>{{candidate.grade}}</td>
 						<td><input type="button" value="Send Assessment" ng-click="show('f'+candidate.userId)"><br>
 						</td>
 						<td style="text-align: center;"><span
 							ng-click="show2('g'+candidate.userId, candidate.email)"
 							class="glyphicon glyphicon-chevron-down"></span></td>
-					</tr>
+					</tr>	
 					<tr id="f{{candidate.userId}}" class="ng-hide">
 						<td colspan="5">
 							<table class="table table-striped table-bordered">

@@ -51,7 +51,6 @@ public class SystemTemplate {
 		int size;
 
 		Set<Question> assessList = new HashSet<>();
-		List<Question> formatList = new ArrayList<>();
 		Set<TemplateQuestion> finalList = new HashSet<>();
 		
 		Category cat = (Category) cDao.getByName(catName);
@@ -185,7 +184,7 @@ public class SystemTemplate {
 		List<BigDecimal> list = qService.findIdsByFormatAndCategory(category, format);
 		//int size = list.size();
 		log.info("List for " + format +" "+ category +" questions is "+ list);
-		if (list.size() == 0){
+		if (list.isEmpty()){
 
 			log.warn("No " + format + " questions found in " + category + " category");
 

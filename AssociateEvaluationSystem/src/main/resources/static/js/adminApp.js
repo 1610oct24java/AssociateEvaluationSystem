@@ -1,4 +1,4 @@
-var adminApp = angular.module('adminApp',['ngMaterial', 'ngMessages']);
+var adminApp = angular.module('adminApp',['ngMaterial', 'ngMessages', 'ngRoute']);
 
 adminApp.constant("SITE_URL", {
 	"HTTP" : "http://",
@@ -56,9 +56,16 @@ adminApp.config(function($mdThemingProvider) {
         .accentPalette("revOrange");
 });
 
-
-
 adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$http,SITE_URL, API_URL, ROLE) {
+	$scope.roleTypes = [];
+	$scope.allEmails = [];
+	$scope.buttonToggle = false; // by default
+	$scope.recruiter = null; // by default, unless admin picks candidate
+	$scope.recruiterSelect = false; // by default, unless admin picks candidate
+	$scope.allRecruiters = [];
+	var recruiter = null;
+	
+	
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
 		if (response.data.authenticated) {
@@ -75,7 +82,81 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 		}
 	});
 
+	/* This function checks if email is in the database
+	 * Disables registration if email is in the database
+	 * */
+	$scope.checkEmail = function(){
+		var keepGoing = true;
+		$scope.allEmails.forEach(function(email) {
+			if(keepGoing) {
+
+				if (email.toUpperCase() === $scope.email.toUpperCase()){ //case-insensitive email match
+          /*alert("Email already registered.");*/
+					$scope.buttonToggle = true;
+					keepGoing = false;
+				}
+				else {
+					$scope.buttonToggle = false;
+				}
+			}
+		});	
+	};
+	
+	// show the recruiter select menu if employee being registered is a candidate
+	$scope.checkIfCandidate = function(){
+		if ($scope.roleType.roleTitle.toUpperCase() === 'CANDIDATE'){
+			$scope.recruiterSelect = true;
+		} else {
+			$scope.recruiterSelect = false;
+		}
+	};
+	
+	// reset form and refresh page's cache of emails and recruiters
+	$scope.resetRegistrationForm = function() {
+		// reset all form state variables
+		$scope.allEmails = [];
+		$scope.buttonToggle = false; // by default
+		$scope.recruiter = null; // by default, unless admin picks candidate
+		$scope.recruiterSelect = false; // by default, unless admin picks candidate
+		$scope.allRecruiters = [];
+	}
+	
+	$scope.initializeRegistrationSelects = function() {
+		// populate roleTypes in registerEmployee View.
+		$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/roles")
+		.then(function(result) {
+			// we don't want to display 'restuser' or 'system'
+			result.data.forEach(function(role){
+				if (role.roleTitle.toUpperCase() === 'RESTUSER'){
+				}
+				else if (role.roleTitle.toUpperCase() === 'SYSTEM'){
+				}
+				else {
+					// if any other role, we add it to the select option
+					$scope.roleTypes.push(role);
+				}
+			});
+		});
+		
+		// get all emails from the database
+		$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/emails")
+		.then(function(result) {
+			$scope.allEmails = result.data;
+		});
+		
+		// get all recruiters from the database
+		$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/recruiters")
+		.then(function(result) {
+			$scope.allRecruiters = result.data;
+		});
+	}
+	
 	$scope.register = function() {
+		
+		// if we're registering a candidate...
+		if ($scope.recruiterSelect === true) {
+			recruiter = $scope.recruiter.userId;
+		}
 
 		var employeeInfo = {
 			userId        : null,
@@ -83,8 +164,8 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 			firstName     : $scope.firstName,
             lastName      : $scope.lastName,
             salesforce    : null,
-            recruiterId   : null,
-            role      	: null, //this is hardcoded in createEmployee. I'm not proud of this. -Sledgehammer
+            recruiterId   : recruiter,
+            role          : $scope.roleType,
 			datePassIssued: null,
 			format		  : null
 		};
@@ -95,6 +176,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 		$scope.lastName = '';
 		$scope.email = '';
 		$scope.program = '';
+		$scope.roleType = '';
 	};
 
 	$scope.postRegister = function(employeeInfo) {
@@ -114,6 +196,9 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
             else {
                 $scope.registerSuccessfulMsg = true;
             }
+		    // clear form.
+		    $scope.resetRegistrationForm();
+		    $scope.initializeRegistrationSelects(); //needs to occur AFTER post completes; updates emails and recruiters in memory for validation purposes.
 		}).error( function() {
 				$scope.registerUnsuccessfulMsg = true;
 		});
@@ -125,6 +210,9 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 			window.location = SITE_URL.LOGIN;
 		});
 	}
+	
+	$scope.initializeRegistrationSelects();
+	
 });
 
 adminApp.controller('EmployeeViewCtrl', function($scope,$mdToast, $http, SITE_URL, API_URL, ROLE) {
@@ -160,8 +248,17 @@ adminApp.controller('EmployeeViewCtrl', function($scope,$mdToast, $http, SITE_UR
 	    	$mdToast.show($mdToast.simple().textContent(message).parent(document.querySelectorAll('#toastContainer')).position("center center").action("OKAY").highlightAction(true));
 	    };
 
-	$scope.deleteEmployee = function(email) {
-		url = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/" + email + "/delete";
+	// deletes an employee only if it is not the system user.
+    $scope.deleteEmployee = function(employee) {
+    	if (employee.role.roleTitle.toUpperCase() === "SYSTEM") {
+    		$scope.showToast("Cannot delete System User");
+    		console.log("CAN'T DO SYSTEM USER DELETE");
+    		return;
+    	}
+    	
+    	// delete the employee if it is not the system user.
+    	console.log("DOING NON-SYSTEM USER DELETE");
+		url = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/" + employee.email + "/delete";
 		$http.delete(url)
 		.success( function(response) {
 			$scope.showToast("User Deleted");
@@ -196,8 +293,15 @@ function makeUser($scope) {
     $scope.user = user;
 }
 
-adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_URL, API_URL, ROLE) {
-
+adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$routeParams, SITE_URL, API_URL, ROLE) {
+	// list of candidates recruiter does not have.
+	$scope.possibleCandidates = [];
+	
+	//list of candidates a recruiter does have.
+	$scope.candidateList = [];
+	
+	
+	
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
 		if (response.data.authenticated) {
@@ -218,21 +322,105 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 		}
 
 	});
+	
+	//loads up fields with existing data
+	var userEmail = $location.search().email;
+	if (userEmail){
+		var getInfo = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/" + userEmail;
+		$http.get(getInfo).then(function(response){
+			var employee = response.data;
+			$('#currentEmail').prop('readonly',true);
+			$scope.oldEmail = employee.email;
+			$scope.firstName = employee.firstName;
+			$scope.lastName = employee.lastName;
+			$scope.roleName = employee.role.roleTitle;
+			$scope.userId = employee.userId;
+			//get candidate list, if user role is recruiter
+			if ($scope.roleName === "recruiter"){
+				var getCandidateInfo = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/" + userEmail + "/getCandidates";
+				$http.get(getCandidateInfo).then(function(response){
+					$scope.candidateList = response.data;
+					
+					
+					// loads a full candidate list and then starts the function to generate the list for the add candidate 
+					var getCandidateListInfo = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + "/candidates"
+					$http.get(getCandidateListInfo).then(function(response){
+						$scope.allCandidates = response.data;
+						$scope.updatePossibleCandidatesList()
+					})
+					
+				});
+			}
+		});
+		
 
-	$scope.update= function() {
+	}
+	
+	
+	//creates and updates the list of possible candidates to add
+	$scope.updatePossibleCandidatesList = function(){
+		$scope.possibleCandidates = [];
+		$scope.allCandidates.forEach(function(candidate){
+			if (candidate.recruiterId !== $scope.userId){
+				$scope.possibleCandidates.push(candidate);
+			}
+		});
+			
+	}
+	
+	var move = function(objectToMove, fromArray, toArray){
+		var i = fromArray.indexOf(objectToMove);
+		var o = fromArray.splice(i, 1)[0];
+		toArray.push(o);
+	}
+	
+	$scope.toRight = function(){
+		if ($scope.selectedCurrentCanidates != null){
+			$scope.selectedCurrentCanidates.forEach(function(el){
+				move(el, $scope.candidateList, $scope.possibleCandidates);
+			});
+		}
+	}
+	
+	$scope.toLeft = function(){
+		if ($scope.selectedNewCanidates != null){
+			$scope.selectedNewCanidates.forEach(function(el){
+				move(el, $scope.possibleCandidates, $scope.candidateList);
+			});
+		}
+	}
+	
+	
+	
+	
+
+	
+	//$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/" + )
+
+	$scope.update= function() { 
 		$scope.passNotMatch = false;
 		$scope.passNotEntered = false;
 		$scope.emailNotEntered = false;
 		$scope.userNotFound = false;
+			
 
 		var employeeInfo = {
-			oldEmail	: $scope.oldEmail,
-			newEmail      : $scope.newEmail,
-			firstName     : $scope.firstName,
-			lastName      : $scope.lastName,
-			oldPassword   : $scope.oldPassword,
-			newPassword   : $scope.newPassword,
+			oldEmail		: $scope.oldEmail,
+			newEmail      	: $scope.newEmail,
+			firstName     	: $scope.firstName,
+			lastName      	: $scope.lastName,
+			oldPassword   	: $scope.oldPassword,
+			newPassword   	: $scope.newPassword,
+			candidates		: $scope.candidateList
 		};
+		
+		//resets the error messages
+		$scope.emailNotEntered = false;
+		$scope.passNotMatch = false;
+		$scope.emailNotEntered = false;
+		$scope.updateSuccessful = false;
+		$scope.updateUnsuccessful = false;
+		
 
 		if ($scope.oldEmail === "" || $scope.oldEmail == null)
 		{	$scope.emailNotEntered = true; }
@@ -244,17 +432,17 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 			$scope.confirmNewPassword = '';
 		}
 
-		if ($scope.oldPassword === "" || $scope.oldPassword == null)
-		{	$scope.passNotEntered = true; }
-
-		if ($scope.passNotMatch == false && $scope.passNotEntered == false
-				&& $scope.emailNotEntered == false)
+		if (!$scope.passNotMatch&& !$scope.passNotEntered
+				&& !$scope.emailNotEntered)
 		{
 			$scope.postUpdate($scope.oldEmail, employeeInfo);
 		}
 	}
 
 	$scope.postUpdate = function(oldEmail, updateInfo) {
+		$scope.updateUnsuccessful = false;
+		$scope.updateSuccessful = false;
+		
 		var updateUrl = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN
 				+ API_URL.EMPLOYEE + "/" + $scope.oldEmail + "/update";
 
@@ -265,10 +453,20 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 			data    : updateInfo
 		}).success(function(data){
             if (!data){
-                $scope.userNotFound = true;
+                $scope.updateUnsuccessful = true;
+            } else {
+            	if($scope.newEmail){
+            		$scope.oldEmail = $scope.newEmail;
+            		$scope.newEmail = "";
+            	}
+            	
+            	$scope.confirmNewPassword = "";
+            	$scope.newPassword = "";
+            	
+            	$scope.updateSuccessful = true;
             }
 		}).error( function() {
-			console.log("fail");
+			 $scope.updateUnsuccessful = true;
 		});
 	}
 
@@ -281,8 +479,7 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,SITE_U
 
 }); //end update credentials controller
 
-adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SITE_URL, API_URL, ROLE) {
-
+adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SITE_URL, API_URL, ROLE) {	
 
     $scope.showToast = function(message, type) {
         $mdToast.show($mdToast.simple(message)
@@ -302,8 +499,12 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
             fixedColumns: true,
             scrollY: "220px",
             scrollX: false,
-            paging: false
+            paging: false,
+            "ordering": false
         });
+        $scope.coreLanguage = false;
+        $scope.coreCount = 0;
+        $scope.showModal = false;	
     });
 
 
@@ -337,7 +538,8 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
     function UpdateTotals(quantity) {
         $scope.totalCategories = UniqueArraybyId($scope.assessments, "category");
         console.log("Total categories = " + $scope.totalCategories);
-        $scope.totalTypes = UniqueArraybyId($scope.assessments, "type");
+        //$scope.totalTypes = UniqueArraybyId($scope.assessments, "type");
+        $scope.totalTypes = typeCount($scope.assessments);
         console.log("Total types = " + $scope.totalTypes);
         $scope.totalQuestions += quantity;
         console.log("Total questions = " + $scope.totalQuestions);
@@ -357,9 +559,68 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
         return output.length;
     };
 
+    //returns number of types in th
+    function typeCount(collection){
+
+        var types = 0;
+        var mcBool = false;
+        var msBool = false;
+        var ddBool = false;
+        var csBool = false;
+        angular.forEach(collection, function(item){
+
+            if(item['mcQuestions'] > 0 && mcBool == false){
+                types++;
+                mcBool = true;
+            }
+            if(item['msQuestions'] > 0 && msBool == false){
+                types++;
+                msBool = true;
+            }
+            if(item['ddQuestions'] > 0 && ddBool == false){
+                types++;
+                ddBool = true;
+            }
+            if(item['csQuestions'] > 0 && csBool == false){
+                types++;
+                csBool = true;
+            }
+            
+        });
+        return types;
+    }
+
     $scope.removeRow = function(index) {
-        var tempQuantity = $scope.assessments[index]['quantity'];
-        $scope.assessments.splice(index, 1);
+        console.log($scope.assessments[index]['mcQuestions']);
+        var mcCount = $scope.assessments[index]['mcQuestions'];
+        var msCount = $scope.assessments[index]['msQuestions'];
+        var ddCount = $scope.assessments[index]['ddQuestions'];
+        var csCount = $scope.assessments[index]['csQuestions'];
+
+        var tempQuantity = mcCount + msCount + ddCount + csCount;
+
+        //var tempQuantity = $scope.assessments[index]['quantity'];
+        console.log($scope.assessments + "scopeassessments");
+
+        if($scope.assessments[index]['category'].categoryId == 6){
+            $scope.coreCount--;
+
+            if ($scope.coreCount == 0) {
+                $scope.coreLanguage = false;
+            }
+
+         }
+
+
+    	 $scope.assessments.splice(index, 1);
+    	
+         $scope.sections.splice(index,1);
+
+         
+         
+         
+       
+        //console.log($scope.assessments[index]['quantity'] + "THIS IS $SCOPE.ASSESMENTS[INDEX]['QUANTITY']");
         UpdateTotals(-tempQuantity);
     };
 
@@ -381,24 +642,24 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
         var msQuestions=0, mcQuestions=0, ddQuestions=0, csQuestions=0;
 
         switch($scope.type) {
-            case $scope.types[0].formatName : { /* Multiple Choice */
+            case $scope.types[0].formatName : { /* Multiple Choice changed to cs */
                 console.log("case - 0");
-                mcQuestions = $scope.quantity;
+                csQuestions = $scope.quantity;
                 console.log($scope.type); break;
             }
-            case $scope.types[1].formatName : { /* Multiple Select */
+            case $scope.types[1].formatName : { /* Multiple Select changed to dd */
                 console.log("case - 1");
-                msQuestions = $scope.quantity;
-                console.log($scope.type); break;
-            }
-            case $scope.types[2].formatName : { /* Drag 'n' Drop */
-                console.log("case - 2");
                 ddQuestions = $scope.quantity;
                 console.log($scope.type); break;
             }
-            case $scope.types[3].formatName : { /* Code Snippet */
+            case $scope.types[2].formatName : { /* Drag 'n' Drop changed to mc */
+                console.log("case - 2");
+                mcQuestions = $scope.quantity;
+                console.log($scope.type); break;
+            }
+            case $scope.types[3].formatName : { /* Code Snippet changed to ms */
                 console.log("case - 3");
-                csQuestions = $scope.quantity;
+                msQuestions = $scope.quantity;
                 console.log($scope.type); break;
             }
             default : {
@@ -407,6 +668,10 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
             }
         }
 
+        if(tempCategory[0].categoryId == 6){
+            $scope.coreLanguage = true;
+            $scope.coreCount++;
+        }
 
 
         $scope.assessments.push({
@@ -482,22 +747,29 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
             "timeLimit": $scope.time,
             "categoryRequestList": $scope.assessments
         };
+        
+        if($scope.coreLanguage == false){
+        	$scope.showToast("Core Language Section Required", "fail");
+        }
+
 
         //var sendUrl = SITE_URL.BASE + API_URL.BASE + "/assessmentrequest/" + "1";
         // var sendUrl = SITE_URL.BASE + API_URL.BASE + "/assessmentrequest" + "/1/";
+        else if($scope.coreLanguage == true){
+                $http({
+                    method: 'PUT',
+                    url: (SITE_URL.BASE + API_URL.BASE + "/assessmentrequest" + "/1/"),
+                    headers: { 'Content-Type': 'application/json' },
+                    data: data
+                }).success(function(response) {
+                    $scope.showToast("Assessment created successfully", "success");
+                    console.log("Assessment creation success");
+                }).error(function(response) {
+                    $scope.showToast("Assessment creation failed", "fail");
+                    console.log("Assessment creation failed");
+                });
+            }
 
-        $http({
-            method: 'PUT',
-            url: (SITE_URL.BASE + API_URL.BASE + "/assessmentrequest" + "/1/"),
-            headers: { 'Content-Type': 'application/json' },
-            data: data
-        }).success(function(response) {
-            $scope.showToast("Assessment created successfully", "success");
-            console.log("Assessment creation success");
-        }).error(function(response) {
-            $scope.showToast("Assessment creation failed", "fail");
-            console.log("Assessment creation failed");
-        });
     };
 
 
@@ -516,7 +788,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
 
     $http({
         method: "GET",
-        url: "format"
+        url: "rest/format"
     }).then(function (response) {
         $scope.types = response.data;
         console.log("Formats - ");
@@ -533,6 +805,9 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
             })
     };
 });
+
+
+
 
 adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav, $log) {
     var mc = this;
@@ -559,9 +834,6 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
         return function() {
             $mdSidenav(navID)
                 .toggle()
-                .then(function() {
-                    $log.debug("toggle " + navID + " is done");
-                });
         };
     };
     $scope.isOpenLeft = function() {
@@ -580,6 +852,10 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
         return $mdSidenav('right').isOpen();
     };
 
+    $scope.toggleAss = buildToggler('ass');
+    $scope.isOpenAss = function(){
+    	return $mdSidenav('ass').isOpen();
+    };
     /**
      * Supplies a function that will continue to operate until the
      * time is up.
@@ -607,9 +883,6 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
             // Component lookup should always be available since we are not using `ng-if`
             $mdSidenav(navID)
                 .toggle()
-                .then(function() {
-                    $log.debug("toggle " + navID + " is done");
-                });
         }, 200);
     }
 
@@ -618,9 +891,6 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
             // Component lookup should always be available since we are not using `ng-if`
             $mdSidenav(navID)
                 .toggle()
-                .then(function() {
-                    $log.debug("toggle " + navID + " is done");
-                });
         };
     }
 
@@ -653,3 +923,89 @@ adminApp.controller('RightCtrl', function($scope, $timeout, $mdSidenav, $log) {
 adminApp.controller('manageQuestions', function($scope, $http, SITE_URL, API_URL, ROLE) {
     var mq = this;
 });
+
+adminApp.controller('ChooseAssessmentCtrl', function($scope, $http, SITE_URL, API_URL, ROLE){
+	
+    $scope.assList = [];
+    $scope.defaultAss = {};
+    $scope.defaultIndex = 0;
+
+
+
+//get number of sections for view 
+    $scope.getNumOfSec = function(index){
+    
+    	return $scope.assList[index].categoryRequestList.length;
+    }
+
+    $scope.defaultNumOfSec = function(){
+        return $scope.defaultAss.categoryRequestList.length;
+    }
+
+//gets number of questions for questions
+    $scope.getTotalNumOfQuestions = function(index){
+        var totalQuestions = 0;
+        for(var i = 0; i < $scope.assList[index].categoryRequestList.length; i++){
+            totalQuestions = totalQuestions + $scope.assList[index].categoryRequestList[i].csQuestions;
+            totalQuestions = totalQuestions + $scope.assList[index].categoryRequestList[i].ddQuestions;
+            totalQuestions = totalQuestions + $scope.assList[index].categoryRequestList[i].mcQuestions;
+            totalQuestions = totalQuestions + $scope.assList[index].categoryRequestList[i].msQuestions;
+
+        }
+        return totalQuestions;
+    }
+    
+    $scope.defaultTotalNumOfQuestions = function(index){
+        var totalQuestions = 0;
+        for(var i = 0; i < $scope.defaultAss.categoryRequestList.length; i++){
+            totalQuestions = totalQuestions + $scope.defaultAss.categoryRequestList[i].csQuestions;
+            totalQuestions = totalQuestions + $scope.defaultAss.categoryRequestList[i].ddQuestions;
+            totalQuestions = totalQuestions + $scope.defaultAss.categoryRequestList[i].mcQuestions;
+            totalQuestions = totalQuestions + $scope.defaultAss.categoryRequestList[i].msQuestions;
+
+        }
+        return totalQuestions;
+    }
+
+
+    //gets all the assessments requests
+    $http({
+        method: "GET",
+        url: "allAssessments"
+    }).then(function (response) {
+        $scope.assList = response.data;
+
+        for(var i = 0; i < $scope.assList.length; i++){
+            if($scope.assList[i].isDefault == 1){
+                $scope.defaultAss = $scope.assList[i];
+                $scope.defaultIndex = i;
+            }
+        }
+    });
+
+    $scope.selectDefault = function(index){
+        $http({
+            method: "POST",
+            url: "selectAssessment",
+            data: $scope.assList[index]
+        }).then(function(response){
+
+            $http({
+                method: "GET",
+                url: "allAssessments"
+            }).then(function (response) {
+                $scope.assList = response.data;
+
+                for(var i = 0; i < $scope.assList.length; i++){
+                    if($scope.assList[i].isDefault == 1){
+                        $scope.defaultAss = $scope.assList[i];
+                        $scope.defaultIndex = i;
+                    }
+                }
+            });
+        });
+
+    }
+
+});
+
