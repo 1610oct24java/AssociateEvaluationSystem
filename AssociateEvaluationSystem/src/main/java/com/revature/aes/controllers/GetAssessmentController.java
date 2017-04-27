@@ -288,7 +288,7 @@ public class GetAssessmentController {
 			// If code snippet questions exist in the assessment, this array won't be empty.
 			if (!codeStarters.isEmpty())
 			{
-				System.out.println("No of Snippets : "+codeStarters.size());
+				
 				// Add code starters for snippets to the responseMap that will be sent with the assessment to AngularJS for parsing.
 				responseMap.put("snippets", codeStarters);
 				responseMap.put("snippetIndexes", codeStartersInd);
