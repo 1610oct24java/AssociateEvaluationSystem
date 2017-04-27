@@ -95,9 +95,11 @@
 							<th>Score</th>
 						</thead>
 						<tbody>
-							<tr ng-repeat="a in assessments">
-								<td>{{a.createdTimeStamp}}</td>
-								<td>{{a.finishedTimeStamp}}</td>
+							<tr class="assessmentRow" ng-repeat="a in assessments" ng-click="showAssessment(a)">
+								<td ng-if="!a.createdTimeStamp">N/A</td>
+								<td ng-if="a.createdTimeStamp">{{a.createdTimeStamp}}</td>
+								<td ng-if="!a.finishedTimeStamp">N/A</td>
+								<td ng-if="a.finishedTimeStamp">{{a.finishedTimeStamp}}</td>
 								<td>{{a.timeLimit}}</td>
 								<td ng-if="a.grade == -1">Test not taken.</td>
 								<td ng-if="a.grade != -1">{{a.grade}}%</td>

@@ -282,6 +282,11 @@ adminApp.controller('EmployeeViewCtrl', function($scope,$mdToast, $http, SITE_UR
 		});
 	};
 	
+	$scope.showAssessment = function(a) {
+		console.log(a);
+		window.location = SITE_URL.BASE + API_URL.BASE + '/viewAssessment';
+	};
+	
     // open/close viewing assessments for a candidate.
     $scope.viewAssessments = function(num, email){
         $scope.assessments = [];
