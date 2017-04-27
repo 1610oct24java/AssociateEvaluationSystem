@@ -68,8 +68,14 @@
 <div flex="100" layout-xs="column" layout="row">
 	<div flex-xs="" flex-gt-xs="40" layout="column">
 		<md-card style="height:375px;">
+							  <label>Allow Review:
+    <input type="checkbox" ng-model="checkboxModel.value"
+           ng-true-value="'YES'" ng-false-value="'NO'">
+   </label><br/>
 			<md-toolbar class="md-primary">
+			
 				<div class="md-toolbar-tools">
+				
 					<span>Create Section</span>
 				</div>
 			</md-toolbar>
@@ -78,10 +84,7 @@
 				<!-- <form role="form" ng-submit="addRow()"> -->
 				<form name="sectionForm" ng-submit="addRow(); checkDuplicate()" novalidate>
 					<div layout-gt-sm="column">
-					  <label>Allow Review:
-    <input type="checkbox" ng-model="checkboxModel.value"
-           ng-true-value="'YES'" ng-false-value="'NO'">
-   </label><br/>
+
 						<md-input-container class="md-block" flex-gt-sm="">
 							<label>Category</label>
 							<md-select required ng-model="category">

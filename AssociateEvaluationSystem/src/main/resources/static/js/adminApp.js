@@ -1,4 +1,4 @@
-	var adminApp = angular.module('adminApp',['ngMaterial', 'ngMessages', 'ngRoute']);
+var adminApp = angular.module('adminApp',['ngMaterial', 'ngMessages', 'ngRoute']);
 
 adminApp.constant("SITE_URL", {
 	"HTTP" : "http://",
@@ -63,6 +63,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 	$scope.recruiter = null; // by default, unless admin picks candidate
 	$scope.recruiterSelect = false; // by default, unless admin picks candidate
 	$scope.allRecruiters = [];
+	var recruiter = null;
 	
 	
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
@@ -88,8 +89,9 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 		var keepGoing = true;
 		$scope.allEmails.forEach(function(email) {
 			if(keepGoing) {
+
 				if (email.toUpperCase() === $scope.email.toUpperCase()){ //case-insensitive email match
-					alert("Email already registered.");
+          /*alert("Email already registered.");*/
 					$scope.buttonToggle = true;
 					keepGoing = false;
 				}
@@ -109,8 +111,52 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 		}
 	};
 	
+	// reset form and refresh page's cache of emails and recruiters
+	$scope.resetRegistrationForm = function() {
+		// reset all form state variables
+		$scope.allEmails = [];
+		$scope.buttonToggle = false; // by default
+		$scope.recruiter = null; // by default, unless admin picks candidate
+		$scope.recruiterSelect = false; // by default, unless admin picks candidate
+		$scope.allRecruiters = [];
+	}
+	
+	$scope.initializeRegistrationSelects = function() {
+		// populate roleTypes in registerEmployee View.
+		$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/roles")
+		.then(function(result) {
+			// we don't want to display 'restuser' or 'system'
+			result.data.forEach(function(role){
+				if (role.roleTitle.toUpperCase() === 'RESTUSER'){
+				}
+				else if (role.roleTitle.toUpperCase() === 'SYSTEM'){
+				}
+				else {
+					// if any other role, we add it to the select option
+					$scope.roleTypes.push(role);
+				}
+			});
+		});
+		
+		// get all emails from the database
+		$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/emails")
+		.then(function(result) {
+			$scope.allEmails = result.data;
+		});
+		
+		// get all recruiters from the database
+		$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/recruiters")
+		.then(function(result) {
+			$scope.allRecruiters = result.data;
+		});
+	}
+	
 	$scope.register = function() {
-		console.log($scope.recruiter);
+		
+		// if we're registering a candidate...
+		if ($scope.recruiterSelect === true) {
+			recruiter = $scope.recruiter.userId;
+		}
 
 		var employeeInfo = {
 			userId        : null,
@@ -118,7 +164,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 			firstName     : $scope.firstName,
             lastName      : $scope.lastName,
             salesforce    : null,
-            recruiterId   : ($scope.recruiter !== null ? $scope.recruiter.userId : null), //only candidates will have a recruiter; everyone else has null!
+            recruiterId   : recruiter,
             role          : $scope.roleType,
 			datePassIssued: null,
 			format		  : null
@@ -150,6 +196,9 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
             else {
                 $scope.registerSuccessfulMsg = true;
             }
+		    // clear form.
+		    $scope.resetRegistrationForm();
+		    $scope.initializeRegistrationSelects(); //needs to occur AFTER post completes; updates emails and recruiters in memory for validation purposes.
 		}).error( function() {
 				$scope.registerUnsuccessfulMsg = true;
 		});
@@ -162,33 +211,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 		});
 	}
 	
-	// populate roleTypes in registerEmployee View.
-	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/roles")
-	.then(function(result) {
-		// we don't want to display 'restuser' or 'system'
-		result.data.forEach(function(role){
-			if (role.roleTitle.toUpperCase() === 'RESTUSER'){
-			}
-			else if (role.roleTitle.toUpperCase() === 'SYSTEM'){
-			}
-			else {
-				// if any other role, we add it to the select option
-				$scope.roleTypes.push(role);
-			}
-		});
-	});
-	
-	// get all emails from the database
-	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/emails")
-	.then(function(result) {
-		$scope.allEmails = result.data;
-	});
-	
-	// get all recruiters from the database
-	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/recruiters")
-	.then(function(result) {
-		$scope.allRecruiters = result.data;
-	});
+	$scope.initializeRegistrationSelects();
 	
 });
 
@@ -459,42 +482,43 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$route
 adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SITE_URL, API_URL, ROLE) {	
 
 	$scope.checkDuplicate = function () {
-	 var flag = false;
-	 var count = 0;
+		 var flag = false;
+		 var count = 0;
 
-		angular.forEach($scope.sections , function (category) {
-			console.log(category.category);
-			//alert(count);
-			//category.selected = $scope.selectedAll;
+			angular.forEach($scope.sections , function (category) {
+				console.log(category.category);
+				//alert(count);
+				//category.selected = $scope.selectedAll;
 
-//index of what is selected 
-// catagories ?
-//
+	//index of what is selected 
+	// catagories ?
+	//
+				
+				if( $scope.category == category.category && $scope.type == category.type)
+					{
+
+						flag = true;
+					}
 			
-			if( $scope.category == category.category && $scope.type == category.type)
+			console.log("category name " + category.name);
+			console.log("scope category " + $scope.category);
+
+	count ++;
+
+			});
+
+			console.log("the flag is " + flag);
+				if( flag == true)
 				{
+					return true;
 
-					flag = true;
 				}
+				else {
+					return false;
 		
-		console.log("category name " + category.name);
-		console.log("scope category " + $scope.category);
-
-count ++;
-
-		});
-
-		console.log("the flag is " + flag);
-			if( flag == true)
-			{
-				return true;
-
-			}
-			else {
-				return false;
+					}
+		};
 	
-				}
-	};
 	
 	
 	
@@ -645,7 +669,6 @@ count ++;
 
         // $scope.temp = $scope.categories[$scope.categories.indexOf($scope.category.valueOf())];
 
-    	
         $scope.sections.push({ 'category': $scope.category, 'type': $scope.type, 'quantity': $scope.quantity });
 
 
@@ -852,9 +875,6 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
         return function() {
             $mdSidenav(navID)
                 .toggle()
-                .then(function() {
-                    $log.debug("toggle " + navID + " is done");
-                });
         };
     };
     $scope.isOpenLeft = function() {
@@ -873,6 +893,10 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
         return $mdSidenav('right').isOpen();
     };
 
+    $scope.toggleAss = buildToggler('ass');
+    $scope.isOpenAss = function(){
+    	return $mdSidenav('ass').isOpen();
+    };
     /**
      * Supplies a function that will continue to operate until the
      * time is up.
@@ -900,9 +924,6 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
             // Component lookup should always be available since we are not using `ng-if`
             $mdSidenav(navID)
                 .toggle()
-                .then(function() {
-                    $log.debug("toggle " + navID + " is done");
-                });
         }, 200);
     }
 
@@ -911,9 +932,6 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
             // Component lookup should always be available since we are not using `ng-if`
             $mdSidenav(navID)
                 .toggle()
-                .then(function() {
-                    $log.debug("toggle " + navID + " is done");
-                });
         };
     }
 
@@ -947,4 +965,88 @@ adminApp.controller('manageQuestions', function($scope, $http, SITE_URL, API_URL
     var mq = this;
 });
 
+adminApp.controller('ChooseAssessmentCtrl', function($scope, $http, SITE_URL, API_URL, ROLE){
+	
+    $scope.assList = [];
+    $scope.defaultAss = {};
+    $scope.defaultIndex = 0;
+
+
+
+//get number of sections for view 
+    $scope.getNumOfSec = function(index){
+    
+    	return $scope.assList[index].categoryRequestList.length;
+    }
+
+    $scope.defaultNumOfSec = function(){
+        return $scope.defaultAss.categoryRequestList.length;
+    }
+
+//gets number of questions for questions
+    $scope.getTotalNumOfQuestions = function(index){
+        var totalQuestions = 0;
+        for(var i = 0; i < $scope.assList[index].categoryRequestList.length; i++){
+            totalQuestions = totalQuestions + $scope.assList[index].categoryRequestList[i].csQuestions;
+            totalQuestions = totalQuestions + $scope.assList[index].categoryRequestList[i].ddQuestions;
+            totalQuestions = totalQuestions + $scope.assList[index].categoryRequestList[i].mcQuestions;
+            totalQuestions = totalQuestions + $scope.assList[index].categoryRequestList[i].msQuestions;
+
+        }
+        return totalQuestions;
+    }
+    
+    $scope.defaultTotalNumOfQuestions = function(index){
+        var totalQuestions = 0;
+        for(var i = 0; i < $scope.defaultAss.categoryRequestList.length; i++){
+            totalQuestions = totalQuestions + $scope.defaultAss.categoryRequestList[i].csQuestions;
+            totalQuestions = totalQuestions + $scope.defaultAss.categoryRequestList[i].ddQuestions;
+            totalQuestions = totalQuestions + $scope.defaultAss.categoryRequestList[i].mcQuestions;
+            totalQuestions = totalQuestions + $scope.defaultAss.categoryRequestList[i].msQuestions;
+
+        }
+        return totalQuestions;
+    }
+
+
+    //gets all the assessments requests
+    $http({
+        method: "GET",
+        url: "allAssessments"
+    }).then(function (response) {
+        $scope.assList = response.data;
+
+        for(var i = 0; i < $scope.assList.length; i++){
+            if($scope.assList[i].isDefault == 1){
+                $scope.defaultAss = $scope.assList[i];
+                $scope.defaultIndex = i;
+            }
+        }
+    });
+
+    $scope.selectDefault = function(index){
+        $http({
+            method: "POST",
+            url: "selectAssessment",
+            data: $scope.assList[index]
+        }).then(function(response){
+
+            $http({
+                method: "GET",
+                url: "allAssessments"
+            }).then(function (response) {
+                $scope.assList = response.data;
+
+                for(var i = 0; i < $scope.assList.length; i++){
+                    if($scope.assList[i].isDefault == 1){
+                        $scope.defaultAss = $scope.assList[i];
+                        $scope.defaultIndex = i;
+                    }
+                }
+            });
+        });
+
+    }
+
+});
 
