@@ -8,7 +8,4 @@ public interface GlobalSettingDao extends JpaRepository<GlobalSetting, Integer> 
 
 	GlobalSetting getGlobalSettingByPropertyId(int id);
 	GlobalSetting getGlobalSettingByPropertyName(String propertyName);
-	
-	
-	
 }
