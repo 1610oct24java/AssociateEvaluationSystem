@@ -1015,6 +1015,7 @@ adminApp.controller('ChooseAssessmentCtrl', function($scope, $http, SITE_URL, AP
         url: "allAssessments"
     }).then(function (response) {
         $scope.assList = response.data;
+        console.log($scope.assList);
 
         for(var i = 0; i < $scope.assList.length; i++){
             if($scope.assList[i].isDefault == 1){
@@ -1046,6 +1047,44 @@ adminApp.controller('ChooseAssessmentCtrl', function($scope, $http, SITE_URL, AP
             });
         });
 
+    }
+    
+    $scope.getQuestionTypeOfCategory = function(category){
+    	if(category.csQuestions > 0){
+    		var type = "Code Snippet";
+    		return type;
+    	}
+    	else if(category.ddQuestions > 0){
+    		var type = "Drag and Drop";
+    		return type;
+    	}
+    	else if(category.mcQuestions > 0){
+    		var type = "Multiple Choice";
+    		return type;
+    	}
+    	else if(category.msQuestions > 0){
+    		var type = "Multiple Select";
+    		return type;
+    	}
+    }
+    
+    $scope.getNumberOfQuestionsInCategory = function(category){
+    	if(category.csQuestions > 0){
+    		var num = category.csQuestions;
+    		return num;
+    	}
+    	else if(category.ddQuestions > 0){
+    		var num = category.ddQuestions;
+    		return num;
+    	}
+    	else if(category.mcQuestions > 0){
+    		var num = category.mcQuestions;
+    		return num;
+    	}
+    	else if(category.msQuestions > 0){
+    		var num = category.msQuestions;
+    		return num;
+    	}
     }
 
 });
