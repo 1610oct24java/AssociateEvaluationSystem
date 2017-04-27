@@ -497,10 +497,9 @@ public class GetAssessmentController {
 			
 			//Getting the landing page dialog box from file
 			Properties properties = propertyReader.propertyRead("landingPage.properties");
-			String landingPageScript=null;
-			String landingPageScript2 = null;
-			landingPageScript = properties.getProperty("landing");
-			landingPageScript2 = properties.getProperty("continue");
+			
+			String landingPageScript = properties.getProperty("landing");
+			String landingPageScript2 = properties.getProperty("continue");
 			
 			//Formatting the landing page script to enter in the time limit of assessment
 			landingPageScript = formatMessage(landingPageScript, assessment.getTimeLimit());
