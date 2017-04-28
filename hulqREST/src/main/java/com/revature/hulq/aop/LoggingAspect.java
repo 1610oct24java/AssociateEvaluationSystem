@@ -77,7 +77,7 @@ public class LoggingAspect
 	 */
 	@Pointcut("execution(* *.hulq.*.*(..))")
 	public void everything() {
-		
+		//This function is empty, as it is used for the pointcut feature for everything
 	}
 	
 }
