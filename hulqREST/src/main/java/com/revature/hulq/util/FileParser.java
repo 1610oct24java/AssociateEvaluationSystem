@@ -24,7 +24,8 @@ public class FileParser {
 		boolean inDataLine = false;
 		boolean inArguments = false;
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(keyPath));
+			FileReader fr = new FileReader(keyPath);
+			BufferedReader br = new BufferedReader(fr);
 			String line = br.readLine();
 
 			while ((line = br.readLine()) != null) {
@@ -84,6 +85,7 @@ public class FileParser {
 					}
 				}
 			}
+			fr.close();
 			br.close();
 		} catch (IOException e) {
 			log.info("ERROR: key parser has failed");
@@ -101,7 +103,8 @@ public class FileParser {
 		boolean inDataLine = false;
 		boolean inConfigLine = false;
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(keyPath));
+			FileReader fr = new FileReader(keyPath);
+			BufferedReader br = new BufferedReader(fr);
 			String line = br.readLine();
 			while ((line = br.readLine()) != null) {
 				line = line.trim();
@@ -169,6 +172,7 @@ public class FileParser {
 					}
 				}
 			}
+			fr.close();
 			br.close();
 		} catch (IOException e) {
 			log.info("ERROR: key parser has failed");
