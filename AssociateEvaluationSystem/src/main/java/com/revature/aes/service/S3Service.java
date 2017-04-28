@@ -68,7 +68,7 @@ public class S3Service {
 	}
 
 	public boolean uploadAssReqToS3(AssessmentRequest assessContents, String key){
-		try{
+		try {
 			File file2 = new File("AssessRequest");
 			FileOutputStream file = new FileOutputStream(file2);
 			ObjectOutputStream oos = new ObjectOutputStream(file);
