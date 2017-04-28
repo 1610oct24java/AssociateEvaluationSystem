@@ -257,7 +257,7 @@ public class GetAssessmentController {
 					String starterCode="";
 					if(tempUploads.size() > 0){
 						for(FileUpload f : tempUploads){
-							starterCode+= s3.readFromS3(f.getFileUrl());
+							starterCode = s3.readFromS3(f.getFileUrl());
 							if(f.getQuestion().getQuestionId() == question.getQuestionId()){
 								
 								codeStarters.add(starterCode);
@@ -274,23 +274,12 @@ public class GetAssessmentController {
 						for (SnippetTemplate st : snippetTemplates)
 						{
 							String snippetTemplateUrl = st.getTemplateUrl();		// SnippetTemplate URL.
-							starterCode+= s3.readFromS3(snippetTemplateUrl);	// Read snippet starter from S3 bucket.
+							starterCode = s3.readFromS3(snippetTemplateUrl);	// Read snippet starter from S3 bucket.
 							codeStarters.add(starterCode);	
 							// Add snippetTemplate to list.
 							codeStartersInd.add(ind);
 						}
 					}
-					
-					if(addedS==false){
-						// Loop through the snippetTemplates to get their url locations in S3 bucket.
-						for (SnippetTemplate st : snippetTemplates)
-						{
-							String snippetTemplateUrl = st.getTemplateUrl();		// SnippetTemplate URL.
-							starterCode = s3.readFromS3(snippetTemplateUrl);	// Read snippet starter from S3 bucket.
-							//System.out.println("\n\n\n\n\n\n\n\n\n\n THIS IS THE NUMBER OF THE QUESTION " + numQ);
-							codeStarters.add(starterCode);							// Add snippetTemplate to list.
-						}
-					}/*SA-CHANGES ENDED*/
 				}
 				numQ++;
 				

@@ -39,7 +39,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 			for (var z3=0; z3 < $rootScope.protoTest.options.length; z3++)
 			{
 					for(var k=0;k<$scope.questions[i].question.option.length;k++){
-					if($scope.questions[i].question.option[k].optionId==$Scope.protoTest.options[z3].optionId)
+					if($scope.questions[i].question.option[k].optionId==$scope.protoTest.options[z3].optionId)
 						{
 						  boolT=1;
 						  optionS.push(k);
@@ -291,7 +291,9 @@ app.controller("quizController", function($scope, $rootScope, $http,
 				//console.log("not sliced");
 			}
 		}
-		
+		console.log(incFileType);
+		console.log(editor.getValue());
+		console.log(id2.substr(6, id2.length));
 		$rootScope.snippetSubmissions.push(newSnippet);		
 		saveQuestion(snippetQuestionIndex);
 		
@@ -314,19 +316,24 @@ app.controller("quizController", function($scope, $rootScope, $http,
 		$scope.currentPage =1+ Math.floor(numPage);
 //		
 		//$timeout(1000);
-		var old = $location.hash();
+		//var old = $location.hash();
 		//code to jump to the question
-		 var newHash = 'anchor' + index;
-	      if ($location.hash() !== newHash) {
-	        // set the $location.hash to `newHash` and
-	        // $anchorScroll will automatically scroll to it
-	        $location.hash('anchor' + index);
-	        $anchorScroll(newHash);
-	      } else {
-	        // call $anchorScroll() explicitly,
-//	        // since $location.hash hasn't changed
-	        $anchorScroll(newHash);
-	      }
+//		
+//		 var newHash = 'anchor' + index;
+//	      if ($location.hash() !== newHash) {
+//	        // set the $location.hash to `newHash` and
+//	        // $anchorScroll will automatically scroll to it
+//	        $location.hash('anchor' + index);
+//	        $anchorScroll(newHash);
+//	      } else {
+//	        // call $anchorScroll() explicitly,
+////	        // since $location.hash hasn't changed
+//	        $anchorScroll(newHash);
+//	      }
+		$timeout(function () {
+			  $("body").animate({scrollTop: $('#anchor' + index).offset().top}, "slow");
+	    }, 1000);
+	    
 	      //location.hash(old);
 		
 	};
@@ -447,6 +454,8 @@ app.controller("quizController", function($scope, $rootScope, $http,
 	}
 	
 });
+
+
 
 
 

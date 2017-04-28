@@ -292,6 +292,7 @@ background-color: green;
 
 	<!-- JAVASCRIPT -->
 	<!-- 	LIBRARIES -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
@@ -313,6 +314,14 @@ background-color: green;
 		src="../static/js/AngularControllers/quizController.js"></script>
 	<script th:src="@{/js/AngularControllers/countdownController.js}"
 		src="../static/js/AngularControllers/countdownController.js"></script>
+		<script>
+		function getScroll(str){
+			$('#' + str).animate({
+			    scrollTop: '+=' + $('#' + str).offset().top + 'px'
+			}, 'fast');
+		}
+		
+		</script>
 		
 
 </body>
