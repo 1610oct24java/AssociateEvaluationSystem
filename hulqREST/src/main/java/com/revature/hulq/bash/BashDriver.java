@@ -53,7 +53,9 @@ public class BashDriver {
 	private Map<Integer, BashData> runCodeTestScript(String keyPath, String testPath, List<String> arguments, String timeOutLimit) throws BashException {
 		
 		Map<Integer, BashData> data = new HashMap<>();
-
+		
+		log.info("Time out limit specified: " + timeOutLimit);
+		
 		List<String> command = new ArrayList<>();
 		command.add("/bin/bash");
 		command.add("hulqBASH.sh");
