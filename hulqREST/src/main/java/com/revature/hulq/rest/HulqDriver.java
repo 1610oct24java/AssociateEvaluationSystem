@@ -29,14 +29,15 @@ public class HulqDriver {
 		File varTmpDir = new File("hulqBASH.sh");
 		//check if script file exists in directory
 		boolean hasScript = varTmpDir.exists();
+		final String BASHTAR = "hulqBASH.tar.gz";
 		
-		if (hasScript == false){
+		if (!hasScript){
 			//download script, false if fails
-			hasScript = fa.download("hulqBASH.tar.gz");
+			fa.download(BASHTAR);
 			//extract script, false if fails
-			hasScript = extractBash("hulqBASH.tar.gz");
+			hasScript = extractBash(BASHTAR);
 			//remove tar.gz file from directory
-			removeTar("hulqBASH.tar.gz");
+			removeTar(BASHTAR);
 		}
 		
 		
@@ -92,6 +93,7 @@ public class HulqDriver {
 			pb.start();
 			return true;
 		} catch (IOException e) {
+			log.info("IOException", e);
 			return false;
 		}
 	}
