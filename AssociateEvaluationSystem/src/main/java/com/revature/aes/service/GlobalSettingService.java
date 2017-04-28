@@ -1,5 +1,7 @@
 package com.revature.aes.service;
 
+import java.util.List;
+
 import com.revature.aes.beans.GlobalSetting;
 
 public interface GlobalSettingService {
@@ -14,5 +16,6 @@ public interface GlobalSettingService {
 	String getSettingValue(String propertyName);
 
 	boolean setSetting(String propertyName, String propertyValue);
+	List<GlobalSetting> getSettings();
 	
 }

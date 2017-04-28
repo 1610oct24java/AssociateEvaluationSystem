@@ -1,6 +1,8 @@
 package com.revature.aes.service;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -58,6 +60,11 @@ public class GlobalSettingServiceImpl implements GlobalSettingService {
 	@Override
 	public GlobalSetting getSetting(String propertyName) {
 		return globalSettingDao.getGlobalSettingByPropertyName(propertyName);
+	}
+	
+	@Override
+	public List<GlobalSetting> getSettings(){
+		return globalSettingDao.findAll();
 	}
 
 }
