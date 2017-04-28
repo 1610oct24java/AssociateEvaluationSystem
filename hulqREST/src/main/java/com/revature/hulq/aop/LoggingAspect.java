@@ -9,6 +9,8 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.revature.hulq.util.Error;
@@ -20,6 +22,7 @@ import com.revature.hulq.util.Error;
 @Aspect
 public class LoggingAspect
 {	
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	/**
 	 * Trace logging, surrounds the given point cut with error logging.
 	 *
@@ -58,6 +61,8 @@ public class LoggingAspect
 			
 			obj = pjp.proceed();
 			
+		} catch(Exception ex) {
+			log.info("Exception", ex);
 		} catch (Throwable e) {
 			Error.error("\nin Class:\t"
 					+ sign.getDeclaringTypeName()
