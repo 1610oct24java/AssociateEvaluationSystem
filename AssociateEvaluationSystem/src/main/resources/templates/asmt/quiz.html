@@ -189,7 +189,7 @@ background-color: green;
 							<!-- PAGINATION -->
 							<!-- ---------- -->
 							<div class="text-center">
-								<ul uib-pagination ng-model="currentPage"
+								<ul uib-pagination ng-model="currentPage" ng-change="pageChanged()"
 									items-per-page="numPerPage" total-items="questions.length"
 									max-size="maxSize" boundary-links="true">
 								</ul>
@@ -314,14 +314,7 @@ background-color: green;
 		src="../static/js/AngularControllers/quizController.js"></script>
 	<script th:src="@{/js/AngularControllers/countdownController.js}"
 		src="../static/js/AngularControllers/countdownController.js"></script>
-		<script>
-		function getScroll(str){
-			$('#' + str).animate({
-			    scrollTop: '+=' + $('#' + str).offset().top + 'px'
-			}, 'fast');
-		}
 		
-		</script>
 		
 
 </body>

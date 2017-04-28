@@ -250,12 +250,13 @@ public class GetAssessmentController {
 
 					int questionID = question.getQuestionId();
 					
-					Integer in = new Integer(questionID);
-					String ind = in.toString();
+
+					int in = questionID;
+					String ind = String.valueOf(in);
 
 					boolean addedS = false;
 					String starterCode="";
-					if(tempUploads.size() > 0){
+					if(!tempUploads.isEmpty()){
 						for(FileUpload f : tempUploads){
 							starterCode = s3.readFromS3(f.getFileUrl());
 							if(f.getQuestion().getQuestionId() == question.getQuestionId()){
@@ -288,7 +289,7 @@ public class GetAssessmentController {
 			// If code snippet questions exist in the assessment, this array won't be empty.
 			if (!codeStarters.isEmpty())
 			{
-				System.out.println("No of Snippets : "+codeStarters.size());
+				
 				// Add code starters for snippets to the responseMap that will be sent with the assessment to AngularJS for parsing.
 				responseMap.put("snippets", codeStarters);
 				responseMap.put("snippetIndexes", codeStartersInd);
@@ -497,10 +498,9 @@ public class GetAssessmentController {
 			
 			//Getting the landing page dialog box from file
 			Properties properties = propertyReader.propertyRead("landingPage.properties");
-			String landingPageScript=null;
-			String landingPageScript2 = null;
-			landingPageScript = properties.getProperty("landing");
-			landingPageScript2 = properties.getProperty("continue");
+			
+			String landingPageScript = properties.getProperty("landing");
+			String landingPageScript2 = properties.getProperty("continue");
 			
 			//Formatting the landing page script to enter in the time limit of assessment
 			landingPageScript = formatMessage(landingPageScript, assessment.getTimeLimit());

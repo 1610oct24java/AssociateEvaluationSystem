@@ -307,34 +307,21 @@ app.controller("quizController", function($scope, $rootScope, $http,
 	$scope.numPerPage = 5;
 	$scope.maxSize = 100;
 	
-	
+	//pagination goes to top of the page
+	$scope.pageChanged = function() {
+	    $location.hash('top');
+	    $anchorScroll();
+	};
 	
 	//code to jump to page and question 
 	$scope.jumpPage = function (index) {
-
+		$scope.pageChanged();
 		numPage=index/$scope.numPerPage;
-		$scope.currentPage =1+ Math.floor(numPage);
-//		
-		//$timeout(1000);
-		//var old = $location.hash();
-		//code to jump to the question
-//		
-//		 var newHash = 'anchor' + index;
-//	      if ($location.hash() !== newHash) {
-//	        // set the $location.hash to `newHash` and
-//	        // $anchorScroll will automatically scroll to it
-//	        $location.hash('anchor' + index);
-//	        $anchorScroll(newHash);
-//	      } else {
-//	        // call $anchorScroll() explicitly,
-////	        // since $location.hash hasn't changed
-//	        $anchorScroll(newHash);
-//	      }
-		$timeout(function () {
-			  $("body").animate({scrollTop: $('#anchor' + index).offset().top}, "slow");
-	    }, 1000);
+		$scope.currentPage =1+ Math.floor(numPage);	
+		$("body").animate({scrollTop: $('#anchor' + index).offset().top}, "slow");
+	  
 	    
-	      //location.hash(old);
+	      
 		
 	};
 
@@ -446,7 +433,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 			//Removed console log for sonar cube.
 			if (review === "yes"){
 				//This should allow the questions to put into this page
-				$window.location.href = '/aes/quizReview';
+				$window.location.href = '/aes/quizReview?asmt=' + $location.search().asmt;
 			} else {
 				$window.location.href = '/aes/goodbye';
 			}
