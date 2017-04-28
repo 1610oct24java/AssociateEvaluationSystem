@@ -1,7 +1,7 @@
 //var app = angular.module('adminApp', ['ngMaterial', 'ngMessages']);
 var reader;
 
-angular.module('adminApp').controller("parserCtrl", function ($scope, $http, SITE_URL, API_URL) {
+angular.module('adminApp').controller("parserCtrl", function ($scope, $http, SITE_URL, API_URL, $log) {
 
 
     $scope.myFile;
@@ -139,7 +139,7 @@ angular.module('adminApp').controller("parserCtrl", function ($scope, $http, SIT
             url: "questions",
             data: $scope.questions
         }).then(function (resp) {
-            console.log(resp);
+            $log.debug(resp);
         })
     };
 
