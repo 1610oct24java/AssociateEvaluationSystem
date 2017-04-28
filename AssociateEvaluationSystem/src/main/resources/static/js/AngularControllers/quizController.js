@@ -86,6 +86,22 @@ app.controller("quizController", function($scope, $rootScope, $http,
 			/*SA-CHANGES ENDED*/
 		}
 		$scope.testtaker = $rootScope.protoTest.user.firstName + " " + $rootScope.protoTest.user.lastName;
+		
+		$timeout(function () {
+			for (var i=0; i < $scope.filteredQuestions.length; i++)
+			{
+				if ($scope.filteredQuestions[i].question.format.formatName === "Code Snippet")
+				{
+					var editorId = "editor"+$scope.filteredQuestions[i].question.questionId;
+					var aceEditor = ace.edit(editorId);
+					for(z=0;z<$rootScope.snippetStartersInd.length;z++){
+						if($rootScope.snippetStartersInd[z]==$scope.filteredQuestions[i].question.questionId){
+							aceEditor.getSession().setValue($rootScope.snippetStarters[z], -1);
+						}
+					}
+				}
+			}
+		}, 5000);
 	
 		
 	};
