@@ -79,14 +79,16 @@ public class S3Service {
 			if (!file2.delete()) {
 				log.error("File not found! Can not delete file that does not exists!");
 			}
-			oos.close();
-			file.close();
 			return true;
 		}
 		catch(Exception e)
 		{
 			log.error(Logging.errorMsg("uploading Assessment Req to S3", e));
 			return false;
+		}
+		finally {
+			oos.close();
+			file.close();
 		}
 	}
 
