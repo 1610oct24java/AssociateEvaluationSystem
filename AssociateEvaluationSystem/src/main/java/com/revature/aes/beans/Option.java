@@ -171,7 +171,7 @@ public class Option implements Serializable {
 		}
 
 		return "Option [optionId=" + optionId + ", optionText=" + optionText + ", correct=" + correct
-				+ ", questionId=" + question.getQuestionId() + "]";
+				+ ", questionId=" + question.getQuestionId() + ", justification=" + justification + "]";
 	}
 
 }

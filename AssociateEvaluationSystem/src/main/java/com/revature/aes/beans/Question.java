@@ -248,7 +248,7 @@ public class Question implements Serializable {
 	@Override
 	public String toString() {
 		return "Question [questionId=" + questionId + ", format=" + format + ", questionCategory=" + questionCategory
-				+ ", questionText=" + questionText + ", questionTags=" + questionTags + ", snippetTemplates= "+snippetTemplates+", multiple=" + option
+				+ ", questionText=" + questionText + ", justification=" + justification + ", questionTags=" + questionTags + ", snippetTemplates= "+snippetTemplates+", multiple=" + option
 				+ ", dragdrop=" + dragdrop + "]";// ", fileUpload=" + fileUpload + "]";
 	}
 
