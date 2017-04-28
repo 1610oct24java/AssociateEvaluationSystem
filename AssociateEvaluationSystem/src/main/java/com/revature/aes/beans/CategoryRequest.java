@@ -2,11 +2,20 @@ package com.revature.aes.beans;
 
 import java.io.Serializable;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-import org.springframework.stereotype.Component;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 /**
  * Created by mpski on 2/22/17.
@@ -33,6 +42,7 @@ public class CategoryRequest implements Serializable{
 
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "ASSESSMENT_REQUEST_ID")
+    @JsonBackReference
     private AssessmentRequest assessmentRequest;
 
     @Column(name="MS_QUESTIONS")
@@ -44,7 +54,15 @@ public class CategoryRequest implements Serializable{
 	@Column(name="CS_QUESTIONS")
     private Integer csQuestions; //number of code-snippet questions
 
-    public CategoryRequest() {
+    public AssessmentRequest getAssessmentRequest() {
+		return assessmentRequest;
+	}
+
+	public void setAssessmentRequest(AssessmentRequest assessmentRequest) {
+		this.assessmentRequest = assessmentRequest;
+	}
+
+	public CategoryRequest() {
         super();
     }
 

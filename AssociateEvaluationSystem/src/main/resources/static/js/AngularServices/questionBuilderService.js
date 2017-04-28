@@ -1,4 +1,4 @@
-app.service("questionBuilderService", function($http){
+app.service("questionBuilderService", function(){
 	this.questionBuilder = function() {
 
 		this.question = {};

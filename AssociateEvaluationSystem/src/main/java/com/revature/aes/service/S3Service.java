@@ -43,6 +43,14 @@ public class S3Service {
 		  writer.write(snippetContents);
 		  writer.close();
 			snippetIO.upload(file, key);
+			log.info("=============== uploadToS3 ===============");
+			log.info("------- snippetContents-------");
+			log.info(snippetContents);
+			log.info("------- End snippetContents-------");
+			log.info("------- key-------");
+			log.info(key);
+			log.info("------- End key-------");
+			log.info("=============== End uploadToS3 ===============");
 			if (!file.delete()) {
 				log.error("File not found! Can not delete file that does not exists!");
 			}
@@ -60,10 +68,13 @@ public class S3Service {
 	}
 
 	public boolean uploadAssReqToS3(AssessmentRequest assessContents, String key){
-		try{
-			File file2 = new File("AssessRequest");
-			FileOutputStream file = new FileOutputStream(file2);
-			ObjectOutputStream oos = new ObjectOutputStream(file);
+		File file2 = null;
+		FileOutputStream file = null;
+		ObjectOutputStream oos = null;
+		try {
+			file2 = new File("AssessRequest");
+			file = new FileOutputStream(file2);
+			oos = new ObjectOutputStream(file);
 			oos.writeObject(assessContents);
 			
 
@@ -71,7 +82,6 @@ public class S3Service {
 			if (!file2.delete()) {
 				log.error("File not found! Can not delete file that does not exists!");
 			}
-			oos.close();
 			return true;
 		}
 		catch(Exception e)
@@ -79,15 +89,27 @@ public class S3Service {
 			log.error(Logging.errorMsg("uploading Assessment Req to S3", e));
 			return false;
 		}
+		finally {
+			try {
+				oos.close();
+				file.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public String readFromS3(String key) throws IOException {
 		AmazonS3 s3client = new AmazonS3Client();
+		log.info("=========== readFromS3 ===============");
+		log.info(key);
 		S3Object s3object = s3client.getObject(new GetObjectRequest(S3LOCATION, key));
 		InputStreamReader streamreader = new InputStreamReader(s3object.getObjectContent());
 		BufferedReader reader = new BufferedReader(streamreader);
 		StringBuilder bld = new StringBuilder();
 		String line;
+		log.info(key);
 		try {
 			while ((line = reader.readLine()) != null) {
 				bld.append(line + "\n");
@@ -95,6 +117,8 @@ public class S3Service {
 		} finally {
 			streamreader.close();
 		}
+		log.info(bld.toString());
+		log.info("=========== End readFromS3 ===============");
 
 		return bld.toString();
 	}
