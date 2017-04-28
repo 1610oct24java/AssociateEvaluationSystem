@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
@@ -12,6 +13,7 @@ public class GlobalSettingType implements Serializable {
 	
 	private static final long serialVersionUID = 6707472076548282449L;
 
+	@Id
 	@Column(name = "PROPERTY_TYPE_ID")
 	int propertyTypeId;
 	
