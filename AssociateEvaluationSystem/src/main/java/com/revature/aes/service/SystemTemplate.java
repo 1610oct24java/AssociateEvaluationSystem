@@ -196,7 +196,7 @@ public class SystemTemplate {
 				Question q = qService.getQuestionById(list.get(num).intValue());
 				list.remove(num).intValue();
 				assessmentQuestions.add(q);
-				if (list.size() == 0) {
+				if (list.isEmpty()) {
 					break;
 				}
 			}

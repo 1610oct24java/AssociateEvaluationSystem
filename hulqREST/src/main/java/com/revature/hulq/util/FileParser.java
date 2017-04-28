@@ -23,6 +23,7 @@ public class FileParser {
 		// flag used to indicate if parser loop is within multi-line comment
 		boolean inDataLine = false;
 		boolean inArguments = false;
+
 		try(FileReader fr = new FileReader(keyPath); BufferedReader br = new BufferedReader(fr)) {
 			String line = br.readLine();
 
@@ -98,6 +99,7 @@ public class FileParser {
 		// flag used to indicate if parser loop is within multi-line comment
 		boolean inDataLine = false;
 		boolean inConfigLine = false;
+
 		try(FileReader fr = new FileReader(keyPath); BufferedReader br = new BufferedReader(fr)) {
 			String line = br.readLine();
 			while ((line = br.readLine()) != null) {

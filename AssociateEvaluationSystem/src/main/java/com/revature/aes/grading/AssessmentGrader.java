@@ -26,6 +26,10 @@ public class AssessmentGrader {
 	private SnippetEvaluationClient snippetEvaluationClient;
 
 	private static final double UNINITIALIZED = 0.0;
+	
+	// EPSILON used for checking double equality
+	private final static double EPSILON = 0.00001;
+	
 	Logging log = new Logging();
 
 	public double gradeAssessment(Assessment assessment){
@@ -110,10 +114,13 @@ public class AssessmentGrader {
 			
 			if(countCorrect<0){	countCorrect=0;	}
 
-			
-			if(countOptions != UNINITIALIZED){
-				itemWeightedGrade = itemWeight*(countCorrect/countOptions);
-				result[0] = result[0]+itemWeightedGrade;
+			// instead of checking that countOptions and UNINITIALIZED are not equal
+			// we use EPSILON as a threshold for floating point errors
+			if(Math.abs(countOptions - UNINITIALIZED) > EPSILON){	
+				if (countOptions > 0) {
+					itemWeightedGrade = itemWeight * (countCorrect / countOptions);
+					result[0] = result[0] + itemWeightedGrade;
+				}
 				//result[1] = result[1]+itemWeight;
 				log.info(" out of " + countOptions + " options " + countCorrect +" were correct");
 			}
@@ -221,12 +228,13 @@ public class AssessmentGrader {
 				countOptions += 1.0;
 			}
 			
-			
-			if(countOptions != UNINITIALIZED){
-				itemWeightedGrade = itemWeight*(countCorrect/countOptions);
-				result[0] = result[0]+itemWeightedGrade;
-				//result[1] = result[1]+itemWeight;
-				log.info("out of " + countOptions + " options " + countCorrect +" were correct");
+			if(Math.abs(countOptions - UNINITIALIZED) > EPSILON){
+				if (countOptions > 0) {
+					itemWeightedGrade = itemWeight * (countCorrect / countOptions);
+					result[0] = result[0] + itemWeightedGrade;
+				}
+				// result[1] = result[1]+itemWeight;
+				log.info("out of " + countOptions + " options " + countCorrect + " were correct");
 			}
 		}
 
