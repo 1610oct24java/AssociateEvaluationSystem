@@ -1,4 +1,4 @@
-app.controller("quizController", function($scope, $rootScope, $http, 
+app.controller("quizReviewController", function($scope, $rootScope, $http, 
 		$location, $window, $timeout, $anchorScroll) {
 	$rootScope.states = [];
 	$scope.answers = [];
@@ -9,7 +9,6 @@ app.controller("quizController", function($scope, $rootScope, $http,
 	$scope.questions = [];
 	$rootScope.snippetStarters = [];
 	$rootScope.snippetSubmissions = [];
-	$rootScope.snippetStartersInd = [];
 	$scope.protoTest2 = {};
 	$scope.testtaker = "loading...";
 	$scope.submitted = false;
@@ -39,7 +38,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 			for (var z3=0; z3 < $rootScope.protoTest.options.length; z3++)
 			{
 					for(var k=0;k<$scope.questions[i].question.option.length;k++){
-					if($scope.questions[i].question.option[k].optionId==$scope.protoTest.options[z3].optionId)
+					if($scope.questions[i].question.option[k].optionId==$rootScope.protoTest.options[z3].optionId)
 						{
 						  boolT=1;
 						  optionS.push(k);
@@ -86,7 +85,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 			/*SA-CHANGES ENDED*/
 		}
 		$scope.testtaker = $rootScope.protoTest.user.firstName + " " + $rootScope.protoTest.user.lastName;
-		
+	
 		$timeout(function () {
 			for (var i=0; i < $scope.filteredQuestions.length; i++)
 			{
@@ -94,16 +93,10 @@ app.controller("quizController", function($scope, $rootScope, $http,
 				{
 					var editorId = "editor"+$scope.filteredQuestions[i].question.questionId;
 					var aceEditor = ace.edit(editorId);
-					for(z=0;z<$rootScope.snippetStartersInd.length;z++){
-						if($rootScope.snippetStartersInd[z]==$scope.filteredQuestions[i].question.questionId){
-							aceEditor.getSession().setValue($rootScope.snippetStarters[z], -1);
-						}
-					}
+					aceEditor.getSession().setValue($rootScope.snippetStarters[0], -1);
 				}
 			}
-		}, 5000);
-	
-		
+	    }, 5000);
 	};
 
 	$scope.collapseQuestion = function(index) {
@@ -274,30 +267,15 @@ app.controller("quizController", function($scope, $rootScope, $http,
 		}
 		
 		var incFileType = q.question.snippetTemplates[0].fileType;
-		//console.log(incFileType);
-		//console.log(editor.getValue());
-		//console.log(id2.substr(6, id2.length));
 		var newSnippet = new SnippetUpload(editor.getValue(), id2.substr(6, id2.length), incFileType);
 		
 		for (i = 0; i < $rootScope.snippetSubmissions.length; i++){
-
-			if ($rootScope.snippetSubmissions[i].questionId == newSnippet.questionId){
-
+			if ($rootScope.snippetSubmissions[i].questionId = newSnippet.questionId){
 				$rootScope.snippetSubmissions.splice(i, 1);
-				//console.log("sliced");
-			}
-			else{
-				//console.log("not sliced");
 			}
 		}
-		console.log(incFileType);
-		console.log(editor.getValue());
-		console.log(id2.substr(6, id2.length));
-		$rootScope.snippetSubmissions.push(newSnippet);		
+		$rootScope.snippetSubmissions.push(newSnippet);
 		saveQuestion(snippetQuestionIndex);
-		
-		
-		//console.log($rootScope.snippetSubmissions.length);
 	};
 
 	// PAGINATION
@@ -316,15 +294,23 @@ app.controller("quizController", function($scope, $rootScope, $http,
 	$scope.jumpPage = function (index) {
 		$scope.pageChanged();
 		numPage=index/$scope.numPerPage;
-		$scope.currentPage =1+ Math.floor(numPage);		
-		
-		$timeout(function () {
-			$("body").animate({scrollTop: $('#anchor' + index).offset().top}, "fast");
-	    }, 500);
-		
-	  
-	    
-	      
+		$scope.currentPage =1+ Math.floor(numPage);
+//		
+		//$timeout(1000);
+		var old = $location.hash();
+		//code to jump to the question
+		 var newHash = 'anchor' + index;
+	      if ($location.hash() !== newHash) {
+	        // set the $location.hash to `newHash` and
+	        // $anchorScroll will automatically scroll to it
+	        $location.hash('anchor' + index);
+	        $anchorScroll(newHash);
+	      } else {
+	        // call $anchorScroll() explicitly,
+//	        // since $location.hash hasn't changed
+	        $anchorScroll(newHash);
+	      }
+	      //location.hash(old);
 		
 	};
 
@@ -335,38 +321,27 @@ app.controller("quizController", function($scope, $rootScope, $http,
 		$scope.filteredQuestions = $scope.questions.slice(begin, end);
 
 		$timeout(function () {
-			//var snipCount = 0;
 			for (var i=0; i < $scope.filteredQuestions.length; i++)
 			{
 				if ($scope.filteredQuestions[i].question.format.formatName === "Code Snippet")
 				{
 					var editorId = "editor"+$scope.filteredQuestions[i].question.questionId;
 					var aceEditor = ace.edit(editorId);
-
-
 					//aceEditor.getSession().setValue($rootScope.snippetSubmissions[0].code, -1);
 					
+					/*SA-CHANGES STARTED*/
 					//To init ace editor if other than first page
-
-					if(aceEditor.getSession().getValue()==="Enter code here"){
-						for(z=0;z<$rootScope.snippetStartersInd.length;z++){
-							if($rootScope.snippetStartersInd[z]==$scope.filteredQuestions[i].question.questionId){
-								aceEditor.getSession().setValue($rootScope.snippetStarters[z], -1);
-								break;
-
-							}
+					if(aceEditor.length!=1){
+						if(aceEditor.getSession().getValue()==="Enter code here"){
+							aceEditor.getSession().setValue($rootScope.snippetStarters[0], -1);
 						}
 					}
-
 
 					//To keep changes on the ace editor if pages are switched
-
-					for(z=0;z<$rootScope.snippetSubmissions.length;z++){
-						if($rootScope.snippetSubmissions[z].questionId==$scope.filteredQuestions[i].question.questionId){
-							aceEditor.getSession().setValue($rootScope.snippetSubmissions[z].code, -1);
-						}
+					if($rootScope.snippetSubmissions.length){
+						aceEditor.getSession().setValue($rootScope.snippetSubmissions[0].code, -1);
 					}
-
+					/*SA-CHANGES ENDED*/
 				}
 			}
 	    }, 2000);
@@ -391,16 +366,14 @@ app.controller("quizController", function($scope, $rootScope, $http,
 		.then(function(response) {
 			console.log(response);
 			// Check response for assessment availability
-			if (response.data.msg === "allow"){
+			if (response.data.msg != "allow"){
 				// Assessment ready to take
 				$rootScope.protoTest = response.data.assessment;
 				$scope.questions = $rootScope.protoTest.template.templateQuestion;
+				//$rootScope.protoTest.options = [];
 				$rootScope.snippetStarters = response.data.snippets;
-				$rootScope.snippetStartersInd = response.data.snippetIndexes;
 				initSetup();
 				$rootScope.initQuizNav();
-				$rootScope.initTimer(response.data.timeLimit, response.data.newTime);
-
 			}else {
 				// Assessment was taken or time expired, redirecting to expired page
 				$window.location.href = '/aes/expired';
@@ -417,35 +390,15 @@ app.controller("quizController", function($scope, $rootScope, $http,
 			delete entry.assessmentId;
 			entry.assessment = {"assessmentId" : $rootScope.protoTest.assessmentId,};
 		});
-		console.table($rootScope.snippetSubmissions);
-		
-		
+
 		var answerData = {
 				assessment : $rootScope.protoTest,
 				snippetUploads : $rootScope.snippetSubmissions
 		};
-
-		var review = "yes";
-
-		$http({
-			method: 'POST',
-			url: "aes/rest/submitAssessment",
-			headers: {'Content-Type': 'application/json'},
-			data: answerData
-		}).then(function(response) {
-			//Removed console log for sonar cube.
-			if (review === "yes"){
-				//This should allow the questions to put into this page
-				$window.location.href = '/aes/quizReview?asmt=' + $location.search().asmt;
-			} else {
-				$window.location.href = '/aes/goodbye';
-			}
-		});
+		
 	}
 	
 });
-
-
 
 
 
