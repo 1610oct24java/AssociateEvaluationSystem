@@ -81,8 +81,12 @@ function compile_test {
 function remover {
 	#remove runnable files... FIX LATER if you want
 	if [[ $keyExecutor == "java " ]]; then 
-		rm "$testRunnable.class";
 		rm "$keyRunnable.class";
+		if [[ $testExecutor == "java " ]]; then
+			rm "$testRunnable.class";
+		else
+			rm "$testRunnable";
+		fi;
 	else 
 		rm "$testRunnable";
 		rm "$keyRunnable";
@@ -172,37 +176,17 @@ else
 	fi
 fi
 #======================== END COMPILATION RESULT ===============================
-#======================== Timeout Function Start ===============================
-# Executes command with a timeout
-# Params:
-#   $1 timeout in seconds
-#   $2 command
-# Returns 1 if timed out 0 otherwise
-timeout() {
-
-    time=$1
-
-    # start the command in a subshell to avoid problem with pipes
-    # (spawn accepts one command)
-    command="/bin/sh -c \"$2\""
-
-    expect -c "set echo \"-noecho\"; set timeout $time; spawn -noecho $command; expect timeout { exit 1 } eof { exit 0 }"    
-
-    if [ $? = 1 ] ; then
-        echo "Timeout after ${time} seconds"
-    fi
-}
-#======================== Timeout Function End =================================
 #Form execution command
 # i.e java <class>
 # 	python <file>
 runTest=$testExecutor$testRunnable;
 runKey=$keyExecutor$keyRunnable; 
 count=0;
+timeOut="timeout 5";
 
 #For each argument in the @Args
 #	at the bottom of the Answer Key File 
-for argSet in "$@/"; do	
+for argSet in "$@"; do	
 	(
 		#echo the result (goes out to the service calling this)
 		
@@ -216,14 +200,15 @@ for argSet in "$@/"; do
 		#################
 		
 		#Run code
-		result= timeout 20 $($runTest $argSet) ;
-
+		
+		res=`$timeOut $runTest $argSet` ;
 		#Code returned after executing last command
 		#	0 usually means no problems
 		#	? anything else problem
 		code=$?;
 		if [ $code -ne 0 ]; then
 			echo "ERROR CODE ($code): Running user code produced an invalid result with arg $argSet" >> nohup.out;
+			remover;
 			exit 1;		
 		else
 			(echo "key $count: $($runKey $argSet)") &
