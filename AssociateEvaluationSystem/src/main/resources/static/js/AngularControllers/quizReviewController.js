@@ -1,4 +1,4 @@
-app.controller("quizController", function($scope, $rootScope, $http, 
+app.controller("quizReviewController", function($scope, $rootScope, $http, 
 		$location, $window, $timeout, $anchorScroll) {
 	$rootScope.states = [];
 	$scope.answers = [];
@@ -9,7 +9,6 @@ app.controller("quizController", function($scope, $rootScope, $http,
 	$scope.questions = [];
 	$rootScope.snippetStarters = [];
 	$rootScope.snippetSubmissions = [];
-	$rootScope.snippetStartersInd = [];
 	$scope.protoTest2 = {};
 	$scope.testtaker = "loading...";
 	$scope.submitted = false;
@@ -39,7 +38,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 			for (var z3=0; z3 < $rootScope.protoTest.options.length; z3++)
 			{
 					for(var k=0;k<$scope.questions[i].question.option.length;k++){
-					if($scope.questions[i].question.option[k].optionId==$Scope.protoTest.options[z3].optionId)
+					if($scope.questions[i].question.option[k].optionId==$rootScope.protoTest.options[z3].optionId)
 						{
 						  boolT=1;
 						  optionS.push(k);
@@ -94,11 +93,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 				{
 					var editorId = "editor"+$scope.filteredQuestions[i].question.questionId;
 					var aceEditor = ace.edit(editorId);
-					for(z=0;z<$rootScope.snippetStartersInd.length;z++){
-						if($rootScope.snippetStartersInd[z]==$scope.filteredQuestions[i].question.questionId){
-							aceEditor.getSession().setValue($rootScope.snippetStarters[z], -1);
-						}
-					}
+					aceEditor.getSession().setValue($rootScope.snippetStarters[0], -1);
 				}
 			}
 	    }, 5000);
@@ -275,7 +270,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 		var newSnippet = new SnippetUpload(editor.getValue(), id2.substr(6, id2.length), incFileType);
 		
 		for (i = 0; i < $rootScope.snippetSubmissions.length; i++){
-			if ($rootScope.snippetSubmissions[i].questionId == newSnippet.questionId){
+			if ($rootScope.snippetSubmissions[i].questionId = newSnippet.questionId){
 				$rootScope.snippetSubmissions.splice(i, 1);
 			}
 		}
@@ -328,24 +323,21 @@ app.controller("quizController", function($scope, $rootScope, $http,
 				{
 					var editorId = "editor"+$scope.filteredQuestions[i].question.questionId;
 					var aceEditor = ace.edit(editorId);
+					//aceEditor.getSession().setValue($rootScope.snippetSubmissions[0].code, -1);
 					
+					/*SA-CHANGES STARTED*/
 					//To init ace editor if other than first page
-					if(aceEditor.getSession().getValue()==="Enter code here"){
-						for(z=0;z<$rootScope.snippetStartersInd.length;z++){
-							if($rootScope.snippetStartersInd[z]==$scope.filteredQuestions[i].question.questionId){
-								aceEditor.getSession().setValue($rootScope.snippetStarters[z], -1);
-								break;
-							}
+					if(aceEditor.length!=1){
+						if(aceEditor.getSession().getValue()==="Enter code here"){
+							aceEditor.getSession().setValue($rootScope.snippetStarters[0], -1);
 						}
 					}
-
 
 					//To keep changes on the ace editor if pages are switched
-					for(z=0;z<$rootScope.snippetSubmissions.length;z++){
-						if($rootScope.snippetSubmissions[z].questionId==$scope.filteredQuestions[i].question.questionId){
-							aceEditor.getSession().setValue($rootScope.snippetSubmissions[z].code, -1);
-						}
+					if($rootScope.snippetSubmissions.length){
+						aceEditor.getSession().setValue($rootScope.snippetSubmissions[0].code, -1);
 					}
+					/*SA-CHANGES ENDED*/
 				}
 			}
 	    }, 2000);
@@ -370,16 +362,14 @@ app.controller("quizController", function($scope, $rootScope, $http,
 		.then(function(response) {
 			console.log(response);
 			// Check response for assessment availability
-			if (response.data.msg === "allow"){
+			if (response.data.msg != "allow"){
 				// Assessment ready to take
 				$rootScope.protoTest = response.data.assessment;
 				$scope.questions = $rootScope.protoTest.template.templateQuestion;
+				//$rootScope.protoTest.options = [];
 				$rootScope.snippetStarters = response.data.snippets;
-				$rootScope.snippetStartersInd = response.data.snippetIndexes;
 				initSetup();
 				$rootScope.initQuizNav();
-				$rootScope.initTimer(response.data.timeLimit, response.data.newTime);
-
 			}else {
 				// Assessment was taken or time expired, redirecting to expired page
 				$window.location.href = '/aes/expired';
@@ -401,21 +391,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 				assessment : $rootScope.protoTest,
 				snippetUploads : $rootScope.snippetSubmissions
 		};
-		var review = "yes";
-		$http({
-			method: 'POST',
-			url: "aes/rest/submitAssessment",
-			headers: {'Content-Type': 'application/json'},
-			data: answerData
-		}).then(function(response) {
-			//Removed console log for sonar cube.
-			if (review === "yes"){
-				//This should allow the questions to put into this page
-				$window.location.href = '/aes/quizReview';
-			} else {
-				$window.location.href = '/aes/goodbye';
-			}
-		});
+		
 	}
 	
 });

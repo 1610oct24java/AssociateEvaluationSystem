@@ -23,8 +23,8 @@ public class FileParser {
 		// flag used to indicate if parser loop is within multi-line comment
 		boolean inDataLine = false;
 		boolean inArguments = false;
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(keyPath));
+
+		try(FileReader fr = new FileReader(keyPath); BufferedReader br = new BufferedReader(fr)) {
 			String line = br.readLine();
 
 			while ((line = br.readLine()) != null) {
@@ -84,13 +84,9 @@ public class FileParser {
 					}
 				}
 			}
-			br.close();
 		} catch (IOException e) {
-			//System.out.println("ERROR: key parser has failed");
 			log.info("ERROR: key parser has failed");
-			//System.out.println("CAUSE: file not found(probably)");
 			log.info("CAUSE: file not found(probably)");
-			//System.out.println("ACTION: obvious");
 			log.info("ACTION: obvious");
 			return null;
 		}
@@ -103,8 +99,8 @@ public class FileParser {
 		// flag used to indicate if parser loop is within multi-line comment
 		boolean inDataLine = false;
 		boolean inConfigLine = false;
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(keyPath));
+
+		try(FileReader fr = new FileReader(keyPath); BufferedReader br = new BufferedReader(fr)) {
 			String line = br.readLine();
 			while ((line = br.readLine()) != null) {
 				line = line.trim();
@@ -172,13 +168,9 @@ public class FileParser {
 					}
 				}
 			}
-			br.close();
 		} catch (IOException e) {
-			//System.out.println("ERROR: key parser has failed");
 			log.info("ERROR: key parser has failed");
-			//System.out.println("CAUSE: file not found(probably)");
 			log.info("CAUSE: file not found(probably)");
-			//System.out.println("ACTION: obvious");
 			log.info("ACTION: obvious");
 			return null;
 		}

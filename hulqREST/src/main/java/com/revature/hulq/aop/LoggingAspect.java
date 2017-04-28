@@ -27,7 +27,7 @@ public class LoggingAspect
 	 *            the pjp
 	 */
 	@Around("everything()")
-	public void traceLogging(ProceedingJoinPoint pjp) {
+	public Object traceLogging(ProceedingJoinPoint pjp) {
 		
 		// Setup for grabbing method information
 		MethodSignature sign = (MethodSignature) pjp.getSignature();
@@ -68,6 +68,7 @@ public class LoggingAspect
 					+ "\nMethod exceptions:\n"
 					+ except, e);
 		}
+		return obj;
 		
 	}
 	
