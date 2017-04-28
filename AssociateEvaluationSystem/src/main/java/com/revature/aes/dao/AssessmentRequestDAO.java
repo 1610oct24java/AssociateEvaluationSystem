@@ -15,7 +15,7 @@ public interface AssessmentRequestDAO extends JpaRepository<AssessmentRequest, I
 	public AssessmentRequest getByAssessmentRequestId(Integer id);
 
 //	@Query(value="Select a from AssessmentRequest a where rownum =1 order by a.assessmentRequestId desc")
-	@Query(value="Select * from AES_ASSESSMENT_REQUEST where isdefault = 1", nativeQuery=true)
+	@Query(value="Select * from AES_ASSESSMENT_REQUEST where is_default = 1", nativeQuery=true)
 	public List<AssessmentRequest> getDefaultAssessment();
 	
 }

@@ -39,10 +39,7 @@ public class ChooseAssessmentController {
 	@RequestMapping(value = "/selectAssessment", method = RequestMethod.POST)
 	@Transactional
 	public void selectDefaultAssessment(@RequestBody AssessmentRequest newDefault){
-		System.out.println("====================================================================================================");
-		System.out.println("====================================================================================================");
-		System.out.println(newDefault);
-		
+	
 		AssessmentRequest newDefaultAss = assReqServ.getAssessmentRequestById(newDefault.getAssessmentRequestId());
 		assReqServ.newDefaultAssessment(newDefaultAss);
 		

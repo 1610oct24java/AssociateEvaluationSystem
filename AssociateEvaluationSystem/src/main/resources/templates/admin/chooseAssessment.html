@@ -39,6 +39,7 @@
 				width="100%">
 				<thead>
 					<tr style="border-width: 0px;">
+						<th> </th>
 						<th>Default ID</th>
 						<th>Number of Sections</th>
 						<th>Number of Questions</th>
@@ -48,6 +49,10 @@
  				<tbody>
  					<div>
  						<tr>
+ 							<td>
+	 							<a><span ng-if="defaultAss.expand" ng-click="defaultAss.expand = false" class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></a>
+								<a><span ng-if="!defaultAss.expand" ng-click="defaultAss.expand = true" class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+							</td>
 							<td>{{defaultAss.assessmentRequestId}}</td>
 							<td>{{defaultNumOfSec()}}</td>
 							<td>{{defaultTotalNumOfQuestions()}}</td>
@@ -63,6 +68,8 @@
 				width="100%">
 				<thead>
 					<tr style="border-width: 0px;">
+						<th> </th>
+
 						<th>Assessment ID</th>
 						<th>Number of Sections</th>
 						<th>Number of Questions</th>
@@ -72,7 +79,12 @@
 				</thead>
 				<tbody>
 					<div>
-						<tr ng-repeat="ass in assList" ng-if="ass.assessmentRequestId != assList[defaultIndex].assessmentRequestId">
+						<tr ng-repeat-start="ass in assList" ng-if="ass.assessmentRequestId != assList[defaultIndex].assessmentRequestId">
+							<td>
+								<a><span ng-if="ass.expanded && ass.assessmentRequestId != assList[defaultIndex].assessmentRequestId" ng-click="ass.expanded = false" class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></a>
+								<a><span ng-if="!ass.expanded && ass.assessmentRequestId != assList[defaultIndex].assessmentRequestId" ng-click="ass.expanded = true" class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+							</td>
+
 							<td>{{ass.assessmentRequestId}}</td>
 							<td>{{getNumOfSec($index)}}</td>
 							<td>{{getTotalNumOfQuestions($index)}}</td>
@@ -80,7 +92,30 @@
 							<td><input type="button" value="default"
 								class="btn btn-primary btn-block" ng-click="selectDefault($index)" />
 							</td>
-						</tr>
+<!-- 							<td ng-if="ass.expanded">{{ass.categoryRequestList}}</td>
+ -->						
+ 							</tr>
+ 							
+ 							<tr ng-if="ass.expanded"> 									
+ 									<tr ng-if="ass.expanded">
+ 										<td></td>
+ 										<td></td>
+ 										<td><strong>Section Name</strong></td>
+ 										<td><strong>Question Type</strong></td>
+ 										<td><strong>Questions per Section</strong></td>
+ 									</tr>
+ 									<tr ng-if="ass.expanded"  ng-repeat="cat in ass.categoryRequestList">
+	 									<td></td>
+	 									<td></td>
+										<td>{{cat.category.name}}</td>
+										<td>{{getQuestionTypeOfCategory(cat)}}</td>
+										<td>{{getNumberOfQuestionsInCategory(cat)}}</td>
+									</tr>
+							</tr>
+						
+							<tr ng-if="ass.expanded" ng-repeat-end=""></tr>
+						
+						
 					</div>
 				</tbody>
 			</table>
