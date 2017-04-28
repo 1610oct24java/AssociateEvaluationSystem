@@ -297,7 +297,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 	
 	//code to jump to page and question 
 	$scope.jumpPage = function (index) {
-
+		$scope.pageChanged();
 		numPage=index/$scope.numPerPage;
 		$scope.currentPage =1+ Math.floor(numPage);
 //		
