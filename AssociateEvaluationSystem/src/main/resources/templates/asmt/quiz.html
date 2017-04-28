@@ -189,7 +189,7 @@ background-color: green;
 							<!-- PAGINATION -->
 							<!-- ---------- -->
 							<div class="text-center">
-								<ul uib-pagination ng-model="currentPage"
+								<ul uib-pagination ng-model="currentPage" ng-change="pageChanged()"
 									items-per-page="numPerPage" total-items="questions.length"
 									max-size="maxSize" boundary-links="true">
 								</ul>
