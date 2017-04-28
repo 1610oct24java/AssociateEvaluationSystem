@@ -99,7 +99,6 @@ public class Logging {
 		
 		Date now = new Date();
 		Logging log = new Logging();
-		
 		String border = "\n==================================\n";
 		String entire = border
 				+ "Program ran into the following error:\n"

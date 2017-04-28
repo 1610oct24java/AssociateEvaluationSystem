@@ -171,23 +171,28 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
     // keeping it to shut up sonarQube. This is that hot fix doe.		
 	};
 	
+    $scope.fileUpload = function (file){
+    	Upload.upload({
+	        url: 'rest/s3uploadFile/' + folderNames[i],
+	        method: 'POST',
+	        file: file
+    		}).progress(function (evt) {
+	        var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+	    }).success(function (data, status, headers, config) {
+	    });            	  
+    }
+
+	
+	
     $scope.upload = function (files, folderNames) {
     	  // console.log("uploading");
     	  // console.log(files);
     	  // console.log(folderNames);
+    	
           if (files && files.length) {
               for (var i = 0; i < files.length; i++) { 
             	  var file = files[i];
-            	  Upload.upload({
-            	        url: 'rest/s3uploadFile/' + folderNames[i],
-            	        method: 'POST',
-            	        file: file
-            	    }).progress(function (evt) {
-            	        var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-            	        // console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
-            	    }).success(function (data, status, headers, config) {
-            	        // console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
-            	    });            	  
+            	  	fileUpload(file);
               }
           }
       };
