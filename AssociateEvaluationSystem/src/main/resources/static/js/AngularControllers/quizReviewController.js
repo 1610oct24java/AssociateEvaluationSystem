@@ -356,7 +356,7 @@ app.controller("quizReviewController", function($scope, $rootScope, $http,
 		
 		$http({
 			method: 'GET',
-			url: QUIZ_REST_URL + "OZG",
+			url: QUIZ_REST_URL + $location.search().asmt,
 			headers: {'Content-Type': 'application/json'}
 		})
 		.then(function(response) {

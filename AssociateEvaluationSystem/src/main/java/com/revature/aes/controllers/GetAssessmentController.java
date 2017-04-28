@@ -498,6 +498,7 @@ public class GetAssessmentController {
 						responseMap.put("landingScript", landingPageScript);
 						responseMap.put("timestamp", assessment.getCreatedTimeStamp());
 						responseMap.put("msg", "allow");
+						System.out.println("my asmt: " + assessment);
 						
 					}else {
 						responseMap.put("timeLimit", assessment.getTimeLimit());

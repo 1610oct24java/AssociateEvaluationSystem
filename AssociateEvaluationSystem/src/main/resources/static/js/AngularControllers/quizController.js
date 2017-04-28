@@ -403,7 +403,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 			//Removed console log for sonar cube.
 			if (review === "yes"){
 				//This should allow the questions to put into this page
-				$window.location.href = '/aes/quizReview';
+				$window.location.href = '/aes/quizReview?asmt=' + $location.search().asmt;
 			} else {
 				$window.location.href = '/aes/goodbye';
 			}
