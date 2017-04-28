@@ -87,24 +87,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 		}
 		$scope.testtaker = $rootScope.protoTest.user.firstName + " " + $rootScope.protoTest.user.lastName;
 	
-		$timeout(function () {
-			var codeSnipNum = 0;
-			for (var i=0; i < $scope.filteredQuestions.length; i++)
-			{
-				if ($scope.filteredQuestions[i].question.format.formatName === "Code Snippet")
-				{
-					var editorId = "editor"+$scope.filteredQuestions[i].question.questionId;
-					var aceEditor = ace.edit(editorId);
-
-					for(z=0;z<$rootScope.snippetStartersInd.length;z++){
-						if($rootScope.snippetStartersInd[z]==$scope.filteredQuestions[i].question.questionId){
-							aceEditor.getSession().setValue($rootScope.snippetStarters[z], -1);
-						}
-					}
-
-				}
-			}
-	    }, 5000);
+		
 	};
 
 	$scope.collapseQuestion = function(index) {
@@ -317,8 +300,12 @@ app.controller("quizController", function($scope, $rootScope, $http,
 	$scope.jumpPage = function (index) {
 		$scope.pageChanged();
 		numPage=index/$scope.numPerPage;
-		$scope.currentPage =1+ Math.floor(numPage);	
-		$("body").animate({scrollTop: $('#anchor' + index).offset().top}, "slow");
+		$scope.currentPage =1+ Math.floor(numPage);		
+		
+		$timeout(function () {
+			$("body").animate({scrollTop: $('#anchor' + index).offset().top}, "fast");
+	    }, 500);
+		
 	  
 	    
 	      
