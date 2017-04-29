@@ -233,6 +233,10 @@ public class GetAssessmentController {
 			Set<TemplateQuestion> templateQuestions = assessment.getTemplate().getTemplateQuestion();
 			Set<FileUpload> tempUploads = assessment.getFileUpload();
 
+			int numQ = 1;
+
+
+
 			for (TemplateQuestion tq : templateQuestions)
 			{
 				Question question = tq.getQuestion();						// Get each question.
@@ -243,34 +247,27 @@ public class GetAssessmentController {
 				{
 					// Pull out the SnippetTemplates from the question.
 					Set<SnippetTemplate> snippetTemplates = question.getSnippetTemplates();
+
 					int questionID = question.getQuestionId();
 					
+
 					int in = questionID;
 					String ind = String.valueOf(in);
+
 					boolean addedS = false;
 					String starterCode="";
 					if(!tempUploads.isEmpty()){
 						for(FileUpload f : tempUploads){
-							starterCode+= s3.readFromS3(f.getFileUrl());
+							starterCode = s3.readFromS3(f.getFileUrl());
 							if(f.getQuestion().getQuestionId() == question.getQuestionId()){
+								
 								codeStarters.add(starterCode);
 								codeStartersInd.add(ind);
 								addedS=true;
 								break;
 							}
 						}
-					}
-					
-					if(addedS==false){
-						// Loop through the snippetTemplates to get their url locations in S3 bucket.
-						for (SnippetTemplate st : snippetTemplates)
-						{
-							String snippetTemplateUrl = st.getTemplateUrl();		// SnippetTemplate URL.
-							starterCode+= s3.readFromS3(snippetTemplateUrl);	// Read snippet starter from S3 bucket.
-							codeStarters.add(starterCode);	
-							// Add snippetTemplate to list.
-							codeStartersInd.add(ind);
-						}
+
 					}
 					
 					if(addedS==false){
@@ -279,10 +276,14 @@ public class GetAssessmentController {
 						{
 							String snippetTemplateUrl = st.getTemplateUrl();		// SnippetTemplate URL.
 							starterCode = s3.readFromS3(snippetTemplateUrl);	// Read snippet starter from S3 bucket.
-							codeStarters.add(starterCode);							// Add snippetTemplate to list.
+							codeStarters.add(starterCode);	
+							// Add snippetTemplate to list.
+							codeStartersInd.add(ind);
 						}
-					}/*SA-CHANGES ENDED*/
+					}
 				}
+				numQ++;
+				
 			}
 			
 			// If code snippet questions exist in the assessment, this array won't be empty.
@@ -320,7 +321,7 @@ public class GetAssessmentController {
 						
 						// Add assessment's full time limit to the response TODO fix
 						responseMap.put("timeLimit", assessment.getTimeLimit());
-						responseMap.put("newTime", 0);
+						responseMap.put("newTime", -1);
 						responseMap.put("msg", "allow");
 						responseMap.put("assessment", assessment);
 						//System.out.println("timeLimit " + assessment.getTimeLimit()+"\n\n\n\n\n");
@@ -515,7 +516,9 @@ public class GetAssessmentController {
 						responseMap.put("firstName", assessment.getUser().getFirstName());
 						responseMap.put("lastName", assessment.getUser().getLastName());
 						responseMap.put("landingScript", landingPageScript);
+						responseMap.put("timestamp", assessment.getCreatedTimeStamp());
 						responseMap.put("msg", "allow");
+						System.out.println("my asmt: " + assessment);
 						
 					}else {
 						responseMap.put("timeLimit", assessment.getTimeLimit());
@@ -535,6 +538,7 @@ public class GetAssessmentController {
 							responseMap.put("firstName", assessment.getUser().getFirstName());
 							responseMap.put("lastName", assessment.getUser().getLastName());
 							responseMap.put("landingScript", landingPageScript2);
+							responseMap.put("timestamp", assessment.getCreatedTimeStamp());
 							responseMap.put("msg", "allow");
 						}
 					}

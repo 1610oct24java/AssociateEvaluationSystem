@@ -2,16 +2,7 @@
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
@@ -65,6 +56,10 @@ public class Option implements Serializable {
 	@JoinColumn(name = "QUESTION_ID")
 	@JsonIgnore
 	private Question question;
+
+	@OneToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name = "JUSTIFICATION_ID")
+	private Justification justification;
 	
 	public Option() {
 		super();
@@ -87,6 +82,13 @@ public class Option implements Serializable {
 	public Option(int optionId, String optionText, int correct, Question question) {
 		this(optionId, optionText, correct);
 		this.question = question;
+	}
+
+	public Option(String optionText, int correct, Question question, Justification justification) {
+		this.optionText = optionText;
+		this.correct = correct;
+		this.question = question;
+		this.justification = justification;
 	}
 
 	public int getOptionId() {
@@ -119,6 +121,14 @@ public class Option implements Serializable {
 
 	public void setQuestion(Question question) {
 		this.question = question;
+	}
+
+	public Justification getJustification() {
+		return justification;
+	}
+
+	public void setJustification(Justification justification) {
+		this.justification = justification;
 	}
 
 	@Override
@@ -161,7 +171,7 @@ public class Option implements Serializable {
 		}
 
 		return "Option [optionId=" + optionId + ", optionText=" + optionText + ", correct=" + correct
-				+ ", questionId=" + question.getQuestionId() + "]";
+				+ ", questionId=" + question.getQuestionId() + ", justification=" + justification + "]";
 	}
 
 }
