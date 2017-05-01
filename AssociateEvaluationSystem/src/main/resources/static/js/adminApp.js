@@ -56,6 +56,20 @@ adminApp.config(function($mdThemingProvider) {
         .accentPalette("revOrange");
 });
 
+adminApp.directive('stringToNumber', function() {
+	  return {
+		    require: 'ngModel',
+		    link: function(scope, element, attrs, ngModel) {
+		      ngModel.$parsers.push(function(value) {
+		        return '' + value;
+		      });
+		      ngModel.$formatters.push(function(value) {
+		        return parseFloat(value);
+		      });
+		    }
+		  };
+		});
+
 adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$http,SITE_URL, API_URL, ROLE) {
 	$scope.roleTypes = [];
 	$scope.allEmails = [];
@@ -1048,3 +1062,37 @@ adminApp.controller('ChooseAssessmentCtrl', function($scope, $http, SITE_URL, AP
 
 });
 
+adminApp.controller('SettingsViewCtrl', function($scope, $http, SITE_URL, API_URL, ROLE){
+	
+	var settingsUrl = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + "/globalSettings"
+	
+	$scope.getSettings = function(){
+		$scope.getSettingsUnsuccessful = false;
+		$http({
+			method  : 'GET',
+			url		: settingsUrl
+		}).success(function(data){
+            if (!data){
+                $scope.getSettingsUnsuccessful = true;
+            } else {
+            	$scope.settings = {};
+            	data.forEach(function (s){
+            		$scope.settings[s.propertyId] = s;
+            	});
+            }
+		}).error( function() {
+			 $scope.getSettingsUnsuccessful = true;
+		});
+	}
+	
+//	$scope.setSettings = function(){
+//		$http({
+//			method 	: 	'POST',
+//			url		:	settingsUrl,
+//			data	:	settings
+//		}).success(function)
+//		;
+//	}
+	
+	$scope.getSettings();
+});

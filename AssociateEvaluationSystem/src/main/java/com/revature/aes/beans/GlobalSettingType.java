@@ -8,16 +8,16 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "AES_GLOBAL_SETTINGS_TYPE")
+@Table(name = "aes_global_settings_type")
 public class GlobalSettingType implements Serializable {
 	
 	private static final long serialVersionUID = 6707472076548282449L;
 
 	@Id
-	@Column(name = "PROPERTY_TYPE_ID")
+	@Column(name = "property_type_id")
 	int propertyTypeId;
 	
-	@Column(name = "PROPERTY_TYPE_NAME")
+	@Column(name = "property_type_name")
 	String propertyType;
 	
 	public GlobalSettingType() {

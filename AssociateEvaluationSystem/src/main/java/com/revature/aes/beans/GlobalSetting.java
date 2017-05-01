@@ -10,23 +10,23 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "AES_GLOBAL_SETTINGS")
+@Table(name = "aes_global_settings")
 public class GlobalSetting implements Serializable {
 
 	private static final long serialVersionUID = -4222238979371700842L;
 
 	@Id
-	@Column(name = "PROPERTY_ID")
+	@Column(name = "property_id")
 	int propertyId;
 	
-	@Column(name = "PROPERTY_NAME")
+	@Column(name = "property_name")
 	String propertyName;
 	
-	@Column(name = "PROPERTY_VALUE")
+	@Column(name = "property_value")
 	String propertyValue;
 	
 	@ManyToOne
-	@JoinColumn(name = "PROPERTY_TYPE_ID")
+	@JoinColumn(name = "property_type_id")
 	GlobalSettingType propertyType;
 
 	public GlobalSetting() {

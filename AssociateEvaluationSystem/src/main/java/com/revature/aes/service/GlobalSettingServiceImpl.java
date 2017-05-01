@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.revature.aes.beans.GlobalSetting;
 import com.revature.aes.dao.GlobalSettingDao;
@@ -63,7 +65,10 @@ public class GlobalSettingServiceImpl implements GlobalSettingService {
 	}
 	
 	@Override
+	@Transactional(propagation=Propagation.REQUIRES_NEW)
 	public List<GlobalSetting> getSettings(){
+		System.out.println(globalSettingDao.getGlobalSettingByPropertyId(1));
+		
 		return globalSettingDao.findAll();
 	}
 
