@@ -5,11 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.revature.aes.beans.AssessmentRequest;
 import com.revature.aes.dao.AssessmentRequestDAO;
 
 @Service("AssessmentRequestServiceImpl")
+@Transactional(propagation=Propagation.REQUIRES_NEW)
 public class AssessmentRequestServiceImpl implements AssessmentRequestService {
 
     private static final Integer AssessmentRequestTemplateId = 1;
