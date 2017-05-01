@@ -28,15 +28,19 @@ public class BashDriver {
 			result = bashGrader(valSet, testProfile) * 100;
 		} catch (KeyCompilationException kce){
 			// there was a problem compiling the trainers code
+			log.error("KeyCompilationException", kce);
 			result = 0.0;
 		} catch (TestCompilationException tce) {
 			// there was a problem compiling the candidates code
+			log.error("TestCompilationException", tce);
 			result = 0.0;
 		} catch (UnsupportedFileTypeException ufte) {
 			// the file types sent to hulqBASH are not supported
+			log.error("UnsupportedFileTypeException", ufte);
 			result = 0.0; 
 		} catch (BashException be) {
-			// there was a fault with the script itself 
+			// there was a fault with the script itself
+			log.error("BashException", be);
 			result = 0.0;
 		}
 		log.info("The result is " + result);
