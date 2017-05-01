@@ -1062,7 +1062,7 @@ adminApp.controller('ChooseAssessmentCtrl', function($scope, $http, SITE_URL, AP
 
 });
 
-adminApp.controller('SettingsViewCtrl', function($scope, $http, SITE_URL, API_URL, ROLE){
+/*adminApp.controller('SettingsViewCtrl', function($scope, $http, SITE_URL, API_URL, ROLE){
 	
 	var settingsUrl = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + "/globalSettings"
 	
@@ -1085,14 +1085,37 @@ adminApp.controller('SettingsViewCtrl', function($scope, $http, SITE_URL, API_UR
 		});
 	}
 	
-//	$scope.setSettings = function(){
-//		$http({
-//			method 	: 	'POST',
-//			url		:	settingsUrl,
-//			data	:	settings
-//		}).success(function)
-//		;
-//	}
+
+	
+	  this.findCurrentPage = function() {
+
+	        // var path = $location.path().replace("/", "");
+	        var path = window.location.pathname.substr(1);
+
+	        switch(path) {
+	            case "aes/registerEmployee" : return "employees";
+	            case "aes/updateEmployee" : return "employees";
+	            case "aes/createAssessment" : return "assessments";
+	            case "aes/globalSettings" : return "globalSettings";
+	            default : return "overview"
+	        }
+	    };
+	    
+	    this.buildToggler = function(navID) {
+	        return function() {
+	            $mdSidenav(navID)
+	                .toggle()
+	                .then(function() {
+	                    $log.debug("toggle " + navID + " is done");
+	                });
+	        };
+	    };
+	    $scope.isOpenLeft = function() {
+	        return $mdSidenav('left').isOpen();
+	    };
+	
+	    this.currentPage = this.findCurrentPage();
+	    $scope.toggleLeft = this.buildToggler('left');
 	
 	$scope.getSettings();
-});
+});*/
