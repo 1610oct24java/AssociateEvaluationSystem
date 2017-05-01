@@ -3,6 +3,7 @@ package com.revature.aes.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,13 +37,19 @@ public class ChooseAssessmentController {
 		return allAss;
 	}
 	
+	//sets new default
 	@RequestMapping(value = "/selectAssessment", method = RequestMethod.POST)
-	@Transactional
 	public void selectDefaultAssessment(@RequestBody AssessmentRequest newDefault){
 	
 		AssessmentRequest newDefaultAss = assReqServ.getAssessmentRequestById(newDefault.getAssessmentRequestId());
 		assReqServ.newDefaultAssessment(newDefaultAss);
 		
+	}
+	
+	//saves newly changed hours
+	@RequestMapping(value = "/updateViewableHours", method = RequestMethod.POST)
+	public void updateHViewableHours(@RequestBody AssessmentRequest newViewableHours){
+		assReqServ.saveAssessmentRequest(newViewableHours);
 	}
 
 }
