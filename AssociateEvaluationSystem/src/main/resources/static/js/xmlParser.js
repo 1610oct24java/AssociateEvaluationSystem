@@ -101,36 +101,8 @@ angular.module('adminApp').controller("parserCtrl", function ($scope, $http, SIT
         var qList = xmlDoc.getElementsByTagName("question");
         var category = getCategory(qList[0].textContent);
 
-        for(var i = 1; i < qList.length; i++){ //questions start at 1 in the qList
-            var question = {};
-            question.option = [];
-
-            question.questionText = removeHTML(qList[i].childNodes[3].textContent); //set string question text
-            question.questionCategory = category; //set the category for each question
-
-            //sets question format
-            if(qList[i].attributes[0].textContent == "multichoice"){
-                question.format = getFormat(qList[i].childNodes[13].textContent, true);
-            } else if(qList[i].attributes[0].textContent == "truefalse"){
-                question.format = getFormat("", false);
-            } else{
-                continue;
-            }
-
-            for(var j = 0; j < qList[i].childNodes.length; j++){
-                if(qList[i].childNodes[j].nodeName == "answer"){
-                    var answer = {};
-                    answer.optionText = removeHTML(qList[i].childNodes[j].childNodes[1].textContent);
-                    if(parseInt(qList[i].childNodes[j].attributes[0].textContent) > 0){
-                        answer.correct = 1;
-                    } else {
-                        answer.correct = 0;
-                    }
-                    question.option.push(answer);
-                }
-            }
-            $scope.questions.push(question);
-        }
+        // get questions from document
+        extractQuestions($scope.questions, qlist, category);
     };
 
     $scope.createQuestions = function () {
@@ -262,3 +234,44 @@ adminApp.config(function($mdThemingProvider) {
         .primaryPalette("revBlue")
         .accentPalette("revOrange");
 });
+
+// pull questions from the uploaded document
+function extractQuestions(questions, questionElements, category) {
+	for(var i = 1; i < questionElements.length; i++){ //questions start at 1 in the qList
+        var question = {};
+        question.option = [];
+
+        question.questionText = removeHTML(questionElements[i].childNodes[3].textContent); //set string question text
+        question.questionCategory = category; //set the category for each question
+
+        //sets question format
+        if(questionElements[i].attributes[0].textContent == "multichoice"){
+            question.format = getFormat(questionElements[i].childNodes[13].textContent, true);
+        } else if(questionElements[i].attributes[0].textContent == "truefalse"){
+            question.format = getFormat("", false);
+        } else{
+            continue;
+        }
+        
+        extractAnswer(questionElements, question);
+
+        questions.push(question);
+    }
+}
+
+// pull the answer from the question element
+function extractAnswer(questionElements, question) {
+	for(var j = 0; j < questionElements[i].childNodes.length; j++){
+        if(questionElements[i].childNodes[j].nodeName == "answer"){
+            var answer = {};
+            answer.optionText = removeHTML(questionElements[i].childNodes[j].childNodes[1].textContent);
+            if(parseInt(questionElements[i].childNodes[j].attributes[0].textContent) > 0){
+                answer.correct = 1;
+            } else {
+                answer.correct = 0;
+            }
+            question.option.push(answer);
+        }
+    }
+}
+
