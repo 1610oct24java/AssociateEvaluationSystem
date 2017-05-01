@@ -1,74 +1,72 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>AES</title>
 
-<link rel="icon" type="img/png" href="images/favicon_192.png">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-<!-- included for mobile scaling -->
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <meta charset="UTF-8">
+    <title>AES | Recruiters</title>
+    <link rel="icon" type="img/png" href="images/favicon_192.png">
+    <!-- Google icon for trash can -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!-- Included for mobile scaling -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
     <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
-<link rel="stylesheet" href="css/bigwilliestyle.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="css/bigwilliestyle.css">
+    <link rel="stylesheet" href="css/aesMaterials.css">
 </head>
 <body ng-app="AESCoreApp" ng-controller="CandidateCtrl">
 
-
+<div id="toastContainer">
 <div class="container">
 
-	<div class="container logo">
-		<a href="../login/index.html">
-			<img src="images/Revature-Logo.png" alt="Revature" height="75px">
-		</a>
-	</div>
-
-    <div >
-		<span class="col-md-4">
-			<a href="updateUser">update my information</a>
-		</span>
-        <span class="col-md-4">
-			<a href="view">view candidates</a>
-		</span>
-        <span class="col-md-4">
-			<button id="logout" class="btn-revature" ng-click="logout()">logout</button>
-		</span>
+<body ng-app="AESCoreApp" ng-controller="CandidateCtrl">
+<div id="toastContainer">
+    <div>
+        <ng-include src="'recruitMenu.html'" />
     </div>
-
-    <form class="form-revature" ng-submit="register()">
-        <h2 class="row">Register Candidate</h2>
-        <div class="row input-field">
-            <label class="sr-only" for="inputFirstName">first name</label>
-            <input class="col-xs-12 col-md-12" id="inputFirstName" type="text" placeholder="first name" ng-model="firstName" required autofocus>
-        </div>
-        <div class="row input-field">
-            <label class="sr-only" for="inputLastName">last name</label>
-            <input class="col-xs-12 col-md-12" id="inputLastName" type="text" placeholder="last name" ng-model="lastName" required>
-        </div>
-        <div class="row input-field">
-            <label class="sr-only" for="inputEmail">email address</label>
-            <input class="col-xs-12 col-md-12" id="inputEmail" type="email" placeholder="email address" ng-model="email" required>
-        </div>
-        
-        <div ng-show="registerSuccessfulMsg" class="span-creds">
-			<span class="glyphicon glyphicon-floppy-saved" aria-hidden="true" style="color:green;">
-				Candidate Registered Successfully
-			</span>
-		</div>
-		<div ng-show="registerUnsuccessfulMsg" class="span-creds">
-			<span class="glyphicon glyphicon-floppy-remove" aria-hidden="true" style="color:red;">
-				Error: Registration Unsuccessful !!!
-			</span>
-		</div>
-        
-        <div class="row">
-            <input id="btn-register-recruit" class="btn-revature" type="submit" value="register">
-        </div>
-    </form>
-    
+    <div class="container">
+        <form name="candidateForm" class="form-revature" ng-submit="register()">
+            <h2 class="row">Register Candidate</h2>
+            <div class="row input-field">
+                <label class="sr-only" for="inputFirstName">first name</label>
+                <input class="col-xs-12 col-md-12" id="inputFirstName" type="text" placeholder="first name" ng-model="firstName" required autofocus>
+            </div>
+            <div class="row input-field">
+                <label class="sr-only" for="inputLastName">last name</label>
+                <input class="col-xs-12 col-md-12" id="inputLastName" type="text" placeholder="last name" ng-model="lastName" required>
+            </div>
+            <div class="row input-field">
+                <label class="sr-only" for="inputEmail">email address</label>
+                <input class="col-xs-12 col-md-12" id="inputEmail" type="email" placeholder="email address" ng-model="email" ng-change="checkEmail()" required>
+            </div>
+            
+            <div ng-show="buttonToggle">
+            	<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="color:red;">
+    			Email already registered.
+    			</span>
+  				</div>
+  				
+            <div ng-show="registerSuccessfulMsg" class="span-creds">
+                    <span class="glyphicon glyphicon-floppy-saved" aria-hidden="true" style="color:green;">
+                Candidate Registered Successfully
+            </span>
+            </div>
+            <div ng-show="registerUnsuccessfulMsg" class="span-creds">
+                    <span class="glyphicon glyphicon-floppy-remove" aria-hidden="true" style="color:red;">
+                Error: Registration Unsuccessful !!!
+            </span>
+            </div>
+            <div class="row">
+                <input id="btn-register-recruit" class="btn-revature" type="submit" value="register" ng-click="candidateForm.$setPristine(); resetRegistrationForm()" ng-disabled="candidateForm.$invalid || buttonToggle">
+            </div>
+        </form>
+    </div>
+</div>
 </div>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.js"></script>
@@ -78,7 +76,8 @@
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-messages.js"></script>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-sanitize.js"></script>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.js"></script>
-   	<script type="text/javascript" src="js/app.js"></script>
-    <script type="text/javascript" src="js/controllers/CandidateCtrl.js"></script>
+<script type="text/javascript" src="js/app.js"></script>
+<script type="text/javascript" src="js/controllers/CandidateCtrl.js"></script>
 </body>
+
 </html>

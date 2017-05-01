@@ -1,5 +1,7 @@
 package com.revature.aes.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -26,5 +28,9 @@ public class AssessmentRequestServiceImpl implements AssessmentRequestService {
         return assReqDao.save(assReq);
     }
 
+	@Override
+	public List<AssessmentRequest> findAll() {
+		return assReqDao.findAll();
+	}
 
 }

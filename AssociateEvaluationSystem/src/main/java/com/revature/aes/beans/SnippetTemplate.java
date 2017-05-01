@@ -50,6 +50,8 @@ public class SnippetTemplate implements Serializable
 	@JoinColumn(name="QUESTION_ID")
 	@JsonBackReference
 	private Question question;
+	
+	
 
 	public SnippetTemplate() {
 		super();
@@ -99,6 +101,6 @@ public class SnippetTemplate implements Serializable
 	@Override
 	public String toString() {
 		return "SnippetTemplate [snippetTemplateId=" + snippetTemplateId + ", fileType=" + fileType + ", templateUrl="
-				+ templateUrl + ", solutionUrl=" + solutionUrl + ", question=" + question + "]";
+				+ templateUrl + ", solutionUrl=" + solutionUrl + ", questionId=" + ((question == null) ? "null" : question.getQuestionId()) + "]";
 	}
 }
