@@ -68,10 +68,13 @@ public class S3Service {
 	}
 
 	public boolean uploadAssReqToS3(AssessmentRequest assessContents, String key){
+		File file2 = null;
+		FileOutputStream file = null;
+		ObjectOutputStream oos = null;
 		try {
-			File file2 = new File("AssessRequest");
-			FileOutputStream file = new FileOutputStream(file2);
-			ObjectOutputStream oos = new ObjectOutputStream(file);
+			file2 = new File("AssessRequest");
+			file = new FileOutputStream(file2);
+			oos = new ObjectOutputStream(file);
 			oos.writeObject(assessContents);
 			
 
@@ -87,8 +90,13 @@ public class S3Service {
 			return false;
 		}
 		finally {
-			oos.close();
-			file.close();
+			try {
+				oos.close();
+				file.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
