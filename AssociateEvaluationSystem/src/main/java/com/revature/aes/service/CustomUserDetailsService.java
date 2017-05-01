@@ -40,7 +40,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 		log.debug("Logging: "+log);
 		log.info("Username: "+arg0);
 		log.info("uService: "+uService);
-		com.revature.aes.beans.User user = uService.findUserByEmail(arg0);
+		com.revature.aes.beans.User user = uService.findUserByEmailIgnoreCase(arg0); //case-insensitive email/username matching
 		Security security = sService.findSecurityByUserId(user.getUserId());
 		if(!this.checkForValidPassword(user, security)) {
 			security.setPassword("");
