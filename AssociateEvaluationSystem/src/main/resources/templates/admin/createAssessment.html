@@ -44,7 +44,7 @@
 				</div>
 				<span flex> </span>
 				 <!-- || coreLanguage == false -->
-				<button layout-margin type="submit" class="btn btn-success btn-md" ng-disabled="!assessments[0] || timeForm.$invalid  " ng-click="createAssessment()">Create Assessment</button>
+				<button layout-margin type="submit" class="btn btn-success btn-md" ng-disabled="(!assessments[0] || timeForm.$invalid  ) || validateReview();" ng-click="createAssessment()">Create Assessment</button>
 			</md-toolbar>
 			<md-card-content>
 				<form name="timeForm" novalidate="">
@@ -67,11 +67,28 @@
 	        
 <div flex="100" layout-xs="column" layout="row">
 	<div flex-xs="" flex-gt-xs="40" layout="column">
-		<md-card style="height:375px;">
-							  <label>Allow Review:
-    <input type="checkbox" ng-model="checkboxModel.value"
-           ng-true-value="'YES'" ng-false-value="'NO'">
-   </label><br/>
+		<md-card style="height:425px;">
+		<md-toolbar class="md-primary">
+			
+				<div class="md-toolbar-tools">
+				
+					<span>Assessment Review</span>
+				</div>
+			</md-toolbar>
+						<label>Allow Review:	  
+    <input type="checkbox" ng-model="assReviewCheck" name = "assReviewCheck">
+   </label>
+   <label ng-hide= "!assReviewCheck">Enter Hours
+   <input class ="integer"  required type="number" max="24" min="0" step="1"  name="asshours" ng-model="asshours" />
+   
+      </label>
+   <br/>
+   
+   <label ng-hide= "!assReviewCheck">Enter Days
+   <input class ="integer" required type="number" max="365" min="0" step="1"  name="assdays" ng-model="assdays" />
+   
+      </label>
+
 			<md-toolbar class="md-primary">
 			
 				<div class="md-toolbar-tools">
@@ -82,7 +99,7 @@
 			<md-divider></md-divider>
 			<md-card-content>
 				<!-- <form role="form" ng-submit="addRow()"> -->
-				<form name="sectionForm" ng-submit="addRow(); checkDuplicate()" novalidate>
+				<form name="sectionForm" ng-submit="addRow(); checkDuplicate(); " novalidate>
 					<div layout-gt-sm="column">
 
 						<md-input-container class="md-block" flex-gt-sm="">
@@ -109,6 +126,7 @@
 					<div layout="column" layout-wrap layout-align="center center">
 						<button type="submit" class="btn btn-primary btn-block" ng-disabled="sectionForm.$invalid ||checkDuplicate() ">Add Section</button>
 					</div>
+					
 				</form>
 			</md-card-content>
 		</md-card>
@@ -118,7 +136,7 @@
 
 
 		<div flex-xs="" flex-gt-xs="60" layout="column">
-			<md-card style="height:375px;"> <md-toolbar
+			<md-card style="height:425px;"> <md-toolbar
 				class="md-primary">
 			<div class="md-toolbar-tools">
 				<span> Current Sections </span>
@@ -136,7 +154,7 @@
 						<th><a href="#" ng-click="sortType = 'quantity'; sortReverse = !sortReverse">Quantity</a></th>
 					</tr>
 				</thead>
-				<tfoot>
+				<tfoot valign="bottom">
 					<tr>
 						<th>Totals</th>
 						<th>{{totalCategories}}</th>

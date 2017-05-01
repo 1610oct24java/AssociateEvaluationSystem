@@ -481,19 +481,66 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$route
 
 adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SITE_URL, API_URL, ROLE) {	
 
+	
+
+	
+	$scope.validateReview = function ()
+	{
+		
+		
+		if(($scope.assdays == null || $scope.asshours ==null || $scope.asshours <0 || $scope.assdays<0 )||(($scope.assdays ==0 && $scope.asshours == 0 ) && $scope.assReviewCheck == true))
+		
+			{
+			
+			
+			 return true;
+			
+			
+			}
+		else
+			{
+			
+			return false;
+			}
+			
+		
+		
+	}
+	
+	$scope.allowReview = function()
+	{
+		
+		var totalHours = 0;
+		console.log("THE VALUE OF THE CHECKED BOX IS ->"+ $scope.assReviewCheck);
+
+		if($scope.assReviewCheck)
+			{
+			
+			
+			console.log("THE REVIEW DAYS IS  ->"+$scope.assdays );
+			console.log("THE REVIEW HOURS IS ->"+ $scope.asshours);
+			totalHours= ($scope.assdays * 24) + $scope.asshours;
+			console.log("TOTAL HOURS FOR REVIEW ->"+ totalHours);
+			$scope.assdays = 0;
+			$scope.asshours = 0; 
+			}
+		else
+			{
+			$scope.assdays = 0;
+			$scope.asshours = 0; 
+			}
+		
+	}
+	
+	
+	
 	$scope.checkDuplicate = function () {
 		 var flag = false;
 		 var count = 0;
 
 			angular.forEach($scope.sections , function (category) {
 				console.log(category.category);
-				//alert(count);
-				//category.selected = $scope.selectedAll;
-
-	//index of what is selected 
-	// catagories ?
-	//
-				
+			
 				if( $scope.category == category.category && $scope.type == category.type)
 					{
 
@@ -546,6 +593,8 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
         $scope.coreLanguage = false;
         $scope.coreCount = 0;
         $scope.showModal = false;	
+    	$scope.assdays = 0;
+		$scope.asshours = 0; 
     });
 
 
@@ -786,7 +835,8 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
 
         data = {
             "timeLimit": $scope.time,
-            "categoryRequestList": $scope.assessments
+            "categoryRequestList": $scope.assessments,
+            "hoursViewable" : $scope.asshours + ($scope.assdays * 24)
         };
         
         if($scope.coreLanguage == false){

@@ -54,6 +54,17 @@ public class AssessmentRequest implements Serializable, Cloneable{
     @Column(name="IS_DEFAULT")
     private Integer isDefault;
     
+    @Column(name = "DEFAULT_HOURS_VIEWABLE")
+    private Integer hoursViewable;
+    
+	public Integer getHoursViewable() {
+		return hoursViewable;
+	}
+
+	public void setHoursViewable(Integer hoursViewable) {
+		this.hoursViewable = hoursViewable;
+	}
+
 	public AssessmentRequest() {
 		super();
 		
