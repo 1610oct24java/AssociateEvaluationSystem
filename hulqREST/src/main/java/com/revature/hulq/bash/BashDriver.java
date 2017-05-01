@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,15 +28,19 @@ public class BashDriver {
 			result = bashGrader(valSet, testProfile) * 100;
 		} catch (KeyCompilationException kce){
 			// there was a problem compiling the trainers code
+			log.error("KeyCompilationException", kce);
 			result = 0.0;
 		} catch (TestCompilationException tce) {
 			// there was a problem compiling the candidates code
+			log.error("TestCompilationException", tce);
 			result = 0.0;
 		} catch (UnsupportedFileTypeException ufte) {
 			// the file types sent to hulqBASH are not supported
+			log.error("UnsupportedFileTypeException", ufte);
 			result = 0.0; 
 		} catch (BashException be) {
-			// there was a fault with the script itself 
+			// there was a fault with the script itself
+			log.error("BashException", be);
 			result = 0.0;
 		}
 		log.info("The result is " + result);
@@ -72,14 +77,14 @@ public class BashDriver {
 			ProcessBuilder pb = new ProcessBuilder(command);
 			Process p = pb.start();
 			BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			String inputLine = null;
+			String inputLine;
 			StringBuilder lineData = null;
 			String lineType = null;
 			Integer lineKey = null;
 
 			BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
 			// read any errors from the executed bash command, normally occurs at the for loop in hulqBASH.sh
-			String errorStr = null;
+			String errorStr;
 		    log.info("\nHere is the standard error of the command (if any):\n");
 		    while ((errorStr = stdError.readLine()) != null)
 		    {
@@ -114,13 +119,12 @@ public class BashDriver {
 					if (lineKey != null) {
 						// lineKey is in the data map
 						if (data.containsKey(lineKey)) {
-							if (lineType.equals("t")) {
+							if ("t".equals(lineType)) {
 								data.get(lineKey).setUserInfo(lineData.toString());
 							} else {
 								data.get(lineKey).setKeyInfo(lineData.toString());
 							}
 						}
-						lineData = null;
 					}
 
 					String[] dataPair = inputLine.split(":");
@@ -131,7 +135,7 @@ public class BashDriver {
 
 					// lineKey is in the data map
 					if (data.containsKey(lineKey)) {
-						if (lineType.equals("t")) {
+						if ("t".equals(lineType)) {
 							data.get(lineKey).setUserInfo(lineData.toString());
 						} else {
 							data.get(lineKey).setKeyInfo(lineData.toString());
@@ -140,7 +144,7 @@ public class BashDriver {
 					// lineKey is not in data map
 					else {
 						BashData dValue = new BashData();
-						if (lineType.equals("t")) {
+						if ("t".equals(lineType)) {
 							dValue.setUserInfo(lineData.toString());
 						} else {
 							dValue.setKeyInfo(lineData.toString());
@@ -160,21 +164,26 @@ public class BashDriver {
 			if (lineKey != null) {
 				// lineKey is in the data map
 				if (data.containsKey(lineKey)) {
-					if (lineType.equals("t")) {
+					if ("t".equals(lineType)) {
 						data.get(lineKey).setUserInfo(lineData.toString());
 					} else {
 						data.get(lineKey).setKeyInfo(lineData.toString());
 					}
 				}
-				lineData = null;
 			}
 
 			in.close();
 
 		} catch (IOException e) {
+			log.error("IOException", e);
 			log.warn("============= END runCodeTestScript (IOException) ===============");
-			throw new BashException("Caught IO exception trying to run script" + e.getStackTrace().toString());
+			throw new BashException("Caught IO exception trying to run script" + Arrays.toString(e.getStackTrace()));
+		} catch (Exception e) {
+			log.error("Exception", e);
+			log.warn("============= END runCodeTestScript (Exception) ===============");
+			throw new BashException("Some sort of exception occurred when trying to run script");
 		} catch (Throwable e) {
+			log.error("Throwable", e);
 			log.warn("============= END runCodeTestScript (Exception) ===============");
 			throw new BashException("Some sort of exception occurred when trying to run script");
 		}
