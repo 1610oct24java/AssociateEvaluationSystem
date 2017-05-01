@@ -1,9 +1,13 @@
 /**
  * Created by SLEDGEHAMMER on 3/6/2017.
  */
-angular.module('AESCoreApp').controller('LoginCtrl', function($scope, $httpParamSerializerJQLike, $http, SITE_URL, API_URL, ROLE) {
+
+var AESCoreApp = angular.module('AESCoreApp',['ngMaterial', 'ngMessages']);
+
+AESCoreApp.controller('LoginCtrl', function($scope, $httpParamSerializerJQLike, $http, SITE_URL, API_URL, ROLE) {
 
     $scope.login = function() {
+    	console.log('login');
         makeUser($scope);
         $http({
             method : "POST",
@@ -50,6 +54,7 @@ angular.module('AESCoreApp').controller('LoginCtrl', function($scope, $httpParam
                     })
             })
     }
+    console.log('login controller');
 }); //end login controller
 
 function makeUser($scope) {
