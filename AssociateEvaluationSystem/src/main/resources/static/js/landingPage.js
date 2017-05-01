@@ -68,33 +68,33 @@ landingApp.controller("landingPageCtrl", function($scope, $http, $rootScope,
 		var assessmentId = quizPage.substring(quizPage.search("=")+1);
 		console.log(quizPage);
 		
-	$http({
-		method: 'GET',
-		url: QUIZ_REST_URL  + assessmentId,
-		headers: {'Content-Type': 'application/json'}
-	})
-	.then(function(response) {
-		console.log(response.data);
-		// Check response for assessment availability
-		console.log(response);
-		if (response.data.msg === "allow"){
-			console.log("test");
-			$rootScope.protoTest = response.data.assessment;
-			$scope.testtaker = "Welcome " + response.data.firstName + " " + response.data.lastName;
-			$scope.landingScript = response.data.landingScript;
-			// Changes the button on the assessment landing page based on time
-			if (response.data.timestamp != null){
-				$scope.myTime = "Continue Assessment";
-			} else {
-				$scope.myTime = "Start Assessment";
+		$http({
+			method: 'GET',
+			url: QUIZ_REST_URL  + assessmentId,
+			headers: {'Content-Type': 'application/json'}
+		})
+		.then(function(response) {
+			console.log(response.data);
+			// Check response for assessment availability
+			console.log(response);
+			if (response.data.msg === "allow"){
+				console.log("test");
+				$rootScope.protoTest = response.data.assessment;
+				$scope.testtaker = "Welcome " + response.data.firstName + " " + response.data.lastName;
+				$scope.landingScript = response.data.landingScript;
+				// Changes the button on the assessment landing page based on time
+				if (response.data.timestamp != null){
+					$scope.myTime = "Continue Assessment";
+				} else {
+					$scope.myTime = "Start Assessment";
+				}
+				
+				$scope.hideBox = false;
+			}else {
+				// Assessment was taken or time expired, redirecting to expired page
+				$window.location.href = '/aes/expired';
 			}
-			
-			$scope.hideBox = false;
-		}else {
-			// Assessment was taken or time expired, redirecting to expired page
-			$window.location.href = '/aes/expired';
-		}
-	})
+		})
 	}
 	
 	$scope.gotoQuiz = function(){

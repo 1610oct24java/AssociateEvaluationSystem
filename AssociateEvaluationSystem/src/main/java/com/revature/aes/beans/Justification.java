@@ -17,7 +17,7 @@ public class Justification {
 	private int justificationId;	
 	
 	@Column(name = "justification")
-	private String justification;
+	private String explanation;
 
 	public Justification() {
 		super();
@@ -32,15 +32,15 @@ public class Justification {
 	}
 
 	public String getJustification() {
-		return justification;
+		return explanation;
 	}
 
 	public void setJustification(String justification) {
-		this.justification = justification;
+		this.explanation = justification;
 	}
 
 	@Override
 	public String toString() {
-		return "Justification [justificationId=" + justificationId + ", justification=" + justification + "]";
+		return "Justification [justificationId=" + justificationId + ", justification=" + explanation + "]";
 	}
 }
