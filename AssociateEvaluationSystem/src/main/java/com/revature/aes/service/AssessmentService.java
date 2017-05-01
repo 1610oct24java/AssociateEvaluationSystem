@@ -1,4 +1,4 @@
-package com.revature.aes.service;
+	package com.revature.aes.service;
 
 import java.util.List;
 
@@ -21,5 +21,7 @@ public interface AssessmentService {
 	public List<Assessment> findAssessmentsByUser(User user);
 	
 	public void deleteAssessment(Assessment assessment);
+	
+	public List<Assessment> findAll();
 
 }

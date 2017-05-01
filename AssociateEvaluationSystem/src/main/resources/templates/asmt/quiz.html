@@ -16,6 +16,42 @@
 	th:href="@{/css/revatureStyle.css}"
 	href="../static/css/revatureStyle.css">
 
+<style>
+.as-sortable-item, .as-sortable-placeholder {
+    min-height: 20px;
+    margin: 1px 2px 5px 1px;
+    border-radius: 10px;
+}
+
+.as-sortable-item-handle {
+}
+
+.as-sortable-placeholder {
+    border: 1px dashed lightgrey;
+    box-sizing: border-box;
+    background-color: #dbdbdb;
+    
+}
+
+.as-sortable-drag {
+    opacity: .9;
+    ui-sortable : auto;
+    floating : false;
+    
+    position: absolute;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+.as-sortable-hidden {
+
+}
+
+#quest{
+background-color: green;
+}
+
+</style>
 </head>
 <body>
 	<div class="wrap" ng-controller="quizController">
@@ -61,7 +97,8 @@
 							<h2 class="h2">Welcome to the test</h2>
 							<hr>
 							<uib-accordion close-others="oneAtATime">
-							<div ng-repeat="q in filteredQuestions" my-repeat-directive>
+							<div ng-repeat="q in filteredQuestions" my-repeat-directive >
+								<div id="anchor{{$index+numPerPage*(currentPage-1)+1}}"></div>
 								<div uib-accordion-group
 									class="panel panel-default question-box" is-disabled="true"
 									is-open="states[$index+numPerPage*(currentPage-1)].open">
@@ -70,7 +107,7 @@
 										style="display: inline-block;"
 										ng-click="collapseQuestion($index+numPerPage*(currentPage-1))">
 										<h4 id="question{{q.id+1}}">Question
-											{{$index+numPerPage*(currentPage-1)+1}}
+											{{$index+numPerPage*(currentPage-1)+1}}</h4>
 									</div>
 									<i class="pull-right glyphicon"
 										ng-class="{'glyphicon-chevron-down glyph-silver': states[$index+numPerPage*(currentPage-1)].open, 'glyphicon-chevron-right glyph-silver': !states[$index+numPerPage*(currentPage-1)].open }"
@@ -84,7 +121,7 @@
 										ng-class="{'glyph-red': states[$index+numPerPage*(currentPage-1)].flagged, 'glyph-silver': !states[$index+numPerPage*(currentPage-1)].flagged}"
 										ng-click="flagQuestion($index+numPerPage*(currentPage-1))"
 										title="Title"></i>
-									</h4>
+									
 									</uib-accordion-heading>
 
 									<div class="panel-body">
@@ -122,7 +159,7 @@
 										</ul>
 										<!-- DRAG AND DROP -->
 										<div ng-show="q.question.format.formatName === 'Drag and Drop'"
-											ng-controller="dragController">
+											data-ng-controller="dragController">
 											<ul id="revature" class="list-group"
 												data-as-sortable="dragControlListeners"
 												data-ng-model="q.question.dragdrop">
@@ -209,7 +246,7 @@
 				onclick="closeAboutNav()"><span class="fa fa-toggle-right"></span></a>
 
 			<!-- currently hard-coded to the aes context -->
-			<div ng-include="'aes/static/help.html'"></div>
+			<div ng-include="'aes/static/about.html'"></div>
 
 			<hr>
 			
@@ -276,6 +313,7 @@
 		src="../static/js/AngularControllers/quizController.js"></script>
 	<script th:src="@{/js/AngularControllers/countdownController.js}"
 		src="../static/js/AngularControllers/countdownController.js"></script>
+		
 
 </body>
 </html>
