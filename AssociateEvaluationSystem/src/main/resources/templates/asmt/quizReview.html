@@ -97,37 +97,34 @@
 												ng-repeat="option in q.question.option">
 												<!-- MULTIPLE CHOICE -->
 												<div
-													ng-click="selectOption($index, $parent.$index+numPerPage*(currentPage-1))"
-													class="radio"
+													class="radio" 
 													ng-show="q.question.format.formatName === 'Multiple Choice'">
 													<label><input class="radio" type="radio"
 														name="q{{q.question.questionId}}"
-														ng-checked="checkChecked($index, $parent.$index+numPerPage*(currentPage-1))">{{option.optionText}}</label>
+														ng-checked="checkChecked($index, $parent.$index+numPerPage*(currentPage-1))" ng-disabled=true>{{option.optionText}}</label>Correct: {{option.correct}}
 														<br /> Choice Justification: {{option.justification.justification}}
 												</div>
 												
 												 
 												
 												<!-- MULTIPLE SELECT -->
-												<div
-													ng-click="selectOption($index, $parent.$index+numPerPage*(currentPage-1))"
+												<div													
 													class="checkbox"
 													ng-show="q.question.format.formatName === 'Multiple Select'">
 													<label><input class="checkbox" type="checkbox" name="q{{q.question.questionId}}"
-														ng-checked="checkChecked($index, $parent.$index+numPerPage*(currentPage-1))">{{option.optionText}}</label>
+														ng-checked="checkChecked($index, $parent.$index+numPerPage*(currentPage-1))" ng-disabled="true">{{option.optionText}}</label>
 														<br /> Choice Justification: {{option.justification.justification}}
 												</div>
 											</li>
 										</ul>
 										<!-- DRAG AND DROP -->
-										<div ng-show="q.question.format.formatName === 'Drag and Drop'"
-											ng-controller="dragController">
+										<div ng-show="q.question.format.formatName === 'Drag and Drop'>
 											<ul id="revature" class="list-group"
 												data-as-sortable="dragControlListeners"
 												data-ng-model="q.question.dragdrop">
 												<li data-ng-repeat="option in q.question.dragdrop"
 													class="list-group-item" data-as-sortable-item>
-													<div data-as-sortable-item-handle>
+													<div>
 														<span class="glyphicon glyphicon-option-vertical"></span>{{option.dragDropText}}
 													</div>
 												</li>
@@ -138,7 +135,7 @@
 										<div ng-show="q.question.format.formatName === 'Code Snippet'">
 											<!-- <div id="editor{{$index+numPerPage*(currentPage-1)}}"
 												class="editor">public static void main(Strings[] pirateNoises){}</div> -->
-											<div id="editor{{q.question.questionId}}" ui-ace="{theme: 'monokai', mode: '{{getType(q.question.snippetTemplate[0].fileType)}}', onChange:aceChanged}">Enter code here</div>
+											<div id="editor{{q.question.questionId}}" ui-ace="{theme: 'monokai', mode: '{{getType(q.question.snippetTemplate[0].fileType)}}'}" ui-ace readonly="true">Enter code here</div>
 										</div>
 										<div>
 										Question Justification: {{q.question.justification.justification}}
