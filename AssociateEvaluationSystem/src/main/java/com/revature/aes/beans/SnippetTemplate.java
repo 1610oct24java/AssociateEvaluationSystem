@@ -99,6 +99,6 @@ public class SnippetTemplate implements Serializable
 	@Override
 	public String toString() {
 		return "SnippetTemplate [snippetTemplateId=" + snippetTemplateId + ", fileType=" + fileType + ", templateUrl="
-				+ templateUrl + ", solutionUrl=" + solutionUrl + ", question=" + question + "]";
+				+ templateUrl + ", solutionUrl=" + solutionUrl + ", questionId=" + ((question == null) ? "null" : question.getQuestionId()) + "]";
 	}
 }
