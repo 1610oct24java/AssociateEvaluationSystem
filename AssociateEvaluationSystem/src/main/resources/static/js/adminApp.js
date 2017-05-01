@@ -1015,11 +1015,28 @@ adminApp.controller('manageQuestions', function($scope, $http, SITE_URL, API_URL
     var mq = this;
 });
 
-adminApp.controller('ChooseAssessmentCtrl', function($scope, $http, SITE_URL, API_URL, ROLE){
+adminApp.controller('ChooseAssessmentCtrl', function($scope, $mdToast, $http, SITE_URL, API_URL, ROLE){
 	
+	//list of assessments used to manipulate
     $scope.assList = [];
+    
+    //the default assessment stored into different object
     $scope.defaultAss = {};
+    //default assessment is still in assList. Index is used to manipulate the default in the list
     $scope.defaultIndex = 0;
+    
+    //sets toast function
+    $scope.showToast = function(message, type) {
+        $mdToast.show($mdToast.simple(message)
+            .parent(document.querySelectorAll('#toastContainer'))
+            .position("top right")
+            .action("OKAY")
+            .highlightAction(true)
+            .highlightClass('toastActionButton')
+            .theme(type + '-toast')
+            .hideDelay(5000)
+        );
+    };
 
 
 
@@ -1046,6 +1063,8 @@ adminApp.controller('ChooseAssessmentCtrl', function($scope, $http, SITE_URL, AP
         return totalQuestions;
     }
     
+    //function for default assessments total numberof questsion
+    
     $scope.defaultTotalNumOfQuestions = function(index){
         var totalQuestions = 0;
         for(var i = 0; i < $scope.defaultAss.categoryRequestList.length; i++){
@@ -1068,13 +1087,24 @@ adminApp.controller('ChooseAssessmentCtrl', function($scope, $http, SITE_URL, AP
         console.log($scope.assList);
 
         for(var i = 0; i < $scope.assList.length; i++){
+            
+            if($scope.assList[i].hoursViewable == null){
+            	$scope.assList[i].allowed = false;
+            }else{
+            	$scope.assList[i].allowed = true;
+            	$scope.assList[i].days = Math.floor($scope.assList[i].hoursViewable/24).toString();
+            	$scope.assList[i].hours = ($scope.assList[i].hoursViewable % 24).toString();
+            }
             if($scope.assList[i].isDefault == 1){
+            	
                 $scope.defaultAss = $scope.assList[i];
                 $scope.defaultIndex = i;
+                $scope.defaultAss.allow = $scope.assList[i].allowed;
             }
         }
     });
 
+    //function for selecting default. will repopulate list after default is selected
     $scope.selectDefault = function(index){
         $http({
             method: "POST",
@@ -1087,8 +1117,17 @@ adminApp.controller('ChooseAssessmentCtrl', function($scope, $http, SITE_URL, AP
                 url: "allAssessments"
             }).then(function (response) {
                 $scope.assList = response.data;
+                console.log($scope.assList);
 
                 for(var i = 0; i < $scope.assList.length; i++){
+                   
+                    if($scope.assList[i].hoursViewable == null){
+                    	$scope.assList[i].allowed = false;
+                    }else{
+                    	$scope.assList[i].allowed = true;
+                    	$scope.assList[i].days = Math.floor($scope.assList[i].hoursViewable/24).toString();
+                    	$scope.assList[i].hours = ($scope.assList[i].hoursViewable % 24).toString();
+                    }
                     if($scope.assList[i].isDefault == 1){
                         $scope.defaultAss = $scope.assList[i];
                         $scope.defaultIndex = i;
@@ -1096,9 +1135,11 @@ adminApp.controller('ChooseAssessmentCtrl', function($scope, $http, SITE_URL, AP
                 }
             });
         });
+        $scope.showToast("New Default Selected", "success");
 
     }
     
+    //gets each question type of the category
     $scope.getQuestionTypeOfCategory = function(category){
     	if(category.csQuestions > 0){
     		var type = "Code Snippet";
@@ -1118,6 +1159,7 @@ adminApp.controller('ChooseAssessmentCtrl', function($scope, $http, SITE_URL, AP
     	}
     }
     
+    //function to count the number of questions in each category for expanded view
     $scope.getNumberOfQuestionsInCategory = function(category){
     	if(category.csQuestions > 0){
     		var num = category.csQuestions;
@@ -1136,6 +1178,118 @@ adminApp.controller('ChooseAssessmentCtrl', function($scope, $http, SITE_URL, AP
     		return num;
     	}
     }
+    
+    
+/*    $scope.isInteger = function(e, oldValue, index){
+    	var charCode = (e.which) ? e.which : e.keyCode; 
+    	console.log("old value " + oldValue);
+    	console.log(index);
+    	if(charCode == 101 || charCode == 45 || charCode == 46){
+    		console.log("charcode inside " + charCode);
+    		console.log("oldvalue inside " + oldValue);
+
+    		$scope.assList[index].days = oldValue;
+    		console.log($scope.assList[index].days);
+    	}
+    	
+    }*/
+    
+    //checks if user tries to change it over a year long
+    $scope.overAYear = function(days){
+    	var checkDays = parseInt(days);
+    	if (checkDays > 365){
+
+    		return true;
+    		
+    	}
+    	return false;
+    }
+    //checks if user tries to enter over 24 hours
+    $scope.over24Hours = function(hours){
+    	var checkHours = parseInt(hours);
+    	if(checkHours > 23){
+    		return true;
+    	}
+    	return false;
+    }
+    
+    //function to update the hours of the assessment
+    $scope.updateHours = function(index){
+    	$scope.assList[$scope.defaultIndex].days = $scope.defaultAss.days;
+    	$scope.assList[$scope.defaultIndex].hours = $scope.defaultAss.hours;
+    	$scope.assList[$scope.defaultIndex].allowed = $scope.defaultAss.allowed;
+    	if($scope.assList[index].allowed){
+	    	var daysHours = parseInt($scope.assList[index].days) * 24;
+	    	var totalHours = daysHours + parseInt($scope.assList[index].hours);
+	    	$scope.assList[index].hoursViewable = totalHours;
+    	}else{
+    		$scope.assList[index].hoursViewable = null;
+    	}
+    	
+    	
+            $http({
+                method: "POST",
+                url: "updateViewableHours",
+                data: $scope.assList[index]
+            }).then(function(response){
+
+                $http({
+                    method: "GET",
+                    url: "allAssessments"
+                }).then(function (response) {
+                    $scope.assList = response.data;
+                    console.log($scope.assList);
+
+                    for(var i = 0; i < $scope.assList.length; i++){
+                        
+                        if($scope.assList[i].hoursViewable == null){
+                        	$scope.assList[i].allowed = false;
+                        }else{
+                        	$scope.assList[i].allowed = true;
+                        	$scope.assList[i].days = Math.floor($scope.assList[i].hoursViewable/24).toString();
+                        	$scope.assList[i].hours = ($scope.assList[i].hoursViewable % 24).toString();
+                        }
+                        if($scope.assList[i].isDefault == 1){
+                            $scope.defaultAss = $scope.assList[i];
+                            $scope.defaultIndex = i;
+                        }
+                    }
+                });
+            });
+            
+            $scope.showToast("Updated Review Allowed", "success");
+
+        }
+    	
+    	
+ 
 
 });
+
+//directive used to allow only nubmer inputs for text inputs. 
+adminApp.directive('customValidation', function(){
+	   return {
+	     require: 'ngModel',
+	     link: function(scope, element, attrs, ChooseAssessmentCtrl) {
+
+	    	 ChooseAssessmentCtrl.$parsers.push(function (inputValue) {  	
+	    	/* console.log(inputValue);
+	    	 if(inputValue != undefined || inputValue != null){
+	    		 scope.previousValue = inputValue;
+	    		 console.log(scope.previousValue);
+	    	 }else{
+	    		 console.log("undefined value");
+	    	 }*/
+	         var transformedInput = inputValue.replace(/[^0-9]/g, ''); 
+
+	         if (transformedInput!=inputValue) {
+	        	 ChooseAssessmentCtrl.$setViewValue(transformedInput);
+	        	 ChooseAssessmentCtrl.$render();
+	         }         
+
+	         return transformedInput;         
+	       });
+	     }
+	   };
+	});
 
