@@ -64,3 +64,23 @@ table.dataTable tfoot th {
 .dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody td {
     text-align: center;
 }
+
+
+/* Toast Message Formatting */
+md-toast.md-success-toast-theme div.md-toast-content {
+    color: white !important;
+    background-color: rgba(251, 140, 0, 0.85) !important;
+}
+
+md-toast.md-fail-toast-theme div.md-toast-content {
+    color: white !important;
+    background-color: rgba(200, 30, 31, 0.85) !important;
+}
+
+.toastActionButton {
+    color: rgba(55, 71, 79, 0.85) !important;
+    background-color: rgba(255, 222, 121, 0.96);
+    border-radius: 10px 0 0 10px;
+    font-size: 14px;
+    font-weight: 700;
+}
