@@ -104,7 +104,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> findUsersByRecruiter(String email) {
-		int recruiterId = dao.findUserByEmail(email).getUserId();
+		int recruiterId = dao.findByEmailIgnoreCase(email).getUserId();
 		List<User> users = dao.findUsersByRecruiterId(recruiterId);
 
 		for(User u : users){
