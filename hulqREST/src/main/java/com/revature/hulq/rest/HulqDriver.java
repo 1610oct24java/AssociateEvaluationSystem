@@ -24,20 +24,20 @@ public class HulqDriver {
 	public double executeCodeTest(String keyFileKey, String testFileKey){
 		boolean getKey = fa.download(keyFileKey);
 		boolean getTest = fa.download(testFileKey);
-		//System.out.println("key:" + keyFileKey + " test:" + testFileKey);
 		log.info("key:" + keyFileKey + " test:" + testFileKey);
 		//create temp file to check if script file is present
 		File varTmpDir = new File("hulqBASH.sh");
 		//check if script file exists in directory
 		boolean hasScript = varTmpDir.exists();
+		final String BASHTAR = "hulqBASH.tar.gz";
 		
-		if (hasScript == false){
+		if (!hasScript){
 			//download script, false if fails
-			hasScript = fa.download("hulqBASH.tar.gz");
+			fa.download(BASHTAR);
 			//extract script, false if fails
-			hasScript = extractBash("hulqBASH.tar.gz");
+			hasScript = extractBash(BASHTAR);
 			//remove tar.gz file from directory
-			removeTar("hulqBASH.tar.gz");
+			removeTar(BASHTAR);
 		}
 		
 		
@@ -61,15 +61,12 @@ public class HulqDriver {
 			File newTest = new File(newTestName);
 			boolean renamedTest = oldTest.renameTo(newTest);
 			
-			//System.out.println(renamedKey + "-newKey:" + newKeyName +"[=]"+ renamedTest+ " newTest:" + newTestName);
 			log.info(renamedKey + "-newKey:" + newKeyName +"[=]"+ renamedTest+ " newTest:" + newTestName);
 			
 			//if both files were successfully renamed
 			if(renamedKey && renamedTest){
-				//System.out.println("bacon");
 				log.info("bacon");
 				result = bd.gradeCode(newKeyName, newTestName, arguments, testProfile);
-				//result = bd.gradeCode(oldKey.toString(), oldTest.toString(), arguments, testProfile);
 			}
 		} 
 		
@@ -84,7 +81,7 @@ public class HulqDriver {
 			pb.start();
 			return true;
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.info("IOException", e);
 			return false;
 		}
 	}
@@ -96,6 +93,7 @@ public class HulqDriver {
 			pb.start();
 			return true;
 		} catch (IOException e) {
+			log.info("IOException", e);
 			return false;
 		}
 	}

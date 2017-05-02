@@ -50,6 +50,8 @@ public class SnippetTemplate implements Serializable
 	@JoinColumn(name="QUESTION_ID")
 	@JsonBackReference
 	private Question question;
+	
+	
 
 	public SnippetTemplate() {
 		super();

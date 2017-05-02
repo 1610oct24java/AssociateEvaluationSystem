@@ -77,7 +77,6 @@ public class Error {
 					+ "\nMessage:\t"
 					+ t.getMessage();
 			log.error(entire + "\nStackTrace:\n");
-			t.printStackTrace();
 			log.error(border);
 		}
 		
