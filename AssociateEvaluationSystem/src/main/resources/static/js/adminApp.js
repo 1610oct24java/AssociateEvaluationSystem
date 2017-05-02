@@ -282,9 +282,55 @@ adminApp.controller('EmployeeViewCtrl', function($scope,$mdToast, $http, SITE_UR
 		});
 	};
 	
+	// display the review-assessment page
 	$scope.showAssessment = function(a) {
-		console.log(a);
-		window.location = SITE_URL.BASE + API_URL.BASE + '/viewAssessment';
+		console.log(a); //FIXME: delete this test print of the assessment passed in.
+		
+		// clone the assessment passed in so changes to it don't affect the view.
+		assessment = {
+				assessmentId: a.assessmentId,
+				user: a.user,
+				grade: a.grade,
+				timeLimit: a.timeLimit,
+				createdTimeStamp: reformatDate(a.createdTimeStamp), // reformat date of the assessment to an iso format (which spring can convert back into a TimeStamp)
+				finishedTimeStamp: reformatDate(a.finishedTimeStamp), // reformat date of the assessment to an iso format (which spring can convert back into a TimeStamp)
+				template: a.template,
+				options: a.options,
+				assessmentDragDrop: a.assessmentDragDrop,
+				fileUpload: a.fileUpload
+		}
+		
+		// hold the encoded id of the assessment.
+		var encodedId = null;
+		
+		// get the encoded equivalent of the assessment's id so the quiz review of the assessment can be brought up.
+		$http({
+			method  : 'POST',
+			url		: SITE_URL.BASE + API_URL.BASE + "/rest/encode",
+			headers : {'Content-Type' : 'application/json'},
+			data    : assessment
+
+		}).success( function(response) {
+		    if(!response){
+		        console.log('bad id'); //FIXME: delete this test print
+            }
+            else {
+            	console.log('good id'); //FIXME: delete this test print
+
+            	var asmtId = response.data;
+            	console.log(asmtId); //FIXME: delete this test print
+            	
+            	//TODO: response validation.
+            	
+            	encodedId = asmtId;
+            	
+            	// bring up the review assessment page.
+            	window.location = SITE_URL.BASE + API_URL.BASE + '/quizReview?asmt=' + encodedId;
+            }
+		}).error(function() {
+			console.log('whoops id'); //FIXME: delete this test print
+		});
+		
 	};
 	
     // open/close viewing assessments for a candidate.
@@ -296,7 +342,7 @@ adminApp.controller('EmployeeViewCtrl', function($scope,$mdToast, $http, SITE_UR
             .then(function(response) {
                 var asmt = response.data;
                 if (asmt.length != 0) {
-                    asmt.forEach(a=>{ a.createdTimeStamp = formatDate(a.createdTimeStamp);
+                    asmt.forEach(a=>{ a.createdTimeStamp = a.createdTimeStamp = formatDate(a.createdTimeStamp);
                     a.finishedTimeStamp = formatDate(a.finishedTimeStamp)});
                 }
                 $scope.assessments = asmt;
@@ -1013,6 +1059,7 @@ adminApp.controller('ChooseAssessmentCtrl', function($scope, $http, SITE_URL, AP
 
 });
 
+// formats dates from being in total-milliseconds-from-epoch format into a human-readable, presentable format.
 function formatDate(date) {
     if (date == null) {
         return "";
@@ -1021,3 +1068,63 @@ function formatDate(date) {
     var min = d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes();
     return (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear() + " " + d.getHours() + ":" + min;
 }
+
+// reformats dates formatted by formatDate() from (M/D/YYYY H:MM) to an iso format (YYYY-MM-DDTHH:mm:ss.SSSZ)
+function reformatDate(date) {
+	if (!date || date == null) {
+		return "";
+	}
+	
+	// split up the date and time components to make easier to change.
+	var datetime = date.split(' ');
+	
+	// reformat the calendar-date components.
+	var oldDate = datetime[0];
+	var oldDateComponents = oldDate.split('/');
+	var YYYY = oldDateComponents[2];
+	var MM = oldDateComponents[0].length === 1 ? '0' + oldDateComponents[0] : oldDateComponents[0]; // month should be in the form 'MM'.
+	var DD = oldDateComponents[1];
+	
+	// reformat the clock-time components.
+	var oldTime = datetime[1];
+	var oldTimeComponents = oldTime.split(':');
+	var hh = oldTimeComponents[0].length === 1 ? '0' + oldTimeComponents[0] : oldTimeComponents[0]; // hours should be in the form 'hh'.
+	var mm = oldTimeComponents[1];
+	var ss = '00'; // seconds aren't preserved in formatDate() from the original TimeStamp, so here just hardcoding 0...
+	var sss = '000'; // same situation as seconds, so here just hardcoding 0 for milliseconds...
+	
+	// assemble the iso date from the reformatted date and time components.
+	var isoDate = YYYY + '-' + MM + '-' + DD + 'T' + // add the date components.
+		hh + ':' + mm + ':' + ss + '.' + sss + 'Z'; // add the time components.
+	
+	// return the iso-formatted version of the date.
+	return isoDate;
+}
+
+// formats dates from being in total-milliseconds-from-epoch format into an iso format (YYYY-MM-DDThh:mm:ss.sssZ).
+function formatDateIso(date) {
+	if (!date || date == null) {
+		return "";
+	}
+	
+	var jsDate = new Date(date);
+	
+	// get the calendar-date components of the iso date. 
+	var YYYY = jsDate.getFullYear();
+	var MM = (jsDate.getMonth() + 1) < 10 ? '0' + (jsDate.getMonth() + 1) : (jsDate.getMonth() + 1); // month should be in the form 'MM'.
+	var DD = jsDate.getDate() < 10 ? '0' + jsDate.getDate() : jsDate.getDate(); // day should be in the form 'DD'.
+	
+	// get the clock-time components of the iso date.
+	var hh = jsDate.getHours() < 10 ? '0' + jsDate.getHours() : jsDate.getHours(); // hours should be in the form 'hh'.
+	var mm = jsDate.getMinutes() < 10 ? '0' + jsDate.getMinutes() : jsDate.getMinutes(); // minutes should be in the form 'mm'.
+	var ss = jsDate.getSeconds() < 10 ? '0' + jsDate.getSeconds() : jsDate.getSeconds(); // seconds should be in the form 'ss'.
+	var sss = '000'; //just hardcoded 000 for milliseconds...
+	
+	// assemble the iso date from the date and time components.
+	var isoDate = YYYY + '-' + MM + '-' + DD + 'T' + // add the date components.
+		hh + ':' + mm + ':' + ss + '.' + sss + 'Z'; // add the time components.
+		
+	// return the iso-formatted version of the date.
+	return isoDate;
+}
+
