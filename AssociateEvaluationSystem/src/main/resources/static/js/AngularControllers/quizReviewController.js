@@ -13,7 +13,7 @@ app.controller("quizReviewController", function($scope, $rootScope, $http,
 	$scope.testtaker = "loading...";
 	$scope.submitted = false;
 	getQuizQuestions();
-
+	
 	var makeState = function(input) {
 		var temp = {
 			id: input,
@@ -284,11 +284,15 @@ app.controller("quizReviewController", function($scope, $rootScope, $http,
 	$scope.numPerPage = 5;
 	$scope.maxSize = 100;
 	
-	
+	//pagination goes to top of the page
+	$scope.pageChanged = function() {
+	    $location.hash('top');
+	    $anchorScroll();
+	};
 	
 	//code to jump to page and question 
 	$scope.jumpPage = function (index) {
-
+		$scope.pageChanged();
 		numPage=index/$scope.numPerPage;
 		$scope.currentPage =1+ Math.floor(numPage);
 //		
