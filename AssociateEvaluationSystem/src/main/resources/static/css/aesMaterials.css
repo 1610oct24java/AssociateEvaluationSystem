@@ -86,3 +86,9 @@ md-toast.md-fail-toast-theme div.md-toast-content {
     font-size: 14px;
     font-weight: 700;
 }
+
+/* Formatting link hovers */
+
+.assessmentRow:hover {
+	color: rgba(255, 87, 34, 0.75);
+}

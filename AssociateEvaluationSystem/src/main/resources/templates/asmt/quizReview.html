@@ -33,7 +33,7 @@
 				
 				<div class="navbar-title">
 					<a href="http://revature.com">Associate Evaluation System Review</a>
-					<br>{{testtaker}}, <a class="navbar-link-notyou" href="http://revature.com">(not you?)</a>
+					<br>for {{testtaker}} <a ng-show="isAdmin()" class="navbar-link-notyou" href="http://revature.com">(not you?)</a>
 				</div>
 				
 				<button type="button" id="navbarMenuBtn" data-toggle="dropdown"
@@ -41,10 +41,12 @@
 					<span class="fa fa-bars" style="font-size:1.5em;"></span><br>Menu
 				</button>
 				
-				<button type="button" id="navbarSubmitBtn"
-					class="btn text-center navbar-menu-btn" ng-click="submitAssessment()" ng-disabled="submitted">
-					<span class="fa fa-upload" style="font-size:1.5em;"></span><br>Submit
+				<button type="button" id="navbarReturnBtn"
+					class="btn text-center navbar-menu-btn" ng-click="quitReview()" ng-disabled="returning">
+					<span class="fa fa-arrow-left" style="font-size:1.5em;"></span><br>Return
 				</button>
+				
+				
 			</div>
 			<!-- ---- -->
 			<!-- QUIZ -->

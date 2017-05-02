@@ -15,8 +15,11 @@ app.controller("quizReviewController", function($scope, $rootScope, $http,
 	$scope.submitted = false;
 	$scope.returning = false;
 	getQuizQuestions();
+<<<<<<< HEAD
 	getSignedInUser();
-
+=======
+	$scope.ifAdmin = false;
+>>>>>>> 76b7890aa89d3e763c1e4b00ace41d3bce40720a
 	
 	var makeState = function(input) {
 		var temp = {
@@ -440,16 +443,6 @@ app.controller("quizReviewController", function($scope, $rootScope, $http,
 			
 			// TODO: navigate to candidate's home page.
 		}
-	}
-	
-	// check whether the user is an admin
-	$scope.isAdmin = function() {
-		if ($scope.authUser) {
-			if ($scope.authUser.authority == 'ROLE_ADMIN') {
-				return true;
-			}
-		}
-		return false;
 	}
 	
 });
