@@ -51,6 +51,10 @@ public class Question implements Serializable {
 	@OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL, mappedBy="question")
 	private Set<SnippetTemplate> snippetTemplates;
 
+	@OneToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name = "JUSTIFICATION_ID")
+	private Justification justification;
+
 	public Question(int questionId, Format format, Set<Category> questionCategory, String questionText,
 			Set<Tag> questionTags, Set<Option> multiple, Set<DragDrop> dragdrop)	{//, Set<FileUpload> fileUpload) {
 		super();
@@ -62,6 +66,18 @@ public class Question implements Serializable {
 		this.option = multiple;
 		this.dragdrop = dragdrop;
 //		this.fileUpload = fileUpload;
+	}
+
+	public Question(Format format, Set<Category> questionCategory, String questionText, Set<Tag> questionTags,
+					Set<Option> option, Set<DragDrop> dragdrop, Set<SnippetTemplate> snippetTemplates, Justification justification) {
+		this.format = format;
+		this.questionCategory = questionCategory;
+		this.questionText = questionText;
+		this.questionTags = questionTags;
+		this.option = option;
+		this.dragdrop = dragdrop;
+		this.snippetTemplates = snippetTemplates;
+		this.justification = justification;
 	}
 
 	public Question() {
@@ -141,7 +157,15 @@ public class Question implements Serializable {
 		this.dragdrop = dragdrop;
 	}
 
-/*	public Set<FileUpload> getFileUpload() {
+	public Justification getJustification() {
+		return justification;
+	}
+
+	public void setJustification(Justification justification) {
+		this.justification = justification;
+	}
+
+	/*	public Set<FileUpload> getFileUpload() {
 		return fileUpload;
 	}*/
 
@@ -224,7 +248,7 @@ public class Question implements Serializable {
 	@Override
 	public String toString() {
 		return "Question [questionId=" + questionId + ", format=" + format + ", questionCategory=" + questionCategory
-				+ ", questionText=" + questionText + ", questionTags=" + questionTags + ", snippetTemplates= "+snippetTemplates+", multiple=" + option
+				+ ", questionText=" + questionText + ", justification=" + justification + ", questionTags=" + questionTags + ", snippetTemplates= "+snippetTemplates+", multiple=" + option
 				+ ", dragdrop=" + dragdrop + "]";// ", fileUpload=" + fileUpload + "]";
 	}
 

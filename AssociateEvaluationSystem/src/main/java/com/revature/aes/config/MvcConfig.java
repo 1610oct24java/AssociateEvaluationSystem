@@ -13,8 +13,10 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 	public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/login").setViewName("login/index");
         registry.addViewController("/index").setViewName("login/index");
-		registry.addViewController("/quiz").setViewName("asmt/quiz");
-		registry.addViewController("/goodbye").setViewName("asmt/goodbye");
+        registry.addViewController("/assessmentLandingPage").setViewName("asmt/assessmentLandingPage");
+        registry.addViewController("/quiz").setViewName("asmt/quiz");
+        registry.addViewController("/quizReview").setViewName("asmt/quizReview");
+        registry.addViewController("/goodbye").setViewName("asmt/goodbye");
 		registry.addViewController("/expired").setViewName("asmt/expired");
 		registry.addViewController("/recruitMenu.html").setViewName("recruiter/recruitMenu");
 //		registry.addViewController("/recruitMenu.html").setViewName("admin/recruitMenu");
@@ -44,6 +46,8 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("/error").setViewName("error");
         registry.addViewController("/questionTemplate").setViewName("misc/bank/questionTemplate");
         registry.addViewController("/chooseAssessment").setViewName("admin/chooseAssessment");
+        
+        registry.addViewController("/globalSettings").setViewName("admin/globalSettings");
         
 	}
 	

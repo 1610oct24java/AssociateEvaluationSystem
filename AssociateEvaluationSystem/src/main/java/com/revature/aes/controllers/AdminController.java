@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,11 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.aes.beans.GlobalSetting;
 import com.revature.aes.beans.Role;
 import com.revature.aes.beans.User;
 import com.revature.aes.beans.UserUpdateHolder;
 import com.revature.aes.locator.MailServiceLocator;
 import com.revature.aes.logging.Logging;
+import com.revature.aes.service.GlobalSettingService;
 import com.revature.aes.service.RestServices;
 import com.revature.aes.service.RoleService;
 import com.revature.aes.service.UserService;
@@ -49,6 +53,9 @@ public class AdminController {
 
 	@Autowired
 	private RestServices client;
+	
+	@Autowired
+	private GlobalSettingService globalSettingsService;
 
 	/**
 	 * This method gets a list of candidates who reference
@@ -84,18 +91,19 @@ public class AdminController {
 		return candidates;
 	}
 	
-//	@RequestMapping(value="/admin/employee/{userEmail}/updateCandidates", method = RequestMethod.PUT)
-//	public List<User> updateCandidatesListByRecruiter(@PathVariable String userEmail, @RequestBody List<User> newCandidates){
-//
-//		return userService.updateCandidatesOnRecruiter(userEmail, newCandidates);
-//				
-//	}
-//	@RequestMapping(value="/admin/employee/{id}", method = RequestMethod.GET)
-//	public User getEmployeeById(@PathVariable String id){
-//		User user = userService.getUserById(Integer.parseInt(id));
-//		return user;
-//	}
-
+	@RequestMapping(value="/admin/globalSettings", method = RequestMethod.GET)
+	public List<GlobalSetting> getGlobalSettings(){
+		return globalSettingsService.getSettings();
+	}
+	
+	@RequestMapping(value="/admin/globalSettings", method = RequestMethod.PUT)
+	public boolean setGlobalSettings(@RequestBody List<GlobalSetting> globalSettings){
+		for(GlobalSetting setting: globalSettings){
+			this.globalSettingsService.setSetting(setting.getPropertyName(), setting.getPropertyValue());
+		}
+		return true;
+	}
+	
 	/**
 	 * This method registers an employee (trainer, recruiter)
 	 *

@@ -56,6 +56,20 @@ adminApp.config(function($mdThemingProvider) {
         .accentPalette("revOrange");
 });
 
+adminApp.directive('stringToNumber', function() {
+	  return {
+		    require: 'ngModel',
+		    link: function(scope, element, attrs, ngModel) {
+		      ngModel.$parsers.push(function(value) {
+		        return '' + value;
+		      });
+		      ngModel.$formatters.push(function(value) {
+		        return parseFloat(value);
+		      });
+		    }
+		  };
+		});
+
 adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$http,SITE_URL, API_URL, ROLE) {
 	$scope.roleTypes = [];
 	$scope.allEmails = [];
@@ -1232,7 +1246,6 @@ adminApp.controller('ChooseAssessmentCtrl', function($scope, $mdToast, $http, SI
                 url: "updateViewableHours",
                 data: $scope.assList[index]
             }).then(function(response){
-
                 $http({
                     method: "GET",
                     url: "allAssessments"
@@ -1265,7 +1278,60 @@ adminApp.controller('ChooseAssessmentCtrl', function($scope, $mdToast, $http, SI
  
 
 });
-
+adminApp.controller('SettingsViewCtrl', function($scope, $mdToast, $http, SITE_URL, API_URL, ROLE){
+	
+	var settingsUrl = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + "/globalSettings"
+	
+	 $scope.showToast = function(message) {
+    	$mdToast.show($mdToast.simple().textContent(message).parent(document.querySelectorAll('#toastContainer')).position("center center").action("OKAY").highlightAction(true));
+    };
+	
+	$scope.getSettings = function(){
+		$scope.getSettingsUnsuccessful = false;
+		$http({
+			method  : 'GET',
+			url		: settingsUrl
+		}).success(function(data){
+            if (!data){
+                $scope.getSettingsUnsuccessful = true;
+            } else {
+            	$scope.settings = {};
+            	$scope.settings.keys = [];
+            	data.forEach(function (s){
+            		$scope.settings[s.propertyId] = s;
+            		$scope.settings.keys.push(s.propertyId);
+            	});
+            }
+		}).error( function() {
+			 $scope.getSettingsUnsuccessful = true;
+		});
+	}
+	
+	$scope.setSettings = function(){
+		//turns the settings map back into a settings array
+		var settingsArray = [];
+		$scope.settings.keys.forEach(function (s){
+			settingsArray.push($scope.settings[s]); 
+		});
+		
+		$http({
+			method 	: 	'PUT',
+			url		:	settingsUrl,
+			data	:	settingsArray,
+			headers : {'Content-Type' : 'application/json'}
+		}).success(function (data){
+			if (data){
+				$scope.showToast("Settings Saved");
+			} else {
+				$scope.showToast("Settings Failed to Save");
+			}
+		}).error(function(){
+			$scope.showToast("Settings Failed to Save");
+		})
+	}
+	
+	$scope.getSettings();
+});
 //directive used to allow only nubmer inputs for text inputs. 
 adminApp.directive('customValidation', function(){
 	   return {
@@ -1292,4 +1358,3 @@ adminApp.directive('customValidation', function(){
 	     }
 	   };
 	});
-
