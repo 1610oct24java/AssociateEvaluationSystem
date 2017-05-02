@@ -102,6 +102,14 @@ public class Assessment implements Serializable
 		this.finishedTimeStamp = finishedTimeStamp;
 		this.template = template;
 	}
+	public Assessment(int assessmentId, int grade, int timeLimit, Date createdTimeStamp, Date finishedTimeStamp) {
+		super();
+		this.assessmentId = assessmentId;
+		this.grade = grade;
+		this.timeLimit = timeLimit;
+		this.createdTimeStamp = (Timestamp) createdTimeStamp;
+		this.finishedTimeStamp = (Timestamp) finishedTimeStamp;
+	}
 	public Assessment(int grade, int timeLimit, Date createdTimeStamp, Date finishedTimeStamp) {
 		super();
 		this.grade = grade;
