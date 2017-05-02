@@ -13,6 +13,7 @@ app.controller("quizReviewController", function($scope, $rootScope, $http,
 	$scope.testtaker = "loading...";
 	$scope.submitted = false;
 	getQuizQuestions();
+	$scope.ifAdmin = false;
 	
 	var makeState = function(input) {
 		var temp = {
