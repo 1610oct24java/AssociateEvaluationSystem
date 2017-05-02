@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,18 +28,21 @@ public class BashDriver {
 			result = bashGrader(valSet, testProfile) * 100;
 		} catch (KeyCompilationException kce){
 			// there was a problem compiling the trainers code
+			log.error("KeyCompilationException", kce);
 			result = 0.0;
 		} catch (TestCompilationException tce) {
 			// there was a problem compiling the candidates code
+			log.error("TestCompilationException", tce);
 			result = 0.0;
 		} catch (UnsupportedFileTypeException ufte) {
 			// the file types sent to hulqBASH are not supported
+			log.error("UnsupportedFileTypeException", ufte);
 			result = 0.0; 
 		} catch (BashException be) {
-			// there was a fault with the script itself 
+			// there was a fault with the script itself
+			log.error("BashException", be);
 			result = 0.0;
 		}
-		//System.out.println("The result is " + result);
 		log.info("The result is " + result);
 		return result;
 	}
@@ -62,62 +66,49 @@ public class BashDriver {
 		command.add(testPath);
 		command.addAll(arguments);
 		
-		//System.out.println("WAFFLES");
 		log.info("WAFFLES");
 		log.info("============= runCodeTestScript ===============");
-		//System.out.println("keyPath: " + keyPath);
 		log.info("keyPath: " + keyPath);
-		//System.out.println("testPath: " + testPath);
 		log.info("testPath: " + testPath);
-		//System.out.println("args: "+arguments);
 		log.info("args: "+arguments);
 		
 		try {
-			//System.out.println("Executing bash command: " + command.toString());
 			log.info("Executing bash command: " + command.toString());
 			ProcessBuilder pb = new ProcessBuilder(command);
 			Process p = pb.start();
 			BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			String inputLine = null;
+			String inputLine;
 			StringBuilder lineData = null;
 			String lineType = null;
 			Integer lineKey = null;
 
 			BufferedReader stdError = new BufferedReader(new InputStreamReader(p.getErrorStream()));
 			// read any errors from the executed bash command, normally occurs at the for loop in hulqBASH.sh
-			String errorStr = null;
-		    //System.out.println("\nHere is the standard error of the command (if any):\n");
+			String errorStr;
 		    log.info("\nHere is the standard error of the command (if any):\n");
 		    while ((errorStr = stdError.readLine()) != null)
 		    {
-	        	//System.out.println("It broke.\n" + errorStr);
 	        	log.info("It broke.\n" + errorStr);
 				log.error("============= END runCodeTestScript (TestCompilationException) ===============");
 				throw new TestCompilationException("Error or Exception found");
 		    }
 		    stdError.close();
 
-		    //System.out.println("Nothing broke yet...\nNow testing the code:");
 		    log.info("Nothing broke yet...\nNow testing the code:");
 			while ((inputLine = in.readLine()) != null) {
-				//System.out.print("BASH: ");
 				log.info("BASH: ");
-				//System.out.println(inputLine);
 				log.info(inputLine);
 				if (inputLine.startsWith("ERROR(f)")) {
-					//System.out.println(inputLine);
 					log.error(inputLine);
 					log.error("============= END runCodeTestScript (Error File Types) ===============");
 					throw new UnsupportedFileTypeException("file type exception: the files are not currently supported by hulqBASH");
 				}
 				if (inputLine.startsWith("ERROR(c:k)")) {
-					//System.out.println(inputLine);
 					log.error(inputLine);
 					log.error("============= END runCodeTestScript (Error Key Compile) ===============");
 					throw new KeyCompilationException("key compilation exception: ");
 				}
 				if (inputLine.startsWith("ERROR(c:t)")) {
-					//System.out.println(inputLine);
 					log.error(inputLine);
 					log.error("============= END runCodeTestScript (Error) ===============");
 					throw new TestCompilationException("");
@@ -128,17 +119,15 @@ public class BashDriver {
 					if (lineKey != null) {
 						// lineKey is in the data map
 						if (data.containsKey(lineKey)) {
-							if (lineType.equals("t")) {
+							if ("t".equals(lineType)) {
 								data.get(lineKey).setUserInfo(lineData.toString());
 							} else {
 								data.get(lineKey).setKeyInfo(lineData.toString());
 							}
 						}
-						lineData = null;
 					}
 
 					String[] dataPair = inputLine.split(":");
-					//System.out.println("THE INPUTLINE IS " + inputLine);
 					log.info("THE INPUTLINE IS " + inputLine);
 					lineKey = Integer.parseInt(dataPair[0].substring(dataPair[0].length() - 1, dataPair[0].length()));
 					lineType = dataPair[0].substring(0, 1);
@@ -146,7 +135,7 @@ public class BashDriver {
 
 					// lineKey is in the data map
 					if (data.containsKey(lineKey)) {
-						if (lineType.equals("t")) {
+						if ("t".equals(lineType)) {
 							data.get(lineKey).setUserInfo(lineData.toString());
 						} else {
 							data.get(lineKey).setKeyInfo(lineData.toString());
@@ -155,7 +144,7 @@ public class BashDriver {
 					// lineKey is not in data map
 					else {
 						BashData dValue = new BashData();
-						if (lineType.equals("t")) {
+						if ("t".equals(lineType)) {
 							dValue.setUserInfo(lineData.toString());
 						} else {
 							dValue.setKeyInfo(lineData.toString());
@@ -175,21 +164,26 @@ public class BashDriver {
 			if (lineKey != null) {
 				// lineKey is in the data map
 				if (data.containsKey(lineKey)) {
-					if (lineType.equals("t")) {
+					if ("t".equals(lineType)) {
 						data.get(lineKey).setUserInfo(lineData.toString());
 					} else {
 						data.get(lineKey).setKeyInfo(lineData.toString());
 					}
 				}
-				lineData = null;
 			}
 
 			in.close();
 
 		} catch (IOException e) {
+			log.error("IOException", e);
 			log.warn("============= END runCodeTestScript (IOException) ===============");
-			throw new BashException("Caught IO exception trying to run script" + e.getStackTrace().toString());
+			throw new BashException("Caught IO exception trying to run script" + Arrays.toString(e.getStackTrace()));
+		} catch (Exception e) {
+			log.error("Exception", e);
+			log.warn("============= END runCodeTestScript (Exception) ===============");
+			throw new BashException("Some sort of exception occurred when trying to run script");
 		} catch (Throwable e) {
+			log.error("Throwable", e);
 			log.warn("============= END runCodeTestScript (Exception) ===============");
 			throw new BashException("Some sort of exception occurred when trying to run script");
 		}
@@ -213,7 +207,6 @@ public class BashDriver {
 		double totalVal = 0.0;
 		// holds sum of all scores/number of test runs
 		double finalResult;
-		//System.out.println(testProfile.toString());
 		log.info("============= Bash Grader ===============");
 		log.info(testProfile.toString());
 		for (Integer key : results.keySet()) {
@@ -221,7 +214,6 @@ public class BashDriver {
 			keyVal = results.get(key).getKeyInfo();
 			// get user value from map
 			useVal = results.get(key).getUserInfo();
-			//System.out.println("COMPARING VALUES(k:u)[" + keyVal + ":" + useVal + "]");
 			log.info("COMPARING VALUES(k:u)[" + keyVal + ":" + useVal + "]");
 			// if trim whitespace is enabled
 			if (testProfile.isTrimWhitespace()) {
@@ -252,7 +244,6 @@ public class BashDriver {
 					} else {
 						rVal = (kVal - uVal) / kVal;
 					}
-					//System.out.println("difference:" + rVal);
 					log.info("difference:" + rVal);
 				}
 				// get likeness
@@ -261,7 +252,6 @@ public class BashDriver {
 			// if string mode (default)
 			} else {
 				// if String is a perfect match
-				//System.out.println(keyVal + ":" + useVal);
 				log.info(keyVal + ":" + useVal);
 				if (keyVal.equals(useVal)) {
 					rVal = 1.0;
@@ -270,7 +260,6 @@ public class BashDriver {
 					rVal = stringCompare(keyVal, useVal);
 				}
 			}
-			//System.out.println("case result (pre case error margin): " + rVal);
 			log.info("case result (pre case error margin): " + rVal);
 			
 			// if string match percentage is below, discard case value
@@ -279,7 +268,6 @@ public class BashDriver {
 			}
 			
 			// add case result to total result
-			//System.out.println("case result (post case error margin): " + rVal);
 			log.info("case result (post case error margin): " + rVal);
 			totalVal = totalVal + rVal;
 		}
@@ -287,13 +275,11 @@ public class BashDriver {
 		// compute grade of all results
 		finalResult = totalVal / (double) results.size();
 
-		//System.out.println("final result (pre gross error margin): " + finalResult);
 		log.info("final result (pre gross error margin): " + finalResult);
 		// if overall grade is below pass threshold, set = zero
 		if (finalResult < testProfile.getGrossErrorMargin()) {
 			finalResult = 0.0;
 		}
-		//System.out.println("final result (post gross error margin): " + finalResult);
 		log.info("final result (post gross error margin): " + finalResult);
 		// return final grade
 		log.info("============= END Bash Grader ===============");
