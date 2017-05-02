@@ -70,7 +70,12 @@ public class BashDriver {
 		
 		try {
 			log.info("Executing bash command: " + command.toString());
-			ProcessBuilder pb = new ProcessBuilder(command);
+			ProcessBuilder pb1 = new ProcessBuilder(command);
+			Process p1 = pb1.start();
+		List<String> command1 = new ArrayList<>();
+		command1.add("/bin/bash");
+		command1.add("test.sh");
+			ProcessBuilder pb = new ProcessBuilder(command1);
 			Process p = pb.start();
 			BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
 			String inputLine = null;
