@@ -20,10 +20,10 @@ import com.revature.hulq.exceptions.*;
 @Component	
 public class BashDriver {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
-	public double gradeCode(String keyPath, String testPath, List<String> argSet, TestProfile testProfile) {
+	public double gradeCode(String keyPath, String testPath, String timeOutLimit, List<String> argSet, TestProfile testProfile) {
 		double result;
 		try {
-			Map<Integer, BashData> valSet = runCodeTestScript(keyPath, testPath, argSet);
+			Map<Integer, BashData> valSet = runCodeTestScript(keyPath, testPath, argSet, timeOutLimit);
 			result = bashGrader(valSet, testProfile) * 100;
 		} catch (KeyCompilationException kce){
 			// there was a problem compiling the trainers code
@@ -50,14 +50,16 @@ public class BashDriver {
 	 * @return
 	 * @throws BashException
 	 */
-	private Map<Integer, BashData> runCodeTestScript(String keyPath, String testPath, List<String> arguments) throws BashException {
+	private Map<Integer, BashData> runCodeTestScript(String keyPath, String testPath, List<String> arguments, String timeOutLimit) throws BashException {
 		
 		Map<Integer, BashData> data = new HashMap<>();
-
+		
+		log.info("Time out limit specified: " + timeOutLimit);
+		
 		List<String> command = new ArrayList<>();
 		command.add("/bin/bash");
 		command.add("hulqBASH.sh");
-		//command.add(seconds);
+		command.add(timeOutLimit);	
 		command.add(keyPath);
 		command.add(testPath);
 		command.addAll(arguments);
