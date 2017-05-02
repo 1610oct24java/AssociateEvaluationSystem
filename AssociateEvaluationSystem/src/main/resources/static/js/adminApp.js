@@ -1246,7 +1246,6 @@ adminApp.controller('ChooseAssessmentCtrl', function($scope, $mdToast, $http, SI
                 url: "updateViewableHours",
                 data: $scope.assList[index]
             }).then(function(response){
-
                 $http({
                     method: "GET",
                     url: "allAssessments"
@@ -1359,4 +1358,3 @@ adminApp.directive('customValidation', function(){
 	     }
 	   };
 	});
-
