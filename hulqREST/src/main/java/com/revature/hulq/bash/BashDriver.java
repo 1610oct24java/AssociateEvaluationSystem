@@ -179,6 +179,7 @@ public class BashDriver {
 			throw new BashException("Caught IO exception trying to run script" + e.getStackTrace().toString());
 		} catch (Throwable e) {
 			log.warn("============= END runCodeTestScript (Exception) ===============");
+			log.error(e.toString());
 			throw new BashException("Some sort of exception occurred when trying to run script");
 		}
 		log.info("============= END runCodeTestScript (Ok) ===============");
