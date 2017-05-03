@@ -72,12 +72,12 @@ public class FileParser {
 					// parse individual lines of argument notation
 					if (line.startsWith("@ArgSet")) {
 						// if the the argument string is not empty
-						if (valueString != null && !("".equals(valueString))) {
+						if (valueString != null) {
 
 							valueSet.add(valueString.toString().trim());
 						}
 						// reset value string
-						valueString.setLength(0);
+						valueString = new StringBuilder();
 					} else if (line.length() != 0) {
 						// add argument line to value string
 						valueString = valueString.append(" " + line);
