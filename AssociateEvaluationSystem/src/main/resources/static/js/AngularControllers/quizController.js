@@ -400,6 +400,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 				initSetup();
 				$rootScope.initQuizNav();
 				$rootScope.initTimer(response.data.timeLimit, response.data.newTime);
+				// TODO: in $rootScope, create a global settings variable, put response.data.globalSettings in there
 
 			}else {
 				// Assessment was taken or time expired, redirecting to expired page
@@ -434,6 +435,8 @@ app.controller("quizController", function($scope, $rootScope, $http,
 			data: answerData
 		}).then(function(response) {
 			//Removed console log for sonar cube.
+			// TODO: Perform a check on global settings [Instead of review, use global settings in rootScope]
+			// ** Also check on global settings time allowed, compare that to time elapsed
 			if (review === "yes"){
 				//This should allow the questions to put into this page
 				$window.location.href = '/aes/quizReview?asmt=' + $location.search().asmt;
