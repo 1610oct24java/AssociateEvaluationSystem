@@ -443,9 +443,9 @@ app.controller("quizReviewController", function($scope, $rootScope, $http,
 	}
 	
 	// check whether the user is an admin
-	$scope.isAdmin = function() {
+	$scope.isCandidate = function() {
 		if ($scope.authUser) {
-			if ($scope.authUser.authority == 'ROLE_ADMIN') {
+			if ($scope.authUser.authority == 'ROLE_CANDIDATE') {
 				return true;
 			}
 		}
