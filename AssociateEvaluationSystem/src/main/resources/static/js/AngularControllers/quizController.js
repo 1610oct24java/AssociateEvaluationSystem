@@ -94,7 +94,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 				{
 					var editorId = "editor"+$scope.filteredQuestions[i].question.questionId;
 					var aceEditor = ace.edit(editorId);
-					for(z=0;z<$rootScope.snippetStartersInd.length;z++){
+					for(var z=0;z<$rootScope.snippetStartersInd.length;z++){
 						if($rootScope.snippetStartersInd[z]==$scope.filteredQuestions[i].question.questionId){
 							aceEditor.getSession().setValue($rootScope.snippetStarters[z], -1);
 						}
@@ -315,7 +315,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 	//code to jump to page and question 
 	$scope.jumpPage = function (index) {
 		$scope.pageChanged();
-		numPage=index/$scope.numPerPage;
+		var numPage=index/$scope.numPerPage;
 		$scope.currentPage =1+ Math.floor(numPage);		
 		
 		$timeout(function () {
