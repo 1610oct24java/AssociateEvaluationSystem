@@ -210,6 +210,25 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
     // data
     mc.currentPage = mc.findCurrentPage();
     $scope.toggleLeft = mc.buildToggler('left');
+    
+ // $scope.toggleLeft = buildDelayedToggler('left');
+    $scope.toggleRight = buildToggler('right');
+    $scope.isOpenRight = function() {
+        return $mdSidenav('right').isOpen();
+    };
+
+    $scope.toggleAss = buildToggler('ass');
+    $scope.isOpenAss = function(){
+    	return $mdSidenav('ass').isOpen();
+    };
+    
+    function buildToggler(navID) {
+        return function() {
+            // Component lookup should always be available since we are not using `ng-if`
+            $mdSidenav(navID)
+                .toggle()
+        };
+    }
 
 
 });

@@ -1,5 +1,0 @@
-type="compiled"
-customOut="y"
-outFile=""
-compiler="g++ -o"
-executor="./"
