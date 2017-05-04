@@ -372,7 +372,7 @@ app.controller("quizReviewController", function($scope, $rootScope, $http,
 				// check if the assessment has the assessment object
 				if (!response.data.assessment){
 					// redirect to a page that says page not available
-					$window.location.href = '/aes/error';
+					$window.location.href = '/aes/missing';
 				} else {
 					// Assessment ready to take
 					$rootScope.protoTest = response.data.assessment;
