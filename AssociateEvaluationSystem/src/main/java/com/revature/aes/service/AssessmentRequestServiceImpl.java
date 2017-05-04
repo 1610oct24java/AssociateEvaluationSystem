@@ -12,15 +12,14 @@ import com.revature.aes.dao.AssessmentRequestDAO;
 @Service("AssessmentRequestServiceImpl")
 public class AssessmentRequestServiceImpl implements AssessmentRequestService {
 
-    private static final Integer AssessmentRequestTemplateId = 1;
-
     @Autowired
     @Qualifier("assessmentRequestDao")
     private AssessmentRequestDAO assReqDao;
 
     @Override
     public AssessmentRequest getAssessmentRequestTemplate() {
-        return assReqDao.getByAssessmentRequestId(AssessmentRequestTemplateId);
+    	AssessmentRequest defAss = assReqDao.getDefaultAssessment().get(0);
+        return defAss;
     }
 
     @Override
