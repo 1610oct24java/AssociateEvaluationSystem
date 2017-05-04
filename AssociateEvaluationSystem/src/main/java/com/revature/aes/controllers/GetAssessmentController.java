@@ -7,7 +7,10 @@ import com.revature.aes.config.IpConf;
 import com.revature.aes.dao.UserDAO;
 import com.revature.aes.grading.CoreEmailClient;
 import com.revature.aes.logging.Logging;
+import com.revature.aes.mail.MailObject;
 import com.revature.aes.service.*;
+import com.revature.aes.util.PropertyReader;
+
 import org.hashids.Hashids;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +18,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.MediaType;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.*;
@@ -52,6 +58,10 @@ public class GetAssessmentController {
 
 	@Autowired
 	IpConf ipConf;
+	
+	@Autowired
+    private PropertyReader propertyReader;
+
 
 	@PostConstruct
 	protected void postConstruct(){
@@ -82,6 +92,24 @@ public class GetAssessmentController {
 		System.out.println(hashids.decode(hashids.encode(assessment.getAssessmentId())));
 		return coreEmailClientEndpointAddress + "quiz?asmt=" + hashids.encode(assessment.getAssessmentId());
 
+	}
+	
+	/**
+	 * Returns the encoded id of an assessment.
+	 * 
+	 * Used in bringing up the quiz review of the assessment. 
+	 * 
+	 * @param assessment the assessment whose id will be encoded
+	 * @return the encoded id of the assessment
+	 */
+	@RequestMapping(value="/encode", method=RequestMethod.POST)
+	public String getEncodedAssessmentId(@RequestBody Assessment assessment) {
+		// encode the assessment's id.
+		Hashids hashids = new Hashids();
+		String encodedId = hashids.encode(assessment.getAssessmentId());
+		
+		// return the encoded id as a (JSON) object so it can be accessed in AngularJS.
+		return "{\"data\": \"" + encodedId + "\"}";
 	}
 	
 	@RequestMapping(value = "/submitAssessment", method = RequestMethod.POST)
@@ -119,14 +147,19 @@ public class GetAssessmentController {
 
 		}
 */
-		for (AssessmentDragDrop add : assessment.getAssessmentDragDrop()){
-
-			add.setDragDrop(ddService.getDragDropById(add.getDragDrop().getDragDropId()));
-
+		/*SA-CHANGES STARTED*/
+		for (AssessmentDragDrop addD : assessment.getAssessmentDragDrop()){
+			for(AssessmentDragDrop addE : tempAssessment.getAssessmentDragDrop()){
+				if((addE.getDragDrop().getDragDropId())==(addD.getDragDrop().getDragDropId())){
+					addD.setAssessmentDragDropId(addE.getAssessmentDragDropId());
+					break;
+				}
+			}
+			addD.setDragDrop(ddService.getDragDropById(addD.getDragDrop().getDragDropId()));
 		}
 
-		assessment.setFileUpload(new HashSet<FileUpload>());
-
+		//assessment.setFileUpload(new HashSet<FileUpload>());
+		/*SA-CHANGES END*/
 		if(lstSnippetUploads!=null) {
 
 			for (SnippetUpload su : lstSnippetUploads) {
@@ -155,11 +188,23 @@ public class GetAssessmentController {
 				}
 				
 				s3.uploadToS3(su.getCode(), key);
-				FileUpload fu = new FileUpload();
-				fu.setAssessment(assessment);
-				fu.setFileUrl(key);
-				fu.setQuestion(questService.getQuestionById(su.getQuestionId()));
-				assessment.getFileUpload().add(fu);
+				
+				/*SA-CHANGES STARTED*/
+				boolean bIsExists = false;
+				for(FileUpload fUpload : tempAssessment.getFileUpload()){
+					if((fUpload.getFileUrl()).equals(key)){
+						bIsExists=true;
+					}
+				}
+				
+				if(bIsExists==false){
+					FileUpload fu = new FileUpload();
+					fu.setAssessment(assessment);
+					fu.setFileUrl(key);
+					fu.setQuestion(questService.getQuestionById(su.getQuestionId()));
+					assessment.getFileUpload().add(fu);
+				}
+				/*SA-CHANGES END*/
 			}
 		}
 
@@ -201,35 +246,71 @@ public class GetAssessmentController {
 			// --- This portion of code pulls a snippet template from the S3 bucket --- -RicSmith
 			// This list of snippet templates will be added to the response map.
 			List<String> codeStarters = new ArrayList<>();
-			// Pull out the TemplateQuestion set from the assessment.
-			Set<TemplateQuestion> templateQuestions = assessment.getTemplate().getTemplateQuestion();
+			List<String> codeStartersInd = new ArrayList<>();
 			
+			Set<TemplateQuestion> templateQuestions = assessment.getTemplate().getTemplateQuestion();
+			Set<FileUpload> tempUploads = assessment.getFileUpload();
+
+			int numQ = 1;
+
+
+
 			for (TemplateQuestion tq : templateQuestions)
 			{
 				Question question = tq.getQuestion();						// Get each question.
 				Format questionFormat = question.getFormat();				// Get each question format.
-				
+			
 				// Check to see if this question format is a code snippet.
 				if ("Code Snippet".equals(questionFormat.getFormatName()))	
 				{
 					// Pull out the SnippetTemplates from the question.
 					Set<SnippetTemplate> snippetTemplates = question.getSnippetTemplates();
+
+					int questionID = question.getQuestionId();
 					
-					// Loop through the snippetTemplates to get their url locations in S3 bucket.
-					for (SnippetTemplate st : snippetTemplates)
-					{
-						String snippetTemplateUrl = st.getTemplateUrl();		// SnippetTemplate URL.
-						String starterCode = s3.readFromS3(snippetTemplateUrl);	// Read snippet starter from S3 bucket.
-						codeStarters.add(starterCode);							// Add snippetTemplate to list.
+
+					int in = questionID;
+					String ind = String.valueOf(in);
+
+					boolean addedS = false;
+					String starterCode="";
+					if(!tempUploads.isEmpty()){
+						for(FileUpload f : tempUploads){
+							starterCode = s3.readFromS3(f.getFileUrl());
+							if(f.getQuestion().getQuestionId() == question.getQuestionId()){
+								
+								codeStarters.add(starterCode);
+								codeStartersInd.add(ind);
+								addedS=true;
+								break;
+							}
+						}
+
+					}
+					
+					if(addedS==false){
+						// Loop through the snippetTemplates to get their url locations in S3 bucket.
+						for (SnippetTemplate st : snippetTemplates)
+						{
+							String snippetTemplateUrl = st.getTemplateUrl();		// SnippetTemplate URL.
+							starterCode = s3.readFromS3(snippetTemplateUrl);	// Read snippet starter from S3 bucket.
+							codeStarters.add(starterCode);	
+							// Add snippetTemplate to list.
+							codeStartersInd.add(ind);
+						}
 					}
 				}
+				numQ++;
+				
 			}
 			
 			// If code snippet questions exist in the assessment, this array won't be empty.
 			if (!codeStarters.isEmpty())
 			{
+				
 				// Add code starters for snippets to the responseMap that will be sent with the assessment to AngularJS for parsing.
 				responseMap.put("snippets", codeStarters);
+				responseMap.put("snippetIndexes", codeStartersInd);
 			}
 
 			// Get Date where password issued to user
@@ -256,12 +337,16 @@ public class GetAssessmentController {
 						assessment.setCreatedTimeStamp(serverQuizStartTime);
 						service.updateAssessment(assessment);
 						
-						// Add assessment's full time limit to the response
+						// Add assessment's full time limit to the response TODO fix
 						responseMap.put("timeLimit", assessment.getTimeLimit());
+						responseMap.put("newTime", -1);
 						responseMap.put("msg", "allow");
 						responseMap.put("assessment", assessment);
+						//System.out.println("timeLimit " + assessment.getTimeLimit()+"\n\n\n\n\n");
 						
 					}else {
+						responseMap.put("timeLimit", assessment.getTimeLimit());
+						//System.out.println("timeLimit " + assessment.getTimeLimit()+"\n\n\n\n\n");
 						Timestamp serverNowTime = new Timestamp(System.currentTimeMillis());
 						long serverNowTimeInMillis = serverNowTime.getTime();
 						long createdTimestampInMillis = assessment.getCreatedTimeStamp().getTime();
@@ -275,7 +360,8 @@ public class GetAssessmentController {
 						}else {
 							
 							// Add modified time limit since assessment is still in progress
-							responseMap.put("timeLimit", modifiedTimelimit);
+							//System.out.println("\n\n"+ modifiedTimelimit + "I need this");
+							responseMap.put("newTime", modifiedTimelimit);
 							responseMap.put("msg", "allow");
 							responseMap.put("assessment", assessment);
 						}
@@ -283,6 +369,7 @@ public class GetAssessmentController {
 					
 				}else {
 					// Assessment taken, this message will redirect to expired page
+					responseMap.put("assessment", assessment);
 					responseMap.put("msg", "deny");
 				}
 				
@@ -298,6 +385,11 @@ public class GetAssessmentController {
 
 		// Returns a hashMap object with allow message and assessment object
 		// which is automatically converted into JSON objects
+
+		//Adding a sconsole print to see what the output is to trace.
+		//Author: Nick Date:4/26/2017
+		System.out.println("LOOK RIGHT HERE!!!!");
+		System.out.println(responseMap.get("msg"));
 		return responseMap;
 	}
 	
@@ -308,6 +400,10 @@ public class GetAssessmentController {
 		log.debug("GetAssessmentController.quickSaveAssessment: Entered, quick saving assessment.");
 		
 		Assessment assessment = answerData.getAssessment();
+		
+		/*SA-CHANGES STARTED*/
+		int assID = assessment.getAssessmentId();
+		Assessment currAssessment =  service.getAssessmentById(assID);
 		
 		List<SnippetUpload> lstSnippetUploads = answerData.getSnippetUploads();
 
@@ -327,13 +423,18 @@ public class GetAssessmentController {
 
 		}*/
 
-		for (AssessmentDragDrop add : assessment.getAssessmentDragDrop()){
-
-			add.setDragDrop(ddService.getDragDropById(add.getDragDrop().getDragDropId()));
-
+		for (AssessmentDragDrop addD : assessment.getAssessmentDragDrop()){
+			for(AssessmentDragDrop addE : currAssessment.getAssessmentDragDrop()){
+				if((addE.getDragDrop().getDragDropId())==addD.getDragDrop().getDragDropId()){
+					addD.setAssessmentDragDropId(addE.getAssessmentDragDropId());
+					break;
+				}
+			}
+			
+			addD.setDragDrop(ddService.getDragDropById(addD.getDragDrop().getDragDropId()));
 		}
 
-		assessment.setFileUpload(new HashSet<FileUpload>());
+		//assessment.setFileUpload(new HashSet<FileUpload>());
 
 		if(lstSnippetUploads!=null) {
 
@@ -363,11 +464,21 @@ public class GetAssessmentController {
 				}
 				
 				s3.uploadToS3(su.getCode(), key);
-				FileUpload fu = new FileUpload();
-				fu.setAssessment(assessment);
-				fu.setFileUrl(key);
-				fu.setQuestion(questService.getQuestionById(su.getQuestionId()));
-				assessment.getFileUpload().add(fu);
+				
+				boolean bIsExists = false;
+				for(FileUpload fUpload : currAssessment.getFileUpload()){
+					if((fUpload.getFileUrl()).equals(key)){
+						bIsExists=true;
+					}
+				}
+				
+				if(bIsExists==false){
+					FileUpload fu = new FileUpload();
+					fu.setAssessment(assessment);
+					fu.setFileUrl(key);
+					fu.setQuestion(questService.getQuestionById(su.getQuestionId()));
+					assessment.getFileUpload().add(fu);
+				}/*SA-CHANGES ENDED*/
 			}
 		}
 
@@ -377,4 +488,123 @@ public class GetAssessmentController {
 		
 		return "{\"success\":\"ok\"}";
 	}
+	
+	// Landing page method to get candidate first & last name, time limit, and landing page dialog box
+	@RequestMapping(value = "/landing/{id}")
+	public Map<String, Object> getLanding(@PathVariable("id") String AssessmentId) throws IOException {
+		Hashids otherHash = new Hashids();
+		long[] hashIdnum = otherHash.decode(AssessmentId);
+		log.debug("Requesting assessment with ID=" + AssessmentId);
+		
+		// Declaring a new assessment and map 
+		Assessment assessment = new Assessment();
+		Map<String, Object> responseMap = new HashMap<String, Object>();
+		
+		try {
+						
+			assessment = service.getAssessmentById((int) hashIdnum[0]);
+			
+			// Get Date where password issued to user
+			String strPassIssuedTime = assessment.getUser().getDatePassIssued();
+			Timestamp expireDate = Timestamp.valueOf(strPassIssuedTime);
+			
+			// Calculating timestamp to expired date
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(expireDate);
+			cal.add(Calendar.DAY_OF_WEEK, 7); // Add a week to the date to reach expired time
+			expireDate = new Timestamp(cal.getTime().getTime());
+			
+			//Getting the landing page dialog box from file
+			Properties properties = propertyReader.propertyRead("landingPage.properties");
+			
+			String landingPageScript = properties.getProperty("landing");
+			String landingPageScript2 = properties.getProperty("continue");
+			
+			//Formatting the landing page script to enter in the time limit of assessment
+			landingPageScript = formatMessage(landingPageScript, assessment.getTimeLimit());
+			
+			//System.out.println(expireDate.after(new Timestamp(System.currentTimeMillis()))); // if true, allow
+			if (expireDate.after(new Timestamp(System.currentTimeMillis())))
+			{	// Allow assessment (expiration date not yet reached)
+				// Check to see if the user has already taken this assessment
+				if (assessment.getGrade() < 0)
+				{	// Assessment not taken yet
+					if (assessment.getCreatedTimeStamp() == null)
+					{
+						responseMap.put("firstName", assessment.getUser().getFirstName());
+						responseMap.put("lastName", assessment.getUser().getLastName());
+						responseMap.put("landingScript", landingPageScript);
+						responseMap.put("timestamp", assessment.getCreatedTimeStamp());
+						responseMap.put("msg", "allow");
+						System.out.println("my asmt: " + assessment);
+						
+					}else {
+						responseMap.put("timeLimit", assessment.getTimeLimit());
+						//System.out.println("timeLimit " + assessment.getTimeLimit()+"\n\n\n\n\n");
+						Timestamp serverNowTime = new Timestamp(System.currentTimeMillis());
+						long serverNowTimeInMillis = serverNowTime.getTime();
+						long createdTimestampInMillis = assessment.getCreatedTimeStamp().getTime();
+						
+						long modifiedTimelimit = (serverNowTimeInMillis/1000) - (createdTimestampInMillis/1000);
+						modifiedTimelimit = ((assessment.getTimeLimit()*60) - modifiedTimelimit) / 60;
+						
+						if (modifiedTimelimit < 0)
+						{
+							responseMap.put("msg", "deny");
+						} else {
+							
+							responseMap.put("firstName", assessment.getUser().getFirstName());
+							responseMap.put("lastName", assessment.getUser().getLastName());
+							responseMap.put("landingScript", landingPageScript2);
+							responseMap.put("timestamp", assessment.getCreatedTimeStamp());
+							responseMap.put("msg", "allow");
+						}
+					}
+					
+				} else {
+					// Assessment taken, this message will redirect to expired page
+					responseMap.put("msg", "deny");
+				}
+				
+			} else {
+				// Expiration date passed (deny assessment)
+				responseMap.put("msg", "deny");
+			}
+			
+		}catch(NullPointerException e)
+		{
+			log.error(Logging.errorMsg("\nin class: GetAssessmentController\nin method: getAssessment \nexcept", e));
+		}
+	
+		// Returns a hashMap object with allow message and assessment object
+		// which is automatically converted into JSON objects
+		return responseMap;
+	}
+	
+	// Function that formats the string and inserts
+	// the assessment time into the landing page dialog box
+	private String formatMessage(String prompt, int time) {
+
+        StringBuilder message = new StringBuilder(prompt);
+
+        for (int i = 0; i < message.length(); i++) {
+
+        	// Searches for % in the landingPage string and deletes it
+            if (message.charAt(i) == '%' && message.length() > i + 1) {
+
+                message.deleteCharAt(i);
+
+                switch (message.charAt(i)) {
+                	// Searches for t after % in the landingPage string and deletes it
+                    case 't':
+                        message.deleteCharAt(i);
+                        message.insert(i, time); //adds the time integer to string
+                        break;
+                   case '%':
+                        break;
+                }
+            }
+        }
+        return message.toString();
+    }
 }

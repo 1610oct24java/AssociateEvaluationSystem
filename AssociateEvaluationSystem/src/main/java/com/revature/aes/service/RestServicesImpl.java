@@ -67,7 +67,7 @@ public class RestServicesImpl implements RestServices {
 
 		for(CategoryRequest categoryRequest : ar.getCategoryRequestList()){
 
-			if(categoryRequest.getCategory().getName().equalsIgnoreCase("core language")){
+			if("core language".equalsIgnoreCase(categoryRequest.getCategory().getName())){
 
 				newCR = new CategoryRequest(categoryRequest);
 				newCR.setCategory(categoryService.getCategoryByName(category));

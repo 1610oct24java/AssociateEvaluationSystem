@@ -56,6 +56,20 @@ adminApp.config(function($mdThemingProvider) {
         .accentPalette("revOrange");
 });
 
+adminApp.directive('stringToNumber', function() {
+	  return {
+		    require: 'ngModel',
+		    link: function(scope, element, attrs, ngModel) {
+		      ngModel.$parsers.push(function(value) {
+		        return '' + value;
+		      });
+		      ngModel.$formatters.push(function(value) {
+		        return parseFloat(value);
+		      });
+		    }
+		  };
+		});
+
 adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$http,SITE_URL, API_URL, ROLE) {
 	$scope.roleTypes = [];
 	$scope.allEmails = [];
@@ -215,7 +229,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 	
 });
 
-adminApp.controller('EmployeeViewCtrl', function($scope,$mdToast, $http, SITE_URL, API_URL, ROLE) {
+adminApp.controller('EmployeeViewCtrl', function($scope,$mdToast, $http, SITE_URL, API_URL, ROLE, $window) {
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
 		if (response.data.authenticated) {
@@ -281,7 +295,113 @@ adminApp.controller('EmployeeViewCtrl', function($scope,$mdToast, $http, SITE_UR
 			employees.selected = $scope.selectedAll;
 		});
 	};
+	
+	// display the review-assessment page
+	$scope.showAssessment = function(a) {
+		console.log(a); //FIXME: delete this test print of the assessment passed in.
+		
+		// clone the assessment passed in so changes to it don't affect the view.
+		assessment = {
+				assessmentId: a.assessmentId,
+				user: a.user,
+				grade: a.grade,
+				timeLimit: a.timeLimit,
+				createdTimeStamp: reformatDate(a.createdTimeStamp), // reformat date of the assessment to an iso format (which spring can convert back into a TimeStamp)
+				finishedTimeStamp: reformatDate(a.finishedTimeStamp), // reformat date of the assessment to an iso format (which spring can convert back into a TimeStamp)
+				template: a.template,
+				options: a.options,
+				assessmentDragDrop: a.assessmentDragDrop,
+				fileUpload: a.fileUpload
+		}
+		
+		// hold the encoded id of the assessment.
+		var encodedId = null;
+		
+		// get the encoded equivalent of the assessment's id so the quiz review of the assessment can be brought up.
+		$http({
+			method  : 'POST',
+			url		: SITE_URL.BASE + API_URL.BASE + "/rest/encode",
+			headers : {'Content-Type' : 'application/json'},
+			data    : assessment
 
+		}).success( function(response) {
+		    if(!response){
+		        console.log('bad id'); //FIXME: delete this test print
+            }
+            else {
+            	console.log('good id'); //FIXME: delete this test print
+
+            	var asmtId = response.data;
+            	console.log(asmtId); //FIXME: delete this test print
+            	
+            	//TODO: response validation.
+            	
+            	encodedId = asmtId;
+            	
+            	// bring up the review assessment page.
+            	window.location = SITE_URL.BASE + API_URL.BASE + '/quizReview?asmt=' + encodedId;
+            }
+		}).error(function() {
+			console.log('whoops id'); //FIXME: delete this test print
+		});
+		
+	};
+	
+    // open/close viewing assessments for a candidate.
+    $scope.viewAssessments = function(num, email){
+        $scope.assessments = [];
+        $scope.returnCheck = false;
+        $http
+            .get(SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + "/" + email + "/assessments") // get the assessments of this candidate
+            .then(function(response) {
+                var asmt = response.data;
+                if (asmt.length != 0) {
+                    asmt.forEach(a=>{ a.createdTimeStamp = a.createdTimeStamp = formatDate(a.createdTimeStamp);
+                    a.finishedTimeStamp = formatDate(a.finishedTimeStamp)});
+                }
+                $scope.assessments = asmt;
+                $scope.returnCheck = true;
+            });
+
+        var myEl = angular.element( document.querySelector( '#'+num ) );
+        for(var i = 0; i < $scope.employees.length; i++){
+            var close = angular.element( document.querySelector( '#g'+$scope.employees[i].userId ) );
+            if((close[0].attributes[0].nodeValue == "ng-show" || close[0].attributes[1].nodeValue == "ng-show") && '#'+num != '#g'+$scope.employees[i].userId){
+                close.removeClass("ng-show");
+                close.addClass("ng-hide");
+            }
+        }
+
+        if(angular.element(document.querySelector('#'+num).classList)[0] == "ng-hide"){
+            myEl.removeClass("ng-hide");
+            myEl.addClass("ng-show");
+        } else {
+            myEl.removeClass("ng-show");
+            myEl.addClass("ng-hide");
+        }
+    };
+    
+    // check whether an employee is a candidate (used in deciding whether to show view-assessments button)
+    $scope.isCandidate = function(employee) {
+    	if (employee.role.roleTitle.toUpperCase() === "CANDIDATE") {
+    		return true;
+    	}
+    	else {
+    		return false;
+    	}
+    };
+    
+    // closes all assessments being viewed (necessary when searching or re-ordering the display of employees) //FIXME: when searchbar has input, opening assessments breaks
+    $scope.closeAllAssessments = function() {
+        for(var i = 0; i < $scope.employees.length; i++){
+            var close = angular.element( document.querySelector( '#g'+$scope.employees[i].userId ) );
+            if((close[0].attributes[0].nodeValue == "ng-show" || close[0].attributes[1].nodeValue == "ng-show")){
+                close.removeClass("ng-show");
+                close.addClass("ng-hide");
+            }
+        }
+    }
+    
 });
 
 function makeUser($scope) {
@@ -481,6 +601,94 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$route
 
 adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SITE_URL, API_URL, ROLE) {	
 
+	
+
+	
+	$scope.validateReview = function ()
+	{
+		
+		
+		if(($scope.assdays == null || $scope.asshours ==null || $scope.asshours <0 || $scope.assdays<0 )||(($scope.assdays ==0 && $scope.asshours == 0 ) && $scope.assReviewCheck == true))
+		
+			{
+			
+			
+			 return true;
+			
+			
+			}
+		else
+			{
+			
+			return false;
+			}
+			
+		
+		
+	}
+	
+	$scope.allowReview = function()
+	{
+		
+		var totalHours = 0;
+		console.log("THE VALUE OF THE CHECKED BOX IS ->"+ $scope.assReviewCheck);
+
+		if($scope.assReviewCheck)
+			{
+			
+			
+			console.log("THE REVIEW DAYS IS  ->"+$scope.assdays );
+			console.log("THE REVIEW HOURS IS ->"+ $scope.asshours);
+			totalHours= ($scope.assdays * 24) + $scope.asshours;
+			console.log("TOTAL HOURS FOR REVIEW ->"+ totalHours);
+			$scope.assdays = 0;
+			$scope.asshours = 0; 
+			}
+		else
+			{
+			$scope.assdays = 0;
+			$scope.asshours = 0; 
+			}
+		
+	}
+	
+	
+	
+	$scope.checkDuplicate = function () {
+		 var flag = false;
+		 var count = 0;
+
+			angular.forEach($scope.sections , function (category) {
+				console.log(category.category);
+			
+				if( $scope.category == category.category && $scope.type == category.type)
+					{
+
+						flag = true;
+					}
+			
+			console.log("category name " + category.name);
+			console.log("scope category " + $scope.category);
+
+	count ++;
+
+			});
+
+			console.log("the flag is " + flag);
+				if( flag == true)
+				{
+					return true;
+
+				}
+				else {
+					return false;
+		
+					}
+		};
+	
+	
+	
+	
     $scope.showToast = function(message, type) {
         $mdToast.show($mdToast.simple(message)
             .parent(document.querySelectorAll('#toastContainer'))
@@ -505,6 +713,8 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
         $scope.coreLanguage = false;
         $scope.coreCount = 0;
         $scope.showModal = false;	
+    	$scope.assdays = 0;
+		$scope.asshours = 0; 
     });
 
 
@@ -745,7 +955,8 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
 
         data = {
             "timeLimit": $scope.time,
-            "categoryRequestList": $scope.assessments
+            "categoryRequestList": $scope.assessments,
+            "hoursViewable" : $scope.asshours + ($scope.assdays * 24)
         };
         
         if($scope.coreLanguage == false){
@@ -924,11 +1135,28 @@ adminApp.controller('manageQuestions', function($scope, $http, SITE_URL, API_URL
     var mq = this;
 });
 
-adminApp.controller('ChooseAssessmentCtrl', function($scope, $http, SITE_URL, API_URL, ROLE){
+adminApp.controller('ChooseAssessmentCtrl', function($scope, $mdToast, $http, SITE_URL, API_URL, ROLE){
 	
+	//list of assessments used to manipulate
     $scope.assList = [];
+    
+    //the default assessment stored into different object
     $scope.defaultAss = {};
+    //default assessment is still in assList. Index is used to manipulate the default in the list
     $scope.defaultIndex = 0;
+    
+    //sets toast function
+    $scope.showToast = function(message, type) {
+        $mdToast.show($mdToast.simple(message)
+            .parent(document.querySelectorAll('#toastContainer'))
+            .position("top right")
+            .action("OKAY")
+            .highlightAction(true)
+            .highlightClass('toastActionButton')
+            .theme(type + '-toast')
+            .hideDelay(5000)
+        );
+    };
 
 
 
@@ -955,6 +1183,8 @@ adminApp.controller('ChooseAssessmentCtrl', function($scope, $http, SITE_URL, AP
         return totalQuestions;
     }
     
+    //function for default assessments total numberof questsion
+    
     $scope.defaultTotalNumOfQuestions = function(index){
         var totalQuestions = 0;
         for(var i = 0; i < $scope.defaultAss.categoryRequestList.length; i++){
@@ -977,13 +1207,24 @@ adminApp.controller('ChooseAssessmentCtrl', function($scope, $http, SITE_URL, AP
         console.log($scope.assList);
 
         for(var i = 0; i < $scope.assList.length; i++){
+            
+            if($scope.assList[i].hoursViewable == null){
+            	$scope.assList[i].allowed = false;
+            }else{
+            	$scope.assList[i].allowed = true;
+            	$scope.assList[i].days = Math.floor($scope.assList[i].hoursViewable/24).toString();
+            	$scope.assList[i].hours = ($scope.assList[i].hoursViewable % 24).toString();
+            }
             if($scope.assList[i].isDefault == 1){
+            	
                 $scope.defaultAss = $scope.assList[i];
                 $scope.defaultIndex = i;
+                $scope.defaultAss.allow = $scope.assList[i].allowed;
             }
         }
     });
 
+    //function for selecting default. will repopulate list after default is selected
     $scope.selectDefault = function(index){
         $http({
             method: "POST",
@@ -996,8 +1237,17 @@ adminApp.controller('ChooseAssessmentCtrl', function($scope, $http, SITE_URL, AP
                 url: "allAssessments"
             }).then(function (response) {
                 $scope.assList = response.data;
+                console.log($scope.assList);
 
                 for(var i = 0; i < $scope.assList.length; i++){
+                   
+                    if($scope.assList[i].hoursViewable == null){
+                    	$scope.assList[i].allowed = false;
+                    }else{
+                    	$scope.assList[i].allowed = true;
+                    	$scope.assList[i].days = Math.floor($scope.assList[i].hoursViewable/24).toString();
+                    	$scope.assList[i].hours = ($scope.assList[i].hoursViewable % 24).toString();
+                    }
                     if($scope.assList[i].isDefault == 1){
                         $scope.defaultAss = $scope.assList[i];
                         $scope.defaultIndex = i;
@@ -1005,9 +1255,11 @@ adminApp.controller('ChooseAssessmentCtrl', function($scope, $http, SITE_URL, AP
                 }
             });
         });
+        $scope.showToast("New Default Selected", "success");
 
     }
     
+    //gets each question type of the category
     $scope.getQuestionTypeOfCategory = function(category){
     	if(category.csQuestions > 0){
     		var type = "Code Snippet";
@@ -1027,6 +1279,7 @@ adminApp.controller('ChooseAssessmentCtrl', function($scope, $http, SITE_URL, AP
     	}
     }
     
+    //function to count the number of questions in each category for expanded view
     $scope.getNumberOfQuestionsInCategory = function(category){
     	if(category.csQuestions > 0){
     		var num = category.csQuestions;
@@ -1045,6 +1298,185 @@ adminApp.controller('ChooseAssessmentCtrl', function($scope, $http, SITE_URL, AP
     		return num;
     	}
     }
+    
+    
+/*    $scope.isInteger = function(e, oldValue, index){
+    	var charCode = (e.which) ? e.which : e.keyCode; 
+    	console.log("old value " + oldValue);
+    	console.log(index);
+    	if(charCode == 101 || charCode == 45 || charCode == 46){
+    		console.log("charcode inside " + charCode);
+    		console.log("oldvalue inside " + oldValue);
+
+    		$scope.assList[index].days = oldValue;
+    		console.log($scope.assList[index].days);
+    	}
+    	
+    }*/
+    
+    //checks if user tries to change it over a year long
+    $scope.overAYear = function(days){
+    	var checkDays = parseInt(days);
+    	if (checkDays > 365){
+
+    		return true;
+    		
+    	}
+    	return false;
+    }
+    //checks if user tries to enter over 24 hours
+    $scope.over24Hours = function(hours){
+    	var checkHours = parseInt(hours);
+    	if(checkHours > 23){
+    		return true;
+    	}
+    	return false;
+    }
+    
+    //function to update the hours of the assessment
+    $scope.updateHours = function(index){
+    	$scope.assList[$scope.defaultIndex].days = $scope.defaultAss.days;
+    	$scope.assList[$scope.defaultIndex].hours = $scope.defaultAss.hours;
+    	$scope.assList[$scope.defaultIndex].allowed = $scope.defaultAss.allowed;
+    	if($scope.assList[index].allowed){
+	    	var daysHours = parseInt($scope.assList[index].days) * 24;
+	    	var totalHours = daysHours + parseInt($scope.assList[index].hours);
+	    	$scope.assList[index].hoursViewable = totalHours;
+    	}else{
+    		$scope.assList[index].hoursViewable = null;
+    	}
+    	
+    	
+            $http({
+                method: "POST",
+                url: "updateViewableHours",
+                data: $scope.assList[index]
+            }).then(function(response){
+                $http({
+                    method: "GET",
+                    url: "allAssessments"
+                }).then(function (response) {
+                    $scope.assList = response.data;
+                    console.log($scope.assList);
+
+                    for(var i = 0; i < $scope.assList.length; i++){
+                        
+                        if($scope.assList[i].hoursViewable == null){
+                        	$scope.assList[i].allowed = false;
+                        }else{
+                        	$scope.assList[i].allowed = true;
+                        	$scope.assList[i].days = Math.floor($scope.assList[i].hoursViewable/24).toString();
+                        	$scope.assList[i].hours = ($scope.assList[i].hoursViewable % 24).toString();
+                        }
+                        if($scope.assList[i].isDefault == 1){
+                            $scope.defaultAss = $scope.assList[i];
+                            $scope.defaultIndex = i;
+                        }
+                    }
+                });
+            });
+            
+            $scope.showToast("Updated Review Allowed", "success");
+
+        }
+    	
+    	
+ 
 
 });
 
+//directive used to allow only nubmer inputs for text inputs. 
+adminApp.directive('customValidation', function(){
+	   return {
+	     require: 'ngModel',
+	     link: function(scope, element, attrs, ChooseAssessmentCtrl) {
+
+	    	 ChooseAssessmentCtrl.$parsers.push(function (inputValue) {  	
+	    	/* console.log(inputValue);
+	    	 if(inputValue != undefined || inputValue != null){
+	    		 scope.previousValue = inputValue;
+	    		 console.log(scope.previousValue);
+	    	 }else{
+	    		 console.log("undefined value");
+	    	 }*/
+	         var transformedInput = inputValue.replace(/[^0-9]/g, ''); 
+
+	         if (transformedInput!=inputValue) {
+	        	 ChooseAssessmentCtrl.$setViewValue(transformedInput);
+	        	 ChooseAssessmentCtrl.$render();
+	         }         
+
+	         return transformedInput;         
+	       });
+	     }
+	   };
+	});
+
+// formats dates from being in total-milliseconds-from-epoch format into a human-readable, presentable format.
+function formatDate(date) {
+    if (date == null) {
+        return "";
+    }
+    var d = new Date(date);
+    var min = d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes();
+    return (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear() + " " + d.getHours() + ":" + min;
+}
+
+// reformats dates formatted by formatDate() from (M/D/YYYY H:MM) to an iso format (YYYY-MM-DDTHH:mm:ss.SSSZ)
+function reformatDate(date) {
+	if (!date || date == null) {
+		return "";
+	}
+	
+	// split up the date and time components to make easier to change.
+	var datetime = date.split(' ');
+	
+	// reformat the calendar-date components.
+	var oldDate = datetime[0];
+	var oldDateComponents = oldDate.split('/');
+	var YYYY = oldDateComponents[2];
+	var MM = oldDateComponents[0].length === 1 ? '0' + oldDateComponents[0] : oldDateComponents[0]; // month should be in the form 'MM'.
+	var DD = oldDateComponents[1];
+	
+	// reformat the clock-time components.
+	var oldTime = datetime[1];
+	var oldTimeComponents = oldTime.split(':');
+	var hh = oldTimeComponents[0].length === 1 ? '0' + oldTimeComponents[0] : oldTimeComponents[0]; // hours should be in the form 'hh'.
+	var mm = oldTimeComponents[1];
+	var ss = '00'; // seconds aren't preserved in formatDate() from the original TimeStamp, so here just hardcoding 0...
+	var sss = '000'; // same situation as seconds, so here just hardcoding 0 for milliseconds...
+	
+	// assemble the iso date from the reformatted date and time components.
+	var isoDate = YYYY + '-' + MM + '-' + DD + 'T' + // add the date components.
+		hh + ':' + mm + ':' + ss + '.' + sss + 'Z'; // add the time components.
+	
+	// return the iso-formatted version of the date.
+	return isoDate;
+}
+
+// formats dates from being in total-milliseconds-from-epoch format into an iso format (YYYY-MM-DDThh:mm:ss.sssZ).
+function formatDateIso(date) {
+	if (!date || date == null) {
+		return "";
+	}
+	
+	var jsDate = new Date(date);
+	
+	// get the calendar-date components of the iso date. 
+	var YYYY = jsDate.getFullYear();
+	var MM = (jsDate.getMonth() + 1) < 10 ? '0' + (jsDate.getMonth() + 1) : (jsDate.getMonth() + 1); // month should be in the form 'MM'.
+	var DD = jsDate.getDate() < 10 ? '0' + jsDate.getDate() : jsDate.getDate(); // day should be in the form 'DD'.
+	
+	// get the clock-time components of the iso date.
+	var hh = jsDate.getHours() < 10 ? '0' + jsDate.getHours() : jsDate.getHours(); // hours should be in the form 'hh'.
+	var mm = jsDate.getMinutes() < 10 ? '0' + jsDate.getMinutes() : jsDate.getMinutes(); // minutes should be in the form 'mm'.
+	var ss = jsDate.getSeconds() < 10 ? '0' + jsDate.getSeconds() : jsDate.getSeconds(); // seconds should be in the form 'ss'.
+	var sss = '000'; //just hardcoded 000 for milliseconds...
+	
+	// assemble the iso date from the date and time components.
+	var isoDate = YYYY + '-' + MM + '-' + DD + 'T' + // add the date components.
+		hh + ':' + mm + ':' + ss + '.' + sss + 'Z'; // add the time components.
+		
+	// return the iso-formatted version of the date.
+	return isoDate;
+}

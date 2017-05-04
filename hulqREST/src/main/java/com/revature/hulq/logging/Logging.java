@@ -19,61 +19,7 @@ public class Logging {
 	
 	/** The log. */
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
-	private String dashes = "\n==========================================================================================================================================================================";
-/*
-	@Around("execution(* com.revature.hulq..*(..))")
-	public Object log(ProceedingJoinPoint pjp){
-		MethodSignature signature = (MethodSignature) pjp.getSignature();
-		String methodClass = signature.getDeclaringTypeName().toString();
-		String method = signature.getName().toString();
-		Object result = null;
 
-		log.info(dashes);
-
-		log.info(methodClass + " ==> " + method);
-		Object[] args = pjp.getArgs();
-		for(int i = 0; i < args.length; i++){
-			log.info("Argumetnt #"+i+": "+args[i]);
-		}
-
-		log.info("Executing...");
-
-		try{
-			result = pjp.proceed();
-		} catch(Exception e){
-			log.error("\t" + e.getClass() + " " + e.getMessage());
-			log.info(e.toString());
-
-			for(StackTraceElement st : e.getStackTrace()){
-				log.error("\t\t" + st.getMethodName());
-			}
-		} catch(Throwable e){
-			log.error(e.toString());
-		}
-
-		log.info(methodClass + " ==> " + method + " - Exit\nReturning: " + result);
-
-		log.info(dashes);
-		return result;
-	}
-
-	@AfterThrowing(pointcut="execution(* com.revature.aes..*(..))", throwing="e")
-	public void stackTraceLogging(Exception e){
-		log.error(dashes);
-		for(StackTraceElement st : e.getStackTrace()){
-			log.error(st.getMethodName() + " at line " + st.getLineNumber());
-		}
-		log.error(dashes);
-	}
-	
-	/**
-	 * Warn.
-	 *
-	 * @param msg
-	 *            the msg
-	 
-	
-*/
 	public void warn(String msg) {
 		
 		log.warn(msg);
