@@ -1,0 +1,54 @@
+<div class="container-fluid">
+	<div class="row">
+		<form>
+			<div class="form-group">
+				<label for="categorySelect">Category</label> <select
+					ng-model="question.category" id="categorySelect"
+					ng-change="getTypes(); cSelect();"
+					class="form-control col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<option value="" disabled selected hidden></option>
+					<option ng-repeat="category in categories"
+						value="{{category.categoryId}}">{{category.name}}</option>
+				</select>
+			</div>
+			<hr />
+			<div class="form-group">
+				<label for="typeSelect">Type</label> <select id="typeSelect"
+					ng-model="question.question.format.formatId" ng-disabled="cDis"
+					ng-change="getTags(); tSelect();"
+					class="form-control col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<option value="" disabled selected hidden></option>
+					<option ng-repeat="type in formats"
+						value="{{type.formatId}}">{{type.formatName}}</option>
+				</select>
+			</div>
+			<hr />
+			<div class="form-group">
+				<label for="tagSelect">Tag</label> <select id="tagSelect"
+					ng-model="question.tags" ng-disabled="tDis"
+					class="form-control col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<option value="" disabled selected hidden></option>
+					<option ng-repeat="tag in tags" value="{{tag.tagId}}">{{tag.tagName}}</option>
+				</select>
+			</div>
+			<hr />
+			<div class="form-group">
+				<label for="questionText">Question</label>
+				<textarea class="form-control" id="questionText" rows="5" cols="75"
+					ng-model="question.question.questionText" ng-disabled="tDis"
+					placeholder="Enter question text here."></textarea>
+			</div>
+			<!-- add answers, remove answers, and select correct answer(s) depending on the question type -->
+			<hr />
+			<div ng-hide="true">
+				<label for="answers">Answers</label>
+				<div id="answers"></div>
+				<hr />
+			</div>
+			<button class="btn btn-primary btn-md" ng-disabled="tDis">Submit
+				Question</button>
+			<!-- <br />
+			<button ng-click="get();">Test</button> -->
+		</form>
+	</div>
+</div>

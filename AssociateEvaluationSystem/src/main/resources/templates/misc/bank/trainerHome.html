@@ -52,6 +52,7 @@
 <script type="text/javascript" src="static/js/misc/categoryCtrl.js"></script>
 <script type="text/javascript" src="static/js/misc/tagCtrl.js"></script>
 <script type="text/javascript" src="static/js/misc/QuestionCtrl.js"></script>
+<script type="text/javascript" src="static/js/misc/addQuestionCtrl.js"></script>
 <script type="text/javascript"
 	src="static/js/AngularServices/questionBuilderService.js"></script>
 
@@ -76,8 +77,8 @@
 <!-- ngProgress -->
 <link rel="stylesheet" href="static/css/ngProgress.css">
 <style type="text/css">
-.as-tag {
-	display: block;
+a.point-to {
+	cursor: pointer;
 }
 </style>
 </head>
@@ -87,11 +88,11 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="row">
-					<nav class="navbar navbar-default">
+					<nav class="navbar navbar-default" role="navigation">
 						<div class="container-fluid">
 							<div class="navbar-header">
 								<button type="button" class="navbar-toggle collapsed"
-									data-toggle="collapse" data-target="#nav1"
+									data-toggle="collapse" data-target="#navbar"
 									aria-expanded="false">
 									<span class="sr-only">Toggle navigation</span> <span
 										class="icon-bar"></span> <span class="icon-bar"></span> <span
@@ -101,20 +102,19 @@
 									src="images/revature_logo_250.png" style="width: 80px;" />
 								</a>
 							</div>
-							<div class="collapse navbar-collapse" id="nav1">
+							<div class="collapse navbar-collapse" id="navbar">
 								<ul class="nav navbar-nav">
-									<li><a ng-click="addCategories()" href="#"><span
-											class="fa fa-list-ol"></span>&nbsp;&nbsp;Add
-											Categories</a></li>
-									<li><a ng-click="addTags()" href="#"><span
-											class="fa fa-tags"></span>&nbsp;&nbsp;Add
-											Tags</a></li>
-									<li><a ng-click="modifyQuestions()" href="#"><span
+									<li><a class="point-to" ng-click="addCategories()"><span
+											class="fa fa-list-ol"></span>&nbsp;&nbsp;Add Categories</a></li>
+									<li><a class="point-to" ng-click="addTags()"><span
+											class="fa fa-tags"></span>&nbsp;&nbsp;Add Tags</a></li>
+									<li><a class="point-to" ng-click="addQuestions()"><span
+											class="fa fa-plus-square"></span>&nbsp;&nbsp;Add Questions</a></li>
+									<li><a class="point-to" ng-click="modifyQuestions()"><span
 											class="fa fa-pencil-square-o"></span>&nbsp;&nbsp;Modify
 											Questions</a></li>
-									<li><a ng-click="uploadAssessment()" href="#"><span
-											class="fa fa-upload"></span>&nbsp;&nbsp;Upload
-											Assessment</a></li>
+									<li><a class="point-to" ng-click="uploadAssessment()"><span
+											class="fa fa-upload"></span>&nbsp;&nbsp;Upload Assessment</a></li>
 								</ul>
 							</div>
 						</div>
@@ -172,21 +172,22 @@
 						</div>
 					</div> -->
 				</div>
+				<div class="row">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<strong>Associate Evaluation System - </strong> {{templateName}}
+						</div>
+						<div class="panel-body">
+							<div ui-view></div>
+							<!-- Upload Form -->
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
 
-	<div class="container">
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<strong>Associate Evaluation System - </strong> {{templateName}}
-			</div>
-			<div class="panel-body">
-				<div ui-view></div>
-				<!-- Upload Form -->
-			</div>
-		</div>
-	</div>
+
 	<!-- /container -->
 
 </body>

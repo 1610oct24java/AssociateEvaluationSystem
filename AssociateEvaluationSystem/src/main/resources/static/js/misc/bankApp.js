@@ -25,6 +25,11 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider) {
             templateUrl: 'templates/misc/bank/uploadTemplate.html',
             controller: 'MasterCtrl'
         })
+        .state('addQuestion', {
+        	url: 'add-questions',
+        	templateUrl: 'templates/misc/bank/addQuestionTemplate.html',
+        	controller: 'AddQuestionCtrl'
+        })
  
 }]);
 

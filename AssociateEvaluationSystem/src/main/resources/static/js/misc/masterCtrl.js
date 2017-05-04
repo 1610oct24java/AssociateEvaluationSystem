@@ -29,6 +29,11 @@ angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log
 		$scope.templateName = "Upload Assessment";
 	};
 	
+	$scope.addQuestions = function(){
+		$state.go("addQuestion");
+		$scope.templateName = "Add Questions";
+	}
+	
     $scope.uploadFile = function(){
     	// Start the progressbar
     	$scope.progressbar.start;
