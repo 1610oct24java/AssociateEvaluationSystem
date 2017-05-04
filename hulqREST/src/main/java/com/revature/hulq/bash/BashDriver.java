@@ -183,9 +183,6 @@ public class BashDriver {
 			log.warn("============= END runCodeTestScript (Exception) ===============");
 			throw new BashException("Some sort of exception occurred when trying to run script");
 		}
-			log.warn("============= END runCodeTestScript (Exception) ===============");
-			throw new BashException("Some sort of exception occurred when trying to run script");
-		}
 		log.info("============= END runCodeTestScript (Ok) ===============");
 		return data;
 
@@ -208,11 +205,11 @@ public class BashDriver {
 		double finalResult;
 		log.info("============= Bash Grader ===============");
 		log.info(testProfile.toString());
-		for (Integer key : results.keySet()) {
+		for (Map.Entry<Integer, BashData> entry : results.entrySet()) {
 			// get key value from map
-			keyVal = results.get(key).getKeyInfo();
+			keyVal = entry.getValue().getKeyInfo();
 			// get user value from map
-			useVal = results.get(key).getUserInfo();
+			useVal = entry.getValue().getUserInfo();
 			log.info("COMPARING VALUES(k:u)[" + keyVal + ":" + useVal + "]");
 			// if trim whitespace is enabled
 			if (testProfile.isTrimWhitespace()) {
