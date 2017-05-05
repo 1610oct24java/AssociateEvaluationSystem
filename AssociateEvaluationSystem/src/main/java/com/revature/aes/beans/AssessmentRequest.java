@@ -51,9 +51,35 @@ public class AssessmentRequest implements Serializable, Cloneable{
     @Column(name="TIMELIMIT")
     private Integer timeLimit;
     
+    @Column(name="IS_DEFAULT")
+    private Integer isDefault;
+    
+
+    @Column(name="DEFAULT_HOURS_VIEWABLE")
+    private Integer hoursViewable;
+    
+    private transient boolean allowed = false;
+    
+
+	public Integer getHoursViewable() {
+		return hoursViewable;
+	}
+
+	public void setHoursViewable(Integer hoursViewable) {
+		this.hoursViewable = hoursViewable;
+	}
+
 	public AssessmentRequest() {
 		super();
 		
+	}
+
+	public Integer getIsDefault() {
+		return isDefault;
+	}
+
+	public void setIsDefault(Integer isDefault) {
+		this.isDefault = isDefault;
 	}
 
 	public AssessmentRequest(AssessmentRequest assessmentRequest){

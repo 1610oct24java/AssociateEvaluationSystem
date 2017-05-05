@@ -7,7 +7,7 @@ app.controller('CountdownController', function($scope, $rootScope, $interval, $t
 	var testLength = 500;
 	$scope.barUpdate = getBarUpdate();
 	$scope.submitModal = document.getElementById("submitModal");
-	$scope.timerTextColor = {color:'#ffffff'};
+	$scope.timerTextColor = {color:'#474C55'};
     
 	var timer = $interval(function(){
 		$scope.barUpdate = {width:getBarUpdate()+'%'};
@@ -65,7 +65,7 @@ app.controller('CountdownController', function($scope, $rootScope, $interval, $t
 	$rootScope.initTimer = function (timeLimit, newTime) {
 		console.log('timeLimit ' + timeLimit);
 		console.log('newTime ' + newTime);
-		if(newTime == 0){
+		if(newTime == -1){
 			startTime = timeLimit * 60;
 			$scope.seconds = startTime;
 		}

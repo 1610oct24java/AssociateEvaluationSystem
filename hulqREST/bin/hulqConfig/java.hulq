@@ -1,5 +1,0 @@
-type="compiled"
-customOut="n"
-outFile="${inFileName%$".java"}"
-compiler="javac"
-executor="java "

@@ -94,6 +94,24 @@ public class GetAssessmentController {
 
 	}
 	
+	/**
+	 * Returns the encoded id of an assessment.
+	 * 
+	 * Used in bringing up the quiz review of the assessment. 
+	 * 
+	 * @param assessment the assessment whose id will be encoded
+	 * @return the encoded id of the assessment
+	 */
+	@RequestMapping(value="/encode", method=RequestMethod.POST)
+	public String getEncodedAssessmentId(@RequestBody Assessment assessment) {
+		// encode the assessment's id.
+		Hashids hashids = new Hashids();
+		String encodedId = hashids.encode(assessment.getAssessmentId());
+		
+		// return the encoded id as a (JSON) object so it can be accessed in AngularJS.
+		return "{\"data\": \"" + encodedId + "\"}";
+	}
+	
 	@RequestMapping(value = "/submitAssessment", method = RequestMethod.POST)
 	public String saveAssessmentAnswers(@RequestBody AnswerData answerData)
 			throws JsonParseException, JsonMappingException, IOException {
@@ -233,6 +251,10 @@ public class GetAssessmentController {
 			Set<TemplateQuestion> templateQuestions = assessment.getTemplate().getTemplateQuestion();
 			Set<FileUpload> tempUploads = assessment.getFileUpload();
 
+			int numQ = 1;
+
+
+
 			for (TemplateQuestion tq : templateQuestions)
 			{
 				Question question = tq.getQuestion();						// Get each question.
@@ -243,34 +265,27 @@ public class GetAssessmentController {
 				{
 					// Pull out the SnippetTemplates from the question.
 					Set<SnippetTemplate> snippetTemplates = question.getSnippetTemplates();
+
 					int questionID = question.getQuestionId();
 					
-					Integer in = new Integer(questionID);
-					String ind = in.toString();
+
+					int in = questionID;
+					String ind = String.valueOf(in);
+
 					boolean addedS = false;
 					String starterCode="";
-					if(tempUploads.size() > 0){
+					if(!tempUploads.isEmpty()){
 						for(FileUpload f : tempUploads){
-							starterCode+= s3.readFromS3(f.getFileUrl());
+							starterCode = s3.readFromS3(f.getFileUrl());
 							if(f.getQuestion().getQuestionId() == question.getQuestionId()){
+								
 								codeStarters.add(starterCode);
 								codeStartersInd.add(ind);
 								addedS=true;
 								break;
 							}
 						}
-					}
-					
-					if(addedS==false){
-						// Loop through the snippetTemplates to get their url locations in S3 bucket.
-						for (SnippetTemplate st : snippetTemplates)
-						{
-							String snippetTemplateUrl = st.getTemplateUrl();		// SnippetTemplate URL.
-							starterCode+= s3.readFromS3(snippetTemplateUrl);	// Read snippet starter from S3 bucket.
-							codeStarters.add(starterCode);	
-							// Add snippetTemplate to list.
-							codeStartersInd.add(ind);
-						}
+
 					}
 					
 					if(addedS==false){
@@ -279,16 +294,20 @@ public class GetAssessmentController {
 						{
 							String snippetTemplateUrl = st.getTemplateUrl();		// SnippetTemplate URL.
 							starterCode = s3.readFromS3(snippetTemplateUrl);	// Read snippet starter from S3 bucket.
-							codeStarters.add(starterCode);							// Add snippetTemplate to list.
+							codeStarters.add(starterCode);	
+							// Add snippetTemplate to list.
+							codeStartersInd.add(ind);
 						}
-					}/*SA-CHANGES ENDED*/
+					}
 				}
+				numQ++;
+				
 			}
 			
 			// If code snippet questions exist in the assessment, this array won't be empty.
 			if (!codeStarters.isEmpty())
 			{
-				System.out.println("No of Snippets : "+codeStarters.size());
+				
 				// Add code starters for snippets to the responseMap that will be sent with the assessment to AngularJS for parsing.
 				responseMap.put("snippets", codeStarters);
 				responseMap.put("snippetIndexes", codeStartersInd);
@@ -320,7 +339,7 @@ public class GetAssessmentController {
 						
 						// Add assessment's full time limit to the response TODO fix
 						responseMap.put("timeLimit", assessment.getTimeLimit());
-						responseMap.put("newTime", 0);
+						responseMap.put("newTime", -1);
 						responseMap.put("msg", "allow");
 						responseMap.put("assessment", assessment);
 						//System.out.println("timeLimit " + assessment.getTimeLimit()+"\n\n\n\n\n");
@@ -497,10 +516,9 @@ public class GetAssessmentController {
 			
 			//Getting the landing page dialog box from file
 			Properties properties = propertyReader.propertyRead("landingPage.properties");
-			String landingPageScript=null;
-			String landingPageScript2 = null;
-			landingPageScript = properties.getProperty("landing");
-			landingPageScript2 = properties.getProperty("continue");
+			
+			String landingPageScript = properties.getProperty("landing");
+			String landingPageScript2 = properties.getProperty("continue");
 			
 			//Formatting the landing page script to enter in the time limit of assessment
 			landingPageScript = formatMessage(landingPageScript, assessment.getTimeLimit());
@@ -516,7 +534,9 @@ public class GetAssessmentController {
 						responseMap.put("firstName", assessment.getUser().getFirstName());
 						responseMap.put("lastName", assessment.getUser().getLastName());
 						responseMap.put("landingScript", landingPageScript);
+						responseMap.put("timestamp", assessment.getCreatedTimeStamp());
 						responseMap.put("msg", "allow");
+						System.out.println("my asmt: " + assessment);
 						
 					}else {
 						responseMap.put("timeLimit", assessment.getTimeLimit());
@@ -536,6 +556,7 @@ public class GetAssessmentController {
 							responseMap.put("firstName", assessment.getUser().getFirstName());
 							responseMap.put("lastName", assessment.getUser().getLastName());
 							responseMap.put("landingScript", landingPageScript2);
+							responseMap.put("timestamp", assessment.getCreatedTimeStamp());
 							responseMap.put("msg", "allow");
 						}
 					}

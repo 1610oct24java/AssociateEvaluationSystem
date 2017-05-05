@@ -15,7 +15,10 @@
 <link rel="stylesheet" type="text/css"
 	th:href="@{/css/revatureStyle.css}"
 	href="../static/css/revatureStyle.css">
-
+<style>
+	#red{background-color:#F6CECE; font-weight: 800;font-size:130%}
+	#green{background-color:#81F781; font-weight: 800;font-size:130%}
+</style>
 </head>
 <body>
 	<div class="wrap" ng-controller="quizReviewController">
@@ -30,7 +33,7 @@
 				
 				<div class="navbar-title">
 					<a href="http://revature.com">Associate Evaluation System Review</a>
-					<br>{{testtaker}}, <a class="navbar-link-notyou" href="http://revature.com">(not you?)</a>
+					<br>for {{testtaker}} <a ng-show="isAdmin()" class="navbar-link-notyou" href="http://revature.com">(not you?)</a>
 				</div>
 				
 				<button type="button" id="navbarMenuBtn" data-toggle="dropdown"
@@ -38,10 +41,12 @@
 					<span class="fa fa-bars" style="font-size:1.5em;"></span><br>Menu
 				</button>
 				
-				<button type="button" id="navbarSubmitBtn"
-					class="btn text-center navbar-menu-btn" ng-click="submitAssessment()" ng-disabled="submitted">
-					<span class="fa fa-upload" style="font-size:1.5em;"></span><br>Submit
+				<button type="button" id="navbarReturnBtn"
+					class="btn text-center navbar-menu-btn" ng-click="quitReview()" ng-disabled="returning">
+					<span class="fa fa-arrow-left" style="font-size:1.5em;"></span><br>Return
 				</button>
+				
+				
 			</div>
 			<!-- ---- -->
 			<!-- QUIZ -->
@@ -50,7 +55,7 @@
 				<div class="row">
 					<div class="col-sm-10 col-sm-offset-1">
 						<div>
-							<h2 class="h2">Welcome to the review</h2>
+							<h2 class="h2"></h2>
 							<hr>
 							<uib-accordion close-others="oneAtATime">
 							<div ng-repeat="q in filteredQuestions" my-repeat-directive >
@@ -97,31 +102,44 @@
 												ng-repeat="option in q.question.option">
 												<!-- MULTIPLE CHOICE -->
 												<div
-													ng-click="selectOption($index, $parent.$index+numPerPage*(currentPage-1))"
-													class="radio"
+													class="radio" 
 													ng-show="q.question.format.formatName === 'Multiple Choice'">
 													<label><input class="radio" type="radio"
 														name="q{{q.question.questionId}}"
-														ng-checked="checkChecked($index, $parent.$index+numPerPage*(currentPage-1))">{{option.optionText}}</label>
-												</div> <!-- MULTIPLE SELECT -->
-												<div
-													ng-click="selectOption($index, $parent.$index+numPerPage*(currentPage-1))"
+														ng-checked="checkChecked($index, $parent.$index+numPerPage*(currentPage-1))" ng-disabled=true>{{option.optionText}}</label>
+														{{option.correct}}
+														<br />
+														<div ng-if="checkChecked($index, $parent.$index+numPerPage*(currentPage-1)) && option.correct" class="alert alert-success" role="alert">Correct</div>
+														<div ng-if="checkChecked($index, $parent.$index+numPerPage*(currentPage-1)) && !option.correct" class="alert alert-danger" role="alert">Incorrect</div>
+														<div ng-if="!checkChecked($index, $parent.$index+numPerPage*(currentPage-1)) && option.correct" class="alert alert-success" role="alert">This is the correct answer</div>
+														
+														<br /> Choice Justification: {{option.justification.explanation}}
+												</div>
+												
+												 
+												
+												<!-- MULTIPLE SELECT -->
+												<div													
 													class="checkbox"
 													ng-show="q.question.format.formatName === 'Multiple Select'">
 													<label><input class="checkbox" type="checkbox" name="q{{q.question.questionId}}"
-														ng-checked="checkChecked($index, $parent.$index+numPerPage*(currentPage-1))">{{option.optionText}}</label>
+														ng-checked="checkChecked($index, $parent.$index+numPerPage*(currentPage-1))" ng-disabled="true">{{option.optionText}}</label>
+														<br /> Choice Justification: {{option.justification.explanation}}
+														<br />
+														<div ng-if="checkChecked($index, $parent.$index+numPerPage*(currentPage-1)) && option.correct" class="alert alert-success" role="alert">Correct</div>
+														<div ng-if="checkChecked($index, $parent.$index+numPerPage*(currentPage-1)) && !option.correct" class="alert alert-danger" role="alert">Incorrect</div>
+														<div ng-if="!checkChecked($index, $parent.$index+numPerPage*(currentPage-1)) && option.correct" class="alert alert-success" role="alert">This is a correct answer</div>
 												</div>
 											</li>
 										</ul>
 										<!-- DRAG AND DROP -->
-										<div ng-show="q.question.format.formatName === 'Drag and Drop'"
-											ng-controller="dragController">
+										<div ng-show="q.question.format.formatName === 'Drag and Drop'>
 											<ul id="revature" class="list-group"
 												data-as-sortable="dragControlListeners"
 												data-ng-model="q.question.dragdrop">
 												<li data-ng-repeat="option in q.question.dragdrop"
 													class="list-group-item" data-as-sortable-item>
-													<div data-as-sortable-item-handle>
+													<div>
 														<span class="glyphicon glyphicon-option-vertical"></span>{{option.dragDropText}}
 													</div>
 												</li>
@@ -132,9 +150,11 @@
 										<div ng-show="q.question.format.formatName === 'Code Snippet'">
 											<!-- <div id="editor{{$index+numPerPage*(currentPage-1)}}"
 												class="editor">public static void main(Strings[] pirateNoises){}</div> -->
-											<div id="editor{{q.question.questionId}}" ui-ace="{theme: 'monokai', mode: '{{getType(q.question.snippetTemplate[0].fileType)}}', onChange:aceChanged}">Enter code here</div>
+											<div id="editor{{q.question.questionId}}" ui-ace="{theme: 'monokai', mode: '{{getType(q.question.snippetTemplate[0].fileType)}}'}" ui-ace readonly="true">Enter code here</div>
 										</div>
-										<div></div>
+										<div>
+										Question Justification: {{q.question.justification.explanation}}
+										</div>
 									</div>
 								</div>
 								<br>
@@ -145,7 +165,7 @@
 							<!-- PAGINATION -->
 							<!-- ---------- -->
 							<div class="text-center">
-								<ul uib-pagination ng-model="currentPage"
+								<ul uib-pagination ng-model="currentPage" ng-click="pageChanged()"
 									items-per-page="numPerPage" total-items="questions.length"
 									max-size="maxSize" boundary-links="true">
 								</ul>
