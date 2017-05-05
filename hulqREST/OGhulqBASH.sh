@@ -15,7 +15,7 @@
 #### [extension].hulq (without [])
 #### the contents of these files are defined in the 
 #### readme located in /hulqConfig.
-####################################################### 
+#######################################################
 
 #FUNCTION TO GET FILE TYPES ==================================================================
 #extract file extensions from input filenames
@@ -185,54 +185,39 @@ runKey=$keyExecutor$keyRunnable;
 count=0;
 timeOut="timeout $timeOutLimit";
 echo "timeout limit: $timeOutLimit" >> nohup.out;
+#For each argument in the @Args
+#	at the bottom of the Answer Key File 
+for argSet in "$@"; do	
+	(
+		#echo the result (goes out to the service calling this)
+		
+		#Prints out current arg count and what running the code on 
+		#	the args returns/prints out
 
-#====================== START THE DOCKER CONTAINER ============================
-#Copy files over --------------------------
-addFile=$testRunnable;
-addFile2=$keyRunnable;
-if [[ $testExecutor == "java " ]]; then
-	addFile="$addFile.class";
-fi;
-
-if [[ $keyExecutor == "java " ]]; then
-	addFile2="$addFile2.class";
-fi;
-
-#Add files to Dockerfile -------------------
-`echo "COPY $addFile ." >> Dockerfile`;
-`echo "COPY $addFile2 ." >> Dockerfile`;
-
-argString="";
-for argSet in "$@"; do
-	argString="$argString \"$argSet\"";
+		#################
+		### OLD CODE ###
+		#(echo "key $count: $($runKey $argSet)") &
+		#(echo "test $count: $($runTest $argSet)") &
+		#################
+		
+		#Run code
+		
+		res=`$timeOut $runTest $argSet` ;
+		#Code returned after executing last command
+		#	0 usually means no problems
+		#	? anything else problem
+		code=$?;
+		if [ $code -ne 0 ]; then
+			echo "ERROR CODE ($code): Running user code produced an invalid result with arg $argSet" >> nohup.out;
+			remover;
+			exit 1;		
+		else
+			(echo "key $count: $($runKey $argSet)") &
+			(echo "test $count: $($runTest $argSet)") &
+		fi
+		wait;
+	) &
+let "count += 1";
 done;
-
-#Add command to run to Dockerfile -----------
-#	This case run our script with files and arguments
-`echo "CMD ./TheHulq.sh $timeOutLimit \"$runKey\" \"$runTest\" $argString" >> Dockerfile`;
-
-#Build the container from the Dockerfile
-#	Redirects everything to linux's Black Hole 
-docker build -q -t marco_test . > /dev/null;
-
-#Run the container
-docker run -t  marco_test;
-
-#====================== END START THE DOCKER CONTAINER ============================
-
-#Remove files from our ec2
+wait;
 remover;
-
-#========================================================================================================
-#	REMOVE THE FILES AFTER THEY HAVE BEEN ADDED TO THE DOCKER FILE
-sed -i '/FILES SHOULD GO HERE/q' Dockerfile;
-
-#Remove any containers that have been exited 
-docker rm $(docker ps -a -q) > /dev/null;
-
-#Remove any images that have no group 
-res=$(docker images | grep "<none>" | awk {'print $3'});
-if [ ! -z $res ]; then
-	docker rmi $(docker images | grep "<none>" | awk {'print $3'}) > /dev/null;
-fi;
-
