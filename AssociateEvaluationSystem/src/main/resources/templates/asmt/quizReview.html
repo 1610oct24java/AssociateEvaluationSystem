@@ -107,16 +107,12 @@
 													<label><input class="radio" type="radio"
 														name="q{{q.question.questionId}}"
 														ng-checked="checkChecked($index, $parent.$index+numPerPage*(currentPage-1))" ng-disabled=true>{{option.optionText}}</label>
-														{{option.correct}}
 														<br />
-														<div ng-if="checkChecked($index, $parent.$index+numPerPage*(currentPage-1)) && option.correct" class="alert alert-success" role="alert">Correct</div>
-														<div ng-if="checkChecked($index, $parent.$index+numPerPage*(currentPage-1)) && !option.correct" class="alert alert-danger" role="alert">Incorrect</div>
-														<div ng-if="!checkChecked($index, $parent.$index+numPerPage*(currentPage-1)) && option.correct" class="alert alert-success" role="alert">This is the correct answer</div>
-														
-														<br /> Choice Justification: {{option.justification.explanation}}
+														<div ng-if="checkChecked($index, $parent.$index+numPerPage*(currentPage-1)) && option.correct" class="alert alert-success" role="alert">Correct because, {{option.justification.explanation}}</div>
+														<div ng-if="checkChecked($index, $parent.$index+numPerPage*(currentPage-1)) && !option.correct" class="alert alert-danger" role="alert">Incorrect because, {{option.justification.explanation}}</div>
+														<div ng-if="!checkChecked($index, $parent.$index+numPerPage*(currentPage-1)) && option.correct" class="alert alert-success" role="alert">This is the correct answer because, {{option.justification.explanation}} </div>
+														<div ng-if="!checkChecked($index, $parent.$index+numPerPage*(currentPage-1)) && !option.correct" class="alert alert-danger" role="alert">This is an incorrect answer because, {{option.justification.explanation}} </div>
 												</div>
-												
-												 
 												
 												<!-- MULTIPLE SELECT -->
 												<div													
@@ -124,11 +120,11 @@
 													ng-show="q.question.format.formatName === 'Multiple Select'">
 													<label><input class="checkbox" type="checkbox" name="q{{q.question.questionId}}"
 														ng-checked="checkChecked($index, $parent.$index+numPerPage*(currentPage-1))" ng-disabled="true">{{option.optionText}}</label>
-														<br /> Choice Justification: {{option.justification.explanation}}
 														<br />
-														<div ng-if="checkChecked($index, $parent.$index+numPerPage*(currentPage-1)) && option.correct" class="alert alert-success" role="alert">Correct</div>
-														<div ng-if="checkChecked($index, $parent.$index+numPerPage*(currentPage-1)) && !option.correct" class="alert alert-danger" role="alert">Incorrect</div>
-														<div ng-if="!checkChecked($index, $parent.$index+numPerPage*(currentPage-1)) && option.correct" class="alert alert-success" role="alert">This is a correct answer</div>
+														<div ng-if="checkChecked($index, $parent.$index+numPerPage*(currentPage-1)) && option.correct" class="alert alert-success" role="alert">Correct because, {{option.justification.explanation}}</div>
+														<div ng-if="checkChecked($index, $parent.$index+numPerPage*(currentPage-1)) && !option.correct" class="alert alert-danger" role="alert">Incorrect because, {{option.justification.explanation}}</div>
+														<div ng-if="!checkChecked($index, $parent.$index+numPerPage*(currentPage-1)) && option.correct" class="alert alert-success" role="alert">This is the correct answer because, {{option.justification.explanation}} </div>
+														<div ng-if="!checkChecked($index, $parent.$index+numPerPage*(currentPage-1)) && !option.correct" class="alert alert-danger" role="alert">This is an incorrect answer because, {{option.justification.explanation}} </div>
 												</div>
 											</li>
 										</ul>

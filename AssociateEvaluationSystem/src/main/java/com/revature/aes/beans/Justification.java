@@ -30,17 +30,17 @@ public class Justification {
 	public void setJustificationId(int justificationId) {
 		this.justificationId = justificationId;
 	}
-
-	public String getJustification() {
+	
+	public String getExplanation() {
 		return explanation;
 	}
 
-	public void setJustification(String justification) {
-		this.explanation = justification;
+	public void setExplanation(String explanation) {
+		this.explanation = explanation;
 	}
 
 	@Override
 	public String toString() {
-		return "Justification [justificationId=" + justificationId + ", justification=" + explanation + "]";
+		return "Justification [justificationId=" + justificationId + ", explanation=" + explanation + "]";
 	}
 }
