@@ -266,12 +266,11 @@ adminApp.controller('EmployeeViewCtrl', function($scope,$mdToast, $http, SITE_UR
     $scope.deleteEmployee = function(employee) {
     	if (employee.role.roleTitle.toUpperCase() === "SYSTEM") {
     		$scope.showToast("Cannot delete System User");
-    		console.log("CAN'T DO SYSTEM USER DELETE");
     		return;
     	}
     	
     	// delete the employee if it is not the system user.
-    	console.log("DOING NON-SYSTEM USER DELETE");
+    	
 		url = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/" + employee.email + "/delete";
 		$http.delete(url)
 		.success( function(response) {
@@ -298,7 +297,6 @@ adminApp.controller('EmployeeViewCtrl', function($scope,$mdToast, $http, SITE_UR
 	
 	// display the review-assessment page
 	$scope.showAssessment = function(a) {
-		console.log(a); //FIXME: delete this test print of the assessment passed in.
 		
 		// clone the assessment passed in so changes to it don't affect the view.
 		assessment = {
@@ -326,15 +324,13 @@ adminApp.controller('EmployeeViewCtrl', function($scope,$mdToast, $http, SITE_UR
 
 		}).success( function(response) {
 		    if(!response){
-		        console.log('bad id'); //FIXME: delete this test print
+		       
             }
             else {
-            	console.log('good id'); //FIXME: delete this test print
+            	
 
             	var asmtId = response.data;
-            	console.log(asmtId); //FIXME: delete this test print
             	
-            	//TODO: response validation.
             	
             	encodedId = asmtId;
             	
@@ -342,8 +338,7 @@ adminApp.controller('EmployeeViewCtrl', function($scope,$mdToast, $http, SITE_UR
             	window.location = SITE_URL.BASE + API_URL.BASE + '/quizReview?asmt=' + encodedId;
             }
 		}).error(function() {
-			console.log('whoops id'); //FIXME: delete this test print
-		});
+					});
 		
 	};
 	
@@ -631,16 +626,11 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
 	{
 		
 		var totalHours = 0;
-		console.log("THE VALUE OF THE CHECKED BOX IS ->"+ $scope.assReviewCheck);
+		
 
 		if($scope.assReviewCheck)
 			{
-			
-			
-			console.log("THE REVIEW DAYS IS  ->"+$scope.assdays );
-			console.log("THE REVIEW HOURS IS ->"+ $scope.asshours);
 			totalHours= ($scope.assdays * 24) + $scope.asshours;
-			console.log("TOTAL HOURS FOR REVIEW ->"+ totalHours);
 			$scope.assdays = 0;
 			$scope.asshours = 0; 
 			}
@@ -659,7 +649,6 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
 		 var count = 0;
 
 			angular.forEach($scope.sections , function (category) {
-				console.log(category.category);
 			
 				if( $scope.category == category.category && $scope.type == category.type)
 					{
@@ -667,14 +656,11 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
 						flag = true;
 					}
 			
-			console.log("category name " + category.name);
-			console.log("scope category " + $scope.category);
-
 	count ++;
 
 			});
 
-			console.log("the flag is " + flag);
+			
 				if( flag == true)
 				{
 					return true;
@@ -747,12 +733,8 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
 
     function UpdateTotals(quantity) {
         $scope.totalCategories = UniqueArraybyId($scope.assessments, "category");
-        console.log("Total categories = " + $scope.totalCategories);
-        //$scope.totalTypes = UniqueArraybyId($scope.assessments, "type");
         $scope.totalTypes = typeCount($scope.assessments);
-        console.log("Total types = " + $scope.totalTypes);
         $scope.totalQuestions += quantity;
-        console.log("Total questions = " + $scope.totalQuestions);
     }
 
 
@@ -801,16 +783,13 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
     }
 
     $scope.removeRow = function(index) {
-        console.log($scope.assessments[index]['mcQuestions']);
+        
         var mcCount = $scope.assessments[index]['mcQuestions'];
         var msCount = $scope.assessments[index]['msQuestions'];
         var ddCount = $scope.assessments[index]['ddQuestions'];
         var csCount = $scope.assessments[index]['csQuestions'];
 
         var tempQuantity = mcCount + msCount + ddCount + csCount;
-
-        //var tempQuantity = $scope.assessments[index]['quantity'];
-        console.log($scope.assessments + "scopeassessments");
 
         if($scope.assessments[index]['category'].categoryId == 6){
             $scope.coreCount--;
@@ -830,17 +809,13 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
          
          
        
-        //console.log($scope.assessments[index]['quantity'] + "THIS IS $SCOPE.ASSESMENTS[INDEX]['QUANTITY']");
+       
         UpdateTotals(-tempQuantity);
     };
 
     $scope.addRow = function() {
 
-        // $scope.temp = $scope.categories[$scope.categories.indexOf($scope.category.valueOf())];
-    	console.log($scope.category + " cat");
-    	console.log($scope.type + " type");
-    	console.log($scope.quantity + " quant");
-    	
+
     	$scope.catInt;
     	$scope.typeInt;
     	$scope.notEnoughQuestions;
@@ -902,37 +877,32 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
                  var tempCategory = $.grep($scope.categories, function(e){ return e.name == $scope.category; });
 
 
-                 // console.log(result);
-                 // console.log(result[0].categoryId);
-                 // console.log(result[0].name);
-                 // console.log($scope.category);
-
                  var msQuestions=0, mcQuestions=0, ddQuestions=0, csQuestions=0;
 
                  switch($scope.type) {
                      case $scope.types[0].formatName : { /* Multiple Choice changed to cs */
-                         console.log("case - 0");
+                        
                          csQuestions = $scope.quantity;
-                         console.log($scope.type); break;
+                          break;
                      }
                      case $scope.types[1].formatName : { /* Multiple Select changed to dd */
-                         console.log("case - 1");
+                         
                          ddQuestions = $scope.quantity;
-                         console.log($scope.type); break;
+                          break;
                      }
                      case $scope.types[2].formatName : { /* Drag 'n' Drop changed to mc */
-                         console.log("case - 2");
+                        
                          mcQuestions = $scope.quantity;
-                         console.log($scope.type); break;
+                         break;
                      }
                      case $scope.types[3].formatName : { /* Code Snippet changed to ms */
-                         console.log("case - 3");
+                         
                          msQuestions = $scope.quantity;
-                         console.log($scope.type); break;
+                          break;
                      }
                      default : {
-                         console.log("case - default");
-                         console.log($scope.type); break;
+                         
+                          break;
                      }
                  }
 
@@ -955,8 +925,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
                  });
 
 
-                 console.log("Assessments - ");
-                 console.log($scope.assessments);
+      
 
 
                  UpdateTotals($scope.quantity);
@@ -1032,10 +1001,10 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
                              data: data
                          }).success(function(response) {
                              $scope.showToast("Assessment created successfully", "success");
-                             console.log("Assessment creation success");
+                            
                          }).error(function(response) {
                              $scope.showToast("Assessment creation failed", "fail");
-                             console.log("Assessment creation failed");
+                            
                          });
                      }
             }
@@ -1053,8 +1022,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
         url: "category"
     }).then(function (response) {
         $scope.categories = response.data;
-        console.log("Categories - ");
-        console.log(response);
+        
         $scope.showToast("Got all categories", "success");
     });
 
@@ -1063,8 +1031,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
         url: "rest/format"
     }).then(function (response) {
         $scope.types = response.data;
-        console.log("Formats - ");
-        console.log(response);
+       
         $scope.showToast("Got all formats", "success");
     });
 
@@ -1265,7 +1232,7 @@ adminApp.controller('ChooseAssessmentCtrl', function($scope, $mdToast, $http, SI
         url: "allAssessments"
     }).then(function (response) {
         $scope.assList = response.data;
-        console.log($scope.assList);
+       
 
         for(var i = 0; i < $scope.assList.length; i++){
             
@@ -1298,7 +1265,7 @@ adminApp.controller('ChooseAssessmentCtrl', function($scope, $mdToast, $http, SI
                 url: "allAssessments"
             }).then(function (response) {
                 $scope.assList = response.data;
-                console.log($scope.assList);
+                
 
                 for(var i = 0; i < $scope.assList.length; i++){
                    
@@ -1361,19 +1328,7 @@ adminApp.controller('ChooseAssessmentCtrl', function($scope, $mdToast, $http, SI
     }
     
     
-/*    $scope.isInteger = function(e, oldValue, index){
-    	var charCode = (e.which) ? e.which : e.keyCode; 
-    	console.log("old value " + oldValue);
-    	console.log(index);
-    	if(charCode == 101 || charCode == 45 || charCode == 46){
-    		console.log("charcode inside " + charCode);
-    		console.log("oldvalue inside " + oldValue);
 
-    		$scope.assList[index].days = oldValue;
-    		console.log($scope.assList[index].days);
-    	}
-    	
-    }*/
     
     //checks if user tries to change it over a year long
     $scope.overAYear = function(days){
@@ -1418,7 +1373,7 @@ adminApp.controller('ChooseAssessmentCtrl', function($scope, $mdToast, $http, SI
                     url: "allAssessments"
                 }).then(function (response) {
                     $scope.assList = response.data;
-                    console.log($scope.assList);
+                    
 
                     for(var i = 0; i < $scope.assList.length; i++){
                         
@@ -1453,13 +1408,7 @@ adminApp.directive('customValidation', function(){
 	     link: function(scope, element, attrs, ChooseAssessmentCtrl) {
 
 	    	 ChooseAssessmentCtrl.$parsers.push(function (inputValue) {  	
-	    	/* console.log(inputValue);
-	    	 if(inputValue != undefined || inputValue != null){
-	    		 scope.previousValue = inputValue;
-	    		 console.log(scope.previousValue);
-	    	 }else{
-	    		 console.log("undefined value");
-	    	 }*/
+	    	
 	         var transformedInput = inputValue.replace(/[^0-9]/g, ''); 
 
 	         if (transformedInput!=inputValue) {
