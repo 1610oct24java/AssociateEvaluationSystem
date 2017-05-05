@@ -320,6 +320,11 @@ public class GetAssessmentController {
 			String strPassIssuedTime = assessment.getUser().getDatePassIssued();
 			Timestamp expireDate = Timestamp.valueOf(strPassIssuedTime);
 			
+			// Get review boolean from service
+			boolean reviewBool = globalSettingService.getCanCandidatesReview();
+			// Put review boolean into responseMap
+			responseMap.put("reviewBool", reviewBool);
+			
 			// Calculating timestamp to expired date
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(expireDate);
@@ -383,13 +388,6 @@ public class GetAssessmentController {
 		// Returns a hashMap object with allow message and assessment object
 		// which is automatically converted into JSON objects
 		
-		// Get global settings from service
-		boolean reviewBool = globalSettingService.getCanCandidatesReview();
-		int reviewMaxHours = 0;
-		if(reviewBool)
-			reviewMaxHours = globalSettingService.getMaxHoursCandidatesCanReview();
-		// Put settings up into responseMap
-		responseMap.put("reviewBool", reviewBool);
 		return responseMap;
 	}
 	

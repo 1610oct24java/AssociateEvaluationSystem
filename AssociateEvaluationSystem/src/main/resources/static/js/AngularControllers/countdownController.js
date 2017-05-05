@@ -23,7 +23,7 @@ app.controller('CountdownController', function($scope, $rootScope, $interval, $t
 		//OPEN THE SUBMIT MODAL
 		if ($scope.seconds < 0 && $scope.seconds != -111)
 		{
-			$interval.cancel(timer);
+			$rootScope.stopTimer();
 			
 			$timeout(function () {
 				showSubmitModal();
@@ -63,8 +63,6 @@ app.controller('CountdownController', function($scope, $rootScope, $interval, $t
 	}
 	
 	$rootScope.initTimer = function (timeLimit, newTime) {
-		console.log('timeLimit ' + timeLimit);
-		console.log('newTime ' + newTime);
 		if(newTime == -1){
 			startTime = timeLimit * 60;
 			$scope.seconds = startTime;
@@ -77,4 +75,8 @@ app.controller('CountdownController', function($scope, $rootScope, $interval, $t
 		testLength = timeLimit * 60;
 		
     }
+
+	$rootScope.stopTimer = function () {
+		$interval.cancel(timer);
+	}
 });

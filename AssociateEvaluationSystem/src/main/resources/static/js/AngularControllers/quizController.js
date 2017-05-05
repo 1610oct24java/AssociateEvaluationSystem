@@ -388,6 +388,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 				initSetup();
 				$rootScope.initQuizNav();
 				$rootScope.initTimer(response.data.timeLimit, response.data.newTime);
+				$rootScope.expireDate = response.data.expireDate;
 
 				// In $rootScope, instantiate global settings, put response.data.globalSettings in there
 				$rootScope.reviewBool = response.data.reviewBool;
@@ -400,7 +401,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 	}
 	
 	$rootScope.submitAssessment = function(){
-
+		$rootScope.stopTimer();
 		$scope.submitted = true;
 
 		$rootScope.protoTest.assessmentDragDrop.forEach(function(entry){
@@ -416,8 +417,6 @@ app.controller("quizController", function($scope, $rootScope, $http,
 				snippetUploads : $rootScope.snippetSubmissions
 		};
 
-		var review = "yes";
-
 		$http({
 			method: 'POST',
 			url: "aes/rest/submitAssessment",
@@ -425,8 +424,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 			data: answerData
 		}).then(function(response) {
 			//Removed console log for sonar cube.
-			// Perform a check on global settings 
-			// TODO: Also check on global settings time allowed, compare that to time elapsed
+			// Perform a check on global settings
 			if ($rootScope.reviewBool == true){
 				//This should allow the questions to put into this page
 				$window.location.href = '/aes/quizReview?asmt=' + $location.search().asmt;
