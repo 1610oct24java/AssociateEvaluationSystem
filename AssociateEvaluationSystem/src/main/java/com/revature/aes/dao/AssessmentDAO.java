@@ -46,7 +46,7 @@ public interface AssessmentDAO extends JpaRepository<Assessment, Integer> {
 	 */
 	public Integer findGradeByUser(User user);
 
-	@Query("Select new Assessment(a.grade, a.timeLimit, a.createdTimeStamp, a.finishedTimeStamp) From Assessment a "
+	@Query("Select new Assessment(a.assessmentId, a.grade, a.timeLimit, a.createdTimeStamp, a.finishedTimeStamp) From Assessment a "
 			+ "Where a.user = ?1")
 	public List<Assessment> findAssessmentsByUser(User usr);
 }

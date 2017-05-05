@@ -11,9 +11,13 @@ app.controller("quizReviewController", function($scope, $rootScope, $http,
 	$rootScope.snippetSubmissions = [];
 	$scope.protoTest2 = {};
 	$scope.testtaker = "loading...";
+	$scope.authUser;
 	$scope.submitted = false;
+	$scope.returning = false;
 	getQuizQuestions();
+	getSignedInUser();
 
+	
 	var makeState = function(input) {
 		var temp = {
 			id: input,
@@ -284,11 +288,15 @@ app.controller("quizReviewController", function($scope, $rootScope, $http,
 	$scope.numPerPage = 5;
 	$scope.maxSize = 100;
 	
-	
+	//pagination goes to top of the page
+	$scope.pageChanged = function() {
+	    $location.hash('top');
+	    $anchorScroll();
+	};
 	
 	//code to jump to page and question 
 	$scope.jumpPage = function (index) {
-
+		$scope.pageChanged();
 		numPage=index/$scope.numPerPage;
 		$scope.currentPage =1+ Math.floor(numPage);
 //		
@@ -377,6 +385,30 @@ app.controller("quizReviewController", function($scope, $rootScope, $http,
 		});
 	}
 	
+	// get signed in user
+	function getSignedInUser() {
+		
+		$http.get('/aes/security/auth')
+		.then(function(response) {
+			if (response.data.authenticated) {
+				var authUser = {
+					username : response.data.principal.username,
+					authority: response.data.principal.authorities[0].authority
+				}
+				$scope.authUser = authUser;
+				if($scope.authUser.authority != 'ROLE_ADMIN' &&
+						$scope.authUser.authority != 'ROLE_TRAINER' &&
+						$scope.authUser.authority != 'ROLE_RECRUITER' && 
+						$scope.authUser.authority != 'ROLE_CANDIDATE') {
+					window.location = '/login';
+				}
+			} else {
+				window.location = '/login';
+			}
+		});
+		
+	}
+	
 	$rootScope.submitAssessment = function(){
 
 		$scope.submitted = true;
@@ -392,6 +424,32 @@ app.controller("quizReviewController", function($scope, $rootScope, $http,
 				snippetUploads : $rootScope.snippetSubmissions
 		};
 		
+	}
+	
+	// return to the user's homepage after they have finishing reviewing the assessment.
+	$rootScope.quitReview = function() {
+		$scope.returning = true;
+		
+		if ($scope.authUser.authority == 'ROLE_ADMIN') {
+			//console.log('admin home');
+			
+			window.location = '/aes/viewEmployees';
+		}
+		else if ($scope.authUser.authority == 'ROLE_CANDIDATE') {
+			console.log('candidate home todo');
+			
+			// TODO: navigate to candidate's home page.
+		}
+	}
+	
+	// check whether the user is an admin
+	$scope.isAdmin = function() {
+		if ($scope.authUser) {
+			if ($scope.authUser.authority == 'ROLE_ADMIN') {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 });

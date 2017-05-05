@@ -68,10 +68,9 @@ public class S3Service {
 	}
 
 	public boolean uploadAssReqToS3(AssessmentRequest assessContents, String key){
-		try{
-			File file2 = new File("AssessRequest");
-			FileOutputStream file = new FileOutputStream(file2);
-			ObjectOutputStream oos = new ObjectOutputStream(file);
+		File file2 = null;
+		try (FileOutputStream file = new FileOutputStream(file2); ObjectOutputStream oos = new ObjectOutputStream(file)) {
+			file2 = new File("AssessRequest");
 			oos.writeObject(assessContents);
 			
 
@@ -79,7 +78,6 @@ public class S3Service {
 			if (!file2.delete()) {
 				log.error("File not found! Can not delete file that does not exists!");
 			}
-			oos.close();
 			return true;
 		}
 		catch(Exception e)

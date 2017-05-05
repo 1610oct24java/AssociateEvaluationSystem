@@ -107,6 +107,16 @@ public class FileAccess {
 		} catch (IOException e) {
 			log.info("IOException", e);
 		}
+	    finally
+	    {
+	    	try
+			{
+				reader.close();
+			} catch (IOException e)
+			{
+				log.info("IOException", e);
+			}
+	    }
 		return fileContent;
 	}
 	

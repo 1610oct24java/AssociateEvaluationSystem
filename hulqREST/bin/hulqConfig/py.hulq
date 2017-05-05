@@ -1,6 +1,0 @@
-type="interpreted"
-customOut="n"
-outFile="$inFileName"
-compiler=""
-executor="python "
-
