@@ -349,9 +349,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public String findEmailById(int id) {
-		// TODO Auto-generated method stub
-		String email = dao.findByUserId(id).getEmail();
-		return email;
+		return dao.findByUserId(id).getEmail();
+		
 	}
 
 }

@@ -28,7 +28,7 @@ AESCoreApp.constant("API_URL", {
     "LOGOUT"    : "/logout",
     "AUTH"      : "/security/auth",
     "CANDIDATE" : "/candidate/",
-    "RECRUITER" : "/recruiter/",
+    "RECRUITER" : "/recruiter",
     "LINK"      : "/link",
     "CANDIDATES": "/candidates"
 });
@@ -67,6 +67,7 @@ AESCoreApp.config(function($mdThemingProvider) {
 
 
 AESCoreApp.controller('UpdateEmployeeCtrl', function ($scope, $location, $mdToast, $http, SITE_URL, API_URL, ROLE) {
+	$scope.newEmail = null;
     $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
         .then(function (response) {
             if (response.data.authenticated) {
@@ -79,6 +80,7 @@ AESCoreApp.controller('UpdateEmployeeCtrl', function ($scope, $location, $mdToas
 
                 if (role == "ROLE_RECRUITER") {
                     // Continue to page
+                	$scope.loadData();
                 } else {
                     window.location = SITE_URL.LOGIN; // Deny page, re-route to login
                 }
@@ -86,6 +88,32 @@ AESCoreApp.controller('UpdateEmployeeCtrl', function ($scope, $location, $mdToas
                 window.location = SITE_URL.LOGIN;
             }
         })
+    
+    
+    $scope.showToast = function(message) {
+    	$mdToast.show($mdToast.simple().textContent(message).parent(document.querySelectorAll('#toastContainer')).position("top right").action("OKAY").highlightAction(true));
+    };
+    
+    $scope.loadData = function(){
+    	var url = SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + "/" + $scope.authUser.username + "/update";
+    	$http({
+            method: 'GET',
+            url: url
+    	}).then(
+    			function (response){
+    				var user = response.data;
+    				$scope.oldEmail = user.email;
+    				$scope.firstName = user.firstName;
+    				$scope.lastName = user.lastName;
+    			}, 
+    			function (){
+    				$scope.showToast("Unable to get user");
+    				
+    			}
+    	);
+    }
+    
+    
 
     $scope.update = function () {
         $scope.passNotMatch = false;
@@ -116,21 +144,19 @@ AESCoreApp.controller('UpdateEmployeeCtrl', function ($scope, $location, $mdToas
             $scope.confirmNewPassword = '';
         }
 
-        if ($scope.oldPassword === "" || $scope.oldPassword == null) {
+        if (!$scope.oldPassword === "" || $scope.oldPassword == null) {
             $scope.passNotEntered = true;
         }
 
-        if ($scope.passNotMatch == false && $scope.passNotEntered == false
-            && $scope.emailNotEntered == false) {
-            if (!$scope.updateUnsuccessful) {
-                $scope.postUpdate(employeeInfo);
-            }
+        if (!$scope.passNotMatch && !$scope.passNotEntered
+            && !$scope.emailNotEntered && !$scope.updateUnccessful) {
+        	
+            $scope.postUpdate(employeeInfo);
+            
         }
     };
     
-    $scope.showToast = function(message) {
-    	$mdToast.show($mdToast.simple().textContent(message).parent(document.querySelectorAll('#toastContainer')).position("top right").action("OKAY").highlightAction(true));
-    };
+
 
     $scope.postUpdate = function (info) {
         var updateUrl = SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER
@@ -141,13 +167,22 @@ AESCoreApp.controller('UpdateEmployeeCtrl', function ($scope, $location, $mdToas
             headers: {'Content-Type': 'application/json'},
             data: info
         }).success(function (data) {
-        	$scope.showToast("Successfully Updated User");
-           /* $scope.updateSuccessful = true;
-            $scope.updateUnsuccessful = false;*/
-        }).error(function () {
-        	$scope.showToast("Failed to Update User");
-            /*$scope.updateUnsuccessful = true;
-            $scope.updateSuccessful = false;*/
+        	$scope.showToast(data.msg);
+        	$scope.oldPassword = "";
+        	$scope.newPassword = "";
+        	$scope.confirmNewPassword = "";
+        	
+        	//logs out user if email was changed
+        	if ($scope.newEmail){
+        		$scope.logout();
+        	}
+        	
+        }).error(function (error) {
+        	$scope.showToast(error.msg);
+        	$scope.oldPassword = "";
+        	$scope.newPassword = "";
+        	$scope.confirmNewPassword = "";
+        	$scope.newEmail = "";
         });
     };
 
