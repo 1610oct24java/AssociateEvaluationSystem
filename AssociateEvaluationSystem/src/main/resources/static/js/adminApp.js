@@ -56,6 +56,20 @@ adminApp.config(function($mdThemingProvider) {
         .accentPalette("revOrange");
 });
 
+adminApp.directive('stringToNumber', function() {
+	  return {
+		    require: 'ngModel',
+		    link: function(scope, element, attrs, ngModel) {
+		      ngModel.$parsers.push(function(value) {
+		        return '' + value;
+		      });
+		      ngModel.$formatters.push(function(value) {
+		        return parseFloat(value);
+		      });
+		    }
+		  };
+		});
+
 adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$http,SITE_URL, API_URL, ROLE) {
 	$scope.roleTypes = [];
 	$scope.allEmails = [];
@@ -587,6 +601,94 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$route
 
 adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SITE_URL, API_URL, ROLE) {	
 
+	
+
+	
+	$scope.validateReview = function ()
+	{
+		
+		
+		if(($scope.assdays == null || $scope.asshours ==null || $scope.asshours <0 || $scope.assdays<0 )||(($scope.assdays ==0 && $scope.asshours == 0 ) && $scope.assReviewCheck == true))
+		
+			{
+			
+			
+			 return true;
+			
+			
+			}
+		else
+			{
+			
+			return false;
+			}
+			
+		
+		
+	}
+	
+	$scope.allowReview = function()
+	{
+		
+		var totalHours = 0;
+		console.log("THE VALUE OF THE CHECKED BOX IS ->"+ $scope.assReviewCheck);
+
+		if($scope.assReviewCheck)
+			{
+			
+			
+			console.log("THE REVIEW DAYS IS  ->"+$scope.assdays );
+			console.log("THE REVIEW HOURS IS ->"+ $scope.asshours);
+			totalHours= ($scope.assdays * 24) + $scope.asshours;
+			console.log("TOTAL HOURS FOR REVIEW ->"+ totalHours);
+			$scope.assdays = 0;
+			$scope.asshours = 0; 
+			}
+		else
+			{
+			$scope.assdays = 0;
+			$scope.asshours = 0; 
+			}
+		
+	}
+	
+	
+	
+	$scope.checkDuplicate = function () {
+		 var flag = false;
+		 var count = 0;
+
+			angular.forEach($scope.sections , function (category) {
+				console.log(category.category);
+			
+				if( $scope.category == category.category && $scope.type == category.type)
+					{
+
+						flag = true;
+					}
+			
+			console.log("category name " + category.name);
+			console.log("scope category " + $scope.category);
+
+	count ++;
+
+			});
+
+			console.log("the flag is " + flag);
+				if( flag == true)
+				{
+					return true;
+
+				}
+				else {
+					return false;
+		
+					}
+		};
+	
+	
+	
+	
     $scope.showToast = function(message, type) {
         $mdToast.show($mdToast.simple(message)
             .parent(document.querySelectorAll('#toastContainer'))
@@ -611,6 +713,8 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
         $scope.coreLanguage = false;
         $scope.coreCount = 0;
         $scope.showModal = false;	
+    	$scope.assdays = 0;
+		$scope.asshours = 0; 
     });
 
 
@@ -851,7 +955,8 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
 
         data = {
             "timeLimit": $scope.time,
-            "categoryRequestList": $scope.assessments
+            "categoryRequestList": $scope.assessments,
+            "hoursViewable" : $scope.asshours + ($scope.assdays * 24)
         };
         
         if($scope.coreLanguage == false){
@@ -940,9 +1045,6 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
         return function() {
             $mdSidenav(navID)
                 .toggle()
-                .then(function() {
-                    $log.debug("toggle " + navID + " is done");
-                });
         };
     };
     $scope.isOpenLeft = function() {
@@ -992,9 +1094,6 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
             // Component lookup should always be available since we are not using `ng-if`
             $mdSidenav(navID)
                 .toggle()
-                .then(function() {
-                    $log.debug("toggle " + navID + " is done");
-                });
         }, 200);
     }
 
@@ -1003,9 +1102,6 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
             // Component lookup should always be available since we are not using `ng-if`
             $mdSidenav(navID)
                 .toggle()
-                .then(function() {
-                    $log.debug("toggle " + navID + " is done");
-                });
         };
     }
 
@@ -1039,25 +1135,282 @@ adminApp.controller('manageQuestions', function($scope, $http, SITE_URL, API_URL
     var mq = this;
 });
 
-adminApp.controller('ChooseAssessmentCtrl', function($scope, $http, SITE_URL, API_URL, ROLE){
-
+adminApp.controller('ChooseAssessmentCtrl', function($scope, $mdToast, $http, SITE_URL, API_URL, ROLE){
+	
+	//list of assessments used to manipulate
     $scope.assList = [];
+    
+    //the default assessment stored into different object
+    $scope.defaultAss = {};
+    //default assessment is still in assList. Index is used to manipulate the default in the list
+    $scope.defaultIndex = 0;
+    
+    //sets toast function
+    $scope.showToast = function(message, type) {
+        $mdToast.show($mdToast.simple(message)
+            .parent(document.querySelectorAll('#toastContainer'))
+            .position("top right")
+            .action("OKAY")
+            .highlightAction(true)
+            .highlightClass('toastActionButton')
+            .theme(type + '-toast')
+            .hideDelay(5000)
+        );
+    };
 
+
+
+//get number of sections for view 
+    $scope.getNumOfSec = function(index){
+    
+    	return $scope.assList[index].categoryRequestList.length;
+    }
+
+    $scope.defaultNumOfSec = function(){
+        return $scope.defaultAss.categoryRequestList.length;
+    }
+
+//gets number of questions for questions
+    $scope.getTotalNumOfQuestions = function(index){
+        var totalQuestions = 0;
+        for(var i = 0; i < $scope.assList[index].categoryRequestList.length; i++){
+            totalQuestions = totalQuestions + $scope.assList[index].categoryRequestList[i].csQuestions;
+            totalQuestions = totalQuestions + $scope.assList[index].categoryRequestList[i].ddQuestions;
+            totalQuestions = totalQuestions + $scope.assList[index].categoryRequestList[i].mcQuestions;
+            totalQuestions = totalQuestions + $scope.assList[index].categoryRequestList[i].msQuestions;
+
+        }
+        return totalQuestions;
+    }
+    
+    //function for default assessments total numberof questsion
+    
+    $scope.defaultTotalNumOfQuestions = function(index){
+        var totalQuestions = 0;
+        for(var i = 0; i < $scope.defaultAss.categoryRequestList.length; i++){
+            totalQuestions = totalQuestions + $scope.defaultAss.categoryRequestList[i].csQuestions;
+            totalQuestions = totalQuestions + $scope.defaultAss.categoryRequestList[i].ddQuestions;
+            totalQuestions = totalQuestions + $scope.defaultAss.categoryRequestList[i].mcQuestions;
+            totalQuestions = totalQuestions + $scope.defaultAss.categoryRequestList[i].msQuestions;
+
+        }
+        return totalQuestions;
+    }
+
+
+    //gets all the assessments requests
     $http({
         method: "GET",
         url: "allAssessments"
     }).then(function (response) {
         $scope.assList = response.data;
-        console.log("loading ass - ");
-        console.log( $scope.assList);
+        console.log($scope.assList);
+
+        for(var i = 0; i < $scope.assList.length; i++){
+            
+            if($scope.assList[i].hoursViewable == null){
+            	$scope.assList[i].allowed = false;
+            }else{
+            	$scope.assList[i].allowed = true;
+            	$scope.assList[i].days = Math.floor($scope.assList[i].hoursViewable/24).toString();
+            	$scope.assList[i].hours = ($scope.assList[i].hoursViewable % 24).toString();
+            }
+            if($scope.assList[i].isDefault == 1){
+            	
+                $scope.defaultAss = $scope.assList[i];
+                $scope.defaultIndex = i;
+                $scope.defaultAss.allow = $scope.assList[i].allowed;
+            }
+        }
     });
 
-    $scope.getNumOfSec = function getNumOfSections(index){
-    
-    	return $scope.assList[index].categoryRequestList.length;
+    //function for selecting default. will repopulate list after default is selected
+    $scope.selectDefault = function(index){
+        $http({
+            method: "POST",
+            url: "selectAssessment",
+            data: $scope.assList[index]
+        }).then(function(response){
+
+            $http({
+                method: "GET",
+                url: "allAssessments"
+            }).then(function (response) {
+                $scope.assList = response.data;
+                console.log($scope.assList);
+
+                for(var i = 0; i < $scope.assList.length; i++){
+                   
+                    if($scope.assList[i].hoursViewable == null){
+                    	$scope.assList[i].allowed = false;
+                    }else{
+                    	$scope.assList[i].allowed = true;
+                    	$scope.assList[i].days = Math.floor($scope.assList[i].hoursViewable/24).toString();
+                    	$scope.assList[i].hours = ($scope.assList[i].hoursViewable % 24).toString();
+                    }
+                    if($scope.assList[i].isDefault == 1){
+                        $scope.defaultAss = $scope.assList[i];
+                        $scope.defaultIndex = i;
+                    }
+                }
+            });
+        });
+        $scope.showToast("New Default Selected", "success");
+
     }
+    
+    //gets each question type of the category
+    $scope.getQuestionTypeOfCategory = function(category){
+    	if(category.csQuestions > 0){
+    		var type = "Code Snippet";
+    		return type;
+    	}
+    	else if(category.ddQuestions > 0){
+    		var type = "Drag and Drop";
+    		return type;
+    	}
+    	else if(category.mcQuestions > 0){
+    		var type = "Multiple Choice";
+    		return type;
+    	}
+    	else if(category.msQuestions > 0){
+    		var type = "Multiple Select";
+    		return type;
+    	}
+    }
+    
+    //function to count the number of questions in each category for expanded view
+    $scope.getNumberOfQuestionsInCategory = function(category){
+    	if(category.csQuestions > 0){
+    		var num = category.csQuestions;
+    		return num;
+    	}
+    	else if(category.ddQuestions > 0){
+    		var num = category.ddQuestions;
+    		return num;
+    	}
+    	else if(category.mcQuestions > 0){
+    		var num = category.mcQuestions;
+    		return num;
+    	}
+    	else if(category.msQuestions > 0){
+    		var num = category.msQuestions;
+    		return num;
+    	}
+    }
+    
+    
+/*    $scope.isInteger = function(e, oldValue, index){
+    	var charCode = (e.which) ? e.which : e.keyCode; 
+    	console.log("old value " + oldValue);
+    	console.log(index);
+    	if(charCode == 101 || charCode == 45 || charCode == 46){
+    		console.log("charcode inside " + charCode);
+    		console.log("oldvalue inside " + oldValue);
+
+    		$scope.assList[index].days = oldValue;
+    		console.log($scope.assList[index].days);
+    	}
+    	
+    }*/
+    
+    //checks if user tries to change it over a year long
+    $scope.overAYear = function(days){
+    	var checkDays = parseInt(days);
+    	if (checkDays > 365){
+
+    		return true;
+    		
+    	}
+    	return false;
+    }
+    //checks if user tries to enter over 24 hours
+    $scope.over24Hours = function(hours){
+    	var checkHours = parseInt(hours);
+    	if(checkHours > 23){
+    		return true;
+    	}
+    	return false;
+    }
+    
+    //function to update the hours of the assessment
+    $scope.updateHours = function(index){
+    	$scope.assList[$scope.defaultIndex].days = $scope.defaultAss.days;
+    	$scope.assList[$scope.defaultIndex].hours = $scope.defaultAss.hours;
+    	$scope.assList[$scope.defaultIndex].allowed = $scope.defaultAss.allowed;
+    	if($scope.assList[index].allowed){
+	    	var daysHours = parseInt($scope.assList[index].days) * 24;
+	    	var totalHours = daysHours + parseInt($scope.assList[index].hours);
+	    	$scope.assList[index].hoursViewable = totalHours;
+    	}else{
+    		$scope.assList[index].hoursViewable = null;
+    	}
+    	
+    	
+            $http({
+                method: "POST",
+                url: "updateViewableHours",
+                data: $scope.assList[index]
+            }).then(function(response){
+                $http({
+                    method: "GET",
+                    url: "allAssessments"
+                }).then(function (response) {
+                    $scope.assList = response.data;
+                    console.log($scope.assList);
+
+                    for(var i = 0; i < $scope.assList.length; i++){
+                        
+                        if($scope.assList[i].hoursViewable == null){
+                        	$scope.assList[i].allowed = false;
+                        }else{
+                        	$scope.assList[i].allowed = true;
+                        	$scope.assList[i].days = Math.floor($scope.assList[i].hoursViewable/24).toString();
+                        	$scope.assList[i].hours = ($scope.assList[i].hoursViewable % 24).toString();
+                        }
+                        if($scope.assList[i].isDefault == 1){
+                            $scope.defaultAss = $scope.assList[i];
+                            $scope.defaultIndex = i;
+                        }
+                    }
+                });
+            });
+            
+            $scope.showToast("Updated Review Allowed", "success");
+
+        }
+    	
+    	
+ 
 
 });
+
+//directive used to allow only nubmer inputs for text inputs. 
+adminApp.directive('customValidation', function(){
+	   return {
+	     require: 'ngModel',
+	     link: function(scope, element, attrs, ChooseAssessmentCtrl) {
+
+	    	 ChooseAssessmentCtrl.$parsers.push(function (inputValue) {  	
+	    	/* console.log(inputValue);
+	    	 if(inputValue != undefined || inputValue != null){
+	    		 scope.previousValue = inputValue;
+	    		 console.log(scope.previousValue);
+	    	 }else{
+	    		 console.log("undefined value");
+	    	 }*/
+	         var transformedInput = inputValue.replace(/[^0-9]/g, ''); 
+
+	         if (transformedInput!=inputValue) {
+	        	 ChooseAssessmentCtrl.$setViewValue(transformedInput);
+	        	 ChooseAssessmentCtrl.$render();
+	         }         
+
+	         return transformedInput;         
+	       });
+	     }
+	   };
+	});
 
 // formats dates from being in total-milliseconds-from-epoch format into a human-readable, presentable format.
 function formatDate(date) {
@@ -1127,4 +1480,3 @@ function formatDateIso(date) {
 	// return the iso-formatted version of the date.
 	return isoDate;
 }
-

@@ -66,7 +66,7 @@ AESCoreApp.config(function($mdThemingProvider) {
 
 
 
-AESCoreApp.controller('UpdateEmployeeCtrl', function ($scope, $location, $http, SITE_URL, API_URL, ROLE) {
+AESCoreApp.controller('UpdateEmployeeCtrl', function ($scope, $location, $mdToast, $http, SITE_URL, API_URL, ROLE) {
     $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
         .then(function (response) {
             if (response.data.authenticated) {
@@ -160,25 +160,22 @@ AESCoreApp.controller('UpdateEmployeeCtrl', function ($scope, $location, $http, 
 });
 
 AESCoreApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav, $log) {
-    var mc = this;
+	var mc = this;
 
     // functions
     // sets navbar to current page even on refresh
     mc.findCurrentPage = function() {
 
+        // var path = $location.path().replace("/", "");
         var path = window.location.pathname.substr(1);
 
-        // switch (path) {
-        //     case "index.html":
-        //         return "employees";
-        //     case "update.html":
-        //         return "employees";
-        //     case "New.html":
-        //         return "assessments";
-        //     default:
-        //         return "overview"
-        //}
-
-        return "overview";
+        switch(path) {
+            case "aes/recruit" : return "register";
+            case "aes/updateUser" : return "updateRecruiter";
+            default : return "overview"
+        }
     };
+    
+    mc.currentPage = mc.findCurrentPage();
+
 });

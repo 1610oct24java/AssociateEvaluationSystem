@@ -27,7 +27,7 @@
     </style>
 </head>
 
-<body ng-app="adminApp" ng-controller="EmployeeViewCtrl">
+<body ng-app="adminApp" ng-controller="EmployeeViewCtrl" ng-cloak>
 <div id="toastContainer">
 <div>
     <ng-include src="'menu.html'" />
@@ -58,8 +58,8 @@
 				<th>LastName</th>
 				<th>Email</th>
 				<th>Role</th>
-				<th></th>
-				<th></th>
+				<th>Delete</th>
+				<th>Edit</th>
 				<th>Assessments</th>
 			</tr>
 		</thead>
@@ -71,7 +71,7 @@
 				<td>{{employee.email}}</td>
 				<td>{{employee.role.roleTitle}}</td>
 				<td>
-					<button style="font-size:24px" ng-click="deleteEmployee(employee)" margin-left:auto;> <i class="fa fa-trash"></i></button>
+					<button class="" style="font-size:24px" ng-click="deleteEmployee(employee)" margin-left:auto;> <i class="fa fa-trash"></i></button>
 				</td>
 				<td> 
 <!-- 				ng-show="{{employee.role.roleTitle!=='candidate'}}"> -->

@@ -31,8 +31,8 @@ md-nav-bar.md-default-theme .md-button._md-nav-button.md-unselected, md-nav-bar 
 }
 
 md-nav-bar.md-default-theme .md-button._md-nav-button.md-active, md-nav-bar .md-button._md-nav-button.md-active {
-    border-bottom: 2px solid rgba(255, 87, 34, 0.75);
-    color: rgba(255, 87, 34, 0.75);
+    border-bottom: 2px solid rgba(242, 105, 38, 1);
+    color: rgba(242, 105, 38, 1);
     font-size: 1em;
     font-weight: bolder;
 }
@@ -45,7 +45,9 @@ md-toolbar * {
     font-weight: bold;
 }
 
-
+.md-warn{
+	background-color: rgba(242, 105, 38, 1)  !important;
+}
 
 /* OTHER */
 *:focus {
@@ -69,7 +71,7 @@ table.dataTable tfoot th {
 /* Toast Message Formatting */
 md-toast.md-success-toast-theme div.md-toast-content {
     color: white !important;
-    background-color: rgba(251, 140, 0, 0.85) !important;
+    background-color: rgba(242, 105, 38, 1) !important;
 }
 
 md-toast.md-fail-toast-theme div.md-toast-content {

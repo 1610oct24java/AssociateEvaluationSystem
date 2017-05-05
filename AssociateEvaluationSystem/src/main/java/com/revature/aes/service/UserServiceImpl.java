@@ -104,7 +104,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> findUsersByRecruiter(String email) {
-		int recruiterId = dao.findUserByEmail(email).getUserId();
+		int recruiterId = dao.findByEmailIgnoreCase(email).getUserId();
 		List<User> users = dao.findUsersByRecruiterId(recruiterId);
 
 		for(User u : users){
@@ -299,8 +299,9 @@ public class UserServiceImpl implements UserService {
 			//handles updating candidates for recruiters
 			if("recruiter".equals(currentUser.getRole().getRoleTitle())){
 				List<User> candidates = updatedUser.getCandidates();
-				candidates = this.updateCandidatesOnRecruiter(currentUser.getEmail(), candidates);
-				int i = 1;
+				if (candidates != null){
+					candidates = this.updateCandidatesOnRecruiter(currentUser.getEmail(), candidates);
+				}
 			}
 			
 			if (updatedUser.getNewEmail() != null && !updatedUser.getNewEmail().isEmpty())
@@ -310,7 +311,7 @@ public class UserServiceImpl implements UserService {
 			if (updatedUser.getLastName() != null && !updatedUser.getLastName().isEmpty())
 			{	currentUser.setLastName(updatedUser.getLastName()); }
 			if (updatedUser.getNewRecruiterId() != null){
-				// if new Recruiter id is 0 or belows, it will reflect null in the database
+				// if new Recruiter id is 0 or below, it will reflect null in the database
 				if (updatedUser.getNewRecruiterId() <= 0){
 					currentUser.setRecruiterId(null);
 				} else {
@@ -329,7 +330,7 @@ public class UserServiceImpl implements UserService {
 					Date oldPassDate = fmt.parse(currentUser.getDatePassIssued());
 					currentUser.setDatePassIssued(fmt.format(oldPassDate));
 				}catch (ParseException e) {
-					e.printStackTrace();
+					log.error(Logging.errorMsg("Parse Exception on update Employee in User Service Impl", e));
 				}finally {
 					currentUser.setDatePassIssued(fmt.format(new Date()));
 				}

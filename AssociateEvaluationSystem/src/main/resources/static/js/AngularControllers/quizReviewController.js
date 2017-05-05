@@ -440,6 +440,9 @@ app.controller("quizReviewController", function($scope, $rootScope, $http,
 			
 			window.location = '/aes/viewEmployees';
 		}
+		else if ($scope.authUser.authority == 'ROLE_RECRUITER') {
+			window.location = '/aes/view';
+		}
 		else if ($scope.authUser.authority == 'ROLE_CANDIDATE') {
 			console.log('candidate home todo');
 			
