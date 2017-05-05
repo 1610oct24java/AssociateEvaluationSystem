@@ -94,6 +94,24 @@ public class GetAssessmentController {
 
 	}
 	
+	/**
+	 * Returns the encoded id of an assessment.
+	 * 
+	 * Used in bringing up the quiz review of the assessment. 
+	 * 
+	 * @param assessment the assessment whose id will be encoded
+	 * @return the encoded id of the assessment
+	 */
+	@RequestMapping(value="/encode", method=RequestMethod.POST)
+	public String getEncodedAssessmentId(@RequestBody Assessment assessment) {
+		// encode the assessment's id.
+		Hashids hashids = new Hashids();
+		String encodedId = hashids.encode(assessment.getAssessmentId());
+		
+		// return the encoded id as a (JSON) object so it can be accessed in AngularJS.
+		return "{\"data\": \"" + encodedId + "\"}";
+	}
+	
 	@RequestMapping(value = "/submitAssessment", method = RequestMethod.POST)
 	public String saveAssessmentAnswers(@RequestBody AnswerData answerData)
 			throws JsonParseException, JsonMappingException, IOException {

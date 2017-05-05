@@ -17,9 +17,17 @@
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
     <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="css/aesMaterials.css">
+    <style>
+    	.highlight-on {
+    		background-color: #474c55; color: #cfcfcf
+    	}
+    	.highlight-off {
+    		background-color: inherit; color: inherit;
+    	}
+    </style>
 </head>
 
-<body ng-app="adminApp" ng-controller="EmployeeViewCtrl">
+<body ng-app="adminApp" ng-controller="EmployeeViewCtrl" ng-cloak>
 <div id="toastContainer">
 <div>
     <ng-include src="'menu.html'" />
@@ -32,7 +40,7 @@
 		<caption>
 			<div>
 				Order by:
-				<select ng-model="sortorder" ng-init="sortorder='lastName'">
+				<select ng-model="sortorder" ng-init="sortorder='lastName'" ng-change="closeAllAssessments()">
 					<option  value="firstName">FirstName</option>
 					<option selected value="lastName" >LastName</option>
 					<option value="email">Email</option>
@@ -40,7 +48,7 @@
 				</select>
 				&nbsp;
 				Search:
-				<input type="text" ng-model="employeeSearch">
+				<input type="text" ng-model="employeeSearch" ng-change="closeAllAssessments()">
 			</div>
 		</caption>
 		
@@ -52,10 +60,12 @@
 				<th>Role</th>
 				<th></th>
 				<th></th>
+				<th>Assessments</th>
 			</tr>
 		</thead>
-		<tbody>
-			<tr ng-repeat="employee in employees | orderBy: sortorder | filter: employeeSearch track by $index ">
+		<tbody ng-repeat="employee in employees | orderBy: sortorder | filter: employeeSearch track by $index ">
+			<!-- DISPLAY EMPLOYEE INFO -->
+			<tr>
 				<td>{{employee.firstName}}</td>
 				<td>{{employee.lastName}}</td>
 				<td>{{employee.email}}</td>
@@ -67,7 +77,42 @@
 <!-- 				ng-show="{{employee.role.roleTitle!=='candidate'}}"> -->
 					<a ng-href="updateEmployee#?email={{employee.email}}"><i class="fa fa-pencil"></i></a>
 				</td>
+				<td style="text-align: center;" id="view-assessments-highlight-{{employee.userId}}" class="highlight-off">
+					<span ng-click="viewAssessments('g'+employee.userId, employee.email);" class="glyphicon glyphicon-chevron-down" ng-if="isCandidate(employee)"></span>
+				</td>
 			</tr>
+			<!-- /.DISPLAY EMPLOYEE INFO -->
+				
+			<!-- DISPLAY ASSESSMENTS (IF CANDIDATE) -->
+			<tr id="g{{employee.userId}}" class="ng-hide">
+				<td colspan="7" ng-if="assessments.length != 0 && returnCheck == true">
+					<p style="font-size: 18pt; padding: 6px; padding-bottom: 0px">Assessments</p>
+					<table class="table table-striped table-bordered">
+						<thead>
+							<th>Start</th>
+							<th>Finish</th>
+							<th>Time Limit</th>
+							<th>Score</th>
+						</thead>
+						<tbody>
+							<tr class="assessmentRow" ng-repeat="a in assessments" ng-click="showAssessment(a)">
+								<td ng-if="!a.createdTimeStamp">N/A</td>
+								<td ng-if="a.createdTimeStamp">{{a.createdTimeStamp}}</td>
+								<td ng-if="!a.finishedTimeStamp">N/A</td>
+								<td ng-if="a.finishedTimeStamp">{{a.finishedTimeStamp}}</td>
+								<td>{{a.timeLimit}}</td>
+								<td ng-if="a.grade == -1">Test not taken.</td>
+								<td ng-if="a.grade != -1">{{a.grade}}%</td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+				<td colspan="7" ng-if="assessments.length == 0 && returnCheck == true">
+					<div>No assessments taken.</div>
+				</td>
+				<td colspan="7" ng-show="returnCheck == false"><i class="loading"></i></td>
+			</tr>
+			<!-- /.DISPLAY ASSESSMENTS -->
 		</tbody>
 	</table>
 	</div>
