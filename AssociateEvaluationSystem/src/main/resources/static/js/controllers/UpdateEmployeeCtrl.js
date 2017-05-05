@@ -66,7 +66,7 @@ AESCoreApp.config(function($mdThemingProvider) {
 
 
 
-AESCoreApp.controller('UpdateEmployeeCtrl', function ($scope, $location, $http, SITE_URL, API_URL, ROLE) {
+AESCoreApp.controller('UpdateEmployeeCtrl', function ($scope, $location, $mdToast, $http, SITE_URL, API_URL, ROLE) {
     $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
         .then(function (response) {
             if (response.data.authenticated) {
