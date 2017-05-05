@@ -184,6 +184,7 @@ public class BashDriver {
 		} catch (Exception e) {
 			log.error("Exception", e);
 			log.warn("============= END runCodeTestScript (Exception) ===============");
+			log.error("ERROR: ", e);
 			throw new BashException("Some sort of exception occurred when trying to run script");
 		}
 		log.info("============= END runCodeTestScript (Ok) ===============");

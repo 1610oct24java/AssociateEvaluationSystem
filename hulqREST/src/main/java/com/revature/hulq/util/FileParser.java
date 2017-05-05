@@ -92,12 +92,6 @@ public class FileParser {
 			log.info("ACTION: obvious");
 			return null;
 		}
-		log.info("===================ARGS=====================");
-		for(String s: valueSet)
-		{
-			log.info(s);
-		}
-		log.info("===================END ARGS=====================");
 
 		return valueSet;
 	}
