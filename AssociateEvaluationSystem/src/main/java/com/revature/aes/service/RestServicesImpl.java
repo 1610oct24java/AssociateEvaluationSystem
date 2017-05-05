@@ -70,15 +70,17 @@ public class RestServicesImpl implements RestServices {
 			if("core language".equalsIgnoreCase(categoryRequest.getCategory().getName())){
 
 				newCR = new CategoryRequest(categoryRequest);
+				oldCR = categoryRequest;
 				newCR.setCategory(categoryService.getCategoryByName(category));
 
 			}
 
 		}
-
-		ar.getCategoryRequestList().remove(oldCR);
-		ar.getCategoryRequestList().add(newCR);
-
+		if(newCR != null){
+			ar.getCategoryRequestList().remove(oldCR);
+			ar.getCategoryRequestList().add(newCR);
+		}
+		
 		ar = assessmentService.getLink(ar);
 		
 		String link = ar.getLink();
