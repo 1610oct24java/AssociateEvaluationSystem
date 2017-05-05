@@ -42,8 +42,8 @@ AESCoreApp.constant("ROLE", {
 AESCoreApp.config(function($mdThemingProvider) {
 
     var revOrangeMap = $mdThemingProvider.extendPalette("deep-orange", {
-        "A200": "#FB8C00",
-        "100": "rgba(89, 116, 130, 0.2)"
+        "A200": "#F26925",
+        "100": "rgba(242, 105, 37, 0.2)"
     });
 
     var revBlueMap = $mdThemingProvider.extendPalette("blue-grey", {
@@ -339,16 +339,61 @@ function formatDate(date) {
 
 
 AESCoreApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav, $log) {
-    var mc = this;
+	 var mc = this;
 
-    // functions
-    // sets navbar to current page even on refresh
-    mc.findCurrentPage = function() {
+	    // functions
+	    // sets navbar to current page even on refresh
+	    mc.findCurrentPage = function() {
 
-        var path = window.location.pathname.substr(1);
+	        // var path = $location.path().replace("/", "");
+	        var path = window.location.pathname.substr(1);
 
-        return "overview";
-    };
+	        switch(path) {
+	            case "aes/recruit" : return "register";
+	            case "aes/updateUser" : return "settings";
+	            default : return "overview"
+	        }
+	    };
+	    
+	    mc.currentPage = mc.findCurrentPage();
+
+	   /* mc.buildToggler = function(navID) {
+	        return function() {
+	            $mdSidenav(navID)
+	                .toggle()
+	                .then(function() {
+	                    $log.debug("toggle " + navID + " is done");
+	                });
+	        };
+	    };
+	    $scope.isOpenLeft = function() {
+	        return $mdSidenav('left').isOpen();
+	    };
+
+
+	    // data
+	    mc.currentPage = mc.findCurrentPage();
+	    $scope.toggleLeft = mc.buildToggler('left');
+
+	 // $scope.toggleLeft = buildDelayedToggler('left');
+	    $scope.toggleRight = buildToggler('right');
+	    $scope.isOpenRight = function() {
+	        return $mdSidenav('right').isOpen();
+	    };
+
+	    $scope.toggleAss = buildToggler('ass');
+	    $scope.isOpenAss = function(){
+	    	return $mdSidenav('ass').isOpen();
+	    };
+	    
+	    function buildToggler(navID) {
+	        return function() {
+	            // Component lookup should always be available since we are not using `ng-if`
+	            $mdSidenav(navID)
+	                .toggle()
+	        };
+	    }*/
+
 });
 
 AESCoreApp.controller('LoginCtrl', function($scope, $httpParamSerializerJQLike, $http, SITE_URL, API_URL, ROLE) {
