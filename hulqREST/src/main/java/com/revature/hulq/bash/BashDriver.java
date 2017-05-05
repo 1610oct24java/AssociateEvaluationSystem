@@ -21,10 +21,10 @@ import com.revature.hulq.exceptions.*;
 @Component	
 public class BashDriver {
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
-	public double gradeCode(String keyPath, String testPath, List<String> argSet, TestProfile testProfile) {
+	public double gradeCode(String keyPath, String testPath, String timeOutLimit, List<String> argSet, TestProfile testProfile) {
 		double result;
 		try {
-			Map<Integer, BashData> valSet = runCodeTestScript(keyPath, testPath, argSet);
+			Map<Integer, BashData> valSet = runCodeTestScript(keyPath, testPath, argSet, timeOutLimit);
 			result = bashGrader(valSet, testProfile) * 100;
 		} catch (KeyCompilationException kce){
 			// there was a problem compiling the trainers code
@@ -55,13 +55,16 @@ public class BashDriver {
 	 * @return
 	 * @throws BashException
 	 */
-	private Map<Integer, BashData> runCodeTestScript(String keyPath, String testPath, List<String> arguments) throws BashException {
+	private Map<Integer, BashData> runCodeTestScript(String keyPath, String testPath, List<String> arguments, String timeOutLimit) throws BashException {
 		
 		Map<Integer, BashData> data = new HashMap<>();
-
+		
+		log.info("Time out limit specified: " + timeOutLimit);
+		
 		List<String> command = new ArrayList<>();
 		command.add("/bin/bash");
 		command.add("hulqBASH.sh");
+		command.add(timeOutLimit);	
 		command.add(keyPath);
 		command.add(testPath);
 		command.addAll(arguments);
@@ -181,6 +184,7 @@ public class BashDriver {
 		} catch (Exception e) {
 			log.error("Exception", e);
 			log.warn("============= END runCodeTestScript (Exception) ===============");
+			log.error("ERROR: ", e);
 			throw new BashException("Some sort of exception occurred when trying to run script");
 		}
 		log.info("============= END runCodeTestScript (Ok) ===============");
@@ -278,13 +282,28 @@ public class BashDriver {
 		}
 		log.info("final result (post gross error margin): " + finalResult);
 		// return final grade
+		
+		//If finalResult is less than 2% then it is ignored
+		//Since our partial credit tends to be generous
+		if ( finalResult < .03)
+		{
+			finalResult=0.0;
+			log.warn("Final Result is less than 3% giving 0% since our grading might be too genorous");
+		}
+		
+		if(Double.isNaN(finalResult)){
+			finalResult = 0.0;
+		}
+		
 		log.info("============= END Bash Grader ===============");
 		return finalResult;
 
 	}
 
 	private double stringCompare(String key, String user) {
+		log.info("================ stringCompare ==================");
 		if (key.isEmpty() || user.isEmpty()) {
+			log.info("================ END stringCompare (empty) ==================");
 			return 0;
 		}
 		//this method is similar to cosine inequality
@@ -311,6 +330,8 @@ public class BashDriver {
 				}
 			}
 		}
+		
+		log.info("================ END stringCompare ==================");
 		return ((double)key.length() - (double)matrix[key.length() - 1][user.length() - 1])/(double)key.length();
 	}
 
