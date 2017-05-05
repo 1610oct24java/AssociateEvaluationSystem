@@ -14,6 +14,8 @@ app.controller("quizController", function($scope, $rootScope, $http,
 	$scope.testtaker = "loading...";
 	$scope.submitted = false;
 	getQuizQuestions();
+	// declare review settings
+	$rootScope.reviewBool = false;
 
 	var makeState = function(input) {
 		var temp = {
@@ -117,7 +119,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 		if(q.question.format.formatName === "Drag and Drop") {
 			for (var i = 0; i < q.question.dragdrop.length; i++) {
 				var assessmentDragDrop = {
-						assessmentDragDropId : 0, //q.question.questionId,
+						assessmentDragDropId : 0,
 						userOrder : i+1,
 						assessmentId : $scope.protoTest.assessmentId,
 						dragDrop : q.question.dragdrop[i]
@@ -274,9 +276,6 @@ app.controller("quizController", function($scope, $rootScope, $http,
 		}
 		
 		var incFileType = q.question.snippetTemplates[0].fileType;
-		//console.log(incFileType);
-		//console.log(editor.getValue());
-		//console.log(id2.substr(6, id2.length));
 		var newSnippet = new SnippetUpload(editor.getValue(), id2.substr(6, id2.length), incFileType);
 		
 		for (i = 0; i < $rootScope.snippetSubmissions.length; i++){
@@ -284,20 +283,10 @@ app.controller("quizController", function($scope, $rootScope, $http,
 			if ($rootScope.snippetSubmissions[i].questionId == newSnippet.questionId){
 
 				$rootScope.snippetSubmissions.splice(i, 1);
-				//console.log("sliced");
-			}
-			else{
-				//console.log("not sliced");
 			}
 		}
-		console.log(incFileType);
-		console.log(editor.getValue());
-		console.log(id2.substr(6, id2.length));
 		$rootScope.snippetSubmissions.push(newSnippet);		
 		saveQuestion(snippetQuestionIndex);
-		
-		
-		//console.log($rootScope.snippetSubmissions.length);
 	};
 
 	// PAGINATION
@@ -342,12 +331,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 				{
 					var editorId = "editor"+$scope.filteredQuestions[i].question.questionId;
 					var aceEditor = ace.edit(editorId);
-
-
-					//aceEditor.getSession().setValue($rootScope.snippetSubmissions[0].code, -1);
-					
 					//To init ace editor if other than first page
-
 					if(aceEditor.getSession().getValue()==="Enter code here"){
 						for(z=0;z<$rootScope.snippetStartersInd.length;z++){
 							if($rootScope.snippetStartersInd[z]==$scope.filteredQuestions[i].question.questionId){
@@ -358,9 +342,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 						}
 					}
 
-
 					//To keep changes on the ace editor if pages are switched
-
 					for(z=0;z<$rootScope.snippetSubmissions.length;z++){
 						if($rootScope.snippetSubmissions[z].questionId==$scope.filteredQuestions[i].question.questionId){
 							aceEditor.getSession().setValue($rootScope.snippetSubmissions[z].code, -1);
@@ -400,8 +382,10 @@ app.controller("quizController", function($scope, $rootScope, $http,
 				initSetup();
 				$rootScope.initQuizNav();
 				$rootScope.initTimer(response.data.timeLimit, response.data.newTime);
-				// TODO: in $rootScope, create a global settings variable, put response.data.globalSettings in there
 
+				// In $rootScope, instantiate global settings, put response.data.globalSettings in there
+				$rootScope.reviewBool = response.data.reviewBool;
+				
 			}else {
 				// Assessment was taken or time expired, redirecting to expired page
 				$window.location.href = '/aes/expired';
@@ -435,9 +419,9 @@ app.controller("quizController", function($scope, $rootScope, $http,
 			data: answerData
 		}).then(function(response) {
 			//Removed console log for sonar cube.
-			// TODO: Perform a check on global settings [Instead of review, use global settings in rootScope]
-			// ** Also check on global settings time allowed, compare that to time elapsed
-			if (review === "yes"){
+			// Perform a check on global settings 
+			// TODO: Also check on global settings time allowed, compare that to time elapsed
+			if ($rootScope.reviewBool == true){
 				//This should allow the questions to put into this page
 				$window.location.href = '/aes/quizReview?asmt=' + $location.search().asmt;
 			} else {

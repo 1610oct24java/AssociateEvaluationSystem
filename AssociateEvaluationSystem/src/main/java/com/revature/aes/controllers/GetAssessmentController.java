@@ -52,6 +52,9 @@ public class GetAssessmentController {
 
 	@Autowired
 	QuestionService questService;
+	
+	@Autowired
+	GlobalSettingService globalSettingService;
 
 	@Autowired
 	CoreEmailClient coreEmailClient;
@@ -323,14 +326,11 @@ public class GetAssessmentController {
 			cal.add(Calendar.DAY_OF_WEEK, 7); // Add a week to the date to reach expired time
 			expireDate = new Timestamp(cal.getTime().getTime());
 			
-			//System.out.println(expireDate.after(new Timestamp(System.currentTimeMillis()))); // if true, allow
-			
 			if (expireDate.after(new Timestamp(System.currentTimeMillis())))
 			{	// Allow assessment (expiration date not yet reached)
 				// Check to see if the user has already taken this assessment
 				if (assessment.getGrade() < 0)
 				{	// Assessment not taken yet
-					//System.out.println("Created Timestamp test= " + assessment.getCreatedTimeStamp());
 					if (assessment.getCreatedTimeStamp() == null)
 					{
 						Timestamp serverQuizStartTime = new Timestamp(System.currentTimeMillis());
@@ -342,11 +342,9 @@ public class GetAssessmentController {
 						responseMap.put("newTime", -1);
 						responseMap.put("msg", "allow");
 						responseMap.put("assessment", assessment);
-						//System.out.println("timeLimit " + assessment.getTimeLimit()+"\n\n\n\n\n");
 						
 					}else {
 						responseMap.put("timeLimit", assessment.getTimeLimit());
-						//System.out.println("timeLimit " + assessment.getTimeLimit()+"\n\n\n\n\n");
 						Timestamp serverNowTime = new Timestamp(System.currentTimeMillis());
 						long serverNowTimeInMillis = serverNowTime.getTime();
 						long createdTimestampInMillis = assessment.getCreatedTimeStamp().getTime();
@@ -360,7 +358,6 @@ public class GetAssessmentController {
 						}else {
 							
 							// Add modified time limit since assessment is still in progress
-							//System.out.println("\n\n"+ modifiedTimelimit + "I need this");
 							responseMap.put("newTime", modifiedTimelimit);
 							responseMap.put("msg", "allow");
 							responseMap.put("assessment", assessment);
@@ -386,9 +383,13 @@ public class GetAssessmentController {
 		// Returns a hashMap object with allow message and assessment object
 		// which is automatically converted into JSON objects
 		
-		// TODO: get settings from service
-		// TODO: put settings up into responseMap
-		// responseMap.put("review", value);
+		// Get global settings from service
+		boolean reviewBool = globalSettingService.getCanCandidatesReview();
+		int reviewMaxHours = 0;
+		if(reviewBool)
+			reviewMaxHours = globalSettingService.getMaxHoursCandidatesCanReview();
+		// Put settings up into responseMap
+		responseMap.put("reviewBool", reviewBool);
 		return responseMap;
 	}
 	
@@ -415,13 +416,6 @@ public class GetAssessmentController {
 		}
 
 		assessment.setOptions(optList);
-
-/*		for(Option opt : assessment.getOptions()){
-
-			System.out.println(opt);
-
-		}*/
-
 		for (AssessmentDragDrop addD : assessment.getAssessmentDragDrop()){
 			for(AssessmentDragDrop addE : currAssessment.getAssessmentDragDrop()){
 				if((addE.getDragDrop().getDragDropId())==addD.getDragDrop().getDragDropId()){
@@ -433,12 +427,9 @@ public class GetAssessmentController {
 			addD.setDragDrop(ddService.getDragDropById(addD.getDragDrop().getDragDropId()));
 		}
 
-		//assessment.setFileUpload(new HashSet<FileUpload>());
-
 		if(lstSnippetUploads!=null) {
 
 			for (SnippetUpload su : lstSnippetUploads) {
-				// userAnswer_assID_qID
 				String key = "";
 				key += "Take1_userAnswer_";
 				key += assessment.getAssessmentId() + "_";
@@ -522,7 +513,6 @@ public class GetAssessmentController {
 			//Formatting the landing page script to enter in the time limit of assessment
 			landingPageScript = formatMessage(landingPageScript, assessment.getTimeLimit());
 			
-			//System.out.println(expireDate.after(new Timestamp(System.currentTimeMillis()))); // if true, allow
 			if (expireDate.after(new Timestamp(System.currentTimeMillis())))
 			{	// Allow assessment (expiration date not yet reached)
 				// Check to see if the user has already taken this assessment
