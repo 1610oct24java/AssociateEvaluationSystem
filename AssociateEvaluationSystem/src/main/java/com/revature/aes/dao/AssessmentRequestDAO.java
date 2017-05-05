@@ -18,4 +18,5 @@ public interface AssessmentRequestDAO extends JpaRepository<AssessmentRequest, I
 	@Query(value="Select * from AES_ASSESSMENT_REQUEST where is_default = 1", nativeQuery=true)
 	public List<AssessmentRequest> getDefaultAssessment();
 	
+	
 }

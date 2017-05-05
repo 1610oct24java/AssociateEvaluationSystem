@@ -837,149 +837,210 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
     $scope.addRow = function() {
 
         // $scope.temp = $scope.categories[$scope.categories.indexOf($scope.category.valueOf())];
+    	console.log($scope.category + " cat");
+    	console.log($scope.type + " type");
+    	console.log($scope.quantity + " quant");
+    	
+    	$scope.catInt;
+    	$scope.typeInt;
+    	$scope.notEnoughQuestions;
+    	
+    	(function(){
+    		
+    		if($scope.category.toUpperCase() === "CSS"){
+    	    	$scope.catInt = 11;
 
-        $scope.sections.push({ 'category': $scope.category, 'type': $scope.type, 'quantity': $scope.quantity });
+    		}else if($scope.category.toUpperCase() === "CORE LANGUAGE"){
+    	    	$scope.catInt = 6;
+
+    		}else if($scope.category.toUpperCase() === "CRITICAL THINKING"){
+    	    	$scope.catInt = 5;
+
+    		}else if($scope.category.toUpperCase() === "DATA STRUCTURES"){
+    	    	$scope.catInt = 3;
+
+    		}else if($scope.category.toUpperCase() === "HTML"){
+    	    	$scope.catInt = 10;
+
+    		}else if($scope.category.toUpperCase() === "JAVASCRIPT"){
+    	    	$scope.catInt = 12;
+
+    		}else if($scope.category.toUpperCase() === "OOP"){
+    	    	$scope.catInt = 2;
+
+    		}else if($scope.category.toUpperCase() === "SQL"){
+    	    	$scope.catInt = 4;
+
+    		}
+    		
+    		if($scope.type.toUpperCase() === "MULTIPLE CHOICE"){
+    			$scope.typeInt = 1;
+    		}else if($scope.type.toUpperCase() === "MULTIPLE SELECT"){
+    			$scope.typeInt = 2;
+
+    		}else if($scope.type.toUpperCase() === "DRAG AND DROP"){
+    			$scope.typeInt = 3;
+
+    		}else if($scope.type.toUpperCase() === "CODE SNIPPET"){
+    			$scope.typeInt = 4;
+
+    		}
+    		
+    	})();
+    	
+        $http({
+            method: "GET",
+            url: ("assessmentrequest/"+$scope.catInt  + "/" + $scope.typeInt +"/" + $scope.quantity + "/")
+        }).then(function (response) {
+            $scope.numOfQuestions = response.data;
+            if($scope.quantity > $scope.numOfQuestions){
+            	alert("There are only " + $scope.numOfQuestions + " of those questions available.");
+            }else{
+            	 $scope.sections.push({ 'category': $scope.category, 'type': $scope.type, 'quantity': $scope.quantity });
 
 
-        var tempCategory = $.grep($scope.categories, function(e){ return e.name == $scope.category; });
+                 var tempCategory = $.grep($scope.categories, function(e){ return e.name == $scope.category; });
 
 
-        // console.log(result);
-        // console.log(result[0].categoryId);
-        // console.log(result[0].name);
-        // console.log($scope.category);
+                 // console.log(result);
+                 // console.log(result[0].categoryId);
+                 // console.log(result[0].name);
+                 // console.log($scope.category);
 
-        var msQuestions=0, mcQuestions=0, ddQuestions=0, csQuestions=0;
+                 var msQuestions=0, mcQuestions=0, ddQuestions=0, csQuestions=0;
 
-        switch($scope.type) {
-            case $scope.types[0].formatName : { /* Multiple Choice changed to cs */
-                console.log("case - 0");
-                csQuestions = $scope.quantity;
-                console.log($scope.type); break;
+                 switch($scope.type) {
+                     case $scope.types[0].formatName : { /* Multiple Choice changed to cs */
+                         console.log("case - 0");
+                         csQuestions = $scope.quantity;
+                         console.log($scope.type); break;
+                     }
+                     case $scope.types[1].formatName : { /* Multiple Select changed to dd */
+                         console.log("case - 1");
+                         ddQuestions = $scope.quantity;
+                         console.log($scope.type); break;
+                     }
+                     case $scope.types[2].formatName : { /* Drag 'n' Drop changed to mc */
+                         console.log("case - 2");
+                         mcQuestions = $scope.quantity;
+                         console.log($scope.type); break;
+                     }
+                     case $scope.types[3].formatName : { /* Code Snippet changed to ms */
+                         console.log("case - 3");
+                         msQuestions = $scope.quantity;
+                         console.log($scope.type); break;
+                     }
+                     default : {
+                         console.log("case - default");
+                         console.log($scope.type); break;
+                     }
+                 }
+
+                 if(tempCategory[0].categoryId == 6){
+                     $scope.coreLanguage = true;
+                     $scope.coreCount++;
+                 }
+
+
+                 $scope.assessments.push({
+                     "category": {
+                         "categoryId": tempCategory[0].categoryId,
+                         "name":  tempCategory[0].name
+                     },
+                     "msQuestions": msQuestions,
+                     "mcQuestions": mcQuestions,
+                     "ddQuestions": ddQuestions,
+                     "csQuestions": csQuestions
+
+                 });
+
+
+                 console.log("Assessments - ");
+                 console.log($scope.assessments);
+
+
+                 UpdateTotals($scope.quantity);
+                 $scope.sectionForm.$setPristine();
+                 $scope.sectionForm.$setUntouched();
+                 $scope.category = '';
+                 $scope.type = '';
+                 $scope.quantity = '';
+                 $scope.showToast("Success - Section added", "success");
+             };
+
+             //creates url and performs AJAX call to appropriate REST endpoint
+             //sending the assessment time and criteria
+             $scope.createAssessment = function() {
+
+                 //build test JSON
+                 // data = {
+                 //     "timeLimit": $scope.time,
+                 //     "categoryRequestList": [{
+                 //         "category": {
+                 //             "categoryId": 6,
+                 //             "name": "core language"
+                 //         },
+                 //         "msQuestions": 5,
+                 //         "mcQuestions": 25,
+                 //         "ddQuestions": 0,
+                 //         "csQuestions": 1
+                 //     }, {
+                 //         "category": {
+                 //             "categoryId": 2,
+                 //             "name": "OOP"
+                 //         },
+                 //         "msQuestions": 1,
+                 //         "mcQuestions": 3,
+                 //         "ddQuestions": 0,
+                 //         "csQuestions": 0
+                 //     }, {
+                 //         "category": {
+                 //             "categoryId": 3,
+                 //             "name": "Data Structures"
+                 //         },
+                 //         "msQuestions": 1,
+                 //         "mcQuestions": 0,
+                 //         "ddQuestions": 0,
+                 //         "csQuestions": 1
+                 //     }, {
+                 //         "category": {
+                 //             "categoryId": 4,
+                 //             "name": "SQL"
+                 //         },
+                 //         "msQuestions": 3
+                 //     }]
+                 // };
+
+                 data = {
+                     "timeLimit": $scope.time,
+                     "categoryRequestList": $scope.assessments,
+                     "hoursViewable" : $scope.asshours + ($scope.assdays * 24)
+                 };
+                 
+                 if($scope.coreLanguage == false){
+                 	$scope.showToast("Core Language Section Required", "fail");
+                 }
+
+
+                 //var sendUrl = SITE_URL.BASE + API_URL.BASE + "/assessmentrequest/" + "1";
+                 // var sendUrl = SITE_URL.BASE + API_URL.BASE + "/assessmentrequest" + "/1/";
+                 else if($scope.coreLanguage == true){
+                         $http({
+                             method: 'PUT',
+                             url: (SITE_URL.BASE + API_URL.BASE + "/assessmentrequest" + "/1/"),
+                             headers: { 'Content-Type': 'application/json' },
+                             data: data
+                         }).success(function(response) {
+                             $scope.showToast("Assessment created successfully", "success");
+                             console.log("Assessment creation success");
+                         }).error(function(response) {
+                             $scope.showToast("Assessment creation failed", "fail");
+                             console.log("Assessment creation failed");
+                         });
+                     }
             }
-            case $scope.types[1].formatName : { /* Multiple Select changed to dd */
-                console.log("case - 1");
-                ddQuestions = $scope.quantity;
-                console.log($scope.type); break;
-            }
-            case $scope.types[2].formatName : { /* Drag 'n' Drop changed to mc */
-                console.log("case - 2");
-                mcQuestions = $scope.quantity;
-                console.log($scope.type); break;
-            }
-            case $scope.types[3].formatName : { /* Code Snippet changed to ms */
-                console.log("case - 3");
-                msQuestions = $scope.quantity;
-                console.log($scope.type); break;
-            }
-            default : {
-                console.log("case - default");
-                console.log($scope.type); break;
-            }
-        }
-
-        if(tempCategory[0].categoryId == 6){
-            $scope.coreLanguage = true;
-            $scope.coreCount++;
-        }
-
-
-        $scope.assessments.push({
-            "category": {
-                "categoryId": tempCategory[0].categoryId,
-                "name":  tempCategory[0].name
-            },
-            "msQuestions": msQuestions,
-            "mcQuestions": mcQuestions,
-            "ddQuestions": ddQuestions,
-            "csQuestions": csQuestions
-
         });
 
-
-        console.log("Assessments - ");
-        console.log($scope.assessments);
-
-
-        UpdateTotals($scope.quantity);
-        $scope.sectionForm.$setPristine();
-        $scope.sectionForm.$setUntouched();
-        $scope.category = '';
-        $scope.type = '';
-        $scope.quantity = '';
-        $scope.showToast("Success - Section added", "success");
-    };
-
-    //creates url and performs AJAX call to appropriate REST endpoint
-    //sending the assessment time and criteria
-    $scope.createAssessment = function() {
-
-        //build test JSON
-        // data = {
-        //     "timeLimit": $scope.time,
-        //     "categoryRequestList": [{
-        //         "category": {
-        //             "categoryId": 6,
-        //             "name": "core language"
-        //         },
-        //         "msQuestions": 5,
-        //         "mcQuestions": 25,
-        //         "ddQuestions": 0,
-        //         "csQuestions": 1
-        //     }, {
-        //         "category": {
-        //             "categoryId": 2,
-        //             "name": "OOP"
-        //         },
-        //         "msQuestions": 1,
-        //         "mcQuestions": 3,
-        //         "ddQuestions": 0,
-        //         "csQuestions": 0
-        //     }, {
-        //         "category": {
-        //             "categoryId": 3,
-        //             "name": "Data Structures"
-        //         },
-        //         "msQuestions": 1,
-        //         "mcQuestions": 0,
-        //         "ddQuestions": 0,
-        //         "csQuestions": 1
-        //     }, {
-        //         "category": {
-        //             "categoryId": 4,
-        //             "name": "SQL"
-        //         },
-        //         "msQuestions": 3
-        //     }]
-        // };
-
-        data = {
-            "timeLimit": $scope.time,
-            "categoryRequestList": $scope.assessments,
-            "hoursViewable" : $scope.asshours + ($scope.assdays * 24)
-        };
-        
-        if($scope.coreLanguage == false){
-        	$scope.showToast("Core Language Section Required", "fail");
-        }
-
-
-        //var sendUrl = SITE_URL.BASE + API_URL.BASE + "/assessmentrequest/" + "1";
-        // var sendUrl = SITE_URL.BASE + API_URL.BASE + "/assessmentrequest" + "/1/";
-        else if($scope.coreLanguage == true){
-                $http({
-                    method: 'PUT',
-                    url: (SITE_URL.BASE + API_URL.BASE + "/assessmentrequest" + "/1/"),
-                    headers: { 'Content-Type': 'application/json' },
-                    data: data
-                }).success(function(response) {
-                    $scope.showToast("Assessment created successfully", "success");
-                    console.log("Assessment creation success");
-                }).error(function(response) {
-                    $scope.showToast("Assessment creation failed", "fail");
-                    console.log("Assessment creation failed");
-                });
-            }
 
     };
 
