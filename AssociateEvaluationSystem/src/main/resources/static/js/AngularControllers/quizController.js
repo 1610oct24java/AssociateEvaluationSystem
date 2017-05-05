@@ -305,11 +305,17 @@ app.controller("quizController", function($scope, $rootScope, $http,
 	$scope.jumpPage = function (index) {
 		$scope.pageChanged();
 		var numPage=index/$scope.numPerPage;
-		$scope.currentPage =1+ Math.floor(numPage);		
+		$scope.currentPage =1+ Math.floor(numPage);	
+		
+		
 		
 		$timeout(function () {
-			$("body").animate({scrollTop: $('#anchor' + index).offset().top}, "fast");
-	    }, 500);
+			$location.hash('anchor' + index);
+
+		     
+		     $anchorScroll();
+			
+	    }, 50);
 		
 	  
 	    
