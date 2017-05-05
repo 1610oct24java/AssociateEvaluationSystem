@@ -59,7 +59,6 @@ public class AssessmentRequest implements Serializable, Cloneable{
     private Integer hoursViewable;
     
     private transient boolean allowed = false;
-    
 
 	public Integer getHoursViewable() {
 		return hoursViewable;

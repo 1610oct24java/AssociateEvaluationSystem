@@ -361,23 +361,28 @@ app.controller("quizReviewController", function($scope, $rootScope, $http,
 	
 	// AJAX
 	function getQuizQuestions() {
-		
 		$http({
 			method: 'GET',
 			url: QUIZ_REST_URL + $location.search().asmt,
 			headers: {'Content-Type': 'application/json'}
 		})
 		.then(function(response) {
-			console.log(response);
 			// Check response for assessment availability
 			if (response.data.msg != "allow"){
-				// Assessment ready to take
-				$rootScope.protoTest = response.data.assessment;
-				$scope.questions = $rootScope.protoTest.template.templateQuestion;
-				//$rootScope.protoTest.options = [];
-				$rootScope.snippetStarters = response.data.snippets;
-				initSetup();
-				$rootScope.initQuizNav();
+				// check if the assessment has the assessment object
+				if (!response.data.assessment){
+					// redirect to a page that says page not available
+					$window.location.href = '/aes/missing';
+				} else {
+					// Assessment ready to take
+					$rootScope.protoTest = response.data.assessment;
+				
+					$scope.questions = $rootScope.protoTest.template.templateQuestion;
+					//$rootScope.protoTest.options = [];
+					$rootScope.snippetStarters = response.data.snippets;
+					initSetup();
+					$rootScope.initQuizNav();
+				}
 			}else {
 				// Assessment was taken or time expired, redirecting to expired page
 				$window.location.href = '/aes/expired';
@@ -435,6 +440,9 @@ app.controller("quizReviewController", function($scope, $rootScope, $http,
 			
 			window.location = '/aes/viewEmployees';
 		}
+		else if ($scope.authUser.authority == 'ROLE_RECRUITER') {
+			window.location = '/aes/view';
+		}
 		else if ($scope.authUser.authority == 'ROLE_CANDIDATE') {
 			console.log('candidate home todo');
 			
@@ -443,9 +451,9 @@ app.controller("quizReviewController", function($scope, $rootScope, $http,
 	}
 	
 	// check whether the user is an admin
-	$scope.isAdmin = function() {
+	$scope.isCandidate = function() {
 		if ($scope.authUser) {
-			if ($scope.authUser.authority == 'ROLE_ADMIN') {
+			if ($scope.authUser.authority == 'ROLE_CANDIDATE') {
 				return true;
 			}
 		}

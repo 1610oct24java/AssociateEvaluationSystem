@@ -56,5 +56,18 @@ public class AssessmentRequestController {
 		log.info("Assessment Request Updated");
 
 	}
+	
+	//new enpoint to get number of questions of specific category and type
+	@RequestMapping(value = "assessmentrequest/{category}/{type}/{numOfQuestions}/", method = RequestMethod.GET)
+	public Integer getNumberOfQuestions(@PathVariable Integer category, @PathVariable Integer type, @PathVariable Integer numOfQuestions){
+		
+		System.out.println(category);
+		System.out.println(type);
+		System.out.println(numOfQuestions);
+		
+		Integer num = assessmentRequestService.getNumberOfQuestions(category, type);
+
+		return num;
+	}
 
 }

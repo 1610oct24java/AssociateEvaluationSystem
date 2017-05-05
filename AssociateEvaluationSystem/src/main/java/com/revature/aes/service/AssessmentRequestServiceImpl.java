@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.revature.aes.beans.AssessmentRequest;
+import com.revature.aes.dao.AESJDBCImpl;
 import com.revature.aes.dao.AssessmentRequestDAO;
 
 @Service("AssessmentRequestServiceImpl")
@@ -18,6 +19,9 @@ public class AssessmentRequestServiceImpl implements AssessmentRequestService {
     @Autowired
     @Qualifier("assessmentRequestDao")
     private AssessmentRequestDAO assReqDao;
+    
+    @Autowired
+    private AESJDBCImpl aesJdbc;
 
     @Override
     public AssessmentRequest getAssessmentRequestTemplate() {
@@ -53,6 +57,11 @@ public class AssessmentRequestServiceImpl implements AssessmentRequestService {
 		assReq.setIsDefault(1);
 		assReqDao.save(assReq);
 		
+	}
+	
+	@Override
+	public Integer getNumberOfQuestions(Integer category, Integer type){
+		return aesJdbc.getNumOfQuestions(category, type);
 	}
 
 

@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="css/aesMaterials.css">
 </head>
 
-<body ng-app="AESCoreApp" ng-controller="UpdateEmployeeCtrl">
+<body ng-app="AESCoreApp" ng-controller="UpdateEmployeeCtrl" ng-cloak>
 <div id="toastContainer">
     <div>
         <ng-include src="'recruitMenu.html'" />
@@ -33,7 +33,7 @@
             </div>
             <div class="row input-field">
                 <label class="sr-only" for="currentEmail">Current Email</label>
-                <input class="col-xs-12 col-md-12" id="currentEmail" type="email" placeholder="current email address" ng-model="oldEmail" required autofocus>
+                <input class="col-xs-12 col-md-12" id="currentEmail" type="email" placeholder="current email address" ng-model="oldEmail" required autofocus readonly>
             </div>
             <div class="row input-field">
                 <label class="sr-only" for="newEmail">New Email</label>
@@ -70,6 +70,9 @@
             </div>
             <div ng-show="updateSuccessful" class="span-creds">
                 Update Successful
+            </div>
+            <div ng-show="newEmail" class = "span-creds">
+            	You will need to relogin once updated.
             </div>
             <div class="row">
                 <input id="btn-update" class="btn-revature" type="submit" value="Update">
