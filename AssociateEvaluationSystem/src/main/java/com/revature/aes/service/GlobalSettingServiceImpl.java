@@ -22,7 +22,7 @@ public class GlobalSettingServiceImpl implements GlobalSettingService {
 	
 	@Override
 	public boolean getCanCandidatesReview() {
-		return Boolean.getBoolean(this.getSettingValue(CANDIDATES_CAN_REVIEW_ASSESSMENTS));
+		return Boolean.parseBoolean(this.getSettingValue(CANDIDATES_CAN_REVIEW_ASSESSMENTS));
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class GlobalSettingServiceImpl implements GlobalSettingService {
 
 	@Override
 	public String getSettingValue(String propertyName) {
-		return globalSettingDao.getGlobalSettingByPropertyName(propertyName).getPropertyName();
+		return globalSettingDao.getGlobalSettingByPropertyName(propertyName).getPropertyValue();
 	}
 
 	
