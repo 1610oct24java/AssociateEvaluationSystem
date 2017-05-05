@@ -3,10 +3,6 @@ package com.revature.hulq.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.revature.hulq.logging.Logging;
 
 /**
@@ -16,6 +12,7 @@ import com.revature.hulq.logging.Logging;
  */
 public class Error {
 	/**
+	 * 
 	 * Gets the date.<br>
 	 * Used in {@link #error} to create timestamp
 	 *
@@ -23,13 +20,17 @@ public class Error {
 	 *            the now
 	 * @return the date
 	 */
+	private Error() {
+	    throw new IllegalAccessError("Utility class");
+	}
+	
 	public static String getDate(Date now) {
 		
-		String dateFormat = "dd/MM/yyyy", timeFormat = "HH:mm:ss";
-		SimpleDateFormat sdfDate = new SimpleDateFormat(dateFormat),
-				sdfTime = new SimpleDateFormat(timeFormat);
-		String timeStamp = sdfDate.format(now) + " | " + sdfTime.format(now);
-		return timeStamp;
+		String dateFormat = "dd/MM/yyyy";
+		String timeFormat = "HH:mm:ss";
+		SimpleDateFormat sdfDate = new SimpleDateFormat(dateFormat);
+		SimpleDateFormat sdfTime = new SimpleDateFormat(timeFormat);
+		return sdfDate.format(now) + " | " + sdfTime.format(now);
 	}
 	
 	/**
