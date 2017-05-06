@@ -22,6 +22,7 @@ public class HulqDriver {
 		
 	
 	public double executeCodeTest(String keyFileKey, String testFileKey){
+		log.info("=============== executeCodeTest ===================" );
 		boolean getKey = fa.download(keyFileKey);
 		boolean getTest = fa.download(testFileKey);
 		log.info("key:" + keyFileKey + " test:" + testFileKey);
@@ -49,6 +50,12 @@ public class HulqDriver {
 			TestProfile testProfile = fp.getTestProfile(keyFileKey);
 			// rename key and test files
 			
+			//get timeout seconds from first argument
+			String timeOutLimit = arguments.get(0);
+			
+			//remove seconds argument from list
+			arguments.remove(0);
+			
 			File oldKey = new File(keyFileKey);
 			String newKeyName = testProfile.getKeyFileName();
 			File newKey = new File(newKeyName);
@@ -66,10 +73,16 @@ public class HulqDriver {
 			//if both files were successfully renamed
 			if(renamedKey && renamedTest){
 				log.info("bacon");
-				result = bd.gradeCode(newKeyName, newTestName, arguments, testProfile);
+				result = bd.gradeCode(newKeyName, newTestName, timeOutLimit, arguments, testProfile);
 			}
 		} 
+		else
+		{
+			result = 0;
+			log.error("["+ keyFileKey + ", " + testFileKey + ", hulqBASH.sh] one or more failed to download");
+		}
 		
+		log.info("===============  END executeCodeTest ===================" );
 		return result;
 	}
 	
