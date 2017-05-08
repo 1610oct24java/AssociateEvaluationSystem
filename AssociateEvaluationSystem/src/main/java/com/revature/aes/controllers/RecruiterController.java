@@ -219,7 +219,9 @@ public class RecruiterController {
 		Map<String,String> response = new HashMap<>();
 		
 		//return if username already taken 
+
 		if(!currentUser.getEmail().equals(userUpdate.getNewEmail()) 
+
 				&& userService.findUserByEmail(userUpdate.getNewEmail()) != null){
 			response.put("msg", "Email already in user");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
