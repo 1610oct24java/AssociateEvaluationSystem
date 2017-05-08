@@ -826,7 +826,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
     	    	$scope.catInt = 11;
 
     		}else if($scope.category.toUpperCase() === "CORE LANGUAGE"){
-    	    	$scope.catInt = 6;
+    	    	$scope.catInt = 1;
 
     		}else if($scope.category.toUpperCase() === "CRITICAL THINKING"){
     	    	$scope.catInt = 5;
@@ -983,7 +983,8 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
                  data = {
                      "timeLimit": $scope.time,
                      "categoryRequestList": $scope.assessments,
-                     "hoursViewable" : $scope.asshours + ($scope.assdays * 24)
+                     "hoursViewable" : $scope.asshours + ($scope.assdays * 24),
+                     "isDefault" : 0
                  };
                  
                  if($scope.coreLanguage == false){
