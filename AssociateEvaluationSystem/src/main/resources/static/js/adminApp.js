@@ -826,11 +826,8 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
     	    	$scope.catInt = 11;
 
     		}else if($scope.category.toUpperCase() === "CORE LANGUAGE"){
-<<<<<<< HEAD
     	    	$scope.catInt = 1;
-=======
-    	    	$scope.catInt = 6;
->>>>>>> 90026ac667b9ee5826fcbf78320de679f7f81fbc
+
 
     		}else if($scope.category.toUpperCase() === "CRITICAL THINKING"){
     	    	$scope.catInt = 5;
