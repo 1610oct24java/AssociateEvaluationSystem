@@ -983,25 +983,19 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
                  //         "msQuestions": 3
                  //     }]
                  // };
-<<<<<<< HEAD
             	 
             	 if($scope.asshours + ($scope.assdays * 24) == 0){
             		 $scope.totalHourz = null;
             	 }else{
             		 $scope.totalHourz = $scope.asshours + ($scope.assdays * 24);
             	 }
-=======
->>>>>>> 90026ac667b9ee5826fcbf78320de679f7f81fbc
+
 
                  data = {
                      "timeLimit": $scope.time,
                      "categoryRequestList": $scope.assessments,
-<<<<<<< HEAD
                      "hoursViewable" : $scope.totalHourz,
                      "isDefault" : 0
-=======
-                     "hoursViewable" : $scope.asshours + ($scope.assdays * 24)
->>>>>>> 90026ac667b9ee5826fcbf78320de679f7f81fbc
                  };
                  
                  if($scope.coreLanguage == false){
