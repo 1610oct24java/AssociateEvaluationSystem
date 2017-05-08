@@ -90,9 +90,8 @@ public class GetAssessmentController {
 		log.info("Link called " + assessment);
 
 		Hashids hashids = new Hashids();
-		System.out.print(hashids.encode(assessment.getAssessmentId()));
-
-		System.out.println(hashids.decode(hashids.encode(assessment.getAssessmentId())));
+		//System.out.print(hashids.encode(assessment.getAssessmentId()));
+		//System.out.println(hashids.decode(hashids.encode(assessment.getAssessmentId())));
 		return coreEmailClientEndpointAddress + "quiz?asmt=" + hashids.encode(assessment.getAssessmentId());
 
 	}
