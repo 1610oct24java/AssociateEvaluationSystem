@@ -979,11 +979,17 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
                  //         "msQuestions": 3
                  //     }]
                  // };
+            	 
+            	 if($scope.asshours + ($scope.assdays * 24) == 0){
+            		 $scope.totalHourz = null;
+            	 }else{
+            		 $scope.totalHourz = $scope.asshours + ($scope.assdays * 24);
+            	 }
 
                  data = {
                      "timeLimit": $scope.time,
                      "categoryRequestList": $scope.assessments,
-                     "hoursViewable" : $scope.asshours + ($scope.assdays * 24),
+                     "hoursViewable" : $scope.totalHourz,
                      "isDefault" : 0
                  };
                  
