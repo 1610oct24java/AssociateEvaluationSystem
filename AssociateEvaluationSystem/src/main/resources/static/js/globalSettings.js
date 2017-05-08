@@ -69,26 +69,15 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
         var path = window.location.pathname.substr(1);
 
         switch(path) {
-            case "aes/registerEmployee" : return "employees";
-            case "aes/updateEmployee" : return "employees";
+            case "aes/registerEmployee" : case "aes/updateEmployee" : return "employees";
             case "aes/createAssessment" : return "assessments";
             case "aes/globalSettings" : return "globalSettings";
             default : return "overview"
         }
     };
 
-    mc.buildToggler = function(navID) {
-        return function() {
-            $mdSidenav(navID)
-                .toggle()
-                .then(function() {
-                    $log.debug("toggle " + navID + " is done");
-                });
-        };
-    };
-    $scope.isOpenLeft = function() {
-        return $mdSidenav('left').isOpen();
-    };
+    mc.buildToggler = buildToggler;
+    $scope.isOpenLeft = isOpenSideNav('left');
 
 
     // data
@@ -96,22 +85,27 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
     $scope.toggleLeft = mc.buildToggler('left');
 
  // $scope.toggleLeft = buildDelayedToggler('left');
-    $scope.toggleRight = buildToggler('right');
-    $scope.isOpenRight = function() {
-        return $mdSidenav('right').isOpen();
-    };
+    $scope.toggleRight = mc.buildToggler('right');
+    $scope.isOpenRight = isOpenSideNav('right');
 
-    $scope.toggleAss = buildToggler('ass');
-    $scope.isOpenAss = function(){
-    	return $mdSidenav('ass').isOpen();
-    };
+    $scope.toggleAss = mc.buildToggler('ass');
+    $scope.isOpenAss = isOpenSideNav('ass');
     
     function buildToggler(navID) {
         return function() {
             // Component lookup should always be available since we are not using `ng-if`
             $mdSidenav(navID)
                 .toggle()
+                .then(function() {
+                	$log.debug("toggle " + navID + " is done");
+                });
         };
+    }
+    
+    function isOpenSideNav(sideNav) {
+    	return function() {
+    		$mdSidenav(sideNav).isOpen();
+    	};
     }
 
 });

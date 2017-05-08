@@ -826,7 +826,11 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
     	    	$scope.catInt = 11;
 
     		}else if($scope.category.toUpperCase() === "CORE LANGUAGE"){
+<<<<<<< HEAD
     	    	$scope.catInt = 1;
+=======
+    	    	$scope.catInt = 6;
+>>>>>>> 90026ac667b9ee5826fcbf78320de679f7f81fbc
 
     		}else if($scope.category.toUpperCase() === "CRITICAL THINKING"){
     	    	$scope.catInt = 5;
@@ -979,18 +983,25 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
                  //         "msQuestions": 3
                  //     }]
                  // };
+<<<<<<< HEAD
             	 
             	 if($scope.asshours + ($scope.assdays * 24) == 0){
             		 $scope.totalHourz = null;
             	 }else{
             		 $scope.totalHourz = $scope.asshours + ($scope.assdays * 24);
             	 }
+=======
+>>>>>>> 90026ac667b9ee5826fcbf78320de679f7f81fbc
 
                  data = {
                      "timeLimit": $scope.time,
                      "categoryRequestList": $scope.assessments,
+<<<<<<< HEAD
                      "hoursViewable" : $scope.totalHourz,
                      "isDefault" : 0
+=======
+                     "hoursViewable" : $scope.asshours + ($scope.assdays * 24)
+>>>>>>> 90026ac667b9ee5826fcbf78320de679f7f81fbc
                  };
                  
                  if($scope.coreLanguage == false){
