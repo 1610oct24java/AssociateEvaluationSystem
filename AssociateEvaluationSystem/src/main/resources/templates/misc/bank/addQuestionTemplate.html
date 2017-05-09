@@ -18,20 +18,31 @@
 					ng-change="getTags(); tSelect();"
 					class="form-control col-xs-12 col-sm-12 col-md-12 col-lg-12">
 					<option value="" disabled selected hidden></option>
-					<option ng-repeat="type in formats"
-						value="{{type.formatId}}">{{type.formatName}}</option>
+					<option ng-repeat="type in formats" value="{{type.formatId}}">{{type.formatName}}</option>
 				</select>
 			</div>
 			<hr />
 			<div class="form-group">
-				<label for="tagSelect">Tag</label> <select id="tagSelect"
-					ng-model="question.tags" ng-disabled="tDis"
+				<label for="tagSelect">Tag(s) </label>&nbsp;<span
+					style="font-size: 14px; color: #f36c27; cursor: pointer;"
+					class="glyphicon glyphicon-question-sign"
+					ng-click="tagAlertShow();"></span>
+				<div ng-show="tagAlert" class="alert alert-info" role="alert">
+					<button type="button" class="close" data-dismiss="alert"
+						aria-label="Close" ng-click="tagAlertShow();">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					You may select multiple tags by pressing Ctrl + Left Click.
+				</div>
+				<select id="tagSelect" multiple ng-model="question.tags"
+					ng-disabled="tDis"
 					class="form-control col-xs-12 col-sm-12 col-md-12 col-lg-12">
 					<option value="" disabled selected hidden></option>
 					<option ng-repeat="tag in tags" value="{{tag.tagId}}">{{tag.tagName}}</option>
 				</select>
 			</div>
 			<hr />
+			&nbsp;
 			<div class="form-group">
 				<label for="questionText">Question</label>
 				<textarea class="form-control" id="questionText" rows="5" cols="75"
@@ -40,15 +51,49 @@
 			</div>
 			<!-- add answers, remove answers, and select correct answer(s) depending on the question type -->
 			<hr />
-			<div ng-hide="true">
-				<label for="answers">Answers</label>
-				<div id="answers"></div>
+			<div ng-show="ms">
+				<h4>
+					Answers for Multiple Select Questions <span
+						style="font-size: 14px; color: #f36c27; cursor: pointer;"
+						class="glyphicon glyphicon-question-sign"
+						ng-click="msAlertShow();"></span>
+				</h4>
+				<div ng-show="msAlert" class="alert alert-info" role="alert">
+					<button type="button" class="close" data-dismiss="alert"
+						aria-label="Close" ng-click="msAlertShow();">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					Use the check boxes provided for each answer to flag it as a
+					correct answer, uncheck boxes to flag the answer as incorrect.
+				</div>
+				<button class="btn btn-info btn-md" ng-click="addAnswer();">Add
+					Answer</button>
+				<button class="btn btn-info btn-md" ng-click="removeAnswer();">Remove
+					Answer</button>
+				<br />&nbsp;
+				<div ng-repeat="answer in answers" style="padding-bottom: 10px;">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="form-group">
+								<label for="answer{{answer.optionId}}">Answer
+									{{answer.optionId + 1}}</label>&nbsp;<span>- Correct: <input
+									type="checkbox" ng-model="answer.correct" ng-true-value="true"
+									ng-false-value="false" />
+								</span>
+								<textarea id="answer{{answer.optionId}}"
+									class="form-control col-md-6" ng-model="answer.optionText"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
 				<hr />
 			</div>
 			<button class="btn btn-primary btn-md" ng-disabled="tDis">Submit
 				Question</button>
 			<!-- <br />
-			<button ng-click="get();">Test</button> -->
+			<button ng-click="get();">Test Question Submit</button>
+			<br />
+			<button ng-click="getAnswers();">Test Compiled Answers</button> -->
 		</form>
 	</div>
 </div>
