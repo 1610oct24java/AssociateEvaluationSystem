@@ -137,6 +137,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 			for(var x = 0; x < temp.length; x++) {
 				if(temp[x].roleTitle.toUpperCase() !== 'RESTUSER' && temp[x].roleTitle.toUpperCase() !== 'SYSTEM' && temp[x].roleTitle.toUpperCase() !== 'CANDIDATE'){
 					tempScope.push(temp[x]);
+					console.log(temp[x]);
 				}
 			}
 			//$scope.roleTypes = ;
@@ -193,7 +194,8 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 		if ($scope.recruiterSelect === true) {
 			recruiter = $scope.recruiter.userId;
 		}
-
+		console.log("logging role type");
+		console.log($scope.roleType);
 		var employeeInfo = {
 			userId        : null,
 			email         : $scope.email,
@@ -206,6 +208,8 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 			format		  : null
 		};
 
+		console.log("logging employeeinfo");
+		console.log(employeeInfo);
 		$scope.postRegister(employeeInfo);
 
 		$scope.firstName = '';

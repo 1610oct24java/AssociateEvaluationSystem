@@ -58,7 +58,7 @@
             <select name="role" id="roleSelect" class="col-xs-8 col-md-6" ng-change="checkIfCandidate()"
                     ng-model="roleType" required>
             <option  value = "" disabled selected hidden>Role</option>
-            <option ng-repeat="role in roleTypes" value="{{role.roleTitle}}"> {{role.roleTitle}} </option> 
+            <option ng-repeat="role in roleTypes" value="{{role}}"> {{role.roleTitle}} </option> 
             </select>
         </div>
         
