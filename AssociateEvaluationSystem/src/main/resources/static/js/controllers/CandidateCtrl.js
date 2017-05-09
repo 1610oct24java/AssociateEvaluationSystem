@@ -9,7 +9,7 @@ AESCoreApp.constant("SITE_URL", {
     "PORT" : ":8080",
 
     "LOGIN": "index",
-    "TRAINER_HOME" : "",
+    "TRAINER_HOME" : "trainer",
     "VIEW_CANDIDATES" : "view",
     "VIEW_EMPLOYEES" : "viewEmployees",
     "REGISTER_CANDIDATE" : "",

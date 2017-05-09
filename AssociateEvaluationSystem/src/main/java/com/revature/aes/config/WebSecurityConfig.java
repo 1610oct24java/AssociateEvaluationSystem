@@ -23,6 +23,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers("/css/**", "/js/**", "/images/**", "/rest/**", "/images/**", "/site-images/**", "/user/**", "/recruiter/**", "/admin/**", "/question/**")
 		.permitAll();
 		
+//		http.authorizeRequests().antMatchers("/*/registerEmployee", "/*/viewEmployees", "/*/updateCredentials", "/*/questionTemplate", "/*/xmlParser", "/*/manageQuestions", "/*/addQuestions").hasRole("TRAINER").and().authorizeRequests().and().csrf().csrfTokenRepository(csrfTokenRepository());
+		
 		http.authorizeRequests().antMatchers("/*/recruit", "/*/view", "/*/updateCredentials").hasRole("RECRUITER").and().authorizeRequests().and().csrf().csrfTokenRepository(csrfTokenRepository());//.permitAll().and().authorizeRequests().and().csrf().disable();
 
 		http.authorizeRequests().antMatchers("/*/registerEmployee", "/*/viewEmployees", "/*/updateCredentials", "/*/questionTemplate", "/*/xmlParser", "/*/manageQuestions", "/*/addQuestions").hasRole("ADMIN").and().authorizeRequests().and().csrf().csrfTokenRepository(csrfTokenRepository());
