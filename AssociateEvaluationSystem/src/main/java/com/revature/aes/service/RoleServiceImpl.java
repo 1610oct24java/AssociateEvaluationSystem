@@ -1,5 +1,7 @@
 package com.revature.aes.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,10 @@ public class RoleServiceImpl implements RoleService {
 	public Role findRoleById(int roleId) {
 		// 
 		return dao.getOne(roleId);
+	}
+	
+	public List<Role> findAllRoles(){
+		return dao.findAll();
 	}
 
 	@Override

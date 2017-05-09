@@ -5,26 +5,34 @@
 <title>Revature | AES</title>
 
 <link rel="icon" type="img/png" href="images/favicon_192.png">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous">
 <!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+	integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+	crossorigin="anonymous">
 <!-- included for mobile scaling -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
-    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
-    <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="css/aesMaterials.css">
+<link rel="stylesheet"
+	href="//ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+<link rel="stylesheet"
+	href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+<link rel="stylesheet"
+	href="//fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="css/aesMaterials.css">
 <link rel="stylesheet" href="css/bigwilliestyle.css">
 </head>
 <body ng-app="adminApp" ng-controller="RegisterEmployeeCtrl">
 
-<div>
-    <ng-include src="'menu.html'" />
-</div>
-<div class="container">
-
-    <form class="form-revature" ng-submit="register()">
-        <h2 class="row">Register New Recruiter</h2>
+	<div>
+		<ng-include src="'menu.html'" />
+	</div>
+	<div class="container">		
+    <form name="employeeForm" class="form-revature" ng-submit="register()">
+        <h2 class="row">Register New Employee</h2>
         <div class="row input-field">
             <label class="sr-only" for="inputFirstName">first name</label>
             <input class="col-xs-12 col-md-12" id="inputFirstName" type="text" placeholder="first name" ng-model="firstName" required autofocus>
@@ -35,16 +43,45 @@
         </div>
         <div class="row input-field">
             <label class="sr-only" for="inputEmail">email address</label>
-            <input class="col-xs-12 col-md-12" id="inputEmail" type="email" placeholder="email address" ng-model="email" required>
+            <input name="email" class="col-xs-12 col-md-12" id="inputEmail" type="email" placeholder="email address" ng-model="email"
+            ng-change="checkEmail()" required>
         </div>
-        <!--div class="row">
-            <select id="roleSelect" class="col-xs-8 col-md-6"
-                    ng-model="roleType" ng-options="item for item in roleTypes">
-            <option >
-            --role--
-            </option>
+        
+        <div ng-show="buttonToggle">
+            	<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="color:red;">
+    			Email already registered.
+    			</span>
+  				</div>
+        
+        <div class="row input-field">
+        Employee Role:<br>
+            <select name="role" id="roleSelect" class="col-xs-8 col-md-6" ng-change="checkIfCandidate()"
+                    ng-model="roleType" required>
+            <option  value = "" disabled selected hidden>Role</option>
+            <option ng-repeat="role in roleTypes" value="{{role.roleTitle}}"> {{role.roleTitle}} </option> 
             </select>
-        </div!-->
+        </div>
+        
+        <div ng-show="employeeForm.role.$error.required && employeeForm.role.$dirty">
+            	<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="color:red;">
+    			Please choose a user type!
+    			</span>
+  				</div>
+        
+        <div ng-show="recruiterSelect" class="row">
+        Who is the recruiter for this candidate?<br>
+            <select name="recruiter" id="recruiterSelect" class="col-xs-8 col-md-6" 
+                    ng-model="recruiter" ng-options="item.firstName + ' ' + item.lastName for item in allRecruiters" ng-required="recruiterSelect">
+            <option>
+            	<!-- recruiters -->
+            </option> 
+            </select>
+        </div>
+        <div ng-show="employeeForm.recruiter.$error.required && employeeForm.recruiter.$dirty">
+            	<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="color:red;">
+    			Please enter a recruiter!
+    			</span>
+  				</div>
         
         <div ng-show="registerSuccessfulMsg" class="span-creds">
 			<span class="glyphicon glyphicon-floppy-saved" aria-hidden="true" style="color:green;">
@@ -58,7 +95,8 @@
 		</div>
         
         <div class="row">
-            <input id="btn-register-recruit" class="btn-revature" type="submit" value="register">
+            <input id="btn-register-recruit" class="btn-revature" type="submit" 
+            value="register" ng-click="employeeForm.$setPristine(); resetRegistrationForm()" ng-disabled="employeeForm.$invalid || buttonToggle">
         </div>
     </form>
     
