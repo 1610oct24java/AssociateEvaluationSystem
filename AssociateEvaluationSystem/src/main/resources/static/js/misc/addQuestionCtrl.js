@@ -1,5 +1,11 @@
-angular
-		.module('bankApp')
+var AddQuestion = angular.module('bankApp');
+
+AddQuestion.constant("API_URL", {
+	"BASE" : "/aes",
+	"LOGOUT" : "/logout",
+});
+
+AddQuestion
 		.controller(
 				'AddQuestionCtrl',
 				function($http, $scope) {
@@ -103,7 +109,8 @@ angular
 							$scope.setTypeCodeSnip();
 							break;
 						default:
-							console.warn('Could not find matching type in $scope.checkType().');
+							console
+									.warn('Could not find matching type in $scope.checkType().');
 							$scope.typeReset();
 							break;
 						}
@@ -274,7 +281,8 @@ angular
 									.log('You should not be able to add an answer in a code snippet');
 							break;
 						default:
-							console.warn('Could not find matching type in $scope.addAnswer().');
+							console
+									.warn('Could not find matching type in $scope.addAnswer().');
 							break;
 						}
 					};
@@ -309,28 +317,53 @@ angular
 							snippetTemplate : null
 						};
 					};
-					
-					// switch function to determine if the submit question button is disabled or not
+
+					// switch function to determine if the submit question
+					// button is disabled or not; true if disabled, false if
+					// enabled
 					$scope.submitDisabled = function() {
 						switch ($scope.question.question.format.formatId) {
 						case ('1'):
 							// multiple choice
-							
+							return true;
 							break;
 						case ('2'):
 							// multiple select
-							
+							if ($scope.question.question.questionText == "") {
+								return true;
+							} else {
+								var incompleteOptions = false;
+								var numCorrect = 0;
+
+								$scope.answers.forEach(function(answer) {
+									if (answer.optionText == "") {
+										incompleteOptions = true;
+									}
+									if (answer.correct == true) {
+										numCorrect++;
+									}
+								});
+								if (numCorrect > 0) {
+									return incompleteOptions;
+								} else {
+									return true;
+								}
+							}
 							break;
 						case ('3'):
 							// drag and drop
-							
+							return true;
 							break;
 						case ('4'):
 							// code snippet
-							
+							if ($scope.question.question.questionText == "") {
+								return true;
+							} else {
+								return false;
+							}
 							break;
 						default:
-							console.warn('Could not find matching type in $scope.submitDisabled().');
+							return true;
 							break;
 						}
 					}
@@ -344,6 +377,46 @@ angular
 					$scope.getAnswers = function() {
 						console.log($scope.answers);
 					}
+
+					$scope.newQuestion = {
+						questionId : 1,
+						format : {},
+						questionCategory : [],
+						questionText : "",
+						questionTags : [],
+						option : [],
+						dragdrop : [],
+						snippetTemplates : []
+					};
+
+					$scope.newFormat = {
+						formatId : 1,
+						formatName : ''
+					};
+
+					$scope.newCategory = {
+						categoryId : 1,
+						name : ''
+					}
+
+					$scope.newTag = {
+						tagId : 1,
+						tagName : ''
+					}
+
+					$scope.newOption = {
+						optionId : 1,
+						optionText : '',
+						correct : false
+					}
+					// question / question id??
+
+					$scope.newDragDrop = {
+						dragDropId : 1,
+						dragDropText : '',
+						correctOrder : 1
+					}
+					// question / question id??
 
 					// gets the categories on completion of angular statements
 					$scope.getCategories();
