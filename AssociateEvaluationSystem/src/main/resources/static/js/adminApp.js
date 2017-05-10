@@ -883,22 +883,22 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
                  switch($scope.type) {
                      case $scope.types[0].formatName : { /* Multiple Choice changed to cs */
                         
-                         csQuestions = $scope.quantity;
+                         csQuestions += $scope.quantity;
                           break;
                      }
                      case $scope.types[1].formatName : { /* Multiple Select changed to dd */
                          
-                         ddQuestions = $scope.quantity;
+                         ddQuestions += $scope.quantity;
                           break;
                      }
                      case $scope.types[2].formatName : { /* Drag 'n' Drop changed to mc */
                         
-                         mcQuestions = $scope.quantity;
+                         mcQuestions += $scope.quantity;
                          break;
                      }
                      case $scope.types[3].formatName : { /* Code Snippet changed to ms */
                          
-                         msQuestions = $scope.quantity;
+                         msQuestions += $scope.quantity;
                           break;
                      }
                      default : {
@@ -910,25 +910,46 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
                  if(tempCategory[0].categoryId == 6){
                      $scope.coreLanguage = true;
                      $scope.coreCount++;
+                    
+                     if($scope.assessments.length > 0){
+                    	 var indexOfCoreLanguage = 0;
+	                     for(var i = 0; i < $scope.assessments.length; i++){
+	                    	 if($scope.assessments[i].category.categoryId == 6){
+	                    		 indexOfCoreLangage = i;
+	                    	 }
+	                     }
+	                     $scope.assessments[indexOfCoreLanguage].csQuestions += csQuestions;
+	                     $scope.assessments[indexOfCoreLanguage].msQuestions += msQuestions;
+	                     $scope.assessments[indexOfCoreLanguage].ddQuestions += ddQuestions;
+	                     $scope.assessments[indexOfCoreLanguage].mcQuestions += mcQuestions;
+                     }else{
+                    	 $scope.assessments.push({
+    	                     "category": {
+    	                         "categoryId": tempCategory[0].categoryId,
+    	                         "name":  tempCategory[0].name
+    	                     },
+    	                     "msQuestions": msQuestions,
+    	                     "mcQuestions": mcQuestions,
+    	                     "ddQuestions": ddQuestions,
+    	                     "csQuestions": csQuestions
+    	
+    	                 });  
+                     }
+                     
+                 }else{
+	                 $scope.assessments.push({
+	                     "category": {
+	                         "categoryId": tempCategory[0].categoryId,
+	                         "name":  tempCategory[0].name
+	                     },
+	                     "msQuestions": msQuestions,
+	                     "mcQuestions": mcQuestions,
+	                     "ddQuestions": ddQuestions,
+	                     "csQuestions": csQuestions
+	
+	                 });     
                  }
-
-
-                 $scope.assessments.push({
-                     "category": {
-                         "categoryId": tempCategory[0].categoryId,
-                         "name":  tempCategory[0].name
-                     },
-                     "msQuestions": msQuestions,
-                     "mcQuestions": mcQuestions,
-                     "ddQuestions": ddQuestions,
-                     "csQuestions": csQuestions
-
-                 });
-
-
-      
-
-
+                 
                  UpdateTotals($scope.quantity);
                  $scope.sectionForm.$setPristine();
                  $scope.sectionForm.$setUntouched();
@@ -1318,6 +1339,7 @@ adminApp.controller('ChooseAssessmentCtrl', function($scope, $mdToast, $http, SI
     
     //function to count the number of questions in each category for expanded view
     $scope.getNumberOfQuestionsInCategory = function(category){
+
     	if(category.csQuestions > 0){
     		var num = category.csQuestions;
     		return num;
