@@ -7,13 +7,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.math.NumberUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 @Component
 public class FileParser {
-	
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	public List<String> getArgs(String keyPath) {
 		// string used to hold individual groups of command arguments
-		String valueString = "";
+		StringBuilder valueString = new StringBuilder();
 
 		// List used to hold all groups of command arguments
 		List<String> valueSet = new ArrayList<String>();
@@ -21,8 +23,8 @@ public class FileParser {
 		// flag used to indicate if parser loop is within multi-line comment
 		boolean inDataLine = false;
 		boolean inArguments = false;
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(keyPath));
+
+		try(FileReader fr = new FileReader(keyPath); BufferedReader br = new BufferedReader(fr)) {
 			String line = br.readLine();
 
 			while ((line = br.readLine()) != null) {
@@ -56,10 +58,10 @@ public class FileParser {
 						if (line.contains("%")) {
 							line = line.split("%")[0];
 						}
-						valueString = valueString + " " + line;
+						valueString = valueString.append(" " + line);
 
 						// add value string to value set
-						valueSet.add(valueString.trim());
+						valueSet.add(valueString.toString().trim());
 					}
 
 					// if argument line has comment
@@ -70,23 +72,24 @@ public class FileParser {
 					// parse individual lines of argument notation
 					if (line.startsWith("@ArgSet")) {
 						// if the the argument string is not empty
-						if (valueString != null && !(valueString.equals(""))) {
-
-							valueSet.add(valueString.trim());
+						if (valueString != null) {
+							if(!valueString.toString().isEmpty()){
+								valueSet.add(valueString.toString().trim());
+							}
+							//reset value string
+							valueString.setLength(0);
 						}
-						// reset value string
-						valueString = "";
 					} else if (line.length() != 0) {
 						// add argument line to value string
-						valueString = valueString + " " + line;
+						valueString = valueString.append(" " + line);
 					}
 				}
 			}
-			br.close();
 		} catch (IOException e) {
-			System.out.println("ERROR: key parser has failed");
-			System.out.println("CAUSE: file not found(probably)");
-			System.out.println("ACTION: obvious");
+			log.info("IOException", e);
+			log.info("ERROR: key parser has failed");
+			log.info("CAUSE: file not found(probably)");
+			log.info("ACTION: obvious");
 			return null;
 		}
 
@@ -98,8 +101,8 @@ public class FileParser {
 		// flag used to indicate if parser loop is within multi-line comment
 		boolean inDataLine = false;
 		boolean inConfigLine = false;
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(keyPath));
+
+		try(FileReader fr = new FileReader(keyPath); BufferedReader br = new BufferedReader(fr)) {
 			String line = br.readLine();
 			while ((line = br.readLine()) != null) {
 				line = line.trim();
@@ -116,7 +119,7 @@ public class FileParser {
 					break;
 				}
 
-				if (line.equalsIgnoreCase("@Config")) {
+				if ("@Config".equalsIgnoreCase(line)) {
 					inConfigLine = true;
 					continue;
 				}
@@ -131,7 +134,6 @@ public class FileParser {
 					if (val.length == 2) {
 
 						val[0] = val[0].toLowerCase();
-						val[1] = val[1];
 						switch (val[0]) {
 						case "mathmode":
 							testProfile.setMathMode(Boolean.parseBoolean(val[1]));
@@ -167,11 +169,11 @@ public class FileParser {
 					}
 				}
 			}
-			br.close();
 		} catch (IOException e) {
-			System.out.println("ERROR: key parser has failed");
-			System.out.println("CAUSE: file not found(probably)");
-			System.out.println("ACTION: obvious");
+			log.info("IOException", e);
+			log.info("ERROR: key parser has failed");
+			log.info("CAUSE: file not found(probably)");
+			log.info("ACTION: obvious");
 			return null;
 		}
 

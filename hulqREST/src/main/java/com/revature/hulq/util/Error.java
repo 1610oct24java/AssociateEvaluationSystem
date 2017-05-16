@@ -3,7 +3,6 @@ package com.revature.hulq.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import com.revature.hulq.logging.Logging;
 
 /**
@@ -12,8 +11,8 @@ import com.revature.hulq.logging.Logging;
  * but also provides a method to create a time stamp.
  */
 public class Error {
-	
 	/**
+	 * 
 	 * Gets the date.<br>
 	 * Used in {@link #error} to create timestamp
 	 *
@@ -21,13 +20,17 @@ public class Error {
 	 *            the now
 	 * @return the date
 	 */
+	private Error() {
+	    throw new IllegalAccessError("Utility class");
+	}
+	
 	public static String getDate(Date now) {
 		
-		String dateFormat = "dd/MM/yyyy", timeFormat = "HH:mm:ss";
-		SimpleDateFormat sdfDate = new SimpleDateFormat(dateFormat),
-				sdfTime = new SimpleDateFormat(timeFormat);
-		String timeStamp = sdfDate.format(now) + " | " + sdfTime.format(now);
-		return timeStamp;
+		String dateFormat = "dd/MM/yyyy";
+		String timeFormat = "HH:mm:ss";
+		SimpleDateFormat sdfDate = new SimpleDateFormat(dateFormat);
+		SimpleDateFormat sdfTime = new SimpleDateFormat(timeFormat);
+		return sdfDate.format(now) + " | " + sdfTime.format(now);
 	}
 	
 	/**
@@ -66,16 +69,15 @@ public class Error {
 		
 		if (t == null) {
 			entire = entire + border;
-			System.err.println(entire);
+			log.error(entire);
 		} else {
 			entire = entire
 					+ "\nRoot Cause:\t"
 					+ t.getClass().getSimpleName()
 					+ "\nMessage:\t"
 					+ t.getMessage();
-			System.err.println(entire + "\nStackTrace:\n");
-			t.printStackTrace();
-			System.err.println(border);
+			log.error(entire + "\nStackTrace:\n");
+			log.error(border);
 		}
 		
 		log.warn(entire);

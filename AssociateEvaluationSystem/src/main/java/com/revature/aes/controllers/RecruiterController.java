@@ -1,6 +1,7 @@
 package com.revature.aes.controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +11,7 @@ import com.revature.aes.beans.UserUpdateHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -75,8 +77,8 @@ public class RecruiterController {
 	 * 		the email of this recruiter
 	 * @return 
 	 * 		the newly saved user object
-	 */
-	@RequestMapping(value="/recruiter/{username}/candidates", method=RequestMethod.POST)
+	 */ 
+	@RequestMapping(value="recruiter/{username}/candidates", method=RequestMethod.POST)
 	public String createCandidate(@RequestBody User candidate, @PathVariable String username) 
 			throws JsonParseException, JsonMappingException, IOException {
 		
@@ -99,11 +101,11 @@ public class RecruiterController {
 	 * @param user
 	 *		User object with candidate's email and format for assessment
 	 */
-	@RequestMapping(value="/recruiter/candidate/assessment", method=RequestMethod.POST)
+	@RequestMapping(value="recruiter/candidate/assessment", method=RequestMethod.POST)
 	public ResponseEntity<Map> sendAssessment(@RequestBody User user){
 		Map<String, String> response = new HashMap<>();
 
-		User candidate = userService.findUserByEmail(user.getEmail());
+		User candidate = userService.findUserByEmailIgnoreCase(user.getEmail());
 
 		String pass = userService.setCandidateSecurity(candidate);
 		candidate.setFormat(user.getFormat());
@@ -131,7 +133,7 @@ public class RecruiterController {
 	 * @return 
 	 * 		the list of users this recruiter added
 	 */
-	@RequestMapping(value="/recruiter/{email}/candidates", method= RequestMethod.GET)
+	@RequestMapping(value="recruiter/{email}/candidates", method= RequestMethod.GET)
 	public List<User> getCandidates(@PathVariable String email){
 		return userService.findUsersByRecruiter(email);
 	}
@@ -141,7 +143,7 @@ public class RecruiterController {
 	 * @param email
 	 * @return The list of assessments
 	 */
-	@RequestMapping(value="/recruiter/{email}/assessments", method= RequestMethod.GET)
+	@RequestMapping(value="recruiter/{email}/assessments", method= RequestMethod.GET)
 	public List<Assessment> getAssessment(@PathVariable String email){
 		List<Assessment> a = aService.findAssessmentsByUser(userService.findUserByEmail(email));
 		return a;
@@ -158,7 +160,7 @@ public class RecruiterController {
 	 * @return
 	 * 		the indexed User
 	 */
-	@RequestMapping(value="/recruiter/{email}/candidates/{index}", method= RequestMethod.GET)
+	@RequestMapping(value="recruiter/{email}/candidates/{index}", method= RequestMethod.GET)
 	public User getCandidate(@PathVariable String email, @PathVariable int index){
 		return userService.findUserByIndex(index, email);
 	}
@@ -176,7 +178,7 @@ public class RecruiterController {
 	 * @return
 	 * 		The newly saved User object
 	 */
-	@RequestMapping(value="/recruiter/{email}/candidates/{index}", method= RequestMethod.PUT)
+	@RequestMapping(value="recruiter/{email}/candidates/{index}", method= RequestMethod.PUT)
 	public User updateCandidate(@PathVariable String email, @PathVariable int index, @RequestBody User candidate){
 		return userService.updateCandidate(candidate, email, index);
 	}
@@ -188,7 +190,7 @@ public class RecruiterController {
 	 * 
 	 * @param email  (String: candidate email)
 	 */
-	@RequestMapping(value="/recruiter/candidate/{email}/delete", method= RequestMethod.DELETE)
+	@RequestMapping(value="recruiter/candidate/{email}/delete", method= RequestMethod.DELETE)
 	public void deleteCandidate(@PathVariable String email){
 		
 		User candidate = userService.findUserByEmail(email);
@@ -211,23 +213,55 @@ public class RecruiterController {
 		}
 	}
 
-	@RequestMapping(value="/recruiter/{currentEmail}/update", method= RequestMethod.PUT)
+	@RequestMapping(value="recruiter/{currentEmail}/update", method= RequestMethod.PUT)
 	public ResponseEntity<Map> updateEmployee(@RequestBody UserUpdateHolder userUpdate, @PathVariable String currentEmail){
-		User currentUser = userService.findUserByEmail(currentEmail);
+		User currentUser = userService.findUserByEmailIgnoreCase(currentEmail);
 		Map<String,String> response = new HashMap<>();
+		
+		//return if username already taken 
 
+		if(!currentUser.getEmail().equals(userUpdate.getNewEmail()) 
+
+				&& userService.findUserByEmail(userUpdate.getNewEmail()) != null){
+			response.put("msg", "Email already in user");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+		}
 		if (userService.updateEmployee(currentUser, userUpdate)) {
-			response.put("msg", "success");
+			response.put("msg", "Update Successful");
 			return ResponseEntity.status(HttpStatus.OK).body(response);
 		}
 		else {
-			response.put("msg", "invalid credentials");
+			response.put("msg", "Invalid Credentials");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 		}
+	}
+	
+	@RequestMapping(value="recruiter/{currentEmail}/update", method = RequestMethod.GET)
+	public User getRecruiterDetails(@PathVariable String currentEmail){
+		return userService.findUserByEmailIgnoreCase(currentEmail);
 	}
 	
 	@RequestMapping(value="roles/init",method = RequestMethod.GET)
 	public void initRoles() {
 		roleService.initRoles();
 	}
+	
+	// this obtains all the emails in the database
+	@RequestMapping(value="recruiter/emails")
+	public List<String> getEmails() {
+		List<String> allEmails = new ArrayList<String>();
+		for (User user : userService.findAllUsers()){
+			allEmails.add(user.getEmail());
+		}
+		return allEmails;
+	}
+	
+	// updating a candidate's info
+	@RequestMapping(value="recruiter/update/candidate")
+	public ResponseEntity<User> updateCandidate(@RequestBody User candidate) {
+		// logic goes here to update info
+		return new ResponseEntity<User>(candidate, HttpStatus.OK);
+	}
+	
+	
 }

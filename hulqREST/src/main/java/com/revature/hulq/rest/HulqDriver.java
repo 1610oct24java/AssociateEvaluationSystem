@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.revature.hulq.bash.BashDriver;
@@ -16,24 +18,27 @@ public class HulqDriver {
 	static BashDriver bd = new BashDriver();
 	static FileParser fp = new FileParser();
 	static FileAccess fa = new FileAccess();
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
 		
 	
 	public double executeCodeTest(String keyFileKey, String testFileKey){
+		log.info("=============== executeCodeTest ===================" );
 		boolean getKey = fa.download(keyFileKey);
 		boolean getTest = fa.download(testFileKey);
-		System.out.println("key:" + keyFileKey + " test:" + testFileKey);
+		log.info("key:" + keyFileKey + " test:" + testFileKey);
 		//create temp file to check if script file is present
 		File varTmpDir = new File("hulqBASH.sh");
 		//check if script file exists in directory
 		boolean hasScript = varTmpDir.exists();
+		final String BASHTAR = "hulqBASH.tar.gz";
 		
-		if (hasScript == false){
+		if (!hasScript){
 			//download script, false if fails
-			hasScript = fa.download("hulqBASH.tar.gz");
+			fa.download(BASHTAR);
 			//extract script, false if fails
-			hasScript = extractBash("hulqBASH.tar.gz");
+			hasScript = extractBash(BASHTAR);
 			//remove tar.gz file from directory
-			removeTar("hulqBASH.tar.gz");
+			removeTar(BASHTAR);
 		}
 		
 		
@@ -44,6 +49,12 @@ public class HulqDriver {
 			List<String> arguments = fp.getArgs(keyFileKey);
 			TestProfile testProfile = fp.getTestProfile(keyFileKey);
 			// rename key and test files
+			
+			//get timeout seconds from first argument
+			String timeOutLimit = arguments.get(0);
+			
+			//remove seconds argument from list
+			arguments.remove(0);
 			
 			File oldKey = new File(keyFileKey);
 			String newKeyName = testProfile.getKeyFileName();
@@ -56,13 +67,22 @@ public class HulqDriver {
 			String newTestName = testProfile.getTestFileName()+"."+testFileKey.split("\\.")[1];
 			File newTest = new File(newTestName);
 			boolean renamedTest = oldTest.renameTo(newTest);
-			System.out.println(renamedKey + "-newKey:" + newKeyName +"[=]"+ renamedTest+ " newTest:" + newTestName);
+			
+			log.info(renamedKey + "-newKey:" + newKeyName +"[=]"+ renamedTest+ " newTest:" + newTestName);
+			
 			//if both files were successfully renamed
 			if(renamedKey && renamedTest){
-				result = bd.gradeCode(newKeyName, newTestName, arguments, testProfile);				
+				log.info("bacon");
+				result = bd.gradeCode(newKeyName, newTestName, timeOutLimit, arguments, testProfile);
 			}
 		} 
+		else
+		{
+			result = 0;
+			log.error("["+ keyFileKey + ", " + testFileKey + ", hulqBASH.sh] one or more failed to download");
+		}
 		
+		log.info("===============  END executeCodeTest ===================" );
 		return result;
 	}
 	
@@ -74,7 +94,7 @@ public class HulqDriver {
 			pb.start();
 			return true;
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.info("IOException", e);
 			return false;
 		}
 	}
@@ -86,6 +106,7 @@ public class HulqDriver {
 			pb.start();
 			return true;
 		} catch (IOException e) {
+			log.info("IOException", e);
 			return false;
 		}
 	}
