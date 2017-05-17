@@ -49,9 +49,49 @@
 					ng-model="question.question.questionText" ng-disabled="tDis"
 					placeholder="Enter question text here."></textarea>
 			</div>
-			<!-- add answers, remove answers, and select correct answer(s) depending on the question type -->
 			<hr />
-			<div ng-show="ms">
+
+			<div ng-if="mc">
+				<!-- multiple choice -->
+				<h4>
+					Answer for Multiple Choice Questions <span
+						style="font-size: 14px; color: #f36c27; cursor: pointer;"
+						class="glyphicon glyphicon-question-sign"
+						ng-click="mcAlertShow();"></span>
+				</h4>
+				<div ng-show="mcAlert" class="alert alert-info" role="alert">
+					<button type="button" class="close" data-dismiss="alert"
+						aria-label="Close" ng-click="mcAlertShow();">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					Use the radio buttons provided to select which is the correct
+					answer to the question. You may change this answer by clicking
+					another radio button.
+				</div>
+				<button class="btn btn-info btn-md" ng-click="addAnswer();">Add
+					Answer</button>
+				<button class="btn btn-info btn-md" ng-click="removeAnswer();">Remove
+					Answer</button>
+				<br />&nbsp;
+				<div ng-repeat="answer in answers" style="padding-bottom: 10px">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="form-group">
+								<!-- on radio button click, model value of id, send to function, implement switch statement -->
+								<label for="answer{{answer.optionId}}">Answer
+									#{{answer.optionId + 1}}</label>&nbsp;<span>- Correct: <!-- $parent required when accessing info outside of answers array -->
+									<input type="radio" name="mcCorrect" ng-model="$parent.mcValue"
+									ng-value="{{answer.optionId}}" ng-change="mcSetCorrectValue();"></span>
+								<textarea id="answer{{answer.optionId}}"
+									class="form-control col-md-6" ng-model="answer.optionText"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div ng-if="ms">
+				<!-- multiple select -->
 				<h4>
 					Answers for Multiple Select Questions <span
 						style="font-size: 14px; color: #f36c27; cursor: pointer;"
@@ -76,7 +116,7 @@
 						<div class="row">
 							<div class="form-group">
 								<label for="answer{{answer.optionId}}">Answer
-									{{answer.optionId + 1}}</label>&nbsp;<span>- Correct: <input
+									#{{answer.optionId + 1}}</label>&nbsp;<span>- Correct: <input
 									type="checkbox" ng-model="answer.correct" ng-true-value="true"
 									ng-false-value="false" />
 								</span>
@@ -88,6 +128,44 @@
 				</div>
 				<hr />
 			</div>
+
+			<div ng-if="dnd">
+				<!-- Drag and Drop -->
+				<h4>
+					Answers for Drag and Drop Questions <span
+						style="font-size: 14px; color: #f36c27; cursor: pointer;"
+						class="glyphicon glyphicon-question-sign"
+						ng-click="dndAlertShow();"></span>
+				</h4>
+				<div ng-show="dndAlert" class="alert alert-danger" role="alert">
+					<button type="button" class="close" data-dismiss="alert"
+						aria-label="Close" ng-click="dndAlertShow();">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<span style="text-decoration: underline;"><b>Important</b></span>:
+					Enter the answer options in the correct order the should be
+					arranged, with first being the first correct answer in the
+					sequence, last being the last answer in the sequence.
+				</div>
+				<button class="btn btn-info btn-md" ng-click="addAnswer();">Add
+					Answer</button>
+				<button class="btn btn-info btn-md" ng-click="removeAnswer();">Remove
+					Answer</button>
+				<br /> &nbsp;
+				<div ng-repeat="answer in answers" style="padding-bottom: 10px;">
+					<div class="container-fluid">
+						<div class="row">
+							<label for="answer{{answer.dragDropId}}">Answer
+								#{{answer.dragDropId + 1}}</label><span
+								ng-if="$parent.firstDnD(answer.dragDropId)">&nbsp;<b>(First)</b></span><span
+								ng-if="$parent.lastDnD(answer.dragDropId)">&nbsp;<b>(Last)</b></span>
+							<textarea id="answer{{answer.dragDropId}}"
+								class="form-control col-md-6" ng-model="answer.dragDropText"></textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+
 			<button class="btn btn-primary btn-md" ng-disabled="submitDisabled()">Submit
 				Question</button>
 			<!-- <br />

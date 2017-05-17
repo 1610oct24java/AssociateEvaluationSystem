@@ -24,9 +24,23 @@ AddQuestion
 
 					// for tracking what type of alert should be showing
 					$scope.csAlert = false;
-					$scope.dndAlert = false;
+					$scope.dndAlert = true;
 					$scope.mcAlert = false;
 					$scope.msAlert = false;
+
+					// used for storing the radio button value for multiple
+					// choice questions
+					$scope.mcValue = null;
+
+					$scope.mcSetCorrectValue = function() {
+						$scope.answers.forEach(function(answer) {
+							if ($scope.mcValue == answer.optionId) {
+								answer.correct = true;
+							} else {
+								answer.correct = false;
+							}
+						});
+					};
 
 					// alert functions to display or hide alerts
 					$scope.csAlertShow = function() {
@@ -131,7 +145,6 @@ AddQuestion
 								'correct' : false
 							});
 						}
-
 						$scope.cs = false;
 						$scope.dnd = false;
 						$scope.mc = true;
@@ -158,6 +171,8 @@ AddQuestion
 								'correct' : false
 							});
 						}
+
+						$scope.mcValue = null;
 
 						$scope.cs = false;
 						$scope.dnd = false;
@@ -186,6 +201,9 @@ AddQuestion
 							});
 						}
 
+						$scope.mcValue = null;
+						$scope.dndAlert = true;
+
 						$scope.cs = false;
 						$scope.dnd = true;
 						$scope.mc = false;
@@ -205,9 +223,9 @@ AddQuestion
 					// sets up the code snippet to have no answer options
 					$scope.setTypeCodeSnip = function() {
 						$scope.answers = null;
-
-						$scope.cs = false;
-						$scope.dnd = true;
+						$scope.mcValue = null;
+						$scope.cs = true;
+						$scope.dnd = false;
 						$scope.mc = false;
 						$scope.ms = false;
 					};
@@ -278,7 +296,7 @@ AddQuestion
 						case ('4'):
 							// code snippet
 							console
-									.log('You should not be able to add an answer in a code snippet');
+									.warn('$scope.answers is not accessible by \'Code Snippet.\'');
 							break;
 						default:
 							console
@@ -288,12 +306,19 @@ AddQuestion
 					};
 
 					// removes a single answer option from the answers array,
-					// but only if there are more than 2 options
+					// but only if there are more than 2 options and there is an
+					// answer array
 					$scope.removeAnswer = function() {
-						if ($scope.answers.length > 2) {
-							$scope.removeOneAnswer();
+						if (Array.isArray($scope.answers)) {
+							if ($scope.answers.length > 2) {
+								$scope.removeOneAnswer();
+							} else {
+								console
+										.log('Cannot have fewer than 2 answers.');
+							}
 						} else {
-							console.log('Cannot have 2 or fewer answers.');
+							console
+									.warn('$scope.answers is not an array.  Are you accessing this while \'Code Snippet\' is selected?');
 						}
 					};
 
@@ -325,7 +350,26 @@ AddQuestion
 						switch ($scope.question.question.format.formatId) {
 						case ('1'):
 							// multiple choice
-							return true;
+							if ($scope.question.question.questionText == "") {
+								return true;
+							} else {
+								var incompleteOptions = false;
+								var numCorrect = 0;
+
+								$scope.answers.forEach(function(answer) {
+									if (answer.optionText == "") {
+										incompleteOptions = true;
+									}
+									if (answer.correct == true) {
+										numCorrect++;
+									}
+								});
+								if (numCorrect > 0) {
+									return incompleteOptions;
+								} else {
+									return true;
+								}
+							}
 							break;
 						case ('2'):
 							// multiple select
@@ -352,7 +396,17 @@ AddQuestion
 							break;
 						case ('3'):
 							// drag and drop
-							return true;
+							if ($scope.question.question.questionText == "") {
+								return true;
+							} else {
+								var incompleteOptions = false;
+								$scope.answers.forEach(function(answer) {
+									if (answer.dragDropText == '') {
+										incompleteOptions = true;
+									}
+								});
+								return incompleteOptions;
+							}
 							break;
 						case ('4'):
 							// code snippet
@@ -366,6 +420,24 @@ AddQuestion
 							return true;
 							break;
 						}
+					}
+
+					// determines if the option/answer number is first in the
+					// sequence of drag and drop
+					$scope.firstDnD = function(id) {
+						if (id == 0)
+							return true;
+						else
+							return false;
+					}
+
+					// determines if the option/answer number is last in the
+					// sequence of drag and drop
+					$scope.lastDnD = function(id) {
+						if (id == $scope.answers.length - 1)
+							return true;
+						else
+							return false;
 					}
 
 					// for testing the question object
