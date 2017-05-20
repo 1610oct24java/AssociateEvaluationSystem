@@ -17,7 +17,33 @@ app.controller("quizController", function($scope, $rootScope, $http,
 	// declare review settings
 	$rootScope.reviewBool = false;
 
-	var makeState = function(input) {
+    //RICHARD: get global settings to see if user can review
+    var settingsUrl = "/aes/admin/globalSettings"
+    $scope.getSettings = function(){
+        $scope.getSettingsUnsuccessful = false;
+        $http({
+            method  : 'GET',
+            url		: settingsUrl
+        }).success(function(data){
+            if (!data){
+                $scope.getSettingsUnsuccessful = true;
+            } else {
+                $scope.settings = {};
+                $scope.settings.keys = [];
+                data.forEach(function (s){
+                    $scope.settings[s.propertyId] = s;
+                    $scope.settings.keys.push(s.propertyId);
+                });
+            }
+        }).error( function() {
+            $scope.getSettingsUnsuccessful = true;
+        });
+    }
+    $scope.getSettings();
+
+
+
+    var makeState = function(input) {
 		var temp = {
 			id: input,
 			flagged: false,
@@ -417,25 +443,25 @@ app.controller("quizController", function($scope, $rootScope, $http,
 				snippetUploads : $rootScope.snippetSubmissions
 		};
 
-		$http({
-			method: 'POST',
-			url: "aes/rest/submitAssessment",
-			headers: {'Content-Type': 'application/json'},
-			data: answerData
-		}).then(function(response) {
-			//Removed console log for sonar cube.
-			// Perform a check on global settings
-			if ($rootScope.reviewBool == true){
-				//This should allow the questions to put into this page
-				$window.location.href = '/aes/quizReview?asmt=' + $location.search().asmt;
-			} else {
-				$window.location.href = '/aes/goodbye';
-			}
-		});
-	}
-	
-});
+        $http({
+            method: 'POST',
+            url: "aes/rest/submitAssessment",
+            headers: {'Content-Type': 'application/json'},
+            data: answerData
+        }).then(function(response) {
+            //Removed console log for sonar cube.
+            // Perform a check on global settings
+            if ($scope.settings[1].propertyValue == "true"){
+                //This should allow the questions to put into this page
+				console.log("quiz controller")
+                $window.location.href = '/aes/quizReview?asmt=' + $location.search().asmt;
+            } else {
+                $window.location.href = '/aes/goodbye';
+            }
+        });
+    }
 
+});
 
 
 

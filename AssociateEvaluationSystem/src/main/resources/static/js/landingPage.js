@@ -44,6 +44,31 @@ landingApp.controller("landingPageCtrl", function($scope, $http, $rootScope,
 	$scope.hideBox = true;
 	$scope.myTime = "";
 
+
+    //RICHARD: get global settings to see if user can review
+    var settingsUrl = "/aes/admin/globalSettings"
+    $scope.getSettings = function(){
+        $scope.getSettingsUnsuccessful = false;
+        $http({
+            method  : 'GET',
+            url		: settingsUrl
+        }).success(function(data){
+            if (!data){
+                $scope.getSettingsUnsuccessful = true;
+            } else {
+                $scope.settings = {};
+                $scope.settings.keys = [];
+                data.forEach(function (s){
+                    $scope.settings[s.propertyId] = s;
+                    $scope.settings.keys.push(s.propertyId);
+                });
+            }
+        }).error( function() {
+            $scope.getSettingsUnsuccessful = true;
+        });
+    }
+    $scope.getSettings();
+
 	$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
 	.then(function(response) {
 		if (response.data.authenticated) {
@@ -92,7 +117,15 @@ landingApp.controller("landingPageCtrl", function($scope, $http, $rootScope,
 				$scope.hideBox = false;
 			}else {
 				// Assessment was taken or time expired, redirecting to expired page
-				$window.location.href = '/aes/expired';
+				//$window.location.href = '/aes/expired';
+
+                if ($scope.settings[1].propertyValue == "true") {
+                    $window.location.href = '/aes/quizReview?asmt=' + assessmentId;
+                }
+                else {
+                    $window.location.href = '/aes/goodbye';
+				}
+
 			}
 		})
 	}
