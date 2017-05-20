@@ -1,7 +1,7 @@
-var app = angular.module("quizApp", [ 'ui.bootstrap', 'as.sortable',
+var asmt = angular.module("asmtApp", [ 'ui.bootstrap', 'as.sortable',
 		'ngAnimate', 'ui.ace']);
 
-app.config(['$locationProvider', function($locationProvider) {
+asmt.config(['$locationProvider', function($locationProvider) {
     $locationProvider.html5Mode(true);
 }]);
 

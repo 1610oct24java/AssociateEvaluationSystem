@@ -1,8 +1,6 @@
+var aes = angular.module('AESCoreApp',['ngMaterial', 'ngMessages']);
 
-
-var app = angular.module('AESCoreApp',['ngMaterial', 'ngMessages']);
-
-app.constant("SITE_URL", {
+aes.constant("SITE_URL", {
 	"HTTP" : "http://",
 	"HTTPS": "https://",
 	"BASE" : "",
@@ -16,7 +14,7 @@ app.constant("SITE_URL", {
     "REGISTER_EMPLOYEE" : ""
 });
 
-app.constant("API_URL", {
+aes.constant("API_URL", {
 	"BASE"      : "/aes",
 	"LOGIN"     : "/login",
 	"LOGOUT"    : "/logout",
@@ -27,7 +25,7 @@ app.constant("API_URL", {
 	"CANDIDATES": "/candidates"
 });
 
-app.constant("ROLE", {
+AESCoreApp.constant("ROLE", {
 	"RECRUITER" : "ROLE_RECRUITER",
 	"TRAINER"   : "ROLE_TRAINER",
 	"CANDIDATE" : "ROLE_CANDIDATE",

@@ -1,7 +1,3 @@
-/**
- * 
- */
-
 angular.module('adminApp').controller("SettingsViewCtrl", function($scope, $mdToast, $http, SITE_URL, API_URL){
 	
 	
