@@ -3,7 +3,7 @@
  */
 
 
-var AESCoreApp = angular.module('AESCoreApp', ['ngMaterial', 'ngMessages']);
+var AESCoreApp = angular.module('AESCoreApp');
 
 
 
