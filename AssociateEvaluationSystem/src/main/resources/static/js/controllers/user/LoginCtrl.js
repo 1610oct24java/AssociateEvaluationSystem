@@ -2,7 +2,7 @@
  * Created by SLEDGEHAMMER on 3/6/2017.
  */
 
-var AESCoreApp = angular.module('AESCoreApp');
+var AESCoreApp = angular.module('AESCoreApp',['ngMaterial', 'ngMessages']);
 
 AESCoreApp.controller('LoginCtrl', function($scope, $httpParamSerializerJQLike, $http, SITE_URL, API_URL, ROLE) {
 
