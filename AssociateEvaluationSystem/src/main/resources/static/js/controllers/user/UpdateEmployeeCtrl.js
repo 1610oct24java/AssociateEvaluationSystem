@@ -3,11 +3,11 @@
  */
 
 
-var AESCoreApp = angular.module('AESCoreApp');
+var userApp = angular.module('userApp');
 
 
 
-AESCoreApp.constant("SITE_URL", {
+userApp.constant("SITE_URL", {
     "HTTP" : "http://",
     "HTTPS": "https://",
     "BASE" : "",
@@ -22,7 +22,7 @@ AESCoreApp.constant("SITE_URL", {
 });
 
 
-AESCoreApp.constant("API_URL", {
+userApp.constant("API_URL", {
     "BASE"      : "/aes",
     "LOGIN"     : "/login",
     "LOGOUT"    : "/logout",
@@ -34,7 +34,7 @@ AESCoreApp.constant("API_URL", {
 });
 
 
-AESCoreApp.constant("ROLE", {
+userApp.constant("ROLE", {
     "RECRUITER" : "ROLE_RECRUITER",
     "TRAINER"   : "ROLE_TRAINER",
     "CANDIDATE" : "ROLE_CANDIDATE",
@@ -43,7 +43,7 @@ AESCoreApp.constant("ROLE", {
 
 
 
-AESCoreApp.config(function($mdThemingProvider) {
+userApp.config(function($mdThemingProvider) {
 
     var revOrangeMap = $mdThemingProvider.extendPalette("deep-orange", {
         "A200": "#FB8C00",
@@ -66,7 +66,7 @@ AESCoreApp.config(function($mdThemingProvider) {
 
 
 
-AESCoreApp.controller('UpdateEmployeeCtrl', function ($scope, $location, $mdToast, $http, SITE_URL, API_URL, ROLE) {
+userApp.controller('UpdateEmployeeCtrl', function ($scope, $location, $mdToast, $http, SITE_URL, API_URL, ROLE) {
 	$scope.newEmail = null;
     $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
         .then(function (response) {
@@ -194,7 +194,7 @@ AESCoreApp.controller('UpdateEmployeeCtrl', function ($scope, $location, $mdToas
     }
 });
 
-AESCoreApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav, $log) {
+userApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav, $log) {
 	var mc = this;
 
     // functions

@@ -1,8 +1,8 @@
-var AESCoreApp = angular.module('AESCoreApp');
+var userApp = angular.module('userApp');
 
 
 
-AESCoreApp.constant("SITE_URL", {
+userApp.constant("SITE_URL", {
     "HTTP" : "http://",
     "HTTPS": "https://",
     "BASE" : "",
@@ -18,7 +18,7 @@ AESCoreApp.constant("SITE_URL", {
 });
 
 
-AESCoreApp.constant("API_URL", {
+userApp.constant("API_URL", {
     "BASE"      : "/aes",
     "LOGIN"     : "/login",
     "LOGOUT"    : "/logout",
@@ -30,7 +30,7 @@ AESCoreApp.constant("API_URL", {
 });
 
 
-AESCoreApp.constant("ROLE", {
+userApp.constant("ROLE", {
     "RECRUITER" : "ROLE_RECRUITER",
     "TRAINER"   : "ROLE_TRAINER",
     "CANDIDATE" : "ROLE_CANDIDATE",
@@ -39,7 +39,7 @@ AESCoreApp.constant("ROLE", {
 
 
 
-AESCoreApp.config(function($mdThemingProvider) {
+userApp.config(function($mdThemingProvider) {
 
     var revOrangeMap = $mdThemingProvider.extendPalette("deep-orange", {
         "A200": "#F26925",
@@ -60,7 +60,7 @@ AESCoreApp.config(function($mdThemingProvider) {
 });
 
 //On enter event
-AESCoreApp.directive('onEnter', function() {
+userApp.directive('onEnter', function() {
   return function(scope, elm, attr) {
     elm.bind('keypress', function(e) {
       if (e.keyCode === 13) {
@@ -71,7 +71,7 @@ AESCoreApp.directive('onEnter', function() {
 });
 
 // Inline edit directive
-AESCoreApp.directive('inlineEdit', function($timeout) {
+userApp.directive('inlineEdit', function($timeout) {
   return {
     scope: {
       model: '=inlineEdit',
@@ -109,7 +109,7 @@ AESCoreApp.directive('inlineEdit', function($timeout) {
   };
 });
 
-AESCoreApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,SITE_URL, API_URL, ROLE) {
+userApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,SITE_URL, API_URL, ROLE) {
 		
     $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
         .then(function(response) {
@@ -448,7 +448,7 @@ function formatDateIso(date) {
 	return isoDate;
 }
 
-AESCoreApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav, $log) {
+userApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav, $log) {
 	 var mc = this;
 
 	    // functions
@@ -506,7 +506,7 @@ AESCoreApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSiden
 
 });
 
-AESCoreApp.controller('LoginCtrl', function($scope, $httpParamSerializerJQLike, $http, SITE_URL, API_URL, ROLE) {
+userApp.controller('LoginCtrl', function($scope, $httpParamSerializerJQLike, $http, SITE_URL, API_URL, ROLE) {
 
     $scope.login = function() {
         makeUser($scope);
