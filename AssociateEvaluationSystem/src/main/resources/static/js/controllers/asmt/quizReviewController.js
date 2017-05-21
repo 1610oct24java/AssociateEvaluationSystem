@@ -1,4 +1,4 @@
-app.controller("quizReviewController", function($scope, $rootScope, $http, 
+asmt.controller("quizReviewController", function($scope, $rootScope, $http,
 		$location, $window, $timeout, $anchorScroll) {
 	$rootScope.states = [];
 	$scope.answers = [];
