@@ -54,6 +54,8 @@ public class AssessmentRequest implements Serializable, Cloneable{
     @Column(name="IS_DEFAULT")
     private Integer isDefault;
     
+    @Column(name="NAME")
+    private String name;
 
     @Column(name="DEFAULT_HOURS_VIEWABLE")
     private Integer hoursViewable;
@@ -114,6 +116,15 @@ public class AssessmentRequest implements Serializable, Cloneable{
 
 	public String getLink() {
 		return link;
+	}
+
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public void setLink(String link) {

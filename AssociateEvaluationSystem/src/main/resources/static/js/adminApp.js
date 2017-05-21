@@ -1012,6 +1012,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
                  data = {
                      "timeLimit": $scope.time,
                      "categoryRequestList": $scope.assessments,
+                     "name": $scope.name,
                      "hoursViewable" : $scope.totalHourz,
                      "isDefault" : 0
                  };
@@ -1193,7 +1194,7 @@ adminApp.controller('manageQuestions', function($scope, $http, SITE_URL, API_URL
     var mq = this;
 });
 
-adminApp.controller('ChooseAssessmentCtrl', function($scope, $mdToast, $http, SITE_URL, API_URL, ROLE){
+adminApp.controller('ChooseAssessmentCtrl', function($scope, $mdToast, $http, $anchorScroll, SITE_URL, API_URL, ROLE){
 	
 	//list of assessments used to manipulate
     $scope.assList = [];
@@ -1215,12 +1216,10 @@ adminApp.controller('ChooseAssessmentCtrl', function($scope, $mdToast, $http, SI
             .hideDelay(5000)
         );
     };
-
-
-
-//get number of sections for view 
-    $scope.getNumOfSec = function(index){
     
+    
+//get number of sections for view 
+    $scope.getNumOfSec = function(index){	
     	return $scope.assList[index].categoryRequestList.length;
     }
 
@@ -1266,6 +1265,10 @@ adminApp.controller('ChooseAssessmentCtrl', function($scope, $mdToast, $http, SI
 
         for(var i = 0; i < $scope.assList.length; i++){
             
+        	$scope.assList[i].numSections = $scope.getNumOfSec(i);
+        	$scope.assList[i].numQuestions = $scope.getTotalNumOfQuestions(i);
+        	$scope.assList[i].index = i;
+        	
             if($scope.assList[i].hoursViewable == null){
             	$scope.assList[i].allowed = false;
             }else{
@@ -1283,7 +1286,7 @@ adminApp.controller('ChooseAssessmentCtrl', function($scope, $mdToast, $http, SI
     });
 
     //function for selecting default. will repopulate list after default is selected
-    $scope.selectDefault = function(index){
+    $scope.selectDefault = function(index, $window){
         $http({
             method: "POST",
             url: "selectAssessment",
@@ -1298,6 +1301,10 @@ adminApp.controller('ChooseAssessmentCtrl', function($scope, $mdToast, $http, SI
                 
 
                 for(var i = 0; i < $scope.assList.length; i++){
+                	
+                	$scope.assList[i].numSections = $scope.getNumOfSec(i);
+                	$scope.assList[i].numQuestions = $scope.getTotalNumOfQuestions(i);
+                	$scope.assList[i].index = i;
                    
                     if($scope.assList[i].hoursViewable == null){
                     	$scope.assList[i].allowed = false;
@@ -1314,7 +1321,46 @@ adminApp.controller('ChooseAssessmentCtrl', function($scope, $mdToast, $http, SI
             });
         });
         $scope.showToast("New Default Selected", "success");
+        $anchorScroll();
+    }
+    
+    /* Created by jesse 5/21/2017 */
+    $scope.deleteAssessment = function(index, $window){
+        $http({
+            method: "POST",
+            url: "assessmentrequest/delete",
+            data: $scope.assList[index]
+        }).then(function(response){
 
+            $http({
+                method: "GET",
+                url: "allAssessments"
+            }).then(function (response) {
+                $scope.assList = response.data;
+                
+
+                for(var i = 0; i < $scope.assList.length; i++){
+                	
+                	$scope.assList[i].numSections = $scope.getNumOfSec(i);
+                	$scope.assList[i].numQuestions = $scope.getTotalNumOfQuestions(i);
+                	$scope.assList[i].index = i;
+                   
+                    if($scope.assList[i].hoursViewable == null){
+                    	$scope.assList[i].allowed = false;
+                    }else{
+                    	$scope.assList[i].allowed = true;
+                    	$scope.assList[i].days = Math.floor($scope.assList[i].hoursViewable/24).toString();
+                    	$scope.assList[i].hours = ($scope.assList[i].hoursViewable % 24).toString();
+                    }
+                    if($scope.assList[i].isDefault == 1){
+                        $scope.defaultAss = $scope.assList[i];
+                        $scope.defaultIndex = i;
+                    }
+                }
+            });
+        });
+        $scope.showToast("Successfully Deleted Assessment", "success");
+        $anchorScroll();
     }
     
     //gets each question type of the category

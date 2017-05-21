@@ -92,3 +92,7 @@ md-toast.md-fail-toast-theme div.md-toast-content {
 .assessmentRow:hover {
 	color: rgba(255, 87, 34, 0.75);
 }
+
+.templateOptions{
+	min-width:30px;
+}

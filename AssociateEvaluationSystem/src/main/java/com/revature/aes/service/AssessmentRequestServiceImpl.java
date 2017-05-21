@@ -28,6 +28,11 @@ public class AssessmentRequestServiceImpl implements AssessmentRequestService {
     	AssessmentRequest defAss = assReqDao.getDefaultAssessment().get(0);
         return defAss;
     }
+    
+    @Override
+    public void deleteAssessmentRequestTemplate(AssessmentRequest assReq){
+    	assReqDao.delete(assReq);
+    }
 
     @Override
     public AssessmentRequest saveAssessmentRequest(AssessmentRequest assReq) {
