@@ -122,6 +122,10 @@ landingApp.controller("landingPageCtrl", function ($scope, $http, $rootScope,
                 }
             })
     }
+    //RICHARD
+    //If logging in after test is taken,
+    //we check the review global settings
+    //to determine if user can review test or not
     var checkGS = function () {
         var assessmentId = quizPage.substring(quizPage.search("=") + 1);
         console.log(quizPage);
