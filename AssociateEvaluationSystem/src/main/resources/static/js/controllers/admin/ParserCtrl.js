@@ -1,4 +1,3 @@
-//var app = angular.module('adminApp', ['ngMaterial', 'ngMessages']);
 var reader;
 
 angular.module('adminApp').controller("parserCtrl", function ($scope, $http, SITE_URL, API_URL, $log) {
@@ -145,7 +144,6 @@ angular.module('adminApp').controller("parserCtrl", function ($scope, $http, SIT
 
 });
 
-
 var openFile = function(event){
     var input = event.target;
     reader = new FileReader();
@@ -155,8 +153,6 @@ var openFile = function(event){
     };
     reader.readAsText(input.files[0]);
 };
-
-
 
 adminApp.directive("fileModel", ['$parse', function ($parse) {
     return {
@@ -233,7 +229,6 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
 
 });
 
-
 adminApp.config(function($mdThemingProvider) {
 
     var revOrangeMap = $mdThemingProvider.extendPalette("deep-orange", {
@@ -293,4 +288,3 @@ function extractAnswer(questionElements, question) {
         }
     }
 }
-
