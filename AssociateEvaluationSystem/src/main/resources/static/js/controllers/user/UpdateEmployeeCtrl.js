@@ -2,70 +2,6 @@
  * Created by SLEDGEHAMMER on 3/9/2017.
  */
 
-
-var userApp = angular.module('userApp');
-
-
-
-userApp.constant("SITE_URL", {
-    "HTTP" : "http://",
-    "HTTPS": "https://",
-    "BASE" : "",
-    "PORT" : ":8080",
-
-    "LOGIN": "index",
-    "TRAINER_HOME" : "",
-    "VIEW_CANDIDATES" : "view",
-    "VIEW_EMPLOYEES" : "viewEmployees",
-    "REGISTER_CANDIDATE" : "",
-    "REGISTER_EMPLOYEE" : ""
-});
-
-
-userApp.constant("API_URL", {
-    "BASE"      : "/aes",
-    "LOGIN"     : "/login",
-    "LOGOUT"    : "/logout",
-    "AUTH"      : "/security/auth",
-    "CANDIDATE" : "/candidate/",
-    "RECRUITER" : "/recruiter",
-    "LINK"      : "/link",
-    "CANDIDATES": "/candidates"
-});
-
-
-userApp.constant("ROLE", {
-    "RECRUITER" : "ROLE_RECRUITER",
-    "TRAINER"   : "ROLE_TRAINER",
-    "CANDIDATE" : "ROLE_CANDIDATE",
-    "ADMIN"		: "ROLE_ADMIN"
-});
-
-
-
-userApp.config(function($mdThemingProvider) {
-
-    var revOrangeMap = $mdThemingProvider.extendPalette("deep-orange", {
-        "A200": "#FB8C00",
-        "100": "rgba(89, 116, 130, 0.2)"
-    });
-
-    var revBlueMap = $mdThemingProvider.extendPalette("blue-grey", {
-        "500": "#37474F",
-        "800": "#3E5360"
-    });
-
-    $mdThemingProvider.definePalette("revOrange", revOrangeMap);
-    $mdThemingProvider.definePalette("revBlue", revBlueMap);
-
-    $mdThemingProvider.theme("default")
-        .primaryPalette("revBlue")
-        .accentPalette("revOrange");
-});
-
-
-
-
 userApp.controller('UpdateEmployeeCtrl', function ($scope, $location, $mdToast, $http, SITE_URL, API_URL, ROLE) {
 	$scope.newEmail = null;
     $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
@@ -192,25 +128,4 @@ userApp.controller('UpdateEmployeeCtrl', function ($scope, $location, $mdToast, 
                 window.location = SITE_URL.LOGIN;
             });
     }
-});
-
-userApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav, $log) {
-	var mc = this;
-
-    // functions
-    // sets navbar to current page even on refresh
-    mc.findCurrentPage = function() {
-
-        // var path = $location.path().replace("/", "");
-        var path = window.location.pathname.substr(1);
-
-        switch(path) {
-            case "aes/recruit" : return "register";
-            case "aes/updateUser" : return "updateRecruiter";
-            default : return "overview"
-        }
-    };
-    
-    mc.currentPage = mc.findCurrentPage();
-
 });

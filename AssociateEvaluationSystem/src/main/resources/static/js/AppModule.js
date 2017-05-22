@@ -1,9 +1,9 @@
 /**
  * Created by Mehrab on 5/22/2017.
  */
-var appModule = angular.module('AppModule',['ngMaterial', 'ngMessages', 'ngRoute']);
+var AppModule = angular.module('AppModule',['ngMaterial', 'ngMessages', 'ngRoute']);
 
-appModule.constant("SITE_URL", {
+AppModule.constant("SITE_URL", {
     "HTTP" : "http://",
     "HTTPS": "https://",
     "BASE" : "",
@@ -18,7 +18,7 @@ appModule.constant("SITE_URL", {
     "ASSESSMENT_LANDING" : "assessmentLandingPage"
 });
 
-appModule.constant("API_URL", {
+AppModule.constant("API_URL", {
     "BASE"      : "/aes",
     "LOGIN"     : "/login",
     "LOGOUT"    : "/logout",
@@ -33,7 +33,7 @@ appModule.constant("API_URL", {
     "ADMIN"		: "/admin"
 });
 
-appModule.constant("ROLE", {
+AppModule.constant("ROLE", {
     "RECRUITER" : "ROLE_RECRUITER",
     "TRAINER"   : "ROLE_TRAINER",
     "CANDIDATE" : "ROLE_CANDIDATE",
@@ -41,7 +41,7 @@ appModule.constant("ROLE", {
 });
 
 //from old adminApp
-appModule.config(function($mdThemingProvider) {
+AppModule.config(function($mdThemingProvider) {
 
     var revOrangeMap = $mdThemingProvider.extendPalette("deep-orange", {
         "A200": "#FB8C00",
@@ -64,7 +64,7 @@ appModule.config(function($mdThemingProvider) {
         .accentPalette("revOrange");
 });
 
-appModule.directive('stringToNumber', function() {
+AppModule.directive('stringToNumber', function() {
     return {
         require: 'ngModel',
         link: function(scope, element, attrs, ngModel) {
@@ -88,7 +88,7 @@ function makeUser($scope) {
 }
 
 //directive used to allow only nubmer inputs for text inputs.
-appModule.directive('customValidation', function(){
+AppModule.directive('customValidation', function(){
     return {
         require: 'ngModel',
         link: function(scope, element, attrs, ChooseAssessmentCtrl) {
@@ -178,7 +178,7 @@ function formatDateIso(date) {
 }
 
 //From old quizApp
-appModule.config(['$locationProvider', function($locationProvider) {
+AppModule.config(['$locationProvider', function($locationProvider) {
     $locationProvider.html5Mode(true);
 }]);
 
@@ -222,7 +222,7 @@ function closeHelpNav(){
 }
 
 //From old bankApp
-appModule.config(['$stateProvider', '$urlRouterProvider', function($stateProvider) {
+AppModule.config(['$stateProvider', '$urlRouterProvider', function($stateProvider) {
 
     $stateProvider
         .state('category', {
@@ -250,23 +250,7 @@ appModule.config(['$stateProvider', '$urlRouterProvider', function($stateProvide
 
 }]);
 
-appModule.directive('fileModel', ['$parse', function ($parse) {
-    return {
-        restrict: 'A',
-        link: function(scope, element, attrs) {
-            var model = $parse(attrs.fileModel);
-            var modelSetter = model.assign;
-
-            element.bind('change', function(){
-                scope.$apply(function(){
-                    modelSetter(scope, element[0].files[0]);
-                });
-            });
-        }
-    };
-}]);
-
-appModule.service('fileUpload', ['$http', function ($http) {
+AppModule.service('fileUpload', ['$http', function ($http) {
     this.uploadFileToUrl = function(file, uploadUrl){
         var fd = new FormData();
         fd.append('file', file);

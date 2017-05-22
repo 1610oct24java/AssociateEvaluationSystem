@@ -1,4 +1,4 @@
-angular.module('adminApp').controller('EmployeeViewCtrl', function($scope,$mdToast, $http, SITE_URL, API_URL, ROLE, $window) {
+adminApp.controller('EmployeeViewCtrl', function($scope,$mdToast, $http, SITE_URL, API_URL, ROLE, $window) {
     $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
         .then(function(response) {
             if (response.data.authenticated) {

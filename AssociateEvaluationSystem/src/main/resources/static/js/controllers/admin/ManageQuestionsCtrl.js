@@ -1,3 +1,3 @@
-angular.module('adminApp').controller('manageQuestions', function($scope, $http, SITE_URL, API_URL, ROLE) {
+adminApp.controller('manageQuestions', function($scope, $http, SITE_URL, API_URL, ROLE) {
     var mq = this;
 });

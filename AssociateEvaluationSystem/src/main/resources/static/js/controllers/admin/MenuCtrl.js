@@ -1,21 +1,23 @@
-angular.module('adminApp').controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav, $log) {
+adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav, $log) {
     var mc = this;
 
     // functions
     // sets navbar to current page even on refresh
     mc.findCurrentPage = function() {
 
+        // var path = $location.path().replace("/", "");
         var path = window.location.pathname.substr(1);
 
         switch (path) {
-            case "index.html":
-                return "employees";
-            case "update.html":
-                return "employees";
-            case "New.html":
-                return "assessments";
-            default:
-                return "overview"
+            case "index.html" : return "employees";
+            case "update.html" : return "employees";
+            case "New.html" : return "assessments";
+            case "aes/registerEmployee" : return "employees";
+            case "aes/updateEmployee" : return "employees";
+            case "aes/createAssessment" : return "assessments";
+            case "aes/globalSettings" : return "globalSettings";
+            case "aes/parser" : return "parser";
+            default : return "overview"
         }
     };
 
@@ -23,17 +25,18 @@ angular.module('adminApp').controller("menuCtrl", function($scope, $location, $t
         return function() {
             $mdSidenav(navID)
                 .toggle()
+                .then(function() {
+                    $log.debug("toggle " + navID + " is done");
+                });
         };
     };
     $scope.isOpenLeft = function() {
         return $mdSidenav('left').isOpen();
     };
 
-
     // data
     mc.currentPage = mc.findCurrentPage();
     $scope.toggleLeft = mc.buildToggler('left');
-
 
     // $scope.toggleLeft = buildDelayedToggler('left');
     $scope.toggleRight = buildToggler('right');

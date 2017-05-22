@@ -1,4 +1,4 @@
-angular.module('adminApp').controller('ChooseAssessmentCtrl', function($scope, $mdToast, $http, SITE_URL, API_URL, ROLE){
+adminApp.controller('ChooseAssessmentCtrl', function($scope, $mdToast, $http, SITE_URL, API_URL, ROLE){
 
     //list of assessments used to manipulate
     $scope.assList = [];

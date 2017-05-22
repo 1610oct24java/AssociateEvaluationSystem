@@ -1,4 +1,4 @@
-angular.module('adminApp').controller('UpdateEmployeeCtrl', function($scope,$location,$http,$routeParams, SITE_URL, API_URL, ROLE) {
+adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$routeParams, SITE_URL, API_URL, ROLE) {
     // list of candidates recruiter does not have.
     $scope.possibleCandidates = [];
 

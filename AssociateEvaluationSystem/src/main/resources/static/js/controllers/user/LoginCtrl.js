@@ -2,8 +2,6 @@
  * Created by SLEDGEHAMMER on 3/6/2017.
  */
 
-var userApp = angular.module('userApp',['ngMaterial', 'ngMessages']);
-
 userApp.controller('LoginCtrl', function($scope, $httpParamSerializerJQLike, $http, SITE_URL, API_URL, ROLE) {
 
     $scope.login = function() {

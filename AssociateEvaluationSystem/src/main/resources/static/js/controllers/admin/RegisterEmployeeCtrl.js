@@ -1,4 +1,4 @@
-angular.module('adminApp').controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$http,SITE_URL, API_URL, ROLE) {
+adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$http,SITE_URL, API_URL, ROLE) {
     $scope.roleTypes = [];
     $scope.allEmails = [];
     $scope.buttonToggle = false; // by default

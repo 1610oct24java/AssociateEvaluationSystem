@@ -1,5 +1,4 @@
-asmt.controller("quizReviewController", function($scope, $rootScope, $http,
-		$location, $window, $timeout, $anchorScroll) {
+asmt.controller("quizReviewController", function($scope, $rootScope, $http, $location, $window, $timeout, $anchorScroll) {
 	$rootScope.states = [];
 	$scope.answers = [];
 	$scope.numEditors = 0;
@@ -461,7 +460,3 @@ asmt.controller("quizReviewController", function($scope, $rootScope, $http,
 	}
 	
 });
-
-
-
-
