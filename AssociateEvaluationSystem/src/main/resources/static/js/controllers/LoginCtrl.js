@@ -23,6 +23,7 @@ AESCoreApp.controller('LoginCtrl', function($scope, $httpParamSerializerJQLike, 
                                 username : response.data.principal.username,
                                 authority: response.data.principal.authorities[0].authority
                             }
+                            //save user
                             $scope.authUser = authUser;
                             switch ($scope.authUser.authority) {
                                 case ROLE.RECRUITER:

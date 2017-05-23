@@ -15,6 +15,10 @@
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
     <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="css/bigwilliestyle.css">
+
+    <!--for question modal-->
+    <link rel="stylesheet" href="css/QuestionModal.css">
+
 </head>
 <body ng-app="AESCoreApp" ng-controller="LoginCtrl">
 
@@ -64,5 +68,23 @@
 <script type="text/javascript" src="js/app.js"></script>
 <script type="text/javascript" src="js/controllers/LoginCtrl.js"></script>
 <script type="text/javascript" src="js/controllers/CandidateCtrl.js"></script>
+
+<!--for question modal-->
+<script type="text/javascript" src="js/misc/QuestionModal.js"></script>
+
+<!--for question modal-->
+<div id="popup" class="modal-box">
+    <header>
+        <a href="#" class="js-modal-close close">×</a>
+        <h3><a href="http://www.jqueryscript.net/tags.php?/Modal/">Modal</a> Title</h3>
+    </header>
+    <div class = "modal-body">
+        <p>Modal Body</p>
+    </div>
+    <footer>
+        <a href="#" class="js-modal-close">Close Button</a>
+    </footer>
+</div>
+<a class="js-open-modal" href="#" data-modal-id="popup"> Switch Questions </a>
 </body>
 </html>
