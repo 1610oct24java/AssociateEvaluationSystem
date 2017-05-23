@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="quizApp" xmlns="http://www.w3.org/1999/xhtml"
+<html ng-app="asmtApp" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
@@ -15,7 +15,9 @@
 <link rel="stylesheet" type="text/css"
 	th:href="@{/css/revatureStyle.css}"
 	href="../static/css/revatureStyle.css">
-
+	<link rel="stylesheet" type="text/css"
+	th:href="@{/css/fonts.css}"
+	href="../static/css/fonts.css">
 <style>
 .as-sortable-item, .as-sortable-placeholder {
     min-height: 20px;
@@ -306,14 +308,14 @@ background-color: green;
 		src="../static/js/lib/ng-sortable.js"></script>
 	<!-- 	CUSTOM -->
 	<script th:src="@{/js/asmtApp.js}" src="../static/js/asmtApp.js"></script>
-	<script th:src="@{/js/AngularControllers/dragController.js}"
-		src="../static/js/AngularControllers/dragController.js"></script>
-	<script th:src="@{/js/AngularControllers/quizNavController.js}"
-		src="../static/js/AngularControllers/quizNavController.js"></script>
-	<script th:src="@{/js/AngularControllers/quizController.js}"
-		src="../static/js/AngularControllers/quizController.js"></script>
-	<script th:src="@{/js/AngularControllers/countdownController.js}"
-		src="../static/js/AngularControllers/countdownController.js"></script>
+	<script th:src="@{/js/controllers/asmt/DragController.js}"
+		src="../static/js/controllers/asmt/DragController.js"></script>
+	<script th:src="@{/js/controllers/asmt/QuizNavController.js}"
+		src="../static/js/controllers/asmt/QuizNavController.js"></script>
+	<script th:src="@{/js/controllers/asmt/QuizController.js}"
+		src="../static/js/controllers/asmt/QuizController.js"></script>
+	<script th:src="@{/js/controllers/asmt/CountdownController.js}"
+		src="../static/js/controllers/asmt/CountdownController.js"></script>
 		
 		
 

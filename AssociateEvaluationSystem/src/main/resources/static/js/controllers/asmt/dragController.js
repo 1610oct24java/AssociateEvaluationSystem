@@ -1,4 +1,4 @@
-app.controller("dragController", function($scope, $rootScope) {
+asmt.controller("dragController", function($scope, $rootScope) {
 	// DRAG AND DROP
 	$scope.dragControlListeners = {
 		
