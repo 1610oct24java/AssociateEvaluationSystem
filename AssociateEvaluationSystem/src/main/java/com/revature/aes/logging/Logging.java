@@ -98,7 +98,7 @@ public class Logging {
 	public static String errorMsg(String message, Throwable t) {
 		
 		Date now = new Date();
-		Logging log = new Logging();
+		//Logging log = new Logging();
 		
 		String border = "\n==================================\n";
 		String entire = border

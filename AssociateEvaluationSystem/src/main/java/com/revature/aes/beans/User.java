@@ -129,7 +129,21 @@ public class User implements Serializable{
 				+ datePassIssued + "]";
 	}
 
-
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((datePassIssued == null) ? 0 : datePassIssued.hashCode());
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
+		result = prime * result + ((format == null) ? 0 : format.hashCode());
+		result = prime * result + ((grade == null) ? 0 : grade.hashCode());
+		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+		result = prime * result + ((recruiterId == null) ? 0 : recruiterId.hashCode());
+		result = prime * result + ((salesforce == null) ? 0 : salesforce.hashCode());
+		result = prime * result + userId;
+		return result;
+	}
 
 	@Override
 	public boolean equals(Object obj) {
@@ -140,9 +154,55 @@ public class User implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		if (userId != other.userId || userId == 0)
+		if (datePassIssued == null) {
+			if (other.datePassIssued != null)
+				return false;
+		} else if (!datePassIssued.equals(other.datePassIssued))
+			return false;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
+			return false;
+		if (firstName == null) {
+			if (other.firstName != null)
+				return false;
+		} else if (!firstName.equals(other.firstName))
+			return false;
+		if (format == null) {
+			if (other.format != null)
+				return false;
+		} else if (!format.equals(other.format))
+			return false;
+		if (grade == null) {
+			if (other.grade != null)
+				return false;
+		} else if (!grade.equals(other.grade))
+			return false;
+		if (lastName == null) {
+			if (other.lastName != null)
+				return false;
+		} else if (!lastName.equals(other.lastName))
+			return false;
+		if (recruiterId == null) {
+			if (other.recruiterId != null)
+				return false;
+		} else if (!recruiterId.equals(other.recruiterId))
+			return false;
+		if (salesforce == null) {
+			if (other.salesforce != null)
+				return false;
+		} else if (!salesforce.equals(other.salesforce))
+			return false;
+		if (userId != other.userId)
 			return false;
 		return true;
 	}
+
+
+
+
+	
+	
 	
 }
