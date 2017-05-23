@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="landingPageApp" xmlns="http://www.w3.org/1999/xhtml"
+<html ng-app="asmtApp" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
@@ -15,11 +15,14 @@
 <link rel="stylesheet" type="text/css"
 	th:href="@{/css/revatureStyle.css}"
 	href="../static/css/revatureStyle.css">
+	<link rel="stylesheet" type="text/css"
+	th:href="@{/css/fonts.css}"
+	href="../static/css/fonts.css">
 </head>
 <style>
-body {
-  background-color:#ef5c1e;
-}
+/* body { */
+/*   background-color:#ef5c1e; */
+/* } */
 
 .box {
   background:#fff;
@@ -97,8 +100,10 @@ body {
 		src="../static/js/lib/ui-ace.min.js"></script>
 	<script th:src="@{/js/lib/ng-sortable.js}"
 		src="../static/js/lib/ng-sortable.js"></script>
-	<!-- 	CUSTOM -->	
-	<script th:src="@{/js/landingPage.js}"
-		src="../static/js/landingPage.js"></script>
+	<!-- 	CUSTOM -->
+	<script th:src="@{/js/asmtApp.js}"
+			src="../static/js/asmtApp.js"></script>
+	<script th:src="@{/js/controllers/asmt/LandingPageCtrl.js}"
+			src="../static/js/controllers/asmt/LandingPageCtrl.js"></script>
 </body>
 </html>

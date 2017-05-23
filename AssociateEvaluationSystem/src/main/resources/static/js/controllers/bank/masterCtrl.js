@@ -1,4 +1,4 @@
-angular.module('bankApp').controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', '$http', 'Upload', 'questionBuilderService',function($scope, $rootScope, $log, $state, $http, Upload, questionBuilderService){
+app.controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', '$http', 'Upload', 'questionBuilderService',function($scope, $rootScope, $log, $state, $http, Upload, questionBuilderService){
 	
 	$scope.templateName = "";
 	$scope.snippetError = false;

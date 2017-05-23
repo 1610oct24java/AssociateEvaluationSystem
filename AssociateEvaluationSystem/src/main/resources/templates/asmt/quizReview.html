@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="quizApp" xmlns="http://www.w3.org/1999/xhtml"
+<html ng-app="asmtApp" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
@@ -15,6 +15,9 @@
 <link rel="stylesheet" type="text/css"
 	th:href="@{/css/revatureStyle.css}"
 	href="../static/css/revatureStyle.css">
+		<link rel="stylesheet" type="text/css"
+	th:href="@{/css/fonts.css}"
+	href="../static/css/fonts.css">
 <style>
 	#red{background-color:#F6CECE; font-weight: 800;font-size:130%}
 	#green{background-color:#81F781; font-weight: 800;font-size:130%}
@@ -277,11 +280,11 @@
 		src="../static/js/lib/ng-sortable.js"></script>
 	<!-- 	CUSTOM -->
 	<script th:src="@{/js/asmtApp.js}" src="../static/js/asmtApp.js"></script>
-	<script th:src="@{/js/AngularControllers/dragController.js}"
-		src="../static/js/AngularControllers/dragController.js"></script>
-	<script th:src="@{/js/AngularControllers/quizNavController.js}"
-		src="../static/js/AngularControllers/quizNavController.js"></script>
-	<script th:src="@{/js/AngularControllers/quizReviewController.js}"
-		src="../static/js/AngularControllers/quizReviewController.js"></script>
+	<script th:src="@{/js/controllers/asmt/DragController.js}"
+		src="../static/js/controllers/asmt/DragController.js"></script>
+	<script th:src="@{/js/controllers/asmt/QuizNavController.js}"
+		src="../static/js/controllers/asmt/QuizNavController.js"></script>
+	<script th:src="@{/js/controllers/asmt/QuizReviewController.js}"
+		src="../static/js/controllers/asmt/QuizReviewController.js"></script>
 </body>
 </html>

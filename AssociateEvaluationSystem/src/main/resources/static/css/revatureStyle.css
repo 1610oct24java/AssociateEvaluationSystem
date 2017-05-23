@@ -15,50 +15,7 @@
 	width: 100%
 }
 
-@font-face {
-	font-family: 'futura-heavy';
-	src: url('../fonts/ParaType-FuturaPTHeavy.ttf');
-}
 
-@font-face {
-	font-family: 'futura-heavy-italics';
-	src: url('../fonts/ParaType-FuturaPTHeavyOblique.ttf');
-}
-
-@font-face {
-	font-family: 'futura-book';
-	src: url('../fonts/ParaType-FuturaPTBook.ttf');
-}
-
-@font-face {
-	font-family: 'futura-book-italics';
-	src: url('../fonts/ParaType-FuturaPTBookOblique.ttf');
-}
-
-@font-face {
-	font-family: 'futura-light';
-	src: url('../fonts/ParaType-FuturaPTLight.ttf');
-}
-
-@font-face {
-	font-family: 'futura-light-italics';
-	src: url('../fonts/ParaType-FuturaPTLightOblique.ttf');
-}
-
-@font-face {
-	font-family: 'futura-medium';
-	src: url('../fonts/ParaType-FuturaPTMedium.ttf');
-}
-
-@font-face {
-	font-family: 'futura-medium-italics';
-	src: url('../fonts/ParaType-FuturaPTMediumOblique.ttf');
-}
-
-@font-face {
-	font-family: 'futura-bold';
-	src: url('../fonts/ParaType-FuturaPTBold.ttf');
-}
 
 /* MAIN STYLING */
 html {

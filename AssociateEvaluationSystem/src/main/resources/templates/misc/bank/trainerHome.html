@@ -27,18 +27,18 @@
 <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
 <link rel="stylesheet" href="css/aesMaterials.css">
-	
+
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.2/angular-ui-router.min.js"></script>
 <script src="static/js/ngprogress/ngprogress.js"></script>
 <script src="static/js/ngprogress/ng-file-upload.js"></script>
 <!-- Custom Angular -->
-<script type="text/javascript" src="static/js/misc/bankApp.js"></script>
-<script type="text/javascript" src="static/js/misc/masterCtrl.js"></script>
-<script type="text/javascript" src="static/js/misc/categoryCtrl.js"></script>
-<script type="text/javascript" src="static/js/misc/tagCtrl.js"></script>
-<script type="text/javascript" src="static/js/misc/QuestionCtrl.js"></script>
-<script type="text/javascript" src="static/js/AngularServices/questionBuilderService.js"></script>
+<script type="text/javascript" src="static/js/bankApp.js"></script>
+<script type="text/javascript" src="static/js/controllers/bank/masterCtrl.js"></script>
+<script type="text/javascript" src="static/js/controllers/bank/categoryCtrl.js"></script>
+<script type="text/javascript" src="static/js/controllers/bank/tagCtrl.js"></script>
+<script type="text/javascript" src="static/js/controllers/bank/QuestionCtrl.js"></script>
+<script type="text/javascript" src="static/js/services/questionBuilderService.js"></script>
 
 	<!-- Bootstrap  -->
 	<link
@@ -57,9 +57,8 @@
 		  integrity="sha384-dNpIIXE8U05kAbPhy3G1cz+yZmTzA6CY8Vg/u2L9xRnHjJiAK76m2BIEaSEV+/aU"
 		  crossorigin="anonymous">
 	<link href="static/css/trainer.css" rel="stylesheet">
-	<link href="static/css/animate.css" rel="stylesheet">
 	<!-- ngProgress -->
-	<link rel="stylesheet" href="static/css/ngProgress.css">
+	<link rel="stylesheet" href="static/css/master.css">
 </head>
 <body ng-controller="MasterCtrl">
 <div ng-include="templates/misc/bank/header.html"></div>
