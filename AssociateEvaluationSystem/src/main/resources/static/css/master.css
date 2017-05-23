@@ -1,5 +1,141 @@
 @CHARSET "ISO-8859-1";
 
+
+/*Custom Css*/
+.error {
+	padding: 15px;
+	margin-bottom: 20px;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	color: #a94442;
+	background-color: #f2dede;
+	border-color: #ebccd1;
+}
+
+.msg {
+	padding: 15px;
+	margin-bottom: 20px;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	color: #31708f;
+	background-color: #d9edf7;
+	border-color: #bce8f1;
+}
+
+#login-box {d
+	width: 300px;
+	padding: 20px;
+	margin: 100px auto;
+	background: #fff;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border: 1px solid #000;
+}
+
+/* Big Willie Style*/
+
+.form-revature {
+    max-width: 360px;
+    padding: 30px;
+    margin: auto;
+    background: #B9B9BA;
+    color: #474C55;
+    border: none;
+    border-radius: 10px;
+}
+
+.form-revatureAssessment {
+    max-width: 1000px;
+    padding: 30px;
+    margin: auto;
+    background: #B9B9BA;
+    color: #474C55;
+    border: none;
+    border-radius: 10px;
+}
+
+.form-revature {
+    margin: 10px;
+}
+
+.btn-revature {
+    background: #F26925;
+    border: none;
+    color: #FFFFFF;
+    border-radius: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    float: right;
+}
+
+input {
+    /* border: none; */
+    border-radius: 10px;
+    border-color: #F26925;
+}
+
+#navbar {
+    float: right;
+}
+
+.logo {
+	margin: 30px;
+}
+
+.span-creds {
+	color: red;
+	margin: auto;
+	padding: 10px;
+}
+
+.stylePro {
+	float: right;
+	margin: auto;
+}
+
+.suh {
+	color: #474C55;
+}
+
+.clicked {
+    -ms-transform: rotate(180deg); /* IE 9 */
+    -webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
+    transform: rotate(180deg);
+}
+
+
+/*ngProgress*/
+#ngProgress {
+    margin: 0;
+    padding: 0;
+    z-index: 99998;
+    background-color: green;
+    color: green;
+    box-shadow: 0 0 10px 0; /* Inherits the font color */
+    height: 2px;
+    opacity: 0;
+
+    /* Add CSS3 styles for transition smoothing */
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+
+/* Styling for the ngProgress-container */
+#ngProgress-container {
+    position: fixed;
+    margin: 0;
+    padding: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 99999;
+}
+
+/*Settings*/
 *,
 *:before,
 *:after {

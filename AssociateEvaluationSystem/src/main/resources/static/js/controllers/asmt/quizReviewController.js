@@ -1,5 +1,4 @@
-app.controller("quizController", function($scope, $rootScope, $http, 
-		$location, $window, $timeout, $anchorScroll) {
+asmt.controller("quizReviewController", function($scope, $rootScope, $http, $location, $window, $timeout, $anchorScroll) {
 	$rootScope.states = [];
 	$scope.answers = [];
 	$scope.numEditors = 0;
@@ -9,14 +8,15 @@ app.controller("quizController", function($scope, $rootScope, $http,
 	$scope.questions = [];
 	$rootScope.snippetStarters = [];
 	$rootScope.snippetSubmissions = [];
-	$rootScope.snippetStartersInd = [];
 	$scope.protoTest2 = {};
 	$scope.testtaker = "loading...";
+	$scope.authUser;
 	$scope.submitted = false;
+	$scope.returning = false;
 	getQuizQuestions();
-	// declare review settings
-	$rootScope.reviewBool = false;
+	getSignedInUser();
 
+	
 	var makeState = function(input) {
 		var temp = {
 			id: input,
@@ -41,7 +41,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 			for (var z3=0; z3 < $rootScope.protoTest.options.length; z3++)
 			{
 					for(var k=0;k<$scope.questions[i].question.option.length;k++){
-					if($scope.questions[i].question.option[k].optionId==$scope.protoTest.options[z3].optionId)
+					if($scope.questions[i].question.option[k].optionId==$rootScope.protoTest.options[z3].optionId)
 						{
 						  boolT=1;
 						  optionS.push(k);
@@ -88,7 +88,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 			/*SA-CHANGES ENDED*/
 		}
 		$scope.testtaker = $rootScope.protoTest.user.firstName + " " + $rootScope.protoTest.user.lastName;
-		
+	
 		$timeout(function () {
 			for (var i=0; i < $scope.filteredQuestions.length; i++)
 			{
@@ -96,16 +96,10 @@ app.controller("quizController", function($scope, $rootScope, $http,
 				{
 					var editorId = "editor"+$scope.filteredQuestions[i].question.questionId;
 					var aceEditor = ace.edit(editorId);
-					for(var z=0;z<$rootScope.snippetStartersInd.length;z++){
-						if($rootScope.snippetStartersInd[z]==$scope.filteredQuestions[i].question.questionId){
-							aceEditor.getSession().setValue($rootScope.snippetStarters[z], -1);
-						}
-					}
+					aceEditor.getSession().setValue($rootScope.snippetStarters[0], -1);
 				}
 			}
-		}, 5000);
-	
-		
+	    }, 5000);
 	};
 
 	$scope.collapseQuestion = function(index) {
@@ -119,7 +113,7 @@ app.controller("quizController", function($scope, $rootScope, $http,
 		if(q.question.format.formatName === "Drag and Drop") {
 			for (var i = 0; i < q.question.dragdrop.length; i++) {
 				var assessmentDragDrop = {
-						assessmentDragDropId : 0,
+						assessmentDragDropId : 0, //q.question.questionId,
 						userOrder : i+1,
 						assessmentId : $scope.protoTest.assessmentId,
 						dragDrop : q.question.dragdrop[i]
@@ -279,13 +273,11 @@ app.controller("quizController", function($scope, $rootScope, $http,
 		var newSnippet = new SnippetUpload(editor.getValue(), id2.substr(6, id2.length), incFileType);
 		
 		for (i = 0; i < $rootScope.snippetSubmissions.length; i++){
-
-			if ($rootScope.snippetSubmissions[i].questionId == newSnippet.questionId){
-
+			if ($rootScope.snippetSubmissions[i].questionId = newSnippet.questionId){
 				$rootScope.snippetSubmissions.splice(i, 1);
 			}
 		}
-		$rootScope.snippetSubmissions.push(newSnippet);		
+		$rootScope.snippetSubmissions.push(newSnippet);
 		saveQuestion(snippetQuestionIndex);
 	};
 
@@ -304,22 +296,24 @@ app.controller("quizController", function($scope, $rootScope, $http,
 	//code to jump to page and question 
 	$scope.jumpPage = function (index) {
 		$scope.pageChanged();
-		var numPage=index/$scope.numPerPage;
-		$scope.currentPage =1+ Math.floor(numPage);	
-		
-		
-		
-		$timeout(function () {
-			$location.hash('anchor' + index);
-
-		     
-		     $anchorScroll();
-			
-	    }, 50);
-		
-	  
-	    
-	      
+		numPage=index/$scope.numPerPage;
+		$scope.currentPage =1+ Math.floor(numPage);
+//		
+		//$timeout(1000);
+		var old = $location.hash();
+		//code to jump to the question
+		 var newHash = 'anchor' + index;
+	      if ($location.hash() !== newHash) {
+	        // set the $location.hash to `newHash` and
+	        // $anchorScroll will automatically scroll to it
+	        $location.hash('anchor' + index);
+	        $anchorScroll(newHash);
+	      } else {
+	        // call $anchorScroll() explicitly,
+//	        // since $location.hash hasn't changed
+	        $anchorScroll(newHash);
+	      }
+	      //location.hash(old);
 		
 	};
 
@@ -330,31 +324,27 @@ app.controller("quizController", function($scope, $rootScope, $http,
 		$scope.filteredQuestions = $scope.questions.slice(begin, end);
 
 		$timeout(function () {
-			//var snipCount = 0;
 			for (var i=0; i < $scope.filteredQuestions.length; i++)
 			{
 				if ($scope.filteredQuestions[i].question.format.formatName === "Code Snippet")
 				{
 					var editorId = "editor"+$scope.filteredQuestions[i].question.questionId;
 					var aceEditor = ace.edit(editorId);
+					//aceEditor.getSession().setValue($rootScope.snippetSubmissions[0].code, -1);
+					
+					/*SA-CHANGES STARTED*/
 					//To init ace editor if other than first page
-					if(aceEditor.getSession().getValue()==="Enter code here"){
-						for(z=0;z<$rootScope.snippetStartersInd.length;z++){
-							if($rootScope.snippetStartersInd[z]==$scope.filteredQuestions[i].question.questionId){
-								aceEditor.getSession().setValue($rootScope.snippetStarters[z], -1);
-								break;
-
-							}
+					if(aceEditor.length!=1){
+						if(aceEditor.getSession().getValue()==="Enter code here"){
+							aceEditor.getSession().setValue($rootScope.snippetStarters[0], -1);
 						}
 					}
 
 					//To keep changes on the ace editor if pages are switched
-					for(z=0;z<$rootScope.snippetSubmissions.length;z++){
-						if($rootScope.snippetSubmissions[z].questionId==$scope.filteredQuestions[i].question.questionId){
-							aceEditor.getSession().setValue($rootScope.snippetSubmissions[z].code, -1);
-						}
+					if($rootScope.snippetSubmissions.length){
+						aceEditor.getSession().setValue($rootScope.snippetSubmissions[0].code, -1);
 					}
-
+					/*SA-CHANGES ENDED*/
 				}
 			}
 	    }, 2000);
@@ -370,29 +360,28 @@ app.controller("quizController", function($scope, $rootScope, $http,
 	
 	// AJAX
 	function getQuizQuestions() {
-		
 		$http({
 			method: 'GET',
 			url: QUIZ_REST_URL + $location.search().asmt,
 			headers: {'Content-Type': 'application/json'}
 		})
 		.then(function(response) {
-			console.log(response);
 			// Check response for assessment availability
-			if (response.data.msg === "allow"){
-				// Assessment ready to take
-				$rootScope.protoTest = response.data.assessment;
-				$scope.questions = $rootScope.protoTest.template.templateQuestion;
-				$rootScope.snippetStarters = response.data.snippets;
-				$rootScope.snippetStartersInd = response.data.snippetIndexes;
-				initSetup();
-				$rootScope.initQuizNav();
-				$rootScope.initTimer(response.data.timeLimit, response.data.newTime);
-				$rootScope.expireDate = response.data.expireDate;
-
-				// In $rootScope, instantiate global settings, put response.data.globalSettings in there
-				$rootScope.reviewBool = response.data.reviewBool;
+			if (response.data.msg != "allow"){
+				// check if the assessment has the assessment object
+				if (!response.data.assessment){
+					// redirect to a page that says page not available
+					$window.location.href = '/aes/missing';
+				} else {
+					// Assessment ready to take
+					$rootScope.protoTest = response.data.assessment;
 				
+					$scope.questions = $rootScope.protoTest.template.templateQuestion;
+					//$rootScope.protoTest.options = [];
+					$rootScope.snippetStarters = response.data.snippets;
+					initSetup();
+					$rootScope.initQuizNav();
+				}
 			}else {
 				// Assessment was taken or time expired, redirecting to expired page
 				$window.location.href = '/aes/expired';
@@ -400,8 +389,32 @@ app.controller("quizController", function($scope, $rootScope, $http,
 		});
 	}
 	
+	// get signed in user
+	function getSignedInUser() {
+		
+		$http.get('/aes/security/auth')
+		.then(function(response) {
+			if (response.data.authenticated) {
+				var authUser = {
+					username : response.data.principal.username,
+					authority: response.data.principal.authorities[0].authority
+				}
+				$scope.authUser = authUser;
+				if($scope.authUser.authority != 'ROLE_ADMIN' &&
+						$scope.authUser.authority != 'ROLE_TRAINER' &&
+						$scope.authUser.authority != 'ROLE_RECRUITER' && 
+						$scope.authUser.authority != 'ROLE_CANDIDATE') {
+					window.location = '/login';
+				}
+			} else {
+				window.location = '/login';
+			}
+		});
+		
+	}
+	
 	$rootScope.submitAssessment = function(){
-		$rootScope.stopTimer();
+
 		$scope.submitted = true;
 
 		$rootScope.protoTest.assessmentDragDrop.forEach(function(entry){
@@ -409,35 +422,41 @@ app.controller("quizController", function($scope, $rootScope, $http,
 			delete entry.assessmentId;
 			entry.assessment = {"assessmentId" : $rootScope.protoTest.assessmentId,};
 		});
-		console.table($rootScope.snippetSubmissions);
-		
-		
+
 		var answerData = {
 				assessment : $rootScope.protoTest,
 				snippetUploads : $rootScope.snippetSubmissions
 		};
-
-		$http({
-			method: 'POST',
-			url: "aes/rest/submitAssessment",
-			headers: {'Content-Type': 'application/json'},
-			data: answerData
-		}).then(function(response) {
-			//Removed console log for sonar cube.
-			// Perform a check on global settings
-			if ($rootScope.reviewBool == true){
-				//This should allow the questions to put into this page
-				$window.location.href = '/aes/quizReview?asmt=' + $location.search().asmt;
-			} else {
-				$window.location.href = '/aes/goodbye';
+		
+	}
+	
+	// return to the user's homepage after they have finishing reviewing the assessment.
+	$rootScope.quitReview = function() {
+		$scope.returning = true;
+		
+		if ($scope.authUser.authority == 'ROLE_ADMIN') {
+			//console.log('admin home');
+			
+			window.location = '/aes/viewEmployees';
+		}
+		else if ($scope.authUser.authority == 'ROLE_RECRUITER') {
+			window.location = '/aes/view';
+		}
+		else if ($scope.authUser.authority == 'ROLE_CANDIDATE') {
+			console.log('candidate home todo');
+			
+			// TODO: navigate to candidate's home page.
+		}
+	}
+	
+	// check whether the user is an admin
+	$scope.isCandidate = function() {
+		if ($scope.authUser) {
+			if ($scope.authUser.authority == 'ROLE_CANDIDATE') {
+				return true;
 			}
-		});
+		}
+		return false;
 	}
 	
 });
-
-
-
-
-
-

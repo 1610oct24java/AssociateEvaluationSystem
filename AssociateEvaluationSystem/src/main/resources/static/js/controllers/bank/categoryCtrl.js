@@ -1,4 +1,4 @@
-angular.module('bankApp').controller('CategoryCtrl', function($scope, $http){
+app.controller('CategoryCtrl', function($scope, $http){
 	$scope.categories;
 	$scope.delCategory = '';
 	$scope.newCategory = {

@@ -1,4 +1,4 @@
-app.controller('QuizNavController', function($scope, $rootScope) {
+asmt.controller('QuizNavController', function($scope, $rootScope) {
 	
 	$scope.index = 0;
     $scope.array = [];
