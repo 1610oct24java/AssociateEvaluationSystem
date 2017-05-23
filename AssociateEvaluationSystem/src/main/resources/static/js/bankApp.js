@@ -1,4 +1,4 @@
-var app = angular.module("bankApp", [ 'ui.router', 'ngFileUpload','ngProgress']);
+var app = angular.module("bankApp", [ 'ui.router', 'ngFileUpload','ngProgress', 'ngMaterial', 'ngMessages']);
 
 app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider) { 
  
