@@ -354,7 +354,8 @@ public class BashDriver {
 		grade = 1 - (matrix[keyLen][userLen] / key.length());
 
 		if(grade < 0) return 0.0;
-		else return grade;
+		log.info("================ END stringCompare ==================");
+		return grade;
 
 		/*old method.  Results were inconsistent with what was expected. Robert Walters 5/2017
 		//this method is similar to cosine inequality
@@ -381,10 +382,11 @@ public class BashDriver {
 				}
 			}
 		}
-		*/
+		
 		
 		log.info("================ END stringCompare ==================");
 		return ((double)key.length() - (double)matrix[key.length() - 1][user.length() - 1])/(double)key.length();
+		*/
 	}
 
 }
