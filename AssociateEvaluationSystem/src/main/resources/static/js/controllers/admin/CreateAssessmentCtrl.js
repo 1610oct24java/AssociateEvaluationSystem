@@ -1,34 +1,15 @@
 adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SITE_URL, API_URL, ROLE) {
 
-
-
-
     $scope.validateReview = function ()
     {
-
-
         if(($scope.assdays == null || $scope.asshours ==null || $scope.asshours <0 || $scope.assdays<0 )||(($scope.assdays ==0 && $scope.asshours == 0 ) && $scope.assReviewCheck == true))
-
-        {
-
-
             return true;
-
-
-        }
         else
-        {
-
             return false;
-        }
-
-
-
-    }
+    };
 
     $scope.allowReview = function()
     {
-
         var totalHours = 0;
 
 
@@ -44,8 +25,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
             $scope.asshours = 0;
         }
 
-    }
-
+    };
 
 
     $scope.checkDuplicate = function () {
@@ -56,28 +36,18 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
 
             if( $scope.category == category.category && $scope.type == category.type)
             {
-
                 flag = true;
             }
-
             count ++;
 
         });
 
 
         if( flag == true)
-        {
             return true;
-
-        }
-        else {
+        else
             return false;
-
-        }
     };
-
-
-
 
     $scope.showToast = function(message, type) {
         $mdToast.show($mdToast.simple(message)
@@ -107,7 +77,6 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
         $scope.asshours = 0;
     });
 
-
     $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
         .then(function(response) {
             if (response.data.authenticated) {
@@ -124,9 +93,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
             }
         });
 
-
     $scope.times = [15, 30, 45, 60, 75, 90];
-
 
     $scope.assessments = [];
     $scope.sections = [];
@@ -205,9 +172,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
         }
 
         $scope.assessments.splice(index, 1);
-
         $scope.sections.splice(index,1);
-
         UpdateTotals(-tempQuantity);
     };
 
@@ -377,45 +342,6 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
             //sending the assessment time and criteria
             $scope.createAssessment = function() {
 
-                //build test JSON
-                // data = {
-                //     "timeLimit": $scope.time,
-                //     "categoryRequestList": [{
-                //         "category": {
-                //             "categoryId": 6,
-                //             "name": "core language"
-                //         },
-                //         "msQuestions": 5,
-                //         "mcQuestions": 25,
-                //         "ddQuestions": 0,
-                //         "csQuestions": 1
-                //     }, {
-                //         "category": {
-                //             "categoryId": 2,
-                //             "name": "OOP"
-                //         },
-                //         "msQuestions": 1,
-                //         "mcQuestions": 3,
-                //         "ddQuestions": 0,
-                //         "csQuestions": 0
-                //     }, {
-                //         "category": {
-                //             "categoryId": 3,
-                //             "name": "Data Structures"
-                //         },
-                //         "msQuestions": 1,
-                //         "mcQuestions": 0,
-                //         "ddQuestions": 0,
-                //         "csQuestions": 1
-                //     }, {
-                //         "category": {
-                //             "categoryId": 4,
-                //             "name": "SQL"
-                //         },
-                //         "msQuestions": 3
-                //     }]
-                // };
-
                 if($scope.asshours + ($scope.assdays * 24) == 0){
                     $scope.totalHourz = null;
                 }else{
@@ -454,11 +380,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
                 }
             }
         });
-
-
     };
-
-
     //initialize data
     $http({
         method: "GET",

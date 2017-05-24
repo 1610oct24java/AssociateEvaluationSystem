@@ -300,7 +300,6 @@ asmt.controller("quizReviewController", function($scope, $rootScope, $http, $loc
 		$scope.currentPage =1+ Math.floor(numPage);
 //		
 		//$timeout(1000);
-		var old = $location.hash();
 		//code to jump to the question
 		 var newHash = 'anchor' + index;
 	      if ($location.hash() !== newHash) {
@@ -313,7 +312,6 @@ asmt.controller("quizReviewController", function($scope, $rootScope, $http, $loc
 //	        // since $location.hash hasn't changed
 	        $anchorScroll(newHash);
 	      }
-	      //location.hash(old);
 		
 	};
 
@@ -423,10 +421,7 @@ asmt.controller("quizReviewController", function($scope, $rootScope, $http, $loc
 			entry.assessment = {"assessmentId" : $rootScope.protoTest.assessmentId,};
 		});
 
-		var answerData = {
-				assessment : $rootScope.protoTest,
-				snippetUploads : $rootScope.snippetSubmissions
-		};
+		
 		
 	}
 	

@@ -132,20 +132,20 @@ adminApp.controller('ChooseAssessmentCtrl', function($scope, $mdToast, $http, $a
     //gets each question type of the category
     $scope.getQuestionTypeOfCategory = function(category){
         if(category.csQuestions > 0){
-            var type = "Code Snippet";
-            return type;
+            var codeSnippetType = "Code Snippet";
+            return codeSnippetType;
         }
         else if(category.ddQuestions > 0){
-            var type = "Drag and Drop";
-            return type;
+            var dragDropType = "Drag and Drop";
+            return dragDropType;
         }
         else if(category.mcQuestions > 0){
-            var type = "Multiple Choice";
-            return type;
+            var mulitpleChoiceType = "Multiple Choice";
+            return mulitpleChoiceType;
         }
         else if(category.msQuestions > 0){
-            var type = "Multiple Select";
-            return type;
+            var multipleSelectType = "Multiple Select";
+            return multipleSelectType;
         }
     }
 
@@ -153,20 +153,20 @@ adminApp.controller('ChooseAssessmentCtrl', function($scope, $mdToast, $http, $a
     $scope.getNumberOfQuestionsInCategory = function(category){
 
         if(category.csQuestions > 0){
-            var num = category.csQuestions;
-            return num;
+            var codeSnippetNumber = category.csQuestions;
+            return codeSnippetNumber;
         }
         else if(category.ddQuestions > 0){
-            var num = category.ddQuestions;
-            return num;
+            var dragDropNumber = category.ddQuestions;
+            return dragDropNumber;
         }
         else if(category.mcQuestions > 0){
-            var num = category.mcQuestions;
-            return num;
+            var multipleChoiceNumber = category.mcQuestions;
+            return multipleChoiceNumber;
         }
         else if(category.msQuestions > 0){
-            var num = category.msQuestions;
-            return num;
+            var mutipleSelectNumber = category.msQuestions;
+            return mutipleSelectNumber;
         }
     }
 

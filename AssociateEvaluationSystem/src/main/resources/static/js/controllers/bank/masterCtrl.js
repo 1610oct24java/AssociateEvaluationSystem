@@ -119,7 +119,7 @@ app.controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', '$http', 
        // console.log("/s3uploadTextAsFile/" + question.snippetTemplates[0].templateUrl);
        
        // Upload template to the S3 container
-       var url = String();       
+      
        $http({
            method: "POST",
            url: "rest/s3uploadTextAsFile/" + question.snippetTemplates[0].templateUrl, 
@@ -172,9 +172,6 @@ app.controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', '$http', 
 	};
 	
     $scope.upload = function (files, folderNames) {
-    	  // console.log("uploading");
-    	  // console.log(files);
-    	  // console.log(folderNames);
           if (files && files.length) {
               for (var i = 0; i < files.length; i++) { 
             	  var file = files[i];
@@ -183,10 +180,8 @@ app.controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', '$http', 
             	        method: 'POST',
             	        file: file
             	    }).progress(function (evt) {
-            	        var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-            	        // console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+            	        parseInt(100.0 * evt.loaded / evt.total);
             	    }).success(function (data, status, headers, config) {
-            	        // console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
             	    });            	  
               }
           }

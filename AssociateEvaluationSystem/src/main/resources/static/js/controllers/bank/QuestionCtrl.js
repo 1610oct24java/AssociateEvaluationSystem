@@ -16,7 +16,7 @@ app.controller('QuestionCtrl', function($http, $scope) {
 	angular.element(document).ready(function() {
 		$scope.getFormatList();
 	}); // angular element end
-	//////////////////////////////////////////////////
+	// ////////////////////////////////////////////////
 	
 	$scope.formatSet = false;
 	$scope.questionTextChanged = false;
@@ -64,7 +64,7 @@ app.controller('QuestionCtrl', function($http, $scope) {
 		snippetTemplate:null
 	};
 	
-	//trying to use this for a fancy table.
+	// trying to use this for a fancy table.
 	$(document).ready(function() {
 		$('#questionList').DataTable( {
 			sDom: 'rt',
@@ -198,7 +198,7 @@ app.controller('QuestionCtrl', function($http, $scope) {
 					dragDrops:null,
 					snippetTemplate:null
 				}; // $scope.question end
-	}; //$scope.requeQuestion() end
+	}; // $scope.requeQuestion() end
 	
 	$scope.addQuestion = function() {
 		$scope.question.question.format = $scope.format;
@@ -254,7 +254,7 @@ app.controller('QuestionCtrl', function($http, $scope) {
 						$scope.show = false;
 					} // inner if end
 				}); // $http end
-		} // outer if end	
+		} // outer if end
 	}; // updateQuestion() end
 	
 	$scope.addCategories = function() {
@@ -398,7 +398,8 @@ app.controller('QuestionCtrl', function($http, $scope) {
 	}
 
 	/*
-	 * Here I am attempting to call the rest controller where I update the options with the new correct answer.
+	 * Here I am attempting to call the rest controller where I update the
+	 * options with the new correct answer.
 	 */
 	$scope.multiCorrect = function(option){
 		if(document.getElementById("msrad").checked == false){
@@ -413,7 +414,7 @@ app.controller('QuestionCtrl', function($http, $scope) {
 	    				break;
 	    			}
 	    		}
-	    	})
+	    	});
 	    	document.getElementById("msrad").checked == true;
 	    }
 	}

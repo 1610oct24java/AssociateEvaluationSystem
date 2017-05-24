@@ -29,7 +29,6 @@ asmt.controller("landingPageCtrl", function($scope, $http, $rootScope, $window, 
         });
     }
     $scope.getSettings();
-
     $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
         .then(function(response) {
             if (response.data.authenticated) {

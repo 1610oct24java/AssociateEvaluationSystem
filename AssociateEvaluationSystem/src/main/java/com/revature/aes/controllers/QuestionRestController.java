@@ -76,24 +76,25 @@ public class QuestionRestController
 			produces = { MediaType.APPLICATION_JSON_VALUE })
 	public Question addQuestion(@RequestBody Question question)
 	{
-		Set<SnippetTemplate> snippetTemplates = question.getSnippetTemplates();
+		Question localQuestion = question;
+		Set<SnippetTemplate> snippetTemplates = localQuestion.getSnippetTemplates();
 		
 		if(snippetTemplates != null && !snippetTemplates.isEmpty())
 		{
-			question.setSnippetTemplates(null);
-			question = questionService.addQuestion(question);	
-			question.setSnippetTemplates(new HashSet<SnippetTemplate>());
+			localQuestion.setSnippetTemplates(null);
+			localQuestion = questionService.addQuestion(question);	
+			localQuestion.setSnippetTemplates(new HashSet<SnippetTemplate>());
 			for(SnippetTemplate st: snippetTemplates)
 			{
-				st.setQuestion(question);
+				st.setQuestion(localQuestion);
 				snippetTemplateService.addSnippetTemplate(st);
-				question.getSnippetTemplates().add(st);
+				localQuestion.getSnippetTemplates().add(st);
 			}
-			return question;
+			return localQuestion;
 		}
 		else
 		{			
-			return questionService.addQuestion(question);
+			return questionService.addQuestion(localQuestion);
 		}
 	}
 

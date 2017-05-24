@@ -16,181 +16,191 @@ import java.util.Properties;
 @Component
 public class Mail {
 
-    @Autowired
-    private MailService ms;
+	@Autowired
+	private MailService ms;
 
-    @Autowired
-    private UserService us;
+	@Autowired
+	private UserService us;
 
-    @Autowired
-    private UserDAO ud;
+	@Autowired
+	private UserDAO ud;
 
-    @Autowired
-    private AssessmentDAO ad;
+	@Autowired
+	private AssessmentDAO ad;
 
-    @Autowired
-    private PropertyReader propertyReader;
+	@Autowired
+	private PropertyReader propertyReader;
 
+	@PostConstruct
+	protected void postConstruct() {
 
-    @PostConstruct
-    protected void postConstruct() {
+		configureEmailBody();
 
-        configureEmailBody();
+	}
 
-    }
+	private static String CANDIDATE_LINK_BODY;
 
-    private static String CANDIDATE_LINK_BODY;
+	private static String CANDIDATE_NOT_COMPLETE_BODY;
 
-    private static String CANDIDATE_NOT_COMPLETE_BODY;
+	private static String RECRUITER_COMPLETED_BODY;
 
-    private static String RECRUITER_COMPLETED_BODY;
+	private static String RECRUITER_NOT_DELIVERED_BODY;
 
-    private static String RECRUITER_NOT_DELIVERED_BODY;
+	private static String RECRUITER_NOT_COMPLETE_BODY;
 
-    private static String RECRUITER_NOT_COMPLETE_BODY;
+	private static String CANDIDATE_LINK_SUBJECT;
 
-    private static String CANDIDATE_LINK_SUBJECT;
+	private static String CANDIDATE_NOT_COMPLETE_SUBJECT;
 
-    private static String CANDIDATE_NOT_COMPLETE_SUBJECT;
+	private static String RECRUITER_COMPLETED_SUBJECT;
 
-    private static String RECRUITER_COMPLETED_SUBJECT;
+	private static String RECRUITER_NOT_DELIVERED_SUBJECT;
 
-    private static String RECRUITER_NOT_DELIVERED_SUBJECT;
+	private static String RECRUITER_NOT_COMPLETE_SUBJECT;
 
-    private static String RECRUITER_NOT_COMPLETE_SUBJECT;
+	private static String TEMPORARY_PASSWORD_SUBJECT;
 
-    private static String TEMPORARY_PASSWORD_SUBJECT;
+	private static String TEMPORARY_PASSWORD_BODY;
 
-    private static String TEMPORARY_PASSWORD_BODY;
+	private static String SENDER;
 
-    private static String SENDER;
+	private void configureEmailBody() {
 
-    private void configureEmailBody() {
+		Properties properties = propertyReader.propertyRead("emailPrompt.properties");
 
-        Properties properties = propertyReader.propertyRead("emailPrompt.properties");
+		CANDIDATE_NOT_COMPLETE_BODY = properties.getProperty("candidate_not_complete_body");
+		CANDIDATE_LINK_BODY = properties.getProperty("candidate_link_body");
+		RECRUITER_COMPLETED_BODY = properties.getProperty("recruiter_completed_body");
+		RECRUITER_NOT_DELIVERED_BODY = properties.getProperty("recruiter_not_delivered_body");
+		RECRUITER_NOT_COMPLETE_BODY = properties.getProperty("recruiter_not_complete_body");
+		TEMPORARY_PASSWORD_BODY = properties.getProperty("temporary_password_body");
+		CANDIDATE_NOT_COMPLETE_SUBJECT = properties.getProperty("candidate_not_complete_body_subject");
+		CANDIDATE_LINK_SUBJECT = properties.getProperty("candidate_link_subject");
+		RECRUITER_COMPLETED_SUBJECT = properties.getProperty("recruiter_completed_subject");
+		RECRUITER_NOT_DELIVERED_SUBJECT = properties.getProperty("recruiter_not_delivered_subject");
+		RECRUITER_NOT_COMPLETE_SUBJECT = properties.getProperty("recruiter_not_complete_subject");
+		TEMPORARY_PASSWORD_SUBJECT = properties.getProperty("temporary_password_subject");
+		SENDER = properties.getProperty("sender");
 
-        CANDIDATE_NOT_COMPLETE_BODY = properties.getProperty("candidate_not_complete_body");
-        CANDIDATE_LINK_BODY = properties.getProperty("candidate_link_body");
-        RECRUITER_COMPLETED_BODY = properties.getProperty("recruiter_completed_body");
-        RECRUITER_NOT_DELIVERED_BODY = properties.getProperty("recruiter_not_delivered_body");
-        RECRUITER_NOT_COMPLETE_BODY = properties.getProperty("recruiter_not_complete_body");
-        TEMPORARY_PASSWORD_BODY = properties.getProperty("temporary_password_body");
-        CANDIDATE_NOT_COMPLETE_SUBJECT = properties.getProperty("candidate_not_complete_body_subject");
-        CANDIDATE_LINK_SUBJECT = properties.getProperty("candidate_link_subject");
-        RECRUITER_COMPLETED_SUBJECT = properties.getProperty("recruiter_completed_subject");
-        RECRUITER_NOT_DELIVERED_SUBJECT = properties.getProperty("recruiter_not_delivered_subject");
-        RECRUITER_NOT_COMPLETE_SUBJECT = properties.getProperty("recruiter_not_complete_subject");
-        TEMPORARY_PASSWORD_SUBJECT = properties.getProperty("temporary_password_subject");
-        SENDER = properties.getProperty("sender");
+	}
 
+	public boolean sendEmail(MailObject m, String email) {
+		User candidate = us.findUserByEmail(email);
+		User recruiter = null;
+		String recruiterEmail;
 
-    }
+		if (candidate.getRecruiterId() != null) {
+			recruiter = ud.findOne(candidate.getRecruiterId());
+			recruiterEmail = recruiter.getEmail();
+		} else {
+			recruiterEmail = email;
+		}
 
-    public boolean sendEmail(MailObject m, String email) {
-        User candidate = us.findUserByEmail(email);
-        User recruiter = null;
-        String recruiterEmail;
+		SimpleMailMessage simpleMailMessage = null;
 
-        if (candidate.getRecruiterId() != null) {
-            recruiter = ud.findOne(candidate.getRecruiterId());
-            recruiterEmail = recruiter.getEmail();
-        } else {
-            recruiterEmail = email;
-        }
+		switch (m.getType()) {
 
-        SimpleMailMessage simpleMailMessage = null;
+		case "candidateNeedsQuiz":
+			simpleMailMessage = ms.setupMessage(email, formatMessage(CANDIDATE_LINK_SUBJECT, candidate, recruiter, m),
+					formatMessage(CANDIDATE_LINK_BODY, candidate, recruiter, m));
+			break;
 
-        switch (m.getType()) {
+		case "candidateNotCompleted":
+			SimpleMailMessage notCompletedCandidateMessage = ms.setupMessage(email,
+					formatMessage(CANDIDATE_NOT_COMPLETE_SUBJECT, candidate, recruiter, m),
+					formatMessage(CANDIDATE_NOT_COMPLETE_BODY, candidate, recruiter, m));
+			notCompletedCandidateMessage.setFrom(SENDER);
+			ms.sendEmail(notCompletedCandidateMessage);
+			simpleMailMessage = ms.setupMessage(recruiterEmail,
+					formatMessage(RECRUITER_NOT_COMPLETE_SUBJECT, candidate, recruiter, m),
+					formatMessage(RECRUITER_NOT_COMPLETE_BODY, candidate, recruiter, m));
+			break;
 
-            case "candidateNeedsQuiz":
-                simpleMailMessage = ms.setupMessage(email, formatMessage(CANDIDATE_LINK_SUBJECT, candidate, recruiter, m), formatMessage(CANDIDATE_LINK_BODY, candidate, recruiter, m));
-                break;
+		case "candidateCompleted":
+			simpleMailMessage = ms.setupMessage(recruiterEmail,
+					formatMessage(RECRUITER_COMPLETED_SUBJECT, candidate, recruiter, m),
+					formatMessage(RECRUITER_COMPLETED_BODY, candidate, recruiter, m));
+			break;
 
-            case "candidateNotCompleted":
-                SimpleMailMessage notCompletedCandidateMessage = ms.setupMessage(email, formatMessage(CANDIDATE_NOT_COMPLETE_SUBJECT, candidate, recruiter, m), formatMessage(CANDIDATE_NOT_COMPLETE_BODY, candidate, recruiter, m));
-                notCompletedCandidateMessage.setFrom(SENDER);
-                ms.sendEmail(notCompletedCandidateMessage);
-                simpleMailMessage = ms.setupMessage(recruiterEmail, formatMessage(RECRUITER_NOT_COMPLETE_SUBJECT, candidate, recruiter, m), formatMessage(RECRUITER_NOT_COMPLETE_BODY, candidate, recruiter, m));
-                break;
+		case "candidateEmailNotDelivered":
+			simpleMailMessage = ms.setupMessage(recruiterEmail,
+					formatMessage(RECRUITER_NOT_DELIVERED_SUBJECT, candidate, recruiter, m),
+					formatMessage(RECRUITER_NOT_DELIVERED_BODY, candidate, recruiter, m));
+			break;
 
-            case "candidateCompleted":
-                simpleMailMessage = ms.setupMessage(recruiterEmail, formatMessage(RECRUITER_COMPLETED_SUBJECT, candidate, recruiter, m), formatMessage(RECRUITER_COMPLETED_BODY, candidate, recruiter, m));
-                break;
+		case "temporaryPassword":
+			simpleMailMessage = ms.setupMessage(email,
+					formatMessage(TEMPORARY_PASSWORD_SUBJECT, candidate, recruiter, m),
+					formatMessage(TEMPORARY_PASSWORD_BODY, candidate, recruiter, m));
+			break;
 
-            case "candidateEmailNotDelivered":
-                simpleMailMessage = ms.setupMessage(recruiterEmail, formatMessage(RECRUITER_NOT_DELIVERED_SUBJECT, candidate, recruiter, m), formatMessage(RECRUITER_NOT_DELIVERED_BODY, candidate, recruiter, m));
-                break;
+		default:
+			break;
+		}
 
-            case "temporaryPassword":
-                simpleMailMessage = ms.setupMessage(email, formatMessage(TEMPORARY_PASSWORD_SUBJECT, candidate, recruiter, m), formatMessage(TEMPORARY_PASSWORD_BODY, candidate, recruiter, m));
-                break;
+		if (simpleMailMessage != null) {
+			simpleMailMessage.setFrom(SENDER);
+			if (!ms.sendEmail(simpleMailMessage)) {
 
-            default:
-                break;
-        }
+				if ("candidateNeedsQuiz".equals(m.getType())) {
 
-        simpleMailMessage.setFrom(SENDER);
-        if (!ms.sendEmail(simpleMailMessage)){
+					m.setType("candidateEmailNotDelivered");
+					sendEmail(m, email);
+				}
 
-            if (m.getType().equals("candidateNeedsQuiz")) {
+				return false;
+			}
+		}
+		return true;
 
-                m.setType("candidateEmailNotDelivered");
-                sendEmail(m, email);
-            }
+	}
 
-            return false;
-        }
+	private String formatMessage(String prompt, User candidate, User recruiter, MailObject m) {
 
-        return true;
+		StringBuilder message = new StringBuilder(prompt);
 
-    }
+		for (int i = 0; i < message.length(); i++) {
 
-    private String formatMessage(String prompt, User candidate, User recruiter, MailObject m) {
+			if (message.charAt(i) == '%' && message.length() > i + 1) {
 
-        StringBuilder message = new StringBuilder(prompt);
+				message.deleteCharAt(i);
 
-        for (int i = 0; i < message.length(); i++) {
+				switch (message.charAt(i)) {
 
-            if (message.charAt(i) == '%' && message.length() > i + 1) {
+				case 'c':
+					message.deleteCharAt(i);
+					message.insert(i, candidate.getFirstName() + " " + candidate.getLastName());
+					break;
+				case 'r':
+					message.deleteCharAt(i);
+					message.insert(i, recruiter.getFirstName() + " " + recruiter.getLastName());
+					break;
+				case 'g':
+					message.deleteCharAt(i);
+					message.insert(i, String.valueOf(ad.findAssessmentByAssessmentId(m.getAssessmentId()).getGrade()));
+					break;
+				case 'l':
+					message.deleteCharAt(i);
+					message.insert(i, m.getLink());
+					break;
+				case 'p':
+					message.deleteCharAt(i);
+					message.insert(i, m.getTempPass());
+					break;
+				case 'e':
+					message.deleteCharAt(i);
+					message.insert(i, candidate.getEmail());
+					break;
+				case '%':
+					break;
 
-                message.deleteCharAt(i);
+				}
 
-                switch (message.charAt(i)) {
+			}
 
-                    case 'c':
-                        message.deleteCharAt(i);
-                        message.insert(i, candidate.getFirstName() + " " + candidate.getLastName());
-                        break;
-                    case 'r':
-                        message.deleteCharAt(i);
-                        message.insert(i, recruiter.getFirstName() + " " + recruiter.getLastName());
-                        break;
-                    case 'g':
-                        message.deleteCharAt(i);
-                        message.insert(i, String.valueOf(ad.findAssessmentByAssessmentId(m.getAssessmentId()).getGrade()));
-                        break;
-                    case 'l':
-                        message.deleteCharAt(i);
-                        message.insert(i, m.getLink());
-                        break;
-                    case 'p':
-                        message.deleteCharAt(i);
-                        message.insert(i, m.getTempPass());
-                        break;
-                    case 'e':
-                        message.deleteCharAt(i);
-                        message.insert(i, candidate.getEmail());
-                        break;
-                    case '%':
-                        break;
+		}
 
-                }
+		return message.toString();
 
-            }
-
-        }
-
-        return message.toString();
-
-    }
+	}
 }

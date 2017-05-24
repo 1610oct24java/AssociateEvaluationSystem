@@ -124,7 +124,7 @@ function formatDate(date) {
 
 // reformats dates formatted by formatDate() from (M/D/YYYY H:MM) to an iso format (YYYY-MM-DDTHH:mm:ss.SSSZ)
 function reformatDate(date) {
-    if (!date || date == null) {
+    if (!date) {
         return "";
     }
 
@@ -156,7 +156,7 @@ function reformatDate(date) {
 
 // formats dates from being in total-milliseconds-from-epoch format into an iso format (YYYY-MM-DDThh:mm:ss.sssZ).
 function formatDateIso(date) {
-    if (!date || date == null) {
+    if (!date) {
         return "";
     }
 

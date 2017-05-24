@@ -69,9 +69,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
             .then(function(result) {
                 // we don't want to display 'restuser' or 'system'
                 result.data.forEach(function(role){
-                    if (role.roleTitle.toUpperCase() === 'RESTUSER'){
-                    }
-                    else if (role.roleTitle.toUpperCase() === 'SYSTEM'){
+                    if (role.roleTitle.toUpperCase() === 'RESTUSER' || role.roleTitle.toUpperCase() === 'SYSTEM'){
                     }
                     else {
                         // if any other role, we add it to the select option
