@@ -96,54 +96,51 @@ background-color: green;
 				</button>
 
 				<!--for question modal-->
-				<button type="button" id="navbarSubmitBtn"
-						class="btn text-center navbar-menu-btn" ng-click="toggleModal()">
+				<button type="button" id="navbarMenuBtn" data-toggle="dropdown"
+						class="btn text-center navbar-menu-btn" onClick="showSubmitAssesmentModal()">
 					<span class="fa fa-upload" style="font-size:1.5em;"></span><br>Submit
 				</button>
+			</div>
 
-				<modal-dialog show='modalShown' class="floatingWidnow">
-					<div id="popup" class="modal-box">
-						<header>
-							<!--this is where the logic for saving and moving to submission goes-->
-							<button type="button" id="navbarSubmitBtn"
-									class="btn text-center navbar-menu-btn" ng-click="submitAssessment()" ng-disabled="submitted">
-								<span class="fa fa-upload" style="font-size:1.5em;"></span><br>Submit
-							</button>
-						</header>
-
+			<!--for question modal-->
+			<div id="submitAssessmentModal" class="modal">
+				<div class="modal-content">
+					<p>Are you sure you are ready to submit? Here is your evaluation summary.</p>
+					<button type="button"
+						class="btn text-center navbar-menu-btn" ng-click="submitAssessment()" ng-disabled="submitted">
+						<span class="fa fa-upload" style="font-size:1.5em;"></span><br>Yes
+					</button>
 						<div ng-controller="QuizNavController">
 							<h3>Quiz Navigation</h3>
-							<div id="sideNavTable">
-								<table class="nav-table">
-									<tr ng-repeat="i in array" ng-init="index = i*5">
+							<div>
+								<table class=""nav-table>
+									<tr ng-repeat=""i in array" ng-init="index=i*5">
 										<td ng-repeat="state in states.slice(index,index+5)">
 											<div class="status-container" ng-click="jumpPage(state.id)">
-												<i class="text-center glyphicon glyphicon-floppy-disk icon-size"
-												   ng-class="{'glyph-blue': state.saved, 'glyph-silver': !state.saved}"></i>
-													<span class="badge shoppingBadge-custom" ng-class="{'shoppingBadge-flagged': !state.flagged, 'shoppingBadge-flagged': state.flagged}">
-													<a href="#question{{state.id+1}}">{{state.id + 1}}</a>
-												</span>
+												     <i class="text-center glyphicon glyphicon-floppy-disk icon-size" ng-class="{'glyph-blue': state.saved, 'glyph-silver': !state.saved}"></i>
+												     <span class="badge shoppingBadge-custom" ng-class="{'shoppingBadge-flagged': !state.flagged, 'shoppingBadge-flagged': state.flagged}">
+														 <a href="#question{{state.id+1}}">{{state.id + 1}}</a>
+													 </span>
 											</div>
 										</td>
 									</tr>
+
 								</table>
 							</div>
-						</div>
+			
+					       <a href="javascript:void(0)" class="closebtn"
+						      onclick="closeSubmitAssesmentModal()"><span class="fa fa-toggle-right"></span>x</a>
 
 					</div>
-				</modal-dialog>
-				<!--for question modal-->
 
-			<!--<button type="button" id="navbarSubmitBtn"
-					class="btn text-center navbar-menu-btn" ng-click="submitAssessment()" ng-disabled="submitted">
-					<span class="fa fa-upload" style="font-size:1.5em;"></span><br>Submit
-				</button>-->
+				</div>
 			</div>
+			<!--for question modal-->
 
-		<!-- ---- -->
+			<!-- ---- -->
 			<!-- QUIZ -->
 			<!-- ---- -->
-			<div class="container-fluid navbar-overlay-spacing">g
+			<div class="container-fluid navbar-overlay-spacing">
 				<div class="row">
 					<div class="col-sm-10 col-sm-offset-1">
 						<div>
@@ -258,6 +255,7 @@ background-color: green;
 		<!-- SIDE BAR -->
 		<!-- -------- -->
 		<div id="sidenav" class="sidenav">
+
 			<a href="javascript:void(0)" class="closebtn"
 				onclick="closeSideNav()"><span class="fa fa-toggle-right"></span></a>
 			<div class="navbar-link">
@@ -359,8 +357,7 @@ background-color: green;
 		src="../static/js/lib/ng-sortable.js"></script>
 	<!-- 	CUSTOM -->
 	<script th:src="@{/js/asmtApp.js}" src="../static/js/asmtApp.js"></script>
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 	<script th:src="@{/js/AngularControllers/dragController.js}"
 		src="../static/js/AngularControllers/dragController.js"></script>
 	<script th:src="@{/js/AngularControllers/quizNavController.js}"
@@ -369,7 +366,7 @@ background-color: green;
 		src="../static/js/AngularControllers/quizController.js"></script>
 	<script th:src="@{/js/AngularControllers/countdownController.js}"
 		src="../static/js/AngularControllers/countdownController.js"></script>
-=======
+
 	<script th:src="@{/js/controllers/asmt/DragController.js}"
 		src="../static/js/controllers/asmt/DragController.js"></script>
 	<script th:src="@{/js/controllers/asmt/QuizNavController.js}"
@@ -378,7 +375,7 @@ background-color: green;
 		src="../static/js/controllers/asmt/QuizController.js"></script>
 	<script th:src="@{/js/controllers/asmt/CountdownController.js}"
 		src="../static/js/controllers/asmt/CountdownController.js"></script>
-=======
+
 	<script th:src="@{/js/controllers/asmt/dragController.js}"
 		src="../static/js/controllers/asmt/dragController.js"></script>
 	<script th:src="@{/js/controllers/asmt/quizNavController.js}"
@@ -387,26 +384,6 @@ background-color: green;
 		src="../static/js/controllers/asmt/quizController.js"></script>
 	<script th:src="@{/js/controllers/asmt/countdownController.js}"
 		src="../static/js/controllers/asmt/countdownController.js"></script>
-		
-		
->>>>>>> 4574358d7624d482bd1d4c338e93dfc6bdeebcf3
 
-	<!--for question modal-->
-	<script type="text/javascript" src="js/misc/QuestionModal.js"></script>
-
-	<!--for question modal-->
-	<div id="popup" class="modal-box">
-		<header>
-			<a href="#" class="js-modal-close close">×</a>
-			<h3><a href="http://www.jqueryscript.net/tags.php?/Modal/">Modal</a> Title</h3>
-		</header>
-		<div class = "modal-body">
-			<p>Modal Body</p>
-		</div>
-		<footer>
-			<a href="#" class="js-modal-close">Close Button</a>
-		</footer>
-	</div>
-	<a class="js-open-modal" href="#" data-modal-id="popup"> Switch Questions </a>
 </body>
 </html>
