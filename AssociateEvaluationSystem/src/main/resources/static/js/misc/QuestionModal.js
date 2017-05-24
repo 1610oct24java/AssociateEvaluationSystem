@@ -1,30 +1,28 @@
-/**
- * Created by Gabe on 5/23/2017.
- */
-$(function(){
-    var appendthis = (
-        "<div class='modal-overlay js-modal-close'></div>"
-    );
-    $('a[data-modal-id]').click(function(e) {
-        e.preventDefault();
-        $("body").append(appendthis);
-        $(".modal-overlay").fadeTo(500, 0.7);
-        var modalBox = $(this).attr('data-modal-id');
-        $('#'+modalBox).fadeIn($(this).data());
-    });
+asmt.directive('modalDialog', function() {
+    return {
+        restrict: 'E',
+        scope: {
+            show: '='
+        },
+        replace: true, // Replace with the template below
+        transclude: true, // we want to insert custom content inside the directive
+        link: function(scope, element, attrs) {
+            scope.dialogStyle = {};
+            if (attrs.width)
+                scope.dialogStyle.width = attrs.width;
+            if (attrs.height)
+                scope.dialogStyle.height = attrs.height;
+            scope.hideModal = function() {
+                scope.show = false;
+            };
+        },
+        template: "<div class='ng-modal' ng-show='show'><div class='ng-modal-overlay' ng-click='hideModal()'></div> <div class='ng-modal-dialog' ng-style='dialogStyle'> <div class='ng-modal-close' ng-click='hideModal()'>X</div> <div class='ng-modal-dialog-content' ng-transclude></div> </div> </div>"
+    };
+});
 
-    $(".js-modal-close, .modal-overlay").click(function() {
-        $(".modal-box, .modal-overlay").fadeOut(500, function() {
-            $(".modal-overlay").remove();
-        });
-    });
-
-    $(window).resize(function() {
-        $(".modal-box").css({
-            top: ($(window).height() - $(".modal-box").outerHeight()) / 2,
-            left: ($(window).width() - $(".modal-box").outerWidth()) / 2
-        });
-
-        $(window).resize();
-    });
+asmt.controller('MyCtrl', function($scope) {
+    $scope.modalShown = false;
+    $scope.toggleModal = function() {
+        $scope.modalShown = !$scope.modalShown;
+    };
 });

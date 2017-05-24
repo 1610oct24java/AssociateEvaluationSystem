@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="quizApp" xmlns="http://www.w3.org/1999/xhtml"
+<html ng-app="asmtApp" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
@@ -7,6 +7,10 @@
 <meta charset="ISO-8859-1">
 <title>Assessment</title>
 <!-- Latest compiled and minified CSS -->
+	<!--for question modal-->
+	<link rel="stylesheet" type="text/css"
+		  th:href="@{/css/QuestionModal.css}">
+
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
 	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
@@ -16,8 +20,14 @@
 	th:href="@{/css/revatureStyle.css}"
 	href="../static/css/revatureStyle.css">
 
+
 	<!--for question modal-->
 	<link rel="stylesheet" href="css/QuestionModal.css">
+
+
+	<link rel="stylesheet" type="text/css"
+	th:href="@{/css/fonts.css}"
+	href="../static/css/fonts.css">
 
 <style>
 .as-sortable-item, .as-sortable-placeholder {
@@ -84,13 +94,53 @@ background-color: green;
 					class="btn text-center navbar-menu-btn" onclick="openSideNav()">
 					<span class="fa fa-bars" style="font-size:1.5em;"></span><br>Menu
 				</button>
-				
+
+				<!--for question modal-->
 				<button type="button" id="navbarSubmitBtn"
-					class="btn text-center navbar-menu-btn" ng-click="submitAssessment()" ng-disabled="submitted">
+						class="btn text-center navbar-menu-btn" ng-click="toggleModal()">
 					<span class="fa fa-upload" style="font-size:1.5em;"></span><br>Submit
 				</button>
+
+				<modal-dialog show='modalShown' class="floatingWidnow">
+					<div id="popup" class="modal-box">
+						<header>
+							<!--this is where the logic for saving and moving to submission goes-->
+							<button type="button" id="navbarSubmitBtn"
+									class="btn text-center navbar-menu-btn" ng-click="submitAssessment()" ng-disabled="submitted">
+								<span class="fa fa-upload" style="font-size:1.5em;"></span><br>Submit
+							</button>
+						</header>
+
+						<div ng-controller="QuizNavController">
+							<h3>Quiz Navigation</h3>
+							<div id="sideNavTable">
+								<table class="nav-table">
+									<tr ng-repeat="i in array" ng-init="index = i*5">
+										<td ng-repeat="state in states.slice(index,index+5)">
+											<div class="status-container" ng-click="jumpPage(state.id)">
+												<i class="text-center glyphicon glyphicon-floppy-disk icon-size"
+												   ng-class="{'glyph-blue': state.saved, 'glyph-silver': !state.saved}"></i>
+													<span class="badge shoppingBadge-custom" ng-class="{'shoppingBadge-flagged': !state.flagged, 'shoppingBadge-flagged': state.flagged}">
+													<a href="#question{{state.id+1}}">{{state.id + 1}}</a>
+												</span>
+											</div>
+										</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+
+					</div>
+				</modal-dialog>
+				<!--for question modal-->
+
+			<!--<button type="button" id="navbarSubmitBtn"
+					class="btn text-center navbar-menu-btn" ng-click="submitAssessment()" ng-disabled="submitted">
+					<span class="fa fa-upload" style="font-size:1.5em;"></span><br>Submit
+				</button>-->
 			</div>
-			<!-- ---- -->
+
+		<!-- ---- -->
 			<!-- QUIZ -->
 			<!-- ---- -->
 			<div class="container-fluid navbar-overlay-spacing">g
@@ -309,6 +359,7 @@ background-color: green;
 		src="../static/js/lib/ng-sortable.js"></script>
 	<!-- 	CUSTOM -->
 	<script th:src="@{/js/asmtApp.js}" src="../static/js/asmtApp.js"></script>
+<<<<<<< HEAD
 	<script th:src="@{/js/AngularControllers/dragController.js}"
 		src="../static/js/AngularControllers/dragController.js"></script>
 	<script th:src="@{/js/AngularControllers/quizNavController.js}"
@@ -317,7 +368,15 @@ background-color: green;
 		src="../static/js/AngularControllers/quizController.js"></script>
 	<script th:src="@{/js/AngularControllers/countdownController.js}"
 		src="../static/js/AngularControllers/countdownController.js"></script>
-
+=======
+	<script th:src="@{/js/controllers/asmt/DragController.js}"
+		src="../static/js/controllers/asmt/DragController.js"></script>
+	<script th:src="@{/js/controllers/asmt/QuizNavController.js}"
+		src="../static/js/controllers/asmt/QuizNavController.js"></script>
+	<script th:src="@{/js/controllers/asmt/QuizController.js}"
+		src="../static/js/controllers/asmt/QuizController.js"></script>
+	<script th:src="@{/js/controllers/asmt/CountdownController.js}"
+		src="../static/js/controllers/asmt/CountdownController.js"></script>
 
 	<!--for question modal-->
 	<script type="text/javascript" src="js/misc/QuestionModal.js"></script>

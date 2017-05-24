@@ -15,50 +15,7 @@
 	width: 100%
 }
 
-@font-face {
-	font-family: 'futura-heavy';
-	src: url('../fonts/ParaType-FuturaPTHeavy.ttf');
-}
 
-@font-face {
-	font-family: 'futura-heavy-italics';
-	src: url('../fonts/ParaType-FuturaPTHeavyOblique.ttf');
-}
-
-@font-face {
-	font-family: 'futura-book';
-	src: url('../fonts/ParaType-FuturaPTBook.ttf');
-}
-
-@font-face {
-	font-family: 'futura-book-italics';
-	src: url('../fonts/ParaType-FuturaPTBookOblique.ttf');
-}
-
-@font-face {
-	font-family: 'futura-light';
-	src: url('../fonts/ParaType-FuturaPTLight.ttf');
-}
-
-@font-face {
-	font-family: 'futura-light-italics';
-	src: url('../fonts/ParaType-FuturaPTLightOblique.ttf');
-}
-
-@font-face {
-	font-family: 'futura-medium';
-	src: url('../fonts/ParaType-FuturaPTMedium.ttf');
-}
-
-@font-face {
-	font-family: 'futura-medium-italics';
-	src: url('../fonts/ParaType-FuturaPTMediumOblique.ttf');
-}
-
-@font-face {
-	font-family: 'futura-bold';
-	src: url('../fonts/ParaType-FuturaPTBold.ttf');
-}
 
 /* MAIN STYLING */
 html {
@@ -98,6 +55,24 @@ body {
 	display: inline-block;
 	margin-left: 15px;
 	margin-right: 15px;
+	padding: 6px 20px 4px 20px;
+	top: 0;
+	left: 0;
+	right: 0;
+	border-radius: 0px 0px 6px 6px;
+	overflow: hidden;
+	position: fixed;
+	z-index: 99;
+	box-shadow: 5px 5px 5px #434851;
+}
+
+.floatingWidnow {
+	font-family: 'futura-heavy';
+	background-color: #ffffff;
+	display: inline-block;
+	margin-left: 15px;
+	margin-right: 15px;
+	height: 40%;
 	padding: 6px 20px 4px 20px;
 	top: 0;
 	left: 0;

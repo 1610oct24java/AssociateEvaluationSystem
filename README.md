@@ -8,6 +8,7 @@ Working on - (candidate) user gets a modal when going from assessment to assessm
 Works - 
 Recruiter can add existing candidate
 Admin and recruiter can change existing employee info
+Delete employee
 
 Not works - 
 Recruiter and admin cannot create new employee

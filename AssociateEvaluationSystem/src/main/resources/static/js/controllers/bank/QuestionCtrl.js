@@ -1,4 +1,4 @@
-angular.module('bankApp').controller('QuestionCtrl', function($http, $scope) {
+app.controller('QuestionCtrl', function($http, $scope) {
 	$scope.fList;
 	/*
 	 * var getFormatList = function() { $http.get(url + "format") .then(

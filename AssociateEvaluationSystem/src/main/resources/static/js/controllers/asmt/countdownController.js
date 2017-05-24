@@ -1,5 +1,5 @@
 /* COUNTDOWN TIMER LOGIC */
-app.controller('CountdownController', function($scope, $rootScope, $interval, $timeout) {
+asmt.controller('CountdownController', function($scope, $rootScope, $interval, $timeout) {
 	
 	var startTime = -111;	// default to show loading message
 	$scope.seconds = startTime;
