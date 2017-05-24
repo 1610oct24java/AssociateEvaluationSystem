@@ -53,37 +53,7 @@
 					class="btn text-center navbar-menu-btn" ng-click="quitReview()" ng-disabled="returning">
 					<span class="fa fa-arrow-left" style="font-size:1.5em;"></span><br>Return
 				</button>
-
-				<!--for question modal-->
-				<button ng-click='toggleModal()'>Open Modal Dialog</button>
-				</div>
-				<!--for question modal-->
-				<modal-dialog show='modalShown' class="floatingWidnow">
-					<div id="popup" class="modal-box">
-						<header>
-							<a href="#" class="js-modal-close close">×</a>
-							<h3>Question navigation</h3>
-						</header>
-
-
-						<div ng-repeat="q in filteredQuestions" my-repeat-directive>
-							<div class="panel-heading-revature"
-								 style="display: inline-table "
-								 ng-click="jumpPage($index+numPerPage*(currentPage-1)+1)">
-								<table>
-									<tr>
-										<!--a new td for each page-->
-										<td id="question{{q.id+1}}" ng-class="{'glyph-red': states[$index+numPerPage*(currentPage-1)].saved, 'glyph-silver': !states[$index+numPerPage*(currentPage-1)].saved}">Question
-											{{$index+numPerPage*(currentPage-1)+1}}
-										</td>
-									</tr>
-								</table>
-							</div>
-						</div>
-					</div>
-				</modal-dialog>
-				<!--for question modal-->
-
+				
 			<!-- ---- -->
 			<!-- QUIZ -->
 			<!-- ---- -->
