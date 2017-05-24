@@ -1,4 +1,5 @@
 adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SITE_URL, API_URL, ROLE) {
+
     $scope.validateReview = function ()
     {
         if(($scope.assdays == null || $scope.asshours ==null || $scope.asshours <0 || $scope.assdays<0 )||(($scope.assdays ==0 && $scope.asshours == 0 ) && $scope.assReviewCheck == true))
@@ -10,6 +11,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
     $scope.allowReview = function()
     {
         var totalHours = 0;
+
 
         if($scope.assReviewCheck)
         {
@@ -24,6 +26,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
         }
 
     };
+
 
     $scope.checkDuplicate = function () {
         var flag = false;
@@ -173,63 +176,78 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
         UpdateTotals(-tempQuantity);
     };
 
-    // End of Block is Line 366
+    $scope.maxQuestions;
+    $scope.availabilityString ="";
+    $scope.catInt;
+    $scope.typeInt;
+    function updateCategoryInt(){
+        if($scope.category.toUpperCase() === "CSS"){
+            $scope.catInt = 11;
+
+        }else if($scope.category.toUpperCase() === "CORE LANGUAGE"){
+            $scope.catInt = 1;
+
+        }else if($scope.category.toUpperCase() === "CRITICAL THINKING"){
+            $scope.catInt = 5;
+
+        }else if($scope.category.toUpperCase() === "DATA STRUCTURES"){
+            $scope.catInt = 3;
+
+        }else if($scope.category.toUpperCase() === "HTML"){
+            $scope.catInt = 10;
+
+        }else if($scope.category.toUpperCase() === "JAVASCRIPT"){
+            $scope.catInt = 12;
+
+        }else if($scope.category.toUpperCase() === "OOP"){
+            $scope.catInt = 2;
+
+        }else if($scope.category.toUpperCase() === "SQL"){
+            $scope.catInt = 4;
+        }
+    }
+    function updateTypeInt(){
+        if($scope.type.toUpperCase() === "MULTIPLE CHOICE"){
+            $scope.typeInt = 1;
+
+        }else if($scope.type.toUpperCase() === "MULTIPLE SELECT"){
+            $scope.typeInt = 2;
+
+        }else if($scope.type.toUpperCase() === "DRAG AND DROP"){
+            $scope.typeInt = 3;
+
+        }else if($scope.type.toUpperCase() === "CODE SNIPPET"){
+            $scope.typeInt = 4;
+        }
+    }
+
+    $scope.updateMax = function(){
+        updateCategoryInt();
+        updateTypeInt();
+        $http({
+            method: "GET",
+            url: ("assessmentrequest/"+$scope.catInt  + "/" + $scope.typeInt +"/" + 1 + "/")
+        }).then(function (response) {
+            $scope.maxQuestions = response.data;
+
+            if($scope.maxQuestions == 0){
+                $scope.availabilityString = "(0 questions available)";
+            }else{
+                $scope.availabilityString = "(1 - "+$scope.maxQuestions+" available)";
+            }
+        });
+    }
     $scope.addRow = function() {
 
-
-        $scope.catInt;
-        $scope.typeInt;
-        $scope.notEnoughQuestions;
-
-        (function(){
-
-            if($scope.category.toUpperCase() === "CSS"){
-                $scope.catInt = 11;
-
-            }else if($scope.category.toUpperCase() === "CORE LANGUAGE"){
-                $scope.catInt = 1;
-
-
-            }else if($scope.category.toUpperCase() === "CRITICAL THINKING"){
-                $scope.catInt = 5;
-
-            }else if($scope.category.toUpperCase() === "DATA STRUCTURES"){
-                $scope.catInt = 3;
-
-            }else if($scope.category.toUpperCase() === "HTML"){
-                $scope.catInt = 10;
-
-            }else if($scope.category.toUpperCase() === "JAVASCRIPT"){
-                $scope.catInt = 12;
-
-            }else if($scope.category.toUpperCase() === "OOP"){
-                $scope.catInt = 2;
-
-            }else if($scope.category.toUpperCase() === "SQL"){
-                $scope.catInt = 4;
-
-            }
-
-            if($scope.type.toUpperCase() === "MULTIPLE CHOICE"){
-                $scope.typeInt = 1;
-            }else if($scope.type.toUpperCase() === "MULTIPLE SELECT"){
-                $scope.typeInt = 2;
-
-            }else if($scope.type.toUpperCase() === "DRAG AND DROP"){
-                $scope.typeInt = 3;
-
-            }else if($scope.type.toUpperCase() === "CODE SNIPPET"){
-                $scope.typeInt = 4;
-
-            }
-
-        })();
+        updateCategoryInt();
+        updateTypeInt();
 
         $http({
             method: "GET",
-            url: ("assessmentrequest/"+$scope.catInt  + "/" + $scope.typeInt +"/" + $scope.quantity + "/")
+            url: ("assessmentrequest/"+$scope.catInt  + "/" + $scope.typeInt +"/" + $scope.maxQuestions + "/")
         }).then(function (response) {
             $scope.numOfQuestions = response.data;
+            $scope.quantity=$scope.maxQuestions;
             if($scope.quantity > $scope.numOfQuestions){
                 alert("There are only " + $scope.numOfQuestions + " of those questions available.");
             }else{
@@ -335,7 +353,8 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
                     "timeLimit": $scope.time,
                     "categoryRequestList": $scope.assessments,
                     "hoursViewable" : $scope.totalHourz,
-                    "isDefault" : 0
+                    "isDefault" : 0,
+                    "name": $scope.name
                 };
 
                 if($scope.coreLanguage == false){

@@ -29,10 +29,7 @@ userApp.controller('LoginCtrl', function($scope, $httpParamSerializerJQLike, $ht
                                     break;
                                 case ROLE.CANDIDATE:
                                     $scope.candidateEmail = authUser.username;
-                                    $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.CANDIDATE + $scope.candidateEmail + API_URL.LINK)
-                                        .then(function(response) {
-                                            window.location = response.data.urlAssessment;
-                                        })
+                                    window.location = "/aes/assessmentLandingPage";
                                     break;
                                 case ROLE.TRAINER:
                                     window.location = SITE_URL.TRAINER_HOME;

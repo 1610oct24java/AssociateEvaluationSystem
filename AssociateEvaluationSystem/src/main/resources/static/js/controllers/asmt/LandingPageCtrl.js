@@ -6,6 +6,29 @@ asmt.controller("landingPageCtrl", function($scope, $http, $rootScope, $window, 
     $scope.hideBox = true;
     $scope.myTime = "";
 
+    //RICHARD: get global settings to see if user can review
+    var settingsUrl = "/aes/admin/globalSettings"
+    $scope.getSettings = function () {
+        $scope.getSettingsUnsuccessful = false;
+        $http({
+            method: 'GET',
+            url: settingsUrl
+        }).success(function (data) {
+            if (!data) {
+                $scope.getSettingsUnsuccessful = true;
+            } else {
+                $scope.settings = {};
+                $scope.settings.keys = [];
+                data.forEach(function (s) {
+                    $scope.settings[s.propertyId] = s;
+                    $scope.settings.keys.push(s.propertyId);
+                });
+            }
+        }).error(function () {
+            $scope.getSettingsUnsuccessful = true;
+        });
+    }
+    $scope.getSettings();
     $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
         .then(function(response) {
             if (response.data.authenticated) {
@@ -53,7 +76,46 @@ asmt.controller("landingPageCtrl", function($scope, $http, $rootScope, $window, 
 
                     $scope.hideBox = false;
                 }else {
-                    // Assessment was taken or time expired, redirecting to expired page
+                    checkGS();
+                }
+            })
+    }
+
+    //RICHARD
+    //If logging in after test is taken,
+    //we check the review global settings
+    //to determine if user can review test or not
+    var checkGS = function () {
+        var assessmentId = quizPage.substring(quizPage.search("=") + 1);
+        console.log(quizPage);
+
+        $http({
+            method: 'GET',
+            url: "/aes/rest/" + assessmentId,
+            headers: {'Content-Type': 'application/json'}
+        })
+            .then(function (response) {
+
+                if ($scope.settings[1].propertyValue == "true") {
+                    //get max time allowed from global settings
+                    //add that to the time that the test was finished
+                    //and compare that resultant time with the current time
+                    //if the resultant time is later than now, allow the review
+                    //else we send the user away
+                    var finTS = response.data.assessment.finishedTimeStamp;
+                    var GSTime = $scope.settings[2].propertyValue;
+                    var ts = finTS + (60 * 60 * 1000 * GSTime);
+                    var maxReviewTime = new Date(ts);
+                    var nowTime = new Date();
+                    //compare times
+                    if (nowTime < maxReviewTime) {
+                        $window.location.href = '/aes/quizReview?asmt=' + assessmentId;
+                    }
+                    else {
+                        $window.location.href = '/aes/expired';
+                    }
+                }
+                else {
                     $window.location.href = '/aes/expired';
                 }
             })
