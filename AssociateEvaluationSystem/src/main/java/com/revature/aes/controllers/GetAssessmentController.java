@@ -276,10 +276,9 @@ public class GetAssessmentController {
 					String ind = String.valueOf(in);
 
 					boolean addedS = false;
-					String starterCode="";
 					if(!tempUploads.isEmpty()){
 						for(FileUpload f : tempUploads){
-							starterCode = s3.readFromS3(f.getFileUrl());
+							String starterCode = s3.readFromS3(f.getFileUrl());
 							if(f.getQuestion().getQuestionId() == question.getQuestionId()){
 								
 								codeStarters.add(starterCode);
@@ -296,7 +295,7 @@ public class GetAssessmentController {
 						for (SnippetTemplate st : snippetTemplates)
 						{
 							String snippetTemplateUrl = st.getTemplateUrl();		// SnippetTemplate URL.
-							starterCode = s3.readFromS3(snippetTemplateUrl);	// Read snippet starter from S3 bucket.
+							String starterCode = s3.readFromS3(snippetTemplateUrl);	// Read snippet starter from S3 bucket.
 							codeStarters.add(starterCode);	
 							// Add snippetTemplate to list.
 							codeStartersInd.add(ind);

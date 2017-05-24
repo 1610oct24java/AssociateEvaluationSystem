@@ -1,4 +1,4 @@
-adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav, $log) {
+app.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav, $log) {
     var mc = this;
 
     // functions
@@ -9,11 +9,11 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
         var path = window.location.pathname.substr(1);
 
         switch (path) {
-            case "index.html" :
-            case "update.html" :
-            case "aes/updateEmployee" :
+            case "index.html" : return "employees";
+            case "update.html" : return "employees";
+            case "New.html" : return "assessments";
             case "aes/registerEmployee" : return "employees";
-            case "New.html" : 
+            case "aes/updateEmployee" : return "employees";
             case "aes/createAssessment" : return "assessments";
             case "aes/globalSettings" : return "globalSettings";
             case "aes/parser" : return "parser";
