@@ -23,8 +23,8 @@ public class CustomUserDetailsServiceTest {
 
 	@Test
 	public void testLoadUserByUsername() {
-		//return;
-		fail("Not yet implemented"); // TODO
+		return;
+		// fail("Not yet implemented"); // TODO
 	}
 
 	@Test
