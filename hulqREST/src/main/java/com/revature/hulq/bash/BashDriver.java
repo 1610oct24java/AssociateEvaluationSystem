@@ -306,6 +306,57 @@ public class BashDriver {
 			log.info("================ END stringCompare (empty) ==================");
 			return 0;
 		}
+
+
+		//below algo uses Levenshtein Distance / edit distance.  It finds how many deletes and/or
+		//edits are necessary to change one string into another
+		int keyLen = key.length();
+		int userLen = user.length();
+		double[][] matrix = new double[keyLen+1][userLen+1];
+		double grade;
+
+		if(keyLen == 0 && userLen == 0)
+		{
+			return 1.0;
+		}
+
+		if(keyLen == 0 && userLen != 0)
+		{
+			return 0.0;
+		}
+
+		if(keyLen != 0 && userLen == 0)
+		{
+			return 0.0;
+		}
+
+		for(int i = 0; i <= keyLen; i++)
+		{
+			matrix[i][0] = i;
+		}
+
+		for(int j = 0; j<= userLen; j++)
+		{
+			matrix[0][j] = j;
+		}
+
+		for(int i = 1; i <= keyLen; i++)
+		{
+			for(int j = 1; j <= userLen; j++)
+			{
+				double cost = (user.charAt(j - 1) == key.charAt(i-1)) ? 0 : 1;
+
+				matrix[i][j] = Math.min(Math.min(matrix[i-1][j] + 1, matrix[i][j-1] +1),
+						matrix[i - 1][j - 1] + cost);
+			}
+		}
+
+		grade = 1 - (matrix[keyLen][userLen] / key.length());
+
+		if(grade < 0) return 0.0;
+		else return grade;
+
+		/*old method.  Results were inconsistent with what was expected. Robert Walters 5/2017
 		//this method is similar to cosine inequality
 		int[][] matrix = new int[key.length() + 1][user.length() + 1];
 
@@ -330,6 +381,7 @@ public class BashDriver {
 				}
 			}
 		}
+		*/
 		
 		log.info("================ END stringCompare ==================");
 		return ((double)key.length() - (double)matrix[key.length() - 1][user.length() - 1])/(double)key.length();
