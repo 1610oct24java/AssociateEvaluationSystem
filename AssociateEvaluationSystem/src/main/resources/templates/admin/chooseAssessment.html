@@ -28,13 +28,13 @@
 <link rel="stylesheet" type="text/css"
 	href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
 <link rel="stylesheet" href="css/aesMaterials.css">
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"
-	integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-	crossorigin="anonymous"></script>
+<script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
 </head>
 
-<body ng-app="adminApp" ng-controller="ChooseAssessmentCtrl" layout-fill
-	ng-cloak>
+<body ng-app="adminApp" ng-controller="ChooseAssessmentCtrl" layout-fill ng-cloak>
 	<div>
 		<ng-include src="'menu.html'" />
 	</div>
@@ -43,155 +43,141 @@
 		<h2>Default Assessment</h2>
 		<div class="well well-sm">
 			<table id="defualtAss" class="ui celled table" cellspacing="0"
-				width="100%">
+				   width="100%">
 				<thead>
-					<tr style="border-width: 0px;">
-						<th></th>
-						<th>Default ID</th>
-						<th>Number of Sections</th>
-						<th>Number of Questions</th>
-						<th>Time Limit</th>
-					</tr>
+				<tr style="border-width: 0px;">
+					<th></th>
+					<th>Default Assessment Name</th>
+					<th>Number of Sections</th>
+					<th>Number of Questions</th>
+					<th>Time Limit</th>
+				</tr>
 				</thead>
 				<tbody>
-					<div>
-						<tr>
-							<td><a><span ng-if="defaultAss.expand"
-									ng-click="defaultAss.expand = false"
-									class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></a>
-								<a><span ng-if="!defaultAss.expand"
-									ng-click="defaultAss.expand = true"
-									class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
-							</td>
-							<td>{{defaultAss.assessmentRequestId}}</td>
-							<td>{{defaultNumOfSec()}}</td>
-							<td>{{defaultTotalNumOfQuestions()}}</td>
-							<td>{{defaultAss.timeLimit}}</td>
-							<td><i class="fa fa-pencil"></i></td>
-						</tr>
-
-						<tr ng-if="defaultAss.expand">
-						<tr ng-if="defaultAss.expand">
-							<td></td>
-							<td></td>
-							<td><strong>Section Name</strong></td>
-							<td><strong>Question Type</strong></td>
-							<td><strong>Questions per Section</strong></td>
-						</tr>
-						<tr ng-if="defaultAss.expand"
-							ng-repeat="cat in defaultAss.categoryRequestList">
-							<td></td>
-							<td></td>
-							<td>{{cat.category.name}}</td>
-							<td>{{getQuestionTypeOfCategory(cat)}}</td>
-							<td>{{getNumberOfQuestionsInCategory(cat)}}</td>
-							
-						</tr>
-						<tr ng-if=defaultAss.expand">
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						</tr>
-					</div>
+				<div>
+					<tr>
+						<td><a><span ng-if="defaultAss.expand"
+									 ng-click="defaultAss.expand = false"
+									 class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></a>
+							<a><span ng-if="!defaultAss.expand"
+									 ng-click="defaultAss.expand = true"
+									 class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+						</td>
+						<td>{{defaultAss.name}}</td>
+						<td>{{defaultNumOfSec()}}</td>
+						<td>{{defaultTotalNumOfQuestions()}}</td>
+						<td>{{defaultAss.timeLimit}}</td>
+						<td><a
+								href="createAssessment#?id={{defaultAss.assessmentRequestId}}"><i
+								class="fa fa-pencil"></i></a></td>
+					</tr>
+					<tr ng-if="defaultAss.expand">
+					<tr ng-if="defaultAss.expand">
+						<td></td>
+						<td></td>
+						<td><strong>Section Name</strong></td>
+						<td><strong>Question Type</strong></td>
+						<td><strong>Questions per Section</strong></td>
+					</tr>
+					<tr ng-if="defaultAss.expand"
+						ng-repeat="cat in defaultAss.categoryRequestList">
+						<td></td>
+						<td></td>
+						<td>{{cat.category.name}}</td>
+						<td>{{getQuestionTypeOfCategory(cat)}}</td>
+						<td>{{getNumberOfQuestionsInCategory(cat)}}</td>
+					</tr>
+					<tr ng-if=defaultAss.expand">
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+				</div>
 				</tbody>
 			</table>
 		</div>
 	</div>
-
 	<div class="container">
 		<h2>Assessment Templates</h2>
 		<div class="well well-lg">
-		
 			<caption>
 				<div>
-					Order by: <select ng-model="sortorder"
-						ng-init="sortorder='name'" >
-						<option selected value="name">Name</option>
-						<option value="-numSections">Number Of Sections</option>
-						<option value="-numQuestions">Number of Questions</option>
-						<option value="-timeLimit">Time Limit</option>
-					</select> &nbsp; Search: <input type="text" ng-model="assessmentSearch">
+					Order by: <select ng-model="sortorder" ng-init="sortorder='name'">
+					<option selected value="name">Name</option>
+					<option value="-numSections">Number Of Sections</option>
+					<option value="-numQuestions">Number of Questions</option>
+					<option value="-timeLimit">Time Limit</option>
+				</select> &nbsp; Search: <input type="text" ng-model="assessmentSearch">
 				</div>
 			</caption>
-			
 			<table id="allAss" class="ui celled table" cellspacing="0"
-				width="100%">
+				   width="100%">
 				<thead>
-					<tr style="border-width: 0px;">
-						<th></th>
-						<th>Assessment Name</th>
-						<th>Number of Sections</th>
-						<th>Number of Questions</th>
-						<th>Time Limit</th>
-						<th></th>
-					</tr>
+				<tr style="border-width: 0px;">
+					<th></th>
+					<th>Assessment Name</th>
+					<th>Number of Sections</th>
+					<th>Number of Questions</th>
+					<th>Time Limit</th>
+					<th></th>
+				</tr>
 				</thead>
 				<tbody>
-					<div>
-						<tr ng-repeat-start="ass in assList | orderBy: sortorder | filter: assessmentSearch track by $index" ng-init="ass.hovered = false"
-							ng-mouseenter="ass.hovered = true"
+				<div>
+					<tr
+							ng-repeat-start="ass in assList | orderBy: sortorder | filter: assessmentSearch track by $index"
+							ng-init="ass.hovered = false" ng-mouseenter="ass.hovered = true"
 							ng-mouseleave="ass.hovered = false"
 							ng-if="ass.assessmentRequestId != assList[defaultIndex].assessmentRequestId">
-							<td><a><span
-									ng-if="ass.expanded && ass.assessmentRequestId != assList[defaultIndex].assessmentRequestId"
-									ng-click="ass.expanded = false;"
-									class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></a>
-								<a><span
+						<td><a><span
+								ng-if="ass.expanded && ass.assessmentRequestId != assList[defaultIndex].assessmentRequestId"
+								ng-click="ass.expanded = false;"
+								class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></a>
+							<a><span
 									ng-if="!ass.expanded && ass.assessmentRequestId != assList[defaultIndex].assessmentRequestId"
 									ng-click="ass.expanded = true"
 									class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
-							</td>
-
-							<td>{{ass.name}}</td>
-							<td>{{ass.numSections}}</td>
-							<td>{{ass.numQuestions}}</td>
-							<td>{{ass.timeLimit}}</td>
-
-							<td class="templateOptions" title="Edit"><i
-								ng-if="ass.hovered || ass.expanded" class="fa fa-pencil"></i></td>
-							<td class="templateOptions" title="Delete"
-								ng-click="deleteAssessment(ass.index)"><i
+						</td>
+						<td>{{ass.name}}</td>
+						<td>{{ass.numSections}}</td>
+						<td>{{ass.numQuestions}}</td>
+						<td>{{ass.timeLimit}}</td>
+						<td class="templateOptions" title="Edit"><a
+								href="createAssessment#?id={{ass.assessmentRequestId}}"><i
+								ng-if="ass.hovered || ass.expanded" class="fa fa-pencil"></i></a></td>
+						<td class="templateOptions" title="Delete"
+							ng-click="deleteAssessment(ass.index)"><i
 								ng-if="ass.hovered || ass.expanded" class="fa fa-trash"></i></td>
-							<td class="templateOptions" title="Set Default"
-								ng-click="selectDefault(ass.index)"><i
+						<td class="templateOptions" title="Set Default"
+							ng-click="selectDefault(ass.index)"><i
 								ng-if="ass.hovered || ass.expanded" class="fa fa-level-up"></i></td>
-						</tr>
-
-						<tr ng-if="ass.expanded">
-						<tr ng-if="ass.expanded">
-							<td></td>
-							<td></td>
-							<td><strong>Section Name</strong></td>
-							<td><strong>Question Type</strong></td>
-							<td><strong>Questions per Section</strong></td>
-						</tr>
-						<tr ng-if="ass.expanded"
-							ng-repeat="cat in ass.categoryRequestList">
-							<td></td>
-							<td></td>
-							<td>{{cat.category.name}}</td>
-							<td>{{getQuestionTypeOfCategory(cat)}}</td>
-							<td>{{getNumberOfQuestionsInCategory(cat)}}</td>
-						</tr>
-						<tr ng-if=ass.expanded">
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						</tr>
-
-
-
-						<tr ng-if="ass.expanded" ng-repeat-end=""></tr>
-
-
-					</div>
+					</tr>
+					<tr ng-if="ass.expanded">
+					<tr ng-if="ass.expanded">
+						<td></td>
+						<td></td>
+						<td><strong>Section Name</strong></td>
+						<td><strong>Question Type</strong></td>
+						<td><strong>Questions per Section</strong></td>
+					</tr>
+					<tr ng-if="ass.expanded"
+						ng-repeat="cat in ass.categoryRequestList">
+						<td></td>
+						<td></td>
+						<td>{{cat.category.name}}</td>
+						<td>{{getQuestionTypeOfCategory(cat)}}</td>
+						<td>{{getNumberOfQuestionsInCategory(cat)}}</td>
+					</tr>
+					<tr ng-if="ass.expanded" ng-repeat-end="">
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
 				</tbody>
 			</table>
 		</div>
@@ -216,10 +202,13 @@
 		src="//ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.js"></script>
 	<script type="text/javascript"
 		src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
-	<script src="https://code.jquery.com/jquery-3.2.1.min.js"
-		integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-		crossorigin="anonymous"></script>
+		<script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
 	<script type="text/javascript" src="js/adminApp.js"></script>
+	<script type="text/javascript" src="js/controllers/admin/ChooseAssessmentCtrl.js"></script>
+	<script type="text/javascript" src="js/controllers/admin/MenuCtrl.js"></script>
 
 
 </body>

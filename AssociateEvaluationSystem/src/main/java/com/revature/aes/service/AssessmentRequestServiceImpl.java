@@ -23,15 +23,14 @@ public class AssessmentRequestServiceImpl implements AssessmentRequestService {
     @Autowired
     private AESJDBCImpl aesJdbc;
 
+	@Override
+	public void deleteAssessmentRequestTemplate(AssessmentRequest assReq){
+		assReqDao.delete(assReq);
+	}
     @Override
     public AssessmentRequest getAssessmentRequestTemplate() {
     	AssessmentRequest defAss = assReqDao.getDefaultAssessment().get(0);
         return defAss;
-    }
-    
-    @Override
-    public void deleteAssessmentRequestTemplate(AssessmentRequest assReq){
-    	assReqDao.delete(assReq);
     }
 
     @Override

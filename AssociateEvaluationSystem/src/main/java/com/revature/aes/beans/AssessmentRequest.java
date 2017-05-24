@@ -53,9 +53,9 @@ public class AssessmentRequest implements Serializable, Cloneable{
     
     @Column(name="IS_DEFAULT")
     private Integer isDefault;
-    
-    @Column(name="NAME")
-    private String name;
+
+	@Column(name="NAME")
+	private String name;
 
     @Column(name="DEFAULT_HOURS_VIEWABLE")
     private Integer hoursViewable;
@@ -118,15 +118,6 @@ public class AssessmentRequest implements Serializable, Cloneable{
 		return link;
 	}
 
-	
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public void setLink(String link) {
 		this.link = link;
 	}
@@ -146,7 +137,15 @@ public class AssessmentRequest implements Serializable, Cloneable{
 	public void setTimeLimit(Integer timeLimit) {
 		this.timeLimit = timeLimit;
 	}
-	
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	// Overriding clone() method of Object class
 	public Object clone() throws CloneNotSupportedException {
 		return (AssessmentRequest) super.clone();

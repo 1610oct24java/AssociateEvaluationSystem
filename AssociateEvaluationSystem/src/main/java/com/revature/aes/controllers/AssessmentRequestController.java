@@ -57,18 +57,6 @@ public class AssessmentRequestController {
 
 	}
 	
-	/**
-	 * Endpoint used to delete Assessment Request object.
-	 */
-	@RequestMapping(value = "assessmentrequest/delete", method = RequestMethod.POST)
-	public void deleteAssessmentRequest(@RequestBody AssessmentRequest assessmentRequest) {
-
-		log.info("deleting AssessmentRequest with id: " + assessmentRequest.getAssessmentRequestId());
-		assessmentRequestService.deleteAssessmentRequestTemplate(assessmentRequest);
-		log.info("Assessment Request Deleted");
-	}
-	
-	
 	//new enpoint to get number of questions of specific category and type
 	@RequestMapping(value = "assessmentrequest/{category}/{type}/{numOfQuestions}/", method = RequestMethod.GET)
 	public Integer getNumberOfQuestions(@PathVariable Integer category, @PathVariable Integer type, @PathVariable Integer numOfQuestions){
@@ -80,6 +68,17 @@ public class AssessmentRequestController {
 		Integer num = assessmentRequestService.getNumberOfQuestions(category, type);
 
 		return num;
+	}
+
+	/**
+	 * Endpoint used to delete Assessment Request object.
+	 */
+	@RequestMapping(value = "assessmentrequest/delete", method = RequestMethod.POST)
+	public void deleteAssessmentRequest(@RequestBody AssessmentRequest assessmentRequest) {
+
+		log.info("deleting AssessmentRequest with id: " + assessmentRequest.getAssessmentRequestId());
+		assessmentRequestService.deleteAssessmentRequestTemplate(assessmentRequest);
+		log.info("Assessment Request Deleted");
 	}
 
 }

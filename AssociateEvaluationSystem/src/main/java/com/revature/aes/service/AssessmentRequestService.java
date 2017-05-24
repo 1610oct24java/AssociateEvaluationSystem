@@ -13,5 +13,4 @@ public interface AssessmentRequestService {
 	public void newDefaultAssessment(AssessmentRequest assReq);
 	public Integer getNumberOfQuestions(Integer category, Integer type);
 	public void deleteAssessmentRequestTemplate(AssessmentRequest assReq);
-	
 }
