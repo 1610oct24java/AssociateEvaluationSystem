@@ -16,6 +16,32 @@ asmt.controller("quizController", function($scope, $rootScope, $http, $location,
 	// declare review settings
 	$rootScope.reviewBool = false;
 
+    //RICHARD: get global settings to see if user can review
+    var settingsUrl = "/aes/admin/globalSettings"
+    $scope.getSettings = function(){
+        $scope.getSettingsUnsuccessful = false;
+        $http({
+            method  : 'GET',
+            url		: settingsUrl
+        }).success(function(data){
+            if (!data){
+                $scope.getSettingsUnsuccessful = true;
+            } else {
+                $scope.settings = {};
+                $scope.settings.keys = [];
+                data.forEach(function (s){
+                	console.log(s)
+                    $scope.settings[s.propertyId] = s;
+                    $scope.settings.keys.push(s.propertyId);
+                });
+            }
+        }).error( function() {
+            $scope.getSettingsUnsuccessful = true;
+        });
+    }
+    $scope.getSettings();
+    console.log($scope.settings)
+
 	var makeState = function(input) {
 		var temp = {
 			id: input,
@@ -424,7 +450,7 @@ asmt.controller("quizController", function($scope, $rootScope, $http, $location,
 		}).then(function(response) {
 			//Removed console log for sonar cube.
 			// Perform a check on global settings
-			if ($rootScope.reviewBool == true){
+			if ($scope.settings[1].propertyValue == "true"){
 				//This should allow the questions to put into this page
 				$window.location.href = '/aes/quizReview?asmt=' + $location.search().asmt;
 			} else {

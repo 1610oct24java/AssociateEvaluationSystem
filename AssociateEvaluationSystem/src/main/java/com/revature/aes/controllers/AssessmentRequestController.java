@@ -70,4 +70,15 @@ public class AssessmentRequestController {
 		return num;
 	}
 
+	/**
+	 * Endpoint used to delete Assessment Request object.
+	 */
+	@RequestMapping(value = "assessmentrequest/delete", method = RequestMethod.POST)
+	public void deleteAssessmentRequest(@RequestBody AssessmentRequest assessmentRequest) {
+
+		log.info("deleting AssessmentRequest with id: " + assessmentRequest.getAssessmentRequestId());
+		assessmentRequestService.deleteAssessmentRequestTemplate(assessmentRequest);
+		log.info("Assessment Request Deleted");
+	}
+
 }

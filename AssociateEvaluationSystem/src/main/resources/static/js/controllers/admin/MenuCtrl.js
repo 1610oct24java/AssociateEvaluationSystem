@@ -1,6 +1,36 @@
 adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav, $log) {
     var mc = this;
 
+    mc.findCurrentPage = function() {
+        var path = window.location.pathname.substr(5);
+        switch (path) {
+            case "index.html":
+                return "employees";
+            case "update.html":
+                return "employees";
+            case "registerEmployee":
+                return "employees";
+            case "updateEmployee":
+                return "employees";
+            case "manageQuestions":
+                return "questions";
+            case "addQuestions":
+                return "questions";
+            case "chooseAssessment":
+                return "assessments";
+            case "createAssessment":
+                return "assessments";
+            case "New.html":
+                return "assessments";
+            case "parser":
+                return "parser";
+            case "globalSettings":
+                return "globalSettings";
+            default:
+                return "overview"
+        }
+    };
+
     // functions
     // sets navbar to current page even on refresh
     mc.findCurrentPage = function() {
@@ -9,11 +39,11 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
         var path = window.location.pathname.substr(1);
 
         switch (path) {
-            case "index.html" :
-            case "update.html" :
-            case "aes/updateEmployee" :
+            case "index.html" : return "employees";
+            case "update.html" : return "employees";
+            case "New.html" : return "assessments";
             case "aes/registerEmployee" : return "employees";
-            case "New.html" : 
+            case "aes/updateEmployee" : return "employees";
             case "aes/createAssessment" : return "assessments";
             case "aes/globalSettings" : return "globalSettings";
             case "aes/parser" : return "parser";
