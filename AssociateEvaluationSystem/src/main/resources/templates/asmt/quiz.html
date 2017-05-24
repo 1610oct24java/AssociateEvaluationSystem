@@ -102,41 +102,6 @@ background-color: green;
 				</button>
 			</div>
 
-			<!--for question modal-->
-			<div id="submitAssessmentModal" class="modal">
-				<div class="modal-content">
-					<p>Are you sure you are ready to submit? Here is your evaluation summary.</p>
-					<button type="button"
-						class="btn text-center navbar-menu-btn" ng-click="submitAssessment()" ng-disabled="submitted">
-						<span class="fa fa-upload" style="font-size:1.5em;"></span><br>Yes
-					</button>
-						<div ng-controller="QuizNavController">
-							<h3>Quiz Navigation</h3>
-							<div>
-								<table class=""nav-table>
-									<tr ng-repeat=""i in array" ng-init="index=i*5">
-										<td ng-repeat="state in states.slice(index,index+5)">
-											<div class="status-container" ng-click="jumpPage(state.id)">
-												     <i class="text-center glyphicon glyphicon-floppy-disk icon-size" ng-class="{'glyph-blue': state.saved, 'glyph-silver': !state.saved}"></i>
-												     <span class="badge shoppingBadge-custom" ng-class="{'shoppingBadge-flagged': !state.flagged, 'shoppingBadge-flagged': state.flagged}">
-														 <a href="#question{{state.id+1}}">{{state.id + 1}}</a>
-													 </span>
-											</div>
-										</td>
-									</tr>
-
-								</table>
-							</div>
-			
-					       <a href="javascript:void(0)" class="closebtn"
-						      onclick="closeSubmitAssesmentModal()"><span class="fa fa-toggle-right"></span>x</a>
-
-					</div>
-
-				</div>
-			</div>
-			<!--for question modal-->
-
 			<!-- ---- -->
 			<!-- QUIZ -->
 			<!-- ---- -->
@@ -330,6 +295,41 @@ background-color: green;
 				
 			</div>
 		</div>
+
+		<!--for question modal-->
+		<div id="submitAssessmentModal" class="modal">
+			<div class="modal-content">
+				<p>Are you sure you are ready to submit? Here is your evaluation summary.</p>
+				<button type="button"
+						class="btn text-center navbar-menu-btn" ng-click="submitAssessment()" ng-disabled="submitted">
+					<span class="fa fa-upload" style="font-size:1.5em;"></span><br>Yes
+				</button>
+
+				<div ng-controller="QuizNavController">
+					<h3>Quiz Navigation</h3>
+					<div id="sideNavTable">
+						<table class="nav-table">
+							<tr ng-repeat="i in array" ng-init="index = i*5">
+								<td ng-repeat="state in states.slice(index,index+5)">
+									<div class="status-container" ng-click="jumpPage(state.id)">
+										<i class="text-center glyphicon glyphicon-floppy-disk icon-size"
+										   ng-class="{'glyph-blue': state.saved, 'glyph-silver': !state.saved}"></i>
+										<span class="badge shoppingBadge-custom"
+											  ng-class="{'shoppingBadge-flagged': !state.flagged, 'shoppingBadge-flagged': state.flagged}">
+										<a href="#question{{state.id+1}}">{{state.id + 1}}</a>
+									</span>
+									</div>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<a href="javascript:void(0)" class="closebtn"
+				   onclick="closeSubmitAssesmentModal()"><span class="fa fa-toggle-right"></span>x</a>
+			</div>
+		</div>
+		<!--for question modal-->
+
 		<!------------>
 		<!-- FOOTER -->
 		<!------------>
