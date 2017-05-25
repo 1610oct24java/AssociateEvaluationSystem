@@ -27,10 +27,12 @@ public class IpConf {
 	@Autowired
 	private PropertyReader propertyReader;
 
+	private static String restTemp;
+
 	@Inject
 	private org.springframework.boot.autoconfigure.web.ServerProperties serverProperties;
 
-	public static final boolean onEc2 = false;
+	public static final boolean onEc2 = true;
 
 	public String getHostName(){
 
@@ -48,8 +50,11 @@ public class IpConf {
 
 	public String getEc2HostName() {
 
+		Properties properties = propertyReader.propertyRead("ipConfig.properties");
+		restTemp = properties.getProperty("restTemplate");
+
 		RestTemplate restTemplate = new RestTemplate();
-		return restTemplate.getForObject("http://169.254.169.254/latest/meta-data/public-hostname", String.class) + ":"
+		return restTemplate.getForObject(restTemp, String.class) + ":"
 				+ getPort();
 
 	}
