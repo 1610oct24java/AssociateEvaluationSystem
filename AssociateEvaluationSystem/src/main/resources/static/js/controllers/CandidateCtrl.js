@@ -221,7 +221,6 @@ AESCoreApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,
             });
     }
 
-    //registers employee
     $scope.register = function() {
 
         var candidateInfo = {
@@ -468,7 +467,7 @@ AESCoreApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSiden
 
     mc.currentPage = mc.findCurrentPage();
 
-    /* mc.buildToggler = function(navID) {
+    mc.buildToggler = function(navID) {
      return function() {
      $mdSidenav(navID)
      .toggle()
@@ -499,7 +498,7 @@ AESCoreApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSiden
      $mdSidenav(navID)
      .toggle()
      };
-     }*/
+     }
 
 });
 

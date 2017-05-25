@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--ctrl shift r searchc for http:// -->
 <html ng-app="asmtApp" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
@@ -6,6 +7,11 @@
 <base href="/aes"/>
 <meta charset="ISO-8859-1">
 <title>Assessment Review</title>
+
+	<!--for question modal-->
+	<link rel="stylesheet" type="text/css"
+		  th:href="@{/css/QuestionModal.css}">
+
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -49,13 +55,26 @@
 					<span class="fa fa-arrow-left" style="font-size:1.5em;"></span><br>Return
 				</button>
 				
-				
-			</div>
 			<!-- ---- -->
 			<!-- QUIZ -->
 			<!-- ---- -->
-			<div class="container-fluid navbar-overlay-spacing">g
+
+			<div class="container-fluid navbar-overlay-spacing">
+				<table>
+					<tr ng-repeat="i in array" ng-init="index = i*5">
+						<td ng-repeat="state in states.slice(index,index+5)">
+							<div class="status-container" ng-click="jumpPage(state.id)">
+								<i class="text-center glyphicon glyphicon-floppy-disk icon-size"
+								   ng-class="{'glyph-blue': state.saved, 'glyph-silver': !state.saved}"></i>
+									<span class="badge shoppingBadge-custom" ng-class="{'shoppingBadge-flagged': !state.flagged, 'shoppingBadge-flagged': state.flagged}">
+									<a href="#question{{state.id+1}}">{{state.id + 1}}</a>
+								</span>
+							</div>
+						</td>
+					</tr>
+				</table>
 				<div class="row">
+
 					<div class="col-sm-10 col-sm-offset-1">
 						<div>
 							<h2 class="h2"></h2>
@@ -68,10 +87,12 @@
 									is-open="states[$index+numPerPage*(currentPage-1)].open">
 									<uib-accordion-heading>
 									<div class="panel-heading-revature"
-										style="display: inline-block;"
+
 										ng-click="collapseQuestion($index+numPerPage*(currentPage-1))">
-										<h4 id="question{{q.id+1}}">Question
-											{{$index+numPerPage*(currentPage-1)+1}}</h4>
+										<h4 id="question{{q.id+1}}">
+											 Question
+											{{$index+numPerPage*(currentPage-1)+1}}
+										</h4>
 									</div>
 									<i class="pull-right glyphicon"
 										ng-class="{'glyphicon-chevron-down glyph-silver': states[$index+numPerPage*(currentPage-1)].open, 'glyphicon-chevron-right glyph-silver': !states[$index+numPerPage*(currentPage-1)].open }"
@@ -89,6 +110,7 @@
 									</uib-accordion-heading>
 
 									<div class="panel-body">
+										<!--this is where the question is stored-->
 										{{q.question.questionText}} <br>
 										<hr>
 										<div ng-show="q.question.format.formatName === 'Multiple Choice'">Choose
@@ -267,6 +289,7 @@
 
 	<!-- JAVASCRIPT -->
 	<!-- 	LIBRARIES -->
+
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
@@ -280,11 +303,25 @@
 		src="../static/js/lib/ng-sortable.js"></script>
 	<!-- 	CUSTOM -->
 	<script th:src="@{/js/asmtApp.js}" src="../static/js/asmtApp.js"></script>
+
+	<script th:src="@{/js/controllers/asmt/DragController.js}"
+		src="../static/js/controllers/asmt/DragController.js"></script>
+	<script th:src="@{/js/controllers/asmt/QuizNavController.js}"
+		src="../static/js/controllers/asmt/QuizNavController.js"></script>
+	<script th:src="@{/js/controllers/asmt/QuizReviewController.js}"
+		src="../static/js/controllers/asmt/QuizReviewController.js"></script>
+
+	<!--..kdiij fhir a proper extenionWw don't say "usea" and "family batch. This is how things are done in the old worldsmsmmmss. TRhis is smut. O'm not usre what else to say"-->
+	<!--for question modal-->
+	<!--<script th:src="@{/js/misc/QuestionModal.js}"
+			src="../static//js/misc/QuestionModal.js"></script>-->
+
 	<script th:src="@{/js/controllers/asmt/dragController.js}"
 		src="../static/js/controllers/asmt/dragController.js"></script>
 	<script th:src="@{/js/controllers/asmt/quizNavController.js}"
 		src="../static/js/controllers/asmt/quizNavController.js"></script>
 	<script th:src="@{/js/controllers/asmt/quizReviewController.js}"
 		src="../static/js/controllers/asmt/quizReviewController.js"></script>
+
 </body>
 </html>
