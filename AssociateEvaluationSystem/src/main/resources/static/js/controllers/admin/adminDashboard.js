@@ -39,11 +39,6 @@ adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SIT
                         $scope.employees = response.data;
                         $scope.getRoleCnts();
                         $scope.getRecruiterCnts()
-                        console.log($scope.roleCnts);
-                        console.log($scope.recruiterCnts);
-                        console.log($scope.employees);
-                        console.log($scope.recruiters);
-                        console.log($scope.candidates);
                     });
             } else {
                 window.location = SITE_URL.LOGIN;
@@ -56,7 +51,6 @@ adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SIT
     $scope.getRoleCnts = function () {
         //get employee count types
         for (var i = 0; i < $scope.employees.length; i++) {
-            //console.log($scope.employees[i]);
             var added=false;
             for (var k = 0; k < $scope.roleCnts.length; k++) {
                 if ($scope.employees[i].role.roleTitle==$scope.roleCnts[k].type ){
