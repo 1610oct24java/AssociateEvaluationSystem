@@ -2,9 +2,11 @@ package com.revature.aes.config;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Properties;
 
 import javax.inject.Inject;
 
+import com.revature.aes.util.PropertyReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -22,10 +24,15 @@ public class IpConf {
 	@Autowired
 	Logging log;
 
+	@Autowired
+	private PropertyReader propertyReader;
+
 	@Inject
 	private org.springframework.boot.autoconfigure.web.ServerProperties serverProperties;
 
 	public static final boolean onEc2 = true;
+
+	private static String restTempLocation;
 
 	public String getHostName(){
 
@@ -43,8 +50,11 @@ public class IpConf {
 
 	public String getEc2HostName() {
 
+		Properties properties = propertyReader.propertyRead("ipConfig.properties");
+		restTempLocation = properties.getProperty("restTemp");
+
 		RestTemplate restTemplate = new RestTemplate();
-		return restTemplate.getForObject("http://169.254.169.254/latest/meta-data/public-hostname", String.class) + ":"
+		return restTemplate.getForObject(restTempLocation, String.class) + ":"
 				+ getPort();
 
 	}
