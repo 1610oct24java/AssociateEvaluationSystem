@@ -86,7 +86,7 @@ adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SIT
         $scope.recruiterCnts.push(delr);
         //for each candidate, find their recruiter in our recruiter array
         //and increment the count for that recruiter
-        for(var j=0; i<$scope.candidates.length;i++){
+        for(var j=0; j<$scope.candidates.length;j++){
             var added=false;
             for(var k=0;k<$scope.recruiterCnts.length;k++){
                 if($scope.candidates[j].recruiterId==$scope.recruiterCnts[k].userId){
