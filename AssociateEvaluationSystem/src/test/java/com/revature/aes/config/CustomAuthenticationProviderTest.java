@@ -1,19 +1,35 @@
 package com.revature.aes.config;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.security.authentication.TestingAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
-public class CustomAuthenticationProviderTest {
+import com.revature.aes.beans.*;
+
+public class CustomAuthenticationProviderTest extends AbstractJUnit4SpringContextTests {
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
+	}
+
+	@After
+	public void close() {
+		SecurityContextHolder.clearContext();
 	}
 
 	@Test
-	public void testAuthenticate() {
-		fail("Not yet implemented"); // TODO
+	public void testAuthenticate() throws Exception {
+		User user = new User();
+		user.setUserId(29);
+		user.setEmail("trainers@revature.com");
+		TestingAuthenticationToken testingAuthenticationToken = new TestingAuthenticationToken(user, null);
+		SecurityContextHolder.getContext().setAuthentication(testingAuthenticationToken);
+		assertThat(testingAuthenticationToken.isAuthenticated());
 	}
 
 }
