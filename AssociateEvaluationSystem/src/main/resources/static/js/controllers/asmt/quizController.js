@@ -30,7 +30,6 @@ asmt.controller("quizController", function($scope, $rootScope, $http, $location,
                 $scope.settings = {};
                 $scope.settings.keys = [];
                 data.forEach(function (s){
-                	console.log(s)
                     $scope.settings[s.propertyId] = s;
                     $scope.settings.keys.push(s.propertyId);
                 });
@@ -40,7 +39,6 @@ asmt.controller("quizController", function($scope, $rootScope, $http, $location,
         });
     }
     $scope.getSettings();
-    console.log($scope.settings)
 
 	var makeState = function(input) {
 		var temp = {

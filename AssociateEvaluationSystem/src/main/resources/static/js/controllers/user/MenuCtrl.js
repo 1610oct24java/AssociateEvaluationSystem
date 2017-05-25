@@ -11,7 +11,6 @@ userApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav,
 
         // var path = $location.path().replace("/", "");
         var path = window.location.pathname.substr(1);
-        console.log("in user/menuctrl");
         switch(path) {
             case "aes/recruit" : return "register";
             case "aes/updateUser" : return "updateRecruiter";
