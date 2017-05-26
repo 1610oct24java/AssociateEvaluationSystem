@@ -5,15 +5,15 @@ app.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav, $lo
     // sets navbar to current page even on refresh
     mc.findCurrentPage = function() {
 
-        // var path = $location.path().replace("/", "");
+        
         var path = window.location.pathname.substr(1);
 
         switch (path) {
-            case "index.html" : return "employees";
-            case "update.html" : return "employees";
-            case "New.html" : return "assessments";
-            case "aes/registerEmployee" : return "employees";
+            case "index.html" : 
+            case "update.html" : 
+            case "aes/registerEmployee" :
             case "aes/updateEmployee" : return "employees";
+            case "New.html" :
             case "aes/createAssessment" : return "assessments";
             case "aes/globalSettings" : return "globalSettings";
             case "aes/parser" : return "parser";
@@ -38,7 +38,7 @@ app.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav, $lo
     mc.currentPage = mc.findCurrentPage();
     $scope.toggleLeft = mc.buildToggler('left');
 
-    // $scope.toggleLeft = buildDelayedToggler('left');
+  
     $scope.toggleRight = buildToggler('right');
     $scope.isOpenRight = function() {
         return $mdSidenav('right').isOpen();
@@ -59,7 +59,7 @@ app.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav, $lo
             var context = $scope,
                 args = Array.prototype.slice.call(arguments);
             $timeout.cancel(timer);
-            timer = $timeout(function() {
+            timer = $timeout(function(context) {
                 timer = undefined;
                 func.apply(context, args);
             }, wait || 10);
@@ -70,13 +70,13 @@ app.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav, $lo
      * Build handler to open/close a SideNav; when animation finishes
      * report completion in console
      */
-    function buildDelayedToggler(navID) {
-        return debounce(function() {
-            // Component lookup should always be available since we are not using `ng-if`
-            $mdSidenav(navID)
-                .toggle()
-        }, 200);
-    }
+//    function buildDelayedToggler(navID) {
+//        return debounce(function() {
+//            // Component lookup should always be available since we are not using `ng-if`
+//            $mdSidenav(navID)
+//                .toggle()
+//        }, 200);
+//    }
 
     function buildToggler(navID) {
         return function() {

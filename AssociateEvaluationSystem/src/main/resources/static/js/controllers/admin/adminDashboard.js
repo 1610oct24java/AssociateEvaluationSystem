@@ -1,8 +1,9 @@
 /**
  * Created by Richard Wingert on 5/24/2017.
  */
-adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SITE_URL, API_URL, ROLE, $window) {
-    //var inits
+adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SITE_URL, API_URL, ROLE) {
+    
+	//variable Initizations
     $scope.employees;
     $scope.roleCnts=[];
     $scope.recruiterCnts=[];
@@ -56,7 +57,6 @@ adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SIT
     $scope.getRoleCnts = function () {
         //get employee count types
         for (var i = 0; i < $scope.employees.length; i++) {
-            //console.log($scope.employees[i]);
             var added=false;
             for (var k = 0; k < $scope.roleCnts.length; k++) {
                 if ($scope.employees[i].role.roleTitle==$scope.roleCnts[k].type ){
