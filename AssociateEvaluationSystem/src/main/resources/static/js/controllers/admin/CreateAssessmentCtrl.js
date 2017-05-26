@@ -229,7 +229,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
             url: ("assessmentrequest/"+$scope.catInt  + "/" + $scope.typeInt +"/" + 1 + "/")
         }).then(function (response) {
             $scope.maxQuestions = response.data;
-
+            console.log("catInt: "+$scope.catInt+", typeInt: "+$scope.typeInt);
             if($scope.maxQuestions == 0){
                 $scope.availabilityString = "(0 questions available)";
             }else{

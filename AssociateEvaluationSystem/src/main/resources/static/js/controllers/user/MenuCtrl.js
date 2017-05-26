@@ -13,9 +13,11 @@ userApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav,
         var path = window.location.pathname.substr(1);
 
         switch(path) {
+            case "aes/recruiterDash" : return "dashboard";
+            case "aes/view" : return "overview";
             case "aes/recruit" : return "register";
             case "aes/updateUser" : return "updateRecruiter";
-            default : return "overview"
+            default : return "dashboard";
         }
     };
 
