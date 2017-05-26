@@ -6,23 +6,16 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
         var path = window.location.pathname.substr(5);
         switch (path) {
             case "index.html":
-                return "employees";
             case "viewEmployees":
-                return "employees";
             case "update.html":
-                return "employees";
             case "registerEmployee":
-                return "employees";
             case "updateEmployee":
                 return "employees";
             case "manageQuestions":
-                return "questions";
             case "addQuestions":
                 return "questions";
             case "chooseAssessment":
-                return "assessments";
             case "createAssessment":
-                return "assessments";
             case "New.html":
                 return "assessments";
             case "parser":
@@ -52,7 +45,6 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
     mc.currentPage = mc.findCurrentPage();
     $scope.toggleLeft = mc.buildToggler('left');
 
-    // $scope.toggleLeft = buildDelayedToggler('left');
     $scope.toggleRight = buildToggler('right');
     $scope.isOpenRight = function() {
         return $mdSidenav('right').isOpen();

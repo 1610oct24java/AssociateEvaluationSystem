@@ -1,8 +1,8 @@
 /**
  * Created by Richard Wingert on 5/24/2017.
  */
-adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SITE_URL, API_URL, ROLE, $window) {
-    //var inits
+adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SITE_URL, API_URL, ROLE) {
+    //variable initialization
     $scope.employees;
     $scope.roleCnts=[];
     $scope.recruiterCnts=[];
@@ -24,11 +24,13 @@ adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SIT
     //store all employees to $scope.employees
     $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
         .then(function (response) {
+            //check if authenticated
             if (response.data.authenticated) {
                 var authUser = {
                     username: response.data.principal.username,
                     authority: response.data.principal.authorities[0].authority
                 }
+                //if not authenticated, redirect to login
                 $scope.authUser = authUser;
                 if ($scope.authUser.authority != ROLE.ADMIN) {
                     window.location = SITE_URL.LOGIN;
@@ -80,14 +82,14 @@ adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SIT
             var r = new rec($scope.recruiters[i].firstName, $scope.recruiters[i].lastName, $scope.recruiters[i].userId, 0 );
             $scope.recruiterCnts.push(r);
         }
-        var r = new rec("Deleted","Recruiter", 0, 0 );
-        $scope.recruiterCnts.push(r);
+        var delr = new rec("Deleted","Recruiter", 0, 0 );
+        $scope.recruiterCnts.push(delr);
         //for each candidate, find their recruiter in our recruiter array
         //and increment the count for that recruiter
-        for(var i=0; i<$scope.candidates.length;i++){
+        for(var j=0; j<$scope.candidates.length;j++){
             var added=false;
             for(var k=0;k<$scope.recruiterCnts.length;k++){
-                if($scope.candidates[i].recruiterId==$scope.recruiterCnts[k].userId){
+                if($scope.candidates[j].recruiterId==$scope.recruiterCnts[k].userId){
                     $scope.recruiterCnts[k].count++;
                     added=true;
                 }
