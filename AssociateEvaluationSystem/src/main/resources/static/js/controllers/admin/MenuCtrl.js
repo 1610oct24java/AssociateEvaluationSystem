@@ -24,12 +24,13 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
                 return "parser";
             case "globalSettings":
                 return "globalSettings";
+            case "viewCompletedAssessments":
+                return "viewCompletedAssessments";
             default:
                 return "overview"
         }
     };
-
-
+  
     mc.buildToggler = function(navID) {
         return function() {
             $mdSidenav(navID)

@@ -37,7 +37,6 @@ public class CandidateController {
 	@RequestMapping(value="/candidate/{email}/link",method= RequestMethod.GET)
 	public AssessmentAuth getLink(@PathVariable String email){
 		return authService.getLink(email);
-		
 	}
 
 
