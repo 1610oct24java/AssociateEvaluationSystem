@@ -8,7 +8,7 @@ import org.springframework.web.servlet.resource.PathResourceResolver;
 
 @Configuration
 public class MvcConfig extends WebMvcConfigurerAdapter {
-	
+
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/login").setViewName("login/index");
@@ -48,7 +48,9 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("/error").setViewName("error");
         registry.addViewController("/questionTemplate").setViewName("misc/bank/questionTemplate");
         registry.addViewController("/chooseAssessment").setViewName("admin/chooseAssessment");
-        
+
+		registry.addViewController("/viewCompletedAssessments").setViewName("admin/viewCompletedAssessments");
+
         registry.addViewController("/globalSettings").setViewName("admin/globalSettings");
         
 	}
