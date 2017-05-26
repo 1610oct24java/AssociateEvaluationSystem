@@ -26,6 +26,8 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
                 return "parser";
             case "globalSettings":
                 return "globalSettings";
+            case "viewCompletedAssessments":
+                return "viewCompletedAssessments";
             default:
                 return "overview"
         }
@@ -47,6 +49,7 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
             case "aes/createAssessment" : return "assessments";
             case "aes/globalSettings" : return "globalSettings";
             case "aes/parser" : return "parser";
+            case "aes/viewCompletedAssessments" : return "viewCompletedAssessments";
             default : return "overview"
         }
     };
