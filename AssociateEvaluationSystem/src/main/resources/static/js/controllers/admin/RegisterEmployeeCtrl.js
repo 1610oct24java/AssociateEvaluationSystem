@@ -33,7 +33,6 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
             if(keepGoing) {
 
                 if (email.toUpperCase() === $scope.email.toUpperCase()){ //case-insensitive email match
-                    /*alert("Email already registered.");*/
                     $scope.buttonToggle = true;
                     keepGoing = false;
                 }
@@ -69,9 +68,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
             .then(function(result) {
                 // we don't want to display 'restuser' or 'system'
                 result.data.forEach(function(role){
-                    if (role.roleTitle.toUpperCase() === 'RESTUSER' || role.roleTitle.toUpperCase() === 'SYSTEM'){
-                    }
-                    else {
+                    if (role.roleTitle.toUpperCase() !== 'RESTUSER' || role.roleTitle.toUpperCase() !== 'SYSTEM'){
                         // if any other role, we add it to the select option
                         $scope.roleTypes.push(role);
                     }
@@ -146,7 +143,7 @@ adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$
 
     $scope.logout = function() {
         $http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
-            .then(function(response) {
+            .then(function() {
                 window.location = SITE_URL.LOGIN;
             });
     }

@@ -1,4 +1,4 @@
-adminApp.controller('EmployeeViewCtrl', function($scope,$mdToast, $http, SITE_URL, API_URL, ROLE, $window) {
+adminApp.controller('EmployeeViewCtrl', function($scope,$mdToast, $http, SITE_URL, API_URL, ROLE) {
     $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
         .then(function(response) {
             if (response.data.authenticated) {
@@ -22,7 +22,7 @@ adminApp.controller('EmployeeViewCtrl', function($scope,$mdToast, $http, SITE_UR
 
     $scope.logout = function() {
         $http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
-            .then(function(response) {
+            .then(function() {
                 window.location = SITE_URL.LOGIN;
             });
     };
@@ -40,7 +40,7 @@ adminApp.controller('EmployeeViewCtrl', function($scope,$mdToast, $http, SITE_UR
 
         // delete the employee if it is not the system user.
 
-        url = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/" + employee.email + "/delete";
+     var url = SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/" + employee.email + "/delete";
         $http.delete(url)
             .success( function(response) {
                 $scope.showToast("User Deleted");
@@ -48,7 +48,7 @@ adminApp.controller('EmployeeViewCtrl', function($scope,$mdToast, $http, SITE_UR
                     .then(function(response) {
                         $scope.employees = response.data;
                     });
-            }).error( function(response) {
+            }).error( function() {
             $scope.showToast("Failed to Delete User");
         });
     }
@@ -68,7 +68,7 @@ adminApp.controller('EmployeeViewCtrl', function($scope,$mdToast, $http, SITE_UR
     $scope.showAssessment = function(a) {
 
         // clone the assessment passed in so changes to it don't affect the view.
-        assessment = {
+       var assessment = {
             assessmentId: a.assessmentId,
             user: a.user,
             grade: a.grade,
@@ -92,11 +92,7 @@ adminApp.controller('EmployeeViewCtrl', function($scope,$mdToast, $http, SITE_UR
             data    : assessment
 
         }).success( function(response) {
-            if(!response){
-
-            }
-            else {
-
+            if(response){
 
                 var asmtId = response.data;
 
@@ -106,9 +102,7 @@ adminApp.controller('EmployeeViewCtrl', function($scope,$mdToast, $http, SITE_UR
                 // bring up the review assessment page.
                 window.location = SITE_URL.BASE + API_URL.BASE + '/quizReview?asmt=' + encodedId;
             }
-        }).error(function() {
-        });
-
+        })
     };
 
     // open/close viewing assessments for a candidate.
@@ -120,7 +114,7 @@ adminApp.controller('EmployeeViewCtrl', function($scope,$mdToast, $http, SITE_UR
             .then(function(response) {
                 var asmt = response.data;
                 if (asmt.length != 0) {
-                    asmt.forEach(a=>{ a.createdTimeStamp = a.createdTimeStamp = formatDate(a.createdTimeStamp);
+                    asmt.forEach(a=>{ a.createdTimeStamp = formatDate(a.createdTimeStamp);
                     a.finishedTimeStamp = formatDate(a.finishedTimeStamp)});
                 }
                 $scope.assessments = asmt;
@@ -150,12 +144,11 @@ adminApp.controller('EmployeeViewCtrl', function($scope,$mdToast, $http, SITE_UR
         if (employee.role.roleTitle.toUpperCase() === "CANDIDATE") {
             return true;
         }
-        else {
+       
             return false;
-        }
     };
 
-    // closes all assessments being viewed (necessary when searching or re-ordering the display of employees) //FIXME: when searchbar has input, opening assessments breaks
+   
     $scope.closeAllAssessments = function() {
         for(var i = 0; i < $scope.employees.length; i++){
             var close = angular.element( document.querySelector( '#g'+$scope.employees[i].userId ) );

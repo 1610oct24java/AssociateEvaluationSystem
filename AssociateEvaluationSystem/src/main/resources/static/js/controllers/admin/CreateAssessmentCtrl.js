@@ -2,9 +2,11 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
 
     $scope.validateReview = function ()
     {
-        if(($scope.assdays == null || $scope.asshours ==null || $scope.asshours <0 || $scope.assdays<0 )||(($scope.assdays ==0 && $scope.asshours == 0 ) && $scope.assReviewCheck == true))
+        if(($scope.assdays == null || $scope.asshours ==null || $scope.asshours <0 || $scope.assdays<0 ))
+        	return true;
+        else if((($scope.assdays ==0 && $scope.asshours == 0 ) && $scope.assReviewCheck))
             return true;
-        else
+        
             return false;
     };
 
@@ -43,10 +45,11 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
         });
 
 
-        if( flag == true)
+        if(flag)
             return true;
-        else
-            return false;
+       
+        
+        return false;
     };
 
     $scope.showToast = function(message, type) {
@@ -132,19 +135,19 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
         var csBool = false;
         angular.forEach(collection, function(item){
 
-            if(item['mcQuestions'] > 0 && mcBool == false){
+            if(item['mcQuestions'] > 0 && !mcBool){
                 types++;
                 mcBool = true;
             }
-            if(item['msQuestions'] > 0 && msBool == false){
+            if(item['msQuestions'] > 0 && !msBool){
                 types++;
                 msBool = true;
             }
-            if(item['ddQuestions'] > 0 && ddBool == false){
+            if(item['ddQuestions'] > 0 && !ddBool){
                 types++;
                 ddBool = true;
             }
-            if(item['csQuestions'] > 0 && csBool == false){
+            if(item['csQuestions'] > 0 && !csBool){
                 types++;
                 csBool = true;
             }
@@ -294,7 +297,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
                         var indexOfCoreLanguage = 0;
                         for(var i = 0; i < $scope.assessments.length; i++){
                             if($scope.assessments[i].category.categoryId == 6){
-                                indexOfCoreLangage = i;
+                                var indexOfCoreLangage = i;
                             }
                         }
                         $scope.assessments[indexOfCoreLanguage].csQuestions += csQuestions;
@@ -349,7 +352,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
                 }
 
 
-                data = {
+               var data = {
                     "timeLimit": $scope.time,
                     "categoryRequestList": $scope.assessments,
                     "hoursViewable" : $scope.totalHourz,
@@ -357,23 +360,21 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
                     "name": $scope.name
                 };
 
-                if($scope.coreLanguage == false){
+                if(!($scope.coreLanguage)){
                     $scope.showToast("Core Language Section Required", "fail");
                 }
 
 
-                //var sendUrl = SITE_URL.BASE + API_URL.BASE + "/assessmentrequest/" + "1";
-                // var sendUrl = SITE_URL.BASE + API_URL.BASE + "/assessmentrequest" + "/1/";
-                else if($scope.coreLanguage == true){
+                else if($scope.coreLanguage){
                     $http({
                         method: 'PUT',
                         url: (SITE_URL.BASE + API_URL.BASE + "/assessmentrequest" + "/1/"),
                         headers: { 'Content-Type': 'application/json' },
                         data: data
-                    }).success(function(response) {
+                    }).success(function() {
                         $scope.showToast("Assessment created successfully", "success");
 
-                    }).error(function(response) {
+                    }).error(function() {
                         $scope.showToast("Assessment creation failed", "fail");
 
                     });
@@ -404,7 +405,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
     //logout
     $scope.logout = function() {
         $http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
-            .then(function(response) {
+            .then(function() {
                 window.location = SITE_URL.LOGIN;
             })
     };

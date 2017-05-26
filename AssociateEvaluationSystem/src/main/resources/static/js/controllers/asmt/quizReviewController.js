@@ -365,7 +365,7 @@ asmt.controller("quizReviewController", function($scope, $rootScope, $http, $loc
 		})
 		.then(function(response) {
 			// Check response for assessment availability
-			//if (response.data.msg != "allow"){
+		
 				// check if the assessment has the assessment object
 				if (!response.data.assessment){
 					// redirect to a page that says page not available
@@ -380,10 +380,6 @@ asmt.controller("quizReviewController", function($scope, $rootScope, $http, $loc
 					initSetup();
 					$rootScope.initQuizNav();
 				}
-			//}else {
-				// Assessment was taken or time expired, redirecting to expired page
-			//	$window.location.href = '/aes/expired';
-			//}
 		});
 	}
 	
