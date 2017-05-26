@@ -66,23 +66,6 @@ body {
 	box-shadow: 5px 5px 5px #434851;
 }
 
-.floatingWindow {
-	font-family: 'futura-heavy';
-	background-color: #ffffff;
-	display: inline-block;
-	height: 40%;
-	width: 40%;
-	padding: 6px 20px 4px 20px;
-	top: 0;
-	left: 0;
-	right: 0;
-	border-radius: 0px 0px 6px 6px;
-	overflow: hidden;
-	position: fixed;
-	z-index: 99;
-	box-shadow: 5px 5px 5px #434851;
-}
-
 .navbar img {
 	display:inline-block;
 	width: 150px;
