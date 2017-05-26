@@ -1,4 +1,4 @@
-app.controller('QuestionCtrl', function($http, $scope) {
+app.controller('QuestionCtrl', function($http, $scope, $filter) {
 	$scope.fList;
 	/*
 	 * var getFormatList = function() { $http.get(url + "format") .then(
@@ -63,14 +63,17 @@ app.controller('QuestionCtrl', function($http, $scope) {
 		dragDrops:null,
 		snippetTemplate:null
 	};
+
+
+	$scope.currentPage = 0;
+	$scope.pageSize = 10;
+	$scope.q = '';
+	$scope.filteredQuestions = $filter('filter')($scope.qList, $scope.q);
+
 	
 	// trying to use this for a fancy table.
 	$(document).ready(function() {
-		$('#questionList').DataTable( {
-			sDom: 'rt',
-            fixedColumns: true,
-			scrollY: "565px",
-	    } );
+
 	} );
 	
 	// Retrieves the List of Questions from the Database
@@ -78,6 +81,7 @@ app.controller('QuestionCtrl', function($http, $scope) {
 		$http.get("question")
 			.then(function(response) {	
 				$scope.qList = response.data;
+				return $filter('filter')($scope.qList, $scope.q)
 			}); // $http end
 	}; // getQuestionList() end
 	
@@ -102,8 +106,9 @@ app.controller('QuestionCtrl', function($http, $scope) {
 		}
 		$scope.currentQuestion = question;
 	}
-	
-	// Adds a option to a Question being created
+
+
+    // Adds an option to a Question being created
 	$scope.addOption = function() {
 		if($scope.question.multiChoice == null){
 			$scope.question.multiChoice = [];
@@ -438,11 +443,20 @@ app.controller('QuestionCtrl', function($http, $scope) {
 			}
 		})
 	}
-	
-	angular.element(document).ready(function() {
+
+	$scope.formatNumber = function(number){
+		return Math.ceil(number);
+	}
+
+	$scope.numberOfPages = function(){
+            return Math.ceil($scope.qList.length/$scope.pageSize);
+	}
+
+    angular.element(document).ready(function() {
 		$scope.getQuestionList();
 		$scope.loadCategories();
 		$scope.loadTags();
 	}); // angular.element end
 
 }); // QuestionController end
+

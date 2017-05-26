@@ -12,6 +12,8 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
                 return "employees";
             case "updateEmployee":
                 return "employees";
+            case "questions":
+                return "questions";
             case "manageQuestions":
                 return "questions";
             case "addQuestions":
