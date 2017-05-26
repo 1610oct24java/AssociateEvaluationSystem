@@ -41,8 +41,6 @@ app.controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', '$http', 
     };    
     
     $scope.$watch('files', function () {
-    	
-    	// console.log("WATCH called");
     	angular.forEach($scope.files, function(file){
     		var fileArr = [file];    		
     		$scope.upload(fileArr, file.type);
@@ -59,13 +57,10 @@ app.controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', '$http', 
 	   $scope.submittingSnippet = true;
 	   
 	   // Upload the files to the S3 container
-	   // console.log("Adding Snippet Files");
 	   $scope.files.push($scope.snippetTemplateFile);
 	   $scope.files.push($scope.snippetSolutionFile);
-	   // console.log($scope.files);
 	   var folderNames = ['SnippetTemplates', 'SnippetSolutions']
 	   $scope.upload($scope.files, ['SnippetTemplates', 'SnippetSolutions']);
-	   // console.log("Building snippet question from text");
 	   
 	   // Upload question complete with URLs to the database
 	   var questionText = $scope.questionText;
@@ -76,21 +71,16 @@ app.controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', '$http', 
 	   builder.createSnippetQuestionBuilder(questionText,fileType,snippetTemplateUrl,snippetSolutionUrl);
 	   builder.addQuestionCategory(1, $scope.textSnippetFileType);
 	   question = builder.build();
-	   // console.log(question);
 	   
 	   questionJSON = JSON.stringify(question);
-	   // console.log(question);
 	    $http({
 	        method: "POST",
 	        url: "question",
 	        data: questionJSON
 	    }).then(function (response) { // success
-	        // console.log(response.data)
 	    	$scope.submittingSnippet = false;
 	    	$scope.snippetFileSuccess = true;
 	    }, function(reason){ // error
-	    	   console.log('Error:');
-	    	   console.log(reason);  
 	    	   $scope.snippetError = true;
 	    });
 	    
@@ -103,8 +93,6 @@ app.controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', '$http', 
        } 
        
        $scope.submittingSnippet = true;
-       
-       // console.log("Building snippet question from text");
               
        var folderNames = ['SnippetTemplates', 'SnippetSolutions']
        var snippetTemplateUrl = folderNames[0] + '/' + $scope.textSnippetFileName + 'Template.' + $scope.textSnippetFileType;
@@ -114,9 +102,6 @@ app.controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', '$http', 
        builder.createSnippetQuestionBuilder($scope.textSnippetQuestionText,$scope.textSnippetFileType,snippetTemplateUrl,snippetSolutionUrl);
        builder.addQuestionCategory(1, $scope.textSnippetFileType);
        question = builder.build();
-       // console.log(question);
-
-       // console.log("/s3uploadTextAsFile/" + question.snippetTemplates[0].templateUrl);
        
        // Upload template to the S3 container
       
@@ -125,10 +110,7 @@ app.controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', '$http', 
            url: "rest/s3uploadTextAsFile/" + question.snippetTemplates[0].templateUrl, 
            data: $scope.textSnippetTemplate
        }).then(function(response){ // success
-    	   // console.log(response.data)
        }, function(reason){ // error
-    	   console.log('Error:');
-    	   console.log(reason);  
     	   $scope.snippetError = true;
        });       
       
@@ -138,16 +120,12 @@ app.controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', '$http', 
            url: "rest/s3uploadTextAsFile/" + question.snippetTemplates[0].solutionUrl, 
            data: $scope.textSnippetSolution
        }).then(function (response) { // success
-           // console.log(response.data)
        }, function(reason){ // error
-    	   console.log('Error:');
-    	   console.log(reason);  
     	   $scope.snippetError = true;
        });        
        
        // Update database with question, complete with URLs
        questionJSON = JSON.stringify(question);
-       // console.log(question);
        $http({
            method: "POST",
            url: "question",
@@ -156,8 +134,6 @@ app.controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', '$http', 
     	   $scope.submittingSnippet = false;
     	   $scope.snippetTextSuccess = !$scope.snippetError;
        }, function(reason){ // error
-    	   console.log('Error:');
-    	   console.log(reason);  
     	   $scope.snippetError = true;
        });
        
