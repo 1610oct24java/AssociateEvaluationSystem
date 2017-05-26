@@ -6,23 +6,16 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
         var path = window.location.pathname.substr(5);
         switch (path) {
             case "index.html":
-                return "employees";
             case "viewEmployees":
-                return "employees";
             case "update.html":
-                return "employees";
             case "registerEmployee":
-                return "employees";
             case "updateEmployee":
                 return "employees";
             case "manageQuestions":
-                return "questions";
             case "addQuestions":
                 return "questions";
             case "chooseAssessment":
-                return "assessments";
             case "createAssessment":
-                return "assessments";
             case "New.html":
                 return "assessments";
             case "parser":
