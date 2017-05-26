@@ -24,7 +24,7 @@ public class AESJDBCUnitTests {
 	public void setUp() throws Exception {
 		imp = new AESJDBCImpl();
 		dmds = new DriverManagerDataSource();
-		dmds.setUrl("jdbc:oracle:thin:@localhost:1521:xe");
+		dmds.setUrl("jdbc:oracle:thin:@associate-evaluation-system.cgbbs6xdwjwh.us-west-2.rds.amazonaws.com:1521:AES");
 		dmds.setUsername("aes_user");
 		dmds.setPassword("r3vatur3!");
 		dmds.setDriverClassName("oracle.jdbc.OracleDriver");
