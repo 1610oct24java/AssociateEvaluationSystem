@@ -46,11 +46,15 @@
                     </tr>
                 </tbody>
             </table>
-            <canvas id="myChart" width="400" height="150"></canvas>
+
+            <canvas class="chart chart-line" chart-data="newData" chart-labels="labels"
+                    chart-series="series" chart-click="onClick"></canvas>
         </div>
     </div>
 
 </body>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.js"></script>
+
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.js"></script>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.js"></script>
@@ -59,8 +63,10 @@
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-messages.js"></script>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-sanitize.js"></script>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/angular.chartjs/latest/angular-chart.min.js"></script>
+
 <script type="text/javascript" src="js/userApp.js"></script>
 <script type="text/javascript" src="js/controllers/user/recruiterDashboard.js"></script>
 <script type="text/javascript" src="js/controllers/user/MenuCtrl.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.js"></script>
+
 </html>

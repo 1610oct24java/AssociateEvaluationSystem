@@ -1,10 +1,25 @@
 userApp.controller('recruiterDashboardCtrl', function($scope,$mdToast,$location,$http,SITE_URL, API_URL, ROLE) {
 
+
+    $scope.labels = [];
+    $scope.series = [];
+    $scope.data = [
+        [65, 59, 80, 81, 56, 55, 40],
+        [28, 48, 40, 19, 86, 27, 90]
+    ];
+    $scope.onClick = function (points, evt) {
+        console.log(points, evt);
+    };
+
+
+
+
     $scope.average = 0;
     $scope.candidateCount = 0;
     $scope.asmtCount = 0;
     $scope.sum = 0;
     $scope.averagesOverTime = [];
+    $scope.newData=[]
 
     function show2(num, email) {
         $scope.assessments = [];
@@ -20,6 +35,8 @@ userApp.controller('recruiterDashboardCtrl', function($scope,$mdToast,$location,
                         var grade = a.grade;
                         if(grade != -1){
                             var point = {x:timestamp, y:grade};
+                            $scope.labels.push(timestamp);
+                            $scope.newData.push(grade);
                             $scope.averagesOverTime.push(point);
                             $scope.sum += a.grade;
                             $scope.asmtCount += 1;
@@ -57,51 +74,67 @@ userApp.controller('recruiterDashboardCtrl', function($scope,$mdToast,$location,
                 window.location = SITE_URL.LOGIN;
             }
         });
-    $(document).ready(function(){
-        var ctx = document.getElementById("myChart").getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'scatter',
-            data: {
-                labels: dateLabels(7),
-                datasets: [{
-                    label: 'Assessment scores within time frame',
-                    data: $scope.averagesOverTime,
-                    fill: false
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero:true
-                        }
-                    }]
-                }
-            }
-        });
-    });
-    function updateGraph(){
-        var ctx = document.getElementById("myChart").getContext('2d');
-        var myChart = new Chart(ctx, {
-            data: {
-                labels: dateLabels(7),
-                datasets: [{
-                    label: 'Assessment scores within time frame',
-                    data: $scope.averagesOverTime,
-                    fill: false
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero:true
-                        }
-                    }]
-                }
-            }
-        });
+    // $(document).ready(function(){
+    //
+    //     var ctx = document.getElementById("myChart").getContext('2d');
+    //     var myChart = new Chart(ctx, {
+    //         type: 'scatter',
+    //         data: {
+    //             labels: dateLabels(7),
+    //             datasets: [{
+    //                 label: 'Assessment scores within time frame',
+    //                 data: $scope.averagesOverTime,
+    //                 fill: false
+    //             }]
+    //         },
+    //         options: {
+    //             scales: {
+    //                 yAxes: [{
+    //                     ticks: {
+    //                         beginAtZero:true
+    //                     }
+    //                 }]
+    //             }
+    //         }
+    //     });
+    // });
+
+    $scope.updateGraph = function() {
+        $scope.data = [
+            [28, 48, 40, 19, 86, 27, 90],
+            [65, 59, 80, 81, 56, 55, 40]
+        ];
+
+        console.log($scope.average);
+        console.log($scope.candidateCount );
+        console.log($scope.asmtCount);
+        console.log( $scope.sum);
+        console.log($scope.averagesOverTime );
+        console.log( $scope.newData);
+
     }
+    // function updateGraph(){
+    //     var ctx = document.getElementById("myChart").getContext('2d');
+    //     var myChart = new Chart(ctx, {
+    //         data: {
+    //             labels: dateLabels(7),
+    //             datasets: [{
+    //                 label: 'Assessment scores within time frame',
+    //                 data: $scope.averagesOverTime,
+    //                 fill: false
+    //             }]
+    //         },
+    //         options: {
+    //             scales: {
+    //                 yAxes: [{
+    //                     ticks: {
+    //                         beginAtZero:true
+    //                     }
+    //                 }]
+    //             }
+    //         }
+    //     });
+    // }
     function dateLabels(numDays){
         var dateLabels = [];
         var nowTime = new Date();
@@ -114,3 +147,5 @@ userApp.controller('recruiterDashboardCtrl', function($scope,$mdToast,$location,
     }
 
 });
+
+
