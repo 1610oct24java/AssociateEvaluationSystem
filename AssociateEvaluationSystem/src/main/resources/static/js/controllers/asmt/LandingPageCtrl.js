@@ -40,9 +40,7 @@ asmt.controller("landingPageCtrl", function($scope, $http, $rootScope, $window, 
                 $scope.candidateEmail = authUser.username;
                 $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.CANDIDATE + $scope.candidateEmail + API_URL.LINK)
                     .then(function(response) {
-                        console.log(response.data.urlAssessment);
                         quizPage = response.data.urlAssessment;
-                        console.log(quizPage);
                         go();
                     })
             }
@@ -51,7 +49,6 @@ asmt.controller("landingPageCtrl", function($scope, $http, $rootScope, $window, 
 
     var go = function(){
         var assessmentId = quizPage.substring(quizPage.search("=")+1);
-        console.log(quizPage);
 
         $http({
             method: 'GET',
@@ -59,11 +56,8 @@ asmt.controller("landingPageCtrl", function($scope, $http, $rootScope, $window, 
             headers: {'Content-Type': 'application/json'}
         })
             .then(function(response) {
-                console.log(response.data);
                 // Check response for assessment availability
-                console.log(response);
                 if (response.data.msg === "allow"){
-                    console.log("test");
                     $rootScope.protoTest = response.data.assessment;
                     $scope.testtaker = "Welcome " + response.data.firstName + " " + response.data.lastName;
                     $scope.landingScript = response.data.landingScript;
@@ -87,7 +81,6 @@ asmt.controller("landingPageCtrl", function($scope, $http, $rootScope, $window, 
     //to determine if user can review test or not
     var checkGS = function () {
         var assessmentId = quizPage.substring(quizPage.search("=") + 1);
-        console.log(quizPage);
 
         $http({
             method: 'GET',
