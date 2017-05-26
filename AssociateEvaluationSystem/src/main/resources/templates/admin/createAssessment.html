@@ -96,11 +96,11 @@
 						<md-input-container class="md-block" flex-gt-sm="">
 							<label style="font-weight: normal; font-size: 125%;">Quantity {{availabilityString}}</label> <input
 								class="decimal integer" required type="number" max="{{maxQuestions}}" min="1"
-								step="1" name="maxQuestions" ng-model="maxQuestions" /> </md-input-container>
+								step="1" name="maxQuestionsInput" ng-model="maxQuestionsInput" /> </md-input-container>
 					</div>
 					<div layout="column" layout-wrap layout-align="center center">
 						<button type="submit" class="btn btn-primary btn-block"
-								ng-disabled="sectionForm.$invalid ||checkDuplicate() ">Add
+								ng-disabled="sectionForm.$invalid ||checkDuplicate() " >Add
 							Section</button>
 					</div>
 				</form>

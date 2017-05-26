@@ -247,7 +247,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
             url: ("assessmentrequest/"+$scope.catInt  + "/" + $scope.typeInt +"/" + $scope.maxQuestions + "/")
         }).then(function (response) {
             $scope.numOfQuestions = response.data;
-            $scope.quantity=$scope.maxQuestions;
+            $scope.quantity=$scope.maxQuestionsInput;
             if($scope.quantity > $scope.numOfQuestions){
                 alert("There are only " + $scope.numOfQuestions + " of those questions available.");
             }else{
@@ -362,8 +362,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
                 }
 
 
-                //var sendUrl = SITE_URL.BASE + API_URL.BASE + "/assessmentrequest/" + "1";
-                // var sendUrl = SITE_URL.BASE + API_URL.BASE + "/assessmentrequest" + "/1/";
+
                 else if($scope.coreLanguage == true){
                     $http({
                         method: 'PUT',
@@ -372,7 +371,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, SI
                         data: data
                     }).success(function(response) {
                         $scope.showToast("Assessment created successfully", "success");
-
+                        window.location = SITE_URL.VIEW_EMPLOYEES;
                     }).error(function(response) {
                         $scope.showToast("Assessment creation failed", "fail");
 
