@@ -86,7 +86,6 @@ app.controller('QuestionCtrl', function($http, $scope, $filter) {
 	}; // getQuestionList() end
 	
 	$scope.getQuestion = function(question){
-		console.log(question)
 		$scope.isOption = false;
 		$scope.isDragDrop = false;
 		if(question.format.formatName == "Drag and Drop"){

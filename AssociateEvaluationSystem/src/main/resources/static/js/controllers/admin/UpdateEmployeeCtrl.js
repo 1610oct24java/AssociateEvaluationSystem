@@ -1,4 +1,4 @@
-adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$routeParams, SITE_URL, API_URL, ROLE) {
+adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$routeParams, SITE_URL, API_URL) {
     // list of candidates recruiter does not have.
     $scope.possibleCandidates = [];
 
@@ -177,7 +177,7 @@ adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$route
 
     $scope.logout = function() {
         $http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
-            .then(function(response) {
+            .then(function() {
                 window.location = SITE_URL.LOGIN;
             });
     }

@@ -365,7 +365,7 @@ asmt.controller("quizReviewController", function($scope, $rootScope, $http, $loc
 		})
 		.then(function(response) {
 			// Check response for assessment availability
-			//if (response.data.msg != "allow"){
+		
 				// check if the assessment has the assessment object
 				if (!response.data.assessment){
 					// redirect to a page that says page not available
@@ -380,10 +380,6 @@ asmt.controller("quizReviewController", function($scope, $rootScope, $http, $loc
 					initSetup();
 					$rootScope.initQuizNav();
 				}
-			//}else {
-				// Assessment was taken or time expired, redirecting to expired page
-			//	$window.location.href = '/aes/expired';
-			//}
 		});
 	}
 	
@@ -430,16 +426,12 @@ asmt.controller("quizReviewController", function($scope, $rootScope, $http, $loc
 		$scope.returning = true;
 		
 		if ($scope.authUser.authority == 'ROLE_ADMIN') {
-			//console.log('admin home');
-			
 			window.location = '/aes/viewEmployees';
 		}
 		else if ($scope.authUser.authority == 'ROLE_RECRUITER') {
 			window.location = '/aes/view';
 		}
 		else if ($scope.authUser.authority == 'ROLE_CANDIDATE') {
-			console.log('candidate home todo');
-			
 			// TODO: navigate to candidate's home page.
 		}
 	}

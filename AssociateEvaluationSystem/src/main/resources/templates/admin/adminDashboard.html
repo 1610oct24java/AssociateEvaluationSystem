@@ -1,0 +1,100 @@
+<!--
+Page created by Richard Wingert
+5/24/17
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Revature | AES</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+    <link rel="icon" type="img/png" href="images/favicon_192.png">
+    <!-- Google icon for trash can -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!-- included for mobile scaling -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+    <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="css/aesMaterials.css">
+    <style>
+        .highlight-on {
+            background-color: #474c55;
+            color: #cfcfcf
+        }
+
+        .highlight-off {
+            background-color: inherit;
+            color: inherit;
+        }
+    </style>
+</head>
+
+<body ng-app="adminApp" ng-controller="AdminDashboardCtrl" ng-cloak>
+<div id="toastContainer">
+    <div>
+        <ng-include src="'menu.html'"/>
+    </div>
+    <div class="container">
+
+        <div class="row">
+            <div style="width: 100%; height: 550px; overflow: auto;">
+                <p>Total Number of Employees in the System:</p>
+                <table class="table table-striped table-bordered" style="width: 50%;">
+                    <thead>
+                        <tr>
+                            <th>User Type</th>
+                            <th>Count</th>
+                        </tr>
+                    </thead>
+                    <tbody ng-repeat="r in roleCnts">
+                    <tr>
+                        <td>{{r.type}}</td>
+                        <td>{{r.count}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <br>
+                <p>Number of Candidates Per Recruiter</p>
+                <table class="table table-striped table-bordered" style="width: 50%;">
+                    <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Count</th>
+                    </tr>
+                    </thead>
+                    <tbody ng-repeat="r in recruiterCnts | orderBy: 'count':true " >
+                    <tr ng-if="r.count != 0">
+                        <td>{{r.fname}}</td>
+                        <td>{{r.lname}}</td>
+                        <td>{{r.count}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-animate.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-aria.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-messages.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-sanitize.js"></script>
+<script type="text/javascript"
+        src="//ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.js"></script>
+<script type="text/javascript" src="js/adminApp.js"></script>
+<script type="text/javascript" src="js/controllers/admin/MenuCtrl.js"></script>
+<script type="text/javascript" src="js/controllers/admin/adminDashboard.js"></script>
+</body>
+</html>
