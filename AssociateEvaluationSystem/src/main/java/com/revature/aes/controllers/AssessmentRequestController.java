@@ -1,6 +1,8 @@
 package com.revature.aes.controllers;
 
 import java.util.Iterator;
+import java.util.Set;
+import java.lang.Math;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +16,8 @@ import com.revature.aes.beans.AssessmentRequest;
 import com.revature.aes.beans.CategoryRequest;
 import com.revature.aes.logging.Logging;
 import com.revature.aes.service.AssessmentRequestService;
+import com.revature.aes.service.CategoryRequestService;
+import com.revature.aes.service.CategoryService;
 
 /**
  *
@@ -34,30 +38,64 @@ public class AssessmentRequestController {
 
 	@Autowired
 	AssessmentRequestService assessmentRequestService;
+	
+	@Autowired
+	CategoryRequestService categoryRequestService;
+	
+	@Autowired
+	CategoryService categoryService;
+
 
 	/**
-	 * Endpoint used to update and Assessment Request object.
+	 * Endpoint used to create an Assessment Request object.
 	 *
 	 * @param id
-	 *            The id of the AssessmentRequest object to be altered
+	 *            The id of the AssessmentRequest object to be created
 	 */
 	//@Transactional(readOnly = false)
 	@RequestMapping(value = "assessmentrequest/{id}/", method = RequestMethod.PUT)
-	public void updateEmployee(@RequestBody AssessmentRequest assessmentRequest, @PathVariable Integer id) {
+	public void saveAssessmentRequest(@RequestBody AssessmentRequest assessmentRequest, @PathVariable Integer id) {
 		
-		Iterator<CategoryRequest> catIt = assessmentRequest.getCategoryRequestList().iterator();	
-		while (catIt.hasNext()) {
-			catIt.next().setAssessmentRequest(assessmentRequest);
-		}
-
-		log.info("Updating AssessmentRequest with id: " + id);
+		
+		//check for removed categories if editing 
+		AssessmentRequest existingAssReq = assessmentRequestService.getAssessmentRequestById(assessmentRequest.getAssessmentRequestId());
+		Set<CategoryRequest> newAssReqCategories = assessmentRequest.getCategoryRequestList();
+		if(existingAssReq != null){
+			for(CategoryRequest catReq : existingAssReq.getCategoryRequestList()){
+				if(!newAssReqCategories.contains(catReq)){
+					categoryRequestService.deleteCategoryRequest(catReq);
+				}
+			}
+		} 
+		
+		
+		log.info("Creating AssessmentRequest with id: " + id);
 		log.info("New AssessmentRequest: " + assessmentRequest);
 		assessmentRequestService.saveAssessmentRequest(assessmentRequest);
-		log.info("Assessment Request Updated");
+		log.info("Assessment Request Created");
 
 	}
 	
-	//new enpoint to get number of questions of specific category and type
+	
+	/**
+	 * Endpoint used to retrieve an assessment request
+	 *
+	 * @param id
+	 *            The id of the AssessmentRequest object to be received
+	 */
+	@RequestMapping(value = "assessmentrequest/{id}/", method = RequestMethod.GET)
+	public AssessmentRequest getAssessmentRequest(@PathVariable Integer id) {
+		
+		log.info("Retrieving AssessmentRequest with id: " + id);
+		AssessmentRequest assessmentRequest = assessmentRequestService.getAssessmentRequestById(id);
+		log.info("Assessment Request Retrieved");
+		
+		return assessmentRequest;
+	}
+	
+	/* new enpoint to get number of questions of specific category and type
+	 * if the category is 'core language' then return the lesser of the core two categories.
+	 */
 	@RequestMapping(value = "assessmentrequest/{category}/{type}/{numOfQuestions}/", method = RequestMethod.GET)
 	public Integer getNumberOfQuestions(@PathVariable Integer category, @PathVariable Integer type, @PathVariable Integer numOfQuestions){
 		
@@ -65,8 +103,19 @@ public class AssessmentRequestController {
 		System.out.println(type);
 		System.out.println(numOfQuestions);
 		
-		Integer num = assessmentRequestService.getNumberOfQuestions(category, type);
-
+		Integer num = 0;
+		
+		int javaCategory = categoryService.getCategoryByName("Java").getCategoryId();
+		int dotNetCategory = categoryService.getCategoryByName(".net").getCategoryId();
+		
+		if(category == 6){		
+			Integer javaQuestions = assessmentRequestService.getNumberOfQuestions(javaCategory, type);
+			Integer dotNetQuestions = assessmentRequestService.getNumberOfQuestions(dotNetCategory, type); 	
+			num = Math.min(javaQuestions, dotNetQuestions);
+		} else {
+			num = assessmentRequestService.getNumberOfQuestions(category, type);
+		}
+		
 		return num;
 	}
 
@@ -77,7 +126,7 @@ public class AssessmentRequestController {
 	public void deleteAssessmentRequest(@RequestBody AssessmentRequest assessmentRequest) {
 
 		log.info("deleting AssessmentRequest with id: " + assessmentRequest.getAssessmentRequestId());
-		assessmentRequestService.deleteAssessmentRequestTemplate(assessmentRequest);
+		assessmentRequestService.deleteAssessmentRequest(assessmentRequest);
 		log.info("Assessment Request Deleted");
 	}
 

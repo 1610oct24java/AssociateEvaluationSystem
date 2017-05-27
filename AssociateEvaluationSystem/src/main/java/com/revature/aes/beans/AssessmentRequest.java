@@ -39,7 +39,7 @@ public class AssessmentRequest implements Serializable, Cloneable{
 	private int assessmentRequestId;
 
 	@JsonManagedReference
-	@OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL, mappedBy="assessmentRequest")
+	@OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval=true, mappedBy="assessmentRequest")
 	private Set<CategoryRequest> categoryRequestList;
 
 	@Transient

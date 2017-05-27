@@ -1,6 +1,7 @@
 package com.revature.aes.service;
 
 import java.net.UnknownHostException;
+import java.util.Iterator;
 
 import javax.annotation.PostConstruct;
 
@@ -64,23 +65,26 @@ public class RestServicesImpl implements RestServices {
 
 		CategoryRequest oldCR = null;
 		CategoryRequest newCR = null;
-
-		for(CategoryRequest categoryRequest : ar.getCategoryRequestList()){
-
-			if("core language".equalsIgnoreCase(categoryRequest.getCategory().getName())){
-
+		
+		
+		CategoryRequest categoryRequest;
+		
+		/*Replaces 'core language' category with the chosen core language
+		 */
+		CategoryRequest[] catArray = new CategoryRequest[ar.getCategoryRequestList().size()];
+		ar.getCategoryRequestList().toArray(catArray);
+		System.out.println(catArray);
+		for(int i = 0; i < catArray.length; i++){
+			 categoryRequest = catArray[i];
+			 if("core language".equalsIgnoreCase(categoryRequest.getCategory().getName())){
 				newCR = new CategoryRequest(categoryRequest);
 				oldCR = categoryRequest;
 				newCR.setCategory(categoryService.getCategoryByName(category));
-
+				ar.getCategoryRequestList().remove(oldCR);
+				ar.getCategoryRequestList().add(newCR);		
 			}
+		}
 
-		}
-		if(newCR != null){
-			ar.getCategoryRequestList().remove(oldCR);
-			ar.getCategoryRequestList().add(newCR);
-		}
-		
 		ar = assessmentService.getLink(ar);
 		
 		String link = ar.getLink();
