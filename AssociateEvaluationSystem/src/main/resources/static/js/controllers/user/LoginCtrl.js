@@ -5,7 +5,6 @@
 userApp.controller('LoginCtrl', function($scope, $httpParamSerializerJQLike, $http, SITE_URL, API_URL, ROLE) {
 
     $scope.login = function() {
-    	console.log('login');
         makeUser($scope);
         $http({
             method : "POST",
@@ -34,7 +33,7 @@ userApp.controller('LoginCtrl', function($scope, $httpParamSerializerJQLike, $ht
                                     window.location = SITE_URL.TRAINER_HOME;
                                     break;
                                 case ROLE.ADMIN:
-                                    window.location = SITE_URL.VIEW_EMPLOYEES;
+                                    window.location = SITE_URL.ADMIN_DASHBOARD;
                                     break;
                                 default:
                                     $scope.username = '';
@@ -49,7 +48,6 @@ userApp.controller('LoginCtrl', function($scope, $httpParamSerializerJQLike, $ht
                     })
             })
     }
-    console.log('login controller');
 }); //end login controller
 
 function makeUser($scope) {
