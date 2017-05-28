@@ -42,9 +42,9 @@
 			<span>Assessment Creation</span>
 		</div>
 		<span flex> </span> <!-- || coreLanguage == false -->
-		<button layout-margin type="submit" class="btn btn-success btn-md"
+		<button layout-margin type="submit" class="btn btn-success btn-md" id="create"
 				ng-disabled="(!assessments[0] || timeForm.$invalid  ||nameForm.$invalid ) || validateReview();"
-				ng-click="createAssessment()">Create Assessment</button>
+				ng-click="createAssessment();">Create Assessment</button>
 	</md-toolbar> <md-card-content>
 		<form name="timeForm" novalidate="">
 			<div layout-gt-sm="row">
@@ -87,11 +87,11 @@
 						<md-input-container class="md-block" flex-gt-sm="">
 							<label>Category</label> <md-select required ng-model="category" ng-change="updateMax()">
 							<md-option ng-repeat="category in categories"
-									   value="{{category.name}}"> {{category.name}} </md-option> </md-select> </md-input-container>
+									   value={{category}}> {{category.name}} </md-option> </md-select> </md-input-container>
 						<md-input-container class="md-block" flex-gt-sm="">
 							<label>Type</label> <md-select required ng-model="type" ng-change="updateMax()">
 							<md-option ng-repeat="option in types"
-									   value="{{option.formatName}}"> {{option.formatName}} </md-option>
+									   value={{option}}> {{option.formatName}} </md-option>
 						</md-select> </md-input-container>
 						<md-input-container class="md-block" flex-gt-sm="">
 							<label style="font-weight: normal; font-size: 125%;">Quantity {{availabilityString}}</label> <input
@@ -100,7 +100,7 @@
 					</div>
 					<div layout="column" layout-wrap layout-align="center center">
 						<button type="submit" class="btn btn-primary btn-block"
-								ng-disabled="sectionForm.$invalid ||checkDuplicate() ">Add
+								ng-disabled="sectionForm.$invalid ||checkDuplicate()">Add
 							Section</button>
 					</div>
 				</form>
@@ -112,7 +112,7 @@
 			<div class="md-toolbar-tools">
 				<span> Current Sections </span>
 			</div>
-		</md-toolbar> <md-divider></md-divider> <md-card-content
+		</md-toolbar> <md-divider></md-divider> <md-card-content style="overflow-y:auto;"
 				ng-if="totalQuestions != undefined">
 			<table id="example" class="ui celled table" cellspacing="0"
 				   width="100%">
@@ -136,7 +136,6 @@
 				</tr>
 				</tfoot>
 				<tbody>
-				<div>
 					<tr ng-repeat="ass in sections | orderBy:sortType:sortReverse">
 						<td><input type="button" value="Remove"
 								   class="btn btn-primary btn-block" ng-click="removeRow($index)" />
@@ -145,7 +144,6 @@
 						<td>{{ass.type}}</td>
 						<td>{{ass.quantity}}</td>
 					</tr>
-				</div>
 				</tbody>
 			</table>
 		</md-card-content> </md-card>

@@ -113,7 +113,7 @@ public class AssessmentRestController {
 
 		User user = userService.findUserByEmail(assReq.getUserEmail());
 
-		Assessment assessment = new Assessment(user, -1, 30, null, null, tmpl);
+		Assessment assessment = new Assessment(user, -1, assReq.getTimeLimit(), null, null, tmpl);
 		assServ.saveAssessment(assessment);
 		
 		HttpHeaders headers = new HttpHeaders();
