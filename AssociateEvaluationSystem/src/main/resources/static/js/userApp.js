@@ -10,6 +10,7 @@ userApp.constant("SITE_URL", {
 	"TRAINER_HOME" : "",
 	"VIEW_CANDIDATES" : "recruiterDash", //directs recruiters to dashboard on login
 	"VIEW_EMPLOYEES" : "viewEmployees",
+    "ADMIN_DASHBOARD" : "adminDashboard",
 	"REGISTER_CANDIDATE" : "",
     "REGISTER_EMPLOYEE" : "",
     "ASSESSMENT_LANDING" : "assessmentLandingPage"

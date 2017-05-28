@@ -50,4 +50,11 @@ public class AESJDBCImpl implements AESJDBC {
 	    return total;
 	}
 
+	public JdbcTemplate getJdbc() {
+		return jdbc;
+	}
+
+	public void setJdbc(JdbcTemplate jdbc) {
+		this.jdbc = jdbc;
+	}
 }

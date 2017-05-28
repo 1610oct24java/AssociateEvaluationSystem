@@ -11,7 +11,6 @@ userApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav,
 
         // var path = $location.path().replace("/", "");
         var path = window.location.pathname.substr(1);
-
         switch(path) {
             case "aes/recruiterDash" : return "dashboard";
             case "aes/view" : return "overview";

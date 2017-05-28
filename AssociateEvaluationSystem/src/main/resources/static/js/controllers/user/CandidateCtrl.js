@@ -35,7 +35,6 @@ userApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,SIT
             .get(SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + email + "/assessments")
             .then(function(response) {
                 var asmt = response.data;
-                console.log(asmt);
                 if (asmt.length != 0) {
                     asmt.forEach(a=>{
                         a.createdTimeStamp = formatDate(a.createdTimeStamp);
@@ -108,7 +107,6 @@ userApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,SIT
 		$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + "/emails")
 		.then(function(result) {
 			$scope.allEmails = result.data;
-			console.log($scope.allEmails);
 		});
 	}
 
@@ -170,8 +168,6 @@ userApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,SIT
     
  // display the review-assessment page
 	$scope.showAssessment = function(a) {
-		console.log(a); //FIXME: delete this test print of the assessment passed in.
-		
 		// clone the assessment passed in so changes to it don't affect the view.
 		assessment = {
 				assessmentId: a.assessmentId,
@@ -198,13 +194,9 @@ userApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,SIT
 
 		}).success( function(response) {
 		    if(!response){
-		        console.log('bad id'); //FIXME: delete this test print
             }
             else {
-            	console.log('good id'); //FIXME: delete this test print
-
             	var asmtId = response.data;
-            	console.log(asmtId); //FIXME: delete this test print
             	
             	//TODO: response validation.
             	
@@ -214,7 +206,6 @@ userApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,SIT
             	window.location = SITE_URL.BASE + API_URL.BASE + '/quizReview?asmt=' + encodedId;
             }
 		}).error(function() {
-			console.log('whoops id'); //FIXME: delete this test print
 		});
 		
 	};
@@ -237,7 +228,6 @@ userApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,SIT
         }).error( function() {
             $scope.showToast("Failed to Send an Assessment");
         });
-        console.log($scope.sendSuccessful);
     };
 
     $scope.options = [{

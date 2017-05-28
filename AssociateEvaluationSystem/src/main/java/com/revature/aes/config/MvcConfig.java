@@ -27,6 +27,7 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 		/*next line added for recruiter dashboard*/
 		registry.addViewController("/recruiterDash").setViewName("recruiter/dashboard");
 		registry.addViewController("/viewEmployees").setViewName("admin/viewEmployees");
+		registry.addViewController("/adminDashboard").setViewName("admin/adminDashboard");
 		registry.addViewController("/viewAssessment").setViewName("admin/viewAssessment");
 		registry.addViewController("/registerEmployee").setViewName("admin/registerEmployee");
 		registry.addViewController("/registerEmployee").setViewName("admin/registerEmployee");
