@@ -354,8 +354,6 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $l
             });
         }
     }
-
-
     $scope.addRow = function() {
 
         updateCategoryInt();
