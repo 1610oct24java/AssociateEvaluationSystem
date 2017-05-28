@@ -137,7 +137,7 @@ adminApp.controller("parserCtrl", function ($scope, $http, SITE_URL, API_URL, $l
 
     $scope.logout = function() {
         $http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
-            .then(function(response) {
+            .then(function() {
                 window.location = SITE_URL.LOGIN;
             });
     };
@@ -148,8 +148,6 @@ var openFile = function(event){
     var input = event.target;
     reader = new FileReader();
     reader.onload = function(){
-        // var text = reader.result;
-        // console.log(reader);
     };
     reader.readAsText(input.files[0]);
 };

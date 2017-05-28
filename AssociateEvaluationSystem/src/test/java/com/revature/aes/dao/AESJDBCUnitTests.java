@@ -43,8 +43,6 @@ public class AESJDBCUnitTests {
 		Assert.assertTrue(numberOfQuestionByTypeAndCatergory > 0);
 		numberOfQuestionByTypeAndCatergory = imp.getNumOfQuestions(1, 2);
 		Assert.assertTrue(numberOfQuestionByTypeAndCatergory > 0);
-//		numberOfQuestionByTypeAndCatergory = imp.getNumOfQuestions(1, 3);
-//		Assert.assertTrue(numberOfQuestionByTypeAndCatergory > 0);
 		numberOfQuestionByTypeAndCatergory = imp.getNumOfQuestions(1, 4);
 		Assert.assertTrue(numberOfQuestionByTypeAndCatergory > 0);
 	}
@@ -57,10 +55,6 @@ public class AESJDBCUnitTests {
 		Assert.assertTrue(numberOfQuestionByTypeAndCatergory > 0);
 		numberOfQuestionByTypeAndCatergory = imp.getNumOfQuestions(2, 2);
 		Assert.assertTrue(numberOfQuestionByTypeAndCatergory > 0);
-		// numberOfQuestionByTypeAndCatergory = imp.getNumOfQuestions(2, 3);
-		// Assert.assertTrue(numberOfQuestionByTypeAndCatergory > 0);
-		// numberOfQuestionByTypeAndCatergory = imp.getNumOfQuestions(2, 4);
-		// Assert.assertTrue(numberOfQuestionByTypeAndCatergory > 0);
 	}
 	@Test
 	public void testGetNumOfDataStructuresQuestionsForEachType() {
@@ -71,9 +65,5 @@ public class AESJDBCUnitTests {
 		Assert.assertTrue(numberOfQuestionByTypeAndCatergory > 0);
 		numberOfQuestionByTypeAndCatergory = imp.getNumOfQuestions(3, 2);
 		Assert.assertTrue(numberOfQuestionByTypeAndCatergory > 0);
-		//numberOfQuestionByTypeAndCatergory = imp.getNumOfQuestions(3, 3);
-		//Assert.assertTrue(numberOfQuestionByTypeAndCatergory > 0);
-		//numberOfQuestionByTypeAndCatergory = imp.getNumOfQuestions(3, 4);
-		//Assert.assertTrue(numberOfQuestionByTypeAndCatergory > 0);
 	}
 }

@@ -2,7 +2,6 @@
  * Created by Richard Wingert on 5/24/2017.
  */
 adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SITE_URL, API_URL, ROLE) {
-    //variable initialization
     $scope.employees;
     $scope.roleCnts=[];
     $scope.recruiterCnts=[];

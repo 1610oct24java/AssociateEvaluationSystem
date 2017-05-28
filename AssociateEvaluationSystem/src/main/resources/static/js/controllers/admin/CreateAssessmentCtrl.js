@@ -29,9 +29,11 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $l
 
     $scope.validateReview = function ()
     {
-        if(($scope.assdays == null || $scope.asshours ==null || $scope.asshours <0 || $scope.assdays<0 )||(($scope.assdays ==0 && $scope.asshours == 0 ) && $scope.assReviewCheck == true))
+        if(($scope.assdays == null || $scope.asshours ==null || $scope.asshours <0 || $scope.assdays<0 ))
+        	return true;
+        else if((($scope.assdays ==0 && $scope.asshours == 0 ) && $scope.assReviewCheck))
             return true;
-        else
+        
             return false;
     };
 
@@ -72,10 +74,11 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $l
         });
 
 
-        if( flag == true)
+        if(flag)
             return true;
-        else
-            return false;
+       
+        
+        return false;
     };
 
     $scope.showToast = function(message, type) {
@@ -214,19 +217,19 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $l
         var csBool = false;
         angular.forEach(collection, function(item){
 
-            if(item['mcQuestions'] > 0 && mcBool == false){
+            if(item['mcQuestions'] > 0 && !mcBool){
                 types++;
                 mcBool = true;
             }
-            if(item['msQuestions'] > 0 && msBool == false){
+            if(item['msQuestions'] > 0 && !msBool){
                 types++;
                 msBool = true;
             }
-            if(item['ddQuestions'] > 0 && ddBool == false){
+            if(item['ddQuestions'] > 0 && !ddBool){
                 types++;
                 ddBool = true;
             }
-            if(item['csQuestions'] > 0 && csBool == false){
+            if(item['csQuestions'] > 0 && !csBool){
                 types++;
                 csBool = true;
             }
@@ -408,6 +411,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $l
                     $scope.coreLanguage = true;
                     $scope.coreCount++;
                 }
+
 
                 $scope.assessments.push({
                     "category": {

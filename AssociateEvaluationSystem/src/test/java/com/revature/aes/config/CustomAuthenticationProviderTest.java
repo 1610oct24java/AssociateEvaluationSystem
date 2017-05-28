@@ -13,10 +13,6 @@ import com.revature.aes.beans.*;
 
 public class CustomAuthenticationProviderTest extends AbstractJUnit4SpringContextTests {
 
-	@Before
-	public void setUp() {
-	}
-
 	@After
 	public void close() {
 		SecurityContextHolder.clearContext();

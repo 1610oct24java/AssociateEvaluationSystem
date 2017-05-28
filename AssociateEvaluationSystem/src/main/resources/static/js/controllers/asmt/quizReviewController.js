@@ -1,3 +1,5 @@
+
+
 asmt.controller("quizReviewController", function($scope, $rootScope, $http, $location, $window, $timeout, $anchorScroll) {
 	$rootScope.states = [];
 	$scope.answers = [];
@@ -13,6 +15,7 @@ asmt.controller("quizReviewController", function($scope, $rootScope, $http, $loc
 	$scope.authUser;
 	$scope.submitted = false;
 	$scope.returning = false;
+
 	getQuizQuestions();
 	getSignedInUser();
 
@@ -365,7 +368,7 @@ asmt.controller("quizReviewController", function($scope, $rootScope, $http, $loc
 		})
 		.then(function(response) {
 			// Check response for assessment availability
-			//if (response.data.msg != "allow"){
+		
 				// check if the assessment has the assessment object
 				if (!response.data.assessment){
 					// redirect to a page that says page not available
@@ -380,10 +383,6 @@ asmt.controller("quizReviewController", function($scope, $rootScope, $http, $loc
 					initSetup();
 					$rootScope.initQuizNav();
 				}
-			//}else {
-				// Assessment was taken or time expired, redirecting to expired page
-			//	$window.location.href = '/aes/expired';
-			//}
 		});
 	}
 	
@@ -449,5 +448,33 @@ asmt.controller("quizReviewController", function($scope, $rootScope, $http, $loc
 		}
 		return false;
 	}
+
+	//for question modal
+    $scope.modalShown = false;
+    $scope.toggleModal = function() {
+        $scope.modalShown = !$scope.modalShown;
+    };
 	
+});
+
+asmt.directive('modalDialog', function() {
+    return {
+        restrict: 'E',
+        scope: {
+            show: '='
+        },
+        replace: true, // Replace with the template below
+        transclude: true, // we want to insert custom content inside the directive
+        link: function(scope, element, attrs) {
+            scope.dialogStyle = {};
+            if (attrs.width)
+                scope.dialogStyle.width = attrs.width;
+            if (attrs.height)
+                scope.dialogStyle.height = attrs.height;
+            scope.hideModal = function() {
+                scope.show = false;
+            };
+        },
+        template: "<div class='ng-modal' ng-show='show'><div class='ng-modal-overlay' ng-click='hideModal()'></div> <div class='ng-modal-dialog' ng-style='dialogStyle'> <div class='ng-modal-close' ng-click='hideModal()'>X</div> <div class='ng-modal-dialog-content' ng-transclude></div> </div> </div>"
+    };
 });
