@@ -26,7 +26,7 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
                 return "overview"
         }
     };
-    
+
     mc.buildToggler = function(navID) {
         return function() {
             $mdSidenav(navID)
