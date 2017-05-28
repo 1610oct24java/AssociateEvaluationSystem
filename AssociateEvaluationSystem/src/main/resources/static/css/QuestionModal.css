@@ -1,0 +1,110 @@
+/**.modal-box{
+    display:none;
+    position:absolute;
+    z-index:1000;
+    width:98%;
+    background:white;
+    border-bottom:1px solid #aaa;
+    border-radius:4px;
+    box-shadow:0 3px 9px rgba(0,0,0,0.5);
+    border:1px solid rgba(0,0,0,0.1);
+    background-clip: padding-box;
+}
+
+.modal-box header,
+.modal-box .modal-header {
+    padding:1.25em 1.5em;
+    border-bottom:1px solid #ddd;
+}
+
+.modal-box header h3,
+.modal-box header h4,
+.modal-box .modal-header h3,
+.modal-box .modal-header h4 {margin:0;}
+
+.modal-box .modal-body { padding: 2em 1.5em; }
+
+.modal-box footer,
+.modal-box .modal-footer {
+    padding: 1em;
+    border-top: 1px solid #ddd;
+    background: rgba(0, 0, 0, 0.02);
+    text-align: right;
+}
+
+.modal-overlay{
+    opacity:0;
+    filter: alpha(opacity=0);
+    position:absolute;
+    top:0;
+    left:0;
+    z-index: 900;
+    width:100%;
+    height:100%;
+    background: rgba(0,0,0,0.3)!important;
+}
+
+a.close{
+    line-height:1;
+    font-size:1.5em;
+    position:absolute;
+    top:5%;
+    right:2%;
+    text-decoration:none;
+    color:#bbb;
+}
+
+a.close:hover {
+    color:#222;
+    -webkit-transition: color1s ease;
+    -moz-transition: color1s ease;
+    transition: color1s ease;
+}
+
+@media (min-width:32em){
+    .modal-box {width:70%;}
+}**/
+
+/*new stuff for angular*/
+.ng-modal-overlay {
+    /* A dark translucent div that covers the whole screen */
+    position:absolute;
+    z-index:9999;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background-color:#000000;
+    opacity: 0.8;
+}
+.ng-modal-dialog {
+    /* A centered div above the overlay with a box shadow. */
+    z-index:10000;
+    position: absolute;
+    width: 50%; /* Default */
+
+    /* Center the dialog */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+
+    background-color: #fff;
+    box-shadow: 4px 4px 80px #000;
+}
+.ng-modal-dialog-content {
+    padding:10px;
+    text-align: left;
+}
+.ng-modal-close {
+    position: absolute;
+    top: 3px;
+    right: 5px;
+    padding: 5px;
+    cursor: pointer;
+    font-size: 120%;
+    display: inline-block;
+    font-weight: bold;
+    font-family: 'arial', 'sans-serif';
+}

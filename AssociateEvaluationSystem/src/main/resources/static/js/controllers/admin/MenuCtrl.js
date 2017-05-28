@@ -11,6 +11,8 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
             case "registerEmployee":
             case "updateEmployee":
                 return "employees";
+            case "questions":
+                return "questions";
             case "manageQuestions":
             case "addQuestions":
                 return "questions";
@@ -22,6 +24,8 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
                 return "parser";
             case "globalSettings":
                 return "globalSettings";
+            case "viewCompletedAssessments":
+                return "viewCompletedAssessments";
             default:
                 return "overview"
         }
@@ -64,7 +68,7 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
             var context = $scope,
                 args = Array.prototype.slice.call(arguments);
             $timeout.cancel(timer);
-            timer = $timeout(function() {
+            timer = $timeout(function(context) {
                 timer = undefined;
                 func.apply(context, args);
             }, wait || 10);
@@ -75,13 +79,7 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
      * Build handler to open/close a SideNav; when animation finishes
      * report completion in console
      */
-    function buildDelayedToggler(navID) {
-        return debounce(function() {
-            // Component lookup should always be available since we are not using `ng-if`
-            $mdSidenav(navID)
-                .toggle()
-        }, 200);
-    }
+
 
     function buildToggler(navID) {
         return function() {

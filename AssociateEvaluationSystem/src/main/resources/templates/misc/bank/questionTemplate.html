@@ -2,7 +2,15 @@
 	<main class="container">
 	<div class="row">
 	<pre>Click on a question to see all of its details. This may take a bit to load.</pre>
-			<div class="col-md-6" style="height: 800px; overflow: auto;">
+		<div class="col-md-6" style="height: 800px; overflow: auto;">
+
+			<input ng-model="q" id="search" class="form-control" placeholder="Search" ng-keyup="currentPageOverLimit()">
+			<select ng-model="pageSize" id="pageSize" class="form-control" ng-click="currentPageOverLimit()">
+				<option value="5">5</option>
+				<option value="10">10</option>
+				<option value="15">15</option>
+				<option value="20">20</option>
+			</select>
 			<table class="table table-bordered">
 				<thead>
 					<tr>
@@ -13,7 +21,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="question in qList" ng-click="getQuestion(question)">
+					<tr ng-repeat="question in qList | filter:q |startFrom:currentPage*pageSize | limitTo:pageSize" ng-click="getQuestion(question)">
 						<td>{{question.questionText}}</td>
 						<td>{{question.format.formatName}}</td>
 						<td>{{question.questionCategory["0"].name}}</td>
@@ -22,6 +30,34 @@
 				</tbody>
 			</table>
 		</div>
+
+		<div ng-repeat="question in qList | filter:q as filteredItems"></div>
+
+		<button ng-click="currentPage = 0">
+			First Page
+		</button>
+
+		<button ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">
+			Previous
+		</button>
+
+		<div ng-switch="q">
+			<span ng-switch-when="0">
+				{{currentPage+1}}/{{numberOfPages()}}
+			</span>
+			<span ng-switch-default>
+				{{currentPage+1}}/{{formatNumber(filteredItems.length/pageSize)}}
+			</span>
+		</div>
+
+		<button ng-disabled="(currentPage >= qList.length/pageSize - 1) || (currentPage >= filteredItems.length/pageSize - 1)" ng-click="currentPage=currentPage+1">
+			Next
+		</button>
+
+
+
+
+
 
 		<div class="col-md-6">
 			Question:

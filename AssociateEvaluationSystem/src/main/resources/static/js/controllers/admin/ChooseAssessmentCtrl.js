@@ -1,4 +1,4 @@
-adminApp.controller('ChooseAssessmentCtrl', function($scope, $mdToast, $http, $anchorScroll, SITE_URL, API_URL, ROLE){
+adminApp.controller('ChooseAssessmentCtrl', function($scope, $mdToast, $http, $anchorScroll){
     //list of assessments used to manipulate
     $scope.assList = [];
 
@@ -96,7 +96,7 @@ adminApp.controller('ChooseAssessmentCtrl', function($scope, $mdToast, $http, $a
             method: "POST",
             url: "selectAssessment",
             data: $scope.assList[index]
-        }).then(function(response){
+        }).then(function(){
 
             $http({
                 method: "GET",
@@ -210,7 +210,7 @@ adminApp.controller('ChooseAssessmentCtrl', function($scope, $mdToast, $http, $a
             method: "POST",
             url: "updateViewableHours",
             data: $scope.assList[index]
-        }).then(function(response){
+        }).then(function(){
             $http({
                 method: "GET",
                 url: "allAssessments"
@@ -239,12 +239,12 @@ adminApp.controller('ChooseAssessmentCtrl', function($scope, $mdToast, $http, $a
 
     }
 
-    $scope.deleteAssessment = function(index, $window){
+    $scope.deleteAssessment = function(index){
                 $http({
                         method: "POST",
                         url: "assessmentrequest/delete",
                         data: $scope.assList[index]
-                }).then(function(response){
+                }).then(function(){
 
                         $http({
                                 method: "GET",

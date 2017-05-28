@@ -146,11 +146,10 @@ AESCoreApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,
             .get(SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + email + "/assessments")
             .then(function(response) {
                 var asmt = response.data;
+                console.log(asmt);
                 if (asmt.length != 0) {
-                    asmt.forEach(a=>{
-                        a.createdTimeStamp = formatDate(a.createdTimeStamp);
-                        a.finishedTimeStamp = formatDate(a.finishedTimeStamp)
-                    });
+                    asmt.forEach(a=>{ a.createdTimeStamp = formatDate(a.createdTimeStamp);
+                    a.finishedTimeStamp = formatDate(a.finishedTimeStamp)});
                 }
                 $scope.assessments = asmt;
                 $scope.returnCheck = true;
@@ -191,38 +190,37 @@ AESCoreApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,
      * Disables registration if email is in the database
      * */
     $scope.checkEmail = function(){
+        var keepGoing = true;
+        $scope.allEmails.forEach(function(email) {
+            if(keepGoing) {
+                if (email.toUpperCase() === $scope.email.toUpperCase()){ //case-insensitive email match
+                    /*alert("Email already registered.");*/
+                    $scope.buttonToggle = true;
+                    keepGoing = false;
+                }
+                else {
+                    $scope.buttonToggle = false;
+                }
+            }
+        });
+    };
 
-		var keepGoing = true;
-		$scope.allEmails.forEach(function(email) {
-			if(keepGoing) {
-				if (email.toUpperCase() === $scope.email.toUpperCase()){ //case-insensitive email match
-					/*alert("Email already registered.");*/
-					$scope.buttonToggle = true;
-					keepGoing = false;
-				}
-				else {
-					$scope.buttonToggle = false;
-				}
-			}
-		});	
-	};
-	
-	// reset form and refresh page's cache of emails and recruiters
-	$scope.resetRegistrationForm = function() {
-		// reset all form state variables
-		$scope.allEmails = [];
-		$scope.buttonToggle = false; // by default
-	}
-	
-	$scope.initializeRegistrationSelects = function() {
-		// get all emails from the database
-		$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + "/emails")
-		.then(function(result) {
-			$scope.allEmails = result.data;
-		});
-	}
+    // reset form and refresh page's cache of emails and recruiters
+    $scope.resetRegistrationForm = function() {
+        // reset all form state variables
+        $scope.allEmails = [];
+        $scope.buttonToggle = false; // by default
+    }
 
-    //registers employee
+    $scope.initializeRegistrationSelects = function() {
+        // get all emails from the database
+        $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + "/emails")
+            .then(function(result) {
+                $scope.allEmails = result.data;
+                console.log($scope.allEmails);
+            });
+    }
+
     $scope.register = function() {
 
         var candidateInfo = {
@@ -278,51 +276,58 @@ AESCoreApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,
 
         return true;
     };
-  
- // display the review-assessment page
-	$scope.showAssessment = function(a) {
-		// clone the assessment passed in so changes to it don't affect the view.
-		assessment = {
-				assessmentId: a.assessmentId,
-				user: a.user,
-				grade: a.grade,
-				timeLimit: a.timeLimit,
-				createdTimeStamp: reformatDate(a.createdTimeStamp), // reformat date of the assessment to an iso format (which spring can convert back into a TimeStamp)
-				finishedTimeStamp: reformatDate(a.finishedTimeStamp), // reformat date of the assessment to an iso format (which spring can convert back into a TimeStamp)
-				template: a.template,
-				options: a.options,
-				assessmentDragDrop: a.assessmentDragDrop,
-				fileUpload: a.fileUpload
-		}
-		
-		// hold the encoded id of the assessment.
-		var encodedId = null;
-		
-		// get the encoded equivalent of the assessment's id so the quiz review of the assessment can be brought up.
-		$http({
-			method  : 'POST',
-			url		: SITE_URL.BASE + API_URL.BASE + "/rest/encode",
-			headers : {'Content-Type' : 'application/json'},
-			data    : assessment
 
-		}).success( function(response) {
-		    if(!response){
+    // display the review-assessment page
+    $scope.showAssessment = function(a) {
+        console.log(a); //FIXME: delete this test print of the assessment passed in.
+
+        // clone the assessment passed in so changes to it don't affect the view.
+        assessment = {
+            assessmentId: a.assessmentId,
+            user: a.user,
+            grade: a.grade,
+            timeLimit: a.timeLimit,
+            createdTimeStamp: reformatDate(a.createdTimeStamp), // reformat date of the assessment to an iso format (which spring can convert back into a TimeStamp)
+            finishedTimeStamp: reformatDate(a.finishedTimeStamp), // reformat date of the assessment to an iso format (which spring can convert back into a TimeStamp)
+            template: a.template,
+            options: a.options,
+            assessmentDragDrop: a.assessmentDragDrop,
+            fileUpload: a.fileUpload
+        }
+
+        // hold the encoded id of the assessment.
+        var encodedId = null;
+
+        // get the encoded equivalent of the assessment's id so the quiz review of the assessment can be brought up.
+        $http({
+            method  : 'POST',
+            url		: SITE_URL.BASE + API_URL.BASE + "/rest/encode",
+            headers : {'Content-Type' : 'application/json'},
+            data    : assessment
+
+        }).success( function(response) {
+            if(!response){
+                console.log('bad id'); //FIXME: delete this test print
             }
             else {
-            	var asmtId = response.data;
-            	
-            	//TODO: response validation.
-            	
-            	encodedId = asmtId;
-            	
-            	// bring up the review assessment page.
-            	window.location = SITE_URL.BASE + API_URL.BASE + '/quizReview?asmt=' + encodedId;
+                console.log('good id'); //FIXME: delete this test print
+
+                var asmtId = response.data;
+                console.log(asmtId); //FIXME: delete this test print
+
+                //TODO: response validation.
+
+                encodedId = asmtId;
+
+                // bring up the review assessment page.
+                window.location = SITE_URL.BASE + API_URL.BASE + '/quizReview?asmt=' + encodedId;
             }
-		}).error(function() {
-		});
-		
-	};
-    
+        }).error(function() {
+            console.log('whoops id'); //FIXME: delete this test print
+        });
+
+    };
+
     $scope.showToast = function(message) {
         $mdToast.show($mdToast.simple().textContent(message).parent(document.querySelectorAll('#toastContainer')).position("top right").action("OKAY").highlightAction(true));
     };
@@ -341,6 +346,7 @@ AESCoreApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,
         }).error( function() {
             $scope.showToast("Failed to Send an Assessment");
         });
+        console.log($scope.sendSuccessful);
     };
 
     $scope.options = [{
@@ -461,7 +467,7 @@ AESCoreApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSiden
 
     mc.currentPage = mc.findCurrentPage();
 
-    /* mc.buildToggler = function(navID) {
+    mc.buildToggler = function(navID) {
      return function() {
      $mdSidenav(navID)
      .toggle()
@@ -492,7 +498,7 @@ AESCoreApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSiden
      $mdSidenav(navID)
      .toggle()
      };
-     }*/
+     }
 
 });
 

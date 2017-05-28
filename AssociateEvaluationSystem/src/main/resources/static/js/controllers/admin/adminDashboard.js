@@ -2,7 +2,6 @@
  * Created by Richard Wingert on 5/24/2017.
  */
 adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SITE_URL, API_URL, ROLE) {
-    //variable initialization
     $scope.employees;
     $scope.roleCnts=[];
     $scope.recruiterCnts=[];
@@ -82,7 +81,7 @@ adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SIT
             var r = new rec($scope.recruiters[i].firstName, $scope.recruiters[i].lastName, $scope.recruiters[i].userId, 0 );
             $scope.recruiterCnts.push(r);
         }
-        var delr = new rec("Deleted","Recruiter", 0, 0 );
+        var delr = new rec("No Listed","Recruiter", 0, 0 );
         $scope.recruiterCnts.push(delr);
         //for each candidate, find their recruiter in our recruiter array
         //and increment the count for that recruiter

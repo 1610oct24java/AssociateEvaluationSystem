@@ -26,5 +26,10 @@ public class CategoryRequestServiceImpl implements CategoryRequestService {
 		catDao.save(catReq);
 		
 	}
+	
+	@Override
+	public void deleteCategoryRequest(CategoryRequest catReq){
+		catDao.delete(catReq);
+	}
 
 }
