@@ -9,7 +9,8 @@ adminApp.constant("SITE_URL", {
 	"LOGIN": "index",
     "VIEW_EMPLOYEES" : "viewEmployees",
     "VIEW_CANDIDATES" : "view",
-    "REGISTER_EMPLOYEE" : ""
+    "REGISTER_EMPLOYEE" : "",
+	"ADMIN_DASHBOARD" : "adminDashboard"
 });
 
 adminApp.constant("API_URL", {

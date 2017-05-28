@@ -367,7 +367,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $l
             url: ("assessmentrequest/"+$scope.catInt  + "/" + $scope.typeInt +"/" + $scope.maxQuestions + "/")
         }).then(function (response) {
             $scope.numOfQuestions = response.data;
-            $scope.quantity=$scope.maxQuestions;
+            $scope.quantity=$scope.maxQuestionsInput;
             if($scope.quantity > $scope.numOfQuestions){
                 alert("There are only " + $scope.numOfQuestions + " of those questions available.");
             }else{
@@ -434,7 +434,46 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $l
                 $scope.showToast("Success - Section added", "success");
             };
 
-            
+            //creates url and performs AJAX call to appropriate REST endpoint
+            //sending the assessment time and criteria
+            $scope.createAssessment = function() {
+
+                if($scope.asshours + ($scope.assdays * 24) == 0){
+                    $scope.totalHourz = null;
+                }else{
+                    $scope.totalHourz = $scope.asshours + ($scope.assdays * 24);
+                }
+
+
+                data = {
+                    "timeLimit": $scope.time,
+                    "categoryRequestList": $scope.assessments,
+                    "hoursViewable" : $scope.totalHourz,
+                    "isDefault" : 0,
+                    "name": $scope.name
+                };
+
+                if($scope.coreLanguage == false){
+                    $scope.showToast("Core Language Section Required", "fail");
+                }
+
+
+
+                else if($scope.coreLanguage == true){
+                    $http({
+                        method: 'PUT',
+                        url: (SITE_URL.BASE + API_URL.BASE + "/assessmentrequest" + "/1/"),
+                        headers: { 'Content-Type': 'application/json' },
+                        data: data
+                    }).success(function(response) {
+                        $scope.showToast("Assessment created successfully", "success");
+                        window.location = SITE_URL.VIEW_EMPLOYEES;
+                    }).error(function(response) {
+                        $scope.showToast("Assessment creation failed", "fail");
+
+                    });
+                }
+            }
         });
     };
 
