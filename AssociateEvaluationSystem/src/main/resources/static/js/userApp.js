@@ -1,4 +1,4 @@
-var userApp = angular.module('userApp',['ngMaterial', 'ngMessages', "chart.js"]);
+var userApp = angular.module('userApp',['ngMaterial', 'ngMessages']);
 
 userApp.constant("SITE_URL", {
 	"HTTP" : "http://",
