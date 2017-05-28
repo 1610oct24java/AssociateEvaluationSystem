@@ -448,7 +448,14 @@ app.controller('QuestionCtrl', function($http, $scope, $filter) {
 	}
 
 	$scope.numberOfPages = function(){
-            return Math.ceil($scope.qList.length/$scope.pageSize);
+		return Math.ceil($scope.qList.length/$scope.pageSize);
+	}
+
+	$scope.currentPageOverLimit = function(){
+        if($scope.currentPage > $scope.formatNumber($scope.filteredItems.length/$scope.pageSize) - 1)
+		{
+            $scope.currentPage = $scope.formatNumber($scope.filteredItems.length/$scope.pageSize - 1);
+		}
 	}
 
     angular.element(document).ready(function() {
