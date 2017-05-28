@@ -55,6 +55,20 @@ function closeSideNav() {
     document.getElementById("page-container").style.marginRight = "0";
 }
 
+//where user makes decision to submit
+function showSubmitAssesmentModal() {
+    var submitAssessmentModal = document.getElementById("submitAssessmentModal");
+    submitAssessmentModal.style.display = "block";
+    $timeout(function () {
+        $rootScope.submitAssessment();
+    }, 3000);
+}
+
+function closeSubmitAssesmentModal() {
+    var submitAssessmentModal = document.getElementById("submitAssessmentModal");
+    submitAssessmentModal.style.display = "none";
+}
+
 function openAboutNav(){
 	closeSideNav();
 	document.getElementById("aboutnav").style.width = "250px";

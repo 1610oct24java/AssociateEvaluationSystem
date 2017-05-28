@@ -51,6 +51,13 @@ app.service('fileUpload', ['$http', function ($http) {
         return $http.post(uploadUrl, fd, {
             transformRequest: angular.identity,
             headers: {'Content-Type': undefined}
-        })
-    }
+})
+}
 }]);
+
+app.filter('startFrom', function() {
+    return function(input, start) {
+        start = +start;
+        return input.slice(start);
+    }
+});
