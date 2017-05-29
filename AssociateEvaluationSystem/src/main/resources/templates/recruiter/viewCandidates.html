@@ -84,20 +84,21 @@
 	</div>
 	<div class="container">
 		<div class="row" >
-			<div style="height: 750px; overflow: auto;">
-				<table class="table table-striped table-bordered">
-					<caption>My Candidates:</caption>
-					<thead>
-					<tr>
-						<th>Last Name</th>
-						<th>First Name</th>
-						<th>Email</th>
-						<th>Most Recent Score</th>
-						<th>Send Assessment</th>
-						<th>Past Assessments</th>
-					</tr>
-					</thead>
-					<tbody ng-repeat="candidate in candidates" >
+		<div style="height: 750px; overflow: auto;">
+
+			<table class="table table-striped table-bordered">
+				<caption>My Candidates:</caption>
+				<thead>
+				<tr>
+					<th>Last Name</th>
+					<th>First Name</th>
+					<th>Email</th>
+					<th>Most Recent Score</th>
+					<th>Send Assessment</th>
+					<th>Past Assessments</th>
+				</tr>
+				</thead>
+				<tbody ng-repeat="candidate in candidates" >
 					<!-- DISPLAY CANDIDATE INFO -->
 					<tr>
 						<td inline-edit="candidate.lastName">{{candidate.lastName}}</td>
