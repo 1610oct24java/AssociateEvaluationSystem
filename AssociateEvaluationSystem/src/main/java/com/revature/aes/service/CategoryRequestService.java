@@ -9,4 +9,5 @@ public interface CategoryRequestService {
 	
 	public void saveCategoryRequest(CategoryRequest catReq);
 	
+	public void deleteCategoryRequest(CategoryRequest catReq);
 }

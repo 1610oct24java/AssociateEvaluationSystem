@@ -80,7 +80,17 @@ public class CategoryRequest implements Serializable{
         this.csQuestions = csQuestions;
     }
 
-    public Category getCategory() {
+    
+    
+    public Integer getCategoryRequestId() {
+		return categoryRequestId;
+	}
+
+	public void setCategoryRequestId(Integer categoryRequestId) {
+		this.categoryRequestId = categoryRequestId;
+	}
+
+	public Category getCategory() {
         return category;
     }
 
@@ -116,6 +126,8 @@ public class CategoryRequest implements Serializable{
         return csQuestions;
     }
 
+    
+    
     public void setCsQuestions(Integer csQuestions) {
         this.csQuestions = csQuestions;
     }

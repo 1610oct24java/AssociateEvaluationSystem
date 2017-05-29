@@ -105,12 +105,14 @@
 		<div class="well well-lg">
 			<caption>
 				<div>
+					Search: <input type="text" ng-model="assessmentSearch">
+					<br>
 					Order by: <select ng-model="sortorder" ng-init="sortorder='name'">
 					<option selected value="name">Name</option>
 					<option value="-numSections">Number Of Sections</option>
 					<option value="-numQuestions">Number of Questions</option>
 					<option value="-timeLimit">Time Limit</option>
-				</select> &nbsp; Search: <input type="text" ng-model="assessmentSearch">
+				</select>
 				</div>
 			</caption>
 			<table id="allAss" class="ui celled table" cellspacing="0"

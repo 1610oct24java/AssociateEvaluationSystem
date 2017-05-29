@@ -297,20 +297,37 @@ background-color: green;
 		</div>
 
 		<!--for question modal-->
+
 		<div id="submitAssessmentModal" class="modal">
 			<div class="modal-content">
-				<p>Are you sure you are ready to submit? Here is your evaluation summary.</p>
-				<button type="button"
-						class="btn text-center navbar-menu-btn" ng-click="submitAssessment()" ng-disabled="submitted">
-					<span class="fa fa-upload" style="font-size:1.5em;"></span><br>Yes
-				</button>
+				<div style = "display: inline-block;">
+				<table>
+					<tr>
+						<td>
+							<h3>Are you ready to submit?</h3>
+						</td>
+						<td>
+							<button type="button"
+									class="btn text-center navbar-menu-btn" ng-click="submitAssessment()" ng-disabled="submitted">
+								<span class="fa fa-upload" style="font-size:2.5em;"></span><br>Submit
+							</button>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<h4>here's a summary of your saved, unsaved and flagged questions</h4>
+						</td>
+					</tr>
+				</table>
+				</span>
+				</div>
 
 				<div ng-controller="QuizNavController" style="text-align:center;">
 					<h3>Quiz Navigation</h3>
-					<div id="sideNavTable" style="text-align:center;">
+					<div id="navTableModal" style="text-align:center;">
 						<table class="nav-table" align="center">
 							<tr ng-repeat="i in array" ng-init="index = i*5">
-								<td ng-repeat="state in states.slice(index,index+5)">
+								<td ng-repeat="state in states.slice(index,index+5)" style="padding-right:25px;">
 									<div class="status-container" ng-click="jumpPage(state.id)">
 										<i class="text-center glyphicon glyphicon-floppy-disk icon-size"
 										   ng-class="{'glyph-blue': state.saved, 'glyph-silver': !state.saved}"></i>

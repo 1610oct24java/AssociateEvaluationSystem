@@ -24,7 +24,7 @@ public class AssessmentRequestServiceImpl implements AssessmentRequestService {
     private AESJDBCImpl aesJdbc;
 
 	@Override
-	public void deleteAssessmentRequestTemplate(AssessmentRequest assReq){
+	public void deleteAssessmentRequest(AssessmentRequest assReq){
 		assReqDao.delete(assReq);
 	}
     @Override
@@ -37,6 +37,7 @@ public class AssessmentRequestServiceImpl implements AssessmentRequestService {
     public AssessmentRequest saveAssessmentRequest(AssessmentRequest assReq) {
         return assReqDao.save(assReq);
     }
+    
 
 	@Override
 	public List<AssessmentRequest> findAll() {
@@ -67,7 +68,7 @@ public class AssessmentRequestServiceImpl implements AssessmentRequestService {
 	public Integer getNumberOfQuestions(Integer category, Integer type){
 		return aesJdbc.getNumOfQuestions(category, type);
 	}
-
+	
 
 /*	@Override
 	public AssessmentRequest getLastInsertedAssessmentRequest() {
