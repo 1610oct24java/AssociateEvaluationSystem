@@ -25,9 +25,7 @@ public class CandidateController {
 	@Autowired
 	private AssessmentAuthService authService;
 	
-	
-	
-	/**
+		/**
 	 * 
 	 * getLink retrieves the link associated with the candidate
 	 * whose "username" is the same as the provided email parameter.

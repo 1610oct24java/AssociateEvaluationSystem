@@ -1,63 +1,61 @@
 package com.revature.aes.controllers;
 
+
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+//import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.boot.test.mock.mockito.MockBean;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.context.WebApplicationContext;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-
-
-import static org.mockito.BDDMockito.*;
-import static org.mockito.Mockito.verify;
-
+import static org.hamcrest.core.Is.is;
 import com.revature.aes.beans.AssessmentAuth;
 import com.revature.aes.service.AssessmentAuthService;
 
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
 
-@RunWith(SpringRunner.class)
-//@ContextConfiguration("/test-config.xml")
-//@WebMvcTest(CandidateController.class)
-@SpringBootTest(classes = WebApplicationContext.class)
 public class CandidateControllerTest {
 	
-	@Autowired
-	private WebApplicationContext webApplicationContext;
+	private MockMvc mockMvc;
 	
-//	@Autowired
-	private MockMvc mvc;
-	
-//	@MockBean
+	@Mock
 	private AssessmentAuthService authService;
 	
+	AssessmentAuth assessmentAuth = new AssessmentAuth(4350,260,"http://10.0.0.225:8090/aes","http://192.168.60.108:8090/aes/quiz?asmt=5Aq");
 	
+	String email = "ldclauss@svsu.edu";
+	
+	@InjectMocks
+	private CandidateController candidateController;
+	
+
 	@Before
 	public void setUp() throws Exception {
-		this.mvc = webAppContextSetup(webApplicationContext).build(); 
-		}
+		MockitoAnnotations.initMocks(this);
+		mockMvc = MockMvcBuilders
+				.standaloneSetup(candidateController)
+				.build();
+	}
 
 	@Test
-	public void testGetLink() throws Exception {
-		String email = "whocares@5.emailfake.ml";
+	public final void testGetLink() throws Exception {
 		
-		given(authService.getLink(email)).willReturn(new AssessmentAuth(4350,260,"http://10.0.0.225:8090/aes", "http://192.168.60.108:8090/aes/quiz?asmt=5Aq"));
-		
-		mvc.perform(get("/candidate/"+ email + "/link", email).accept(MediaType.APPLICATION_JSON_UTF8))
-			.andExpect(status().isOk()).andReturn();
-		
-		verify(authService.getLink(email));
-		
+		when(authService.getLink(Mockito.anyString())).thenReturn(assessmentAuth);
+		mockMvc.perform(get("/candidate/{email}/link", email))
+			.andExpect(status().isOk())
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+			.andExpect(null);
 	}
+	
+	
 
 }
