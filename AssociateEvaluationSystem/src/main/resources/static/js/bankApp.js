@@ -1,7 +1,7 @@
-var app = angular.module("bankApp", [ 'ui.router', 'ngFileUpload','ngProgress', 'ngMaterial', 'ngMessages']);
+var app = angular.module("bankApp", ['ui.router', 'ngFileUpload','ngProgress', 'ngMaterial', 'ngMessages']);
 
-app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider) { 
- 
+app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider) {
+
     $stateProvider
         .state('category', {
             url:'category',
@@ -15,7 +15,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider) {
             controller: 'TagCtrl'
         })
         .state('question', {
-        	url:'question',
+            url:'question',
             templateUrl: 'templates/misc/bank/questionTemplate.html',
             controller: 'QuestionCtrl',
             controllerAs: 'qc'
@@ -25,7 +25,12 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider) {
             templateUrl: 'templates/misc/bank/uploadTemplate.html',
             controller: 'MasterCtrl'
         })
- 
+        .state('fullQuestion', {
+            url:'fullQuestion',
+            templateUrl: 'templates/misc/bank/addQuestionTemplate.html',
+            controller: 'QuestionCtrl'
+        })
+
 }]);
 
 app.directive('fileModel', ['$parse', function ($parse) {
@@ -34,7 +39,7 @@ app.directive('fileModel', ['$parse', function ($parse) {
         link: function(scope, element, attrs) {
             var model = $parse(attrs.fileModel);
             var modelSetter = model.assign;
-            
+
             element.bind('change', function(){
                 scope.$apply(function(){
                     modelSetter(scope, element[0].files[0]);
@@ -51,13 +56,52 @@ app.service('fileUpload', ['$http', function ($http) {
         return $http.post(uploadUrl, fd, {
             transformRequest: angular.identity,
             headers: {'Content-Type': undefined}
-})
-}
+        })
+    }
 }]);
 
 app.filter('startFrom', function() {
-    return function(input, start) {
+    return function(userInput, start) {
         start = +start;
-        return input.slice(start);
+        return userInput.slice(start);
     }
+});
+
+app.filter('unique', function () {
+
+    return function (items, filterOn) {
+
+        if (filterOn === false) {
+            return items;
+        }
+
+        if ((filterOn || angular.isUndefined(filterOn)) && angular.isArray(items)) {
+            var hashCheck = {}, newItems = [];
+
+            var extractValueToCompare = function (item) {
+                if (angular.isObject(item) && angular.isString(filterOn)) {
+                    return item[filterOn];
+                } else {
+                    return item;
+                }
+            };
+
+            angular.forEach(items, function (item) {
+                var valueToCheck, isDuplicate = false;
+
+                for (var i = 0; i < newItems.length; i++) {
+                    if (angular.equals(extractValueToCompare(newItems[i]), extractValueToCompare(item))) {
+                        isDuplicate = true;
+                        break;
+                    }
+                }
+                if (!isDuplicate) {
+                    newItems.push(item);
+                }
+
+            });
+            items = newItems;
+        }
+        return items;
+    };
 });
