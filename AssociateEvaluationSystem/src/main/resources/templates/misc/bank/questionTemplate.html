@@ -87,6 +87,9 @@
 				<pre>Input a new option to this text field, then click "Add Option".</pre>
 				<br> <input type="text" size="60" ng-model="newOption"></input><br>
 				<button ng-click="updateQuestion()">Update</button>
+				<div ng-show="updateSuccessful" class="span-creds">
+					Update Successful
+				</div>
 				<button ng-click="addOption(newOption)">Add Option</button>
 			</div>
 			<div ng-show="isMultiSelectOption">
