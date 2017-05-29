@@ -28,6 +28,10 @@ app.controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', '$http', 
 		$state.go("upload");
 		$scope.templateName = "Upload Assessment";
 	};
+    $scope.addQuestion = function(){
+        $state.go("fullQuestion");
+        $scope.templateName = "Add Question";
+    };
 	
     $scope.uploadFile = function(){
     	// Start the progressbar

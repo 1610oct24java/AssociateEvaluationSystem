@@ -19,4 +19,5 @@ public interface AssessmentRequestDAO extends JpaRepository<AssessmentRequest, I
 	public List<AssessmentRequest> getDefaultAssessment();
 	
 	
+	
 }
