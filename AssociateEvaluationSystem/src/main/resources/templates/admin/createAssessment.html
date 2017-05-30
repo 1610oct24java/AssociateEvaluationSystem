@@ -36,7 +36,7 @@
 	<ng-include src="'menu.html'" />
 </div>
 <div layout="column" ng-cloak="" class="md-inline-form">
-	<md-content> <md-card> <md-toolbar
+	<md-content> <md-card class="well no-padding"> <div
 			layout="columns" class="md-primary">
 		<div class="md-toolbar-tools">
 			<span>Assessment Creation</span>
@@ -45,7 +45,7 @@
 		<button layout-margin type="submit" class="btn btn-success btn-md" id="create"
 				ng-disabled="(!assessments[0] || timeForm.$invalid  ||nameForm.$invalid ) || validateReview();"
 				ng-click="createAssessment();">Create Assessment</button>
-	</md-toolbar> <md-card-content>
+	</div> <md-card-content>
 		<form name="timeForm" novalidate="">
 			<div layout-gt-sm="row">
 				<md-input-container class="md-block" flex-gt-sm="">
@@ -58,14 +58,14 @@
 </div>
 <div flex="100" layout-xs="column" layout="row">
 	<div flex-xs="" flex-gt-xs="40" layout="column">
-		<md-card> <md-toolbar
+		<md-card class="well no-padding"> <span
 				class="md-primary">
-			<div class="md-toolbar-tools">
-				<span>Assessment Name</span>
+			<div  class="md-toolbar-tools">
+				<span >Assessment Name</span>
 			</div>
 
 			<div layout-gt-sm="column">
-		</md-toolbar>
+		</span>
 
 			<md-card-content>
 				<form name="nameForm" novalidate="">
@@ -75,12 +75,14 @@
 					</div>
 				</form>
 			</md-card-content>
-			<md-toolbar class="md-primary">
+			</md-card>
+			<md-card class="well no-padding">
+			<span class="md-primary">
 
 				<div class="md-toolbar-tools">
 					<span>Create Section</span>
 				</div>
-			</md-toolbar> <md-divider></md-divider> <md-card-content> <!-- <form role="form" ng-submit="addRow()"> -->
+			</span> <md-card-content> <!-- <form role="form" ng-submit="addRow()"> -->
 				<form name="sectionForm" ng-submit="addRow(); checkDuplicate(); "
 					  novalidate>
 					<div layout-gt-sm="column">
@@ -107,12 +109,12 @@
 			</md-card-content> </md-card>
 	</div>
 	<div flex-xs="" flex-gt-xs="60" layout="column">
-		<md-card style="height:527px;"> <md-toolbar
+		<md-card class="well no-padding" style="height:614px;"> <span
 				class="md-primary">
 			<div class="md-toolbar-tools">
 				<span> Current Sections </span>
 			</div>
-		</md-toolbar> <md-divider></md-divider> <md-card-content style="overflow-y:auto;"
+		</span><md-card-content style="overflow-y:auto;"
 				ng-if="totalQuestions != undefined">
 			<table id="example" class="ui celled table" cellspacing="0"
 				   width="100%">
