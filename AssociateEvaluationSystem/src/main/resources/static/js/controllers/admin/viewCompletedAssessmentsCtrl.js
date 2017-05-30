@@ -15,17 +15,8 @@ adminApp.controller('ViewCompletedAssessmentsCtrl', function($scope, $http, $mdT
 
     $scope.allowReview = function()
     {
-        if($scope.assReviewCheck)
-        {
-    
             $scope.assdays = 0;
             $scope.asshours = 0;
-        }
-        else
-        {
-            $scope.assdays = 0;
-            $scope.asshours = 0;
-        }
     };
 
 
@@ -120,7 +111,7 @@ adminApp.controller('ViewCompletedAssessmentsCtrl', function($scope, $http, $mdT
             }
         })
         return output.length;
-    };
+    }
 
     //returns number of types in th
     function typeCount(collection){
@@ -149,7 +140,7 @@ adminApp.controller('ViewCompletedAssessmentsCtrl', function($scope, $http, $mdT
                 csBool = true;
             }
 
-        });
+        })
         return types;
     }
 
@@ -174,7 +165,7 @@ adminApp.controller('ViewCompletedAssessmentsCtrl', function($scope, $http, $mdT
         $scope.assessments.splice(index, 1);
         $scope.sections.splice(index,1);
         UpdateTotals(-tempQuantity);
-    };
+    }
 
     $scope.maxQuestions;
     $scope.availabilityString ="";
