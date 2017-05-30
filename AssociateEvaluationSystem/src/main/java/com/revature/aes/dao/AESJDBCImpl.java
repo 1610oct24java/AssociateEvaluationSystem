@@ -40,9 +40,10 @@ public class AESJDBCImpl implements AESJDBC {
 			while(rs.next()){
 				total = rs.getInt(1);
 			}
+			
 
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
+		} catch (Exception e) {
+			throw new NullPointerException();
 		}
 	    
 	   

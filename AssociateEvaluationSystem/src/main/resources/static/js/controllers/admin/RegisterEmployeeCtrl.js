@@ -1,3 +1,7 @@
+/**
+ * @class AES.adminApp.RegisterEmployeeCtrl
+ */
+
 adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$http,SITE_URL, API_URL, ROLE) {
     $scope.roleTypes = [];
     $scope.allEmails = [];

@@ -1,6 +1,8 @@
 /**
- * Created by Gabe on 5/25/2017.
+ * @class AES.adminApp.ViewCompletedAssessmentsCtrl
+ * @author Gabe
  */
+
 adminApp.controller('ViewCompletedAssessmentsCtrl', function($scope, $http, $mdToast, SITE_URL, API_URL, ROLE) {
 
     $scope.validateReview = function ()
@@ -13,17 +15,8 @@ adminApp.controller('ViewCompletedAssessmentsCtrl', function($scope, $http, $mdT
 
     $scope.allowReview = function()
     {
-        if($scope.assReviewCheck)
-        {
-            var totalHours= ($scope.assdays * 24) + $scope.asshours;
             $scope.assdays = 0;
             $scope.asshours = 0;
-        }
-        else
-        {
-            $scope.assdays = 0;
-            $scope.asshours = 0;
-        }
     };
 
 
@@ -89,7 +82,8 @@ adminApp.controller('ViewCompletedAssessmentsCtrl', function($scope, $http, $mdT
                 };
             } else
                 window.location = SITE_URL.LOGIN;
-        });
+        })
+        
 
     $scope.times = [15, 30, 45, 60, 75, 90];
 
@@ -116,9 +110,9 @@ adminApp.controller('ViewCompletedAssessmentsCtrl', function($scope, $http, $mdT
                 keys.push(key);
                 output.push(item);
             }
-        });
+        })
         return output.length;
-    };
+    }
 
     //returns number of types in th
     function typeCount(collection){
@@ -147,7 +141,7 @@ adminApp.controller('ViewCompletedAssessmentsCtrl', function($scope, $http, $mdT
                 csBool = true;
             }
 
-        });
+        })
         return types;
     }
 
@@ -172,7 +166,7 @@ adminApp.controller('ViewCompletedAssessmentsCtrl', function($scope, $http, $mdT
         $scope.assessments.splice(index, 1);
         $scope.sections.splice(index,1);
         UpdateTotals(-tempQuantity);
-    };
+    }
 
     $scope.maxQuestions;
     $scope.availabilityString ="";
@@ -247,7 +241,6 @@ adminApp.controller('ViewCompletedAssessmentsCtrl', function($scope, $http, $mdT
             $scope.numOfQuestions = response.data;
             $scope.quantity=$scope.maxQuestions;
             if($scope.quantity > $scope.numOfQuestions){
-                alert("There are only " + $scope.numOfQuestions + " of those questions available.");
             }else{
                 $scope.sections.push({ 'category': $scope.category, 'type': $scope.type, 'quantity': $scope.quantity });
 
@@ -334,7 +327,7 @@ adminApp.controller('ViewCompletedAssessmentsCtrl', function($scope, $http, $mdT
                 $scope.type = '';
                 $scope.quantity = '';
                 $scope.showToast("Success - Section added", "success");
-            };
+            }
 
             //creates url and performs AJAX call to appropriate REST endpoint
             //sending the assessment time and criteria

@@ -1,3 +1,7 @@
+/**
+ * @class AES.adminApp.CreateAssessmentCtrl
+ */
+
 adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $location, SITE_URL, API_URL, ROLE) {
     //initialize data
     $http({
@@ -38,18 +42,8 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $l
 
     $scope.allowReview = function()
     {
-        if($scope.assReviewCheck)
-        {
-            var totalHours= ($scope.assdays * 24) + $scope.asshours;
             $scope.assdays = 0;
             $scope.asshours = 0;
-        }
-        else
-        {
-            $scope.assdays = 0;
-            $scope.asshours = 0;
-        }
-
     };
 
 
@@ -98,7 +92,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $l
                 $scope.authUser = authUser;
                 if ($scope.authUser.authority != ROLE.ADMIN) {
                     window.location = SITE_URL.LOGIN;
-                };
+                }
             } else
                 window.location = SITE_URL.LOGIN;
         });
@@ -197,13 +191,14 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $l
                 keys.push(key);
                 output.push(item);
             }
-        });
+        })
         return output.length;
-    };
+    }
 
     //returns number of types in th
     function typeCount(collection){
 
+    	
         var types = 0;
         var mcBool = false;
         var msBool = false;
@@ -228,7 +223,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $l
                 csBool = true;
             }
 
-        });
+        })
         return types;
     }
 
@@ -364,7 +359,6 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $l
             $scope.numOfQuestions = response.data;
             $scope.quantity=$scope.maxQuestionsInput;
             if($scope.quantity > $scope.numOfQuestions){
-                alert("There are only " + $scope.numOfQuestions + " of those questions available.");
             }else{
                 $scope.sections.push({ 'category': $scope.currentCategory.name, 'type': $scope.currentType.formatName, 'quantity': $scope.quantity });
 
@@ -428,7 +422,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $l
                 $scope.maxQuestions='';
                 $scope.availabilityString='';
                 $scope.showToast("Success - Section added", "success");
-            };
+            }
 
 
         });

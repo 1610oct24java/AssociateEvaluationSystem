@@ -31,7 +31,6 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 		registry.addViewController("/viewAssessment").setViewName("admin/viewAssessment");
 		registry.addViewController("/registerEmployee").setViewName("admin/registerEmployee");
 		registry.addViewController("/registerEmployee").setViewName("admin/registerEmployee");
-		registry.addViewController("/parser").setViewName("admin/xmlParser");
 		registry.addViewController("/menu.html").setViewName("admin/menu");
 		registry.addViewController("/manageQuestions").setViewName("admin/manageQuestions");
 		registry.addViewController("/addQuestions").setViewName("admin/addQuestions");

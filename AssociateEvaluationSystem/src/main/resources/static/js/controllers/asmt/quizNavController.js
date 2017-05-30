@@ -1,3 +1,7 @@
+/**
+ * @class AES.asmtApp.QuizNavController
+ */
+
 asmt.controller('QuizNavController', function($scope, $rootScope) {
 	
 	$scope.index = 0;

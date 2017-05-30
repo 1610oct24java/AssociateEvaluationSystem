@@ -1,0 +1,244 @@
+/**
+ * @author Richard Wingert
+ * @class AES.adminApp.AdminDashboardCtrl
+ */
+
+adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SITE_URL, API_URL, ROLE) {
+    $scope.employees;
+    $scope.roleCnts=[];
+    $scope.recruiterCnts=[];
+    $scope.recruiters=[];
+    $scope.candidates=[];
+    //constructor for role object
+    function role(type, count){
+        this.type=type;
+        this.count=count;
+    }
+    function rec(fname, lname,userId, count, email){
+        this.fname=fname;
+        this.lname=lname;
+        this.userId=userId;
+        this.count=count;
+        this.email = email;
+<<<<<<< HEAD
+    }
+
+    function assessment(finishedTimeStamp, grade, fname, lname){
+        this.finishedTimeStamp = finishedTimeStamp;
+        this.grade = grade;
+        this.fname = fname;
+        this.lname = lname;
+=======
+>>>>>>> 64e4463542aae2a5a24acbf962b1d11c8cbf1cc1
+    }
+
+    function assessment(finishedTimeStamp, grade, fname, lname){
+        this.finishedTimeStamp = finishedTimeStamp;
+        this.grade = grade;
+        this.fname = fname;
+        this.lname = lname;
+    };
+
+
+    //store all employees to $scope.employees
+    $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
+        .then(function (response) {
+            //check if authenticated
+            if (response.data.authenticated) {
+                var authUser = {
+                    username: response.data.principal.username,
+                    authority: response.data.principal.authorities[0].authority
+                }
+                //if not authenticated, redirect to login
+                $scope.authUser = authUser;
+                if ($scope.authUser.authority != ROLE.ADMIN) {
+                    window.location = SITE_URL.LOGIN;
+                }
+
+                $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEES)
+                    .then(function (response) {
+                        $scope.employees = response.data;
+
+                        $scope.getRoleCnts();
+                        $scope.getRecruiterCnts()
+                    });
+            } else {
+                window.location = SITE_URL.LOGIN;
+            }
+        });
+
+    //iterate through all users and get their role.
+    //store roles found into $scope.roleCnts and keep a count of all roles.
+    //to dynamically track roles, we must also iterate through the roles array
+    $scope.getRoleCnts = function () {
+        //get employee count types
+        for (var i = 0; i < $scope.employees.length; i++) {
+            var added=false;
+            for (var k = 0; k < $scope.roleCnts.length; k++) {
+                if ($scope.employees[i].role.roleTitle==$scope.roleCnts[k].type ){
+                    $scope.roleCnts[k].count++;
+                    added=true;
+                }
+            }
+            if (!added){
+                var c = new role($scope.employees[i].role.roleTitle, 1);
+                $scope.roleCnts.push(c)
+            }
+            //set recuiter list
+            if($scope.employees[i].role.roleTitle=="recruiter") {
+                $scope.recruiters.push($scope.employees[i])
+            }
+            //set candidate list
+            else if($scope.employees[i].role.roleTitle=="candidate") {
+                $scope.candidates.push($scope.employees[i])
+            }
+        }
+    };
+
+    //get number of candidates each recruiter has
+    $scope.getRecruiterCnts = function () {
+        //init recruiter count array
+        for (var i = 0; i<$scope.recruiters.length;i++){
+            var r = new rec($scope.recruiters[i].firstName, $scope.recruiters[i].lastName, $scope.recruiters[i].userId, 0, $scope.recruiters[i].email );
+            $scope.recruiterCnts.push(r);
+        }
+        var delr = new rec("No Listed","Recruiter", 0, 0 );
+        $scope.recruiterCnts.push(delr);
+        //for each candidate, find their recruiter in our recruiter array
+        //and increment the count for that recruiter
+        for(var j=0; j<$scope.candidates.length;j++){
+            var added=false;
+            for(var k=0;k<$scope.recruiterCnts.length;k++){
+                if($scope.candidates[j].recruiterId==$scope.recruiterCnts[k].userId){
+                    $scope.recruiterCnts[k].count++;
+                    added=true;
+                }
+            }
+            if(!added){
+                $scope.recruiterCnts[$scope.recruiterCnts.length-1].count++;
+            }
+        }
+    }
+    $scope.graphData = [];
+    $scope.timeFrame;
+    $scope.assessments = [];
+    $scope.returnCheck = false;
+
+    function getCandidates(recruiterUsername){
+        $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
+            .then(function(response) {
+                if (response.data.authenticated) {
+                    var authUser = {
+                        username : response.data.principal.username,
+                        authority: response.data.principal.authorities[0].authority
+                    }
+                    $scope.authUser = authUser;
+                    if($scope.authUser.authority != ROLE.ADMIN) {
+                        window.location = SITE_URL.LOGIN;
+                    }
+                    $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER +"/"+recruiterUsername + "/candidates")
+                        .then(function(response) {
+                            var c =  response.data;
+                            $scope.assessments = [];
+                            for (var i=0; i<c.length; i++) {
+                                getAssessments(c[i].userId, c[i].email, c[i].firstName, c[i].lastName);
+                                c[i].expanded = false;
+                            }
+<<<<<<< HEAD
+
+=======
+>>>>>>> 64e4463542aae2a5a24acbf962b1d11c8cbf1cc1
+                        })
+
+                } else {
+                    window.location = SITE_URL.LOGIN;
+                }
+            });
+    }
+
+    function getAssessments(num, email, fname, lname) {
+        $http
+            .get(SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + "/"+email + "/assessments")
+            .then(function (response) {
+                var candidateAsmts = response.data;
+                candidateAsmts.forEach(function(a){
+                    if(a.grade != -1){
+<<<<<<< HEAD
+                        var ab = new assessment(a.finishedTimeStamp, a.grade, fname, lname);
+                        $scope.assessments.push(ab);
+=======
+                        var a = new assessment(a.finishedTimeStamp, a.grade, fname, lname);
+                        $scope.assessments.push(a);
+>>>>>>> 64e4463542aae2a5a24acbf962b1d11c8cbf1cc1
+                    }
+                });
+                updateGraph(num);
+                $scope.returnCheck = true;
+            });
+<<<<<<< HEAD
+    }
+
+
+    $scope.viewGraph = function(num, email){
+        $scope.assessments = [];
+        getCandidates(email);
+        updateGraph(num);
+    };
+=======
+    };
+
+
+    $scope.viewGraph = function(num, email){
+        $scope.assessments = [];
+        getCandidates(email);
+        updateGraph(num);
+    };
+>>>>>>> 64e4463542aae2a5a24acbf962b1d11c8cbf1cc1
+    function updateGraph(recruiterId) {
+        filterAssessments();
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(function(){
+            var startTimeRange = new Date();
+            startTimeRange.setDate(startTimeRange.getDate()-90);
+            var data = new google.visualization.DataTable();
+            data.addColumn('date', 'Date');
+            data.addColumn('number', 'Grade');
+            data.addColumn({type:'string', role:'tooltip'});
+            data.addRows($scope.graphData);
+            var options = {
+                title: 'Assessment Grade Scatterplot',
+                hAxis: {
+                    title: 'Date',
+                    viewWindow: {
+                        min: startTimeRange,
+                        max: new Date()
+                    }
+                },
+                vAxis: {title: 'Grade', minValue: 0, maxValue: 100},
+                legend: 'none'
+            };
+            var chart = new google.visualization.ScatterChart(document.getElementById('chart'));
+            chart.draw(data, options);
+        });
+<<<<<<< HEAD
+    }
+=======
+    };
+>>>>>>> 64e4463542aae2a5a24acbf962b1d11c8cbf1cc1
+
+    function filterAssessments(){
+        $scope.graphData = [];
+        var startTimeRange = new Date();
+        startTimeRange.setDate(startTimeRange.getDate()-90);
+        $scope.assessments.forEach(function(a){
+            var timestamp = new Date(a.finishedTimeStamp);
+            var grade = a.grade;
+            if(grade != -1 && timestamp > startTimeRange.getTime()){
+                var point = [timestamp, grade, "Name: "+a.fname+" "+a.lname+"\n Grade: "+grade+"\nDate: "+timestamp.toLocaleDateString()];
+                $scope.graphData.push(point);
+            }
+        });
+    }
+
+})
+

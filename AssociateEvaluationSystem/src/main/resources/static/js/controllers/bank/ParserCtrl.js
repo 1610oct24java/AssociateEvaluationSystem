@@ -1,6 +1,10 @@
+/**
+ * @class AES.adminApp.parserCtrl
+ */
+
 var reader;
 
-adminApp.controller("parserCtrl", function ($scope, $http, SITE_URL, API_URL, $log) {
+app.controller("parserCtrl", function ($scope, $http, SITE_URL, API_URL, $log) {
 
 
     $scope.myFile;
@@ -55,27 +59,27 @@ adminApp.controller("parserCtrl", function ($scope, $http, SITE_URL, API_URL, $l
         cat.push(out);
         return cat;
     };
+    
 
     //returns a format object
-    function getFormat (multiChoice, hasSingle) {
+    var getFormat = function (multiChoice, hasSingle) {
         var out = {};
         var name;
         if(hasSingle){
-            if(multiChoice == "true"){
+            if(multiChoice == "true")
                 name = "Multiple Choice";
-            } else {
+             else
                 name = "Multiple Select";
-            }
-        } else {
+        } else
             name = "Multiple Choice";
-        }
+       
         angular.forEach($scope.formats,function (format) {
-            if(format.formatName == name){
+            if(format.formatName == name)
                 out = format;
-            }
-        });
+        })
+        
         return out;
-    };
+    }
 
     //handles error(throws error if file was not selected)
     var throwError = function (variable, message) {

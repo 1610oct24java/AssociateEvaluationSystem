@@ -1,3 +1,7 @@
+/**
+ * @class AES.adminApp.SettingsViewCtrl
+ */
+
 adminApp.controller("SettingsViewCtrl", function($scope, $mdToast, $http, SITE_URL, API_URL){
 	
 	
