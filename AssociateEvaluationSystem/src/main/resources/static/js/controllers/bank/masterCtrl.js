@@ -67,7 +67,6 @@ app.controller('MasterCtrl', [
 
 			$scope.submitSnippetFiles = function(isValid) {
 				if (!isValid) {
-					alert('Problem with form, aborting.');
 					return;
 				}
 
@@ -109,7 +108,6 @@ app.controller('MasterCtrl', [
 
 			$scope.submitSnippetText = function(isValid) {
 				if (!isValid) {
-					alert('Problem with form, aborting.');
 					return;
 				}
 
@@ -259,7 +257,6 @@ app.controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', '$http', 
     
    $scope.submitSnippetFiles = function(isValid){
 	   if (!isValid) {
-		  alert('Problem with form, aborting.');
 		  return;
 	   } 
 	   
@@ -297,7 +294,6 @@ app.controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', '$http', 
    
    $scope.submitSnippetText = function(isValid){
        if (!isValid) {
-              alert('Problem with form, aborting.');
               return;
        } 
        

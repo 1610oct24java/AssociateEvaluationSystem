@@ -48,8 +48,6 @@ adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SIT
                 $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEES)
                     .then(function (response) {
                         $scope.employees = response.data;
-                        console.log($scope.employees);
-                        console.log($scope.authUser.username);
                         $scope.getRoleCnts();
                         $scope.getRecruiterCnts()
                     });
@@ -135,7 +133,6 @@ adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SIT
                                 getAssessments(c[i].userId, c[i].email, c[i].firstName, c[i].lastName);
                                 c[i].expanded = false;
                             }
-                            console.log($scope.assessments);
                         })
 
                 } else {
