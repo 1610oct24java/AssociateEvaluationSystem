@@ -55,18 +55,16 @@ public class CandidateControllerTest {
 		MockitoAnnotations.initMocks(this);
 		mockMvc = MockMvcBuilders.standaloneSetup(candidateController).build();
 	}
+	
 
 	// tests the response status and content type of the getLink method.
-	@Test
-	public final void testGetLink() throws Exception {
-
+	public final void testGetLink() throws Exception{
+		
 		when(authService.getLink(Mockito.anyString())).thenReturn(assessmentAuth);
-		try {
-			mockMvc.perform(get("/candidate/{email}/link", email)).andExpect(status().isOk())
-					.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+
+		mockMvc.perform(get("/candidate/{email}/link", email)).andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+
 	}
 
 }

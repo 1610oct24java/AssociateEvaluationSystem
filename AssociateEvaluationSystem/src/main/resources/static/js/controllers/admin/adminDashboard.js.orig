@@ -20,6 +20,16 @@ adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SIT
         this.userId=userId;
         this.count=count;
         this.email = email;
+<<<<<<< HEAD
+    }
+
+    function assessment(finishedTimeStamp, grade, fname, lname){
+        this.finishedTimeStamp = finishedTimeStamp;
+        this.grade = grade;
+        this.fname = fname;
+        this.lname = lname;
+=======
+>>>>>>> 64e4463542aae2a5a24acbf962b1d11c8cbf1cc1
     }
 
     function assessment(finishedTimeStamp, grade, fname, lname){
@@ -134,6 +144,10 @@ adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SIT
                                 getAssessments(c[i].userId, c[i].email, c[i].firstName, c[i].lastName);
                                 c[i].expanded = false;
                             }
+<<<<<<< HEAD
+
+=======
+>>>>>>> 64e4463542aae2a5a24acbf962b1d11c8cbf1cc1
                         })
 
                 } else {
@@ -149,13 +163,19 @@ adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SIT
                 var candidateAsmts = response.data;
                 candidateAsmts.forEach(function(a){
                     if(a.grade != -1){
+<<<<<<< HEAD
                         var ab = new assessment(a.finishedTimeStamp, a.grade, fname, lname);
                         $scope.assessments.push(ab);
+=======
+                        var a = new assessment(a.finishedTimeStamp, a.grade, fname, lname);
+                        $scope.assessments.push(a);
+>>>>>>> 64e4463542aae2a5a24acbf962b1d11c8cbf1cc1
                     }
                 });
                 updateGraph(num);
                 $scope.returnCheck = true;
             });
+<<<<<<< HEAD
     }
 
 
@@ -164,6 +184,16 @@ adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SIT
         getCandidates(email);
         updateGraph(num);
     };
+=======
+    };
+
+
+    $scope.viewGraph = function(num, email){
+        $scope.assessments = [];
+        getCandidates(email);
+        updateGraph(num);
+    };
+>>>>>>> 64e4463542aae2a5a24acbf962b1d11c8cbf1cc1
     function updateGraph(recruiterId) {
         filterAssessments();
         google.charts.load('current', {'packages':['corechart']});
@@ -190,7 +220,11 @@ adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SIT
             var chart = new google.visualization.ScatterChart(document.getElementById('chart'));
             chart.draw(data, options);
         });
+<<<<<<< HEAD
     }
+=======
+    };
+>>>>>>> 64e4463542aae2a5a24acbf962b1d11c8cbf1cc1
 
     function filterAssessments(){
         $scope.graphData = [];

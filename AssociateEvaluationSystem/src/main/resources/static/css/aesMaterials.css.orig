@@ -216,8 +216,11 @@ md-edit-dialog > .md-content md-input-container [ng-message] {
 	display: none !important;
 }
 
+<<<<<<< HEAD
+=======
 
 .vcenter{
 	display: block;
 }
 
+>>>>>>> 64e4463542aae2a5a24acbf962b1d11c8cbf1cc1

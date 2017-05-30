@@ -18,7 +18,11 @@ userApp.controller('recruiterDashboardCtrl', function($scope,$mdToast,$location,
         this.grade = grade;
         this.fname = fname;
         this.lname = lname;
+<<<<<<< HEAD
     }
+=======
+    };
+>>>>>>> 64e4463542aae2a5a24acbf962b1d11c8cbf1cc1
 
     $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
         .then(function(response) {
@@ -38,6 +42,10 @@ userApp.controller('recruiterDashboardCtrl', function($scope,$mdToast,$location,
                         var c =  response.data;
                         $scope.candidateCount = c.length;
                         for (var i=0; i<c.length; i++) {
+<<<<<<< HEAD
+
+=======
+>>>>>>> 64e4463542aae2a5a24acbf962b1d11c8cbf1cc1
                             getAssessments(c[i].userId, c[i].email, c[i].firstName, c[i].lastName);
                             c[i].expanded = false;
                         }
@@ -54,8 +62,13 @@ userApp.controller('recruiterDashboardCtrl', function($scope,$mdToast,$location,
                 var candidateAsmts = response.data;
                 candidateAsmts.forEach(function(a){
                    if(a.grade != -1){
+<<<<<<< HEAD
                        var ab = new assessment(a.finishedTimeStamp, a.grade, fname, lname);
                        $scope.assessments.push(ab);
+=======
+                       var a = new assessment(a.finishedTimeStamp, a.grade, fname, lname);
+                       $scope.assessments.push(a);
+>>>>>>> 64e4463542aae2a5a24acbf962b1d11c8cbf1cc1
                        $scope.asmtCount += 1;
                    }
                 })

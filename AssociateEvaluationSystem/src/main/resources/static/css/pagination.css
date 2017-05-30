@@ -61,7 +61,7 @@
     transform: translate(-5px, 0) rotate(0deg);
 }
 .paginate.right {
-    left: 10%;
+    left: 12%;
     -webkit-appearance: none;
     background: transparent;
     border: 0;
@@ -105,3 +105,7 @@
     cursor: default;
 }
 
+.pageCounter{
+    font-size: x-large;
+    font-family: "Roboto";
+}

@@ -16,6 +16,7 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
             case "updateEmployee":
                 return "employees";
             case "questions":
+                return "questions";
             case "manageQuestions":
             case "addQuestions":
                 return "questions";
@@ -23,8 +24,6 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
             case "createAssessment":
             case "New.html":
                 return "assessments";
-            case "parser":
-                return "parser";
             case "globalSettings":
                 return "globalSettings";
             case "viewCompletedAssessments":
@@ -68,10 +67,12 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
         var timer;
 
         return function debounced() {
+            var context = $scope,
+                args = Array.prototype.slice.call(arguments);
             $timeout.cancel(timer);
-            timer = $timeout(function() {
+            timer = $timeout(function(context) {
                 timer = undefined;
-                func.apply($scope, Array.prototype.slice.call(arguments));
+                func.apply(context, args);
             }, wait || 10);
         };
     }
