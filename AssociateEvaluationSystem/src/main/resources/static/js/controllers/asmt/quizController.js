@@ -1,3 +1,7 @@
+/**
+ * @class AES.asmtApp.quizController
+ */
+
 asmt.controller("quizController", function($scope, $rootScope, $http, $location, $window, $timeout, $anchorScroll) {
 	$rootScope.states = [];
 	$scope.answers = [];

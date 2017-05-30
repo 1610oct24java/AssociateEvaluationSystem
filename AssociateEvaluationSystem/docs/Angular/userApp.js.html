@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: userApp.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: userApp.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @namespace AES.userApp
+ * @memberOf AES
+ */
+
+var userApp = angular.module('userApp',['ngMaterial', 'ngMessages']);
+
+userApp.constant("SITE_URL", {
+	"HTTP" : "http://",
+	"HTTPS": "https://",
+	"BASE" : "",
+	"PORT" : ":8080",
+	
+	"LOGIN": "index",
+	"TRAINER_HOME" : "",
+	"VIEW_CANDIDATES" : "recruiterDash", //directs recruiters to dashboard on login
+	"VIEW_EMPLOYEES" : "viewEmployees",
+    "ADMIN_DASHBOARD" : "adminDashboard",
+	"REGISTER_CANDIDATE" : "",
+    "REGISTER_EMPLOYEE" : "",
+    "ASSESSMENT_LANDING" : "assessmentLandingPage"
+});
+
+userApp.constant("API_URL", {
+	"BASE"      : "/aes",
+	"LOGIN"     : "/login",
+	"LOGOUT"    : "/logout",
+	"AUTH"      : "/security/auth",
+	"CANDIDATE" : "/candidate/",
+	"RECRUITER" : "/recruiter/",
+	"LINK"      : "/link",
+	"CANDIDATES": "/candidates"
+});
+
+userApp.constant("ROLE", {
+	"RECRUITER" : "ROLE_RECRUITER",
+	"TRAINER"   : "ROLE_TRAINER",
+	"CANDIDATE" : "ROLE_CANDIDATE",
+	"ADMIN"		: "ROLE_ADMIN"
+});
+
+userApp.config(function($mdThemingProvider) {
+
+    var revOrangeMap = $mdThemingProvider.extendPalette("deep-orange", {
+        "A200": "#F26925",
+        "100": "rgba(242, 105, 37, 0.2)"
+    });
+
+    var revBlueMap = $mdThemingProvider.extendPalette("blue-grey", {
+        "500": "#37474F",
+        "800": "#3E5360"
+    });
+
+    $mdThemingProvider.definePalette("revOrange", revOrangeMap);
+    $mdThemingProvider.definePalette("revBlue", revBlueMap);
+
+    $mdThemingProvider.theme("default")
+        .primaryPalette("revBlue")
+        .accentPalette("revOrange");
+});
+
+//On enter event
+userApp.directive('onEnter', function() {
+    return function(scope, elm, attr) {
+        elm.bind('keypress', function(e) {
+            if (e.keyCode === 13) {
+                scope.$apply(attr.onEnter);
+            }
+        });
+    };
+});
+
+// Inline edit directive
+userApp.directive('inlineEdit', function($timeout) {
+    return {
+        scope: {
+            model: '=inlineEdit',
+            handleSave: '&amp;onSave',
+            handleCancel: '&amp;onCancel'
+        },
+        link: function(scope, elm, attr) {
+            var previousValue;
+
+            scope.edit = function() {
+                scope.editMode = true;
+                previousValue = scope.model;
+
+                $timeout(function() {
+                    elm.find('input')[0].focus();
+                }, 0, false);
+            };
+            scope.save = function() {
+                scope.editMode = false;
+
+            };
+            scope.cancel = function() {
+                scope.editMode = false;
+                scope.model = previousValue;
+                scope.handleCancel({value: scope.model});
+            };
+        },
+        template: '&lt;div>&lt;input type="text" on-enter="save()" on-esc="cancel()" ng-model="model" ng-show="editMode">'
+        + '&lt;button ng-click="cancel()" ng-show="editMode">&lt;span class="glyphicon glyphicon-remove">&lt;/span>&lt;/button>'
+        + '&lt;button ng-click="save()" ng-show="editMode">&lt;span class="glyphicon glyphicon-ok">&lt;/span>&lt;/button>'
+        + '&lt;span ng-mouseenter="showEdit = true" ng-mouseleave="showEdit = false">'
+        + '&lt;span ng-hide="editMode" ng-click="edit()">{{model}}&lt;/span>'
+        + '&lt;a ng-show="showEdit" ng-click="edit()">&lt;span class="glyphicon glyphicon-pencil">&lt;/span>&lt;/a>'
+        + '&lt;/span>&lt;/div>'
+    };
+});
+
+function sleep(milliseconds) {
+    var start = new Date().getTime();
+    for (var i = 0; i &lt; 1e7; i++) {
+        if ((new Date().getTime() - start) > milliseconds){
+            break;
+        }
+    }
+}
+
+// formats dates from being in total-milliseconds-from-epoch format into a human-readable, presentable format.
+function formatDate(date) {
+    if (date == null) {
+        return "";
+    }
+    var d = new Date(date);
+    var min = d.getMinutes() &lt; 10 ? '0' + d.getMinutes() : d.getMinutes();
+    return (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear() + " " + d.getHours() + ":" + min;
+}
+
+// reformats dates formatted by formatDate() from (M/D/YYYY H:MM) to an iso format (YYYY-MM-DDTHH:mm:ss.SSSZ)
+function reformatDate(date) {
+    if (!date) {
+        return "";
+    }
+
+    // split up the date and time components to make easier to change.
+    var datetime = date.split(' ');
+
+    // reformat the calendar-date components.
+    var oldDate = datetime[0];
+    var oldDateComponents = oldDate.split('/');
+    var YYYY = oldDateComponents[2];
+    var MM = oldDateComponents[0].length === 1 ? '0' + oldDateComponents[0] : oldDateComponents[0]; // month should be in the form 'MM'.
+    var DD = oldDateComponents[1];
+
+    // reformat the clock-time components.
+    var oldTime = datetime[1];
+    var oldTimeComponents = oldTime.split(':');
+    var hh = oldTimeComponents[0].length === 1 ? '0' + oldTimeComponents[0] : oldTimeComponents[0]; // hours should be in the form 'hh'.
+    var mm = oldTimeComponents[1];
+    var ss = '00'; // seconds aren't preserved in formatDate() from the original TimeStamp, so here just hardcoding 0...
+    var sss = '000'; // same situation as seconds, so here just hardcoding 0 for milliseconds...
+
+    // assemble the iso date from the reformatted date and time components.
+    var isoDate = YYYY + '-' + MM + '-' + DD + 'T' + // add the date components.
+        hh + ':' + mm + ':' + ss + '.' + sss + 'Z'; // add the time components.
+
+    // return the iso-formatted version of the date.
+    return isoDate;
+}
+
+// formats dates from being in total-milliseconds-from-epoch format into an iso format (YYYY-MM-DDThh:mm:ss.sssZ).
+function formatDateIso(date) {
+    if (!date) {
+        return "";
+    }
+
+    var jsDate = new Date(date);
+
+    // get the calendar-date components of the iso date.
+    var YYYY = jsDate.getFullYear();
+    var MM = (jsDate.getMonth() + 1) &lt; 10 ? '0' + (jsDate.getMonth() + 1) : (jsDate.getMonth() + 1); // month should be in the form 'MM'.
+    var DD = jsDate.getDate() &lt; 10 ? '0' + jsDate.getDate() : jsDate.getDate(); // day should be in the form 'DD'.
+
+    // get the clock-time components of the iso date.
+    var hh = jsDate.getHours() &lt; 10 ? '0' + jsDate.getHours() : jsDate.getHours(); // hours should be in the form 'hh'.
+    var mm = jsDate.getMinutes() &lt; 10 ? '0' + jsDate.getMinutes() : jsDate.getMinutes(); // minutes should be in the form 'mm'.
+    var ss = jsDate.getSeconds() &lt; 10 ? '0' + jsDate.getSeconds() : jsDate.getSeconds(); // seconds should be in the form 'ss'.
+    var sss = '000'; //just hardcoded 000 for milliseconds...
+
+    // assemble the iso date from the date and time components.
+    var isoDate = YYYY + '-' + MM + '-' + DD + 'T' + // add the date components.
+        hh + ':' + mm + ':' + ss + '.' + sss + 'Z'; // add the time components.
+
+    // return the iso-formatted version of the date.
+    return isoDate;
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AES.adminApp.AdminDashboardCtrl.html">AdminDashboardCtrl</a></li><li><a href="AES.adminApp.ChooseAssessmentCtrl.html">ChooseAssessmentCtrl</a></li><li><a href="AES.adminApp.CreateAssessmentCtrl.html">CreateAssessmentCtrl</a></li><li><a href="AES.adminApp.EmployeeViewCtrl.html">EmployeeViewCtrl</a></li><li><a href="AES.adminApp.MenuCtrl.html">MenuCtrl</a></li><li><a href="AES.adminApp.parserCtrl.html">parserCtrl</a></li><li><a href="AES.adminApp.RegisterEmployeeCtrl.html">RegisterEmployeeCtrl</a></li><li><a href="AES.adminApp.SettingsViewCtrl.html">SettingsViewCtrl</a></li><li><a href="AES.adminApp.UpdateEmployeeCtrl.html">UpdateEmployeeCtrl</a></li><li><a href="AES.asmtApp.CountdownController.html">CountdownController</a></li><li><a href="AES.asmtApp.landingPageCtrl.html">landingPageCtrl</a></li><li><a href="AES.asmtApp.quizController.html">quizController</a></li><li><a href="AES.asmtApp.QuizNavController.html">QuizNavController</a></li><li><a href="AES.asmtApp.quizReviewController.html">quizReviewController</a></li><li><a href="AES.bankApp.CategoryCtrl.html">CategoryCtrl</a></li><li><a href="AES.bankApp.MasterCtrl.html">MasterCtrl</a></li><li><a href="AES.bankApp.MenuCtrl.html">MenuCtrl</a></li><li><a href="AES.bankApp.QuestionCtrl.html">QuestionCtrl</a></li><li><a href="AES.bankApp.TagCtrl.html">TagCtrl</a></li><li><a href="AES.userApp.CandidateCtrl.html">CandidateCtrl</a></li><li><a href="AES.userApp.LoginCtrl.html">LoginCtrl</a></li><li><a href="AES.userApp.menuCtrl.html">menuCtrl</a></li><li><a href="AES.userApp.recruiterDashboardCtrl.html">recruiterDashboardCtrl</a></li><li><a href="AES.userApp.UpdateEmployeeCtrl.html">UpdateEmployeeCtrl</a></li></ul><h3>Namespaces</h3><ul><li><a href="AES.adminApp.html">adminApp</a></li><li><a href="AES.asmtApp.html">asmtApp</a></li><li><a href="AES.bankApp.html">bankApp</a></li><li><a href="AES.userApp.html">userApp</a></li><li><a href="AES%250DCreated%2520by%2520Mehrab%2520on%25205_30_2017..html">AESCreated by Mehrab on 5/30/2017.</a></li><li><a href="attr.ngfAsBackground.html">ngfAsBackground</a></li><li><a href="attr.ngfBackground.html">ngfBackground</a></li><li><a href="attr.ngfCapture.html">ngfCapture</a></li><li><a href="attr.ngfChange.html">ngfChange</a></li><li><a href="attr.ngfKeep.html">ngfKeep</a></li><li><a href="attr.ngfModelOptions.html">ngfModelOptions</a></li><li><a href="attr.ngfMultiple.html">ngfMultiple</a></li><li><a href="attr.ngfNoObjectUrl.html">ngfNoObjectUrl</a></li><li><a href="attr.ngfSelect.html">ngfSelect</a></li><li><a href="attr.ngfSize.html">ngfSize</a></li><li><a href="attr.ngfSrc.html">ngfSrc</a></li><li><a href="attr.ngfThumbnail.html">ngfThumbnail</a></li><li><a href="attr.ngfValidate.html">ngfValidate</a></li><li><a href="attr.ngModel.html">ngModel</a></li></ul><h3>Global</h3><ul><li><a href="global.html#$get">$get</a></li><li><a href="global.html#adjustTop">adjustTop</a></li><li><a href="global.html#calculatePosition">calculatePosition</a></li><li><a href="global.html#dragItem">dragItem</a></li><li><a href="global.html#eventObj">eventObj</a></li><li><a href="global.html#getRawNode">getRawNode</a></li><li><a href="global.html#height">height</a></li><li><a href="global.html#isScrollable">isScrollable</a></li><li><a href="global.html#isTouchInvalid">isTouchInvalid</a></li><li><a href="global.html#movePosition">movePosition</a></li><li><a href="global.html#noDrag">noDrag</a></li><li><a href="global.html#offset">offset</a></li><li><a href="global.html#offsetParent">offsetParent</a></li><li><a href="global.html#options">options</a></li><li><a href="global.html#parsePlacement">parsePlacement</a></li><li><a href="global.html#parseStyle">parseStyle</a></li><li><a href="global.html#position">position</a></li><li><a href="global.html#positionArrow">positionArrow</a></li><li><a href="global.html#positionElements">positionElements</a></li><li><a href="global.html#positionStarted">positionStarted</a></li><li><a href="global.html#scrollbarPadding">scrollbarPadding</a></li><li><a href="global.html#scrollbarWidth">scrollbarWidth</a></li><li><a href="global.html#scrollParent">scrollParent</a></li><li><a href="global.html#setTriggers">setTriggers</a></li><li><a href="global.html#viewportOffset">viewportOffset</a></li><li><a href="global.html#width">width</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Tue May 30 2017 10:36:13 GMT-0400 (DST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

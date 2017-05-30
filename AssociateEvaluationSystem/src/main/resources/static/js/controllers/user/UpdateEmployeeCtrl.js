@@ -1,5 +1,6 @@
 /**
- * Created by SLEDGEHAMMER on 3/9/2017.
+ * @class AES.userApp.UpdateEmployeeCtrl
+ * @author SLEDGEHAMMER
  */
 
 userApp.controller('UpdateEmployeeCtrl', function ($scope, $location, $mdToast, $http, SITE_URL, API_URL, ROLE) {
