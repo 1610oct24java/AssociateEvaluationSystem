@@ -209,7 +209,7 @@ public class QuestionRestController
 		Question question = questionService.getQuestionById(questionId);
 		Option option = new Option();
 		option.setOptionText(opt.getOptionText());
-		option.setCorrect(opt.getCorrect());
+		option.setCorrect(0);
 		option.setQuestion(question);
 		optionService.addOption(option);
 		question.getOption().add(option);
