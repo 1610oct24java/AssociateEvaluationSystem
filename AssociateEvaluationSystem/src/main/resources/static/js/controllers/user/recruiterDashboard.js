@@ -1,3 +1,7 @@
+/**
+ * @class AES.userApp.recruiterDashboardCtrl
+ */
+
 userApp.controller('recruiterDashboardCtrl', function($scope,$mdToast,$location,$http,SITE_URL, API_URL, ROLE) {
 
     $scope.average;

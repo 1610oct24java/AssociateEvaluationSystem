@@ -1,3 +1,7 @@
+/**
+ * @class AES.bankApp.QuestionCtrl
+ */
+
 app.controller('QuestionCtrl', function($http, $scope, $filter) {
     $scope.fList;
     /*

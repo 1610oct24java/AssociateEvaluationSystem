@@ -1,3 +1,8 @@
+/**
+ * @namespace AES.adminApp
+ * @memberOf AES
+ */
+
 var adminApp = angular.module('adminApp',['ngMaterial', 'ngMessages', 'ngRoute']);
 
 adminApp.constant("SITE_URL", {

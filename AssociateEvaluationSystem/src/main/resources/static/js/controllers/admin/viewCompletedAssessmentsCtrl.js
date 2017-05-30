@@ -1,6 +1,8 @@
 /**
- * Created by Gabe on 5/25/2017.
+ * @class AES.adminApp.ViewCompletedAssessmentsCtrl
+ * @author Gabe
  */
+
 adminApp.controller('ViewCompletedAssessmentsCtrl', function($scope, $http, $mdToast, SITE_URL, API_URL, ROLE) {
 
     $scope.validateReview = function ()

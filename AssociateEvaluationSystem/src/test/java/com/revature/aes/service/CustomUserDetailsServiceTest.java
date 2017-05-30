@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.User;
 
 public class CustomUserDetailsServiceTest {
 	String username = "trainers@revature.com";
-	String password = "password";	
+	String security = "password";
 	List<GrantedAuthority> authorities = new ArrayList<>();
 	List<String> role = new ArrayList<>();
 	
@@ -24,7 +24,7 @@ public class CustomUserDetailsServiceTest {
 
 	@Test
 	public void testLoadUserByUsername() {
-		new User(username, password, authorities);
+		new User(username, security, authorities);
 	}
 
 }

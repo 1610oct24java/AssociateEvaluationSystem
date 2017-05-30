@@ -1,5 +1,5 @@
 /**
- * Created by Mehrab on 5/22/2017.
+ * @class AES.userApp.menuCtrl
  */
 
 userApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav, $log) {

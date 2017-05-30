@@ -1,3 +1,7 @@
+/**
+ * @class AES.bankApp.MasterCtrl
+ */
+
 app.controller('MasterCtrl', [
 		'$scope',
 		'$rootScope',

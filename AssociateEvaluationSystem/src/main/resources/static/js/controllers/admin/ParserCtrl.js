@@ -1,3 +1,7 @@
+/**
+ * @class AES.adminApp.parserCtrl
+ */
+
 var reader;
 
 adminApp.controller("parserCtrl", function ($scope, $http, SITE_URL, API_URL, $log) {

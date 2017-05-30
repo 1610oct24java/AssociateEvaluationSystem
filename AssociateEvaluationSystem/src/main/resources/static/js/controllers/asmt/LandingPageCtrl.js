@@ -1,3 +1,7 @@
+/**
+ * @class AES.asmtApp.landingPageCtrl
+ */
+
 asmt.controller("landingPageCtrl", function($scope, $http, $rootScope, $window, SITE_URL, API_URL) {
     var quizPage = "";
     $scope.testtaker = "Loading...";

@@ -1,3 +1,7 @@
+/**
+ * @class AES.adminApp.MenuCtrl
+ */
+
 adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav, $log) {
     var mc = this;
 

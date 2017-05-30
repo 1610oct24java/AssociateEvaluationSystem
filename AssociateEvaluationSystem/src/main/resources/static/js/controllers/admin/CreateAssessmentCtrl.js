@@ -1,3 +1,7 @@
+/**
+ * @class AES.adminApp.CreateAssessmentCtrl
+ */
+
 adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $location, SITE_URL, API_URL, ROLE) {
     //initialize data
     $http({

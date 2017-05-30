@@ -1,3 +1,8 @@
+/**
+ * @namespace AES.asmtApp
+ * @memberOf AES
+ */
+
 var asmt = angular.module("asmtApp", [ 'ui.bootstrap', 'as.sortable',
 		'ngAnimate', 'ui.ace']);
 
