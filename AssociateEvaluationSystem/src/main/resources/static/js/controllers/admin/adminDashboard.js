@@ -155,16 +155,17 @@ adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SIT
 
         getCandidates(email);
         updateGraph(num);
+        updateGraph(num);
         console.log("done");
         var myEl = angular.element( document.querySelector( '#g'+num ) );
 
-        if(angular.element(document.querySelector('#g'+num).classList)[0] == "ng-hide"){
+        /*if(angular.element(document.querySelector('#g'+num).classList)[0] == "ng-hide"){
             myEl.removeClass("ng-hide");
             myEl.addClass("ng-show");
         } else {
             myEl.removeClass("ng-show");
             myEl.addClass("ng-hide");
-        }
+        }*/
     };
     function updateGraph(recruiterId) {
         filterAssessments();
