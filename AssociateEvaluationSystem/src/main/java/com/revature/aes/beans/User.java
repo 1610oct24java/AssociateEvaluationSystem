@@ -140,8 +140,27 @@ public class User implements Serializable{
 		result = prime * result + ((grade == null) ? 0 : grade.hashCode());
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
 		result = prime * result + ((recruiterId == null) ? 0 : recruiterId.hashCode());
+		result = prime * result + ((role == null) ? 0 : role.hashCode());
 		result = prime * result + ((salesforce == null) ? 0 : salesforce.hashCode());
 		result = prime * result + userId;
 		return result;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		
+		if (userId != other.userId)
+			return false;
+		return true;
+	}
+
+	
+	
 }

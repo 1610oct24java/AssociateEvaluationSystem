@@ -63,10 +63,6 @@ public class RestServicesImpl implements RestServices {
 
 		ar.setUserEmail(candidate.getEmail());
 
-		CategoryRequest oldCR = null;
-		CategoryRequest newCR = null;
-		
-		
 		CategoryRequest categoryRequest;
 		
 		/*Replaces 'core language' category with the chosen core language
@@ -77,10 +73,9 @@ public class RestServicesImpl implements RestServices {
 		for(int i = 0; i < catArray.length; i++){
 			 categoryRequest = catArray[i];
 			 if("core language".equalsIgnoreCase(categoryRequest.getCategory().getName())){
-				newCR = new CategoryRequest(categoryRequest);
-				oldCR = categoryRequest;
+				CategoryRequest newCR = new CategoryRequest(categoryRequest);
 				newCR.setCategory(categoryService.getCategoryByName(category));
-				ar.getCategoryRequestList().remove(oldCR);
+				ar.getCategoryRequestList().remove(categoryRequest);
 				ar.getCategoryRequestList().add(newCR);		
 			}
 		}
