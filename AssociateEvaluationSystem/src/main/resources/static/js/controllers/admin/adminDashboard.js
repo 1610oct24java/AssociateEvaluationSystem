@@ -27,7 +27,7 @@ adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SIT
         this.grade = grade;
         this.fname = fname;
         this.lname = lname;
-    };
+    }
 
 
     //store all employees to $scope.employees
@@ -48,8 +48,7 @@ adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SIT
                 $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEES)
                     .then(function (response) {
                         $scope.employees = response.data;
-                        console.log($scope.employees);
-                        console.log($scope.authUser.username);
+
                         $scope.getRoleCnts();
                         $scope.getRecruiterCnts()
                     });
@@ -135,7 +134,7 @@ adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SIT
                                 getAssessments(c[i].userId, c[i].email, c[i].firstName, c[i].lastName);
                                 c[i].expanded = false;
                             }
-                            console.log($scope.assessments);
+
                         })
 
                 } else {
@@ -151,14 +150,14 @@ adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SIT
                 var candidateAsmts = response.data;
                 candidateAsmts.forEach(function(a){
                     if(a.grade != -1){
-                        var a = new assessment(a.finishedTimeStamp, a.grade, fname, lname);
-                        $scope.assessments.push(a);
+                        var ab = new assessment(a.finishedTimeStamp, a.grade, fname, lname);
+                        $scope.assessments.push(ab);
                     }
                 });
                 updateGraph(num);
                 $scope.returnCheck = true;
             });
-    };
+    }
 
 
     $scope.viewGraph = function(num, email){
@@ -192,7 +191,7 @@ adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SIT
             var chart = new google.visualization.ScatterChart(document.getElementById('chart'));
             chart.draw(data, options);
         });
-    };
+    }
 
     function filterAssessments(){
         $scope.graphData = [];

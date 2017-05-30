@@ -18,7 +18,7 @@ userApp.controller('recruiterDashboardCtrl', function($scope,$mdToast,$location,
         this.grade = grade;
         this.fname = fname;
         this.lname = lname;
-    };
+    }
 
     $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
         .then(function(response) {
@@ -33,12 +33,12 @@ userApp.controller('recruiterDashboardCtrl', function($scope,$mdToast,$location,
                 }
                 $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + $scope.authUser.username + API_URL.CANDIDATES)
                     .then(function(response) {
-                        console.log(SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + $scope.authUser.username + API_URL.CANDIDATES);
+
                         //$scope.candidates = response.data;
                         var c =  response.data;
                         $scope.candidateCount = c.length;
                         for (var i=0; i<c.length; i++) {
-                            console.log("candidate"+i+": "+c);
+
                             getAssessments(c[i].userId, c[i].email, c[i].firstName, c[i].lastName);
                             c[i].expanded = false;
                         }
@@ -55,8 +55,8 @@ userApp.controller('recruiterDashboardCtrl', function($scope,$mdToast,$location,
                 var candidateAsmts = response.data;
                 candidateAsmts.forEach(function(a){
                    if(a.grade != -1){
-                       var a = new assessment(a.finishedTimeStamp, a.grade, fname, lname);
-                       $scope.assessments.push(a);
+                       var ab = new assessment(a.finishedTimeStamp, a.grade, fname, lname);
+                       $scope.assessments.push(ab);
                        $scope.asmtCount += 1;
                    }
                 })
