@@ -24,13 +24,13 @@ app.controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', '$http', 
 		$scope.templateName = "Modify Questions";
 	};
 	
-	$scope.uploadAssessment = function(){
-		$state.go("upload");
-		$scope.templateName = "Upload Assessment";
+	$scope.XMLParser = function(){
+		$state.go("parser");
+		$scope.templateName = "Parser";
 	};
     $scope.addQuestion = function(){
         $state.go("fullQuestion");
-        $scope.templateName = "Upload Assessment";
+        $scope.templateName = "Add Questions";
     };
 	
     $scope.uploadFile = function(){

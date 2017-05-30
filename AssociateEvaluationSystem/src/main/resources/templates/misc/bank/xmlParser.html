@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="css/aesMaterials.css">
 </head>
 
-<body ng-app="adminApp" ng-controller="parserCtrl" ng-cloak>
+<body ng-app="bankApp" ng-controller="parserCtrl" ng-cloak>
 <div>
     <ng-include src="'menu.html'" />
 </div>
@@ -26,7 +26,7 @@
         <input class="ng-hide" id="input-file-id" accept="text/xml" type="file" file-model="myFile">
         <label for="input-file-id" class="md-button md-icon-button">
             <!--<md-icon md-menu-origin class="material-icons" style="color: #FB8C00;"> gesture </md-icon>-->
-            <md-icon class="material-icons" style="color: #f00;width:60px;height:60px;"> file_upload </md-icon>
+            <md-icon class="material-icons" style="color: #f00;"> file_upload </md-icon>
             <md-tooltip class="md-title"> Upload XML File </md-tooltip>
         </label>
         <div ng-if="myFile != undefined">

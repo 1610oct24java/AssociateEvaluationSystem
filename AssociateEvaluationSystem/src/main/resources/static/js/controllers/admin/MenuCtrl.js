@@ -20,8 +20,6 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
             case "createAssessment":
             case "New.html":
                 return "assessments";
-            case "parser":
-                return "parser";
             case "globalSettings":
                 return "globalSettings";
             case "viewCompletedAssessments":
