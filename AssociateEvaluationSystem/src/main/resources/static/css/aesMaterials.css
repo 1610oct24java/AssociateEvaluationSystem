@@ -185,3 +185,14 @@ md-edit-dialog > .md-content md-input-container [ng-message] {
 }
 
 
+.questionHeader{
+	font-weight: bold;
+}
+
+.optionId{
+	text-align: right;
+}
+
+.ng-cloak {
+	display: none !important;
+}

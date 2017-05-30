@@ -80,7 +80,7 @@ userApp.controller('UpdateEmployeeCtrl', function ($scope, $location, $mdToast, 
             $scope.confirmNewPassword = '';
         }
 
-        if (!$scope.oldPassword === "" || $scope.oldPassword == null) {
+        if (!$scope.oldPassword == "" || !$scope.oldPassword) {
             $scope.passNotEntered = true;
         }
 

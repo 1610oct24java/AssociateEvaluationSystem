@@ -1,141 +1,178 @@
 
 <div>
 	<main class="container">
-	<div class="row">
-	<pre>Click on a question to see all of its details. This may take a bit to load.</pre>
-		<div class="col-md-6" style="height: 800px; overflow: auto;">
 
-			<select ng-model="catSearch" ng-change="catHasChanged()" ng-click="currentPageOverLimit()">
-				<option value="">Choose Category</option>
-				<option ng-repeat="category in categoriesInDatabase" value="{{category.name}}">
-					{{category.name}}
-				</option>
-			</select><br>
 
-			<input ng-model="q" id="search" class="form-control" placeholder="Search" ng-keyup="currentPageOverLimit()">
-			<select ng-model="pageSize" id="pageSize" class="form-control" ng-click="currentPageOverLimit()">
-				<option value="5">5</option>
-				<option value="10">10</option>
-				<option value="15">15</option>
-				<option value="20">20</option>
-			</select>
-			<table class="table table-bordered">
-				<thead>
+		<div class="row">
+			<div class="col-sm-2">
+				<select ng-model="catSearch" class="form-control" ng-change="catHasChanged()" ng-click="currentPageOverLimit()">
+					<option value="">Choose Category</option>
+					<option ng-repeat="category in categoriesInDatabase" value="{{category.name}}">
+						{{category.name}}
+					</option>
+				</select><br>
+			</div>
+			<div class="col-sm-2">
+				<input ng-model="q" id="search" class="form-control" placeholder="Search" ng-keyup="currentPageOverLimit()">
+			</div>
+			<div class="col-sm-2">
+				<select ng-model="pageSize" id="pageSize" class="form-control" ng-click="currentPageOverLimit()" ng-init="Page Size">
+					<option value="5">5</option>
+					<option value="10">10</option>
+					<option value="15">15</option>
+					<option value="20">20</option>
+				</select>
+			</div>
+			<div class ="col-sm-6">
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-2"></div>
+
+			<div class="col-sm-4">
+				<div class="pagination">
+
+					<button class="paginate left" ng-disabled="currentPage <= 0" ng-click="currentPage=currentPage-1"><i></i><i></i>
+					</button>
+
+
+					<span class="ng-cloak">{{showCurrPage()}}</span>
+
+					<button class="paginate right" ng-disabled="(currentPage >= qList.length/pageSize - 1) || (currentPage >= filteredItems.length/pageSize - 1)" ng-click="currentPage=currentPage+1">
+						<i></i><i></i>
+					</button>
+				</div>
+			</div>
+			<div class="col-sm-6"></div>
+
+		</div>
+
+
+		<span ng-repeat="question in (filteredItems = (qList | filter:q | filter:catSearch:exactMatch))"></span>
+
+		<div row>
+			<div class="col-md-6" style="height: 800px; overflow: auto;">
+				<table class="table table-bordered table table-hover">
+					<thead class="thead-default">
 					<tr>
 						<th>Question</th>
 						<th>Format</th>
 						<th>Category</th>
 						<th>Id</th>
 					</tr>
-				</thead>
-				<tbody>
+					</thead>
+					<tbody>
 					<tr ng-repeat="question in qList | filter:q| filter:catSearch:exactMatch | startFrom:currentPage*pageSize | limitTo:pageSize" ng-click="getQuestion(question)">
 						<td>{{question.questionText}}</td>
 						<td>{{question.format.formatName}}</td>
 						<td>{{question.questionCategory["0"].name}}</td>
 						<td>{{question.questionId}}</td>
 					</tr>
-				</tbody>
-			</table>
-		</div>
-
-		<div ng-repeat="question in (filteredItems = (qList | filter:q | filter:catSearch:exactMatch))"></div>
-
-		<button ng-click="currentPage = 0">
-			First Page
-		</button>
-
-		<button ng-disabled="currentPage <= 0" ng-click="currentPage=currentPage-1">
-			Previous
-		</button>
-
-		<div>
-			<span ng-cloak class="ng-cloak">{{showCurrPage()}}</span>
-		</div>
-
-		<button ng-disabled="(currentPage >= qList.length/pageSize - 1) || (currentPage >= filteredItems.length/pageSize - 1)" ng-click="currentPage=currentPage+1">
-			Next
-		</button>
+					</tbody>
+				</table>
+			</div>
 
 
-
-
-
-
-		<div class="col-md-6">
-			Question:
-			<div>
+			<div class="col-md-6">
+				<span class="questionHeader"> Question: </span>
+				<div>
 				<textarea rows="4" cols="50" contenteditable="true"
-					style="overflow-y: scroll; resize: none;"
-					ng-model="currentQuestion.questionText"></textarea>
-			</div>
-			
-			<div ng-show="isMultiChoiceOption">
-			<pre>Radio buttons and check boxes show correct answer.</pre>
-				<form>
-					<div ng-repeat="option in currentQuestion.option">
-						<div>
-							<input type="radio" id="msrad" name="correctChoice"
-								ng-model="option.correct" ng-checked="checkButton(option)"
-								ng-click="multiCorrect(option)">
-							<textarea rows="4" cols="50" contenteditable="true"
-								style="overflow-y: scroll; resize: none;"
-								ng-model="option.optionText"></textarea>
-							<br> Option ID: {{option.optionId}}
-							<button ng-click="removeOption(option)">Delete</button>
-							<br> <br>
-						</div>
-					</div>
-				</form>
-				<pre>Input a new option to this text field, then click "Add Option".</pre>
-				<br> <input type="text" size="60" ng-model="newOption"></input><br>
-				<button ng-click="updateQuestion()">Update</button>
-				<button ng-click="addOption(newOption)">Add Option</button>
-			</div>
-			<div ng-show="isMultiSelectOption">
-				<form>
-					<div ng-repeat="option in currentQuestion.option">
-						<div>
-							<input type="checkbox" ng-model="option.correct"
-								ng-true-value="1" ng-click="multiSelectCorrect(option)">
+						  style="overflow-y: scroll; resize: none;"
+						  ng-model="currentQuestion.questionText"></textarea>
+				</div><br>
 
-							<textarea rows="4" cols="50" contenteditable="true"
-								style="overflow-y: scroll; resize: none;"
-								ng-model="option.optionText"></textarea>
-							<br> Option ID: {{option.optionId}}
-							<button ng-click="removeOption(option)">Delete</button>
-							<br> <br>
+				<div class="row">
+					<div class="col-md-12" ng-show="isMultiChoiceOption">
+						<div class="questionHeader">Radio buttons and check boxes show correct answer.</div><br>
+						<form>
+							<div ng-repeat="option in currentQuestion.option">
+								<div>
+									 <input type="radio" id="msrad" name="correctChoice"
+										   ng-model="option.correct" ng-checked="checkButton(option)"
+										   ng-click="multiCorrect(option)">&nbspCorrect Answer
+									<br>
+									<textarea rows="4" cols="50" contenteditable="true"
+											  style="overflow-y: scroll; resize: none;"
+											  ng-model="option.optionText"></textarea>
+									<br><button class="btn btn-info" ng-click="removeOption(option)">Delete</button>
+									Option ID: {{option.optionId}}
+
+									<br> <br>
+								</div>
+							</div>
+						</form>
+
+						<div class="questionHeader">Input a new option to this text field, then click "Add Option".</div>
+						<div class="row">
+							<div class="col-md-12">
+								<br> <textarea rows="4" cols="50" contenteditable="true" style="overflow-y: scroll; resize: none" ng-model="newOption"></textarea><br>
+							</div>
 						</div>
+						<button class="btn btn-info" ng-click="updateQuestion()">Update</button>
+						<button class="btn btn-info" ng-click="addOption(newOption)">Add Option</button>
 					</div>
-				</form>
-				<pre>Input a new option to this text field, then click "Add Option".</pre>
-				<br> <input wrap="" type="text" size="60" ng-model="newOption"></input><br>
-				<button ng-click="updateQuestion()">Update</button>
-				<button ng-click="addOption(newOption)">Add Option</button>
-			</div>
-			
-			<!-- Both the removeDDOption button and addDragDrop button work, they are just disabled until a way to change the correct order is implemented. -->
-			<div ng-show="isDragDrop">
-				<div ng-repeat="dragdrop in currentQuestion.dragdrop">
-					<div>
+
+
+
+					<div class="col-md-12" ng-show="isMultiSelectOption">
+						<form>
+							<div ng-repeat="option in currentQuestion.option">
+								<div>
+									<input type="checkbox" ng-model="option.correct"
+										   ng-true-value="1" ng-click="multiSelectCorrect(option)">&nbspCorrect Answer<br>
+
+									<textarea rows="4" cols="50" contenteditable="true"
+											  style="overflow-y: scroll; resize: none;"
+											  ng-model="option.optionText"></textarea>
+									<br>
+									<button class="btn btn-info" ng-click="removeOption(option)">Delete</button>
+									 Option ID: {{option.optionId}}
+									<br> <br>
+								</div>
+							</div>
+						</form>
+						<div class="questionHeader">Input a new option to this text field, then click "Add Option".</div>
+
+						<div class="row">
+							<div class="col-md-12">
+								<textarea rows="4" cols="50" contenteditable="true" style="overflow-y: scroll; resize: none" ng-model="newOption"></textarea><br>
+							</div>
+						</div>
+						<br>
+						<button class="btn btn-info" ng-click="updateQuestion()">Update</button>
+						<button class="btn btn-info" ng-click="addOption(newOption)">Add Option</button>
+					</div>
+
+					<!-- Both the removeDDOption button and addDragDrop button work, they are just disabled until a way to change the correct order is implemented. -->
+					<div class="col-md-12" ng-show="isDragDrop">
+						<div ng-repeat="dragdrop in currentQuestion.dragdrop">
+							<div>
 						<textarea rows="4" cols="50" contenteditable="true"
-							style="overflow-y: scroll; resize: none;"
-							ng-model="dragdrop.dragDropText"></textarea>
-						<br> Option ID: {{option.optionId}}
-						<!-- <button ng-click="removeDDOption(dragdrop)">Delete</button> -->
-						<br> <br>
+								  style="overflow-y: scroll; resize: none;"
+								  ng-model="dragdrop.dragDropText"></textarea>
+								<br> Option ID: {{option.optionId}}
+								<!-- <button ng-click="removeDDOption(dragdrop)">Delete</button> -->
+								<br> <br>
+							</div>
+						</div>
+						<div class="questionHeader">Input a new option to this text field, then click "Add Option".</div><br>
+						<div class="questionHeader">IF THIS IS USED TO ADD AN OPTION, THEN THE CORRECT ORDER MUST BE CHANGED
+				MANUALLY IN THE	DATABASE</div>
+						<br> <input type="text" size="60" ng-model="newDragDrop"></input><br>
+						<button ng-click="updateQuestion()">Update</button>
+						<button ng-click="addDragDrop(newDragDrop)">Add Option</button>
 					</div>
+					<div></div>
 				</div>
-				<pre>Input a new option to this text field, then click "Add Option".</pre><br>
-				<pre>IF THIS IS USED TO ADD AN OPTION, THEN THE CORRECT ORDER MUST BE CHANGED 
-				MANUALLY IN THE	DATABASE</pre>
-				<br> <input type="text" size="60" ng-model="newDragDrop"></input><br>
-				<button ng-click="updateQuestion()">Update</button>
-				<!-- <button ng-click="addDragDrop(newDragDrop)">Add Option</button> -->
+
+
 			</div>
-			<div></div>
+
 		</div>
-	</div>
+
+
+
 
 	</main>
 </div>

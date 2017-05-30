@@ -103,20 +103,16 @@ public class AssessmentRequestController {
 		System.out.println(type);
 		System.out.println(numOfQuestions);
 		
-		Integer num = 0;
-		
 		int javaCategory = categoryService.getCategoryByName("Java").getCategoryId();
 		int dotNetCategory = categoryService.getCategoryByName(".net").getCategoryId();
 		
 		if(category == 6){		
 			Integer javaQuestions = assessmentRequestService.getNumberOfQuestions(javaCategory, type);
 			Integer dotNetQuestions = assessmentRequestService.getNumberOfQuestions(dotNetCategory, type); 	
-			num = Math.min(javaQuestions, dotNetQuestions);
+			return Math.min(javaQuestions, dotNetQuestions);
 		} else {
-			num = assessmentRequestService.getNumberOfQuestions(category, type);
+			return assessmentRequestService.getNumberOfQuestions(category, type);
 		}
-		
-		return num;
 	}
 
 	/**
