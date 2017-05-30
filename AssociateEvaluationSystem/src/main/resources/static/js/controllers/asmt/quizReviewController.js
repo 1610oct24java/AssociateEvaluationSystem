@@ -1,5 +1,4 @@
 
-
 asmt.controller("quizReviewController", function($scope, $rootScope, $http, $location, $window, $timeout, $anchorScroll) {
 	$rootScope.states = [];
 	$scope.answers = [];
@@ -426,8 +425,8 @@ asmt.controller("quizReviewController", function($scope, $rootScope, $http, $loc
 	
 	// return to the user's homepage after they have finishing reviewing the assessment.
 	$rootScope.quitReview = function() {
+        alert("quit review");
 		$scope.returning = true;
-		
 		if ($scope.authUser.authority == 'ROLE_ADMIN') {
 			window.location = '/aes/viewEmployees';
 		}
@@ -435,7 +434,7 @@ asmt.controller("quizReviewController", function($scope, $rootScope, $http, $loc
 			window.location = '/aes/view';
 		}
 		else if ($scope.authUser.authority == 'ROLE_CANDIDATE') {
-			// TODO: navigate to candidate's home page.
+			window.location = '/aes';
 		}
 	}
 	

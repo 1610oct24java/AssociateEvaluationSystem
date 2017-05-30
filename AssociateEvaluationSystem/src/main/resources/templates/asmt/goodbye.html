@@ -19,8 +19,21 @@
 	
 </head>
 <body>
+	<div class="wrap" ng-controller="quizMissing">
+		<div id="page-container">
+			<div class="navbar">
+				<img th:src="@{/images/revature_logo.png}"
+					 src="../static/images/revature_logo.png" alt="Revature">
 
-	<div class="text-center message-content">
+				<a href="/aes" id="navbarReturnBtn"
+				   class="btn text-center navbar-menu-btn">return</a>
+
+			</div>
+		</div>
+	</div>
+
+
+<div class="text-center message-content">
 		<img th:src="@{/images/checkmark.png}"
 			src="../static/images/checkmark.png" alt="Complete!"
 			style="width: 200px;">

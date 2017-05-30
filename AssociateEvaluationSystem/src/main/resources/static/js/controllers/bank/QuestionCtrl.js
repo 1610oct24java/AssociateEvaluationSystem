@@ -16,7 +16,6 @@ app.controller('QuestionCtrl', function($http, $scope, $filter) {
     angular.element(document).ready(function() {
         $scope.getFormatList();
     }); // angular element end
-    // ////////////////////////////////////////////////
 
     $scope.formatSet = false;
     $scope.questionTextChanged = false;
@@ -253,10 +252,13 @@ app.controller('QuestionCtrl', function($http, $scope, $filter) {
         } else {
             $http.put("question", $scope.currentQuestion)
                 .success(function(response) {
+                    $scope.showToast("Successfully updated question");
                     $scope.question = response.data;
                     if ($scope.currentQuestion == null) {
 
                     } else {
+                        //this is where the alert will go
+
                         $scope.getQuestionList();
                         $scope.resetQuestion();
                         $scope.show = false;
