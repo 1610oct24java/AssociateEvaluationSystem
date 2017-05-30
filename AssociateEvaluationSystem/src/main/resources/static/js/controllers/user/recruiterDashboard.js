@@ -49,7 +49,6 @@ userApp.controller('recruiterDashboardCtrl', function($scope,$mdToast,$location,
                        $scope.asmtCount += 1;
                    }
                 })
-                console.log($scope.assessments);
                 $scope.returnCheck = true;
             });
     };

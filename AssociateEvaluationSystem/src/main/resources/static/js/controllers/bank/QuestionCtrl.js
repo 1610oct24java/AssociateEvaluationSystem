@@ -370,7 +370,6 @@ app.controller('QuestionCtrl', function($http, $scope, $filter) {
         if(newOption != null || newOption != ""){
             $http.post('question/addOption/'+ $scope.currentQuestion.questionId,JSON.stringify(newOption)).then(function(response){
                 window.response = response
-                console.log(response)
                 $scope.currentQuestion = response.data;
                 $scope.getQuestion($scope.currentQuestion)
                 var length = $scope.qList.length;
