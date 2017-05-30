@@ -363,7 +363,7 @@ app.controller('QuestionCtrl', function($http, $scope, $filter) {
 
     $scope.addOption = function(newOption){
         newOption = {"optionText": newOption, "correct" : -1}
-        if(newOption != null && newOption != ""){
+        if(!newOption && newOption != ""){
             $http.post('question/addOption/'+ $scope.currentQuestion.questionId,JSON.stringify(newOption)).then(function(response){
                 window.response = response
                 console.log(response)
@@ -433,7 +433,7 @@ app.controller('QuestionCtrl', function($http, $scope, $filter) {
 
         if(document.getElementById("msrad").checked == false)
         {
-            document.getElementById("msrad").checked == true;
+        	document.getElementById("msrad").checked = true;
         }
     }
     $scope.setCat =function (category) {
