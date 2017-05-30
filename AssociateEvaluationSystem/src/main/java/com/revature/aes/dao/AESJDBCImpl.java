@@ -42,7 +42,7 @@ public class AESJDBCImpl implements AESJDBC {
 			}
 
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			throw new NullPointerException();
 		}
 	    
 	   

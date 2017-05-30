@@ -193,7 +193,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $l
             }
         })
         return output.length;
-    };
+    }
 
     //returns number of types in th
     function typeCount(collection){
