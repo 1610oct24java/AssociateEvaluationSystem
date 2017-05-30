@@ -1,7 +1,3 @@
-/**
- * @class AES.adminApp.CreateAssessmentCtrl
- */
-
 adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $location, SITE_URL, API_URL, ROLE) {
     //initialize data
     $http({
@@ -35,15 +31,25 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $l
     {
         if((($scope.assdays ==0 && $scope.asshours == 0 ) && $scope.assReviewCheck))
             return true;
-        
+
         return false;
     };
 
 
     $scope.allowReview = function()
     {
+        if($scope.assReviewCheck)
+        {
+            var totalHours= ($scope.assdays * 24) + $scope.asshours;
             $scope.assdays = 0;
             $scope.asshours = 0;
+        }
+        else
+        {
+            $scope.assdays = 0;
+            $scope.asshours = 0;
+        }
+
     };
 
 
@@ -65,8 +71,8 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $l
 
         if(flag)
             return true;
-       
-        
+
+
         return false;
     };
 
@@ -92,7 +98,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $l
                 $scope.authUser = authUser;
                 if ($scope.authUser.authority != ROLE.ADMIN) {
                     window.location = SITE_URL.LOGIN;
-                }
+                };
             } else
                 window.location = SITE_URL.LOGIN;
         });
@@ -191,14 +197,13 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $l
                 keys.push(key);
                 output.push(item);
             }
-        })
+        });
         return output.length;
-    }
+    };
 
     //returns number of types in th
     function typeCount(collection){
 
-    	
         var types = 0;
         var mcBool = false;
         var msBool = false;
@@ -223,7 +228,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $l
                 csBool = true;
             }
 
-        })
+        });
         return types;
     }
 
@@ -357,72 +362,77 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $l
             url: ("assessmentrequest/"+$scope.catInt  + "/" + $scope.typeInt +"/" + $scope.maxQuestions + "/")
         }).then(function (response) {
             $scope.numOfQuestions = response.data;
-            $scope.quantity=$scope.maxQuestionsInput;
-          
-            if($scope.quantity < $scope.numOfQuestions)
-                $scope.sections.push({ 'category': $scope.currentCategory.name, 'type': $scope.currentType.formatName, 'quantity': $scope.quantity });
-
-
-                var tempCategory = $.grep($scope.categories, function(e){ return e.name == $scope.currentCategory.name; });
-
-
-                var msQuestions=0, mcQuestions=0, ddQuestions=0, csQuestions=0;
-
-                switch($scope.currentType.formatName) {
-                    case $scope.types[0].formatName : { /* Multiple Choice changed to cs */
-
-                        csQuestions += $scope.quantity;
-                        break;
-                    }
-                    case $scope.types[1].formatName : { /* Multiple Select changed to dd */
-
-                        ddQuestions += $scope.quantity;
-                        break;
-                    }
-                    case $scope.types[2].formatName : { /* Drag 'n' Drop changed to mc */
-
-                        mcQuestions += $scope.quantity;
-                        break;
-                    }
-                    case $scope.types[3].formatName : { /* Code Snippet changed to ms */
-
-                        msQuestions += $scope.quantity;
-                        break;
-                    }
-                    default : {
-
-                        break;
-                    }
-                }
-
-                if(tempCategory[0].name == "core language"||tempCategory[0].name == "Java" || tempCategory[0].name == ".net"){
-                    $scope.coreLanguage = true;
-                    $scope.coreCount++;
-                }
-
-
-                $scope.assessments.push({
-                    "category": {
-                        "categoryId": tempCategory[0].categoryId,
-                        "name":  tempCategory[0].name
-                    },
-                    "msQuestions": msQuestions,
-                    "mcQuestions": mcQuestions,
-                    "ddQuestions": ddQuestions,
-                    "csQuestions": csQuestions
-
+            $scope.quantity = $scope.maxQuestionsInput;
+            if ($scope.quantity < $scope.numOfQuestions)
+                $scope.sections.push({
+                    'category': $scope.currentCategory.name,
+                    'type': $scope.currentType.formatName,
+                    'quantity': $scope.quantity
                 });
 
-                UpdateTotals($scope.quantity);
-                $scope.sectionForm.$setPristine();
-                $scope.sectionForm.$setUntouched();
-                $scope.category = '';
-                $scope.type = '';
-                $scope.quantity = '';
-                $scope.maxQuestions='';
-                $scope.availabilityString='';
-                $scope.showToast("Success - Section added", "success");
+
+            var tempCategory = $.grep($scope.categories, function (e) {
+                return e.name == $scope.currentCategory.name;
+            });
+
+
+            var msQuestions = 0, mcQuestions = 0, ddQuestions = 0, csQuestions = 0;
+
+            switch ($scope.currentType.formatName) {
+                case $scope.types[0].formatName : { /* Multiple Choice changed to cs */
+
+                    csQuestions += $scope.quantity;
+                    break;
+                }
+                case $scope.types[1].formatName : { /* Multiple Select changed to dd */
+
+                    ddQuestions += $scope.quantity;
+                    break;
+                }
+                case $scope.types[2].formatName : { /* Drag 'n' Drop changed to mc */
+
+                    mcQuestions += $scope.quantity;
+                    break;
+                }
+                case $scope.types[3].formatName : { /* Code Snippet changed to ms */
+
+                    msQuestions += $scope.quantity;
+                    break;
+                }
+                default : {
+
+                    break;
+                }
             }
+
+            if (tempCategory[0].name == "core language" || tempCategory[0].name == "Java" || tempCategory[0].name == ".net") {
+                $scope.coreLanguage = true;
+                $scope.coreCount++;
+            }
+
+
+            $scope.assessments.push({
+                "category": {
+                    "categoryId": tempCategory[0].categoryId,
+                    "name": tempCategory[0].name
+                },
+                "msQuestions": msQuestions,
+                "mcQuestions": mcQuestions,
+                "ddQuestions": ddQuestions,
+                "csQuestions": csQuestions
+
+            });
+
+            UpdateTotals($scope.quantity);
+            $scope.sectionForm.$setPristine();
+            $scope.sectionForm.$setUntouched();
+            $scope.category = '';
+            $scope.type = '';
+            $scope.quantity = '';
+            $scope.maxQuestions = '';
+            $scope.availabilityString = '';
+            $scope.showToast("Success - Section added", "success");
+
 
 
         });
