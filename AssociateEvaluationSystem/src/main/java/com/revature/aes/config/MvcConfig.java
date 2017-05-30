@@ -8,7 +8,7 @@ import org.springframework.web.servlet.resource.PathResourceResolver;
 
 @Configuration
 public class MvcConfig extends WebMvcConfigurerAdapter {
-	
+
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/login").setViewName("login/index");
@@ -24,6 +24,8 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 		registry.addViewController("/recruit").setViewName("recruiter/recruitCandidate");
 		registry.addViewController("/view").setViewName("recruiter/viewCandidates");
 		registry.addViewController("/updateUser").setViewName("recruiter/updateUser");
+		/*next line added for recruiter dashboard*/
+		registry.addViewController("/recruiterDash").setViewName("recruiter/dashboard");
 		registry.addViewController("/viewEmployees").setViewName("admin/viewEmployees");
 		registry.addViewController("/adminDashboard").setViewName("admin/adminDashboard");
 		registry.addViewController("/viewAssessment").setViewName("admin/viewAssessment");
@@ -49,7 +51,7 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("/error").setViewName("error");
         registry.addViewController("/questionTemplate").setViewName("misc/bank/questionTemplate");
         registry.addViewController("/chooseAssessment").setViewName("admin/chooseAssessment");
-        
+
         registry.addViewController("/globalSettings").setViewName("admin/globalSettings");
         
 	}

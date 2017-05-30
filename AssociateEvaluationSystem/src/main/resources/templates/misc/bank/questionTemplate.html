@@ -1,8 +1,24 @@
+
 <div>
 	<main class="container">
 	<div class="row">
 	<pre>Click on a question to see all of its details. This may take a bit to load.</pre>
-			<div class="col-md-6" style="height: 800px; overflow: auto;">
+		<div class="col-md-6" style="height: 800px; overflow: auto;">
+
+			<select ng-model="catSearch" ng-change="catHasChanged()" ng-click="currentPageOverLimit()">
+				<option value="">Choose Category</option>
+				<option ng-repeat="category in categoriesInDatabase" value="{{category.name}}">
+					{{category.name}}
+				</option>
+			</select><br>
+
+			<input ng-model="q" id="search" class="form-control" placeholder="Search" ng-keyup="currentPageOverLimit()">
+			<select ng-model="pageSize" id="pageSize" class="form-control" ng-click="currentPageOverLimit()">
+				<option value="5">5</option>
+				<option value="10">10</option>
+				<option value="15">15</option>
+				<option value="20">20</option>
+			</select>
 			<table class="table table-bordered">
 				<thead>
 					<tr>
@@ -13,7 +29,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="question in qList" ng-click="getQuestion(question)">
+					<tr ng-repeat="question in qList | filter:q| filter:catSearch:exactMatch | startFrom:currentPage*pageSize | limitTo:pageSize" ng-click="getQuestion(question)">
 						<td>{{question.questionText}}</td>
 						<td>{{question.format.formatName}}</td>
 						<td>{{question.questionCategory["0"].name}}</td>
@@ -22,6 +38,29 @@
 				</tbody>
 			</table>
 		</div>
+
+		<div ng-repeat="question in (filteredItems = (qList | filter:q | filter:catSearch:exactMatch))"></div>
+
+		<button ng-click="currentPage = 0">
+			First Page
+		</button>
+
+		<button ng-disabled="currentPage <= 0" ng-click="currentPage=currentPage-1">
+			Previous
+		</button>
+
+		<div>
+			<span ng-cloak class="ng-cloak">{{showCurrPage()}}</span>
+		</div>
+
+		<button ng-disabled="(currentPage >= qList.length/pageSize - 1) || (currentPage >= filteredItems.length/pageSize - 1)" ng-click="currentPage=currentPage+1">
+			Next
+		</button>
+
+
+
+
+
 
 		<div class="col-md-6">
 			Question:

@@ -85,6 +85,7 @@
 	<div class="container">
 		<div class="row" >
 		<div style="height: 750px; overflow: auto;">
+
 			<table class="table table-striped table-bordered">
 				<caption>My Candidates:</caption>
 				<thead>
@@ -106,9 +107,9 @@
 						<td>{{candidate.grade}}</td>
 						<td><input type="button" value="Send Assessment" ng-click="show('f'+candidate.userId)"></td>
 						<td style="text-align: center;"><span
-							ng-click="show2('g'+candidate.userId, candidate.email)"
-							class="glyphicon glyphicon-chevron-down"></span></td>
-					</tr>	
+								ng-click="show2('g'+candidate.userId, candidate.email)"
+								class="glyphicon glyphicon-chevron-down"></span></td>
+					</tr>
 					<!-- /.DISPLAY CANDIDATE INFO -->
 					<!-- SEND ASSESSMENT -->
 					<tr id="f{{candidate.userId}}" class="ng-hide">
@@ -118,13 +119,13 @@
 									<td>
 										<form name="form">
 											<select id="courseSelect" class="col-xs-8 col-md-6"
-												ng-model="program"
-												ng-options="option.name for option in options"
-												ng-required="true">
+													ng-model="program"
+													ng-options="option.name for option in options"
+													ng-required="true">
 												<option value="" hidden>select program</option>
 											</select> <input type="submit" id="sendAssessment"
-												class="btn-revature"
-												ng-click="form.$valid && sendAssessment(candidate.email,program.value)&& show('f'+candidate.userId)" />
+															 class="btn-revature"
+															 ng-click="form.$valid && sendAssessment(candidate.email,program.value)&& show('f'+candidate.userId)" />
 										</form>
 									</td>
 								</tr>
@@ -137,21 +138,21 @@
 						<td colspan="6" ng-if="assessments.length != 0 && returnCheck == true">
 							<table class="table table-striped table-bordered">
 								<thead>
-									<th>Start</th>
-									<th>Finish</th>
-									<th>Time Limit</th>
-									<th>Score</th>
+								<th>Start</th>
+								<th>Finish</th>
+								<th>Time Limit</th>
+								<th>Score</th>
 								</thead>
 								<tbody>
-									<tr class="assessmentRow" ng-repeat="a in assessments" ng-click="showAssessment(a)">
-										<td ng-if="!a.createdTimeStamp">N/A</td>
-										<td ng-if="a.createdTimeStamp">{{a.createdTimeStamp}}</td>
-										<td ng-if="!a.finishedTimeStamp">N/A</td>
-										<td ng-if="a.finishedTimeStamp">{{a.finishedTimeStamp}}</td>
-										<td>{{a.timeLimit}}</td>
-										<td ng-if="a.grade == -1">Test not taken.</td>
-										<td ng-if="a.grade != -1">{{a.grade}}%</td>
-									</tr>
+								<tr class="assessmentRow" ng-repeat="a in assessments" ng-click="showAssessment(a)">
+									<td ng-if="!a.createdTimeStamp">N/A</td>
+									<td ng-if="a.createdTimeStamp">{{a.createdTimeStamp}}</td>
+									<td ng-if="!a.finishedTimeStamp">N/A</td>
+									<td ng-if="a.finishedTimeStamp">{{a.finishedTimeStamp}}</td>
+									<td>{{a.timeLimit}}</td>
+									<td ng-if="a.grade == -1">Test not taken.</td>
+									<td ng-if="a.grade != -1">{{a.grade}}%</td>
+								</tr>
 								</tbody>
 							</table>
 						</td>
@@ -161,9 +162,9 @@
 						<td colspan="5" ng-show="returnCheck == false"></td>
 					</tr>
 					<!-- /.DISPLAY CANDIDATES -->
-				</tbody>
-			</table>
-		</div>
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
 </div>

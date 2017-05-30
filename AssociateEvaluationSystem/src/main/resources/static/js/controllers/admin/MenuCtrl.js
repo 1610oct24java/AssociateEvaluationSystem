@@ -11,6 +11,8 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
             case "registerEmployee":
             case "updateEmployee":
                 return "employees";
+            case "questions":
+                return "questions";
             case "manageQuestions":
             case "addQuestions":
                 return "questions";
@@ -22,12 +24,12 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
                 return "parser";
             case "globalSettings":
                 return "globalSettings";
+            case "viewCompletedAssessments":
+                return "viewCompletedAssessments";
             default:
                 return "overview"
         }
     };
-
-
     mc.buildToggler = function(navID) {
         return function() {
             $mdSidenav(navID)
