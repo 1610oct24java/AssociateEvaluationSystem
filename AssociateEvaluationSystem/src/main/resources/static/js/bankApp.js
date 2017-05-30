@@ -83,7 +83,6 @@ app.filter('unique', function () {
         if ((filterOn || angular.isUndefined(filterOn)) && angular.isArray(items)) {
             var newItems = [];
 
-            
            
             
             var extractValueToCompare = function (item) {
