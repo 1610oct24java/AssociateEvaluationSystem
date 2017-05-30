@@ -57,7 +57,7 @@ adminApp.controller("parserCtrl", function ($scope, $http, SITE_URL, API_URL, $l
     };
 
     //returns a format object
-    var getFormat = function (multiChoice, hasSingle) {
+    function getFormat (multiChoice, hasSingle) {
         var out = {};
         var name;
         if(hasSingle){

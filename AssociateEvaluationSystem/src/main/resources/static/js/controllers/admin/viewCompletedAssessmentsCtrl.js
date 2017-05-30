@@ -13,12 +13,9 @@ adminApp.controller('ViewCompletedAssessmentsCtrl', function($scope, $http, $mdT
 
     $scope.allowReview = function()
     {
-        var totalHours = 0;
-
-
         if($scope.assReviewCheck)
         {
-            totalHours= ($scope.assdays * 24) + $scope.asshours;
+            var totalHours= ($scope.assdays * 24) + $scope.asshours;
             $scope.assdays = 0;
             $scope.asshours = 0;
         }
@@ -27,7 +24,6 @@ adminApp.controller('ViewCompletedAssessmentsCtrl', function($scope, $http, $mdT
             $scope.assdays = 0;
             $scope.asshours = 0;
         }
-
     };
 
 
@@ -91,9 +87,8 @@ adminApp.controller('ViewCompletedAssessmentsCtrl', function($scope, $http, $mdT
                 if ($scope.authUser.authority != ROLE.ADMIN) {
                     window.location = SITE_URL.LOGIN;
                 };
-            } else {
+            } else
                 window.location = SITE_URL.LOGIN;
-            }
         });
 
     $scope.times = [15, 30, 45, 60, 75, 90];
