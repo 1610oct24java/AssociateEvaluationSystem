@@ -541,6 +541,8 @@ app.controller('QuestionCtrl', function($http, $scope, $filter) {
         }
     };
 
+    var pr = document.querySelector( '.paginate.left' );
+    var pl = document.querySelector( '.paginate.right' );
 
     angular.element(document).ready(function() {
         $scope.getQuestionList();
