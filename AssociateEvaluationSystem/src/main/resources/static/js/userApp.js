@@ -1,3 +1,8 @@
+/**
+ * @namespace AES.userApp
+ * @memberOf AES
+ */
+
 var userApp = angular.module('userApp',['ngMaterial', 'ngMessages']);
 
 userApp.constant("SITE_URL", {

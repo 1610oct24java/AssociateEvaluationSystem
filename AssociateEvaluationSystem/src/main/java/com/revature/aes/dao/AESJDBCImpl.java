@@ -42,7 +42,7 @@ public class AESJDBCImpl implements AESJDBC {
 			}
 
 		} catch (SQLException e) {
-			throw new RuntimeException(e);
+			System.out.println("SQl Exception");
 		}
 	    
 	   

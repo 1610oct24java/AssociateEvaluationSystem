@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: controllers/admin/ParserCtrl.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: controllers/admin/ParserCtrl.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @class AES.adminApp.parserCtrl
+ */
+
+var reader;
+
+adminApp.controller("parserCtrl", function ($scope, $http, SITE_URL, API_URL, $log) {
+
+
+    $scope.myFile;
+
+    var removeHTML = function(str){
+        var ogStr = str;
+        str = str.replace("&lt;p>", "");
+        str = str.replace("&lt;/p>", "");
+        str = str.replace("&lt;br>", "");
+        str = str.replace("&lt;em>", "");
+        str = str.replace("&lt;/em>", "");
+        str = str.replace("&amp;nbsp;", " ");
+        str = str.replace("&lt;/span>", "");
+        str = str.replace("&lt;/code>", "");
+        str = str.replace("&lt;/pre>", "");
+        str = str.replace(new RegExp("&lt;span .*;\">"), "");
+        str = str.replace(new RegExp("&lt;p .*;\">"), "");
+        str = str.replace(new RegExp("\\&lt;pre style=\"margin: 0px; .*;\">"), " ");
+        str = str.replace(new RegExp("&lt;pre style=\"margin: 0px 0px .*;\">"), " ");
+        //makes recursive calls
+        if(ogStr != str){
+            str = removeHTML(str);
+        }
+
+        str = str.trim();
+        return str;
+    };
+
+    //return an array of category objects(just one at the moment)
+    var getCategory = function(category){
+        var out = {};
+        var name;
+        var cat = [];
+        if(category.includes("JavaScript")){ //must go before Java
+            name = "JavaScript";
+        } else if (category.includes("Collections")) { //must go before Java
+            name ="Data Structures";
+        } else if (category.includes("Java")) {
+            name ="Java";
+        } else if (category.includes("SQL")) {
+            name = "SQL";
+        } else if (category.includes("Critical Thinking")) {
+            name = "Critical Thinking";
+        } else if (category.includes(".NET")){
+            name = "C#";
+        }
+        angular.forEach($scope.categories,function (category) {
+            if(category.name == name){
+                out = category;
+            }
+        });
+        cat.push(out);
+        return cat;
+    };
+
+    //returns a format object
+    function getFormat (multiChoice, hasSingle) {
+        var out = {};
+        var name;
+        if(hasSingle){
+            if(multiChoice == "true"){
+                name = "Multiple Choice";
+            } else {
+                name = "Multiple Select";
+            }
+        } else {
+            name = "Multiple Choice";
+        }
+        angular.forEach($scope.formats,function (format) {
+            if(format.formatName == name){
+                out = format;
+            }
+        });
+        return out;
+    };
+
+    //handles error(throws error if file was not selected)
+    var throwError = function (variable, message) {
+        if(variable == undefined){
+            $scope.error = true;
+            $scope.messageError = message;
+            return true;
+        }
+        $scope.error = false;
+        return false;
+    };
+
+    $scope.extractXml = function(){
+        if(throwError(reader, "Please select a file")){
+            return;
+        }
+        $scope.questions = [];
+
+        //create a XML DOM
+        var parser = new DOMParser();
+        var xmlDoc = parser.parseFromString(reader.result, "text/xml");
+        var qList = xmlDoc.getElementsByTagName("question");
+        var category = getCategory(qList[0].textContent);
+
+        // get questions from document
+        extractQuestions($scope.questions, qlist, category);
+    };
+
+    $scope.createQuestions = function () {
+        $http({
+            method: "POST",
+            url: "questions",
+            data: $scope.questions
+        }).then(function (resp) {
+            $log.debug(resp);
+        })
+    };
+
+    //initialize data
+    $http({
+        method: "GET",
+        url: "category"
+    }).then(function (response) {
+        $scope.categories = response.data;
+    });
+
+    $http({
+        method: "GET",
+        url: "rest/format"
+    }).then(function (response) {
+        $scope.formats = response.data;
+    });
+
+    //data
+    $scope.questions = [];
+    $scope.options = [];
+    $scope.error;
+    $scope.messageError;
+
+    $scope.logout = function() {
+        $http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
+            .then(function() {
+                window.location = SITE_URL.LOGIN;
+            });
+    };
+
+});
+
+var openFile = function(event){
+    var input = event.target;
+    reader = new FileReader();
+    reader.onload = function(){
+    };
+    reader.readAsText(input.files[0]);
+};
+
+adminApp.directive("fileModel", ['$parse', function ($parse) {
+    return {
+        restrict: 'A', //restricts this directive to be only invoked by attributes
+        link: function(scope, element, attrs) {
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
+
+            element.bind('change', function(){
+                scope.$apply(function(){
+                    modelSetter(scope, element[0].files[0]);
+                });
+            });
+        }
+    };
+}]);
+
+adminApp.config(function($mdThemingProvider) {
+
+    var revOrangeMap = $mdThemingProvider.extendPalette("deep-orange", {
+        "A200": "#FB8C00",
+        "100": "rgba(89, 116, 130, 0.2)"
+    });
+
+    var revBlueMap = $mdThemingProvider.extendPalette("blue-grey", {
+        "500": "#37474F",
+        "800": "#3E5360"
+    });
+
+    $mdThemingProvider.definePalette("revOrange", revOrangeMap);
+    $mdThemingProvider.definePalette("revBlue", revBlueMap);
+
+    $mdThemingProvider.theme("default")
+        .primaryPalette("revBlue")
+        .accentPalette("revOrange");
+});
+
+// pull questions from the uploaded document
+function extractQuestions(questions, questionElements, category) {
+	for(var i = 1; i &lt; questionElements.length; i++){ //questions start at 1 in the qList
+        var question = {};
+        question.option = [];
+
+        question.questionText = removeHTML(questionElements[i].childNodes[3].textContent); //set string question text
+        question.questionCategory = category; //set the category for each question
+
+        //sets question format
+        if(questionElements[i].attributes[0].textContent == "multichoice"){
+            question.format = getFormat(questionElements[i].childNodes[13].textContent, true);
+        } else if(questionElements[i].attributes[0].textContent == "truefalse"){
+            question.format = getFormat("", false);
+        } else{
+            continue;
+        }
+        
+        extractAnswer(questionElements, question);
+
+        questions.push(question);
+    }
+}
+
+// pull the answer from the question element
+function extractAnswer(questionElements, question) {
+	for(var j = 0; j &lt; questionElements[i].childNodes.length; j++){
+        if(questionElements[i].childNodes[j].nodeName == "answer"){
+            var answer = {};
+            answer.optionText = removeHTML(questionElements[i].childNodes[j].childNodes[1].textContent);
+            if(parseInt(questionElements[i].childNodes[j].attributes[0].textContent) > 0){
+                answer.correct = 1;
+            } else {
+                answer.correct = 0;
+            }
+            question.option.push(answer);
+        }
+    }
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AES.adminApp.AdminDashboardCtrl.html">AdminDashboardCtrl</a></li><li><a href="AES.adminApp.ChooseAssessmentCtrl.html">ChooseAssessmentCtrl</a></li><li><a href="AES.adminApp.CreateAssessmentCtrl.html">CreateAssessmentCtrl</a></li><li><a href="AES.adminApp.EmployeeViewCtrl.html">EmployeeViewCtrl</a></li><li><a href="AES.adminApp.MenuCtrl.html">MenuCtrl</a></li><li><a href="AES.adminApp.parserCtrl.html">parserCtrl</a></li><li><a href="AES.adminApp.RegisterEmployeeCtrl.html">RegisterEmployeeCtrl</a></li><li><a href="AES.adminApp.SettingsViewCtrl.html">SettingsViewCtrl</a></li><li><a href="AES.adminApp.UpdateEmployeeCtrl.html">UpdateEmployeeCtrl</a></li><li><a href="AES.asmtApp.CountdownController.html">CountdownController</a></li><li><a href="AES.asmtApp.landingPageCtrl.html">landingPageCtrl</a></li><li><a href="AES.asmtApp.quizController.html">quizController</a></li><li><a href="AES.asmtApp.QuizNavController.html">QuizNavController</a></li><li><a href="AES.asmtApp.quizReviewController.html">quizReviewController</a></li><li><a href="AES.bankApp.CategoryCtrl.html">CategoryCtrl</a></li><li><a href="AES.bankApp.MasterCtrl.html">MasterCtrl</a></li><li><a href="AES.bankApp.MenuCtrl.html">MenuCtrl</a></li><li><a href="AES.bankApp.QuestionCtrl.html">QuestionCtrl</a></li><li><a href="AES.bankApp.TagCtrl.html">TagCtrl</a></li><li><a href="AES.userApp.CandidateCtrl.html">CandidateCtrl</a></li><li><a href="AES.userApp.LoginCtrl.html">LoginCtrl</a></li><li><a href="AES.userApp.menuCtrl.html">menuCtrl</a></li><li><a href="AES.userApp.recruiterDashboardCtrl.html">recruiterDashboardCtrl</a></li><li><a href="AES.userApp.UpdateEmployeeCtrl.html">UpdateEmployeeCtrl</a></li></ul><h3>Namespaces</h3><ul><li><a href="AES.adminApp.html">adminApp</a></li><li><a href="AES.asmtApp.html">asmtApp</a></li><li><a href="AES.bankApp.html">bankApp</a></li><li><a href="AES.userApp.html">userApp</a></li><li><a href="AES%250DCreated%2520by%2520Mehrab%2520on%25205_30_2017..html">AESCreated by Mehrab on 5/30/2017.</a></li><li><a href="attr.ngfAsBackground.html">ngfAsBackground</a></li><li><a href="attr.ngfBackground.html">ngfBackground</a></li><li><a href="attr.ngfCapture.html">ngfCapture</a></li><li><a href="attr.ngfChange.html">ngfChange</a></li><li><a href="attr.ngfKeep.html">ngfKeep</a></li><li><a href="attr.ngfModelOptions.html">ngfModelOptions</a></li><li><a href="attr.ngfMultiple.html">ngfMultiple</a></li><li><a href="attr.ngfNoObjectUrl.html">ngfNoObjectUrl</a></li><li><a href="attr.ngfSelect.html">ngfSelect</a></li><li><a href="attr.ngfSize.html">ngfSize</a></li><li><a href="attr.ngfSrc.html">ngfSrc</a></li><li><a href="attr.ngfThumbnail.html">ngfThumbnail</a></li><li><a href="attr.ngfValidate.html">ngfValidate</a></li><li><a href="attr.ngModel.html">ngModel</a></li></ul><h3>Global</h3><ul><li><a href="global.html#$get">$get</a></li><li><a href="global.html#adjustTop">adjustTop</a></li><li><a href="global.html#calculatePosition">calculatePosition</a></li><li><a href="global.html#dragItem">dragItem</a></li><li><a href="global.html#eventObj">eventObj</a></li><li><a href="global.html#getRawNode">getRawNode</a></li><li><a href="global.html#height">height</a></li><li><a href="global.html#isScrollable">isScrollable</a></li><li><a href="global.html#isTouchInvalid">isTouchInvalid</a></li><li><a href="global.html#movePosition">movePosition</a></li><li><a href="global.html#noDrag">noDrag</a></li><li><a href="global.html#offset">offset</a></li><li><a href="global.html#offsetParent">offsetParent</a></li><li><a href="global.html#options">options</a></li><li><a href="global.html#parsePlacement">parsePlacement</a></li><li><a href="global.html#parseStyle">parseStyle</a></li><li><a href="global.html#position">position</a></li><li><a href="global.html#positionArrow">positionArrow</a></li><li><a href="global.html#positionElements">positionElements</a></li><li><a href="global.html#positionStarted">positionStarted</a></li><li><a href="global.html#scrollbarPadding">scrollbarPadding</a></li><li><a href="global.html#scrollbarWidth">scrollbarWidth</a></li><li><a href="global.html#scrollParent">scrollParent</a></li><li><a href="global.html#setTriggers">setTriggers</a></li><li><a href="global.html#viewportOffset">viewportOffset</a></li><li><a href="global.html#width">width</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Tue May 30 2017 10:36:13 GMT-0400 (DST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

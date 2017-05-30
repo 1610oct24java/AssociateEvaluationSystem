@@ -1,3 +1,7 @@
+/**
+ * @class AES.bankApp.TagCtrl
+ */
+
 app.controller("TagCtrl", function($http, $scope) {
 		$scope.tags =[];
 		$scope.delTag = '';

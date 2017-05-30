@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: asmtApp.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: asmtApp.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @namespace AES.asmtApp
+ * @memberOf AES
+ */
+
+var asmt = angular.module("asmtApp", [ 'ui.bootstrap', 'as.sortable',
+		'ngAnimate', 'ui.ace']);
+
+asmt.constant("SITE_URL", {
+    "HTTP" : "http://",
+    "HTTPS": "https://",
+    "BASE" : "",
+    "PORT" : ":8080",
+
+    "LOGIN": "index",
+    "TRAINER_HOME" : "",
+    "VIEW_CANDIDATES" : "view",
+    "VIEW_EMPLOYEES" : "viewEmployees",
+    "REGISTER_CANDIDATE" : "",
+    "REGISTER_EMPLOYEE" : "",
+    "ASSESSMENT_LANDING" : "assessmentLandingPage"
+});
+
+
+asmt.constant("API_URL", {
+    "BASE"      : "/aes",
+    "LOGIN"     : "/login",
+    "LOGOUT"    : "/logout",
+    "AUTH"      : "/security/auth",
+    "CANDIDATE" : "/candidate/",
+    "RECRUITER" : "/recruiter/",
+    "LINK"      : "/link",
+    "CANDIDATES": "/candidates"
+});
+
+
+asmt.constant("ROLE", {
+    "RECRUITER" : "ROLE_RECRUITER",
+    "TRAINER"   : "ROLE_TRAINER",
+    "CANDIDATE" : "ROLE_CANDIDATE",
+    "ADMIN"		: "ROLE_ADMIN"
+});
+
+asmt.config(['$locationProvider', function($locationProvider) {
+    $locationProvider.html5Mode(true);
+}]);
+
+var QUIZ_REST_URL = "/aes/rest/";
+var QUIZ_SUBMIT_REST_URL = "/aes/rest/submitAssessment";
+
+/* Set the width of the side navigation to 250px and the right margin of the page content to 250px */
+function openSideNav() {
+    document.getElementById("sidenav").style.width = "250px";
+    document.getElementById("page-container").style.marginRight = "250px";
+}
+
+/* Set the width of the side navigation to 0 and the right margin of the page content to 0 */
+function closeSideNav() {
+    document.getElementById("sidenav").style.width = "0";
+    document.getElementById("page-container").style.marginRight = "0";
+}
+
+//where user makes decision to submit
+function showSubmitAssesmentModal() {
+    var submitAssessmentModal = document.getElementById("submitAssessmentModal");
+    submitAssessmentModal.style.display = "block";
+    $timeout(function () {
+        $rootScope.submitAssessment();
+    }, 3000);
+}
+
+function closeSubmitAssesmentModal() {
+    var submitAssessmentModal = document.getElementById("submitAssessmentModal");
+    submitAssessmentModal.style.display = "none";
+}
+
+function openAboutNav(){
+	closeSideNav();
+	document.getElementById("aboutnav").style.width = "250px";
+	document.getElementById("page-container").style.marginRight = "250px";
+}
+
+function closeAboutNav(){
+	openSideNav();
+	document.getElementById("aboutnav").style.width = "0";
+	document.getElementById("page-container").style.marginRight = "0";
+}
+
+function openHelpNav(){
+	closeSideNav();
+	document.getElementById("helpnav").style.width = "250px";
+	document.getElementById("page-container").style.marginRight = "250px";
+}
+
+function closeHelpNav(){
+	openSideNav();
+	document.getElementById("helpnav").style.width = "0";
+	document.getElementById("page-container").style.marginRight = "0";
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AES.adminApp.AdminDashboardCtrl.html">AdminDashboardCtrl</a></li><li><a href="AES.adminApp.ChooseAssessmentCtrl.html">ChooseAssessmentCtrl</a></li><li><a href="AES.adminApp.CreateAssessmentCtrl.html">CreateAssessmentCtrl</a></li><li><a href="AES.adminApp.EmployeeViewCtrl.html">EmployeeViewCtrl</a></li><li><a href="AES.adminApp.MenuCtrl.html">MenuCtrl</a></li><li><a href="AES.adminApp.parserCtrl.html">parserCtrl</a></li><li><a href="AES.adminApp.RegisterEmployeeCtrl.html">RegisterEmployeeCtrl</a></li><li><a href="AES.adminApp.SettingsViewCtrl.html">SettingsViewCtrl</a></li><li><a href="AES.adminApp.UpdateEmployeeCtrl.html">UpdateEmployeeCtrl</a></li><li><a href="AES.asmtApp.CountdownController.html">CountdownController</a></li><li><a href="AES.asmtApp.landingPageCtrl.html">landingPageCtrl</a></li><li><a href="AES.asmtApp.quizController.html">quizController</a></li><li><a href="AES.asmtApp.QuizNavController.html">QuizNavController</a></li><li><a href="AES.asmtApp.quizReviewController.html">quizReviewController</a></li><li><a href="AES.bankApp.CategoryCtrl.html">CategoryCtrl</a></li><li><a href="AES.bankApp.MasterCtrl.html">MasterCtrl</a></li><li><a href="AES.bankApp.MenuCtrl.html">MenuCtrl</a></li><li><a href="AES.bankApp.QuestionCtrl.html">QuestionCtrl</a></li><li><a href="AES.bankApp.TagCtrl.html">TagCtrl</a></li><li><a href="AES.userApp.CandidateCtrl.html">CandidateCtrl</a></li><li><a href="AES.userApp.LoginCtrl.html">LoginCtrl</a></li><li><a href="AES.userApp.menuCtrl.html">menuCtrl</a></li><li><a href="AES.userApp.recruiterDashboardCtrl.html">recruiterDashboardCtrl</a></li><li><a href="AES.userApp.UpdateEmployeeCtrl.html">UpdateEmployeeCtrl</a></li></ul><h3>Namespaces</h3><ul><li><a href="AES.adminApp.html">adminApp</a></li><li><a href="AES.asmtApp.html">asmtApp</a></li><li><a href="AES.bankApp.html">bankApp</a></li><li><a href="AES.userApp.html">userApp</a></li><li><a href="AES%250DCreated%2520by%2520Mehrab%2520on%25205_30_2017..html">AESCreated by Mehrab on 5/30/2017.</a></li><li><a href="attr.ngfAsBackground.html">ngfAsBackground</a></li><li><a href="attr.ngfBackground.html">ngfBackground</a></li><li><a href="attr.ngfCapture.html">ngfCapture</a></li><li><a href="attr.ngfChange.html">ngfChange</a></li><li><a href="attr.ngfKeep.html">ngfKeep</a></li><li><a href="attr.ngfModelOptions.html">ngfModelOptions</a></li><li><a href="attr.ngfMultiple.html">ngfMultiple</a></li><li><a href="attr.ngfNoObjectUrl.html">ngfNoObjectUrl</a></li><li><a href="attr.ngfSelect.html">ngfSelect</a></li><li><a href="attr.ngfSize.html">ngfSize</a></li><li><a href="attr.ngfSrc.html">ngfSrc</a></li><li><a href="attr.ngfThumbnail.html">ngfThumbnail</a></li><li><a href="attr.ngfValidate.html">ngfValidate</a></li><li><a href="attr.ngModel.html">ngModel</a></li></ul><h3>Global</h3><ul><li><a href="global.html#$get">$get</a></li><li><a href="global.html#adjustTop">adjustTop</a></li><li><a href="global.html#calculatePosition">calculatePosition</a></li><li><a href="global.html#dragItem">dragItem</a></li><li><a href="global.html#eventObj">eventObj</a></li><li><a href="global.html#getRawNode">getRawNode</a></li><li><a href="global.html#height">height</a></li><li><a href="global.html#isScrollable">isScrollable</a></li><li><a href="global.html#isTouchInvalid">isTouchInvalid</a></li><li><a href="global.html#movePosition">movePosition</a></li><li><a href="global.html#noDrag">noDrag</a></li><li><a href="global.html#offset">offset</a></li><li><a href="global.html#offsetParent">offsetParent</a></li><li><a href="global.html#options">options</a></li><li><a href="global.html#parsePlacement">parsePlacement</a></li><li><a href="global.html#parseStyle">parseStyle</a></li><li><a href="global.html#position">position</a></li><li><a href="global.html#positionArrow">positionArrow</a></li><li><a href="global.html#positionElements">positionElements</a></li><li><a href="global.html#positionStarted">positionStarted</a></li><li><a href="global.html#scrollbarPadding">scrollbarPadding</a></li><li><a href="global.html#scrollbarWidth">scrollbarWidth</a></li><li><a href="global.html#scrollParent">scrollParent</a></li><li><a href="global.html#setTriggers">setTriggers</a></li><li><a href="global.html#viewportOffset">viewportOffset</a></li><li><a href="global.html#width">width</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Tue May 30 2017 10:36:13 GMT-0400 (DST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

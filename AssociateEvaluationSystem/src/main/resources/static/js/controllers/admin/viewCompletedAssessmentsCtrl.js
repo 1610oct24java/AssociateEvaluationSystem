@@ -1,6 +1,8 @@
 /**
- * Created by Gabe on 5/25/2017.
+ * @class AES.adminApp.ViewCompletedAssessmentsCtrl
+ * @author Gabe
  */
+
 adminApp.controller('ViewCompletedAssessmentsCtrl', function($scope, $http, $mdToast, SITE_URL, API_URL, ROLE) {
 
     $scope.validateReview = function ()
@@ -15,7 +17,7 @@ adminApp.controller('ViewCompletedAssessmentsCtrl', function($scope, $http, $mdT
     {
         if($scope.assReviewCheck)
         {
-            var totalHours= ($scope.assdays * 24) + $scope.asshours;
+    
             $scope.assdays = 0;
             $scope.asshours = 0;
         }
@@ -116,7 +118,7 @@ adminApp.controller('ViewCompletedAssessmentsCtrl', function($scope, $http, $mdT
                 keys.push(key);
                 output.push(item);
             }
-        });
+        })
         return output.length;
     };
 
@@ -334,7 +336,7 @@ adminApp.controller('ViewCompletedAssessmentsCtrl', function($scope, $http, $mdT
                 $scope.type = '';
                 $scope.quantity = '';
                 $scope.showToast("Success - Section added", "success");
-            };
+            }
 
             //creates url and performs AJAX call to appropriate REST endpoint
             //sending the assessment time and criteria

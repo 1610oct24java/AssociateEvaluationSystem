@@ -1,3 +1,7 @@
+/**
+ * @class AES.adminApp.UpdateEmployeeCtrl
+ */
+
 adminApp.controller('UpdateEmployeeCtrl', function($scope,$location,$http,$routeParams, SITE_URL, API_URL) {
     // list of candidates recruiter does not have.
     $scope.possibleCandidates = [];

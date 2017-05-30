@@ -1,4 +1,7 @@
-/* COUNTDOWN TIMER LOGIC */
+/**
+ * @class AES.asmtApp.CountdownController
+ */
+
 asmt.controller('CountdownController', function($scope, $rootScope, $interval, $timeout) {
 	
 	var startTime = -111;	// default to show loading message
