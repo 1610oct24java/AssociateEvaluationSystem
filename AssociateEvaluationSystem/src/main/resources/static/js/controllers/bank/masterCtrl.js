@@ -30,7 +30,7 @@ app.controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', '$http', 
 	};
     $scope.addQuestion = function(){
         $state.go("fullQuestion");
-        $scope.templateName = "Add Question";
+        $scope.templateName = "Upload Assessment";
     };
 	
     $scope.uploadFile = function(){
@@ -49,7 +49,7 @@ app.controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', '$http', 
     		var fileArr = [file];    		
     		$scope.upload(fileArr, file.type);
     	})
-      	
+
     });
     
    $scope.submitSnippetFiles = function(isValid){
@@ -166,4 +166,9 @@ app.controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', '$http', 
               }
           }
       };
-}]);
+
+    angular.element(document).ready(function() {
+		$scope.modifyQuestions();
+    }); // angular.element end
+
+    }]);

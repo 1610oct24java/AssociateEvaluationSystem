@@ -192,3 +192,7 @@ md-edit-dialog > .md-content md-input-container [ng-message] {
 .optionId{
 	text-align: right;
 }
+
+.ng-cloak {
+	display: none !important;
+}
