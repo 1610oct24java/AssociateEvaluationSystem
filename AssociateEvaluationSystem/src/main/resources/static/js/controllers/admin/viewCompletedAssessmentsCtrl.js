@@ -82,7 +82,8 @@ adminApp.controller('ViewCompletedAssessmentsCtrl', function($scope, $http, $mdT
                 };
             } else
                 window.location = SITE_URL.LOGIN;
-        });
+        })
+        
 
     $scope.times = [15, 30, 45, 60, 75, 90];
 
@@ -240,7 +241,6 @@ adminApp.controller('ViewCompletedAssessmentsCtrl', function($scope, $http, $mdT
             $scope.numOfQuestions = response.data;
             $scope.quantity=$scope.maxQuestions;
             if($scope.quantity > $scope.numOfQuestions){
-                alert("There are only " + $scope.numOfQuestions + " of those questions available.");
             }else{
                 $scope.sections.push({ 'category': $scope.category, 'type': $scope.type, 'quantity': $scope.quantity });
 

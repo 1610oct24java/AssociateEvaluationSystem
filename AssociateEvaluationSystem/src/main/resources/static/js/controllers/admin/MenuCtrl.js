@@ -63,7 +63,7 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
      * Supplies a function that will continue to operate until the
      * time is up.
      */
-    function debounce(func, wait, context) {
+    function debounce(func, wait) {
         var timer;
 
         return function debounced() {

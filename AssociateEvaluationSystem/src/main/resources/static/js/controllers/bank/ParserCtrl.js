@@ -59,6 +59,7 @@ app.controller("parserCtrl", function ($scope, $http, SITE_URL, API_URL, $log) {
         cat.push(out);
         return cat;
     };
+    
 
     //returns a format object
     var getFormat = function (multiChoice, hasSingle) {
