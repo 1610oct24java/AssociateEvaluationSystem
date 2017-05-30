@@ -174,8 +174,18 @@ app.controller('MasterCtrl', [
 			$scope.someFunction = function(data, status, headers, config) {
 				// keeping it to shut up sonarQube. This is that hot fix doe.
 			};
-
+			
+			
+			
 			$scope.upload = function(files, folderNames) {
+				
+				var funcEVT = function(evt){
+					parseInt(100.0 * evt.loaded / evt.total);
+				}
+				var funcDSHC = function(data, status, headers, config){			
+					
+				}	
+			
 				if (files && files.length) {
 					for (var i = 0; i < files.length; i++) {
 						var file = files[i];
@@ -183,10 +193,8 @@ app.controller('MasterCtrl', [
 							url : 'rest/s3uploadFile/' + folderNames[i],
 							method : 'POST',
 							file : file
-						}).progress(function(evt) {
-							parseInt(100.0 * evt.loaded / evt.total);
-						}).success(function(data, status, headers, config) {
-						});
+						}).progress(funcEVT) 
+						.success(funcDSHC);
 					}
 				}
 			};
