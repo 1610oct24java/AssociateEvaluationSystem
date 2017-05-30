@@ -159,13 +159,13 @@ adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SIT
         console.log("done");
         var myEl = angular.element( document.querySelector( '#g'+num ) );
 
-        /*if(angular.element(document.querySelector('#g'+num).classList)[0] == "ng-hide"){
+        if(angular.element(document.querySelector('#g'+num).classList)[0] == "ng-hide"){
             myEl.removeClass("ng-hide");
             myEl.addClass("ng-show");
         } else {
             myEl.removeClass("ng-show");
             myEl.addClass("ng-hide");
-        }*/
+        }
     };
     function updateGraph(recruiterId) {
         filterAssessments();
@@ -189,7 +189,7 @@ adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SIT
                 vAxis: {title: 'Grade', minValue: 0, maxValue: 100},
                 legend: 'none'
             };
-            var chart = new google.visualization.ScatterChart(document.getElementById('chart'+recruiterId));
+            var chart = new google.visualization.ScatterChart(document.getElementById('chart'));
             chart.draw(data, options);
         });
     };
