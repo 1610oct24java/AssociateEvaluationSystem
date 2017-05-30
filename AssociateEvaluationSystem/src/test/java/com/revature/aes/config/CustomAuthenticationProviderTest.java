@@ -3,7 +3,6 @@ package com.revature.aes.config;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
