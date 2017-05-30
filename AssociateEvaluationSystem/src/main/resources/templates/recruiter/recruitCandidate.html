@@ -33,8 +33,11 @@
 
           <!-- Text input-->
             <div class="col-sm-12">
+              <label for="inputFirstName">First Name</label>
               <input type="text" name="fistName" placeholder="First Name" class="form-control" id="inputFirstName" type="text" placeholder="first name" ng-model="firstName" required autofocus><br/>
-              <input type="text" name="lastName" placeholder="Last Name" class="form-control" id="inputLastName" type="text" placeholder="last name" ng-model="lastName" required><br/>  
+              <label for="inputFirstName">Last Name</label>
+              <input type="text" name="lastName" placeholder="Last Name" class="form-control" id="inputLastName" type="text" placeholder="last name" ng-model="lastName" required><br/>
+              <label for="inputFirstName">Email</label>  
               <input type="text" name="email" placeholder="Email" class="form-control" id="inputEmail" type="email" placeholder="email address" ng-model="email" ng-change="checkEmail()" required><br/>
            	 
                       <div ng-show="buttonToggle">
@@ -53,6 +56,7 @@
                 Error: Registration Unsuccessful !!!
             </span>
             </div>
+            <br />
              <input id="btn-register-recruit" class="btn btn-primary" type="submit" value="register" ng-click="candidateForm.$setPristine(); resetRegistrationForm()" ng-disabled="candidateForm.$invalid || buttonToggle">
              </div>       
          </form>   
