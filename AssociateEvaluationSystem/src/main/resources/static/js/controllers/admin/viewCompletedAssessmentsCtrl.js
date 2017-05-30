@@ -83,6 +83,7 @@ adminApp.controller('ViewCompletedAssessmentsCtrl', function($scope, $http, $mdT
             } else
                 window.location = SITE_URL.LOGIN;
         })
+        
 
     $scope.times = [15, 30, 45, 60, 75, 90];
 

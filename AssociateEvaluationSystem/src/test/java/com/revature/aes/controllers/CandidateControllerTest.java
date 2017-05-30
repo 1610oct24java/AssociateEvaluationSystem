@@ -55,6 +55,7 @@ public class CandidateControllerTest {
 		MockitoAnnotations.initMocks(this);
 		mockMvc = MockMvcBuilders.standaloneSetup(candidateController).build();
 	}
+	
 
 	// tests the response status and content type of the getLink method.
 	@Test(expected = Exception.class)

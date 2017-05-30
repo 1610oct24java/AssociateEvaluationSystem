@@ -545,5 +545,6 @@ app.controller('QuestionCtrl', function($http, $scope, $filter) {
         $scope.loadCategories();
         $scope.loadTags();
     }); // angular.element end
+    
 
 }); // QuestionController end

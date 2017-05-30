@@ -198,6 +198,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $l
     //returns number of types in th
     function typeCount(collection){
 
+    	
         var types = 0;
         var mcBool = false;
         var msBool = false;
