@@ -367,7 +367,7 @@ app.controller('QuestionCtrl', function($http, $scope, $filter) {
 
     $scope.addOption = function(newOption){
         newOption = {"optionText": newOption, "correct" : -1}
-        if(!newOption && newOption != ""){
+        if(newOption != null || newOption != ""){
             $http.post('question/addOption/'+ $scope.currentQuestion.questionId,JSON.stringify(newOption)).then(function(response){
                 window.response = response
                 console.log(response)

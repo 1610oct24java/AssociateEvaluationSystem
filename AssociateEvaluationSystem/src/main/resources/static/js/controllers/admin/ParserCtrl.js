@@ -65,19 +65,18 @@ adminApp.controller("parserCtrl", function ($scope, $http, SITE_URL, API_URL, $l
         var out = {};
         var name;
         if(hasSingle){
-            if(multiChoice == "true"){
+            if(multiChoice == "true")
                 name = "Multiple Choice";
-            } else {
+             else
                 name = "Multiple Select";
-            }
-        } else {
+        } else
             name = "Multiple Choice";
-        }
+       
         angular.forEach($scope.formats,function (format) {
-            if(format.formatName == name){
+            if(format.formatName == name)
                 out = format;
-            }
-        });
+        })
+        
         return out;
     };
 

@@ -44,7 +44,6 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $l
     {
         if($scope.assReviewCheck)
         {
-            var totalHours= ($scope.assdays * 24) + $scope.asshours;
             $scope.assdays = 0;
             $scope.asshours = 0;
         }
@@ -102,7 +101,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $l
                 $scope.authUser = authUser;
                 if ($scope.authUser.authority != ROLE.ADMIN) {
                     window.location = SITE_URL.LOGIN;
-                };
+                }
             } else
                 window.location = SITE_URL.LOGIN;
         });
@@ -201,7 +200,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $l
                 keys.push(key);
                 output.push(item);
             }
-        });
+        })
         return output.length;
     };
 
