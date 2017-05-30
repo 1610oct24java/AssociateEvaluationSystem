@@ -30,11 +30,7 @@ app.controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', '$http', 
 	};
     $scope.addQuestion = function(){
         $state.go("fullQuestion");
-<<<<<<< HEAD
         $scope.templateName = "Add Questions";
-=======
-        $scope.templateName = "Upload Assessment";
->>>>>>> 877b8ae128314f8e0aa928d09b972a150f57aed4
     };
 	
     $scope.uploadFile = function(){
@@ -179,4 +175,7 @@ app.controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', '$http', 
     }]);
 =======
     }]);
+<<<<<<< HEAD
 >>>>>>> 877b8ae128314f8e0aa928d09b972a150f57aed4
+=======
+>>>>>>> 05fd9039aedb87e8fd090df20d7b2eb66e32e94e
