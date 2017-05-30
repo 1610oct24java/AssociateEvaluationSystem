@@ -12,7 +12,6 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
             case "updateEmployee":
                 return "employees";
             case "questions":
-                return "questions";
             case "manageQuestions":
             case "addQuestions":
                 return "questions";
@@ -60,16 +59,14 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
      * Supplies a function that will continue to operate until the
      * time is up.
      */
-    function debounce(func, wait, context) {
+    function debounce(func, wait) {
         var timer;
 
         return function debounced() {
-            var context = $scope,
-                args = Array.prototype.slice.call(arguments);
             $timeout.cancel(timer);
-            timer = $timeout(function(context) {
+            timer = $timeout(function() {
                 timer = undefined;
-                func.apply(context, args);
+                func.apply($scope, Array.prototype.slice.call(arguments));
             }, wait || 10);
         };
     }

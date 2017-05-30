@@ -21,7 +21,7 @@ public class AESJDBCUnitTests {
 	private DriverManagerDataSource dmds;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() throws ClassNotFoundException {
 		imp = new AESJDBCImpl();
 		dmds = new DriverManagerDataSource();
 		dmds.setUrl("jdbc:oracle:thin:@associate-evaluation-system.cgbbs6xdwjwh.us-west-2.rds.amazonaws.com:1521:AES");
