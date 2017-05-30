@@ -7,6 +7,14 @@ userApp.controller('recruiterDashboardCtrl', function($scope,$mdToast,$location,
     $scope.graphData = [];
     $scope.timeFrame;
     $scope.assessments = [];
+    $scope.candidates = [];
+
+    function assessment(finishedTimeStamp, grade, fname, lname){
+        this.finishedTimeStamp = finishedTimeStamp;
+        this.grade = grade;
+        this.fname = fname;
+        this.lname = lname;
+    };
 
     $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
         .then(function(response) {
@@ -26,7 +34,8 @@ userApp.controller('recruiterDashboardCtrl', function($scope,$mdToast,$location,
                         var c =  response.data;
                         $scope.candidateCount = c.length;
                         for (var i=0; i<c.length; i++) {
-                            getAssessments(c[i].userId, c[i].email);
+                            console.log("candidate"+i+": "+c);
+                            getAssessments(c[i].userId, c[i].email, c[i].firstName, c[i].lastName);
                             c[i].expanded = false;
                         }
                     })
@@ -35,13 +44,14 @@ userApp.controller('recruiterDashboardCtrl', function($scope,$mdToast,$location,
             }
         });
 
-    function getAssessments(num, email) {
+    function getAssessments(num, email, fname, lname) {
         $http
             .get(SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + email + "/assessments")
             .then(function (response) {
                 var candidateAsmts = response.data;
                 candidateAsmts.forEach(function(a){
                    if(a.grade != -1){
+                       var a = new assessment(a.finishedTimeStamp, a.grade, fname, lname);
                        $scope.assessments.push(a);
                        $scope.asmtCount += 1;
                    }
@@ -58,10 +68,10 @@ userApp.controller('recruiterDashboardCtrl', function($scope,$mdToast,$location,
         var startTimeRange = new Date();
         startTimeRange.setDate(startTimeRange.getDate()-$scope.timeFrame);
         $scope.assessments.forEach(function(a){
-            var timestamp = a.finishedTimeStamp;
+            var timestamp = new Date(a.finishedTimeStamp);
             var grade = a.grade;
             if(grade != -1 && timestamp > startTimeRange.getTime()){
-                var point = [new Date(timestamp), grade];
+                var point = [timestamp, grade, "Name: "+a.fname+" "+a.lname+"\n Grade: "+grade+"\nDate: "+timestamp.toLocaleDateString()];
                 $scope.graphData.push(point);
                 $scope.sum += a.grade;
                 $scope.asmtCount += 1;
@@ -77,6 +87,7 @@ userApp.controller('recruiterDashboardCtrl', function($scope,$mdToast,$location,
         var data = new google.visualization.DataTable();
         data.addColumn('date', 'Date');
         data.addColumn('number', 'Grade');
+        data.addColumn({type:'string', role:'tooltip'});
         data.addRows($scope.graphData);
         var options = {
             title: 'Assessment Grade Scatterplot',
