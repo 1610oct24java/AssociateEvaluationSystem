@@ -170,12 +170,5 @@ app.controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', '$http', 
     angular.element(document).ready(function() {
 		$scope.modifyQuestions();
     }); // angular.element end
+}]);
 
-<<<<<<< HEAD
-    }]);
-=======
-    }]);
-<<<<<<< HEAD
->>>>>>> 877b8ae128314f8e0aa928d09b972a150f57aed4
-=======
->>>>>>> 05fd9039aedb87e8fd090df20d7b2eb66e32e94e
