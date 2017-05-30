@@ -1,49 +1,30 @@
 package com.revature.aes.service;
 
-
+import java.util.*;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 
 public class CustomUserDetailsServiceTest {
+	String username = "trainers@revature.com";
+	String password = "password";	
+	List<GrantedAuthority> authorities = new ArrayList<>();
+	List<String> role = new ArrayList<>();
 	
-	@Autowired
-    UserService uService;
-	
-	@Autowired
-	SecurityService sService;
-
+	@Before
+	public void init() {
+		role.add("ROLE_ADMIN");
+		for (String r : role) {
+            authorities.add(new SimpleGrantedAuthority(r));
+		}
+	}
 
 	@Test
 	public void testLoadUserByUsername() {
-//		User user = uService.findUserByEmailIgnoreCase("trainers@revature.com");
-//		Security security = sService.findSecurityByUserId(user.getUserId());
-//		assertTrue(security.getUserId() > 0);
-	}
-
-	@Test
-	public void testCheckForValidPassword() {
-		return;
-		
-	}
-
-	@Test
-	public void testGetAuthorities() {
-		return;
-		
-	}
-
-	@Test
-	public void testGetRoles() {
-		return;
-		
-	}
-
-	@Test
-	public void testGetGrantedAuthorities() {
-		return;
-		
+		new User(username, password, authorities);
 	}
 
 }
