@@ -90,7 +90,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $l
                 $scope.authUser = authUser;
                 if ($scope.authUser.authority != ROLE.ADMIN) {
                     window.location = SITE_URL.LOGIN;
-                };
+                }
             } else {
                 window.location = SITE_URL.LOGIN;
             }
