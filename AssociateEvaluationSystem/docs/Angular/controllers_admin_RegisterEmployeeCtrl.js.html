@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: controllers/admin/RegisterEmployeeCtrl.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: controllers/admin/RegisterEmployeeCtrl.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @class AES.adminApp.RegisterEmployeeCtrl
+ */
+
+adminApp.controller('RegisterEmployeeCtrl', function($scope,$mdToast,$location,$http,SITE_URL, API_URL, ROLE) {
+    $scope.roleTypes = [];
+    $scope.allEmails = [];
+    $scope.buttonToggle = false; // by default
+    $scope.recruiter = null; // by default, unless admin picks candidate
+    $scope.recruiterSelect = false; // by default, unless admin picks candidate
+    $scope.allRecruiters = [];
+    var recruiter = null;
+
+
+    $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
+        .then(function(response) {
+            if (response.data.authenticated) {
+                var authUser = {
+                    username : response.data.principal.username,
+                    authority: response.data.principal.authorities[0].authority
+                }
+                $scope.authUser = authUser;
+                if($scope.authUser.authority != ROLE.ADMIN) {
+                    window.location = SITE_URL.LOGIN;
+                }
+            } else {
+                window.location = SITE_URL.LOGIN;
+            }
+        });
+
+    /* This function checks if email is in the database
+     * Disables registration if email is in the database
+     * */
+    $scope.checkEmail = function(){
+        var keepGoing = true;
+        $scope.allEmails.forEach(function(email) {
+            if(keepGoing) {
+
+                if (email.toUpperCase() === $scope.email.toUpperCase()){ //case-insensitive email match
+                    $scope.buttonToggle = true;
+                    keepGoing = false;
+                }
+                else {
+                    $scope.buttonToggle = false;
+                }
+            }
+        });
+    };
+
+    // show the recruiter select menu if employee being registered is a candidate
+    $scope.checkIfCandidate = function(){
+        if ($scope.roleType.roleTitle.toUpperCase() === 'CANDIDATE'){
+            $scope.recruiterSelect = true;
+        } else {
+            $scope.recruiterSelect = false;
+        }
+    };
+
+    // reset form and refresh page's cache of emails and recruiters
+    $scope.resetRegistrationForm = function() {
+        // reset all form state variables
+        $scope.allEmails = [];
+        $scope.buttonToggle = false; // by default
+        $scope.recruiter = null; // by default, unless admin picks candidate
+        $scope.recruiterSelect = false; // by default, unless admin picks candidate
+        $scope.allRecruiters = [];
+    }
+
+    $scope.initializeRegistrationSelects = function() {
+        // populate roleTypes in registerEmployee View.
+        $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/roles")
+            .then(function(result) {
+                // we don't want to display 'restuser' or 'system'
+                result.data.forEach(function(role){
+                    if (role.roleTitle.toUpperCase() !== 'RESTUSER' || role.roleTitle.toUpperCase() !== 'SYSTEM'){
+                        // if any other role, we add it to the select option
+                        $scope.roleTypes.push(role);
+                    }
+                });
+            });
+
+        // get all emails from the database
+        $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/emails")
+            .then(function(result) {
+                $scope.allEmails = result.data;
+            });
+
+        // get all recruiters from the database
+        $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/recruiters")
+            .then(function(result) {
+                $scope.allRecruiters = result.data;
+            });
+    }
+
+    $scope.register = function() {
+
+        // if we're registering a candidate...
+        if ($scope.recruiterSelect === true) {
+            recruiter = $scope.recruiter.userId;
+        }
+
+        var employeeInfo = {
+            userId        : null,
+            email         : $scope.email,
+            firstName     : $scope.firstName,
+            lastName      : $scope.lastName,
+            salesforce    : null,
+            recruiterId   : recruiter,
+            role          : $scope.roleType,
+            datePassIssued: null,
+            format		  : null
+        };
+
+        $scope.postRegister(employeeInfo);
+
+        $scope.firstName = '';
+        $scope.lastName = '';
+        $scope.email = '';
+        $scope.program = '';
+        $scope.roleType = '';
+    };
+
+    $scope.postRegister = function(employeeInfo) {
+        $scope.registerSuccessfulMsg = false;
+        $scope.registerUnsuccessfulMsg = false;
+
+        $http({
+            method  : 'POST',
+            url: SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEE + "/register",
+            headers : {'Content-Type' : 'application/json'},
+            data    : employeeInfo
+
+        }).success( function(data) {
+            if(!data || data.msg == "fail"){
+                $scope.registerUnsuccessfulMsg = true;
+            }
+            else {
+                $scope.registerSuccessfulMsg = true;
+            }
+            // clear form.
+            $scope.resetRegistrationForm();
+            $scope.initializeRegistrationSelects(); //needs to occur AFTER post completes; updates emails and recruiters in memory for validation purposes.
+        }).error( function() {
+            $scope.registerUnsuccessfulMsg = true;
+        });
+    }
+
+    $scope.logout = function() {
+        $http.post(SITE_URL.BASE + API_URL.BASE + API_URL.LOGOUT)
+            .then(function() {
+                window.location = SITE_URL.LOGIN;
+            });
+    }
+
+    $scope.initializeRegistrationSelects();
+
+});
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AES.adminApp.AdminDashboardCtrl.html">AdminDashboardCtrl</a></li><li><a href="AES.adminApp.ChooseAssessmentCtrl.html">ChooseAssessmentCtrl</a></li><li><a href="AES.adminApp.CreateAssessmentCtrl.html">CreateAssessmentCtrl</a></li><li><a href="AES.adminApp.EmployeeViewCtrl.html">EmployeeViewCtrl</a></li><li><a href="AES.adminApp.MenuCtrl.html">MenuCtrl</a></li><li><a href="AES.adminApp.parserCtrl.html">parserCtrl</a></li><li><a href="AES.adminApp.RegisterEmployeeCtrl.html">RegisterEmployeeCtrl</a></li><li><a href="AES.adminApp.SettingsViewCtrl.html">SettingsViewCtrl</a></li><li><a href="AES.adminApp.UpdateEmployeeCtrl.html">UpdateEmployeeCtrl</a></li><li><a href="AES.asmtApp.CountdownController.html">CountdownController</a></li><li><a href="AES.asmtApp.landingPageCtrl.html">landingPageCtrl</a></li><li><a href="AES.asmtApp.quizController.html">quizController</a></li><li><a href="AES.asmtApp.QuizNavController.html">QuizNavController</a></li><li><a href="AES.asmtApp.quizReviewController.html">quizReviewController</a></li><li><a href="AES.bankApp.CategoryCtrl.html">CategoryCtrl</a></li><li><a href="AES.bankApp.MasterCtrl.html">MasterCtrl</a></li><li><a href="AES.bankApp.MenuCtrl.html">MenuCtrl</a></li><li><a href="AES.bankApp.QuestionCtrl.html">QuestionCtrl</a></li><li><a href="AES.bankApp.TagCtrl.html">TagCtrl</a></li><li><a href="AES.userApp.CandidateCtrl.html">CandidateCtrl</a></li><li><a href="AES.userApp.LoginCtrl.html">LoginCtrl</a></li><li><a href="AES.userApp.menuCtrl.html">menuCtrl</a></li><li><a href="AES.userApp.recruiterDashboardCtrl.html">recruiterDashboardCtrl</a></li><li><a href="AES.userApp.UpdateEmployeeCtrl.html">UpdateEmployeeCtrl</a></li></ul><h3>Namespaces</h3><ul><li><a href="AES.adminApp.html">adminApp</a></li><li><a href="AES.asmtApp.html">asmtApp</a></li><li><a href="AES.bankApp.html">bankApp</a></li><li><a href="AES.userApp.html">userApp</a></li><li><a href="AES%250DCreated%2520by%2520Mehrab%2520on%25205_30_2017..html">AESCreated by Mehrab on 5/30/2017.</a></li><li><a href="attr.ngfAsBackground.html">ngfAsBackground</a></li><li><a href="attr.ngfBackground.html">ngfBackground</a></li><li><a href="attr.ngfCapture.html">ngfCapture</a></li><li><a href="attr.ngfChange.html">ngfChange</a></li><li><a href="attr.ngfKeep.html">ngfKeep</a></li><li><a href="attr.ngfModelOptions.html">ngfModelOptions</a></li><li><a href="attr.ngfMultiple.html">ngfMultiple</a></li><li><a href="attr.ngfNoObjectUrl.html">ngfNoObjectUrl</a></li><li><a href="attr.ngfSelect.html">ngfSelect</a></li><li><a href="attr.ngfSize.html">ngfSize</a></li><li><a href="attr.ngfSrc.html">ngfSrc</a></li><li><a href="attr.ngfThumbnail.html">ngfThumbnail</a></li><li><a href="attr.ngfValidate.html">ngfValidate</a></li><li><a href="attr.ngModel.html">ngModel</a></li></ul><h3>Global</h3><ul><li><a href="global.html#$get">$get</a></li><li><a href="global.html#adjustTop">adjustTop</a></li><li><a href="global.html#calculatePosition">calculatePosition</a></li><li><a href="global.html#dragItem">dragItem</a></li><li><a href="global.html#eventObj">eventObj</a></li><li><a href="global.html#getRawNode">getRawNode</a></li><li><a href="global.html#height">height</a></li><li><a href="global.html#isScrollable">isScrollable</a></li><li><a href="global.html#isTouchInvalid">isTouchInvalid</a></li><li><a href="global.html#movePosition">movePosition</a></li><li><a href="global.html#noDrag">noDrag</a></li><li><a href="global.html#offset">offset</a></li><li><a href="global.html#offsetParent">offsetParent</a></li><li><a href="global.html#options">options</a></li><li><a href="global.html#parsePlacement">parsePlacement</a></li><li><a href="global.html#parseStyle">parseStyle</a></li><li><a href="global.html#position">position</a></li><li><a href="global.html#positionArrow">positionArrow</a></li><li><a href="global.html#positionElements">positionElements</a></li><li><a href="global.html#positionStarted">positionStarted</a></li><li><a href="global.html#scrollbarPadding">scrollbarPadding</a></li><li><a href="global.html#scrollbarWidth">scrollbarWidth</a></li><li><a href="global.html#scrollParent">scrollParent</a></li><li><a href="global.html#setTriggers">setTriggers</a></li><li><a href="global.html#viewportOffset">viewportOffset</a></li><li><a href="global.html#width">width</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Tue May 30 2017 10:36:13 GMT-0400 (DST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

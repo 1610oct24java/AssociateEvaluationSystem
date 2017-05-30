@@ -1,3 +1,7 @@
+/**
+ * @class AES.adminApp.ChooseAssessmentCtrl
+ */
+
 adminApp.controller('ChooseAssessmentCtrl', function($scope, $mdToast, $http, $anchorScroll){
     //list of assessments used to manipulate
     $scope.assList = [];

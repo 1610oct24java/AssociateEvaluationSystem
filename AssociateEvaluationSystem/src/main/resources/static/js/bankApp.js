@@ -1,3 +1,8 @@
+/**
+ * @namespace AES.bankApp
+ * @memberOf AES
+ */
+
 var app = angular.module("bankApp", ['ui.router', 'ngFileUpload','ngProgress', 'ngMaterial', 'ngMessages']);
 
 app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider) {

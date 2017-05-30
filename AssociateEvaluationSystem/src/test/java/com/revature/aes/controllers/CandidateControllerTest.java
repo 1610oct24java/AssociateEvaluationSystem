@@ -11,7 +11,6 @@ package com.revature.aes.controllers;
  * reference: http://memorynotfound.com/unit-test-spring-mvc-rest-service-junit-mockito/
  */
 
-
 import static org.mockito.Mockito.when;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -32,41 +31,42 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import com.revature.aes.beans.AssessmentAuth;
 import com.revature.aes.service.AssessmentAuthService;
 
-
 public class CandidateControllerTest {
-	
+
 	private MockMvc mockMvc;
-	
-	//creates a mock of the AssessmentAuthService.
+
+	// creates a mock of the AssessmentAuthService.
 	@Mock
 	private AssessmentAuthService authService;
-	
-	AssessmentAuth assessmentAuth = new AssessmentAuth(2152,136,"http://192.168.60.191:8090/aes","http://192.168.60.85:8090/aes/quiz?asmt=319");
-	
-	//input for the rest controllers' @PathVariable
+
+	AssessmentAuth assessmentAuth = new AssessmentAuth(2152, 136, "http://192.168.60.191:8090/aes",
+			"http://192.168.60.85:8090/aes/quiz?asmt=319");
+
+	// input for the rest controllers' @PathVariable
 	String email = "ldclauss@svsu.edu";
-	
-	//injects the AssessmentAuthService into the candidate controller.
+
+	// injects the AssessmentAuthService into the candidate controller.
 	@InjectMocks
 	private CandidateController candidateController;
-	
-	//sets up the stand-alone testing for the CandidateController.
+
+	// sets up the stand-alone testing for the CandidateController.
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		MockitoAnnotations.initMocks(this);
-		mockMvc = MockMvcBuilders
-				.standaloneSetup(candidateController)
-				.build();
+		mockMvc = MockMvcBuilders.standaloneSetup(candidateController).build();
 	}
 
-	//tests the response status and content type of the getLink method.  
+	// tests the response status and content type of the getLink method.
 	@Test
 	public final void testGetLink() throws Exception {
-		
+
 		when(authService.getLink(Mockito.anyString())).thenReturn(assessmentAuth);
-		mockMvc.perform(get("/candidate/{email}/link", email))
-			.andExpect(status().isOk())
-			.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+		try {
+			mockMvc.perform(get("/candidate/{email}/link", email)).andExpect(status().isOk())
+					.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
-	
+
 }

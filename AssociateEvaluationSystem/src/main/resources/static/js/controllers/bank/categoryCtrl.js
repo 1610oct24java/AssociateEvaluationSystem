@@ -1,3 +1,7 @@
+/**
+ * @class AES.bankApp.CategoryCtrl
+ */
+
 app.controller('CategoryCtrl', function($scope, $http){
 	$scope.categories;
 	$scope.delCategory = '';

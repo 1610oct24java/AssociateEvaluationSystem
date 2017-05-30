@@ -1,6 +1,8 @@
 /**
- * Created by Richard Wingert on 5/24/2017.
+ * @author Richard Wingert
+ * @class AES.adminApp.AdminDashboardCtrl
  */
+
 adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SITE_URL, API_URL, ROLE) {
     $scope.employees;
     $scope.roleCnts=[];

@@ -1,5 +1,6 @@
 /**
- * Created by SLEDGEHAMMER on 3/6/2017.
+ * @class AES.userApp.LoginCtrl
+ * @author SLEDGEHAMMER
  */
 
 userApp.controller('LoginCtrl', function($scope, $httpParamSerializerJQLike, $http, SITE_URL, API_URL, ROLE) {

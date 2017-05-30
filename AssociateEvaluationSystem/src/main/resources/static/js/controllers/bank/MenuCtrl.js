@@ -1,3 +1,7 @@
+/**
+ * @class AES.bankApp.MenuCtrl
+ */
+
 app.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav, $log) {
     var mc = this;
 
