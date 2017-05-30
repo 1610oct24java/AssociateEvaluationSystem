@@ -67,7 +67,6 @@ app.controller('MasterCtrl', [
 
 			$scope.submitSnippetFiles = function(isValid) {
 				if (!isValid) {
-					alert('Problem with form, aborting.');
 					return;
 				}
 
@@ -109,7 +108,6 @@ app.controller('MasterCtrl', [
 
 			$scope.submitSnippetText = function(isValid) {
 				if (!isValid) {
-					alert('Problem with form, aborting.');
 					return;
 				}
 
@@ -203,7 +201,6 @@ app.controller('MasterCtrl', [
 				}
 			};
 		} ]);
-=======
 app.controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', '$http', 'Upload', 'questionBuilderService',function($scope, $rootScope, $log, $state, $http, Upload, questionBuilderService){
 	
 	$scope.templateName = "";
@@ -230,13 +227,13 @@ app.controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', '$http', 
 		$scope.templateName = "Modify Questions";
 	};
 	
-	$scope.uploadAssessment = function(){
-		$state.go("upload");
-		$scope.templateName = "Upload Assessment";
+	$scope.XMLParser = function(){
+		$state.go("parser");
+		$scope.templateName = "Parser";
 	};
     $scope.addQuestion = function(){
         $state.go("fullQuestion");
-        $scope.templateName = "Upload Assessment";
+        $scope.templateName = "Add Questions";
     };
 	
     $scope.uploadFile = function(){
@@ -260,7 +257,6 @@ app.controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', '$http', 
     
    $scope.submitSnippetFiles = function(isValid){
 	   if (!isValid) {
-		  alert('Problem with form, aborting.');
 		  return;
 	   } 
 	   
@@ -298,7 +294,6 @@ app.controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', '$http', 
    
    $scope.submitSnippetText = function(isValid){
        if (!isValid) {
-              alert('Problem with form, aborting.');
               return;
        } 
        
@@ -376,5 +371,5 @@ app.controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', '$http', 
     angular.element(document).ready(function() {
 		$scope.modifyQuestions();
     }); // angular.element end
+}]);
 
-    }]);

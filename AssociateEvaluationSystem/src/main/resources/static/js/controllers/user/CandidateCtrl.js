@@ -43,8 +43,8 @@ userApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,SIT
                 if (asmt.length != 0) {
                     asmt.forEach(a=>{
                         a.createdTimeStamp = formatDate(a.createdTimeStamp);
-                    a.finishedTimeStamp = formatDate(a.finishedTimeStamp)
-                });
+                        a.finishedTimeStamp = formatDate(a.finishedTimeStamp)
+                    });
                 }
                 $scope.assessments = asmt;
                 $scope.returnCheck = true;
