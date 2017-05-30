@@ -203,7 +203,6 @@ app.controller('MasterCtrl', [
 				}
 			};
 		} ]);
-=======
 app.controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', '$http', 'Upload', 'questionBuilderService',function($scope, $rootScope, $log, $state, $http, Upload, questionBuilderService){
 	
 	$scope.templateName = "";
