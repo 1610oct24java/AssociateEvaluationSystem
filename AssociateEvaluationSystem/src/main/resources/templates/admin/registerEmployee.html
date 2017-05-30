@@ -24,6 +24,8 @@
 	href="//fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="css/aesMaterials.css">
 <link rel="stylesheet" href="css/master.css">
+
+
 </head>
 <body ng-app="adminApp" ng-controller="RegisterEmployeeCtrl">
 
@@ -31,21 +33,18 @@
 		<ng-include src="'menu.html'" />
 	</div>
 	<div class="container">
-    <form name="employeeForm" class="form-revature" ng-submit="register()">
-        <h2 class="row">Register New Employee</h2>
-        <div class="row input-field">
-            <label class="sr-only" for="inputFirstName">first name</label>
-            <input class="col-xs-12 col-md-12" id="inputFirstName" type="text" placeholder="first name" ng-model="firstName" required autofocus>
-        </div>
-        <div class="row input-field">
-            <label class="sr-only" for="inputLastName">last name</label>
-            <input class="col-xs-12 col-md-12" id="inputLastName" type="text" placeholder="last name" ng-model="lastName" required>
-        </div>
-        <div class="row input-field">
-            <label class="sr-only" for="inputEmail">email address</label>
-            <input name="email" class="col-xs-12 col-md-12" id="inputEmail" type="email" placeholder="email address" ng-model="email"
-            ng-change="checkEmail()" required>
-        </div>
+    <form name="employeeForm" class="form-horizontal" ng-submit="register()">
+        <legend>Register New Employee</legend>
+        <div class="row">
+            <label  for="inputFirstName">First Name</label>
+            <input class="form-control" id="inputFirstName" type="text" placeholder="first name" ng-model="firstName" required autofocus><br/>
+
+            <label  for="inputLastName">Last Name</label>
+            <input class="form-control" id="inputLastName" type="text" placeholder="last name" ng-model="lastName" required><br/>
+        
+            <label  for="inputEmail">Email Address</label>
+            <input name="email" class="form-control" id="inputEmail" type="email" placeholder="email address" ng-model="email"
+            ng-change="checkEmail()" required><br/>
         
         <div ng-show="buttonToggle">
             	<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="color:red;">
@@ -53,15 +52,13 @@
     			</span>
   				</div>
         
-        <div class="row">
-        What type of user?<br>
-            <select name="role" id="roleSelect" class="col-xs-8 col-md-6" ng-change="checkIfCandidate()"
+         	<label  for="roleSelect">What type of user?</label>
+            <select name="role" id="roleSelect" class="form-control" ng-change="checkIfCandidate()"
                     ng-model="roleType" ng-options="item.roleTitle for item in roleTypes" required>
             <option >
             	<!-- role -->
             </option>
-            </select>
-        </div>
+            </select> <br/>
         
         <div ng-show="employeeForm.role.$error.required && employeeForm.role.$dirty">
             	<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="color:red;">
@@ -69,14 +66,14 @@
     			</span>
   				</div>
         
-        <div ng-show="recruiterSelect" class="row">
-        Who is the recruiter for this candidate?<br>
-            <select name="recruiter" id="recruiterSelect" class="col-xs-8 col-md-6" 
+        <div ng-show="recruiterSelect">
+       <label  for="recruiterSelect">Who is the user's recruiter?</label>
+            <select name="recruiter" id="recruiterSelect" class="form-control" 
                     ng-model="recruiter" ng-options="item.firstName + ' ' + item.lastName for item in allRecruiters" ng-required="recruiterSelect">
             <option>
             	<!-- recruiters -->
             </option> 
-            </select>
+            </select><br/>
         </div>
         <div ng-show="employeeForm.recruiter.$error.required && employeeForm.recruiter.$dirty">
             	<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="color:red;">
@@ -95,10 +92,10 @@
 			</span>
 		</div>
         
-        <div class="row">
-            <input id="btn-register-recruit" class="btn-revature" type="submit" 
+    
+            <input id="btn-register-recruit" class="btn btn-primary" type="submit" 
             value="register" ng-click="employeeForm.$setPristine(); resetRegistrationForm()" ng-disabled="employeeForm.$invalid || buttonToggle">
-        </div>
+            </div>
     </form>
     
 </div>

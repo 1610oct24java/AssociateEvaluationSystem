@@ -48,6 +48,7 @@ adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SIT
                 $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.ADMIN + API_URL.EMPLOYEES)
                     .then(function (response) {
                         $scope.employees = response.data;
+
                         $scope.getRoleCnts();
                         $scope.getRecruiterCnts()
                     });
@@ -148,14 +149,14 @@ adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SIT
                 var candidateAsmts = response.data;
                 candidateAsmts.forEach(function(a){
                     if(a.grade != -1){
-                        var a = new assessment(a.finishedTimeStamp, a.grade, fname, lname);
-                        $scope.assessments.push(a);
+                        var ab = new assessment(a.finishedTimeStamp, a.grade, fname, lname);
+                        $scope.assessments.push(ab);
                     }
                 });
                 updateGraph(num);
                 $scope.returnCheck = true;
             });
-    };
+    }
 
 
     $scope.viewGraph = function(num, email){
@@ -189,7 +190,7 @@ adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SIT
             var chart = new google.visualization.ScatterChart(document.getElementById('chart'));
             chart.draw(data, options);
         });
-    };
+    }
 
     function filterAssessments(){
         $scope.graphData = [];
