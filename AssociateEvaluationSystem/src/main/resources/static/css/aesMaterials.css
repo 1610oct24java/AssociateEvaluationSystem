@@ -191,7 +191,6 @@ md-edit-dialog > .md-content md-input-container [ng-message] {
     padding: 5px 0 5px 2px;
 }
 
-
 .no-padding{
 	padding: 0;
 }
@@ -205,5 +204,15 @@ md-edit-dialog > .md-content md-input-container [ng-message] {
 	min-width:100px;
 }
 
+.questionHeader{
+	font-weight: bold;
+}
 
+.optionId{
+	text-align: right;
+}
+
+.ng-cloak {
+	display: none !important;
+}
 

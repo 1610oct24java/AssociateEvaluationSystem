@@ -29,23 +29,18 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $l
 
     $scope.validateReview = function ()
     {
-        if(($scope.assdays == null || $scope.asshours ==null || $scope.asshours <0 || $scope.assdays<0 ))
-        	return true;
-        else if((($scope.assdays ==0 && $scope.asshours == 0 ) && $scope.assReviewCheck))
+        if((($scope.assdays ==0 && $scope.asshours == 0 ) && $scope.assReviewCheck))
             return true;
         
-            return false;
+        return false;
     };
 
 
     $scope.allowReview = function()
     {
-        var totalHours = 0;
-
-
         if($scope.assReviewCheck)
         {
-            totalHours= ($scope.assdays * 24) + $scope.asshours;
+            var totalHours= ($scope.assdays * 24) + $scope.asshours;
             $scope.assdays = 0;
             $scope.asshours = 0;
         }
@@ -104,9 +99,8 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $l
                 if ($scope.authUser.authority != ROLE.ADMIN) {
                     window.location = SITE_URL.LOGIN;
                 };
-            } else {
+            } else
                 window.location = SITE_URL.LOGIN;
-            }
         });
 
     angular.element(document).ready(function () {

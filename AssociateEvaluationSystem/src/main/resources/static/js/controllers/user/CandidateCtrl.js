@@ -163,7 +163,7 @@ userApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,SIT
             datePassIssued: null,
             format		  : program
         };
-        $scope.postSendAssessment(candidateInfo);
+        $scope.postSendAsHsessment(candidateInfo);
 
         return true;
     };

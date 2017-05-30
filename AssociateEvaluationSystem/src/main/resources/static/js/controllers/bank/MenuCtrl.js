@@ -52,16 +52,14 @@ app.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav, $lo
      * Supplies a function that will continue to operate until the
      * time is up.
      */
-    function debounce(func, wait, context) {
+    function debounce(func, wait) {
         var timer;
 
         return function debounced() {
-            var context = $scope,
-                args = Array.prototype.slice.call(arguments);
             $timeout.cancel(timer);
             timer = $timeout(function(context) {
                 timer = undefined;
-                func.apply(context, args);
+                func.apply($scope, Array.prototype.slice.call(arguments));
             }, wait || 10);
         };
     }
