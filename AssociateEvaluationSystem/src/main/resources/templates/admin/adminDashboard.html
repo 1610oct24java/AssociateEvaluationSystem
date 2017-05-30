@@ -73,6 +73,7 @@ Page created by Richard Wingert
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>Count</th>
+                        <th>Graph</th>
                     </tr>
                     </thead>
                     <tbody ng-repeat="r in recruiterCnts | orderBy: 'count':true ">
@@ -80,9 +81,17 @@ Page created by Richard Wingert
                         <td>{{r.fname}}</td>
                         <td>{{r.lname}}</td>
                         <td>{{r.count}}</td>
+                        <td style="text-align: center;" class="highlight-off">
+                            <span ng-click="viewGraph(r.userId,r.email);" class="glyphicon glyphicon-chevron-down"></span>
+                        </td>
                     </tr>
+                    <!--<tr id="g{{r.userId}}" class="ng-hide">
+                        <td colspan="6"><div id="chart{{r.userId}}" style="width: 300px; height: 200px;"></div></td>
+                    </tr>-->
                     </tbody>
                 </table>
+                <div id="chart" style="width: 300px; height: 200px;"></div>
+
             </div>
         </div>
 
@@ -101,6 +110,7 @@ Page created by Richard Wingert
         src="//ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.js"></script>
 <script type="text/javascript" src="js/adminApp.js"></script>
 <script type="text/javascript" src="js/controllers/admin/MenuCtrl.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript" src="js/controllers/admin/adminDashboard.js"></script>
 </body>
 </html>
