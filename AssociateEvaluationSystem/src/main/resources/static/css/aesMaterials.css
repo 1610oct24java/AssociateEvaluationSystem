@@ -184,6 +184,7 @@ md-edit-dialog > .md-content md-input-container [ng-message] {
     padding: 5px 0 5px 2px;
 }
 
+<<<<<<< HEAD
 .questionHeader{
 	font-weight: bold;
 }
@@ -191,3 +192,6 @@ md-edit-dialog > .md-content md-input-container [ng-message] {
 .optionId{
 	text-align: right;
 }
+=======
+
+>>>>>>> d4ed2b486d3447136468206524aea39be835745c

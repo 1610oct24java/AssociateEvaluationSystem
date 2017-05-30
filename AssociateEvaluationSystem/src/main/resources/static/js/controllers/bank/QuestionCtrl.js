@@ -537,8 +537,11 @@ app.controller('QuestionCtrl', function($http, $scope, $filter) {
         }
     };
 
+<<<<<<< HEAD
     var pr = document.querySelector( '.paginate.left' );
     var pl = document.querySelector( '.paginate.right' );
+=======
+>>>>>>> d4ed2b486d3447136468206524aea39be835745c
 
     angular.element(document).ready(function() {
         $scope.getQuestionList();
