@@ -57,7 +57,6 @@ public class CandidateControllerTest {
 	}
 
 	// tests the response status and content type of the getLink method.
-	@Test(expected = Exception.class)
 	public final void testGetLink() throws Exception{
 		
 		when(authService.getLink(Mockito.anyString())).thenReturn(assessmentAuth);
