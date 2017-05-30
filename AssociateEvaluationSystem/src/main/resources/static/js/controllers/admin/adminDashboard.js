@@ -104,6 +104,7 @@ adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SIT
     $scope.graphData = [];
     $scope.timeFrame;
     $scope.assessments = [];
+    $scope.returnCheck = false;
 
     function getCandidates(recruiterUsername){
         $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
@@ -127,6 +128,7 @@ adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SIT
                             }
                             console.log($scope.assessments);
                         })
+
                 } else {
                     window.location = SITE_URL.LOGIN;
                 }
@@ -143,12 +145,14 @@ adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SIT
                         $scope.assessments.push(a);
                     }
                 });
+                updateGraph(num);
                 $scope.returnCheck = true;
             });
     };
 
 
     $scope.viewGraph = function(num, email){
+
         getCandidates(email);
         updateGraph(num);
         console.log("done");
@@ -184,7 +188,7 @@ adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SIT
                 vAxis: {title: 'Grade', minValue: 0, maxValue: 100},
                 legend: 'none'
             };
-            var chart = new google.visualization.ScatterChart(document.getElementById('chart'));
+            var chart = new google.visualization.ScatterChart(document.getElementById('chart'+recruiterId));
             chart.draw(data, options);
         });
     };

@@ -64,8 +64,7 @@ Page created by Richard Wingert
                     </table>
                 </div>
 
-                <div style="float:right; width: 45%;"
-                ">
+                <div style="float:right; width: 45%;">
                 <p>Number of Candidates Per Recruiter</p>
                 <table class="table table-striped table-bordered" style="width: 100%;">
                     <thead>
@@ -85,14 +84,15 @@ Page created by Richard Wingert
                             <span ng-click="viewGraph(r.userId,r.email);" class="glyphicon glyphicon-chevron-down"></span>
                         </td>
                     </tr>
-                    <!--<tr id="g{{r.userId}}" class="ng-hide">
+                    <tr id="g{{r.userId}}" class="ng-hide">
                         <td colspan="6"><div id="chart{{r.userId}}" style="width: 300px; height: 200px;"></div></td>
-                    </tr>-->
+                    </tr>
                     </tbody>
                 </table>
-                <div id="chart" style="width: 300px; height: 200px;"></div>
+                    <!--<div id="chart" style=" float: left; width: 75%; height: 200px;"></div>-->
 
             </div>
+
         </div>
 
     </div>
