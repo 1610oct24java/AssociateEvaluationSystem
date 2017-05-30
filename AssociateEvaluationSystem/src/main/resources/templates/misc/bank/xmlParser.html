@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="css/aesMaterials.css">
 </head>
 
-<body ng-app="adminApp" ng-controller="parserCtrl" ng-cloak>
+<body ng-app="bankApp" ng-controller="parserCtrl" ng-cloak>
 <div>
     <ng-include src="'menu.html'" />
 </div>
@@ -26,7 +26,7 @@
         <input class="ng-hide" id="input-file-id" accept="text/xml" type="file" file-model="myFile">
         <label for="input-file-id" class="md-button md-icon-button">
             <!--<md-icon md-menu-origin class="material-icons" style="color: #FB8C00;"> gesture </md-icon>-->
-            <md-icon class="material-icons" style="color: #f00;width:60px;height:60px;"> file_upload </md-icon>
+            <md-icon class="material-icons" style="color: #f00;"> file_upload </md-icon>
             <md-tooltip class="md-title"> Upload XML File </md-tooltip>
         </label>
         <div ng-if="myFile != undefined">
@@ -35,42 +35,46 @@
         </div>
     </div>
     <!--<button type='button' class="btn btn-primary" ng-click='extractXml()'>Parse</button><br>-->
-    <p ng-if="error">{{messageError}}</p>
-    <br>
-    <button ng-if="questions.length != 0" class="btn" ng-click="createQuestions()">Upload</button>
-    <table ng-if="questions.length != 0" class="table table-striped table-bordered">
-        <thead>
-        <tr>
-            <th>Question Text</th>
-            <th>Format</th>
-            <th>Category</th>
-            <th>Options</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="question in questions">
-            <td>{{question.questionText}}</td>
-            <td>{{question.format.formatId + question.format.formatName}}</td>
-            <td>{{question.questionCategory[0].categoryId + question.questionCategory[0].name}}</td>
-            <td>
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>Option Text</th>
-                        <th>Correct</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="option in question.option">
-                        <td>{{option.optionText}}</td>
-                        <td>{{option.correct}}</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+
+    <div class="col-md-6">
+        <p ng-if="error">{{messageError}}</p>
+        <br>
+        <button ng-if="questions.length != 0" class="btn" ng-click="createQuestions()">Upload</button>
+        <table ng-if="questions.length != 0" class="table table-striped table-bordered">
+            <thead>
+            <tr>
+                <th>Question Text</th>
+                <th>Format</th>
+                <th>Category</th>
+                <th>Options</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="question in questions">
+                <td>{{question.questionText}}</td>
+                <td>{{question.format.formatId + question.format.formatName}}</td>
+                <td>{{question.questionCategory[0].categoryId + question.questionCategory[0].name}}</td>
+                <td>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Option Text</th>
+                            <th>Correct</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="option in question.option">
+                            <td>{{option.optionText}}</td>
+                            <td>{{option.correct}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
 </div>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.js"></script>

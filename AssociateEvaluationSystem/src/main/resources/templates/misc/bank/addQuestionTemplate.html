@@ -1,51 +1,66 @@
 <div>
     <main class ="container">
-        <md-input-container class="md-block" flex-gt-sm="">
-            <label>Category</label>
-            <md-select required ng-model="category">
-                <md-option ng-repeat="category in categories" ng-value ="category" ng-click="setCat(category)">
-                    {{category.name}}
-                </md-option>
-            </md-select>
-        </md-input-container>
-        <md-input-container class="md-block" flex-gt-sm="">
-            <label>Question Type</label>
-            <md-select required ng-model="type">
-                <md-option ng-repeat="type in formats" ng-value ="type" ng-click="setType(type)">
-                    {{type.formatName}}
-                </md-option>
-            </md-select>
-        </md-input-container>
+        <div class="row">
+            <div class="col-sm-6">
+                <md-input-container class="md-block" flex-gt-sm="">
+                    <label>Category</label>
+                    <md-select required ng-model="category">
+                        <md-option ng-repeat="category in categories" ng-value ="category" ng-click="setCat(category)">
+                            {{category.name}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
 
-        <div class="col-md-6">
-            Question:
-            <div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <md-input-container class="md-block" flex-gt-sm="">
+                    <label>Question Type</label>
+                    <md-select required ng-model="type">
+                        <md-option ng-repeat="type in formats" ng-value ="type" ng-click="setType(type)">
+                            {{type.formatName}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-6">
+                Question:
+                <div>
 				<textarea rows="4" cols="50" contenteditable="true"
                           style="overflow-y: scroll; resize: none;" ng-model="question.questionText"
-                          ></textarea>
+                ></textarea>
+                </div>
+
+                <!--<input type="button" class="btn btn-info" ng-click="addNewChoice()" value="ADD OPTION">-->
+                <button class="btn btn-info" ng-click="addQuestion()">ADD QUESTION</button>
             </div>
-
-            <!--<input type="button" class="btn btn-info" ng-click="addNewChoice()" value="ADD OPTION">-->
-            <button class="btn btn-info" ng-click="addQuestion()">ADD QUESTION</button>
-        </div>
-        <div class="col-sm-10">
+            <div class="col-sm-10">
 
 
-            <div class="col-sm-4">
-                <fieldset data-ng-repeat="option in choiceSet track by $index">
+                <div class="col-sm-4">
+                    <fieldset data-ng-repeat="option in choiceSet track by $index">
 
-                    <input type="radio" id="msrad" name="correctChoice"
-                           ng-checked="checkButton(option)"
-                           ng-click="markCorrect(option)">
-                    <textarea rows="4" cols="50" ng-model="option.optionText"></textarea>
-                    <button type="button" class="btn btn-info" ng-click="removeChoice($index)">
-                        <span class="glyphicon glyphicon-minus"></span> REMOVE
-                    </button>
+                        <input type="radio" id="msrad" name="correctChoice"
+                               ng-checked="checkButton(option)"
+                               ng-click="markCorrect(option)">
+                        <textarea rows="4" cols="50" ng-model="option.optionText"></textarea>
+                        <button type="button" class="btn btn-info" ng-click="removeChoice($index)">
+                            <span class="glyphicon glyphicon-minus"></span> REMOVE
+                        </button>
 
-                </fieldset>
+                    </fieldset>
+                </div>
+
             </div>
-
         </div>
+
+
 
 
         <!--<pre>Radio buttons and check boxes show correct answer.</pre>
