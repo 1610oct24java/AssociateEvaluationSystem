@@ -25,22 +25,19 @@
         <ng-include src="'recruitMenu.html'" />
     </div>
     <div class="container">
-        <form name="candidateForm" class="form-revature" ng-submit="register()">
-            <h2 class="row">Register Candidate</h2>
-            <div class="row input-field">
-                <label class="sr-only" for="inputFirstName">first name</label>
-                <input class="col-xs-12 col-md-12" id="inputFirstName" type="text" placeholder="first name" ng-model="firstName" required autofocus>
-            </div>
-            <div class="row input-field">
-                <label class="sr-only" for="inputLastName">last name</label>
-                <input class="col-xs-12 col-md-12" id="inputLastName" type="text" placeholder="last name" ng-model="lastName" required>
-            </div>
-            <div class="row input-field">
-                <label class="sr-only" for="inputEmail">email address</label>
-                <input class="col-xs-12 col-md-12" id="inputEmail" type="email" placeholder="email address" ng-model="email" ng-change="checkEmail()" required>
-            </div>
+ 			  <div class="row">
+    <div class="col-md-8 col-md-offset-1">
+      <form class="form-horizontal" role="form" class="form-revature" ng-submit="register()">
+          <!-- Form Name -->
+          <legend>Register Candidate</legend>
 
-            <div ng-show="buttonToggle">
+          <!-- Text input-->
+            <div class="col-sm-12">
+              <input type="text" name="fistName" placeholder="First Name" class="form-control" id="inputFirstName" type="text" placeholder="first name" ng-model="firstName" required autofocus><br/>
+              <input type="text" name="lastName" placeholder="Last Name" class="form-control" id="inputLastName" type="text" placeholder="last name" ng-model="lastName" required><br/>  
+              <input type="text" name="email" placeholder="Email" class="form-control" id="inputEmail" type="email" placeholder="email address" ng-model="email" ng-change="checkEmail()" required><br/>
+           	 
+                      <div ng-show="buttonToggle">
             	<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true" style="color:red;">
     			Email already registered.
     			</span>
@@ -56,11 +53,11 @@
                 Error: Registration Unsuccessful !!!
             </span>
             </div>
-            <div class="row">
-                <input id="btn-register-recruit" class="btn-revature" type="submit" value="register" ng-click="candidateForm.$setPristine(); resetRegistrationForm()" ng-disabled="candidateForm.$invalid || buttonToggle">
-            </div>
-        </form>
+             <input id="btn-register-recruit" class="btn btn-primary" type="submit" value="register" ng-click="candidateForm.$setPristine(); resetRegistrationForm()" ng-disabled="candidateForm.$invalid || buttonToggle">
+             </div>       
+         </form>   
     </div>
+</div>
 </div>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.js"></script>

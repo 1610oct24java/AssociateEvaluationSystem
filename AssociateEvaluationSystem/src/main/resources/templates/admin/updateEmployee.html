@@ -24,38 +24,21 @@
 </div>
 <div class="container">
 
-    <form class="form-revature" ng-submit="update()">
-        <div class="row">
-        	<h2>Update Employee Information</h2>
+    <form class="form-horizontal" ng-submit="update()">
+        	<legend>Update Employee Information</legend>
         	<p>Leave fields BLANK that you do NOT wish to update (except for employee's current email and password)!</p>
-        </div>
-       
-        <div class="row input-field">
-            <label class="sr-only" for="currentEmail">Current Email</label>
-            <input class="col-xs-12 col-md-12" id="currentEmail" type="email" placeholder="current email address" ng-model="oldEmail" required autofocus>
-        </div>
-        <div class="row input-field">
-            <label class="sr-only" for="newEmail">New Email</label>
-            <input class="col-xs-12 col-md-12" id="newEmail" type="email" placeholder="new email address" ng-model="newEmail">
-        </div>
-        
-        <div class="row input-field">
-            <label class="sr-only" for="inputFirstName">First name</label>
-            <input class="col-xs-12 col-md-12" id="inputFirstName" type="text" placeholder="First name" ng-model="firstName">
-        </div>
-        <div class="row input-field">
-            <label class="sr-only" for="inputLastName">Last name</label>
-            <input class="col-xs-12 col-md-12" id="inputLastName" type="text" placeholder="Last name" ng-model="lastName">
-        </div>
-
-        <div class="row input-field">
-            <label class="sr-only" for="inputPassword">New Password</label>
-            <input class="col-xs-12 col-md-12" id="inputPassword" type="password" placeholder="New Password" ng-model="newPassword">
-        </div>
-        <div class="row input-field">
-            <label class="sr-only" for="inputPassword">Confirm New Password</label>
-            <input class="col-xs-12 col-md-12" id="inputPassword" type="password" placeholder="New Password" ng-model="confirmNewPassword">
-        </div>
+            <label for="currentEmail">Current Email</label>
+            <input class="form-control" id="currentEmail" type="email" placeholder="current email address" ng-model="oldEmail" required autofocus><br/>
+            <label  for="newEmail">New Email</label>
+            <input class="form-control" id="newEmail" type="email" placeholder="new email address" ng-model="newEmail"><br/>
+            <label  for="inputFirstName">First name</label>
+            <input class="form-control" id="inputFirstName" type="text" placeholder="First name" ng-model="firstName"><br/>
+            <label for="inputLastName">Last name</label>
+            <input class="form-control" id="inputLastName" type="text" placeholder="Last name" ng-model="lastName"><br/>
+            <label for="inputPassword">New Password</label>
+            <input class="form-control" id="inputPassword" type="password" placeholder="New Password" ng-model="newPassword"><br/>
+            <label for="inputPassword">Confirm New Password</label>
+            <input class="form-control" id="inputPassword" type="password" placeholder="New Password" ng-model="confirmNewPassword"><br/>
         
         
         <div ng-show = "roleName == 'recruiter'">
@@ -92,11 +75,8 @@
             !!! This user does not exist !!!
         </div>
 
-        <div class="row">
-
-			<div class="col-md-6">
-            	<input id="btn-update" class="btn-revature" type="submit" value="Update">
-        	</div>
+        <div class="row" style="margin-bottom:30px;">
+            	<input id="btn-update" class="btn btn-lg btn-primary" style="float:right;" type="submit" value="Update">
         	<div class="col-md-6">
     			<div class="alert alert-success" ng-show="updateSuccessful">
 			  		<strong>Updated</strong>
