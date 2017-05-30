@@ -35,7 +35,6 @@
 <div class="container">
 
 	<div class="row">
-	<div style="height: 750px; overflow: auto;">
 	<table class="table table-striped table-bordered">
 		<caption>
 			<div>
@@ -49,6 +48,7 @@
 				&nbsp;
 				Search:
 				<input type="text" ng-model="employeeSearch" ng-change="closeAllAssessments()">
+				<a id="new-employee" href="registerEmployee" class="btn btn-primary">New Employee</a>
 			</div>
 		</caption>
 		
@@ -63,7 +63,8 @@
 				<th>Assessments</th>
 			</tr>
 		</thead>
-		<tbody ng-repeat="employee in employees | orderBy: sortorder | filter: employeeSearch track by $index ">
+		<tbody  ng-repeat="employee in employees | orderBy: sortorder | filter: employeeSearch track by $index ">
+		
 			<!-- DISPLAY EMPLOYEE INFO -->
 			<tr>
 				<td>{{employee.firstName}}</td>
@@ -116,7 +117,6 @@
 		</tbody>
 	</table>
 	</div>
-</div>
 </div>
 </div>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
