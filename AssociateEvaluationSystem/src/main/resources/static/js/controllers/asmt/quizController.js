@@ -406,7 +406,6 @@ asmt.controller("quizController", function($scope, $rootScope, $http, $location,
 			headers: {'Content-Type': 'application/json'}
 		})
 		.then(function(response) {
-			console.log(response);
 			// Check response for assessment availability
 			if (response.data.msg === "allow"){
 				// Assessment ready to take

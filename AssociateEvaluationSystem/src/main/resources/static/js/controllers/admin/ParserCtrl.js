@@ -78,7 +78,7 @@ adminApp.controller("parserCtrl", function ($scope, $http, SITE_URL, API_URL, $l
         })
         
         return out;
-    };
+    }
 
     //handles error(throws error if file was not selected)
     var throwError = function (variable, message) {

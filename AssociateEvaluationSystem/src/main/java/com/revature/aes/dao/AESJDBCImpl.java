@@ -41,8 +41,8 @@ public class AESJDBCImpl implements AESJDBC {
 				total = rs.getInt(1);
 			}
 
-		} catch (SQLException e) {
-			System.out.println("SQl Exception");
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	    
 	   
