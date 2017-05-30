@@ -20,6 +20,13 @@ adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SIT
         this.email = email;
     }
 
+    function assessment(finishedTimeStamp, grade, fname, lname){
+        this.finishedTimeStamp = finishedTimeStamp;
+        this.grade = grade;
+        this.fname = fname;
+        this.lname = lname;
+    };
+
 
     //store all employees to $scope.employees
     $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
@@ -123,7 +130,7 @@ adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SIT
                             var c =  response.data;
                             $scope.assessments = [];
                             for (var i=0; i<c.length; i++) {
-                                getAssessments(c[i].userId, c[i].email);
+                                getAssessments(c[i].userId, c[i].email, c[i].firstName, c[i].lastName);
                                 c[i].expanded = false;
                             }
                             console.log($scope.assessments);
@@ -135,13 +142,14 @@ adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SIT
             });
     }
 
-    function getAssessments(num, email) {
+    function getAssessments(num, email, fname, lname) {
         $http
             .get(SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + "/"+email + "/assessments")
             .then(function (response) {
                 var candidateAsmts = response.data;
                 candidateAsmts.forEach(function(a){
                     if(a.grade != -1){
+                        var a = new assessment(a.finishedTimeStamp, a.grade, fname, lname);
                         $scope.assessments.push(a);
                     }
                 });
@@ -152,20 +160,9 @@ adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SIT
 
 
     $scope.viewGraph = function(num, email){
-
+        $scope.assessments = [];
         getCandidates(email);
         updateGraph(num);
-        updateGraph(num);
-        console.log("done");
-        var myEl = angular.element( document.querySelector( '#g'+num ) );
-
-        if(angular.element(document.querySelector('#g'+num).classList)[0] == "ng-hide"){
-            myEl.removeClass("ng-hide");
-            myEl.addClass("ng-show");
-        } else {
-            myEl.removeClass("ng-show");
-            myEl.addClass("ng-hide");
-        }
     };
     function updateGraph(recruiterId) {
         filterAssessments();
@@ -176,6 +173,7 @@ adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SIT
             var data = new google.visualization.DataTable();
             data.addColumn('date', 'Date');
             data.addColumn('number', 'Grade');
+            data.addColumn({type:'string', role:'tooltip'});
             data.addRows($scope.graphData);
             var options = {
                 title: 'Assessment Grade Scatterplot',
@@ -199,10 +197,10 @@ adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SIT
         var startTimeRange = new Date();
         startTimeRange.setDate(startTimeRange.getDate()-90);
         $scope.assessments.forEach(function(a){
-            var timestamp = a.finishedTimeStamp;
+            var timestamp = new Date(a.finishedTimeStamp);
             var grade = a.grade;
             if(grade != -1 && timestamp > startTimeRange.getTime()){
-                var point = [new Date(timestamp), grade];
+                var point = [timestamp, grade, "Name: "+a.fname+" "+a.lname+"\n Grade: "+grade+"\nDate: "+timestamp.toLocaleDateString()];
                 $scope.graphData.push(point);
             }
         });
