@@ -353,6 +353,16 @@ app.controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', '$http', 
 	};
 	
     $scope.upload = function (files, folderNames) {
+    	
+    	var funcEVT = function (evt) {
+	        parseInt(100.0 * evt.loaded / evt.total)
+    	}
+    
+	        var funcD = function (data, status, headers, config){}
+	        
+	        	
+	        }
+	        
           if (files && files.length) {
               for (var i = 0; i < files.length; i++) { 
             	  var file = files[i];
@@ -360,10 +370,9 @@ app.controller('MasterCtrl', ['$scope', '$rootScope','$log', '$state', '$http', 
             	        url: 'rest/s3uploadFile/' + folderNames[i],
             	        method: 'POST',
             	        file: file
-            	    }).progress(function (evt) {
-            	        parseInt(100.0 * evt.loaded / evt.total);
-            	    }).success(function (data, status, headers, config) {
-            	    });            	  
+            	    }).progress(funcEVT);
+            	    .success(funcD);
+            	    	  
               }
           }
       };
