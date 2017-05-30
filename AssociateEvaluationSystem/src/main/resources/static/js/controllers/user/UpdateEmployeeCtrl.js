@@ -59,6 +59,7 @@ userApp.controller('UpdateEmployeeCtrl', function ($scope, $location, $mdToast, 
         $scope.updateUnsuccessful = false;
         $scope.updateSuccessful = false;
 
+        
         var employeeInfo = {
             newEmail: $scope.newEmail,
             firstName: $scope.firstName,
@@ -81,7 +82,7 @@ userApp.controller('UpdateEmployeeCtrl', function ($scope, $location, $mdToast, 
             $scope.confirmNewPassword = '';
         }
 
-        if (!$scope.oldPassword == "" || !$scope.oldPassword) {
+        if ($scope.oldPassword == "") {
             $scope.passNotEntered = true;
         }
 
@@ -89,7 +90,6 @@ userApp.controller('UpdateEmployeeCtrl', function ($scope, $location, $mdToast, 
             && !$scope.emailNotEntered && !$scope.updateUnccessful) {
         	
             $scope.postUpdate(employeeInfo);
-            
         }
     };
     

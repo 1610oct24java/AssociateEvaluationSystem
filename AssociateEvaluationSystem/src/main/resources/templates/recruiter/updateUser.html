@@ -16,7 +16,6 @@
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
     <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="css/bigwilliestyle.css">
     <link rel="stylesheet" href="css/aesMaterials.css">
 </head>
 
@@ -26,39 +25,27 @@
         <ng-include src="'recruitMenu.html'" />
     </div>
     <div class="container">
-        <form class="form-revature" ng-submit="update()">
+        <form class="form-horizontal" role="form" class="form-revature" ng-submit="update()">
             <div class="row">
-                <h2>Update Your Information</h2>
+                 <legend>Update Your Information</legend>
                 <p>Leave fields BLANK that you do NOT wish to update (except for your current email and password)!</p>
             </div>
-            <div class="row input-field">
-                <label class="sr-only" for="currentEmail">Current Email</label>
-                <input class="col-xs-12 col-md-12" id="currentEmail" type="email" placeholder="current email address" ng-model="oldEmail" required autofocus readonly>
-            </div>
-            <div class="row input-field">
-                <label class="sr-only" for="newEmail">New Email</label>
-                <input class="col-xs-12 col-md-12" id="newEmail" type="email" placeholder="new email address" ng-model="newEmail">
-            </div>
-            <div class="row input-field">
-                <label class="sr-only" for="inputFirstName">First name</label>
-                <input class="col-xs-12 col-md-12" id="inputFirstName" type="text" placeholder="First name" ng-model="firstName">
-            </div>
-            <div class="row input-field">
-                <label class="sr-only" for="inputLastName">Last name</label>
-                <input class="col-xs-12 col-md-12" id="inputLastName" type="text" placeholder="Last name" ng-model="lastName">
-            </div>
-            <div class="row input-field">
-                <label class="sr-only" for="inputPassword">Current Password</label>
-                <input class="col-xs-12 col-md-12" id="inputPassword" type="password" placeholder="Current Password" ng-model="oldPassword" required>
-            </div>
-            <div class="row input-field">
-                <label class="sr-only" for="inputPassword">New Password</label>
-                <input class="col-xs-12 col-md-12" id="inputPassword" type="password" placeholder="New Password" ng-model="newPassword">
-            </div>
-            <div class="row input-field">
-                <label class="sr-only" for="inputPassword">Confirm New Password</label>
-                <input class="col-xs-12 col-md-12" id="inputPassword" type="password" placeholder="New Password" ng-model="confirmNewPassword">
-            </div>
+            <div class="col-sm-12">
+                <label for="currentEmail">Current Email</label>
+                <input class="form-control" id="currentEmail" type="email" placeholder="current email address" ng-model="oldEmail" required autofocus readonly><br/>
+                <label  for="newEmail">New Email</label>
+                <input class="form-control" id="newEmail" type="email" placeholder="new email address" ng-model="newEmail"><br/>
+                <label  for="firstName">First name</label>
+                <input class="form-control" id="inputFirstName" type="text" placeholder="First name" ng-model="firstName"><br/>
+                <label c for="lastName">Last name</label>
+                <input class="form-control" id="inputLastName" type="text" placeholder="Last name" ng-model="lastName"><br/>
+                <label  for="oldPassword">Current Password</label>
+                <input class="form-control" id="inputPassword" type="password" placeholder="Current Password" ng-model="oldPassword" required><br/>
+                <label  for="newPassword">New Password</label>
+                <input class="form-control" id="inputPassword" type="password" placeholder="New Password" ng-model="newPassword"><br/>
+                <label  for="newPassword">Confirm New Password</label>
+                <input class="form-control" id="inputPassword" type="password" placeholder="New Password" ng-model="confirmNewPassword"><br/>
+               
             <div ng-show="passNotMatch" class="span-creds">
                 !!! New Passwords do NOT match !!!
             </div>
@@ -74,9 +61,8 @@
             <div ng-show="newEmail" class = "span-creds">
             	You will need to relogin once updated.
             </div>
-            <div class="row">
-                <input id="btn-update" class="btn-revature" type="submit" value="Update">
-            </div>
+            <input id="btn-update" class="btn btn-primary" style="margin-bottom:30px;" type="submit" value="Update">
+            </div>    
         </form>
     </div>
 </div>
