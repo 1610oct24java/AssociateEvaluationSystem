@@ -38,17 +38,9 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $l
 
     $scope.allowReview = function()
     {
-        if($scope.assReviewCheck)
-        {
-            var totalHours= ($scope.assdays * 24) + $scope.asshours;
-            $scope.assdays = 0;
-            $scope.asshours = 0;
-        }
-        else
-        {
-            $scope.assdays = 0;
-            $scope.asshours = 0;
-        }
+
+        $scope.assdays = 0;
+        $scope.asshours = 0;
 
     };
 
@@ -99,8 +91,9 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $l
                 if ($scope.authUser.authority != ROLE.ADMIN) {
                     window.location = SITE_URL.LOGIN;
                 };
-            } else
+            } else {
                 window.location = SITE_URL.LOGIN;
+            }
         });
 
     angular.element(document).ready(function () {
@@ -108,7 +101,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $l
         $scope.type = '';
         $scope.category = '';
 
-        /* check to see if editing an assessment request 
+        /* check to see if editing an assessment request
          * or creating a new one
          */
         $scope.id = $location.search().id;
@@ -362,23 +355,17 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $l
             url: ("assessmentrequest/"+$scope.catInt  + "/" + $scope.typeInt +"/" + $scope.maxQuestions + "/")
         }).then(function (response) {
             $scope.numOfQuestions = response.data;
-            $scope.quantity = $scope.maxQuestionsInput;
-            if ($scope.quantity < $scope.numOfQuestions)
-                $scope.sections.push({
-                    'category': $scope.currentCategory.name,
-                    'type': $scope.currentType.formatName,
-                    'quantity': $scope.quantity
-                });
+            $scope.quantity=$scope.maxQuestionsInput;
+            if($scope.quantity < $scope.numOfQuestions)
+                $scope.sections.push({ 'category': $scope.currentCategory.name, 'type': $scope.currentType.formatName, 'quantity': $scope.quantity });
 
 
-            var tempCategory = $.grep($scope.categories, function (e) {
-                return e.name == $scope.currentCategory.name;
-            });
+            var tempCategory = $.grep($scope.categories, function(e){ return e.name == $scope.currentCategory.name; });
 
 
-            var msQuestions = 0, mcQuestions = 0, ddQuestions = 0, csQuestions = 0;
+            var msQuestions=0, mcQuestions=0, ddQuestions=0, csQuestions=0;
 
-            switch ($scope.currentType.formatName) {
+            switch($scope.currentType.formatName) {
                 case $scope.types[0].formatName : { /* Multiple Choice changed to cs */
 
                     csQuestions += $scope.quantity;
@@ -405,7 +392,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $l
                 }
             }
 
-            if (tempCategory[0].name == "core language" || tempCategory[0].name == "Java" || tempCategory[0].name == ".net") {
+            if(tempCategory[0].name == "core language"||tempCategory[0].name == "Java" || tempCategory[0].name == ".net"){
                 $scope.coreLanguage = true;
                 $scope.coreCount++;
             }
@@ -414,7 +401,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $l
             $scope.assessments.push({
                 "category": {
                     "categoryId": tempCategory[0].categoryId,
-                    "name": tempCategory[0].name
+                    "name":  tempCategory[0].name
                 },
                 "msQuestions": msQuestions,
                 "mcQuestions": mcQuestions,
@@ -429,8 +416,8 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $l
             $scope.category = '';
             $scope.type = '';
             $scope.quantity = '';
-            $scope.maxQuestions = '';
-            $scope.availabilityString = '';
+            $scope.maxQuestions='';
+            $scope.availabilityString='';
             $scope.showToast("Success - Section added", "success");
 
 
