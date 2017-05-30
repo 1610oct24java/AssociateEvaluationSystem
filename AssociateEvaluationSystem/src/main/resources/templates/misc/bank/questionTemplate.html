@@ -1,7 +1,6 @@
 
 <div>
 	<main class="container">
-<<<<<<< HEAD
 
 
 		<div class="row">
@@ -56,61 +55,25 @@
 			<div class="col-md-6" style="height: 800px; overflow: auto;">
 				<table class="table table-bordered table table-hover">
 					<thead class="thead-default">
-=======
-	<div class="row">
-	<pre>Click on a question to see all of its details. This may take a bit to load.</pre>
-		<div class="col-md-6" style="height: 800px; overflow: auto;">
-
-			<select ng-model="catSearch" ng-change="catHasChanged()" ng-click="currentPageOverLimit()">
-				<option value="">Choose Category</option>
-				<option ng-repeat="category in categoriesInDatabase" value="{{category.name}}">
-					{{category.name}}
-				</option>
-			</select><br>
-
-			<input ng-model="q" id="search" class="form-control" placeholder="Search" ng-keyup="currentPageOverLimit()">
-			<select ng-model="pageSize" id="pageSize" class="form-control" ng-click="currentPageOverLimit()">
-				<option value="5">5</option>
-				<option value="10">10</option>
-				<option value="15">15</option>
-				<option value="20">20</option>
-			</select>
-			<table class="table table-bordered">
-				<thead>
->>>>>>> d4ed2b486d3447136468206524aea39be835745c
 					<tr>
 						<th>Question</th>
 						<th>Format</th>
 						<th>Category</th>
 						<th>Id</th>
 					</tr>
-<<<<<<< HEAD
 					</thead>
 					<tbody>
-=======
-				</thead>
-				<tbody>
->>>>>>> d4ed2b486d3447136468206524aea39be835745c
 					<tr ng-repeat="question in qList | filter:q| filter:catSearch:exactMatch | startFrom:currentPage*pageSize | limitTo:pageSize" ng-click="getQuestion(question)">
 						<td>{{question.questionText}}</td>
 						<td>{{question.format.formatName}}</td>
 						<td>{{question.questionCategory["0"].name}}</td>
 						<td>{{question.questionId}}</td>
 					</tr>
-<<<<<<< HEAD
 					</tbody>
 				</table>
 			</div>
-=======
-				</tbody>
-			</table>
-		</div>
-
-		<div ng-repeat="question in (filteredItems = (qList | filter:q | filter:catSearch:exactMatch))"></div>
->>>>>>> d4ed2b486d3447136468206524aea39be835745c
 
 
-<<<<<<< HEAD
 			<div class="col-md-6">
 				<span class="questionHeader"> Question: </span>
 				<div>
@@ -134,15 +97,6 @@
 											  ng-model="option.optionText"></textarea>
 									<br><button class="btn btn-info" ng-click="removeOption(option)">Delete</button>
 									Option ID: {{option.optionId}}
-=======
-		<button ng-disabled="currentPage <= 0" ng-click="currentPage=currentPage-1">
-			Previous
-		</button>
-
-		<div>
-			<span ng-cloak class="ng-cloak">{{showCurrPage()}}</span>
-		</div>
->>>>>>> d4ed2b486d3447136468206524aea39be835745c
 
 									<br> <br>
 								</div>
