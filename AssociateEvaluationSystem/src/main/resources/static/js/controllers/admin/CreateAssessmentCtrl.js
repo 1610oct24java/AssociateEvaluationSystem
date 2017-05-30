@@ -42,17 +42,8 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $l
 
     $scope.allowReview = function()
     {
-        if($scope.assReviewCheck)
-        {
             $scope.assdays = 0;
             $scope.asshours = 0;
-        }
-        else
-        {
-            $scope.assdays = 0;
-            $scope.asshours = 0;
-        }
-
     };
 
 
@@ -231,7 +222,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $l
                 csBool = true;
             }
 
-        });
+        })
         return types;
     }
 
@@ -431,7 +422,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $l
                 $scope.maxQuestions='';
                 $scope.availabilityString='';
                 $scope.showToast("Success - Section added", "success");
-            };
+            }
 
 
         });

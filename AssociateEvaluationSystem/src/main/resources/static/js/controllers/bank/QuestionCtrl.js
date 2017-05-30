@@ -367,7 +367,7 @@ app.controller('QuestionCtrl', function($http, $scope, $filter) {
 
     $scope.addOption = function(newOption){
         newOption = {"optionText": newOption, "correct" : -1}
-        if(newOption != null || newOption != ""){
+        if(newOption != ""){
             $http.post('question/addOption/'+ $scope.currentQuestion.questionId,JSON.stringify(newOption)).then(function(response){
                 window.response = response
                 $scope.currentQuestion = response.data;
@@ -427,7 +427,7 @@ app.controller('QuestionCtrl', function($http, $scope, $filter) {
                         }
                     }
                 });
-            document.getElementById("msrad").checked == true;
+            document.getElementById("msrad").checked = true;
         }
     }
     $scope.markCorrect = function(option) {
@@ -539,9 +539,6 @@ app.controller('QuestionCtrl', function($http, $scope, $filter) {
             return $scope.currentPage + 1 + "/" + ($scope.formatNumber($scope.filteredItems.length/$scope.pageSize));
         }
     };
-
-    var pr = document.querySelector( '.paginate.left' );
-    var pl = document.querySelector( '.paginate.right' );
 
     angular.element(document).ready(function() {
         $scope.getQuestionList();

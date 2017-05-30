@@ -51,7 +51,7 @@ userApp.controller('recruiterDashboardCtrl', function($scope,$mdToast,$location,
                 })
                 $scope.returnCheck = true;
             });
-    };
+    }
 
     function filterAssessments(){
         $scope.graphData = [];
