@@ -15,8 +15,6 @@
 	width: 100%
 }
 
-
-
 /* MAIN STYLING */
 html {
 	height: 100%;
@@ -343,6 +341,15 @@ span.badge a {
 	vertical-align: center;
 	text-align: center;
 	padding: 6px;
+}
+
+#navTableModal{
+	border: 2px solid #434851;
+	margin: 15px;
+	position:relative;
+	width: 50%;
+	left: 25%;
+	bottom:30%;
 }
 
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
