@@ -358,7 +358,7 @@ adminApp.controller('CreateAssessmentCtrl', function($scope, $http, $mdToast, $l
             $scope.numOfQuestions = response.data;
             $scope.quantity=$scope.maxQuestionsInput;
             if($scope.quantity > $scope.numOfQuestions){
-                alert("There are only " + $scope.numOfQuestions + " of those questions available.");
+                //alert("There are only " + $scope.numOfQuestions + " of those questions available.");
             }else{
                 $scope.sections.push({ 'category': $scope.currentCategory.name, 'type': $scope.currentType.formatName, 'quantity': $scope.quantity });
 
