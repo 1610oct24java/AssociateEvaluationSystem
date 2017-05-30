@@ -125,6 +125,7 @@ adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SIT
                                 getAssessments(c[i].userId, c[i].email);
                                 c[i].expanded = false;
                             }
+                            console.log($scope.assessments);
                         })
                 } else {
                     window.location = SITE_URL.LOGIN;
@@ -140,12 +141,12 @@ adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SIT
                 candidateAsmts.forEach(function(a){
                     if(a.grade != -1){
                         $scope.assessments.push(a);
-                        console.log($scope.assessments);
                     }
                 });
                 $scope.returnCheck = true;
             });
     };
+
 
     $scope.viewGraph = function(num, email){
         getCandidates(email);
@@ -160,13 +161,11 @@ adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SIT
             myEl.removeClass("ng-show");
             myEl.addClass("ng-hide");
         }
-
     };
     function updateGraph(recruiterId) {
         filterAssessments();
         google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback($scope.updateGraph2);
-        function updateGraph2(){
+        google.charts.setOnLoadCallback(function(){
             var startTimeRange = new Date();
             startTimeRange.setDate(startTimeRange.getDate()-90);
             var data = new google.visualization.DataTable();
@@ -187,7 +186,7 @@ adminApp.controller('AdminDashboardCtrl', function ($scope, $mdToast, $http, SIT
             };
             var chart = new google.visualization.ScatterChart(document.getElementById('chart'));
             chart.draw(data, options);
-        };
+        });
     };
 
     function filterAssessments(){
