@@ -1,115 +1,4 @@
-var AESCoreApp = angular.module('AESCoreApp', ['ngMaterial', 'ngMessages']);
-
-
-
-AESCoreApp.constant("SITE_URL", {
-    "HTTP" : "http://",
-    "HTTPS": "https://",
-    "BASE" : "",
-    "PORT" : ":8080",
-
-    "LOGIN": "index",
-    "TRAINER_HOME" : "",
-    "VIEW_CANDIDATES" : "view",
-    "VIEW_EMPLOYEES" : "viewEmployees",
-    "REGISTER_CANDIDATE" : "",
-    "REGISTER_EMPLOYEE" : "",
-    "ASSESSMENT_LANDING" : "assessmentLandingPage"
-});
-
-
-AESCoreApp.constant("API_URL", {
-    "BASE"      : "/aes",
-    "LOGIN"     : "/login",
-    "LOGOUT"    : "/logout",
-    "AUTH"      : "/security/auth",
-    "CANDIDATE" : "/candidate/",
-    "RECRUITER" : "/recruiter/",
-    "LINK"      : "/link",
-    "CANDIDATES": "/candidates"
-});
-
-
-AESCoreApp.constant("ROLE", {
-    "RECRUITER" : "ROLE_RECRUITER",
-    "TRAINER"   : "ROLE_TRAINER",
-    "CANDIDATE" : "ROLE_CANDIDATE",
-    "ADMIN"		: "ROLE_ADMIN"
-});
-
-
-
-AESCoreApp.config(function($mdThemingProvider) {
-
-    var revOrangeMap = $mdThemingProvider.extendPalette("deep-orange", {
-        "A200": "#F26925",
-        "100": "rgba(242, 105, 37, 0.2)"
-    });
-
-    var revBlueMap = $mdThemingProvider.extendPalette("blue-grey", {
-        "500": "#37474F",
-        "800": "#3E5360"
-    });
-
-    $mdThemingProvider.definePalette("revOrange", revOrangeMap);
-    $mdThemingProvider.definePalette("revBlue", revBlueMap);
-
-    $mdThemingProvider.theme("default")
-        .primaryPalette("revBlue")
-        .accentPalette("revOrange");
-});
-
-//On enter event
-AESCoreApp.directive('onEnter', function() {
-    return function(scope, elm, attr) {
-        elm.bind('keypress', function(e) {
-            if (e.keyCode === 13) {
-                scope.$apply(attr.onEnter);
-            }
-        });
-    };
-});
-
-// Inline edit directive
-AESCoreApp.directive('inlineEdit', function($timeout) {
-    return {
-        scope: {
-            model: '=inlineEdit',
-            handleSave: '&onSave',
-            handleCancel: '&onCancel'
-        },
-        link: function(scope, elm, attr) {
-            var previousValue;
-
-            scope.edit = function() {
-                scope.editMode = true;
-                previousValue = scope.model;
-
-                $timeout(function() {
-                    elm.find('input')[0].focus();
-                }, 0, false);
-            };
-            scope.save = function() {
-                scope.editMode = false;
-
-            };
-            scope.cancel = function() {
-                scope.editMode = false;
-                scope.model = previousValue;
-                scope.handleCancel({value: scope.model});
-            };
-        },
-        template: '<div><input type="text" on-enter="save()" on-esc="cancel()" ng-model="model" ng-show="editMode">'
-        + '<button ng-click="cancel()" ng-show="editMode"><span class="glyphicon glyphicon-remove"></span></button>'
-        + '<button ng-click="save()" ng-show="editMode"><span class="glyphicon glyphicon-ok"></span></button>'
-        + '<span ng-mouseenter="showEdit = true" ng-mouseleave="showEdit = false">'
-        + '<span ng-hide="editMode" ng-click="edit()">{{model}}</span>'
-        + '<a ng-show="showEdit" ng-click="edit()"><span class="glyphicon glyphicon-pencil"></span></a>'
-        + '</span></div>'
-    };
-});
-
-AESCoreApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,SITE_URL, API_URL, ROLE) {
+userApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,SITE_URL, API_URL, ROLE) {
 
     $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.AUTH)
         .then(function(response) {
@@ -149,8 +38,8 @@ AESCoreApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,
                 if (asmt.length != 0) {
                     asmt.forEach(a=>{
                         a.createdTimeStamp = formatDate(a.createdTimeStamp);
-                        a.finishedTimeStamp = formatDate(a.finishedTimeStamp)
-                    });
+                    a.finishedTimeStamp = formatDate(a.finishedTimeStamp)
+                });
                 }
                 $scope.assessments = asmt;
                 $scope.returnCheck = true;
@@ -192,35 +81,35 @@ AESCoreApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,
      * */
     $scope.checkEmail = function(){
 
-		var keepGoing = true;
-		$scope.allEmails.forEach(function(email) {
-			if(keepGoing) {
-				if (email.toUpperCase() === $scope.email.toUpperCase()){ //case-insensitive email match
-					/*alert("Email already registered.");*/
-					$scope.buttonToggle = true;
-					keepGoing = false;
-				}
-				else {
-					$scope.buttonToggle = false;
-				}
-			}
-		});	
-	};
-	
-	// reset form and refresh page's cache of emails and recruiters
-	$scope.resetRegistrationForm = function() {
-		// reset all form state variables
-		$scope.allEmails = [];
-		$scope.buttonToggle = false; // by default
-	}
-	
-	$scope.initializeRegistrationSelects = function() {
-		// get all emails from the database
-		$http.get(SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + "/emails")
-		.then(function(result) {
-			$scope.allEmails = result.data;
-		});
-	}
+        var keepGoing = true;
+        $scope.allEmails.forEach(function(email) {
+            if(keepGoing) {
+                if (email.toUpperCase() === $scope.email.toUpperCase()){ //case-insensitive email match
+                    /*alert("Email already registered.");*/
+                    $scope.buttonToggle = true;
+                    keepGoing = false;
+                }
+                else {
+                    $scope.buttonToggle = false;
+                }
+            }
+        });
+    };
+
+    // reset form and refresh page's cache of emails and recruiters
+    $scope.resetRegistrationForm = function() {
+        // reset all form state variables
+        $scope.allEmails = [];
+        $scope.buttonToggle = false; // by default
+    }
+
+    $scope.initializeRegistrationSelects = function() {
+        // get all emails from the database
+        $http.get(SITE_URL.BASE + API_URL.BASE + API_URL.RECRUITER + "/emails")
+            .then(function(result) {
+                $scope.allEmails = result.data;
+            });
+    }
 
     //registers employee
     $scope.register = function() {
@@ -278,51 +167,51 @@ AESCoreApp.controller('CandidateCtrl', function($scope,$mdToast,$location,$http,
 
         return true;
     };
-  
- // display the review-assessment page
-	$scope.showAssessment = function(a) {
-		// clone the assessment passed in so changes to it don't affect the view.
-		assessment = {
-				assessmentId: a.assessmentId,
-				user: a.user,
-				grade: a.grade,
-				timeLimit: a.timeLimit,
-				createdTimeStamp: reformatDate(a.createdTimeStamp), // reformat date of the assessment to an iso format (which spring can convert back into a TimeStamp)
-				finishedTimeStamp: reformatDate(a.finishedTimeStamp), // reformat date of the assessment to an iso format (which spring can convert back into a TimeStamp)
-				template: a.template,
-				options: a.options,
-				assessmentDragDrop: a.assessmentDragDrop,
-				fileUpload: a.fileUpload
-		}
-		
-		// hold the encoded id of the assessment.
-		var encodedId = null;
-		
-		// get the encoded equivalent of the assessment's id so the quiz review of the assessment can be brought up.
-		$http({
-			method  : 'POST',
-			url		: SITE_URL.BASE + API_URL.BASE + "/rest/encode",
-			headers : {'Content-Type' : 'application/json'},
-			data    : assessment
 
-		}).success( function(response) {
-		    if(!response){
+    // display the review-assessment page
+    $scope.showAssessment = function(a) {
+        // clone the assessment passed in so changes to it don't affect the view.
+        assessment = {
+            assessmentId: a.assessmentId,
+            user: a.user,
+            grade: a.grade,
+            timeLimit: a.timeLimit,
+            createdTimeStamp: reformatDate(a.createdTimeStamp), // reformat date of the assessment to an iso format (which spring can convert back into a TimeStamp)
+            finishedTimeStamp: reformatDate(a.finishedTimeStamp), // reformat date of the assessment to an iso format (which spring can convert back into a TimeStamp)
+            template: a.template,
+            options: a.options,
+            assessmentDragDrop: a.assessmentDragDrop,
+            fileUpload: a.fileUpload
+        }
+
+        // hold the encoded id of the assessment.
+        var encodedId = null;
+
+        // get the encoded equivalent of the assessment's id so the quiz review of the assessment can be brought up.
+        $http({
+            method  : 'POST',
+            url		: SITE_URL.BASE + API_URL.BASE + "/rest/encode",
+            headers : {'Content-Type' : 'application/json'},
+            data    : assessment
+
+        }).success( function(response) {
+            if(!response){
             }
             else {
-            	var asmtId = response.data;
-            	
-            	//TODO: response validation.
-            	
-            	encodedId = asmtId;
-            	
-            	// bring up the review assessment page.
-            	window.location = SITE_URL.BASE + API_URL.BASE + '/quizReview?asmt=' + encodedId;
+                var asmtId = response.data;
+
+                //TODO: response validation.
+
+                encodedId = asmtId;
+
+                // bring up the review assessment page.
+                window.location = SITE_URL.BASE + API_URL.BASE + '/quizReview?asmt=' + encodedId;
             }
-		}).error(function() {
-		});
-		
-	};
-    
+        }).error(function() {
+        });
+
+    };
+
     $scope.showToast = function(message) {
         $mdToast.show($mdToast.simple().textContent(message).parent(document.querySelectorAll('#toastContainer')).position("top right").action("OKAY").highlightAction(true));
     };
