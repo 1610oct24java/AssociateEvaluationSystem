@@ -33,7 +33,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		
 		String name = authentication.getName();
 		String password = authentication.getCredentials().toString();
-		
+
 		// ==============Make post to /login=====================
 		
 		try {
