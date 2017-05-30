@@ -240,9 +240,7 @@ adminApp.controller('ViewCompletedAssessmentsCtrl', function($scope, $http, $mdT
         }).then(function (response) {
             $scope.numOfQuestions = response.data;
             $scope.quantity=$scope.maxQuestions;
-            if($scope.quantity > $scope.numOfQuestions){
-                alert("There are only " + $scope.numOfQuestions + " of those questions available.");
-            }else{
+            if($scope.quantity < $scope.numOfQuestions)
                 $scope.sections.push({ 'category': $scope.category, 'type': $scope.type, 'quantity': $scope.quantity });
 
 

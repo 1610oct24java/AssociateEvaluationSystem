@@ -32,6 +32,7 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
             default:
                 return "overview"
         }
+        
     };
     mc.buildToggler = function(navID) {
         return function() {
@@ -66,6 +67,7 @@ adminApp.controller("menuCtrl", function($scope, $location, $timeout, $mdSidenav
     
     function debounce(func, wait) {
         var timer;
+        
 
         return function debounced() {
             $timeout.cancel(timer);
