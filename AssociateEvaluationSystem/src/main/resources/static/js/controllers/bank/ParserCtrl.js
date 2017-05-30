@@ -4,7 +4,7 @@
 
 var reader;
 
-adminApp.controller("parserCtrl", function ($scope, $http, SITE_URL, API_URL, $log) {
+app.controller("parserCtrl", function ($scope, $http, SITE_URL, API_URL, $log) {
 
 
     $scope.myFile;
@@ -61,7 +61,7 @@ adminApp.controller("parserCtrl", function ($scope, $http, SITE_URL, API_URL, $l
     };
 
     //returns a format object
-    function getFormat (multiChoice, hasSingle) {
+    var getFormat = function (multiChoice, hasSingle) {
         var out = {};
         var name;
         if(hasSingle){

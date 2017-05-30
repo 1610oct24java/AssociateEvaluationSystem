@@ -216,3 +216,8 @@ md-edit-dialog > .md-content md-input-container [ng-message] {
 	display: none !important;
 }
 
+
+.vcenter{
+	display: block;
+}
+

@@ -20,7 +20,19 @@
 </head>
 <body>
 
-	<div class="text-center message-content">
+		<div id="page-container">
+			<div class="navbar">
+				<img th:src="@{/images/revature_logo.png}"
+					 src="../static/images/revature_logo.png" alt="Revature">
+
+				<a href="/aes" id="navbarReturnBtn"
+				   class="btn text-center navbar-menu-btn">return</a>
+
+			</div>
+		</div>
+
+
+<div class="text-center message-content" style="margin-top:25%; background-color:white">
 		<img th:src="@{/images/checkmark.png}"
 			src="../static/images/checkmark.png" alt="Complete!"
 			style="width: 200px;">

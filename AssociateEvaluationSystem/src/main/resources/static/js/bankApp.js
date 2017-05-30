@@ -25,10 +25,10 @@ app.config(['$stateProvider', '$urlRouterProvider', function($stateProvider) {
             controller: 'QuestionCtrl',
             controllerAs: 'qc'
         })
-        .state('upload', {
-            url:'upload',
-            templateUrl: 'templates/misc/bank/uploadTemplate.html',
-            controller: 'MasterCtrl'
+        .state('parser', {
+            url:'parser',
+            templateUrl: 'templates/misc/bank/xmlParser.html',
+            controller: 'parserCtrl'
         })
         .state('fullQuestion', {
             url:'fullQuestion',
@@ -81,7 +81,7 @@ app.filter('unique', function () {
         }
 
         if ((filterOn || angular.isUndefined(filterOn)) && angular.isArray(items)) {
-            var newItems = [];
+            var hashCheck = {}, newItems = [];
 
             var extractValueToCompare = function (item) {
                 if (angular.isObject(item) && angular.isString(filterOn)) {
