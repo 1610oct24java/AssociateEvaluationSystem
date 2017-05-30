@@ -52,7 +52,7 @@ userApp.controller('recruiterDashboardCtrl', function($scope,$mdToast,$location,
                 console.log($scope.assessments);
                 $scope.returnCheck = true;
             });
-    };
+    }
 
     function filterAssessments(){
         $scope.graphData = [];

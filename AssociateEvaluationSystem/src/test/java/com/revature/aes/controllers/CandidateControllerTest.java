@@ -58,14 +58,14 @@ public class CandidateControllerTest {
 
 	// tests the response status and content type of the getLink method.
 	@Test
-	public final void testGetLink() throws NullPointerException {
+	public final void testGetLink() throws Exception {
 
 		when(authService.getLink(Mockito.anyString())).thenReturn(assessmentAuth);
 		try {
 			mockMvc.perform(get("/candidate/{email}/link", email)).andExpect(status().isOk())
 					.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 	}
 
