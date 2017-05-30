@@ -6,6 +6,7 @@ var reader;
 
 app.controller("parserCtrl", function ($scope, $http, SITE_URL, API_URL, $log) {
 
+	
 
     $scope.myFile;
 
