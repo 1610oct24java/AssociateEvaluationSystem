@@ -5,6 +5,7 @@ import java.util.Properties;
 import javax.annotation.PostConstruct;
 
 import org.apache.http.HttpEntity;
+import org.springframework.beans.factory.annotation.Value;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -26,8 +27,8 @@ public class SnippetEvaluationClient {
 	@Autowired
 	private PropertyReader propertyReader;
 
-	//@Value("${hulqBASH.endpoint}")
-    private static String hulqRESTlocation;// = "http://ec2-54-203-115-7.us-west-2.compute.amazonaws.com:8080";
+	@Value("${hulqBASH.endpoint}")
+    private static String hulqRESTlocation = "http://ec2-54-203-115-7.us-west-2.compute.amazonaws.com:8080";
 
 	@PostConstruct
 	protected void postConstruct() {
